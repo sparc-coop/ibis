@@ -29,6 +29,7 @@ namespace Transcriber.Core.Users
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string DisplayName { get; set; }
         [JsonIgnore]
         public string FullName => $"{FirstName} {LastName}";
         public string Initials => FirstName?.FirstOrDefault().ToString().ToUpper() + LastName?.FirstOrDefault().ToString().ToUpper();
@@ -41,11 +42,10 @@ namespace Transcriber.Core.Users
         public DateTime? ActiveUntilDate { get; set; }
        
 
-        public User(string firstName, string lastName, string email, string azureId) : base()
+        public User(string displayName, string email, string azureId) : base()
         {
             Id = Guid.NewGuid().ToString();
-            FirstName = firstName;
-            LastName = lastName;
+            DisplayName = displayName;
             Email = email;
           
 
