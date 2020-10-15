@@ -14,9 +14,9 @@ namespace Transcriber.Plugins.Cosmos
         {
             AllowSynchronousQueries = true;
 
-            Map<teste>("teste");
+            Map<Project>("Project");
             Map<User>("User");
-            Map<File>("File");
+            
         }
     }
 }
