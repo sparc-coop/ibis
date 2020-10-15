@@ -15,6 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IsisTranscriber.Data;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using IsisTranscriber.Extensions;
+using Kuvio.Kernel.Core;
+using Transcriber.Core.Users.Commands;
+using Kuvio.Kernel.Database.CosmosDb;
+using Transcriber.Plugins.Cosmos;
 
 namespace IsisTranscriber
 {
@@ -33,7 +38,11 @@ namespace IsisTranscriber
         {
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
                 .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
-
+                //.OnLogin(principal =>
+                // {
+                //     services.BuildServiceProvider().GetRequiredService<LoginCommand>()
+                //         .Execute(principal, principal.AzureID(), principal.Email(), principal.DisplayName());
+                // });
 
             services.AddControllersWithViews();
             //services.AddControllersWithViews(options =>
@@ -47,6 +56,24 @@ namespace IsisTranscriber
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddTransient<UserProvider>();
+
+            AddCommands(services);
+            AddCosmos(services);
+        }
+
+        private void AddCosmos(IServiceCollection services)
+        {
+            var db = new CosmosDbOptions();
+            Configuration.Bind("CosmosDb", db);
+            services.AddCosmosContext<CosmosContext>(db);
+            services.AddTransient(typeof(IRepository<>), typeof(CosmosDbRepository<>));
+        }
+
+        private void AddCommands(IServiceCollection services)
+        {
+            services.AddTransient<LoginCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

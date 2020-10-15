@@ -3,7 +3,7 @@ using Kuvio.Kernel.Database.CosmosDb;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Transcriber.Core.Files;
+using Transcriber.Core;
 using Transcriber.Core.Users;
 
 namespace Transcriber.Plugins.Cosmos
@@ -13,7 +13,8 @@ namespace Transcriber.Plugins.Cosmos
         public CosmosContext(Microsoft.Azure.Cosmos.Database database) : base(database)
         {
             AllowSynchronousQueries = true;
-                        
+
+            Map<teste>("teste");
             Map<User>("User");
             Map<File>("File");
         }

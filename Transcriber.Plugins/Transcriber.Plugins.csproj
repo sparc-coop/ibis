@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Kuvio.Kernel.Database.Cosmos" Version="1.5.1" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Kuvio.Kernel.Database.Cosmos\Kuvio.Kernel.Database.Cosmos.csproj" />
     <ProjectReference Include="..\Transcriber.Core\Transcriber.Core.csproj" />
   </ItemGroup>
 
