@@ -17,7 +17,7 @@ namespace Transcriber.Core.Users.Commands
             _usersRepository = users;
         }
 
-        public User Execute(ClaimsPrincipal principal, string azureId, string email, string firstName, string lastName)
+        public User Execute(ClaimsPrincipal principal, string azureId, string email, string displayName)
         {
             var user = _usersRepository.FindAsync(x => x.UserIdentity.Any(y => y.AzureID == azureId)).Result;
 
@@ -27,7 +27,7 @@ namespace Transcriber.Core.Users.Commands
 
                 if (user == null)
                 {
-                    user = new User(firstName, lastName, email, azureId);
+                    user = new User(displayName, email, azureId);
                     _usersRepository.AddAsync(user).Wait();
                 }
             }
@@ -37,17 +37,17 @@ namespace Transcriber.Core.Users.Commands
             return user;
         }
 
-        public async Task<User> ExecuteAsync(ClaimsPrincipal principal, string azureId, string email, string firstName, string lastName)
+        public async Task<User> ExecuteAsync(ClaimsPrincipal principal, string azureId, string email, string displayName)
         {
             var user = await _usersRepository.FindAsync(x => x.UserIdentity.Any(y => y.AzureID == azureId));
 
             if (user == null)
             {
-                user = await _usersRepository.FindAsync(x => email.ToLower() == x.Email); // User without identity
+                user = await _usersRepository.FindAsync(x => !string.IsNullOrEmpty(email) && email.ToLower() == x.Email); // User without identity
 
                 if (user == null)
                 {
-                    user = new User(firstName, lastName, email, azureId);
+                    user = new User(displayName, email, azureId);
                     await _usersRepository.AddAsync(user);
                 }
             }

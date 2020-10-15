@@ -1,0 +1,27 @@
+﻿@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@layout LandingLayout
+
+<RemoteAuthenticatorView Action="@Action" OnLogInSucceeded="LoginSuccess" />
+
+@* OnLogInSucceeded="LoginSuccess" OnLogOutSucceeded="LogoutSuccess" *@
+
+
+@code{
+    [Parameter] public string Action { get; set; }
+
+    async Task LoginSuccess(RemoteAuthenticationState state)
+    {
+       
+        var user = await UserProvider.GetPrincipal();
+        
+        NavigationManager.NavigateTo("/dashboard");
+    }
+
+    async Task LogoutSuccess(RemoteAuthenticationState state)
+    {
+        StateHasChanged();
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+    }
+}

@@ -9,6 +9,11 @@ using System.Linq;
 using Kuvio.Kernel.Database.CosmosDb;
 using Transcriber.Plugins.Cosmos;
 using Kuvio.Kernel.Core;
+using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Transcriber.Server.Extensions;
+using Transcriber.Core.Users.Commands;
 
 namespace Transcriber.Server
 {
@@ -25,9 +30,39 @@ namespace Transcriber.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<LoginCommand>();
+
+            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+                .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options))
+                .OnLogin(principal =>
+                {
+                    services.BuildServiceProvider().GetRequiredService<LoginCommand>()
+                        .Execute(principal, principal.AzureID(), principal.Email(), principal.DisplayName());
+                });
+
+
+
+            // To populate User.Identity.Name
+            services.Configure<JwtBearerOptions>(
+                AzureADB2CDefaults.JwtBearerAuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters.NameClaimType = "name";
+                });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyPolicy",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+            });
+
 
             var db = new CosmosDbOptions();
             Configuration.Bind("CosmosDb", db);

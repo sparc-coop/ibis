@@ -7,3 +7,24 @@
 @using Microsoft.JSInterop
 @using Transcriber.Client
 @using Transcriber.Client.Shared
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@using Kuvio.Kernel.AspNet.Blazor.Utils
+@using Kuvio.Kernel.AspNet.Blazor.Modal
+@using Kuvio.Kernel.AspNet.Blazor.Toast
+@using Kuvio.Kernel.AspNet.Blazor.Toast.Services
+
+@inject SignOutSessionStateManager SignOutManager
+
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IModalService ModalService
+@inject IToastService ToastService
+
+@inject UserProvider UserProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@using Transcriber.Client.Utils
+@using Transcriber.Core.Users.Commands;

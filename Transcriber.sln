@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcriber.Server", "Transcriber\Server\Transcriber.Server.csproj", "{E1883D4C-D63E-4AC8-A886-08EE976B9ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Server", "Transcriber\Server\Transcriber.Server.csproj", "{E1883D4C-D63E-4AC8-A886-08EE976B9ADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcriber.Client", "Transcriber\Client\Transcriber.Client.csproj", "{6723ACC5-5336-4C2D-A063-E0A682D6FE0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Client", "Transcriber\Client\Transcriber.Client.csproj", "{6723ACC5-5336-4C2D-A063-E0A682D6FE0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcriber.Shared", "Transcriber\Shared\Transcriber.Shared.csproj", "{A92FEADA-E42B-409B-81D0-8875BF64CBEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Shared", "Transcriber\Shared\Transcriber.Shared.csproj", "{A92FEADA-E42B-409B-81D0-8875BF64CBEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcriber.Plugins", "Transcriber.Plugins\Transcriber.Plugins.csproj", "{3118280A-FFC7-429C-92B5-74DB42DC6B63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Plugins", "Transcriber.Plugins\Transcriber.Plugins.csproj", "{3118280A-FFC7-429C-92B5-74DB42DC6B63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcriber.Core", "Transcriber.Core\Transcriber.Core.csproj", "{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Core", "Transcriber.Core\Transcriber.Core.csproj", "{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsisTranscriber", "IsisTranscriber\IsisTranscriber.csproj", "{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
