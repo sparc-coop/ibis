@@ -5,20 +5,26 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Transcriber.Core;
 
 namespace Transcriber.Core.Users.Commands
 {
     public class LoginCommand
     {
         private readonly IRepository<User> _usersRepository;
+        private readonly IRepository<teste> _tRepository;
 
-        public LoginCommand(IRepository<User> users)
+        public LoginCommand(IRepository<User> users, IRepository<teste> testes)
         {
             _usersRepository = users;
+            _tRepository = testes;
         }
 
         public User Execute(ClaimsPrincipal principal, string azureId, string email, string displayName)
         {
+           
+
+
             var user = _usersRepository.FindAsync(x => x.UserIdentity.Any(y => y.AzureID == azureId)).Result;
 
             if (user == null)
@@ -39,6 +45,7 @@ namespace Transcriber.Core.Users.Commands
 
         public async Task<User> ExecuteAsync(ClaimsPrincipal principal, string azureId, string email, string displayName)
         {
+         
             var user = await _usersRepository.FindAsync(x => x.UserIdentity.Any(y => y.AzureID == azureId));
 
             if (user == null)

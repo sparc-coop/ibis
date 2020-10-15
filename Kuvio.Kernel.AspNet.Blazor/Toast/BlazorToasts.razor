@@ -1,0 +1,14 @@
+@inherits ToastsBase
+@using Microsoft.AspNetCore.Components.Web
+
+@if (ToastList.Any())
+{
+    <div class="blazor-toast-container @Css">
+        <CascadingValue Value=this>
+            @foreach (var toast in ToastList.OrderBy(x => x.TimeStamp))
+            {
+                <BlazorToast ToastSettings="toast.ToastSettings" ToastId="toast.Id" ToastOptions="toast.Options" />
+            }
+        </CascadingValue>
+    </div>
+}

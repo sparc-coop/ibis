@@ -7,3 +7,16 @@
 @using Microsoft.JSInterop
 @using IsisTranscriber
 @using IsisTranscriber.Shared
+
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+
+@inject UserProvider UserProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@using Transcriber.Core.Users.Commands;
+@using Kuvio.Kernel.Core;
+
+@using Transcriber.Core;

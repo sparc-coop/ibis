@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Transcriber.Plugins\Transcriber.Plugins.csproj" />
-    <ProjectReference Include="..\Client\Transcriber.Client.csproj" />
     <ProjectReference Include="..\Shared\Transcriber.Shared.csproj" />
   </ItemGroup>
 
