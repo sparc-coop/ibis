@@ -12,19 +12,17 @@ namespace Transcriber.Core.Users.Commands
     public class LoginCommand
     {
         private readonly IRepository<User> _usersRepository;
-        private readonly IRepository<teste> _tRepository;
+       
 
-        public LoginCommand(IRepository<User> users, IRepository<teste> testes)
+        public LoginCommand(IRepository<User> users)
         {
             _usersRepository = users;
-            _tRepository = testes;
+            
         }
 
         public User Execute(ClaimsPrincipal principal, string azureId, string email, string displayName)
         {
            
-
-
             var user = _usersRepository.FindAsync(x => x.UserIdentity.Any(y => y.AzureID == azureId)).Result;
 
             if (user == null)
