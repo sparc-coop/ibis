@@ -16,11 +16,14 @@ using Kuvio.Kernel.Core;
 using Kuvio.Kernel.Database.CosmosDb;
 using Transcriber.Plugins.Cosmos;
 using Microsoft.AspNetCore.Components.Authorization;
+using Kuvio.Kernel.Storage.Azure;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IsisTranscriber.NETCore
 {
     public class Startup
     {
+        public static int Progress { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,8 +44,18 @@ namespace IsisTranscriber.NETCore
             services.AddRazorPages();
             //services.AddTransient<AuthenticationStateProvider>();
             //services.AddTransient<UserProvider>();
+
+            AddRepositories(services);
             AddCommands(services);
             AddCosmos(services);
+
+            services.AddControllers(options => options.EnableEndpointRouting = false);
+        }
+
+        private void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped(options => new StorageContext(Configuration["ConnectionStrings:Storage"]));
+            services.AddTransient<IMediaRepository, MediaRepository>();
         }
 
         private void AddCosmos(IServiceCollection services)
@@ -79,6 +92,8 @@ namespace IsisTranscriber.NETCore
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMvcWithDefaultRoute();
 
             app.UseEndpoints(endpoints =>
             {
