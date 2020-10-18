@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Plugins", "Tran
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Core", "Transcriber.Core\Transcriber.Core.csproj", "{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IbisTranscriber", "IsisTranscriber\IbisTranscriber.csproj", "{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IbisTranscriber.NETCore", "IsisTranscriber.NETCore\IbisTranscriber.NETCore.csproj", "{07E24552-B311-495A-BB69-9F29E7D36752}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuvio.Kernel.Core", "Kuvio.Kernel.Core\Kuvio.Kernel.Core.csproj", "{2DB3075B-AC8D-4A13-AAE8-41F749B4EA32}"
@@ -17,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuvio.Kernel.Database.Cosmo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuvio.Kernel.Storage.Azure", "Kuvio.Kernel.Storage.Azure\Kuvio.Kernel.Storage.Azure.csproj", "{DCACAEEB-1B1E-40F4-ACD8-77E9A26C6395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IbisTranscriber.AzureFunctions", "IbisTranscriber.AzureFunctions\IbisTranscriber.AzureFunctions.csproj", "{877B5B56-1DA0-4C6E-B160-1CF03AF182C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IbisTranscriber.AzureFunctions", "IbisTranscriber.AzureFunctions\IbisTranscriber.AzureFunctions.csproj", "{877B5B56-1DA0-4C6E-B160-1CF03AF182C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB2117E9-A9EF-4F71-8279-51A1D7B9CAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07E24552-B311-495A-BB69-9F29E7D36752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07E24552-B311-495A-BB69-9F29E7D36752}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07E24552-B311-495A-BB69-9F29E7D36752}.Release|Any CPU.ActiveCfg = Release|Any CPU
