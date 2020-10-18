@@ -16,13 +16,15 @@ namespace IbisTranscriber.NETCore.Controllers
 {
     public class ProjectController : Controller
     {
-        private IWebHostEnvironment hostingEnvironment;
-        private IRepository<Project> projectRep;
-
-        public ProjectController(IWebHostEnvironment hostingEnvironment, IRepository<Project> projRep)
+        private IWebHostEnvironment _hostingEnvironment;
+        private IRepository<Project> _projectRep;
+        private IMediaRepository _mediaRep;
+        public ProjectController(IWebHostEnvironment hostingEnvironment, IRepository<Project> projRep,
+            IMediaRepository mediaRep)
         {
-            this.hostingEnvironment = hostingEnvironment;
-            projectRep = projRep;
+            _hostingEnvironment = hostingEnvironment;
+            _projectRep = projRep;
+            _mediaRep = mediaRep;
         }
 
 
@@ -37,7 +39,7 @@ namespace IbisTranscriber.NETCore.Controllers
             //todo save new project
             
             Project newProject = new Project(User.Id(), model.Type, model.Name);
-            await projectRep.AddAsync(newProject);
+            var project = await _projectRep.AddAsync(newProject);
 
             foreach (IFormFile source in model.Files)
             {
@@ -47,7 +49,7 @@ namespace IbisTranscriber.NETCore.Controllers
 
                 byte[] buffer = new byte[16 * 1024];
 
-                using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
+                using (MemoryStream output = new MemoryStream())
                 {
                     using (Stream input = source.OpenReadStream())
                     {
@@ -61,11 +63,18 @@ namespace IbisTranscriber.NETCore.Controllers
                             Startup.Progress = (int)((float)totalReadBytes / (float)totalBytes * 100.0);
                             await Task.Delay(10); // It is only to make the process slower
                         }
+
+                        //
+                        output.Position = 0;
+                        project.Url = (await _mediaRep.UploadAsync(output, project.Id, filename)).AbsoluteUri;
+                        project.Size = input.Length.ToString();
+
+                        await _projectRep.UpdateAsync(project);
                     }
                 }
             }
 
-            return Ok("success");
+            return Redirect($"/edit-project/{project.Id}");
             //return this.Content("success");
         }
 
@@ -85,7 +94,7 @@ namespace IbisTranscriber.NETCore.Controllers
 
         private string GetPathAndFilename(string filename)
         {
-            string path = this.hostingEnvironment.WebRootPath + "\\uploads\\";
+            string path = _hostingEnvironment.WebRootPath + "\\uploads\\";
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);

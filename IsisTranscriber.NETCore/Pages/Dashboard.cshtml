@@ -20,46 +20,21 @@
     </div>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-3 p-2">
-                <div class="card">
-                    @*<img src="..." class="card-img-top" alt="...">*@
-                    <div class="card-body">
-                        <h5 class="card-title">Audio</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+            @foreach (var project in Model.Projects)
+            {
+                <div class="col-3 p-2">
+                    <div class="card">
+                        @*<img src="..." class="card-img-top" alt="...">*@
+                        <div class="card-body">
+                            <h5 class="card-title">@project.Name</h5>
+                            <p class="card-text">@project.Type</p>
+                            <a href="/edit-project/@project.Id" class="btn btn-primary">Edit Project</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-3 p-2">
-                <div class="card">
-                    @*<img src="..." class="card-img-top" alt="...">*@
-                    <div class="card-body">
-                        <h5 class="card-title">Audio</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 p-2">
-                <div class="card">
-                    @*<img src="..." class="card-img-top" alt="...">*@
-                    <div class="card-body">
-                        <h5 class="card-title">Audio</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 p-2">
-                <div class="card">
-                    @*<img src="..." class="card-img-top" alt="...">*@
-                    <div class="card-body">
-                        <h5 class="card-title">Audio</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
+            }
+
+          
         </div>
     </div>
 </div>
