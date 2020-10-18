@@ -42,5 +42,6 @@ namespace Transcriber.Core
         public string Duration { get; set; }
         public string OriginLanguage { get; set; }
         public DateTime RegisterDate { get; set; }
+        public string Status { get; set; }
     }
 }

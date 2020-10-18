@@ -22,7 +22,7 @@ namespace IsisTranscriber.NETCore.Pages
         public async Task OnGetAsync()
         {
             var userId = User.Id();
-            Projects = await _projectsRep.Query.Where(x => x.UserID == userId).ToListAsync();
+            Projects = new List<Project>();// await _projectsRep.Query.Where(x => x.UserID == userId).ToListAsync();
         }
 
         

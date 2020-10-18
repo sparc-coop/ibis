@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="3.1.8" />
   </ItemGroup>
 
@@ -13,6 +17,14 @@
     <ProjectReference Include="..\Kuvio.Kernel.Core\Kuvio.Kernel.Core.csproj" />
     <ProjectReference Include="..\Kuvio.Kernel.Storage.Azure\Kuvio.Kernel.Storage.Azure.csproj" />
     <ProjectReference Include="..\Transcriber.Plugins\Transcriber.Plugins.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\imgs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
 </Project>

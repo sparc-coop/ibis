@@ -1,5 +1,6 @@
 ﻿@page
 @model IsisTranscriber.NETCore.Pages.DashboardModel
+@using Kuvio.Kernel.Core;
 @{
 }
 
@@ -16,9 +17,11 @@
 
             </div>
         </div>
-        
+
     </div>
     <div class="container mt-5">
+        <component type="typeof(IbisTranscriber.NETCore.Pages.Projects.ProjectList)" param-InitialValue="0" param-UserId="User.Id()" render-mode="Server" />
+        
         <div class="row">
             @foreach (var project in Model.Projects)
             {
@@ -34,7 +37,7 @@
                 </div>
             }
 
-          
+
         </div>
     </div>
 </div>

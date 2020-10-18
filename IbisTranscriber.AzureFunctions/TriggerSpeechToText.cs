@@ -27,6 +27,7 @@ namespace IbisTranscriber.AzureFunctions
 
             //config.OutputFormat = OutputFormat.Simple;
 
+            var projectId = name.Split('/')[0];
 
             var completionSource = new TaskCompletionSource<int>();
 

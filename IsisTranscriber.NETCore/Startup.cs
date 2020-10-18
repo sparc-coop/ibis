@@ -42,6 +42,7 @@ namespace IsisTranscriber.NETCore
                           .Execute(principal, principal.AzureID(), principal.Email(), principal.DisplayName());
                   });
             services.AddRazorPages();
+            services.AddServerSideBlazor();
             //services.AddTransient<AuthenticationStateProvider>();
             //services.AddTransient<UserProvider>();
 
@@ -98,6 +99,7 @@ namespace IsisTranscriber.NETCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
                 endpoints.MapControllers();
             });
         }
