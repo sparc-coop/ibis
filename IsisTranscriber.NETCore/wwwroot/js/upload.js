@@ -46,7 +46,7 @@ function startUpdatingProgressIndicator() {
                 }
             );
         },
-        5000
+        10
     );
 }
 
