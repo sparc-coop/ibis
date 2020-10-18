@@ -8,32 +8,38 @@ using IsisTranscriber.NETCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Transcriber.Core;
+using Kuvio.Kernel.Core;
+using IbisTranscriber.NETCore.ViewModels;
 
 namespace IbisTranscriber.NETCore.Controllers
 {
-    public class UploadController : Controller
+    public class ProjectController : Controller
     {
         private IWebHostEnvironment hostingEnvironment;
+        private IRepository<Project> projectRep;
 
-        public UploadController(IWebHostEnvironment hostingEnvironment)
+        public ProjectController(IWebHostEnvironment hostingEnvironment, IRepository<Project> projRep)
         {
             this.hostingEnvironment = hostingEnvironment;
+            projectRep = projRep;
         }
 
-        public IActionResult Teste()
-        {
-            return View();
-        }
 
         [HttpPost]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> Index(IList<IFormFile> files)
+        public async Task<IActionResult> Index(ProjectViewModel model)
         {
             Startup.Progress = 0;
 
-            long totalBytes = files.Sum(f => f.Length);
+            long totalBytes = model.Files.Sum(f => f.Length);
 
-            foreach (IFormFile source in files)
+            //todo save new project
+            
+            Project newProject = new Project(User.Id(), model.Type, model.Name);
+            await projectRep.AddAsync(newProject);
+
+            foreach (IFormFile source in model.Files)
             {
                 string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString().Trim('"');
 
@@ -59,7 +65,8 @@ namespace IbisTranscriber.NETCore.Controllers
                 }
             }
 
-            return this.Content("success");
+            return Ok("success");
+            //return this.Content("success");
         }
 
         [HttpPost]

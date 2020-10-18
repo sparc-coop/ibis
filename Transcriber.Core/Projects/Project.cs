@@ -9,18 +9,17 @@ namespace Transcriber.Core
 {
     public class Project : CosmosDbRootEntity
     {
-        public Project(User user, 
+        public Project(string userId, 
             string type, 
             string name,
-            string url, 
-            string size, 
-            string format, 
-            string duration,
-            string language,
-            DateTime registerDate) : base(user.Id)
+            string url = null, 
+            string size = null, 
+            string format = null, 
+            string duration = null,
+            string language = null) : base(userId)
         {
             Id = Guid.NewGuid().ToString();
-            UserID = user.Id;
+            UserID = userId;
             Type = type;
             Name = name;
             Url = url;
@@ -28,7 +27,7 @@ namespace Transcriber.Core
             Format = format;
             Duration = duration;
             OriginLanguage = language;
-            RegisterDate = registerDate;
+            RegisterDate = DateTime.UtcNow;
         }
 
         [JsonProperty("id")]

@@ -2,9 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 function uploadFiles(inputId) {
+
+    console.log('uploadFiles');
+
     var input = document.getElementById(inputId);
     var files = input.files;
-    var formData = new FormData();
+    var form = $('form')[0];
+    var formData = new FormData(form);    
 
     for (var i = 0; i != files.length; i++) {
         formData.append("files", files[i]);
@@ -13,7 +17,7 @@ function uploadFiles(inputId) {
     startUpdatingProgressIndicator();
     $.ajax(
         {
-            url: "/Upload",
+            url: "/Project",
             data: formData,
             processData: false,
             contentType: false,
@@ -35,7 +39,7 @@ function startUpdatingProgressIndicator() {
         function () {
             // We use the POST requests here to avoid caching problems (we could use the GET requests and disable the cache instead)
             $.post(
-                "/Upload/Progress",
+                "/Project/Progress",
                 function (progress) {
                     $("#bar").css({ width: progress + "%" });
                     $("#label").html(progress + "%");
