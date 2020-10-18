@@ -1,0 +1,45 @@
+﻿<div class="row">
+    @foreach (var project in Projects)
+    {
+        <div class="col-3 p-2">
+            <div class="card">
+                @*<img src="..." class="card-img-top" alt="...">*@
+                <div class="card-body">
+                    <h5 class="card-title">@project.Name</h5>
+                    <p class="card-text">@project.Type</p>
+                    <a href="/edit-project/@project.Id" class="btn btn-primary">Edit Project</a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+@inject IRepository<Project> _projetctRep
+
+@code {
+    private int currentCount = 0;
+    public List<Project> Projects = new List<Project>();
+
+    [Parameter]
+    public int InitialValue { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    private void IncrementCount() => currentCount++;
+
+    protected override void OnParametersSet()
+    {
+        currentCount = InitialValue;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        Projects = await _projetctRep.Query.Where(x => x.UserID == UserId).ToListAsync();
+        StateHasChanged();
+        base.OnAfterRender(firstRender);
+    }
+}

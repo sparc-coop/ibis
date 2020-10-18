@@ -61,12 +61,12 @@ namespace IbisTranscriber.NETCore.Controllers
                             await output.WriteAsync(buffer, 0, readBytes);
                             totalReadBytes += readBytes;
                             Startup.Progress = (int)((float)totalReadBytes / (float)totalBytes * 100.0);
-                            await Task.Delay(10); // It is only to make the process slower
+                            
                         }
-
+                        await Task.Delay(10); // It is only to make the process slower
                         //
-                        output.Position = 0;
-                        project.Url = (await _mediaRep.UploadAsync(output, project.Id, filename)).AbsoluteUri;
+                        //output.Position = 0;
+                        //project.Url = (await _mediaRep.UploadAsync(output, project.Id, filename)).AbsoluteUri;
                         project.Size = input.Length.ToString();
 
                         await _projectRep.UpdateAsync(project);
@@ -74,8 +74,8 @@ namespace IbisTranscriber.NETCore.Controllers
                 }
             }
 
-            return Redirect($"/edit-project/{project.Id}");
-            //return this.Content("success");
+            //return Redirect($"/edit-project/{project.Id}");
+            return this.Content("success");
         }
 
         [HttpPost]

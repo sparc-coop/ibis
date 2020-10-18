@@ -11,7 +11,7 @@ namespace IsisTranscriber.NETCore.Pages
     public class EditProjectModel : PageModel
     {
         [Parameter]
-        public int ProjectId { get; set; }
+        public string projectId { get; set; }
         public void OnGet()
         {
         }

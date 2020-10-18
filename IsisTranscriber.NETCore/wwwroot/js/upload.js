@@ -10,11 +10,13 @@ function uploadFiles(inputId) {
     var form = $('form')[0];
     var formData = new FormData(form);    
 
-    for (var i = 0; i != files.length; i++) {
-        formData.append("files", files[i]);
-    }
+    //for (var i = 0; i != files.length; i++) {
+    //    formData.append("files", files[i]);
+    //}
 
+    console.log('before startUpdatingProgressIndicator');
     startUpdatingProgressIndicator();
+
     $.ajax(
         {
             url: "/Project",
@@ -33,6 +35,7 @@ function uploadFiles(inputId) {
 var intervalId;
 
 function startUpdatingProgressIndicator() {
+    console.log('startUpdatingProgressIndicator');
     $("#progress").show();
 
     intervalId = setInterval(
@@ -46,7 +49,7 @@ function startUpdatingProgressIndicator() {
                 }
             );
         },
-        10
+        1000
     );
 }
 
