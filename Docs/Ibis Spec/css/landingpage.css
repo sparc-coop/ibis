@@ -1,0 +1,674 @@
+/* screen - landingpage */
+
+.font-class-1 {
+  font-family:"CircularStd-Book", Helvetica, Arial, serif;
+}
+.font-class-2 {
+  color:var(--oslo-gray);
+  font-family:"FreightTextProBook-Regular", Helvetica, Arial, serif;
+}
+.font-class-3 {
+  font-family:"CircularStd-Bold", Helvetica, Arial, serif;
+}
+.landingpage {
+  background-color:rgba(250,251,252,1.0);
+  height:5840px;
+  overflow:hidden;
+  position:relative;
+  width:1440px;
+}
+.landingpage .advertising-ydpe4F {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:26.0px;
+  height:auto;
+  left:81px;
+  line-height:31.0px;
+  position:absolute;
+  text-align:left;
+  top:142px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .adwords-keyword-rese-C61RwL {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:60.0px;
+  height:auto;
+  left:100px;
+  line-height:73.0px;
+  position:absolute;
+  text-align:left;
+  top:4682px;
+  width:562px;
+}
+.landingpage .affiliate-marketing-C61RwL {
+  background-color:transparent;
+  font-size:20.0px;
+  height:auto;
+  left:314px;
+  line-height:35.0px;
+  position:absolute;
+  text-align:center;
+  top:457px;
+  width:813px;
+}
+.landingpage .affiliate-marketing-suJ2bW {
+  background-color:transparent;
+  font-size:18.0px;
+  height:auto;
+  left:31px;
+  line-height:30.0px;
+  position:absolute;
+  text-align:left;
+  top:184px;
+  width:236px;
+}
+.landingpage .background-C61RwL {
+  background-color:rgba(249,241,232,1.0);
+  height:73px;
+  left:0px;
+  position:absolute;
+  top:5767px;
+  width:1440px;
+}
+.landingpage .banner-C61RwL {
+  background-color:transparent;
+  height:314px;
+  left:50px;
+  position:absolute;
+  top:5448px;
+  width:1340px;
+}
+.landingpage .businesses-often-bec-xFApRQ {
+  background-color:transparent;
+  font-size:20.0px;
+  height:auto;
+  left:0px;
+  line-height:35.0px;
+  position:absolute;
+  text-align:left;
+  top:250px;
+  width:462px;
+}
+.landingpage .button-9-copy-C61RwL {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-8B5ABCFB-2249-4BF6-A08F-5225C40696A6@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:1036px;
+  position:absolute;
+  top:5522px;
+  width:240px;
+}
+.landingpage .button-9-wz60dm {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-A2D2DC0F-B455-4342-83C8-6D5A2439C8D7@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:0px;
+  position:absolute;
+  top:395px;
+  width:212px;
+}
+.landingpage .button-C61RwL {
+  background-color:transparent;
+  height:797px;
+  left:662px;
+  position:absolute;
+  top:2574px;
+  width:761px;
+}
+.landingpage .button-KOsP6k {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-A2D2DC0F-B455-4342-83C8-6D5A2439C8D7@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:0px;
+  position:absolute;
+  top:395px;
+  width:212px;
+}
+.landingpage .button-VMr6Om {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-A2D2DC0F-B455-4342-83C8-6D5A2439C8D7@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:100px;
+  position:absolute;
+  top:5077px;
+  width:212px;
+}
+.landingpage .button-left-C61RwL {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-A2D2DC0F-B455-4342-83C8-6D5A2439C8D7@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:492px;
+  position:absolute;
+  top:576px;
+  width:212px;
+}
+.landingpage .button-right-C61RwL {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-12-BE240F1E-36FD-413D-9B8E-F9E7CB25A3A9@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:736px;
+  position:absolute;
+  top:576px;
+  width:212px;
+}
+.landingpage .button-xFApRQ {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-10-A2D2DC0F-B455-4342-83C8-6D5A2439C8D7@2x.png);
+  background-size:100% 100%;
+  height:66px;
+  left:0px;
+  position:absolute;
+  top:395px;
+  width:212px;
+}
+.landingpage .classified-LR7grO {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:26.0px;
+  height:auto;
+  left:31px;
+  line-height:31.0px;
+  position:absolute;
+  text-align:left;
+  top:142px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .classifieds-are-usua-C61RwL {
+  background-color:transparent;
+  font-size:20.0px;
+  height:auto;
+  left:100px;
+  line-height:35.0px;
+  position:absolute;
+  text-align:left;
+  top:4931px;
+  width:443px;
+}
+.landingpage .classifieds-are-usua-wz60dm {
+  background-color:transparent;
+  font-size:20.0px;
+  height:auto;
+  left:0px;
+  line-height:35.0px;
+  position:absolute;
+  text-align:left;
+  top:249px;
+  width:443px;
+}
+.landingpage .copyright-C61RwL {
+  background-color:transparent;
+  height:23px;
+  left:115px;
+  position:absolute;
+  top:5792px;
+  width:1225px;
+}
+.landingpage .feature-3-hero-C61RwL {
+  background-color:transparent;
+  height:869px;
+  left:636px;
+  position:absolute;
+  top:4449px;
+  width:793px;
+}
+.landingpage .feature-box-2-rJ1nim {
+  background-color:transparent;
+  background-image:url(../img/landing-page-block-10-965D81F9-10D9-4353-8777-C7ADCEDC6C9A.png);
+  background-size:100% 100%;
+  height:330px;
+  left:368px;
+  position:absolute;
+  top:0px;
+  width:286px;
+}
+.landingpage .feature-box-3-rJ1nim {
+  background-color:transparent;
+  background-image:url(../img/landing-page-block-10-965D81F9-10D9-4353-8777-C7ADCEDC6C9A.png);
+  background-size:100% 100%;
+  height:330px;
+  left:50px;
+  position:absolute;
+  top:362px;
+  width:286px;
+}
+.landingpage .feature-box-4-rJ1nim {
+  background-color:transparent;
+  background-image:url(../img/landing-page-block-10-965D81F9-10D9-4353-8777-C7ADCEDC6C9A.png);
+  background-size:100% 100%;
+  height:330px;
+  left:368px;
+  position:absolute;
+  top:362px;
+  width:286px;
+}
+.landingpage .feature-box-rJ1nim {
+  background-color:transparent;
+  height:443px;
+  left:0px;
+  position:absolute;
+  top:2px;
+  width:386px;
+}
+.landingpage .freelance-suJ2bW {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:26.0px;
+  height:auto;
+  left:31px;
+  line-height:31.0px;
+  position:absolute;
+  text-align:left;
+  top:142px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-8V7Q3m {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-C61RwL {
+  background-color:transparent;
+  color:var(--scarlet);
+  font-size:20.0px;
+  height:auto;
+  left:1197px;
+  line-height:25.0px;
+  position:absolute;
+  text-align:center;
+  top:54px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-KgVq4x {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-RVwYED {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-gwYlqC {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:61px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:119px;
+}
+.landingpage .get-started-m8aA7s {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .get-started-xaZQxd {
+  background-color:transparent;
+  color:var(--white);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .group-11-C61RwL {
+  background-color:transparent;
+  height:959px;
+  left:27px;
+  position:absolute;
+  top:3487px;
+  width:816px;
+}
+.landingpage .group-12-C61RwL {
+  background-color:transparent;
+  height:462px;
+  left:843px;
+  position:absolute;
+  top:3696px;
+  width:537px;
+}
+.landingpage .group-15-C61RwL {
+  background-color:transparent;
+  height:461px;
+  left:100px;
+  position:absolute;
+  top:2735px;
+  width:562px;
+}
+.landingpage .group-4-C61RwL {
+  background-color:transparent;
+  height:462px;
+  left:842px;
+  position:absolute;
+  top:1718px;
+  width:489px;
+}
+.landingpage .group-ydpe4F {
+  background-color:transparent;
+  background-image:url(../img/landing-page-block-13-2A10F200-E35C-49C6-A7A8-CFB7E2BB1A57.png);
+  background-size:100% 100%;
+  height:443px;
+  left:0px;
+  position:absolute;
+  top:0px;
+  width:386px;
+}
+.landingpage .header-C61RwL {
+  background-color:transparent;
+  height:133px;
+  left:0px;
+  overflow:hidden;
+  position:absolute;
+  top:0px;
+  width:1440px;
+}
+.landingpage .header-button-IcPKRJ {
+  background-color:transparent;
+  background-image:url(../img/landing-page-button-43964F1D-F145-436E-81F7-AD863B0B14B6@2x.png);
+  background-size:100% 100%;
+  height:52px;
+  left:1160px;
+  position:absolute;
+  top:40px;
+  width:181px;
+}
+.landingpage .hero-background-C61RwL {
+  background-color:transparent;
+  height:414px;
+  left:30px;
+  position:absolute;
+  top:845px;
+  width:1380px;
+}
+.landingpage .hero-image-C61RwL {
+  background-color:transparent;
+  height:719px;
+  left:125px;
+  position:absolute;
+  top:729px;
+  width:1192px;
+}
+.landingpage .highlights-C61RwL {
+  background-color:transparent;
+  height:692px;
+  left:50px;
+  position:absolute;
+  top:1603px;
+  width:604px;
+}
+.landingpage .icon-3-suJ2bW {
+  background-color:transparent;
+  background-image:url(../img/landing-page-ellipse-7-7EF9060E-5309-4851-A2D0-8C1F174EE79B@2x.png);
+  background-size:100% 100%;
+  height:80px;
+  left:31px;
+  position:absolute;
+  top:32px;
+  width:80px;
+}
+.landingpage .icon-4-LR7grO {
+  background-color:transparent;
+  background-image:url(../img/landing-page-ellipse-7-7EF9060E-5309-4851-A2D0-8C1F174EE79B@2x.png);
+  background-size:100% 100%;
+  height:80px;
+  left:31px;
+  position:absolute;
+  top:32px;
+  width:80px;
+}
+.landingpage .icon-5-icN1Lx {
+  background-color:transparent;
+  background-image:url(../img/landing-page-ellipse-7-7EF9060E-5309-4851-A2D0-8C1F174EE79B@2x.png);
+  background-size:100% 100%;
+  height:80px;
+  left:31px;
+  position:absolute;
+  top:32px;
+  width:80px;
+}
+.landingpage .icon-6-ydpe4F {
+  background-color:transparent;
+  background-image:url(../img/landing-page-ellipse-7-7EF9060E-5309-4851-A2D0-8C1F174EE79B@2x.png);
+  background-size:100% 100%;
+  height:80px;
+  left:81px;
+  position:absolute;
+  top:32px;
+  width:80px;
+}
+.landingpage .learn-more-8rmqxs {
+  background-color:transparent;
+  color:var(--scarlet);
+  font-size:20.0px;
+  height:auto;
+  left:53px;
+  line-height:24.0px;
+  position:absolute;
+  text-align:center;
+  top:21px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .logo-landing-page-IcPKRJ {
+  background-color:transparent;
+  height:65px;
+  left:100px;
+  position:absolute;
+  top:34px;
+  width:147px;
+}
+.landingpage .many-people-sign-up-ydpe4F {
+  background-color:transparent;
+  font-size:18.0px;
+  height:auto;
+  left:81px;
+  line-height:30.0px;
+  position:absolute;
+  text-align:left;
+  top:184px;
+  width:233px;
+}
+.landingpage .project-spark-by-kuv-BgtxCP {
+  background-color:transparent;
+  font-size:14.0px;
+  height:auto;
+  left:1037px;
+  line-height:23.0px;
+  position:absolute;
+  text-align:right;
+  top:0px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .rectangle-C61RwL {
+  background-color:rgba(249,241,232,1.0);
+  height:970px;
+  left:0px;
+  position:absolute;
+  top:1464px;
+  width:1440px;
+}
+.landingpage .span1-xZT9M4 {
+  letter-spacing:0.00px;
+}
+.landingpage .span2-xZT9M4 {
+  letter-spacing:0.00px;
+  text-decoration:underline;
+}
+.landingpage .the-function-icN1Lx {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:26.0px;
+  height:auto;
+  left:31px;
+  line-height:31.0px;
+  position:absolute;
+  text-align:left;
+  top:142px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .the-purpose-of-your-icN1Lx {
+  background-color:transparent;
+  font-size:18.0px;
+  height:auto;
+  left:31px;
+  line-height:30.0px;
+  position:absolute;
+  text-align:left;
+  top:184px;
+  width:236px;
+}
+.landingpage .the-very-functions-t-KOsP6k {
+  background-color:transparent;
+  font-size:20.0px;
+  height:auto;
+  left:0px;
+  line-height:35.0px;
+  position:absolute;
+  text-align:left;
+  top:250px;
+  width:440px;
+}
+.landingpage .try-the-familiar-fun-KOsP6k {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:60.0px;
+  height:auto;
+  left:0px;
+  line-height:73.0px;
+  position:absolute;
+  text-align:left;
+  top:0px;
+  width:489px;
+}
+.landingpage .using-banner-stands-xFApRQ {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:60.0px;
+  height:auto;
+  left:0px;
+  line-height:73.0px;
+  position:absolute;
+  text-align:left;
+  top:0px;
+  width:537px;
+}
+.landingpage .what-are-you-waiting-C61RwL {
+  background-color:transparent;
+  color:var(--white);
+  font-size:40.0px;
+  height:auto;
+  left:170px;
+  line-height:48.0px;
+  position:absolute;
+  text-align:left;
+  top:5505px;
+  width:518px;
+}
+.landingpage .why-do-you-need-to-j-wz60dm {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:60.0px;
+  height:auto;
+  left:0px;
+  line-height:73.0px;
+  position:absolute;
+  text-align:left;
+  top:0px;
+  width:562px;
+}
+.landingpage .x15-tips-to-increase-C61RwL {
+  background-color:transparent;
+  color:var(--astronaut-blue);
+  font-size:80.0px;
+  height:auto;
+  left:259px;
+  line-height:97.0px;
+  position:absolute;
+  text-align:center;
+  top:233px;
+  width:936px;
+}
+.landingpage .x251-2020-i-s-all-righ-BgtxCP {
+  background-color:transparent;
+  font-size:14.0px;
+  height:auto;
+  left:0px;
+  line-height:23.0px;
+  position:absolute;
+  text-align:left;
+  top:0px;
+  white-space:nowrap;
+  width:auto;
+}
+.landingpage .you-donu20-need-to-ha-LR7grO {
+  background-color:transparent;
+  font-size:18.0px;
+  height:auto;
+  left:31px;
+  line-height:30.0px;
+  position:absolute;
+  text-align:left;
+  top:189px;
+  width:233px;
+}
+:root {
+  --astronaut-blue:rgba(0,59,96,1.0);
+  --black:rgba(0,0,0,0.1);
+  --mine-shaft:rgba(51,51,51,1.0);
+  --oslo-gray:rgba(133,138,143,1.0);
+  --scarlet:rgba(254,50,5,1.0);
+  --white:rgba(255,255,255,1.0);
+}

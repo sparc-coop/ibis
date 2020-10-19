@@ -1,8 +1,11 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.CognitiveServices.Speech;
@@ -23,6 +26,10 @@ namespace IbisTranscriber.AzureFunctions
                 databaseName: "transcriber-db",
                 collectionName: "Result",
                 ConnectionStringSetting = "CosmosDBConnection")]IAsyncCollector<Result> results,
+            [CosmosDB(
+                databaseName: "transcriber-db",
+                collectionName: "Project",
+                ConnectionStringSetting = "CosmosDBConnection")]DocumentClient client,
             string name, ILogger log)
         {
             var config = SpeechConfig.FromSubscription(Environment.GetEnvironmentVariable("ApiKey", EnvironmentVariableTarget.Process),
@@ -34,6 +41,15 @@ namespace IbisTranscriber.AzureFunctions
             //config.OutputFormat = OutputFormat.Simple;
 
             var projectId = name.Split('/')[0];
+            Uri driverCollectionUri = UriFactory.CreateDocumentCollectionUri(databaseId: "transcriber-db", collectionId: "Project");
+
+            var options = new FeedOptions { EnableCrossPartitionQuery = true }; // Enable cross partition query
+
+            Project project = client.CreateDocumentQuery<Project>(driverCollectionUri, options)
+                                        .AsEnumerable()
+                                        .First(p => p.Id == projectId);
+
+            
 
             var completionSource = new TaskCompletionSource<int>();
 
@@ -73,8 +89,11 @@ namespace IbisTranscriber.AzureFunctions
 
 
 
-                recognizer.SessionStopped += (s, e) =>
+                recognizer.SessionStopped += async (s, e) =>
                 {
+                    //todo update project status
+                    project.Status = "Processed";
+                    await client.UpsertDocumentAsync(driverCollectionUri, project);
                     //log.LogInformation("session stopped");
                     streamWriter.Flush();
                     streamWriter.Dispose();

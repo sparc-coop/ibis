@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar sticky-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">
                     <img src="~/imgs/logo.png" class="brand-image img-fluid" />
@@ -31,7 +31,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -39,7 +39,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Ibis Transcriber
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; 2020  Ibis Transcriber
+                </div>
+                <div class="col-sm-6 text-right">
+                    Project Spark by <a href="https://kuv.io/" target="_blank">Kuvio Creative</a>
+                </div>
+            </div>
+            
         </div>
     </footer>
 
@@ -47,7 +55,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/upload.js"></script>
-    <script src="_framework/blazor.server.js"></script>
+    @*<script src="_framework/blazor.server.js"></script>*@
     @RenderSection("Scripts", required: false)
 </body>
 </html>

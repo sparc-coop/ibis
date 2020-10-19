@@ -2,6 +2,7 @@
 @model IsisTranscriber.NETCore.Pages.DashboardModel
 @using Kuvio.Kernel.Core;
 @{
+    Layout = "/Pages/Shared/_AppLayout.cshtml";
 }
 
 
@@ -9,11 +10,14 @@
     <div class="header">
         <div class="row">
             <div class="col-4">
-                <h2>Your Files</h2>
+                <h3>Your Files</h3>
             </div>
             <div class="col-8">
-                <a class="btn btn-primary float-right" href="/create-project">Create Project</a>
-                <a class="btn btn-secondary float-right mr-2" href="#">Record Audio</a>
+                <a class="btn btn-primary btn-add float-right rounded-pill text-center" href="/create-project">
+                    <i class="material-icons">add</i>
+                    New
+                </a>
+                @*<a class="btn btn-secondary float-right mr-2" href="#">Record Audio</a>*@
 
             </div>
         </div>
@@ -21,7 +25,10 @@
     </div>
     <div class="container mt-5">
         <component type="typeof(IbisTranscriber.NETCore.Pages.Projects.ProjectList)" param-InitialValue="0" param-UserId="User.Id()" render-mode="Server" />
-        
-      
+
     </div>
 </div>
+
+@section Scripts {
+    <script src="_framework/blazor.server.js"></script>
+}

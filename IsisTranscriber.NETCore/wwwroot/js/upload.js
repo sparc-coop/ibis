@@ -26,7 +26,7 @@ function uploadFiles(inputId) {
             type: "POST",
             success: function (data) {
                 stopUpdatingProgressIndicator();
-                alert("Files Uploaded!");
+                window.location = '/project-success';
             }
         }
     );
@@ -56,3 +56,4 @@ function startUpdatingProgressIndicator() {
 function stopUpdatingProgressIndicator() {
     clearInterval(intervalId);
 }
+

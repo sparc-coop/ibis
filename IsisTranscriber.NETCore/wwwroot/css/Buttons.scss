@@ -1,0 +1,40 @@
+﻿@import "Variables.scss";
+
+.btn {
+    min-width: 181px;
+    font-size: 20px;
+    line-height: 25px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.btn-primary {
+    color: white !important;
+    background-color: $scarlet !important;
+    border: 2px solid $scarlet !important;
+   
+
+    &-outline {
+        background-color: white;
+        color: $scarlet;
+        border: 2px solid $scarlet;
+        //height: 52px;
+        
+
+        &:hover {
+            color: $scarlet;
+        }
+    }
+}
+
+.btn-light {
+    color: $scarlet;
+    background-color: #f9f1e8 !important;
+    border: 2px solid #f9f1e8;
+
+    &:hover {
+        color: $scarlet;
+        background-color: #f9f1e8 !important;
+        border: 2px solid #f9f1e8;
+    }
+}
