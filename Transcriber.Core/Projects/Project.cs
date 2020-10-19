@@ -9,6 +9,10 @@ namespace Transcriber.Core
 {
     public class Project : CosmosDbRootEntity
     {
+        public Project()
+        {
+
+        }
         public Project(string userId, 
             string type, 
             string name,

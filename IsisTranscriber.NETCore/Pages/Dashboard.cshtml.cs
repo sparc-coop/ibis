@@ -11,18 +11,11 @@ namespace IsisTranscriber.NETCore.Pages
 {
     public class DashboardModel : PageModel
     {
-        private IRepository<Project> _projectsRep;
-
-        public List<Project> Projects { get; set; }
-
-        public DashboardModel(IRepository<Project> projectsRep)
-        {
-            _projectsRep = projectsRep;
-        }
-        public async Task OnGetAsync()
+      
+        public void OnGet()
         {
             var userId = User.Id();
-            Projects = new List<Project>();// await _projectsRep.Query.Where(x => x.UserID == userId).ToListAsync();
+            
         }
 
         

@@ -22,22 +22,6 @@
     <div class="container mt-5">
         <component type="typeof(IbisTranscriber.NETCore.Pages.Projects.ProjectList)" param-InitialValue="0" param-UserId="User.Id()" render-mode="Server" />
         
-        <div class="row">
-            @foreach (var project in Model.Projects)
-            {
-                <div class="col-3 p-2">
-                    <div class="card">
-                        @*<img src="..." class="card-img-top" alt="...">*@
-                        <div class="card-body">
-                            <h5 class="card-title">@project.Name</h5>
-                            <p class="card-text">@project.Type</p>
-                            <a href="/edit-project/@project.Id" class="btn btn-primary">Edit Project</a>
-                        </div>
-                    </div>
-                </div>
-            }
-
-
-        </div>
+      
     </div>
 </div>
