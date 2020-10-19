@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Transcriber.Core;
+using Transcriber.Core.Results;
 using Transcriber.Core.Users;
 
 namespace Transcriber.Plugins.Cosmos
@@ -16,7 +17,7 @@ namespace Transcriber.Plugins.Cosmos
 
             Map<Project>("Project");
             Map<User>("User");
-            
+            Map<Result>("Result");
         }
     }
 }
