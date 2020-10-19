@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>http://polished-resonance-5332.animaapp.io/</loc>
+  <lastmod>2020-10-19</lastmod>
+</url>
+
+<url>
+  <loc>http://polished-resonance-5332.animaapp.io/landingpage.css</loc>
+  <lastmod>2020-10-19</lastmod>
+</url>
+
+<url>
+  <loc>http://polished-resonance-5332.animaapp.io/landingpage</loc>
+  <lastmod>2020-10-19</lastmod>
+</url>
+
+<url>
+  <loc>http://polished-resonance-5332.animaapp.io/webapp.css</loc>
+  <lastmod>2020-10-19</lastmod>
+</url>
+
+<url>
+  <loc>http://polished-resonance-5332.animaapp.io/webapp</loc>
+  <lastmod>2020-10-19</lastmod>
+</url>
+
+</urlset>

@@ -66,7 +66,7 @@ namespace IbisTranscriber.NETCore.Controllers
                         await Task.Delay(10); // It is only to make the process slower
                         //
                         //output.Position = 0;
-                        //project.Url = (await _mediaRep.UploadAsync(output, project.Id, filename)).AbsoluteUri;
+                        project.Url = (await _mediaRep.UploadAsync(output, project.Id, filename)).AbsoluteUri;
                         project.Size = input.Length.ToString();
 
                         await _projectRep.UpdateAsync(project);

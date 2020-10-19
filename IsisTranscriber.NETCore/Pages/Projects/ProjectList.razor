@@ -1,20 +1,71 @@
-﻿<div class="row">
-    @foreach (var project in Projects)
-    {
-        <div class="col-3 p-2">
-            <div class="card">
-                @*<img src="..." class="card-img-top" alt="...">*@
-                <div class="card-body">
-                    <h5 class="card-title">@project.Name</h5>
-                    <p class="card-text">@project.Type</p>
-                    <a href="/edit-project/@project.Id" class="btn btn-primary">Edit Project</a>
-                </div>
+﻿
+@using Transcriber.Core.Projects
+
+
+
+@if (IsLoading)
+{
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <div class="sk-chase">
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
             </div>
         </div>
-    }
+
+    </div>
+
+}
+else
+{
+    <div class="row">
+
+        @foreach (var project in Projects)
+        {
+            <div class="col-3 p-2">
+                <a class="card project-card p-3" @onclick="()=>gotoProject(project.Id)">
+                    @*<img src="..." class="card-img-top" alt="...">*@
+                    <div class="card-body">
+                        @if (project.Type == ProjectType.Audio.Value)
+                        {
+                            <img class="img-fluid project-img" src="/imgs/audio-file.png" />
+                        }
+                        else
+                        {
+                            <img class="img-fluid project-img" src="/imgs/video-file.png" />
+                        }
+
+                        <h5 class="card-title text-capitalize mt-3 mb-0">@project.Name</h5>
+                        <p class="project-date">registered @project.RegisterDate.ToString("dd MMMM yyyy HH:mm")</p>
+                        @*<p class="card-text">@project.Type</p>*@
+                        <span class="badge badge-pill @(project.Status == "Processed" ? "badge-success" : "badge-info") project-status">
+                            @if (project.Status == "Processing" || string.IsNullOrEmpty(project.Status))
+                            {
+                                <i class="material-icons mr-2">update</i>
+                            }
+                            else
+                            {
+                                <i class="material-icons mr-2">
+                                    check_circle_outline
+                                </i>
+                            }
+                            @(project.Status??"Processing")
+                        </span>
+
+                    </div>
+                </a>
+            </div>
+        }
 
 
-</div>
+    </div>
+
+}
+
 
 @inject IRepository<Project> _projetctRep
 
@@ -28,6 +79,8 @@
     [Parameter]
     public string UserId { get; set; }
 
+    public bool IsLoading { get; set; } = true;
+
     private void IncrementCount() => currentCount++;
 
     protected override void OnParametersSet()
@@ -38,8 +91,14 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
 
-        Projects = await _projetctRep.Query.Where(x => x.UserID == UserId).ToListAsync();
+        Projects = await _projetctRep.Query.Where(x => x.UserID == UserId).OrderByDescending(x => x.RegisterDate).ToListAsync();
+        IsLoading = false;
         StateHasChanged();
         base.OnAfterRender(firstRender);
+    }
+
+    void gotoProject(string projectId)
+    {
+        NavigationManager.NavigateTo($"/edit-project/{projectId}", true);
     }
 }

@@ -18,6 +18,7 @@ using Transcriber.Plugins.Cosmos;
 using Microsoft.AspNetCore.Components.Authorization;
 using Kuvio.Kernel.Storage.Azure;
 using Microsoft.AspNetCore.Mvc;
+using IbisTranscriber.NETCore.Hubs;
 
 namespace IsisTranscriber.NETCore
 {
@@ -49,6 +50,8 @@ namespace IsisTranscriber.NETCore
             AddRepositories(services);
             AddCommands(services);
             AddCosmos(services);
+
+            services.AddSignalR();
 
             services.AddControllers(options => options.EnableEndpointRouting = false);
         }
@@ -99,8 +102,9 @@ namespace IsisTranscriber.NETCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapBlazorHub();
                 endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                endpoints.MapHub<NotificationHub>("/notificationhub");
             });
         }
     }

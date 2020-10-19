@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IsisTranscriber.NETCore.Pages
+namespace IbisTranscriber.NETCore.Pages.Projects
 {
-    public class EditProjectModel : PageModel
+    public class SuccessMessageModel : PageModel
     {
-        [Parameter]
-        public string projectId { get; set; }
         public void OnGet()
         {
         }

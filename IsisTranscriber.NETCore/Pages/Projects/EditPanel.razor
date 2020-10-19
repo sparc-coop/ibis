@@ -1,0 +1,26 @@
+﻿
+
+<h3>EditPanel</h3>
+
+@foreach (var result in Results)
+{
+    <p>@result.DisplayText</p>
+}
+
+
+@inject IRepository<Result> _resultRep
+
+@code {
+
+    [Parameter]
+    public string ProjectId { get; set; }
+
+    List<Result> Results { get; set; } = new List<Result>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Results = await _resultRep.Query.Where(x => x.ProjectID == ProjectId).ToListAsync();
+        StateHasChanged();
+        base.OnAfterRender(firstRender);
+    }
+}

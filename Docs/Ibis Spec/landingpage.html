@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="./img/favicon.png" />
+    <meta name="og:type" content="website" />
+    <meta name="twitter:card" content="photo" />
+    <link rel="stylesheet" type="text/css" href="css/landingpage.css" />
+    <style>
+      @font-face {
+        font-family: "CircularStd-Book";
+        src: url("https://anima-uploads.s3.amazonaws.com/5bad6b173b8df5000aac518c/CircularStd-Book.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "CircularStd-Bold";
+        src: url("https://anima-uploads.s3.amazonaws.com/5bad6b173b8df5000aac518c/CircularStd-Bold.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "FreightTextProBook-Regular";
+        src: url("./fonts/.13464.otf") format("opentype");
+      }
+      .anima-component-wrapper a,
+      .anima-screen a {
+        text-decoration: none;
+        display: contents;
+      }
+
+      .anima-full-width-a {
+        width: 100%;
+      }
+
+      .anima-full-height-a {
+        height: 100%;
+      }
+
+      .anima-screen textarea:focus,
+      .anima-screen input:focus {
+        outline: none;
+      }
+
+      .anima-screen *,
+      .anima-component-wrapper * {
+        box-sizing: border-box;
+      }
+
+      .anima-screen div {
+        -webkit-text-size-adjust: none;
+      }
+
+      .anima-container-center-vertical,
+      .anima-container-center-horizontal {
+        pointer-events: none;
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        margin: 0;
+      }
+
+      .anima-container-center-vertical {
+        align-items: center;
+        height: 100%;
+      }
+
+      .anima-container-center-horizontal {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .anima-container-center-vertical > *,
+      .anima-container-center-horizontal > * {
+        pointer-events: auto;
+        flex-shrink: 0;
+      }
+
+      .anima-component-wrapper,
+      .anima-screen {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-all;
+        word-break: break-word;
+      }
+
+      .anima-auto-animated div {
+        opacity: 0;
+        position: absolute;
+        --anima-z-index: -1;
+      }
+
+      .anima-auto-animated .anima-container-center-vertical,
+      .anima-auto-animated .anima-container-center-horizontal {
+        opacity: 1;
+      }
+
+      .anima-overlay {
+        position: absolute;
+        opacity: 0;
+        display: none;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+      }
+
+      .anima-animate-appear {
+        opacity: 0;
+        display: block;
+        animation: anima-reveal 0.3s ease-in-out 1 normal forwards;
+      }
+
+      .anima-animate-disappear {
+        opacity: 1;
+        display: block;
+        animation: anima-reveal 0.3s ease-in-out 1 reverse forwards;
+      }
+
+      .anima-animate-nodelay {
+        animation-delay: 0s;
+      }
+
+      @keyframes anima-reveal {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .align-self-flex-start {
+        align-self: flex-start;
+      }
+      .align-self-flex-end {
+        align-self: flex-end;
+      }
+      .align-self-flex-center {
+        align-self: center;
+      }
+      .anima-valign-text-middle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .anima-valign-text-bottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .anima-component-wrapper,
+      .anima-component-wrapper * {
+        pointer-events: none;
+      }
+
+      .anima-component-wrapper a *,
+      .anima-component-wrapper a,
+      .anima-component-wrapper input,
+      .anima-component-wrapper video,
+      .anima-component-wrapper iframe,
+      .anima-listeners-active,
+      .anima-listeners-active * {
+        pointer-events: auto;
+      }
+
+      .anima-hidden,
+      .anima-hidden * {
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .anima-smart-layers-pointers,
+      .anima-smart-layers-pointers * {
+        pointer-events: auto;
+        visibility: visible;
+      }
+
+      .anima-component-wrapper.anima-not-ready,
+      .anima-component-wrapper.anima-not-ready * {
+        visibility: hidden !important;
+      }
+
+      .anima-listeners-active-click,
+      .anima-listeners-active-click * {
+        cursor: pointer;
+      }
+    </style>
+    <meta name="author" content="AnimaApp.com - Design to code, Automated." />
+  </head>
+  <body style="margin: 0; background: rgba(250, 251, 252, 1)">
+    <input type="hidden" id="anPageName" name="page" value="landingpage" />
+    <div class="anima-container-center-horizontal">
+      <div class="landingpage anima-screen">
+        <img
+          class="hero-background-C61RwL"
+          src="img/landing-page-hero-background-3B3B7350-B949-4DDF-8AD5-F40A2EC0E336@2x.png"
+        />
+        <img class="banner-C61RwL" src="img/landing-page-banner-5B8D7647-D744-4150-B135-875C83760635@2x.png" />
+        <div class="button-9-copy-C61RwL">
+          <div class="get-started-gwYlqC font-class-1">Get Started</div>
+        </div>
+        <div class="what-are-you-waiting-C61RwL font-class-3">What are you waiting for? Give Ibis a go!</div>
+        <img class="group-11-C61RwL" src="img/landing-page-group-11-37BA3F4E-AAD1-4A35-85C3-D5035E1359F6@2x.png" />
+        <div class="group-12-C61RwL">
+          <div class="businesses-often-bec-xFApRQ font-class-2">
+            Businesses often become known today through effective marketing. The marketing may be in the form of a
+            regular news item or half column society.
+          </div>
+          <div class="using-banner-stands-xFApRQ font-class-3">Using Banner Stands To Increase Trade Show Traffic</div>
+          <div class="button-xFApRQ">
+            <div class="get-started-RVwYED font-class-1">Get Started</div>
+          </div>
+        </div>
+        <img class="button-C61RwL" src="img/landing-page-button-55C848BD-08EE-4725-AF30-750F08796B46@2x.png" />
+        <div class="group-15-C61RwL">
+          <div class="button-9-wz60dm">
+            <div class="get-started-KgVq4x font-class-1">Get Started</div>
+          </div>
+          <div class="classifieds-are-usua-wz60dm font-class-2">
+            Classifieds are usually the first place you think of when you are getting ready to make a purchase. Whether
+            you want to purchase a vehiclle,
+          </div>
+          <div class="why-do-you-need-to-j-wz60dm font-class-3">Why Do You Need To Join Affiliate Marketing</div>
+        </div>
+        <img
+          class="feature-3-hero-C61RwL"
+          src="img/landing-page-feature-3-hero-F170D3B1-EDBA-49AC-B8EF-DA7E51AA99F1@2x.png"
+        />
+        <div class="button-VMr6Om">
+          <div class="get-started-8V7Q3m font-class-1">Get Started</div>
+        </div>
+        <div class="classifieds-are-usua-C61RwL font-class-2">
+          Classifieds are usually the first place you think of when you are getting ready to make a purchase. Whether
+          you want to purchase a vehiclle,
+        </div>
+        <div class="adwords-keyword-rese-C61RwL font-class-3">Adwords Keyword Research For Beginners</div>
+        <div class="rectangle-C61RwL"></div>
+        <div class="x15-tips-to-increase-C61RwL font-class-3">15 Tips To Increase Your Adwords Profits</div>
+        <div class="affiliate-marketing-C61RwL font-class-2">
+          Affiliate marketing is the latest trend online. With so many products to sell and services to offer, sometimes
+          displaying it on one site isn’t enough. Thus, advertisers.
+        </div>
+        <div class="button-left-C61RwL">
+          <div class="get-started-xaZQxd font-class-1">Get Started</div>
+        </div>
+        <div class="button-right-C61RwL">
+          <div class="learn-more-8rmqxs font-class-1">Learn More</div>
+        </div>
+        <img class="hero-image-C61RwL" src="img/landing-page-hero-image-B249950F-85ED-43BD-A35F-81A3616CE9C4@2x.png" />
+        <div class="header-C61RwL">
+          <img
+            class="logo-landing-page-IcPKRJ"
+            src="img/landing-page-logo-landing-page-61D3FDDE-6563-4354-8E31-D4F3CABD7E97@2x.png"
+          />
+          <div class="header-button-IcPKRJ"></div>
+        </div>
+        <div class="highlights-C61RwL">
+          <div class="feature-box-4-rJ1nim">
+            <div class="icon-3-suJ2bW"></div>
+            <div class="freelance-suJ2bW font-class-1">Freelance</div>
+            <div class="affiliate-marketing-suJ2bW font-class-2">
+              Affiliate marketing is the latest trend online. With so many products to sell and services.
+            </div>
+          </div>
+          <div class="feature-box-3-rJ1nim">
+            <div class="icon-4-LR7grO"></div>
+            <div class="classified-LR7grO font-class-1">Classified</div>
+            <div class="you-donu20-need-to-ha-LR7grO font-class-2">
+              You don’t need to have a full time ecommerce business to earn a little extra money.
+            </div>
+          </div>
+          <div class="feature-box-2-rJ1nim">
+            <div class="icon-5-icN1Lx"></div>
+            <div class="the-function-icN1Lx font-class-1">The Function</div>
+            <div class="the-purpose-of-your-icN1Lx font-class-2">
+              The purpose of your brochure may differ from business to business.
+            </div>
+          </div>
+          <div class="feature-box-rJ1nim">
+            <div class="group-ydpe4F"></div>
+            <div class="icon-6-ydpe4F"></div>
+            <div class="advertising-ydpe4F font-class-1">Advertising</div>
+            <div class="many-people-sign-up-ydpe4F font-class-2">
+              Many people sign up for affiliate programs with the hopes of making some serious money.
+            </div>
+          </div>
+        </div>
+        <div class="group-4-C61RwL">
+          <div class="the-very-functions-t-KOsP6k font-class-2">
+            The very functions that help you in everyday life are already built into our messenger and are not just
+            built in but invented anew.
+          </div>
+          <div class="try-the-familiar-fun-KOsP6k font-class-3">Try the familiar functions in the new execution</div>
+          <div class="button-KOsP6k">
+            <div class="get-started-m8aA7s font-class-1">Get Started</div>
+          </div>
+        </div>
+        <div class="background-C61RwL"></div>
+        <div class="copyright-C61RwL">
+          <div class="x251-2020-i-s-all-righ-BgtxCP font-class-2">© 2020 Ibis All Rights Reserved</div>
+          <div class="project-spark-by-kuv-BgtxCP font-class-2">
+            <span class="span1-xZT9M4">Project Spark by </span>
+            <span class="span2-xZT9M4">Kuvio Creative.</span>
+          </div>
+        </div>
+        <div class="get-started-C61RwL font-class-1">Get Started</div>
+      </div>
+    </div>
+  </body>
+</html>

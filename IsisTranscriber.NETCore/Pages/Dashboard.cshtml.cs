@@ -14,7 +14,6 @@ namespace IsisTranscriber.NETCore.Pages
       
         public void OnGet()
         {
-            var userId = User.Id();
             
         }
 

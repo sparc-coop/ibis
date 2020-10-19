@@ -1,4 +1,109 @@
-﻿.brand-image
+﻿@import "Variables.scss";
+
+.brand-image
 {
-    max-height:45px;
+    max-height:65px;
+}
+
+h1 {
+    color: $astronaut-blue;
+    font-size: 80.0px;
+    height: auto;
+    
+    line-height: 97.0px;
+}
+
+h2 {
+    color: $astronaut-blue;
+    font-size: 60.0px;
+    height: auto;
+   
+    line-height: 73.0px;
+}
+
+h3 {
+    color: $astronaut-blue;
+    font-size: 26.0px;
+    height: auto;
+    line-height: 31.0px;
+}
+
+.card {
+    border-radius: 8px;
+    border: none;
+
+    p {
+        font-size: 18.0px;
+        height: auto;
+        line-height: 30.0px;
+        color:$oslo-gray;
+    }
+}
+
+.landing-subtitle {
+    font-size: 20.0px;
+    height: auto;
+    line-height: 35.0px;
+    color:$oslo-gray;
+}
+
+#features {
+    background-color: rgba(249,241,232,1.0);
+}
+
+.py-8 {
+    padding-bottom: 6rem;
+    padding-top: 6rem;
+}
+
+.py-10 {
+    padding-bottom: 8rem;
+    padding-top: 8rem;
+}
+
+.px-8 {
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
+.px-10 {
+    padding-left: 8rem;
+    padding-right: 8rem;
+}
+
+
+
+.my-8 {
+    margin-bottom: 6rem;
+    margin-top: 6rem;
+}
+
+.my-10 {
+    margin-bottom: 8rem;
+    margin-top: 8rem;
+}
+
+.footer {
+    background-color: rgba(249,241,232,1.0);
+}
+
+.typetext {
+    background-color: rgba(249,241,232,1.0);
+}
+
+.blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
 }

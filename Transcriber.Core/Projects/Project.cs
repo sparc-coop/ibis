@@ -20,7 +20,8 @@ namespace Transcriber.Core
             string size = null, 
             string format = null, 
             string duration = null,
-            string language = null) : base(userId)
+            string language = null,
+            string status = null) : base(userId)
         {
             Id = Guid.NewGuid().ToString();
             UserID = userId;
@@ -32,6 +33,7 @@ namespace Transcriber.Core
             Duration = duration;
             OriginLanguage = language;
             RegisterDate = DateTime.UtcNow;
+            Status = string.IsNullOrEmpty(status) ? "Processing" : status;
         }
 
         [JsonProperty("id")]
