@@ -93,6 +93,8 @@ namespace IbisTranscriber.AzureFunctions
                 {
                     //todo update project status
                     project.Status = "Processed";
+
+
                     await client.UpsertDocumentAsync(driverCollectionUri, project);
                     //log.LogInformation("session stopped");
                     streamWriter.Flush();
