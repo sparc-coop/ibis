@@ -45,3 +45,24 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // start the text animation
     StartTextAnimation(0);
 });
+
+
+
+//"use strict";
+
+//var connection = new signalR.HubConnectionBuilder().withUrl("/notificationhub").build();
+
+//connection.on("newMessage", function (message) {
+//    var msg = message.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+//    var li = document.createElement("li");
+//    li.textContent = msg;
+//    document.getElementById("messagesList").appendChild(li);
+//});
+
+//connection.start().then(function () {
+//    var li = document.createElement("li");
+//    li.textContent = "Conectado!";
+//    document.getElementById("messagesList").appendChild(li);
+//}).catch(function (err) {
+//    return console.error(err.toString());
+//});

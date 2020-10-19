@@ -9,7 +9,7 @@
     @foreach (var result in Model.Results)
     {
         <span class="badge badge-pill badge-primary">00:@DateTimeOffset.FromFileTime(result.Offset).ToString("mm:ss")</span>
-        @if (result.NBest.Count() > 0)
+        @if (result.NBest != null && result.NBest.Count() > 0)
         {
             <span class="badge badge-pill badge-success">@((result.NBest.OrderByDescending(x=>x.Confidence).First().Confidence*100).ToString("0.00"))</span>
         }
