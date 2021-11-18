@@ -1,0 +1,45 @@
+﻿@page "/create-project"
+@model IbisTranscriber.NETCore.Pages.CreateProjectModel
+@{
+    Layout = "/Pages/Shared/_AppLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card project-card p-4">
+                <div class="card-body">
+                    <h3 class="mb-5">Let’s create a new project!</h3>
+
+
+                    <form id="form" name="form" action="/project" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label>Project name</label>
+                            <input type="text" id="name" name="name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Project Type</label>
+                            <select id="type" name="type" class="form-control">
+                                <option value="Audio">Audio</option>
+                                <option value="Video">Video</option>
+                            </select>
+                        </div>
+                        <div class="buttons">
+                            <div @*class="upload-button"*@>
+                                <div class="label">Upload a wav file here!</div>
+                                <input id="files" name="files" type="file" size="1" accept="audio/wav" class="choose" />
+                            </div>
+                        </div>
+                        <div class="form-group text-right mt-3">
+                            <input type="button" class="btn btn-primary" value="Save Project" id="btn-save" onclick="uploadFiles('files');" />
+                        </div>
+                    </form>
+                    <div id="progress" class="progress"><div id="bar" class="bar"></div><div id="label" class="label">0%</div></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+   
+</div>
