@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Plugins", "Tran
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transcriber.Core", "Transcriber.Core\Transcriber.Core.csproj", "{D18B2DC4-0B71-4D0B-8A1F-EAA3B2661710}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IbisTranscriber.NETCore", "IsisTranscriber.NETCore\IbisTranscriber.NETCore.csproj", "{07E24552-B311-495A-BB69-9F29E7D36752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IbisTranscriber.NETCore", "IbisTranscriber.NETCore\IbisTranscriber.NETCore.csproj", "{07E24552-B311-495A-BB69-9F29E7D36752}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kuvio.Kernel.Core", "Kuvio.Kernel.Core\Kuvio.Kernel.Core.csproj", "{2DB3075B-AC8D-4A13-AAE8-41F749B4EA32}"
 EndProject

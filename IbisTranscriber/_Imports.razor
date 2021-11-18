@@ -1,0 +1,22 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using IbisTranscriber
+@using IbisTranscriber.Shared
+
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+
+@inject UserProvider UserProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@using Transcriber.Core.Users.Commands;
+@using Kuvio.Kernel.Core;
+
+@using Transcriber.Core;
