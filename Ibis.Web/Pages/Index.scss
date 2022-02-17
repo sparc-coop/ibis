@@ -1,0 +1,144 @@
+﻿@import "../_variables";
+
+.landing {
+    .hero {
+        text-align: center;
+        padding: 40px;
+
+        h1 {
+            color: $primary;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 80px;
+        }
+
+        p {
+            font-size: 20px;
+            color: $gray;
+            padding: 20px;
+        }
+
+        .images {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .background-primary {
+            width: 75%;
+        }
+
+        .background-secondary {
+            width: 90%;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .typetext {
+            background-color: #f9f1e8;
+        }
+    }
+
+    .section-1 {
+        background: $tertiary;
+        display: flex;
+        //flex-wrap: wrap;
+        padding: 96px 40px;
+
+        .content-container {
+            max-width: 500px;
+            width: 100%;
+
+            p {
+                font-size: 20px;
+                color: $gray;
+                line-height: 35px;
+                padding: 40px 0;
+            }
+        }
+
+        h2 {
+            color: $primary;
+            font-size: 60px;
+            line-height: 73px;
+        }
+
+        button {
+            background: $secondary;
+            border-radius: 4px;
+            padding: 12px 30px;
+            font-size: 20px;
+        }
+    }
+
+    .card {
+        border-radius: 8px;
+        background: $white;
+        padding: 40px 30px;
+        width: 255px;
+        height: 351px;
+        margin: 15px;
+
+        p {
+            font-size: 18px;
+            line-height: 30px;
+            color: $gray;
+        }
+
+        h3 {
+            color: $primary;
+            margin: 24px 0;
+            font-size: 26px;
+            line-height: 31px;
+        }
+
+        img {
+            width: 80px;
+        }
+
+        &-container {
+            width: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 auto;
+        }
+    }
+
+    .section-2 {
+        .content-background {
+            width: 400px;
+        }
+    }
+
+    .banner {
+        margin: 0 auto;
+        max-width: 1136px;
+        width: 100%;
+        position: relative;
+
+        img {
+            width: 1136px;
+        }
+
+        h3 {
+            color: white;
+            position: absolute;
+            top: 0;
+            z-index: 100;
+            padding: 64px 48px;
+            font-size: 26px;
+            line-height: 40px;
+        }
+
+        button {
+            position: absolute;
+            top: 74px;
+            right: 68px;
+            background: $secondary;
+            border-radius: 4px;
+            padding: 12px 30px;
+            font-size: 20px;
+        }
+    }
+}

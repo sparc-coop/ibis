@@ -1,0 +1,24 @@
+﻿@page "/dashboard"
+@layout DashLayout
+
+
+<div class="dashboard">
+	 <div class="header">
+        <div class="searchbar">
+            <input placeholder="Search"/>
+        </div>
+        <a class="add" href="/create-project">
+            <i class="material-icons">add</i>
+            New
+        </a>
+    </div>
+    <div class="container">
+        <h3>Your Files</h3>
+@*        <component type="typeof(IbisTranscriber.NETCore.Pages.Projects.ProjectList)" param-InitialValue="0" param-UserId="User.Id()" render-mode="Server" />*@
+        <ProjectList />
+    </div>
+</div>
+
+@code {
+
+}
