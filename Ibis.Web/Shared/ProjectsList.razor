@@ -1,0 +1,47 @@
+﻿
+@if (IsLoading)
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="row">
+
+
+    </div>
+}
+
+@using Ibis.Features
+
+@code {
+    private int currentCount = 0;
+    //public List<Ibis.Features.Project> Projects = new List<Project>();
+
+    [Parameter]
+    public int InitialValue { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+
+    public bool IsLoading { get; set; } = true;
+
+    private void IncrementCount() => currentCount++;
+
+    protected override void OnParametersSet()
+    {
+        currentCount = InitialValue;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //Projects = await _projetctRep.Query.Where(x => x.UserID == UserId).OrderByDescending(x => x.RegisterDate).ToListAsync();
+        //IsLoading = false;
+        //StateHasChanged();
+        //base.OnAfterRender(firstRender);
+    }
+
+    void gotoProject(string projectId)
+    {
+        Nav.NavigateTo($"/edit-project/{projectId}", true);
+    }
+}

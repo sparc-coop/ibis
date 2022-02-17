@@ -1,0 +1,23 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.JSInterop
+
+@using Sparc.Core
+
+@using Ibis.Web.Shared
+@using Ibis.Features
+
+@inject IbisApi Api
+@inject Public<IbisApi> PublicApi
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Nav
+
+@attribute [AllowAnonymous]

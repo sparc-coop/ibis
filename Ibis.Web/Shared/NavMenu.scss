@@ -1,0 +1,26 @@
+@import "../_variables.scss";
+
+.nav-menu {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+
+    .login-display {
+        position: absolute;
+        right: 0;
+        top: 40px;
+
+        a, button {
+            border: 2px solid $secondary;
+            color: $secondary;
+            font-size: 20px;
+            padding: 12px 30px;
+            border-radius: 4px;
+        }
+    }
+
+    .logo {
+        width: 146px;
+    }
+}
