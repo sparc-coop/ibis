@@ -49,9 +49,11 @@
         .content-container {
             max-width: 500px;
             width: 100%;
+            padding-top: 150px;
 
             p {
-                font-size: 20px;
+                font-family: serif;
+                font-size: 22px;
                 color: $gray;
                 line-height: 35px;
                 padding: 40px 0;
@@ -61,6 +63,7 @@
         h2 {
             color: $primary;
             font-size: 60px;
+            font-weight: bold;
             line-height: 73px;
         }
 
@@ -98,7 +101,7 @@
         }
 
         &-container {
-            width: 50%;
+            width: 58%;
             display: flex;
             flex-wrap: wrap;
             margin: 0 auto;
@@ -106,19 +109,61 @@
     }
 
     .section-2 {
+        margin: 0 auto;
+        max-width: 1200px;
+
         .content-background {
-            width: 400px;
+            width: 600px;
+        }
+
+        h2 {
+            font-size: 50px;
+            font-weight: 600;
+            color: $primary;
+            line-height: 58px;
+        }
+
+        p {
+            color: $gray;
+            line-height: 30px;
+            padding: 30px 0;
+            max-width: 400px;
+            font-family: serif;
+            font-size: 18px;
+        }
+
+        .row {
+            display: flex;
+            padding: 80px 0;
+            margin: 0 auto;
+            justify-content: space-around;
+
+            &--right {
+                //float: right;
+            }
+
+            &--content {
+                max-width: 460px;
+                padding-top: 140px;
+            }
+        }
+
+        button {
+            background: $secondary;
+            border-radius: 4px;
+            padding: 16px 40px;
+            font-size: 20px;
         }
     }
 
     .banner {
         margin: 0 auto;
-        max-width: 1136px;
+        max-width: 1400px;
         width: 100%;
         position: relative;
 
         img {
-            width: 1136px;
+            width: 1400px;
         }
 
         h3 {
@@ -126,18 +171,18 @@
             position: absolute;
             top: 0;
             z-index: 100;
-            padding: 64px 48px;
-            font-size: 26px;
+            padding: 74px 110px;
+            font-size: 28px;
             line-height: 40px;
         }
 
         button {
             position: absolute;
-            top: 74px;
-            right: 68px;
+            top: 84px;
+            right: 110px;
             background: $secondary;
             border-radius: 4px;
-            padding: 12px 30px;
+            padding: 16px 40px;
             font-size: 20px;
         }
     }
