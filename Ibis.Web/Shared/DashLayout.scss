@@ -1,5 +1,15 @@
 @import "../_variables.scss";
 
+.dash-header {
+    background: $white;
+    text-align: center;
+    padding: 15px;
+
+    .logo {
+        width: 120px;
+    }
+}
+
 .dash-layout {
     background: $background;
 }

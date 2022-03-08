@@ -1,22 +1,21 @@
 ﻿
-@if (IsLoading)
+@*@if (IsLoading)
 {
     <div class="loader"></div>
 }
 else
 {
-    <div class="row">
-
-
-    </div>
+    
 }
-
-@using Ibis.Features
+*@
+<div class="cards">
+    <div class="card">
+        <img src="/images/audio-file.png">
+        <h4>Title.type</h4>
+    </div>
+</div>
 
 @code {
-    private int currentCount = 0;
-    //public List<Ibis.Features.Project> Projects = new List<Project>();
-
     [Parameter]
     public int InitialValue { get; set; }
 
@@ -25,16 +24,18 @@ else
 
     public bool IsLoading { get; set; } = true;
 
-    private void IncrementCount() => currentCount++;
+    //private void IncrementCount() => currentCount++;
 
     protected override void OnParametersSet()
     {
-        currentCount = InitialValue;
+        //currentCount = InitialValue;
     }
+
+    private ICollection<ProjectsList> Projects { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        //Projects = await _projetctRep.Query.Where(x => x.UserID == UserId).OrderByDescending(x => x.RegisterDate).ToListAsync();
+        //Projects = await PublicApi().GetProjectsAsync(UserId);
         //IsLoading = false;
         //StateHasChanged();
         //base.OnAfterRender(firstRender);
