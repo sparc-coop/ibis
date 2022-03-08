@@ -1,11 +1,14 @@
-﻿@page "/project/{ProjectId}"
+﻿@page "/project"
+@page "/project/{ProjectId}"
 @layout DashLayout
 
-<div class="container">
-    <div class="card project-card p-4">
+<div class="project-page container">
+    <div class="card">
         <div class="card-body">
-            <h3 class="mb-5">Let’s create a new project!</h3>
-            <form id="form" name="form" action="/project" enctype="multipart/form-data" method="post">
+            <h3 class="">Let’s create a new project!</h3>
+
+@*            //Old form
+    <form id="form" name="form" action="/project" enctype="multipart/form-data" method="post">
                 <div class="form-group">
                     <label>Project name</label>
                     <input type="text" id="name" name="name" class="form-control" />
@@ -18,7 +21,7 @@
                     </select>
                 </div>
                 <div class="buttons">
-                    <div @*class="upload-button"*@>
+                    
                         <div class="label">Upload a wav file here!</div>
                         <input id="files" name="files" type="file" size="1" accept="audio/wav" class="choose" />
                     </div>
@@ -26,8 +29,8 @@
                 <div class="form-group text-right mt-3">
                     <input type="button" class="btn btn-primary" value="Save Project" id="btn-save" onclick="uploadFiles('files');" />
                 </div>
-            </form>
-            <div id="progress" class="progress"><div id="bar" class="bar"></div><div id="label" class="label">0%</div></div>
+            </form>*@
+           @* <div id="progress" class="progress"><div id="bar" class="bar"></div><div id="label" class="label">0%</div></div>*@
         </div>
     </div>
 </div>
