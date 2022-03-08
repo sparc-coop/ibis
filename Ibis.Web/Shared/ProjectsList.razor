@@ -5,7 +5,8 @@
 }
 else
 {
-    
+    <div class="row">
+
 }
 *@
 <div class="cards">
@@ -13,9 +14,15 @@ else
         <img src="/images/audio-file.png">
         <h4>Title.type</h4>
     </div>
-</div>
+    </div>
+}
+
+@using Ibis.Features
 
 @code {
+    private int currentCount = 0;
+    //public List<Ibis.Features.Project> Projects = new List<Project>();
+
     [Parameter]
     public int InitialValue { get; set; }
 

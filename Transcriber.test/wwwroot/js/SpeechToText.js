@@ -1,4 +1,4 @@
-﻿const speechConfig = SpeechConfig.fromSubscription("083676fb58824ce28526776557d95aae", "eastus");
+﻿const speechConfig = SpeechConfig.fromSubscription("", "eastus");
 
 
 const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
