@@ -8,8 +8,15 @@
     .logo {
         width: 120px;
     }
+
+    .login-display {
+        position: absolute;
+        top: 30px;
+        right: 50px;
+    }
 }
 
 .dash-layout {
     background: $background;
+    min-height: calc(100vh - 143px);
 }
