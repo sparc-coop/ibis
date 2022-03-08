@@ -68,7 +68,6 @@
   .landing .card img {
     width: 80px; }
   .landing .card-container {
-    width: 58%;
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto; }
@@ -76,7 +75,7 @@
 .landing .section-2 {
   margin: 0 auto;
   max-width: 1200px; }
-  .landing .section-2 .content-background {
+.landing .section-2 .content-background {
     width: 600px; }
   .landing .section-2 h2 {
     font-size: 50px;
@@ -145,7 +144,7 @@
       max-width: 400px;
       width: 100%; }
     .dashboard .actions .add {
-      display: flex;
+  display: flex;
       width: 150px;
       color: #FFFFFF;
       background: #fe3205;
@@ -164,17 +163,20 @@
     color: #013b60;
     font-size: 20px;
     font-weight: bold; }
-  .dashboard .project-img {
-    height: 65px; }
-  .dashboard .project-card {
-    border: 2px solid #e7e8e9;
-    cursor: pointer; }
-  .dashboard .project-date {
-    font-size: 12px !important; }
-  .dashboard .project-status {
-    display: flex;
-    align-items: center;
-    width: 70%; }
+.dashboard .project-img {
+  height: 65px; }
+
+.dashboard .project-card {
+  border: 2px solid #e7e8e9;
+  cursor: pointer; }
+
+.dashboard .project-date {
+  font-size: 12px !important; }
+
+.dashboard .project-status {
+  display: flex;
+  align-items: center;
+  width: 70%; }
 
 .page {
   position: relative;
