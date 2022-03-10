@@ -1,12 +1,15 @@
 ﻿@import "Pages/Index";
 @import "Pages/Dashboard";
 @import "Pages/ProjectPage";
+@import "Pages/Account";
+@import "Pages/Pricing";
 
 @import "Shared/MainLayout";
 @import "Shared/DashLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/ProjectsList";
+@import "Shared/LoginDisplay";
 
 body {
     overflow-x: hidden;
@@ -17,6 +20,7 @@ body {
     max-width: 1140px;
     margin: 0 auto;
     display: flex;
+    position: relative;
 }
 
 #app {

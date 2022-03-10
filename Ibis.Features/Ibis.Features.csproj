@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f18a01d0-8141-4bca-94fd-e2085a4406fd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
     <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.2" />
     <PackageReference Include="Sparc.Features" Version="6.1.2" />
+    <PackageReference Include="Stripe.net" Version="39.95.0" />
   </ItemGroup>
 
 </Project>

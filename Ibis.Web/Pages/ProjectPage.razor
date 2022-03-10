@@ -1,11 +1,20 @@
 ﻿@page "/project"
 @page "/project/{ProjectId}"
 @layout DashLayout
+@attribute [Authorize]
 
 <div class="project-page container">
     <div class="card">
         <div class="card-body">
-            <h3 class="">Let’s create a new project!</h3>
+            @if(ProjectId != null)
+            {
+                //Edit current projecty
+            }
+            else
+            {
+                <h3 class="">Create a new project!</h3>
+            }
+
 
 @*            //Old form
     <form id="form" name="form" action="/project" enctype="multipart/form-data" method="post">

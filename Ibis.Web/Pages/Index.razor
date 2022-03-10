@@ -2,7 +2,12 @@
 
 <div class="landing">
     <div class="hero">
-        <h1>Transcribe Your <span class="typetext">Podcast</span> <br /> With A Single Click</h1>
+        <h1>Transcribe Your 
+            <span class="typetext--container">
+                 <span class="typetext" id="displaytext">Podcast</span>
+            </span>           
+            <br /> With A Single Click
+        </h1>
         <p>Ibis Transcriber uses Machine Learning to automatically transcribe your audio and video files</p>
         <button class="btn-primary">Get Started</button>
         <button class="btn-secondary">Learn More</button>
@@ -88,3 +93,12 @@
             <button>Get Started</button>
     </section>
 </div>
+
+@inject IJSRuntime JS
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("textDisplay");
+    }
+}

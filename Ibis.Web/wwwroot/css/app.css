@@ -29,6 +29,25 @@
 }
 .landing .hero .typetext {
   background-color: #f9f1e8;
+  padding: 0 10px;
+}
+.landing .hero .typetext--container {
+  display: inline-block;
+  width: 320px;
+}
+.landing .hero .typetext .blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 .landing .section-1 {
   background: #f9f1e8;
@@ -216,6 +235,14 @@
   padding: 50px 0;
 }
 
+.account {
+  padding: 100px 20px;
+}
+
+.pricing-page {
+  padding: 50px 0;
+}
+
 .page {
   position: relative;
   display: flex;
@@ -302,12 +329,26 @@ main {
   padding: 15px;
 }
 .dash-header .logo {
+  margin: 0 auto;
+}
+.dash-header .logo img {
   width: 120px;
 }
 .dash-header .login-display {
   position: absolute;
-  top: 30px;
+  top: 0px;
   right: 50px;
+}
+.dash-header .nav-link {
+  color: #013b60;
+  font-weight: bold;
+  margin: 5px 25px;
+  position: absolute;
+  right: 200px;
+  top: 4px;
+}
+.dash-header .nav-link i {
+  font-size: 32px;
 }
 
 .dash-layout {
@@ -321,17 +362,14 @@ main {
   padding: 20px;
   position: relative;
 }
-.nav-menu .login-display {
+.nav-menu .nav-link {
+  color: #013b60;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 25px;
   position: absolute;
-  right: 0;
-  top: 40px;
-}
-.nav-menu .login-display a, .nav-menu .login-display button {
-  border: 2px solid #fe3205;
-  color: #fe3205;
-  font-size: 20px;
-  padding: 12px 30px;
-  border-radius: 4px;
+  right: 150px;
+  top: 52px;
 }
 .nav-menu .logo {
   width: 146px;
@@ -374,6 +412,19 @@ main {
   font-weight: bold;
 }
 
+.login-display {
+  position: absolute;
+  right: 0;
+  top: 40px;
+}
+.login-display .login, .login-display button {
+  border: 2px solid #fe3205;
+  color: #fe3205;
+  font-size: 20px;
+  padding: 12px 30px;
+  border-radius: 4px;
+}
+
 body {
   overflow-x: hidden;
   font-family: sans-serif;
@@ -383,6 +434,7 @@ body {
   max-width: 1140px;
   margin: 0 auto;
   display: flex;
+  position: relative;
 }
 
 #app .loader {

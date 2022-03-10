@@ -6,13 +6,30 @@
     padding: 15px;
 
     .logo {
-        width: 120px;
+        margin: 0 auto;
+
+        img {
+            width: 120px;
+        }
     }
 
     .login-display {
         position: absolute;
-        top: 30px;
+        top: 0px;
         right: 50px;
+    }
+
+    .nav-link {
+        color: $primary;
+        font-weight: bold;
+        margin: 5px 25px;
+        position: absolute;
+        right: 200px;
+        top: 4px;
+
+        i {
+            font-size: 32px;
+        }
     }
 }
 

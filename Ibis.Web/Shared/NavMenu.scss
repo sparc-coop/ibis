@@ -6,18 +6,14 @@
     padding: 20px;
     position: relative;
 
-    .login-display {
+    .nav-link {
+        color: $primary;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 25px;
         position: absolute;
-        right: 0;
-        top: 40px;
-
-        a, button {
-            border: 2px solid $secondary;
-            color: $secondary;
-            font-size: 20px;
-            padding: 12px 30px;
-            border-radius: 4px;
-        }
+        right: 150px;
+        top: 52px;
     }
 
     .logo {
