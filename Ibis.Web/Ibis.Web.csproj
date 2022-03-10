@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Pricing.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Pricing.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json" />
   </ItemGroup>
   
@@ -26,6 +34,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Sparc.Platforms.Web" Version="6.0.1" />
+    <PackageReference Include="Stripe.net" Version="39.95.0" />
   </ItemGroup>
 
 </Project>

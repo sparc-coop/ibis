@@ -1,8 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="dash-header">
-    <a href="/"><img class="logo" src="/images/logo_2x.png"/></a>
-    <LoginDisplay />
+    <div class="container">
+        <a class="logo" href="/"><img src="/images/logo_2x.png"/></a>
+        <AuthorizeView>
+            <Authorized>
+                <a href="account" class="nav-link"><i class="material-icons">account_circle</i></a>
+            </Authorized>
+        </AuthorizeView>
+        <LoginDisplay />
+    </div>
 </div>
 <main class="dash-layout">
     @Body
