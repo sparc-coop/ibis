@@ -1,29 +1,76 @@
 ﻿using Ibis.Features.Conversations.Entities;
+using Microsoft.CognitiveServices.Speech;
+using Microsoft.CognitiveServices.Speech.Audio;
 using Newtonsoft.Json;
+using Sparc.Core;
+using Sparc.Storage.Azure;
 using System.Text;
+using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins
 {
     public class IbisEngine
     {
-        HttpClient Client { get; set; }
+        HttpClient Translator { get; set; }
+        string SpeechApiKey { get; set; }
+        public IRepository<File> Files { get; }
 
-        public IbisEngine(IConfiguration configuration)
+        public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
-            Client = new HttpClient
+            Translator = new HttpClient
             {
                 BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com"),
             };
-            Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
-            Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
+            Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
+            Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
+
+            SpeechApiKey = configuration.GetConnectionString("Speech");
+            Files = files;
         }
 
-        internal async Task Translate(Message message, List<Language> languages)
+        internal async Task SpeakAsync(Message message)
         {
-            await Translate(message, languages.Where(x => x.Name != message.Language).Select(x => x.Name).ToArray());
+            var config = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            config.SpeechSynthesisLanguage = message.Language;
+
+            using var synthesizer = new SpeechSynthesizer(config, null);
+            var result = await synthesizer.SpeakTextAsync(message.Text);
+            using var stream = new MemoryStream(result.AudioData, false);
+
+            File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
+            await Files.AddAsync(file);
+            
+            message.SetAudio(file.Url!);
+
+            await Parallel.ForEachAsync(message.Translations, async (translation, token) =>
+            {
+                await SpeakAsync(message, translation);
+            });
         }
 
-        internal async Task Translate(Message message, params string[] languages)
+        internal async Task SpeakAsync(Message parentMessage, Conversations.Entities.Translation message)
+        {
+            var config = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            config.SpeechSynthesisLanguage = message.Language;
+
+            using var synthesizer = new SpeechSynthesizer(config, null);
+            var result = await synthesizer.SpeakTextAsync(message.Text);
+            using var stream = new MemoryStream(result.AudioData, false);
+
+            Sparc.Storage.Azure.File file = new("speak", $"{parentMessage.ConversationId}/{parentMessage.Id}/{message.Language}.wav", AccessTypes.Public, stream);
+            await Files.AddAsync(file);
+
+            message.SetAudio(file.Url!);
+        }
+
+        internal async Task TranslateAsync(Message message, List<Language> languages)
+        {
+            var otherLanguages = languages.Where(x => x.Name != message.Language).Select(x => x.Name).ToArray();
+            if (otherLanguages.Any())   
+                await TranslateAsync(message, otherLanguages);
+        }
+
+        internal async Task TranslateAsync(Message message, params string[] languages)
         {
             object[] body = new object[] { new { message.Text } };
             var from = $"&from={message.Language.Split('-').First()}";
@@ -33,12 +80,12 @@ namespace Ibis.Features._Plugins
 
             foreach (TranslationResult o in result)
                 foreach (Translation t in o.Translations)
-                    message.AddTranslation(t.To, SourceTypes.TextTranslator, t.Text);
+                    message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
         }
 
         private async Task<T> Post<T>(string url, object model)
         {
-            var response = await Client.PostAsync(url, Jsonify(model));
+            var response = await Translator.PostAsync(url, Jsonify(model));
             return await UnJsonify<T>(response);
         }
 

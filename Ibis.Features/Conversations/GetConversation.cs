@@ -37,10 +37,10 @@ namespace Ibis.Features.Conversations
                 .OrderBy(x => x.Timestamp)
                 .ToList();
 
-            var untranslatedMessages = messages.Where(x => !x.Translations.Any(y => y.Language == request.Language)).ToList();
+            var untranslatedMessages = messages.Where(x => !x.HasTranslation(request.Language)).ToList();
             foreach (var message in untranslatedMessages)
             {
-                await IbisEngine.Translate(message, request.Language);
+                await IbisEngine.TranslateAsync(message, request.Language);
                 await Messages.UpdateAsync(message);
             }
 

@@ -4,6 +4,7 @@ using Sparc.Authentication.AzureADB2C;
 using Sparc.Core;
 using Sparc.Features;
 using Sparc.Plugins.Database.Cosmos;
+using Sparc.Storage.Azure;
 
 namespace Ibis.Features
 {
@@ -18,7 +19,8 @@ namespace Ibis.Features
         {
             services.Sparcify<Startup>(Configuration["WebClientUrl"])
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
-                .AddAzureADB2CAuthentication(Configuration);
+                .AddAzureADB2CAuthentication(Configuration)
+                .AddAzureStorage(Configuration.GetConnectionString("Storage"));
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
                 .AddScoped<IbisEngine>();

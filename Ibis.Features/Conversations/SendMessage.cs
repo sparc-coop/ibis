@@ -29,7 +29,8 @@ namespace Ibis.Features.Conversations
 
             // Translate message to all other languages
             var conversation = await Conversations.FindAsync(request.ConversationId);
-            await IbisEngine.Translate(message, conversation!.Languages);
+            await IbisEngine.TranslateAsync(message, conversation!.Languages);
+            await IbisEngine.SpeakAsync(message);
 
             await Messages.AddAsync(message);
 
