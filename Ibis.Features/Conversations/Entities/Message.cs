@@ -12,6 +12,7 @@ public class Message : Root<string>
     public string? Text { get; private set; }
     public string? AudioId { get; private set; }
     public List<Translation> Translations { get; private set; }
+    public bool IsNew { get; set; }
 
     protected Message()
     {
@@ -33,13 +34,18 @@ public class Message : Root<string>
     }
 
     public void SetText(string text) => Text = text;
-    public void SetAudio(string audioId) => AudioId = audioId;    
+    public void SetAudio(string audioId) => AudioId = audioId;
 
-    public void AddTranslation(string language, SourceTypes sourceType, string result, double? score = 0)
+    public bool HasTranslation(string language)
     {
-        Translation translation = new(language, sourceType, result, score);
+        return Translations.Any(x => x.Language == language);
+    }
+    public void AddTranslation(string language, string result, double? score = 0)
+    {
+        Translation translation = new(language);
+        translation.SetText(result);
 
-        var existing = Translations.FindIndex(x => x.Language == language && x.SourceType == sourceType);
+        var existing = Translations.FindIndex(x => x.Language == language);
         
         if (existing == -1) 
             Translations.Add(translation);

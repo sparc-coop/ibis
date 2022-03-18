@@ -760,6 +760,9 @@
             },
             "nullable": true,
             "readOnly": true
+          },
+          "isNew": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -816,14 +819,12 @@
             "type": "string",
             "nullable": true
           },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ]
+          "text": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
-          "value": {
+          "audioId": {
             "type": "string",
             "nullable": true,
             "readOnly": true
@@ -831,7 +832,8 @@
           "score": {
             "type": "number",
             "format": "double",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false

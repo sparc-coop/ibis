@@ -5,16 +5,17 @@ public class Translation
     private Translation()
     { }
     
-    public Translation(string language, SourceTypes sourceType, string translation, double? score = null)
+    public Translation(string language)
     {
         Language = language;
-        SourceType = sourceType;
-        Value = translation;
-        Score = score;
     }
 
     public string Language { get; private set; }
-    public SourceTypes SourceType { get; private set; }
-    public string Value { get; private set; }
+    public string Text { get; private set; }
+    public string? AudioId { get; private set; }
     public double? Score { get; private set; }
+
+    public void SetText(string text) => Text = text;
+    public void SetAudio(string audioId) => AudioId = audioId;
+
 }

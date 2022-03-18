@@ -44,7 +44,7 @@
     protected override async Task OnInitializedAsync()
     {
         if (string.IsNullOrWhiteSpace(Language))
-            Language = "en";
+            Language = "en-US";
 
         if (string.IsNullOrWhiteSpace(Id))
         {
@@ -62,7 +62,10 @@
             .WithUrl(Config["ApiUrl"] + "/conversations")
             .Build();
 
-        Connection.On<Message>("NewMessage", AddMessage);
+        Connection.On<Message>("NewMessage", message => {
+            message.IsNew = true;
+            AddMessage(message);
+        });
         await Connection.StartAsync();
         await Connection.SendAsync("AddToConversation", Conversation.Id, Language);
     }
@@ -74,6 +77,7 @@
             Messages[existingId] = message;
         else
             Messages.Add(message);
+
         StateHasChanged();
     }
 

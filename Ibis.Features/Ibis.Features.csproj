@@ -12,9 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.20.0" />
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
     <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.5" />
     <PackageReference Include="Sparc.Features" Version="6.1.2" />
+    <PackageReference Include="Sparc.Storage.Azure" Version="6.0.0" />
     <PackageReference Include="Stripe.net" Version="39.97.0" />
   </ItemGroup>
 
