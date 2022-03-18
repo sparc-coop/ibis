@@ -233,17 +233,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetConversationRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetConversationRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetConversationRequest"
+                  }
+                ]
               }
             }
           }
@@ -254,17 +266,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/GetConversationResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/GetConversationResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/GetConversationResponse"
                 }
               }
             }
@@ -594,6 +606,41 @@
           },
           "hostUserId": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetConversationRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetConversationResponse": {
+        "type": "object",
+        "properties": {
+          "conversation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Conversation"
+              }
+            ],
+            "nullable": true
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
             "nullable": true
           }
         },

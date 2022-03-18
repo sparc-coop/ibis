@@ -4,22 +4,32 @@ using Sparc.Features;
 
 namespace Ibis.Features.Conversations
 {
-    public class GetConversation : PublicFeature<string, Conversation>
+    public record GetConversationRequest(string ConversationId, string Language);
+    public record GetConversationResponse(Conversation conversation, List<Message> messages);
+    public class GetConversation : PublicFeature<GetConversationRequest, GetConversationResponse>
     {
-        public GetConversation(IRepository<Conversation> conversations)
+        public GetConversation(IRepository<Conversation> conversations, IRepository<Message> messages)
         {
             Conversations = conversations;
+            Messages = messages;
         }
 
         public IRepository<Conversation> Conversations { get; }
+        public IRepository<Message> Messages { get; }
 
-        public async override Task<Conversation> ExecuteAsync(string id)
+        public async override Task<GetConversationResponse> ExecuteAsync(GetConversationRequest request)
         {
-            var conversation = await Conversations.FindAsync(id);
+            var conversation = await Conversations.FindAsync(request.ConversationId);
             if (conversation == null)
-                throw new NotFoundException($"Conversation {id} not found!");
+                throw new NotFoundException($"Conversation {request.ConversationId} not found!");
 
-            return conversation;
+            var messages = Messages.Query
+                .Where(x => x.ConversationId == conversation.Id)
+                .Where(x => x.Language == request.Language)
+                .OrderBy(x => x.Timestamp)
+                .ToList();
+
+            return new(conversation, messages);
         }
     }
 }
