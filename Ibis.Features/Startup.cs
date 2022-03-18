@@ -1,4 +1,6 @@
-﻿using Sparc.Authentication.AzureADB2C;
+﻿using Ibis.Features._Plugins;
+using Ibis.Features.Conversations;
+using Sparc.Authentication.AzureADB2C;
 using Sparc.Core;
 using Sparc.Features;
 using Sparc.Plugins.Database.Cosmos;
@@ -15,10 +17,11 @@ namespace Ibis.Features
         public void ConfigureServices(IServiceCollection services)
         {
             services.Sparcify<Startup>(Configuration["WebClientUrl"])
-                //.AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
+                .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration);
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>));
+            services.AddSignalR();
             services.AddRazorPages();
         }
 
@@ -26,6 +29,7 @@ namespace Ibis.Features
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Sparcify<Startup>(env);
+            app.UseEndpoints(endpoints => endpoints.MapHub<ConversationHub>("/conversations"));
             app.UseDeveloperExceptionPage();
         }
     }

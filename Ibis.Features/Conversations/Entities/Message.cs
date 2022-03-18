@@ -22,7 +22,7 @@ public class Message : Root<string>
         SourceType = SourceTypes.Text;
     }
 
-    public Message(string conversationId, string fromUserId, string language, SourceTypes sourceType, string? sourceTypeId) : this()
+    public Message(string conversationId, string fromUserId, string language, SourceTypes sourceType, string? sourceTypeId = null) : this()
     {
         ConversationId = conversationId;
         UserId = fromUserId;

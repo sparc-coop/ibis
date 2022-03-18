@@ -13,9 +13,9 @@
 
   <ItemGroup>
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
-    <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.2" />
+    <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.5" />
     <PackageReference Include="Sparc.Features" Version="6.1.2" />
-    <PackageReference Include="Stripe.net" Version="39.95.0" />
+    <PackageReference Include="Stripe.net" Version="39.97.0" />
   </ItemGroup>
 
 </Project>

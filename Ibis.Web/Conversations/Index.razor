@@ -1,0 +1,90 @@
+﻿@page "/conversations/new"
+@page "/conversations/{Id}"
+
+<section class="conversation">
+    @foreach (var message in Messages)
+    {
+        <MessageCard Message=message />
+    }
+    <div class="input">
+        <input @bind="Text" />
+        <div class="buttons">
+            <button @onclick="Upload">
+                <i class="material-icons">cloud_upload</i>
+            </button>
+            <button @onclick="Call">
+                <i class="material-icons">call</i>
+            </button>
+            <button @onclick="Sms">
+                <i class="material-icons">call</i>
+            </button>
+            <button @onclick="Speak">
+                <i class="material-icons">keyboard_voice</i>
+            </button>
+            <button @onclick="SendText">
+                <i class="material-icons">send</i>
+            </button>
+        </div>
+    </div>
+</section>
+
+@using Microsoft.AspNetCore.SignalR.Client
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+    string? Text;
+    Conversation? Conversation;
+    List<Message> Messages = new();
+
+    HubConnection Connection { get; set; }
+    bool IsConnected => Connection?.State == HubConnectionState.Connected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Conversation = string.IsNullOrWhiteSpace(Id)
+            ? await PublicApi().StartConversationAsync()
+            : await PublicApi().GetConversationAsync(Id);
+
+        Connection = new HubConnectionBuilder()
+            .WithUrl(Config["ApiUrl"] + "/conversations")
+            .Build();
+
+        Connection.On<Message>("NewMessage", AddMessage);
+        await Connection.StartAsync();
+        await Connection.SendAsync("AddToGroup", Conversation.Id, Language ?? "en-us");
+    }
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+    }
+
+    async Task Upload()
+    {
+        // link or direct upload
+    }
+    async Task Call()
+    {
+
+    }
+    async Task Sms()
+    {
+
+    }
+    async Task Speak()
+    {
+
+    }
+
+    async Task SendText()
+    {
+        var newMessage = await PublicApi().SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text });
+        AddMessage(newMessage);
+    }
+}
