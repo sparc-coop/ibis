@@ -4,9 +4,9 @@ namespace Ibis.Features.Conversations.Entities;
 
 public class Conversation : Root<string>
 {
-    public string ConversationId { get; }
-    public string Name { get; }
-    public string HostUserId { get; }
+    public string ConversationId { get; set; }
+    public string Name { get; set; }
+    public string HostUserId { get; set; }
 
     private Conversation() 
     { 
