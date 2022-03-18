@@ -8,6 +8,8 @@ public class User : Root<string>
     {
         Id = string.Empty;
         UserId = Id;
+        PrimaryLanguageId = string.Empty;
+        LanguagesSpoken = new();
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -33,4 +35,6 @@ public class User : Root<string>
     public string FullName => $"{FirstName} {LastName}";
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
+    public string PrimaryLanguageId { get; set; }
+    public List<Language> LanguagesSpoken { get; set; }
 }
