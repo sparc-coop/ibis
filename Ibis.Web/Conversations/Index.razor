@@ -7,7 +7,7 @@
         <MessageCard Message=message />
     }
     <div class="input">
-        <input @bind="Text" />
+        <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="buttons">
             <button @onclick="Upload">
                 <i class="material-icons">cloud_upload</i>
@@ -21,7 +21,7 @@
             <button @onclick="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
-            <button @onclick="SendText">
+            <button @onclick="SendText" class="active">
                 <i class="material-icons">send</i>
             </button>
         </div>
@@ -43,9 +43,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Conversation = string.IsNullOrWhiteSpace(Id)
-            ? await PublicApi().StartConversationAsync()
-            : await PublicApi().GetConversationAsync(Id);
+        if (string.IsNullOrWhiteSpace(Id))
+        {
+            Conversation = await PublicApi().StartConversationAsync();
+            Nav.NavigateTo($"/conversations/{Conversation.Id}", true);
+        }
+        else 
+        {
+            var conversation = await PublicApi().GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language ?? "en-us" });
+            Conversation = conversation.Conversation;
+            Messages = conversation.Messages.ToList();
+        }
 
         Connection = new HubConnectionBuilder()
             .WithUrl(Config["ApiUrl"] + "/conversations")
@@ -65,6 +73,8 @@
             Messages.Add(message);
     }
 
+
+
     async Task Upload()
     {
         // link or direct upload
@@ -82,9 +92,16 @@
 
     }
 
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
     async Task SendText()
     {
         var newMessage = await PublicApi().SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text });
         AddMessage(newMessage);
+        Text = null;
     }
 }

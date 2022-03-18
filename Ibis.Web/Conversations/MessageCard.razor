@@ -1,5 +1,8 @@
 ﻿<article>
-
+    <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
+        @Message.Timestamp.ToString("f")
+    </time>
+    @Message.Text
 </article>
 
 @code {

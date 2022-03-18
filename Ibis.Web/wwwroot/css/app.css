@@ -425,6 +425,29 @@ main {
   border-radius: 4px;
 }
 
+.conversation .input {
+  position: relative;
+}
+.conversation .input input {
+  border: 1px solid gray;
+  width: 100%;
+  padding: 16px;
+  padding-right: 150px;
+}
+.conversation .input .buttons {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -12px;
+}
+.conversation .input .buttons i {
+  color: gray;
+}
+.conversation .input .buttons button:hover i, .conversation .input .buttons button.active i {
+  cursor: pointer;
+  color: red;
+}
+
 body {
   overflow-x: hidden;
   font-family: sans-serif;

@@ -1,0 +1,29 @@
+﻿.conversation {
+
+    .input {
+        position: relative;
+
+        input {
+            border: 1px solid gray;
+            width: 100%;
+            padding: 16px;
+            padding-right: 150px;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            margin-top: -12px;
+
+            i {
+                color: gray;
+            }
+
+            button:hover i, button.active i {
+                cursor: pointer;
+                color: red;
+            }
+        }
+    }
+}

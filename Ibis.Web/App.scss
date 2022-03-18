@@ -11,6 +11,9 @@
 @import "Shared/ProjectsList";
 @import "Shared/LoginDisplay";
 
+@import "Conversations/Index";
+@import "Conversations/MessageCard";
+
 body {
     overflow-x: hidden;
     font-family: sans-serif;

@@ -9,18 +9,19 @@ namespace Ibis.Features.Conversations
     public record SendMessageRequest(string ConversationId, string Message);
     public class SendMessage : PublicFeature<SendMessageRequest, Message>
     {
-        public SendMessage(IRepository<Message> messages, IHubContext conversation)
+        public SendMessage(IRepository<Message> messages, IHubContext<ConversationHub> conversation)
         {
             Messages = messages;
             Conversation = conversation;
         }
 
         public IRepository<Message> Messages { get; }
-        public IHubContext Conversation { get; }
+        public IHubContext<ConversationHub> Conversation { get; }
 
         public override async Task<Message> ExecuteAsync(SendMessageRequest request)
         {
             var message = new Message(request.ConversationId, "userId", User.Language(), SourceTypes.Text);
+            message.SetText(request.Message);
             await Messages.AddAsync(message);
             await Conversation.Clients.Group($"{request.ConversationId}|{User.Language()}").SendAsync("NewMessage", message);
             return message;
