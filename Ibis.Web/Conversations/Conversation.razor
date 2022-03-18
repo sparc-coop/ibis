@@ -1,0 +1,62 @@
+﻿@page "/conversations/{Id}"
+
+<section class="conversation">
+    <article>
+        @* Conversation.Text *@
+    </article>
+    <div class="input">
+        <input @bind="Message" />
+        <div class="buttons">
+            <button @onclick="Upload">
+
+            </button>
+            <button @onclick="Call">
+
+            </button>
+            <button @onclick="Sms">
+
+            </button>
+            <button @onclick="Speak">
+
+            </button>
+            <button @onclick="SendText">
+
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+@code {
+    [Parameter] public string Id { get; set; }
+    string? Message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Conversation = await Api.InitializeConversationAsync(Id);
+    }
+
+    async Task Upload()
+    {
+        // link or direct upload
+    }
+    async Task Call()
+    {
+
+    }
+    async Task Sms()
+    {
+
+    }
+    async Task Speak()
+    {
+        
+    }
+
+    async Task SendText()
+    {
+        // await Api.SendMessageAsync(Id, Message);
+        Message = null;
+    }
+}
