@@ -9,8 +9,8 @@ public class PrivateMessage : Message
         ToUserId = "";
     }
 
-    public PrivateMessage(string conversationId, string fromUserId, string toUserId, string language, SourceTypes sourceType, string? sourceTypeId)
-        : base(conversationId, fromUserId, language, sourceType, sourceTypeId)
+    public PrivateMessage(string conversationId, string fromUserId, string toUserId, string language, SourceTypes sourceType)
+        : base(conversationId, fromUserId, language, sourceType)
     {
         ToUserId = toUserId;
     }

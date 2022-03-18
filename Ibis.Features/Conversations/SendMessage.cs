@@ -6,24 +6,34 @@ using Sparc.Features;
 
 namespace Ibis.Features.Conversations
 {
-    public record SendMessageRequest(string ConversationId, string Message);
+    public record SendMessageRequest(string ConversationId, string Message, string Language);
     public class SendMessage : PublicFeature<SendMessageRequest, Message>
     {
-        public SendMessage(IRepository<Message> messages, IHubContext<ConversationHub> conversation)
+        public SendMessage(IRepository<Message> messages, IRepository<Conversation> conversations, IHubContext<ConversationHub> conversation, IbisEngine ibisEngine)
         {
             Messages = messages;
+            Conversations = conversations;
             Conversation = conversation;
+            IbisEngine = ibisEngine;
         }
 
         public IRepository<Message> Messages { get; }
+        public IRepository<Conversation> Conversations { get; }
         public IHubContext<ConversationHub> Conversation { get; }
+        public IbisEngine IbisEngine { get; }
 
         public override async Task<Message> ExecuteAsync(SendMessageRequest request)
         {
-            var message = new Message(request.ConversationId, "userId", User.Language(), SourceTypes.Text);
+            var message = new Message(request.ConversationId, "userId", request.Language ?? User.Language(), SourceTypes.Text);
             message.SetText(request.Message);
+
+            // Translate message to all other languages
+            var conversation = await Conversations.FindAsync(request.ConversationId);
+            await IbisEngine.Translate(message, conversation!.Languages);
+
             await Messages.AddAsync(message);
-            await Conversation.Clients.Group($"{request.ConversationId}|{User.Language()}").SendAsync("NewMessage", message);
+
+            await Conversation.Clients.Group($"{request.ConversationId}").SendAsync("NewMessage", message);
             return message;
         }
     }

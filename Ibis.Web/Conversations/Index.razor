@@ -4,7 +4,7 @@
 <section class="conversation">
     @foreach (var message in Messages)
     {
-        <MessageCard Message=message />
+        <MessageCard Message=message Language=@Language />
     }
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
@@ -43,6 +43,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        if (string.IsNullOrWhiteSpace(Language))
+            Language = "en";
+
         if (string.IsNullOrWhiteSpace(Id))
         {
             Conversation = await PublicApi().StartConversationAsync();
@@ -50,7 +53,7 @@
         }
         else 
         {
-            var conversation = await PublicApi().GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language ?? "en-us" });
+            var conversation = await PublicApi().GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
             Conversation = conversation.Conversation;
             Messages = conversation.Messages.ToList();
         }
@@ -61,7 +64,7 @@
 
         Connection.On<Message>("NewMessage", AddMessage);
         await Connection.StartAsync();
-        await Connection.SendAsync("AddToGroup", Conversation.Id, Language ?? "en-us");
+        await Connection.SendAsync("AddToConversation", Conversation.Id, Language);
     }
 
     void AddMessage(Message message)
@@ -71,9 +74,8 @@
             Messages[existingId] = message;
         else
             Messages.Add(message);
+        StateHasChanged();
     }
-
-
 
     async Task Upload()
     {
@@ -100,7 +102,7 @@
 
     async Task SendText()
     {
-        var newMessage = await PublicApi().SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text });
+        var newMessage = await PublicApi().SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
         AddMessage(newMessage);
         Text = null;
     }
