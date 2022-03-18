@@ -2,9 +2,12 @@
     <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
         @Message.Timestamp.ToString("f")
     </time>
-    @Message.Text
+    @MessageText()
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; }
+    [Parameter] public string Language { get; set; }
+
+    string MessageText() => Message.Translations.FirstOrDefault(x => x.Language == Language)?.Value ?? Message.Text;
 }

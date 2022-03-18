@@ -607,6 +607,14 @@
           "hostUserId": {
             "type": "string",
             "nullable": true
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Language"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -685,7 +693,7 @@
       "Language": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "type": "string",
             "nullable": true
           },
@@ -730,10 +738,6 @@
               }
             ]
           },
-          "sourceTypeId": {
-            "type": "string",
-            "nullable": true
-          },
           "timestamp": {
             "type": "string",
             "format": "date-time",
@@ -746,6 +750,14 @@
           },
           "audioId": {
             "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Translation"
+            },
             "nullable": true,
             "readOnly": true
           }
@@ -776,6 +788,10 @@
           "message": {
             "type": "string",
             "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -792,6 +808,33 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "Translation": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ]
+          },
+          "value": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "User": {
         "type": "object",

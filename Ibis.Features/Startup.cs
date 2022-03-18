@@ -20,7 +20,8 @@ namespace Ibis.Features
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration);
 
-            services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
+                .AddScoped<IbisEngine>();
             services.AddSignalR();
             services.AddRazorPages();
         }

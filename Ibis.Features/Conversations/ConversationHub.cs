@@ -10,9 +10,9 @@ public class ConversationHub : Hub
         await Clients.Group(conversationId).SendAsync("NewMessage", message);
     }
 
-    public async Task AddToConversation(string conversationId, string languageId)
+    public async Task AddToConversation(string conversationId, string language)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, conversationId);
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"{conversationId}|{languageId}");
+        //await Groups.AddToGroupAsync(Context.ConnectionId, $"{conversationId}|{language}");
     }
 }
