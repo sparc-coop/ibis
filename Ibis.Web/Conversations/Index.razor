@@ -6,6 +6,7 @@
     {
         <MessageCard Message=message Language=@Language />
     }
+    <div>Language: @Language</div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="buttons">
@@ -43,17 +44,19 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var user = await Api.UpdateUserAsync();
+
         if (string.IsNullOrWhiteSpace(Language))
-            Language = "en-US";
+            Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
 
         if (string.IsNullOrWhiteSpace(Id))
         {
-            Conversation = await PublicApi().StartConversationAsync();
+            Conversation = await Api.StartConversationAsync();
             Nav.NavigateTo($"/conversations/{Conversation.Id}", true);
         }
         else 
         {
-            var conversation = await PublicApi().GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
+            var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
             Conversation = conversation.Conversation;
             Messages = conversation.Messages.ToList();
         }
@@ -67,7 +70,7 @@
             AddMessage(message);
         });
         await Connection.StartAsync();
-        await Connection.SendAsync("AddToConversation", Conversation.Id, Language);
+        await Connection.SendAsync("AddToConversation", Conversation.Id, user.Id, Language);
     }
 
     void AddMessage(Message message)
@@ -106,7 +109,7 @@
 
     async Task SendText()
     {
-        var newMessage = await PublicApi().SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
         AddMessage(newMessage);
         Text = null;
     }

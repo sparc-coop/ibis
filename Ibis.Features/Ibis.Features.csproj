@@ -16,8 +16,10 @@
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
     <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.5" />
     <PackageReference Include="Sparc.Features" Version="6.1.2" />
+    <PackageReference Include="Sparc.Notifications.Twilio" Version="6.1.0" />
     <PackageReference Include="Sparc.Storage.Azure" Version="6.0.0" />
-    <PackageReference Include="Stripe.net" Version="39.97.0" />
+    <PackageReference Include="Stripe.net" Version="39.98.0" />
+    <PackageReference Include="Twilio.AspNet.Core" Version="5.71.0" />
   </ItemGroup>
 
 </Project>

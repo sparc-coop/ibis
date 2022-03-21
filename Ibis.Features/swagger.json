@@ -543,25 +543,6 @@
         "tags": [
           "UpdateUser"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -589,6 +570,46 @@
   },
   "components": {
     "schemas": {
+      "ActiveConversation": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "connectionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActiveUser": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Conversation": {
         "type": "object",
         "properties": {
@@ -612,6 +633,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Language"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "activeUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveUser"
             },
             "nullable": true,
             "readOnly": true
@@ -679,11 +713,19 @@
       "GetUserResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "fullName": {
             "type": "string",
             "nullable": true
           },
           "emial": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
             "type": "string",
             "nullable": true
           }
@@ -853,6 +895,10 @@
             "type": "string",
             "nullable": true
           },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "firstName": {
             "type": "string",
             "nullable": true
@@ -886,6 +932,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Language"
+            },
+            "nullable": true
+          },
+          "activeConversations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveConversation"
             },
             "nullable": true
           }

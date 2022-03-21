@@ -20,7 +20,7 @@ public class Project : Root<string>
         string status = null) : base(userId)
     {
         Id = Guid.NewGuid().ToString();
-        UserID = userId;
+        UserId = userId;
         Type = type;
         Name = name;
         Url = url;
@@ -34,7 +34,7 @@ public class Project : Root<string>
 
     [JsonProperty("id")]
     public override string Id { get; set; }
-    public string UserID { get; set; }
+    public string UserId { get; set; }
     public User User { get; set; }
     public string Name { get; set; }
     public string Type { get; set; }

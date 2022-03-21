@@ -26,7 +26,7 @@ namespace Ibis.Features
                 project = await Projects.FindAsync(id: request.projectId);
             }
 
-            return new(project.Id, project.Name, project.Url, project.UserID);
+            return new(project.Id, project.Name, project.Url, project.UserId);
         }
     }
 }
