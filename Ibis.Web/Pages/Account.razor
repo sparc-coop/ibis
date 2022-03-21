@@ -1,13 +1,12 @@
 ﻿@page "/account"
 @layout DashLayout
-@attribute [Authorize]
+@*@attribute [Authorize]*@
 
 <div class="account container">
-	<h3>User Settings</h3>
 	<div class="account--left">
 		<h3>Edit profile information</h3>
 		<input placeholder="@Name"/>
-		<input placeholder=""/>
+		<input placeholder="@Email"/>
 		<button @onclick="UpdateUser">Save</button>
 	</div>
 
@@ -19,15 +18,17 @@
 		  </div>
 		  <button id="submit">Submit</button>
 		  <div id="error-message">
-			<!-- Display error message to your customers here -->
+			Oops! Unsuccessful.
 		  </div>
 		</form>
 	</div>
 </div>
 
+@inject IJSRuntime JS
 @code {
 	//private GetUserResponse User { get; set; }
 	public string Name = "Full Name";
+	private string Email = "Email";
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -37,8 +38,15 @@
 		{
 
 		}
+
 		//User = await PublicApi().GetUserAsync(ProjectId);
 	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		var secret = await PublicApi().GetClientSecretAsync();
+		await JS.InvokeAsync<string>("setPayment", secret);
+    }
 
 	private async void UpdateUser()
 	{

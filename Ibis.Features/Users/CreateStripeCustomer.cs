@@ -4,19 +4,34 @@ using Stripe;
 
 namespace Ibis.Features.Users
 {
-    public class CreateStripeCustomer : Feature<User, bool>
+    public class CreateStripeCustomer : Feature<bool>//Feature<User, bool>
     {
-        public IConfiguration? Configuration;
+        public IConfiguration Configuration;
 
-        public override async Task<bool> ExecuteAsync(User request)
+        public CreateStripeCustomer(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public override async Task<bool> ExecuteAsync()//User request)
         {
             try
             {
-                StripeConfiguration.ApiKey = Configuration["Strip:ApiKey"];
+                StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
 
-                var options = new CustomerCreateOptions { };
+                //var options = new CustomerCreateOptions { };
+                var options = new CustomerCreateOptions { 
+                    Name = "New Customer",
+                    Email = "email@email.com"
+                };
                 var service = new CustomerService();
                 var customer = service.Create(options);
+
+                FutureBilling(customer.Id);
+                
+                //request.CustomerId = customer.Id;   
+                //save user request
+
                 return true;
             } catch (Exception ex)
             {
@@ -27,7 +42,7 @@ namespace Ibis.Features.Users
 
         private void FutureBilling(string customerId)
         {
-            StripeConfiguration.ApiKey = Configuration["Strip:ApiKey"];
+            StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
             var options = new SetupIntentCreateOptions
             {
                 Customer = customerId,

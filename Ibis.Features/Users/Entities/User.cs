@@ -31,6 +31,7 @@ public class User : Root<string>
     public string? DisplayName { get; set; }
     [JsonIgnore]
     public string FullName => $"{FirstName} {LastName}";
+    public string CustomerId { get; set; }
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
 }

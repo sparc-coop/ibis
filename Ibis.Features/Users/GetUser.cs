@@ -3,7 +3,7 @@ using Sparc.Features;
 
 namespace Ibis.Features.Users
 {
-    public record GetUserResponse(string FullName, string Emial);
+    public record GetUserResponse(string FullName, string Email);
     public class GetUser : Feature<string, GetUserResponse>
     {
         public IRepository<User> Users { get; }

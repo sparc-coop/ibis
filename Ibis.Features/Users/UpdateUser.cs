@@ -3,11 +3,24 @@ using Sparc.Features;
 
 namespace Ibis.Features.Users
 {
-    public class UpdateUser : Feature<string, GetUserResponse>
+    public class UpdateUser : Feature<string, bool>
     {
-        public override Task<GetUserResponse> ExecuteAsync(string request)
+        public IRepository<User> Users { get; }
+        public UpdateUser(IRepository<User> users)
         {
-            throw new NotImplementedException();
+            Users = users;
+        }
+        public override async Task<bool> ExecuteAsync(string request)
+        {
+            try
+            {
+
+                return true;
+            } 
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
