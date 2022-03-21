@@ -1,8 +1,10 @@
 ﻿using Ibis.Features._Plugins;
 using Ibis.Features.Conversations;
+using Ibis.Features.Users;
 using Sparc.Authentication.AzureADB2C;
 using Sparc.Core;
 using Sparc.Features;
+using Sparc.Notifications.Twilio;
 using Sparc.Plugins.Database.Cosmos;
 using Sparc.Storage.Azure;
 
@@ -20,10 +22,12 @@ namespace Ibis.Features
             services.Sparcify<Startup>(Configuration["WebClientUrl"])
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration)
-                .AddAzureStorage(Configuration.GetConnectionString("Storage"));
+                .AddAzureStorage(Configuration.GetConnectionString("Storage"))
+                .AddTwilio(Configuration);
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
-                .AddScoped<IbisEngine>();
+                .AddScoped<IbisEngine>()
+                .AddScoped<SendMessage>();
             services.AddSignalR();
             services.AddRazorPages();
         }
@@ -32,7 +36,10 @@ namespace Ibis.Features
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Sparcify<Startup>(env);
-            app.UseEndpoints(endpoints => endpoints.MapHub<ConversationHub>("/conversations"));
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapHub<ConversationHub>("/conversations");
+                });
             app.UseDeveloperExceptionPage();
         }
     }

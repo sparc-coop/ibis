@@ -38,7 +38,7 @@ public class Message : Root<string>
 
     public bool HasTranslation(string language)
     {
-        return Translations.Any(x => x.Language == language);
+        return Translations.Any(x => x.Language.StartsWith(language));
     }
     public void AddTranslation(string language, string result, double? score = 0)
     {
@@ -51,5 +51,12 @@ public class Message : Root<string>
             Translations.Add(translation);
         else
             Translations[existing] = translation;
+    }
+
+    internal string GetTranslation(string language)
+    {
+        return !HasTranslation(language) 
+            ? string.Empty 
+            : Translations.First(x => x.Language.StartsWith(language)).Text;
     }
 }

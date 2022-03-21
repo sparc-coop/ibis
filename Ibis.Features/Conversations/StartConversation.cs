@@ -4,7 +4,7 @@ using Sparc.Features;
 
 namespace Ibis.Features.Conversations
 {
-    public class StartConversation : PublicFeature<Conversation>
+    public class StartConversation : Feature<Conversation>
     {
         public StartConversation(IRepository<Conversation> conversations)
         {
@@ -15,7 +15,7 @@ namespace Ibis.Features.Conversations
 
         public async override Task<Conversation> ExecuteAsync()
         {
-            var conversation = new Conversation("Test Conversation", "userId");
+            var conversation = new Conversation("Test Conversation", User.Id());
             await Conversations.AddAsync(conversation);
             return conversation;
         }

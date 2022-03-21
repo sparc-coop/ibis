@@ -15,7 +15,7 @@ namespace Ibis.Features
 
         public override async Task<List<GetProjectResponse>> ExecuteAsync(string userId)
         {
-            List<Project> projectList = await Projects.Query.Where(x => x.UserID == userId).ToListAsync();
+            List<Project> projectList = await Projects.Query.Where(x => x.UserId == userId).ToListAsync();
             if (projectList == null)
                 throw new NotFoundException($"No projects found!");
 

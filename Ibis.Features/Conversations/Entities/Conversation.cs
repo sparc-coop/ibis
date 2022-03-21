@@ -9,6 +9,8 @@ public class Conversation : Root<string>
     public string Name { get; set; }
     public string HostUserId { get; set; }
     public List<Language> Languages { get; private set; }
+    public DateTime StartDate { get; private set; }
+    public List<ActiveUser> ActiveUsers { get; internal set; }
 
     private Conversation() 
     { 
@@ -17,6 +19,8 @@ public class Conversation : Root<string>
         Name = "New Conversation";
         HostUserId = "";
         Languages = new();
+        StartDate = DateTime.UtcNow;
+        ActiveUsers = new();
     }
 
     public Conversation(string name, string hostUserId) : this()
@@ -32,4 +36,17 @@ public class Conversation : Root<string>
 
         Languages.Add(new(language));
     }
+
+    public void AddUser(string userId, string language, string? phoneNumber = null)
+    {
+        if (!ActiveUsers.Any(x => x.UserId == userId))
+            ActiveUsers.Add(new(userId, DateTime.UtcNow, language, phoneNumber));
+    }
+
+    public void RemoveUser(string userId)
+    {
+        ActiveUsers.RemoveAll(x => x.UserId == userId);
+    }
 }
+
+public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? PhoneNumber);
