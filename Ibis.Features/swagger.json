@@ -449,66 +449,6 @@
         }
       }
     },
-    "/api/RecordSpeechFromMic": {
-      "post": {
-        "tags": [
-          "RecordSpeechFromMic"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Speech"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Speech"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Speech"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/StartConversation": {
       "post": {
         "tags": [
@@ -531,6 +471,66 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TranscribeSpeech": {
+      "post": {
+        "tags": [
+          "TranscribeSpeech"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -823,16 +823,6 @@
         },
         "additionalProperties": false
       },
-      "RecordSpeechFromMicRequeset": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "SourceTypes": {
         "enum": [
           0,
@@ -846,18 +836,14 @@
         "type": "integer",
         "format": "int32"
       },
-      "Speech": {
+      "TranscribeSpeechRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "conversationId": {
             "type": "string",
             "nullable": true
           },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "text": {
+          "language": {
             "type": "string",
             "nullable": true
           },
@@ -867,11 +853,6 @@
                 "$ref": "#/components/schemas/SourceTypes"
               }
             ]
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
           }
         },
         "additionalProperties": false

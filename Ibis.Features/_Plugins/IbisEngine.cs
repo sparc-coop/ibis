@@ -14,7 +14,7 @@ namespace Ibis.Features._Plugins
         HttpClient Translator { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
-        public IRepository<Speech> Speech { get; }
+        public IRepository<Message> Message { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -84,7 +84,7 @@ namespace Ibis.Features._Plugins
                     message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
         }
 
-        internal async Task<Speech> RecognizeFromMic(string name)
+        internal async Task<Message> TranscribeSpeechFromMic(Message message)
         {
             var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
             using var audioConfig = AudioConfig.FromDefaultMicrophoneInput();
@@ -97,18 +97,18 @@ namespace Ibis.Features._Plugins
                     var result = await recognizer.RecognizeOnceAsync();
                     Console.WriteLine($"RECOGNIZED: Text={result.Text}");
 
-                    var speech = new Speech();
-                    speech.Text = result.Text;
-                    speech.SourceType = SourceTypes.Microphone;
-                    return speech;
+                    message.SetText(result.Text);
+                    return message;
                 }
             }
             catch (Exception ex)
             {
                 var testing = ex.Message;
             }
-            return new Speech();
+            return message;
         }
+
+        // internal async Task<Message> TranscribeSpechFromUpload()
 
         private async Task<T> Post<T>(string url, object model)
         {

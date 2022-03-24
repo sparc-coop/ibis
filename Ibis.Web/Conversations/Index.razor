@@ -100,7 +100,8 @@
 
     async Task Speak()
     {
-        await Api.RecordSpeechFromMicAsync(new RecordSpeechFromMicRequeset { Name = "test name" });
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language, SourceType = SourceTypes._4 });
+        AddMessage(newMessage);
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)
