@@ -449,10 +449,10 @@
         }
       }
     },
-    "/api/SendMessage": {
+    "/api/RecordSpeechFromMic": {
       "post": {
         "tags": [
-          "SendMessage"
+          "RecordSpeechFromMic"
         ],
         "requestBody": {
           "content": {
@@ -460,7 +460,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
                   }
                 ]
               }
@@ -469,7 +469,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
                   }
                 ]
               }
@@ -478,7 +478,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/RecordSpeechFromMicRequeset"
                   }
                 ]
               }
@@ -491,17 +491,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/Speech"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/Speech"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "$ref": "#/components/schemas/Speech"
                 }
               }
             }
@@ -823,18 +823,10 @@
         },
         "additionalProperties": false
       },
-      "SendMessageRequest": {
+      "RecordSpeechFromMicRequeset": {
         "type": "object",
         "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
+          "name": {
             "type": "string",
             "nullable": true
           }
@@ -853,6 +845,36 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "Speech": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
       },
       "Translation": {
         "type": "object",

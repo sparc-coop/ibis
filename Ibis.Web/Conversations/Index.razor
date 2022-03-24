@@ -29,7 +29,8 @@
     </div>
 </section>
 
-@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Ibis.Features;
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -96,9 +97,10 @@
     {
 
     }
+
     async Task Speak()
     {
-
+        await Api.RecordSpeechFromMicAsync(new RecordSpeechFromMicRequeset { Name = "test name" });
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)
