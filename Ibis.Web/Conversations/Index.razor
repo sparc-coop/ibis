@@ -1,17 +1,27 @@
 ﻿@page "/conversations/new"
 @page "/conversations/{Id}"
+@layout DashLayout
+@attribute [Authorize]
 
 <section class="conversation">
-    @foreach (var message in Messages)
-    {
-        <MessageCard Message=message Language=@Language />
-    }
-    <div>Language: @Language</div>
+    <div class="messages">
+        @foreach (var message in Messages)
+        {
+            <MessageCard Message=message Language=@Language />
+        }
+    </div>
+    <h3>Language: @Language</h3>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
-        <div class="buttons">
+        <div class="options">
             <button @onclick="Upload">
                 <i class="material-icons">cloud_upload</i>
+            </button>
+            <button @onclick="DownloadText">
+                <i class="material-icons">file_download</i>
+            </button>
+            <button @onclick="DownloadAudio">
+                <i class="material-icons">audio_file</i>
             </button>
             <button @onclick="Call">
                 <i class="material-icons">call</i>
@@ -22,14 +32,19 @@
             <button @onclick="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
+        </div>
+        <div class="buttons">
             <button @onclick="SendText" class="active">
                 <i class="material-icons">send</i>
             </button>
         </div>
     </div>
+
 </section>
 
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Text
+@inject IJSRuntime JS
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -112,5 +127,33 @@
         var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
         AddMessage(newMessage);
         Text = null;
+    }
+
+    async Task DownloadText()
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach(var message in Messages)
+        {
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " +  message.Text);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = Conversation?.Name + ".txt" ?? "transcript.txt";
+        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    async Task DownloadAudio()
+    {
+        var fileURL = Messages.First().AudioId;
+        var fileName = "audiofile.wav";
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
     }
 }

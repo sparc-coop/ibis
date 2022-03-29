@@ -2,11 +2,13 @@
   "profiles": {
     "Ibis.Features": {
       "commandName": "Project",
-      "launchBrowser": false,
+      //"dotnetRunMessages": true,
+      "launchBrowser": true,//was false
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7117;http://localhost:50581"
+      "applicationUrl": "https://localhost:7117"
     }
   }
 }

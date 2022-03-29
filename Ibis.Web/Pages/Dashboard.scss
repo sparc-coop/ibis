@@ -51,22 +51,8 @@
         font-weight: bold;
     }
 
-    .project-img {
-        height: 65px;
-    }
-
-    .project-card {
-        border: 2px solid #e7e8e9;
+    .conversation-card {
         cursor: pointer;
-    }
-
-    .project-date {
-        font-size: 12px !important;
-    }
-
-    .project-status {
-        display: flex;
-        align-items: center;
-        width: 70%;
+        padding: 10px 0;
     }
 }

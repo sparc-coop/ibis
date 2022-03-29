@@ -10,11 +10,11 @@ namespace Ibis.Features.Conversations
     public record SendMessageRequest(string ConversationId, string Message, string Language);
     public class SendMessage : Feature<SendMessageRequest, Message>
     {
-        public SendMessage(IRepository<Message> messages, 
-            IRepository<Conversation> conversations, 
+        public SendMessage(IRepository<Message> messages,
+            IRepository<Conversation> conversations,
             IRepository<User> users,
-            IHubContext<ConversationHub> conversation, 
-            IbisEngine ibisEngine, 
+            IHubContext<ConversationHub> conversation,
+            IbisEngine ibisEngine,
             TwilioService twilio)
         {
             Messages = messages;
@@ -35,7 +35,7 @@ namespace Ibis.Features.Conversations
         public override async Task<Message> ExecuteAsync(SendMessageRequest request)
         {
             var user = await Users.FindAsync(User.Id());
-            
+
             var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text);
             message.SetText(request.Message);
 
@@ -47,11 +47,11 @@ namespace Ibis.Features.Conversations
             await Messages.AddAsync(message);
 
             await Conversation.Clients.Group($"{request.ConversationId}").SendAsync("NewMessage", message);
-            
+
             var usersToSms = conversation.ActiveUsers.Where(x => x.PhoneNumber != null && message.HasTranslation(x.Language)).ToList();
             foreach (var userToSms in usersToSms)
                 await Twilio.SendSmsAsync(userToSms.PhoneNumber!, message.GetTranslation(userToSms.Language));
-    
+
             return message;
         }
     }
