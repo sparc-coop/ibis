@@ -140,20 +140,34 @@
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
         Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = Conversation?.Name + ".txt" ?? "transcript.txt";
-        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
-        {
-            fileName = fileName.Replace(c, '_');
-        }
-
+        var fileName = GetFileName(Conversation?.Name);
+        Console.WriteLine("test1" + fileName);
         using var streamRef = new DotNetStreamReference(stream: fileStream);
         await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 
     async Task DownloadAudio()
     {
-        var fileURL = Messages.First().AudioId;
-        var fileName = "audiofile.wav";
-        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+        List<string> mergeFiles = new List<string>();
+        foreach(var message in Messages)
+        {
+            mergeFiles.Add(message.AudioId);
+        }
+
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en-US" });
+        Console.WriteLine(filePath);
+        var fileName = GetFileName(Conversation?.Name);
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
+    }
+
+    string GetFileName(string name)
+    {
+        var fileName = name;// != null ? name + ".txt" : "transcript.txt";
+        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        return fileName;
     }
 }

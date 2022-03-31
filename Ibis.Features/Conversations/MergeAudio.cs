@@ -3,30 +3,46 @@ using Ibis.Features._Plugins;
 using Ibis.Features.Conversations.Entities;
 using Sparc.Core;
 using Sparc.Features;
-using System.Net;
+using Newtonsoft.Json;
+using Sparc.Storage.Azure;
+using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features.Conversations
 {
-    public class MergeAudio : PublicFeature<string>
+    public record MergeAudioRequest(IEnumerable<string> Files, string ConversationId, string Language);
+    public class MergeAudio : PublicFeature<MergeAudioRequest, string>
     {
-
-        public static async Task Combine(string outputFile, IEnumerable<string> inputFiles)//, Stream output)
+        public MergeAudio(IbisEngine ibisEngine, IRepository<Conversation> conversations, IRepository<File> files)
         {
-            //var path = Environment.GetFolderPath(Environment.SpecialFolder.);    
-            //"C:\\Users\\Margaret Landefeld\\Source\\Sparc\\ibis\\Ibis.Features\\mergedFile.wav";
+            IbisEngine = ibisEngine;
+            Conversations = conversations;
+            Files = files;
+        }
+        public IbisEngine IbisEngine { get; }
+        public IRepository<Conversation> Conversations { get; }
+        public IRepository<File> Files { get; }
 
+        public async override Task<string> ExecuteAsync(MergeAudioRequest request)
+        {
+            string outputFile = "audio_output.wav";
+            string result = await Combine(outputFile, request);
+            string conversationUrl = await UpdateConversation(request.ConversationId, "en-US");// request.Language);
+            return JsonConvert.SerializeObject(conversationUrl);
+        }
+
+        public static async Task<string> Combine(string outputFile, MergeAudioRequest request)
+        {
             byte[] buffer = new byte[1024];
             WaveFileWriter? waveFileWriter = null;
 
-            foreach (string sourceFile in inputFiles)
+            foreach (string sourceFile in request.Files)
             {
-                //var newsourceFile = new FileStream("https://ibistranscriber.blob.core.windows.net/speak/3a503f13-2a84-445b-b6ba-e2b06ebdf86c/9433c4c9-5cd4-450f-a98b-d18c763d9fd4/en-US.wav", FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
                 HttpClient client = new();
                 var response = await client.GetAsync(sourceFile);
+
                 Stream stream = await response.Content.ReadAsStreamAsync();
-       
                 FileInfo? fileInfo = new FileInfo("audio.wav");
-                var fileStream = fileInfo.OpenWrite(); 
+                var fileStream = fileInfo.OpenWrite();
                 await stream.CopyToAsync(fileStream);
                 fileStream.Close();
 
@@ -48,27 +64,31 @@ namespace Ibis.Features.Conversations
                     int read;
                     while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        waveFileWriter.WriteData(buffer, 0, read);
+                        waveFileWriter.Write(buffer, 0, read);
                     }
                 }
             }
 
             waveFileWriter.Dispose();
+
+            return outputFile;
         }
 
-        public MergeAudio()
+        async Task<string> UpdateConversation(string conversationId, string language)
         {
+            Conversation conversation = await Conversations.FindAsync(conversationId);
+            string url = "";
 
-        }
+            using (var fileStream = new FileStream("audio_output.wav", FileMode.Open))
+            {
+                Sparc.Storage.Azure.File file = new("speak", $"{conversationId}/conversation/{language}.wav", AccessTypes.Public, fileStream);
+                await Files.AddAsync(file);
+                conversation.SetAudio(file.Url!);
+                await Conversations.UpdateAsync(conversation);
+                url = file.Url!;
+            }
 
-        public override async Task<string> ExecuteAsync()
-        {
-            string outputFile = "testing123.wav";
-                ////"C:\\Users\\Margaret Landefeld\\Source\\Sparc\\ibis\\Ibis.Features\\en-US.wav";// 
-            string file1 = "https://ibistranscriber.blob.core.windows.net/speak/3a503f13-2a84-445b-b6ba-e2b06ebdf86c/9433c4c9-5cd4-450f-a98b-d18c763d9fd4/en-US.wav";
-            string file2 = "https://ibistranscriber.blob.core.windows.net/speak/3a503f13-2a84-445b-b6ba-e2b06ebdf86c/c0c549e5-d66b-4429-9372-7830256d7e4a/en-US.wav";
-            await Combine(outputFile, new string[] { file1, file2 });
-            return "test";
+            return url;
         }
     }
 }

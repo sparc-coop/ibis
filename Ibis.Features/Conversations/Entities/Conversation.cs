@@ -11,7 +11,8 @@ public class Conversation : Root<string>
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
-    //public string? AudioId { get; set; }
+    public List<Translation> Translations { get; private set; }
+    public string? AudioId { get; set; }
 
     private Conversation() 
     { 
@@ -49,7 +50,7 @@ public class Conversation : Root<string>
         ActiveUsers.RemoveAll(x => x.UserId == userId);
     }
 
-    //public void SetAudio(string audioId) => AudioId = audioId;
+    public void SetAudio(string audioId) => AudioId = audioId;
 }
 
 public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? PhoneNumber);
