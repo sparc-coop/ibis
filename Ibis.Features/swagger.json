@@ -449,6 +449,66 @@
         }
       }
     },
+    "/api/SendMessage": {
+      "post": {
+        "tags": [
+          "SendMessage"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SendMessageRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SendMessageRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SendMessageRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/StartConversation": {
       "post": {
         "tags": [
@@ -823,6 +883,24 @@
         },
         "additionalProperties": false
       },
+      "SendMessageRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SourceTypes": {
         "enum": [
           0,
@@ -853,6 +931,11 @@
                 "$ref": "#/components/schemas/SourceTypes"
               }
             ]
+          },
+          "audio": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
           }
         },
         "additionalProperties": false

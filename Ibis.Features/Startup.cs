@@ -22,12 +22,12 @@ namespace Ibis.Features
             services.Sparcify<Startup>(Configuration["WebClientUrl"])
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration)
-                .AddAzureStorage(Configuration.GetConnectionString("Storage"));
-            //.AddTwilio(Configuration);
+                .AddAzureStorage(Configuration.GetConnectionString("Storage"))
+            .AddTwilio(Configuration);
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
-                .AddScoped<IbisEngine>();
-                //.AddScoped<SendMessage>();
+                .AddScoped<IbisEngine>()
+                .AddScoped<SendMessage>();
             services.AddSignalR();
             services.AddRazorPages();
         }
