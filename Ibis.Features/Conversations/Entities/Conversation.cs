@@ -10,6 +10,7 @@ public class Conversation : Root<string>
     public string HostUserId { get; set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
+    public DateTime? LastActiveDate { get; set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
     public List<Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
@@ -22,6 +23,7 @@ public class Conversation : Root<string>
         HostUserId = "";
         Languages = new();
         StartDate = DateTime.UtcNow;
+        LastActiveDate = DateTime.UtcNow;
         ActiveUsers = new();
     }
 

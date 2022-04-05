@@ -64,3 +64,8 @@ function triggerFileDownload(fileName, url) {
     anchorElement.click();
     anchorElement.remove();
 }
+
+//Play message audio
+function playAudio(id) {
+    document.getElementById("play-" + id).play();
+}

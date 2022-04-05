@@ -759,6 +759,11 @@
             "format": "date-time",
             "readOnly": true
           },
+          "lastActiveDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "activeUsers": {
             "type": "array",
             "items": {
@@ -955,6 +960,14 @@
           },
           "isNew": {
             "type": "boolean"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userInitials": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1062,6 +1075,11 @@
             "nullable": true
           },
           "fullName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "initials": {
             "type": "string",
             "nullable": true,
             "readOnly": true

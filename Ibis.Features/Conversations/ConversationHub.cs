@@ -52,4 +52,9 @@ public class ConversationHub : Hub
 
         return conversationId;
     }
+
+    public async Task UpdateConversation(Conversation conversation)
+    {
+        await Conversations.UpdateAsync(conversation);
+    }
 }

@@ -1,15 +1,52 @@
-﻿.conversation {
+﻿@import "../_variables.scss";
+
+.conversation {
     margin: 0 auto;
     width: 100%;
-    max-width: 1140px;
+    max-width: 1000px;
     padding: 20px;
 
     .messages {
-        padding-bottom: 30px;
+        padding: 10px;
+        background: $white;
+        border-radius: 10px;
+        border: 1px solid $light-gray;
+        margin: 30px;
     }
 
-    h3 {
+    &-language {
         padding: 0 32px;
+    }
+
+    h4 {
+        padding: 20px 32px 10px;
+        font-weight: 500;
+        font-size: 18px;
+        color: $primary;
+        height: 76px;
+        position: relative;
+
+        i {
+            color: $primary;
+            cursor: pointer;
+            padding: 0 10px;
+            position: absolute;
+            left: -12px;
+            font-size: 18px;
+        }
+
+        button {
+            color: $primary;
+            cursor: pointer;
+            border: 1px solid $gray;
+            padding: 11px 16px;
+        }
+
+        input {
+            border: 1px solid $gray;
+            padding: 11px 16px;
+            padding-right: 150px;
+        }
     }
 
     .input {

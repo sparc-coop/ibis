@@ -45,6 +45,8 @@ public class User : Root<string>
     public string? DisplayName { get; set; }
     [JsonIgnore]
     public string FullName => $"{FirstName} {LastName}";
+    [JsonIgnore]
+    public string Initials => $"{FirstName?[0]}{LastName?[0]}";
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
 

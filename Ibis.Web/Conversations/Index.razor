@@ -4,13 +4,32 @@
 @attribute [Authorize]
 
 <section class="conversation">
-    <div class="messages">
-        @foreach (var message in Messages)
-        {
-            <MessageCard Message=message Language=@Language />
-        }
-    </div>
-    <h3>Language: @Language</h3>
+    <a href="/dashboard">All conversations</a>
+    @if(Conversation != null)
+    {
+        <h4>
+            @if(ToggleEdit == false)
+            {
+                @Conversation.Name
+                <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
+            } else
+            {
+
+                <input @bind="Conversation.Name">
+                <button class="save" @onclick="@(() => UpdateName())">Save</button>
+            }
+        </h4>   
+    }
+    @if(Messages.Count > 0)
+    {
+         <div class="messages">
+            @foreach (var message in Messages)
+            {
+                <MessageCard Message=message Language=@Language />
+            }
+        </div>   
+    }
+    <div class="conversation-language">Language: @Language</div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
@@ -56,6 +75,7 @@
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
+    bool ToggleEdit = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -169,5 +189,11 @@
         }
 
         return fileName;
+    }
+
+    async void UpdateName()
+    {
+        ToggleEdit = false;
+        await Connection.SendAsync("UpdateConversation", Conversation);
     }
 }
