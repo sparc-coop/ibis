@@ -626,6 +626,66 @@
           }
         }
       }
+    },
+    "/api/UploadFile": {
+      "post": {
+        "tags": [
+          "UploadFile"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadFileRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadFileRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadFileRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -709,6 +769,94 @@
             },
             "nullable": true,
             "readOnly": true
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Translation"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "audioId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ],
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileStream": {
+        "type": "object",
+        "properties": {
+          "canTimeout": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "readTimeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "writeTimeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "handle": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntPtr"
+              }
+            ],
+            "deprecated": true
+          },
+          "canRead": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "canWrite": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "safeFileHandle": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SafeFileHandle"
+              }
+            ],
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "isAsync": {
+            "type": "boolean"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "position": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "canSeek": {
+            "type": "boolean",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -790,6 +938,10 @@
             "nullable": true
           }
         },
+        "additionalProperties": false
+      },
+      "IntPtr": {
+        "type": "object",
         "additionalProperties": false
       },
       "Language": {
@@ -883,6 +1035,24 @@
         },
         "additionalProperties": false
       },
+      "SafeFileHandle": {
+        "type": "object",
+        "properties": {
+          "isClosed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "isInvalid": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "isAsync": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SendMessageRequest": {
         "type": "object",
         "properties": {
@@ -931,11 +1101,6 @@
                 "$ref": "#/components/schemas/SourceTypes"
               }
             ]
-          },
-          "audio": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -962,6 +1127,28 @@
             "format": "double",
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UploadFileRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileStream": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FileStream"
+              }
+            ],
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -1,30 +1,33 @@
-﻿@page "/conversations/new"
-@page "/conversations/{Id}"
+﻿@page "/uploads"
 
-<section class="conversation">
-    @foreach (var message in Messages)
+<section class="uploads">
+    @if (Language != null)
     {
-        <MessageCard Message=message Language=@Language />
+        <div>Language: @Language</div>
     }
-    <div>Language: @Language</div>
-    <div class="input">
-        <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
-        <div class="buttons">
-@*            <button @onclick="Upload">
-                <i class="material-icons">cloud_upload</i>
-            </button>
-*@            <button @onclick="Call">
-                <i class="material-icons">call</i>
-            </button>
-            <button @onclick="Sms">
-                <i class="material-icons">sms</i>
-            </button>
-            <button @onclick="Speak">
-                <i class="material-icons">keyboard_voice</i>
-            </button>
-            <button @onclick="SendText" class="active">
-                <i class="material-icons">send</i>
-            </button>
+    <div class="list">
+        <h2>Your WAV Files:</h2>
+        @if (Conversations != null)
+        {
+            @foreach (Conversation upload in Conversations.Where(x => x.SourceType == SourceTypes._3))
+            {
+                <div class="cards">
+                    <div class="card">
+                        <img src="/images/audio-file.png">
+                        <h4>Title.type</h4>
+                    </div>
+                </div>
+            }
+        } else 
+        {
+            <p>You haven't uploaded any files yet.</p>
+            <p>Upload your first WAV file below!</p>
+        }
+        <div>
+            <a class="add" href="/uploads/new">
+            <i class="material-icons">add</i>
+            Add file
+            </a>
         </div>
     </div>
 </section>
@@ -37,8 +40,10 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
     string? Text;
+    string? AudioName;
     Conversation? Conversation;
     List<Message> Messages = new();
+    ICollection<Conversation> Conversations;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -53,7 +58,7 @@
         if (string.IsNullOrWhiteSpace(Id))
         {
             Conversation = await Api.StartConversationAsync();
-            Nav.NavigateTo($"/conversations/{Conversation.Id}", true);
+            Nav.NavigateTo($"/uploads/{Conversation.Id}", true);
         }
         else 
         {
@@ -83,37 +88,5 @@
             Messages.Add(message);
 
         StateHasChanged();
-    }
-
-    async Task Upload()
-    {
-        // link or direct upload
-    }
-    async Task Call()
-    {
-
-    }
-    async Task Sms()
-    {
-
-    }
-
-    async Task Speak()
-    {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language, SourceType = SourceTypes._4 });
-        AddMessage(newMessage);
-    }
-
-    async Task MaybeSendText(KeyboardEventArgs args)
-    {
-        if (args.Code == "Enter")
-            await SendText();
-    }
-
-    async Task SendText()
-    {
-        //var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
-        //AddMessage(newMessage);
-        //Text = null;
     }
 }

@@ -15,6 +15,7 @@ namespace Ibis.Features._Plugins
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
         public IRepository<Message> Message { get; }
+        public IRepository<Conversation> Conversations { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -108,7 +109,20 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        // internal async Task<Message> TranscribeSpechFromUpload()
+        internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
+        {
+            string url = "";
+
+            Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
+            await Files.AddAsync(file);
+            conversation.SetAudio(file.Url!);
+            await Conversations.UpdateAsync(conversation);
+            url = file.Url!;
+
+            return url;
+        }
+
+        //internal async Task<Message> TranscribeSpechFromUpload()
 
         private async Task<T> Post<T>(string url, object model)
         {
