@@ -175,7 +175,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
                   }
                 ]
               }
@@ -184,7 +184,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
                   }
                 ]
               }
@@ -193,7 +193,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
                   }
                 ]
               }
@@ -206,17 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -683,28 +683,61 @@
           }
         }
       }
+    },
+    "/api/UploadFile": {
+      "post": {
+        "tags": [
+          "UploadFile"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "byte"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string",
+                "format": "byte"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string",
+                "format": "byte"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ActiveConversation": {
-        "type": "object",
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "connectionId": {
-            "type": "string",
-            "nullable": true
-          },
-          "joinDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
       "ActiveUser": {
         "type": "object",
         "properties": {
@@ -787,6 +820,24 @@
         },
         "additionalProperties": false
       },
+      "CreateStripeCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetConversationRequest": {
         "type": "object",
         "properties": {
@@ -855,7 +906,7 @@
             "type": "string",
             "nullable": true
           },
-          "emial": {
+          "email": {
             "type": "string",
             "nullable": true
           },
@@ -1039,76 +1090,6 @@
             "format": "double",
             "nullable": true,
             "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "fullName": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "initials": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateModified": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "primaryLanguageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "languagesSpoken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Language"
-            },
-            "nullable": true
-          },
-          "activeConversations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActiveConversation"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

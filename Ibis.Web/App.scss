@@ -26,6 +26,10 @@ body {
     position: relative;
 }
 
+button {
+    color: $primary;
+}
+
 #app {
 
     .loader {
