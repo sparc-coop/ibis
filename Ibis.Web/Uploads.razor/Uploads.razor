@@ -1,0 +1,49 @@
+﻿@page "/uploads"
+
+<section class="uploads">
+    @if (Language != null)
+    {
+        <div>Language: @Language</div>
+    }
+    <div class="list">
+        <h2>Your WAV Files:</h2>
+        @if (Conversations != null)
+        {
+            @foreach (Conversation upload in Conversations.Where(x => x.SourceType == SourceTypes._3))
+            {
+                <div class="cards">
+                    <div class="card">
+                        <img src="/images/audio-file.png">
+                        <h4>Title.type</h4>
+                    </div>
+                </div>
+            }
+        } else 
+        {
+            <p>You haven't uploaded any files yet.</p>
+            <p>Upload your first WAV file below!</p>
+        }
+        <div>
+            <button onclick="@NewUpload">
+            <i class="material-icons">add</i>
+            Add file
+            </button>
+        </div>
+    </div>
+</section>
+
+@using Ibis.Features;
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+    Conversation? Conversation;
+    ICollection<Conversation> Conversations;
+
+    async Task NewUpload()
+    {
+        Conversation = await Api.StartConversationAsync();
+        Nav.NavigateTo($"/uploads/{Conversation.Id}", true);
+    }
+}

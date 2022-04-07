@@ -14,6 +14,8 @@ namespace Ibis.Features._Plugins
         HttpClient Translator { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
+        public IRepository<Message> Message { get; }
+        public IRepository<Conversation> Conversations { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -82,6 +84,45 @@ namespace Ibis.Features._Plugins
                 foreach (Translation t in o.Translations)
                     message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
         }
+
+        internal async Task<Message> TranscribeSpeechFromMic(Message message)
+        {
+            var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            using var audioConfig = AudioConfig.FromDefaultMicrophoneInput();
+            try
+            {
+                using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
+                {
+                    //Asks user for mic input and prints transcription result on screen
+                    Console.WriteLine("Speak into your microphone.");
+                    var result = await recognizer.RecognizeOnceAsync();
+                    Console.WriteLine($"RECOGNIZED: Text={result.Text}");
+
+                    message.SetText(result.Text);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                var testing = ex.Message;
+            }
+            return message;
+        }
+
+        //internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
+        //{
+        //    string url = "";
+
+        //    Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
+        //    await Files.AddAsync(file);
+        //    conversation.SetAudio(file.Url!);
+        //    await Conversations.UpdateAsync(conversation);
+        //    url = file.Url!;
+
+        //    return url;
+        //}
+
+        //internal async Task<Message> TranscribeSpechFromUpload()
 
         private async Task<T> Post<T>(string url, object model)
         {

@@ -29,7 +29,7 @@ public class ReceiveSms : TwilioController
 
         var conversationId = user?.ActiveConversations
             .OrderByDescending(x => x.JoinDate)
-            .FirstOrDefault()?.ConversationId;        
+            .FirstOrDefault()?.ConversationId;
 
         if (user != null && conversationId != null)
         {

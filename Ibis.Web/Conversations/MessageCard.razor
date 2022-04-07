@@ -8,17 +8,17 @@
             <div class="avatar">@(Message.UserInitials != null ? Message.UserInitials : "")</div>
         </div>
 @*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
-            @Message.Timestamp.ToString("f")
+        @Message.Timestamp.ToString("f")
         </time>*@
     </div>
     <div class="message-content">
-        @MessageText
-        @if (Message.IsNew && MessageAudio != null)
-        {
-            <audio autoplay>
-                <source src="@MessageAudio" />
-            </audio>
-        }
+    @MessageText
+    @if (Message.IsNew && MessageAudio != null)
+    {
+        <audio autoplay>
+            <source src="@MessageAudio" />
+        </audio>
+    }
 
         @if(MessageAudio != null)
         {

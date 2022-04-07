@@ -23,10 +23,10 @@
     @if(Messages.Count > 0)
     {
          <div class="messages">
-            @foreach (var message in Messages)
-            {
-                <MessageCard Message=message Language=@Language />
-            }
+    @foreach (var message in Messages)
+    {
+        <MessageCard Message=message Language=@Language />
+    }
         </div>   
     }
     <div class="conversation-language">Language: @Language</div>
@@ -64,6 +64,8 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text
 @inject IJSRuntime JS
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Ibis.Features;
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -131,9 +133,11 @@
     {
 
     }
+
     async Task Speak()
     {
-
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language, SourceType = SourceTypes._4 });
+        AddMessage(newMessage);
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)

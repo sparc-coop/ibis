@@ -18,13 +18,14 @@ namespace Ibis.Features.Users
         }
 
         public override async Task<string> ExecuteAsync(CreateStripeCustomerRequest request)
-        {
+            {
+                StripeConfiguration.ApiKey = Configuration["Strip:ApiKey"];
 
             StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
 
             User user = await Users.FindAsync(request.userId);
             string intent = "";
-            var service = new CustomerService();
+                var service = new CustomerService();
 
             if (string.IsNullOrEmpty(user.CustomerId))
 			{
@@ -40,9 +41,9 @@ namespace Ibis.Features.Users
                 user.CustomerId = customer.Id;
                 await Users.UpdateAsync(user);
             } else
-			{
+            {
                 intent = "current-customer";
-			}
+            }
 
             return JsonConvert.SerializeObject(intent);
         }
