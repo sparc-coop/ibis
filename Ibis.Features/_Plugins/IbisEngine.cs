@@ -108,20 +108,34 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<Message> UploadFile(Message message, byte[] bytes, string fileName)
+        internal async Task<Message> UploadFileAndTranscribe(Message message, byte[] bytes, string fileName)
         {
             Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
             await Files.AddAsync(file);
             message.SetAudio(file.Url!);
-            await Messages.UpdateAsync(message);
+            message.SetOriginalUploadFileName(fileName);
+
+            var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            var audioConfig = IbisHelpers.OpenWavFile(bytes);
+
+            try
+            {
+                using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
+                {
+                    Console.WriteLine("Transcribing wav file...");
+                    var result = await recognizer.RecognizeOnceAsync();
+                    Console.WriteLine($"RECOGNIZED: Text={result.Text}");
+
+                    message.SetText(result.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                var testing = ex.Message;
+            }
 
             return message;
         }
-
-        //internal async Task<Message> TranscribeSpechFromUpload(Message message)
-        //{
-            
-        //}
 
         private async Task<T> Post<T>(string url, object model)
         {

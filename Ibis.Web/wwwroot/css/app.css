@@ -361,6 +361,32 @@ main {
       cursor: pointer;
       color: red; }
 
+.conversation .upload {
+    position: relative;
+    margin: 20px;
+    }
+    .conversation .upload {
+        border: 1px solid gray;
+        width: 35%;
+        padding: 16px;
+        padding-right: 150px;
+    }
+    .conversation .upload .buttons {
+    }
+    .conversation .upload .buttons i {
+    color: gray;
+    }
+    .conversation .upload .buttons label {
+    cursor: default;
+    }
+    .conversation .upload .buttons input {
+    cursor: pointer;
+    }
+    .conversation .upload .buttons button:hover i, .conversation .upload .buttons button.active i {
+    cursor: pointer;
+    color: red;
+    }
+
 body {
   overflow-x: hidden;
   font-family: sans-serif; }
