@@ -26,7 +26,7 @@ namespace Ibis.Features.Conversations
         public async override Task<Conversation> ExecuteAsync(UploadFileRequest request)
         {
             var conversation = await Conversations.FindAsync(request.ConversationId);
-            File file = new("speak", $"{request.ConversationId}", AccessTypes.Public, new MemoryStream(request.Bytes));
+            File file = new("speak", $"{request.ConversationId}/test.wav", AccessTypes.Public, new MemoryStream(request.Bytes));
             await Files.AddAsync(file);
             conversation.SetAudio(file.Url!);
             await Conversations.UpdateAsync(conversation);
