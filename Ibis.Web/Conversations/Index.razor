@@ -27,6 +27,14 @@
             </button>
         </div>
     </div>
+    <div class="upload">
+        <label for="UploadFileInput">Upload a wav file!</label><br/>
+        <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange" />
+        <br/>
+        <button value="upload" type="submit" @onclick="@UploadFile" style="color:black;">
+            <i class="material-icons">cloud_upload</i> Upload
+        </button>
+    </div>
 </section>
 
 @using Microsoft.AspNetCore.SignalR.Client;
@@ -39,6 +47,9 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
+    InputFileChangeEventArgs e;
+    MemoryStream ms;
+    string? fileName;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -85,10 +96,24 @@
         StateHasChanged();
     }
 
-    async Task Upload()
+    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    {
+        ms = new MemoryStream();
+        fileName = e.File.Name;
+        await e.File.OpenReadStream().CopyToAsync(ms);
+    }
+
+    async Task UploadFile()
+    {
+        var bytes = ms.ToArray();
+        var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
+    }
+
+    void Upload()
     {
         // link or direct upload
     }
+
     async Task Call()
     {
 

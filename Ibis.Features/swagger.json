@@ -669,17 +669,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Message"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Message"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -779,18 +779,6 @@
             "readOnly": true
           },
           "audioId": {
-            "type": "string",
-            "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ],
-            "nullable": true
-          },
-          "fileName": {
             "type": "string",
             "nullable": true
           }
@@ -939,6 +927,10 @@
             "nullable": true,
             "readOnly": true
           },
+          "originalUploadFileName": {
+            "type": "string",
+            "nullable": true
+          },
           "translations": {
             "type": "array",
             "items": {
@@ -1059,6 +1051,10 @@
           "bytes": {
             "type": "string",
             "format": "byte",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
             "nullable": true
           }
         },

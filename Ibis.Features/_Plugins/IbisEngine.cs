@@ -14,8 +14,7 @@ namespace Ibis.Features._Plugins
         HttpClient Translator { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
-        public IRepository<Message> Message { get; }
-        public IRepository<Conversation> Conversations { get; }
+        public IRepository<Message> Messages { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -41,7 +40,7 @@ namespace Ibis.Features._Plugins
 
             File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
             await Files.AddAsync(file);
-            
+
             message.SetAudio(file.Url!);
 
             await Parallel.ForEachAsync(message.Translations, async (translation, token) =>
@@ -68,7 +67,7 @@ namespace Ibis.Features._Plugins
         internal async Task TranslateAsync(Message message, List<Language> languages)
         {
             var otherLanguages = languages.Where(x => x.Name != message.Language).Select(x => x.Name).ToArray();
-            if (otherLanguages.Any())   
+            if (otherLanguages.Any())
                 await TranslateAsync(message, otherLanguages);
         }
 
@@ -109,20 +108,20 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        //internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
+        internal async Task<Message> UploadFile(Message message, byte[] bytes, string fileName)
+        {
+            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
+            await Files.AddAsync(file);
+            message.SetAudio(file.Url!);
+            await Messages.UpdateAsync(message);
+
+            return message;
+        }
+
+        //internal async Task<Message> TranscribeSpechFromUpload(Message message)
         //{
-        //    string url = "";
-
-        //    Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
-        //    await Files.AddAsync(file);
-        //    conversation.SetAudio(file.Url!);
-        //    await Conversations.UpdateAsync(conversation);
-        //    url = file.Url!;
-
-        //    return url;
+            
         //}
-
-        //internal async Task<Message> TranscribeSpechFromUpload()
 
         private async Task<T> Post<T>(string url, object model)
         {
