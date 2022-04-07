@@ -109,18 +109,18 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
-        {
-            string url = "";
+        //internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
+        //{
+        //    string url = "";
 
-            Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
-            await Files.AddAsync(file);
-            conversation.SetAudio(file.Url!);
-            await Conversations.UpdateAsync(conversation);
-            url = file.Url!;
+        //    Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
+        //    await Files.AddAsync(file);
+        //    conversation.SetAudio(file.Url!);
+        //    await Conversations.UpdateAsync(conversation);
+        //    url = file.Url!;
 
-            return url;
-        }
+        //    return url;
+        //}
 
         //internal async Task<Message> TranscribeSpechFromUpload()
 

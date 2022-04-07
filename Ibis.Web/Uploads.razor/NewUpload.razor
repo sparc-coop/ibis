@@ -1,4 +1,5 @@
 ﻿@page "/uploads/new"
+@page "/uploads/{Id}"
 
 <section class="upload">
     @if (Language != null)
@@ -6,53 +7,32 @@
         <div>Language: @Language</div>
     }
     <div class="input">
-        <InputFile accept="audio/wav" name="WavFile" />
-        <button value="upload" type="submit" @onclick="@StartNewUpload" style="color:black;">
+        <InputFile accept="audio/wav" name="WavFile" OnChange="@OnInputFileChange" />
+        <button value="upload" type="submit" @onclick="@UploadFile" style="color:black;">
             Upload
         </button>
     </div>
 </section>
 
-@using Microsoft.AspNetCore.SignalR.Client;
 @using Ibis.Features;
-@using System.IO;
 
 @code{
     [Parameter] public string? Id { get; set; }
     [Parameter]
     [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
-    string? Text;
-    string? AudioName;
     Conversation? Conversation;
-    List<Message> Messages = new();
     InputFileChangeEventArgs e;
+    MemoryStream ms;
 
-    HubConnection Connection { get; set; }
-    bool IsConnected => Connection?.State == HubConnectionState.Connected;
-
-    async Task UploadFile(InputFileChangeEventArgs e)
+    async Task OnInputFileChange (InputFileChangeEventArgs e)
     {
-        System.IO.FileStream fileStream = new(e.File.Name, FileMode.Create); //should first argumnent be full path?
-        await e.File.OpenReadStream().CopyToAsync(fileStream);
-        var result = await Api.UploadFileAsync(new UploadFileRequest{ ConversationId = Conversation.Id, Language = Language, FileStream = fileStream });
+        ms = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(ms);
     }
 
-    async Task StartNewUpload()
+    async Task UploadFile()
     {
-        var user = await Api.UpdateUserAsync();
-
-        if (string.IsNullOrWhiteSpace(Language))
-            Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
-
-        Conversation = await Api.StartConversationAsync();
-        Nav.NavigateTo($"/uploads/{Conversation.Id}", true);
-
-        Connection = new HubConnectionBuilder()
-            .WithUrl(Config["ApiUrl"] + "/conversations")
-            .Build();
-
-        await Connection.StartAsync();
-        await Connection.SendAsync("AddToConversation", Conversation.Id, user.Id, Language);
-        await UploadFile(e);
+        var bytes = ms.ToArray();
+        var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes });
     }
 }

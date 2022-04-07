@@ -24,69 +24,26 @@
             <p>Upload your first WAV file below!</p>
         }
         <div>
-            <a class="add" href="/uploads/new">
+            <button onclick="@NewUpload">
             <i class="material-icons">add</i>
             Add file
-            </a>
+            </button>
         </div>
     </div>
 </section>
 
-@using Microsoft.AspNetCore.SignalR.Client;
 @using Ibis.Features;
 
 @code {
     [Parameter] public string? Id { get; set; }
     [Parameter]
     [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
-    string? Text;
-    string? AudioName;
     Conversation? Conversation;
-    List<Message> Messages = new();
     ICollection<Conversation> Conversations;
 
-    HubConnection Connection { get; set; }
-    bool IsConnected => Connection?.State == HubConnectionState.Connected;
-
-    protected override async Task OnInitializedAsync()
+    async Task NewUpload()
     {
-        var user = await Api.UpdateUserAsync();
-
-        if (string.IsNullOrWhiteSpace(Language))
-            Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
-
-        if (string.IsNullOrWhiteSpace(Id))
-        {
-            Conversation = await Api.StartConversationAsync();
-            Nav.NavigateTo($"/uploads/{Conversation.Id}", true);
-        }
-        else 
-        {
-            var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
-            Conversation = conversation.Conversation;
-            Messages = conversation.Messages.ToList();
-        }
-
-        Connection = new HubConnectionBuilder()
-            .WithUrl(Config["ApiUrl"] + "/conversations")
-            .Build();
-
-        Connection.On<Message>("NewMessage", message => {
-            message.IsNew = true;
-            AddMessage(message);
-        });
-        await Connection.StartAsync();
-        await Connection.SendAsync("AddToConversation", Conversation.Id, user.Id, Language);
-    }
-
-    void AddMessage(Message message)
-    {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id);
-        if (existingId > -1)
-            Messages[existingId] = message;
-        else
-            Messages.Add(message);
-
-        StateHasChanged();
+        Conversation = await Api.StartConversationAsync();
+        Nav.NavigateTo($"/uploads/{Conversation.Id}", true);
     }
 }

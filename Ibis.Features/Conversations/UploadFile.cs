@@ -7,7 +7,7 @@ using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features.Conversations
 {
-    public record UploadFileRequest(string ConversationId, string Language, System.IO.FileStream FileStream);
+    public record UploadFileRequest(string ConversationId, string Language, byte[] Bytes);
 
     public class UploadFile : PublicFeature<UploadFileRequest, Conversation>
     {
@@ -25,9 +25,13 @@ namespace Ibis.Features.Conversations
 
         public async override Task<Conversation> ExecuteAsync(UploadFileRequest request)
         {
-            var user = await Users.FindAsync(User.Id());
             var conversation = await Conversations.FindAsync(request.ConversationId);
-            await IbisEngine.UploadFile(conversation, request.Language, request.FileStream);
+            File file = new("speak", $"{request.ConversationId}", AccessTypes.Public, new MemoryStream(request.Bytes));
+            await Files.AddAsync(file);
+            conversation.SetAudio(file.Url!);
+            await Conversations.UpdateAsync(conversation);
+            string url = file.Url!;
+
             return conversation;
         }
     }

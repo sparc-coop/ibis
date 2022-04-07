@@ -797,70 +797,6 @@
         },
         "additionalProperties": false
       },
-      "FileStream": {
-        "type": "object",
-        "properties": {
-          "canTimeout": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "readTimeout": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "writeTimeout": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "handle": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/IntPtr"
-              }
-            ],
-            "deprecated": true
-          },
-          "canRead": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canWrite": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "safeFileHandle": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SafeFileHandle"
-              }
-            ],
-            "nullable": true,
-            "readOnly": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "isAsync": {
-            "type": "boolean"
-          },
-          "length": {
-            "type": "integer",
-            "format": "int64",
-            "readOnly": true
-          },
-          "position": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "canSeek": {
-            "type": "boolean",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
       "GetConversationRequest": {
         "type": "object",
         "properties": {
@@ -938,10 +874,6 @@
             "nullable": true
           }
         },
-        "additionalProperties": false
-      },
-      "IntPtr": {
-        "type": "object",
         "additionalProperties": false
       },
       "Language": {
@@ -1035,24 +967,6 @@
         },
         "additionalProperties": false
       },
-      "SafeFileHandle": {
-        "type": "object",
-        "properties": {
-          "isClosed": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isInvalid": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isAsync": {
-            "type": "boolean",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
       "SendMessageRequest": {
         "type": "object",
         "properties": {
@@ -1142,12 +1056,9 @@
             "type": "string",
             "nullable": true
           },
-          "fileStream": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/FileStream"
-              }
-            ],
+          "bytes": {
+            "type": "string",
+            "format": "byte",
             "nullable": true
           }
         },
