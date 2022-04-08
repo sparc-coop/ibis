@@ -1,19 +1,48 @@
 ﻿@page "/conversations/new"
 @page "/conversations/{Id}"
+@layout DashLayout
+@attribute [Authorize]
 
 <section class="conversation">
+    <a href="/dashboard">All conversations</a>
+    @if(Conversation != null)
+    {
+        <h4>
+            @if(ToggleEdit == false)
+            {
+                @Conversation.Name
+                <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
+            } else
+            {
+
+                <input @bind="Conversation.Name">
+                <button class="save" @onclick="@(() => UpdateName())">Save</button>
+            }
+        </h4>   
+    }
+    @if(Messages.Count > 0)
+    {
+         <div class="messages">
     @foreach (var message in Messages)
     {
         <MessageCard Message=message Language=@Language />
     }
-    <div>Language: @Language</div>
+        </div>   
+    }
+    <div class="conversation-language">Language: @Language</div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
-        <div class="buttons">
-@*            <button @onclick="Upload" aria-label="Upload">
-                <i class="material-icons">cloud_upload</i>
+        <div class="options">
+@*            <button @onclick="Upload">
+               <i class="material-icons">cloud_upload</i>
+            </button>*@
+            <button @onclick="DownloadText" aria-label="Download Text">
+                <i class="material-icons">file_download</i>
             </button>
-*@            <button @onclick="Call" aria-label="Call">
+            <button @onclick="DownloadAudio" aria-label="Download Audio">
+                <i class="material-icons">audio_file</i>
+            </button>
+            <button @onclick="Call" aria-label="Call">
                 <i class="material-icons">call</i>
             </button>
             <button @onclick="Sms" aria-label="Sms">
@@ -22,6 +51,8 @@
             <button @onclick="Speak" aria-label="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
+        </div>
+        <div class="buttons">
             <button @onclick="SendText" aria-label="Send" class="active">
                 <i class="material-icons">send</i>
             </button>
@@ -39,6 +70,9 @@
     </div>
 </section>
 
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Text
+@inject IJSRuntime JS
 @using Microsoft.AspNetCore.SignalR.Client;
 @using Ibis.Features;
 
@@ -55,6 +89,7 @@
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
+    bool ToggleEdit = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -141,8 +176,56 @@
 
     async Task SendText()
     {
-        //var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
-        //AddMessage(newMessage);
-        //Text = null;
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
+        AddMessage(newMessage);
+        Text = null;
+    }
+
+    async Task DownloadText()
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach(var message in Messages)
+        {
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " +  message.Text);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = GetFileName(Conversation?.Name);
+        Console.WriteLine("test1" + fileName);
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    async Task DownloadAudio()
+    {
+        List<string> mergeFiles = new List<string>();
+        foreach(var message in Messages)
+        {
+            mergeFiles.Add(message.AudioId);
+        }
+
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en-US" });
+        Console.WriteLine(filePath);
+        var fileName = GetFileName(Conversation?.Name);
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
+    }
+
+    string GetFileName(string name)
+    {
+        var fileName = name;// != null ? name + ".txt" : "transcript.txt";
+        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        return fileName;
+    }
+
+    async void UpdateName()
+    {
+        ToggleEdit = false;
+        await Connection.SendAsync("UpdateConversation", Conversation);
     }
 }

@@ -14,6 +14,8 @@ public class Message : Root<string>
     public string? OriginalUploadFileName { get; set; }
     public List<Translation> Translations { get; private set; }
     public bool IsNew { get; set; }
+    public string UserName { get; set; }
+    public string UserInitials { get; set; }
 
     protected Message()
     {
@@ -23,15 +25,19 @@ public class Message : Root<string>
         Language = "";
         SourceType = SourceTypes.Text;
         Translations = new();
+        UserName = "";
+        UserInitials = "";
     }
 
-    public Message(string conversationId, string fromUserId, string language, SourceTypes sourceType) : this()
+    public Message(string conversationId, string fromUserId, string language, SourceTypes sourceType, string userName, string initials) : this()
     {
         ConversationId = conversationId;
         UserId = fromUserId;
         Language = language;
         SourceType = sourceType;
         Timestamp = DateTime.UtcNow;
+        UserName = userName;
+        UserInitials = initials;
     }
 
     public void SetText(string text) => Text = text;

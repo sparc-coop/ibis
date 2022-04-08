@@ -36,16 +36,19 @@ namespace Ibis.Features.Conversations
         {
             var user = await Users.FindAsync(User.Id());
 
-            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text);
+            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user.FullName, user.Initials);
+            message.UserName = user.FullName;
             message.SetText(request.Message);
 
             // Translate message to all other languages
             var conversation = await Conversations.FindAsync(request.ConversationId);
+            conversation.LastActiveDate = DateTime.UtcNow;
             await IbisEngine.TranslateAsync(message, conversation!.Languages);
             await IbisEngine.SpeakAsync(message);
 
             await Messages.AddAsync(message);
 
+            await Conversations.UpdateAsync(conversation);
             await Conversation.Clients.Group($"{request.ConversationId}").SendAsync("NewMessage", message);
 
             var usersToSms = conversation.ActiveUsers.Where(x => x.PhoneNumber != null && message.HasTranslation(x.Language)).ToList();

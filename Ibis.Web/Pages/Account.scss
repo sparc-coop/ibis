@@ -2,4 +2,32 @@
 
 .account {
     padding: 100px 20px;
+
+    h3 {
+        color: $primary;
+        font-size: 20px;
+        padding-bottom: 30px;
+    }
+
+    button {
+        color: $primary;
+        border: 1px solid $primary;
+        padding: 8px 16px;
+    }
+
+    &--left {
+        width: 50%;
+        padding: 0 40px;
+
+        input {
+            margin-bottom: 20px;
+            display: block;
+        }
+    }
+
+    input {
+        padding: 12px 20px;
+        background: $white;
+        border: 1px solid $light-gray;
+    }
 }

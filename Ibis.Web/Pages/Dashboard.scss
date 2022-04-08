@@ -7,7 +7,7 @@
 
     .actions {
         display: flex;
-        padding: 15px 100px;
+        padding: 25px 100px;
         border-bottom: 1px solid $light-gray;
 
         .searchbar {
@@ -36,6 +36,7 @@
             i {
                 padding: 7px;
                 font-size: 28px;
+                margin-top: -2px;
             }
         }
     }
@@ -49,24 +50,28 @@
         color: $primary;
         font-size: 20px;
         font-weight: bold;
+        padding-bottom: 12px;
     }
 
-    .project-img {
-        height: 65px;
-    }
-
-    .project-card {
-        border: 2px solid #e7e8e9;
+    .conversation-card {
         cursor: pointer;
+        border: 1px solid $light-gray;
+        background: $white;
+        border-radius: 10px;
+        padding: 12px 20px;
+        margin: 15px 0;
+        position: relative;
+
+        span {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            color: $gray;
+            font-size: 14px;
+        }
     }
 
-    .project-date {
-        font-size: 12px !important;
-    }
-
-    .project-status {
-        display: flex;
-        align-items: center;
-        width: 70%;
+    .conversations {
+        padding: 30px 100px;
     }
 }

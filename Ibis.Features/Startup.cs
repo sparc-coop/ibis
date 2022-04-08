@@ -23,7 +23,7 @@ namespace Ibis.Features
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration)
                 .AddAzureStorage(Configuration.GetConnectionString("Storage"))
-            .AddTwilio(Configuration);
+                .AddTwilio(Configuration);
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
                 .AddScoped<IbisEngine>()

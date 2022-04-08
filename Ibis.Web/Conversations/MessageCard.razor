@@ -1,7 +1,17 @@
-﻿<article>
-    <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
+﻿<article class="message-card">
+    <div class="message-info">
+        <div class="user">
+            <h3>
+                @(Message.UserName != null ? Message.UserName : "")
+                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
+            </h3>
+            <div class="avatar">@(Message.UserInitials != null ? Message.UserInitials : "")</div>
+        </div>
+@*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
         @Message.Timestamp.ToString("f")
-    </time>
+        </time>*@
+    </div>
+    <div class="message-content">
     @MessageText
     @if (Message.IsNew && MessageAudio != null)
     {
@@ -9,7 +19,17 @@
             <source src="@MessageAudio" />
         </audio>
     }
+
+        @if(MessageAudio != null)
+        {
+
+            <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
+            <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+        }
+    </div>
 </article>
+
+@inject IJSRuntime JS
 
 @code {
     [Parameter] public Message Message { get; set; }
@@ -23,5 +43,10 @@
         MessageText = translation?.Text ?? Message.Text;
         MessageAudio = translation?.AudioId ?? Message.AudioId;
 
+    }
+
+    async Task PlayAudio(string id)
+    {
+        await JS.InvokeVoidAsync("playAudio", id);
     }
 }

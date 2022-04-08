@@ -5,14 +5,19 @@
 <div class="account container">
 	<h3>User Settings</h3>
 	<div class="account--left">
+		@if(User != null)
+		{
 		<h3>Edit profile information</h3>
-		<input placeholder="@Name"/>
-		<input placeholder=""/>
+			<input placeholder="@(User.FullName ?? Name)"/>
+@*			<input placeholder="@(User.Email ?? Email)"/>*@
 		<button @onclick="UpdateUser">Save</button>
+		}
 	</div>
 
 	<div>
-		<h3>Save credit card for billing</h3>
+		@if(userPayment == true)
+		{
+			<h3>Save credit card for future billing</h3>
 		<form id="payment-form">
 		  <div id="payment-element">
 			<!-- Elements will create form elements here -->
@@ -22,12 +27,21 @@
 			<!-- Display error message to your customers here -->
 		  </div>
 		</form>
+		} 
+@*
+		@if(userPayment == false) {
+			<button class="edit-payment">Update Saved Payment Information</button>
+		}*@
 	</div>
 </div>
 
+@inject IJSRuntime JS
+
 @code {
-	//private GetUserResponse User { get; set; }
+	private GetUserResponse User;
 	public string Name = "Full Name";
+	private string Email = "Email";
+	bool userPayment = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -35,13 +49,22 @@
 		var user = authState.User;
 		if(user.Identity.IsAuthenticated)
 		{
+			User = await Api.UpdateUserAsync();
+		}
+	}
 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
+		if (clientSecret != "current-customer") {
+			userPayment = true;
+			await JS.InvokeAsync<string>("setPayment", clientSecret);
 		}
 		//User = await PublicApi().GetUserAsync(ProjectId);
 	}
 
 	private async void UpdateUser()
 	{
-		//await PublicApi().
+		await Api.UpdateUserAsync();
 	}
 }

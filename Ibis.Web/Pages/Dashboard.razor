@@ -1,24 +1,49 @@
 ﻿@page "/dashboard"
 @layout DashLayout
-@*@attribute [Authorize]*@
+@attribute [Authorize]
 
 <div class="dashboard">
 	 <div class="actions">
         <div class="searchbar">
             <input placeholder="Search"/>
         </div>
-        <a class="add" href="/project">
+        <a class="add" href="/conversations/new">
             <i class="material-icons">add</i>
             New
         </a>
     </div>
-    <div class="container">
-        <h3>Your Files</h3>
-@*        <component type="typeof(IbisTranscriber.NETCore.Pages.Projects.ProjectList)" param-InitialValue="0" param-UserId="User.Id()" render-mode="Server" />*@
-        <ProjectsList />
+    <div class="conversations">
+        <h3>Conversations</h3>
+        @if(Conversations != null)
+        {
+            <div>
+                @foreach(var conversation in Conversations.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
+                {
+                    <div class="conversation-card" @onclick="@(e => GoToConversation(conversation.Id))">
+                        <h4>@conversation.Name</h4>
+                        <span>
+                            @(conversation.LastActiveDate != null 
+                                ? conversation.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
+                                : conversation.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
+                        </span>
+                    </div>
+                }
+            </div>   
+        }
     </div>
 </div>
 
 @code {
+    ICollection<Conversation>? Conversations;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await Api.UpdateUserAsync();
+        Conversations = await Api.GetUserConversationsAsync(user.Id);
+    }
+
+    void GoToConversation(string Id)
+    {
+        Nav.NavigateTo($"/conversations/{Id}", true);    
+    }
 }

@@ -1,40 +1,66 @@
-﻿using Sparc.Core;
+﻿using Newtonsoft.Json;
+using Sparc.Core;
 using Sparc.Features;
 using Stripe;
 
 namespace Ibis.Features.Users
 {
-    public class CreateStripeCustomer : Feature<User, bool>
+    public record CreateStripeCustomerRequest(string userId);
+    public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
     {
         public IConfiguration? Configuration;
+        public IRepository<User> Users { get; }
 
-        public override async Task<bool> ExecuteAsync(User request)
+        public CreateStripeCustomer(IConfiguration configuration, IRepository<User> users)
         {
-            try
+            Configuration = configuration;
+            Users = users;
+        }
+
+        public override async Task<string> ExecuteAsync(CreateStripeCustomerRequest request)
             {
                 StripeConfiguration.ApiKey = Configuration["Strip:ApiKey"];
 
-                var options = new CustomerCreateOptions { };
+            StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
+
+            User user = await Users.FindAsync(request.userId);
+            string intent = "";
                 var service = new CustomerService();
+
+            if (string.IsNullOrEmpty(user.CustomerId))
+			{
+                var options = new CustomerCreateOptions
+                {
+                    Name = user.FullName,
+                    Email = user.Email
+                };
+
                 var customer = service.Create(options);
-                return true;
-            } catch (Exception ex)
+                intent = await SetupIntent(customer.Id);
+
+                user.CustomerId = customer.Id;
+                await Users.UpdateAsync(user);
+            } else
             {
-                return false;
+                intent = "current-customer";
             }
+
+            return JsonConvert.SerializeObject(intent);
         }
 
 
-        private void FutureBilling(string customerId)
+        private async Task<string> SetupIntent(string customerId)
         {
-            StripeConfiguration.ApiKey = Configuration["Strip:ApiKey"];
+            StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
             var options = new SetupIntentCreateOptions
             {
                 Customer = customerId,
                 PaymentMethodTypes = new List<string> { "card" },
             };
             var service = new SetupIntentService();
-            service.Create(options);
+            var intent = await service.CreateAsync(options);
+
+            return intent.ClientSecret;
         }
     }
 }

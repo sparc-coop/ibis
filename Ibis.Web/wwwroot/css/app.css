@@ -149,7 +149,7 @@
   max-width: 1140px; }
   .dashboard .actions {
     display: flex;
-    padding: 15px 100px;
+    padding: 25px 100px;
     border-bottom: 1px solid #e6e6e6; }
     .dashboard .actions .searchbar {
       width: 100%; }
@@ -171,31 +171,56 @@
       font-size: 18px; }
       .dashboard .actions .add i {
         padding: 7px;
-        font-size: 28px; }
+        font-size: 28px;
+        margin-top: -2px; }
   .dashboard .container {
     padding: 25px 100px;
     display: block; }
   .dashboard h3 {
     color: #013b60;
     font-size: 20px;
-    font-weight: bold; }
-  .dashboard .project-img {
-    height: 65px; }
-  .dashboard .project-card {
-    border: 2px solid #e7e8e9;
-    cursor: pointer; }
-  .dashboard .project-date {
-    font-size: 12px !important; }
-  .dashboard .project-status {
-    display: flex;
-    align-items: center;
-    width: 70%; }
+    font-weight: bold;
+    padding-bottom: 12px; }
+  .dashboard .conversation-card {
+    cursor: pointer;
+    border: 1px solid #e6e6e6;
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin: 15px 0;
+    position: relative; }
+    .dashboard .conversation-card span {
+      position: absolute;
+      right: 35px;
+      top: 15px;
+      color: #858a8f;
+      font-size: 14px; }
+  .dashboard .conversations {
+    padding: 30px 100px; }
 
 .project-page {
   padding: 50px 0; }
 
 .account {
   padding: 100px 20px; }
+  .account h3 {
+    color: #013b60;
+    font-size: 20px;
+    padding-bottom: 30px; }
+  .account button {
+    color: #013b60;
+    border: 1px solid #013b60;
+    padding: 8px 16px; }
+  .account--left {
+    width: 50%;
+    padding: 0 40px; }
+    .account--left input {
+      margin-bottom: 20px;
+      display: block; }
+  .account input {
+    padding: 12px 20px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6; }
 
 .pricing-page {
   padding: 50px 0; }
@@ -210,54 +235,6 @@ main {
 
 .sidebar {
   background-image: linear-gradient(180deg, #052767 0%, #3a0647 70%); }
-
-.top-row {
-  background-color: #f7f7f7;
-  border-bottom: 1px solid #d6d5d5;
-  justify-content: flex-end;
-  height: 3.5rem;
-  display: flex;
-  align-items: center; }
-
-.top-row ::deep a, .top-row ::deep .btn-link {
-  white-space: nowrap;
-  margin-left: 1.5rem;
-  text-decoration: none; }
-
-.top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-  text-decoration: underline; }
-
-.top-row ::deep a:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis; }
-
-@media (max-width: 640.98px) {
-  .top-row:not(.auth) {
-    display: none; }
-  .top-row.auth {
-    justify-content: space-between; }
-  .top-row ::deep a, .top-row ::deep .btn-link {
-    margin-left: 0; } }
-
-@media (min-width: 641px) {
-  .page {
-    flex-direction: row; }
-  .sidebar {
-    width: 250px;
-    height: 100vh;
-    position: sticky;
-    top: 0; }
-  .top-row {
-    position: sticky;
-    top: 0;
-    z-index: 1; }
-  .top-row.auth ::deep a:first-child {
-    flex: 1;
-    text-align: right;
-    width: 0; }
-  .top-row, article {
-    padding-left: 2rem !important;
-    padding-right: 1.5rem !important; } }
 
 .dash-header {
   background: #FFFFFF;
@@ -306,7 +283,8 @@ main {
   background: #f9f1e8; }
   .footer--container {
     margin: 0 auto;
-    max-width: 1200px; }
+    max-width: 1200px;
+    padding: 0 20px; }
 
 .cards {
   display: flex;
@@ -343,23 +321,119 @@ main {
     padding: 12px 30px;
     border-radius: 4px; }
 
-.conversation .input {
-  position: relative; }
-  .conversation .input input {
-    border: 1px solid gray;
-    width: 100%;
-    padding: 16px;
-    padding-right: 150px; }
-  .conversation .input .buttons {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    margin-top: -12px; }
-    .conversation .input .buttons i {
-      color: gray; }
-    .conversation .input .buttons button:hover i, .conversation .input .buttons button.active i {
+.conversation {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding: 20px; }
+  .conversation .messages {
+    padding: 10px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    margin: 30px; }
+  .conversation-language {
+    padding: 0 32px; }
+  .conversation h4 {
+    padding: 20px 32px 10px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #013b60;
+    height: 76px;
+    position: relative; }
+    .conversation h4 i {
+      color: #013b60;
       cursor: pointer;
-      color: red; }
+      padding: 0 10px;
+      position: absolute;
+      left: -12px;
+      font-size: 18px; }
+    .conversation h4 button {
+      color: #013b60;
+      cursor: pointer;
+      border: 1px solid #858a8f;
+      padding: 11px 16px; }
+    .conversation h4 input {
+      border: 1px solid #858a8f;
+      padding: 11px 16px;
+      padding-right: 150px; }
+  .conversation .input {
+    position: relative;
+    padding: 10px 32px; }
+    .conversation .input input {
+      border: 1px solid gray;
+      width: 100%;
+      padding: 16px;
+      padding-right: 150px; }
+    .conversation .input .buttons {
+      position: absolute;
+      top: 50%;
+      right: 50px;
+      margin-top: -12px; }
+      .conversation .input .buttons i {
+        color: gray; }
+      .conversation .input .buttons button:hover i, .conversation .input .buttons button.active i {
+        cursor: pointer;
+        color: red; }
+    .conversation .input .options {
+      position: absolute;
+      top: -25px;
+      right: 50px; }
+      .conversation .input .options i {
+        color: gray;
+        padding: 0 3px; }
+        .conversation .input .options i:hover {
+          cursor: pointer;
+          color: red; }
+
+.message-card {
+  padding: 13px 20px;
+  margin: 26px 20px;
+  position: relative;
+  background-color: #e6eef2;
+  border-radius: 10px;
+  width: fit-content; }
+
+.message-info {
+  position: absolute; }
+  .message-info h3 {
+    position: absolute;
+    left: -275px;
+    width: 200px;
+    text-align: right;
+    padding: 0 20px; }
+  .message-info span {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #858a8f; }
+  .message-info .avatar {
+    background: #0d648f;
+    color: #FFFFFF;
+    font-size: 13px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 45px;
+    position: absolute;
+    left: -68px;
+    top: -10px; }
+
+.message-content i {
+  position: absolute;
+  right: -14px;
+  bottom: -10px;
+  color: #858a8f;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 2px;
+  border: 1px solid #858a8f;
+  border-radius: 40px;
+  background: #FFFFFF; }
+
+.message-audio {
+  display: none; }
 
 .conversation .upload {
     position: relative;
@@ -396,6 +470,9 @@ body {
   margin: 0 auto;
   display: flex;
   position: relative; }
+
+button {
+  color: #013b60; }
 
 #app .loader {
   border: 12px solid #f3f3f3;
