@@ -32,6 +32,9 @@
             <button @onclick="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
+             <button @onclick="DownloadSRT">
+                <i class="material-icons">file_download</i>
+            </button>
         </div>
         <div class="buttons">
             <button @onclick="SendText" class="active">
@@ -169,5 +172,35 @@
         }
 
         return fileName;
+    }
+
+    async Task DownloadSRT()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        var num = 1;
+        foreach(var message in Messages)
+        {
+            
+            //var frame = num;
+            builder.AppendLine(num.ToString());
+            num++;
+            //hours:minutes:seconds,milliseconds –> hours:minutes:seconds,milliseconds
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("hh:mm:ss,ms") + " --> " + message.Timestamp.LocalDateTime.AddSeconds(10).ToString("hh:mm:ss,ms"));
+            builder.AppendLine(message.Text);
+            builder.Append(Environment.NewLine);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = Conversation?.Name + ".srt" ?? "testcaptions.srt";
+        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 }
