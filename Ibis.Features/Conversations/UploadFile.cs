@@ -28,7 +28,7 @@ namespace Ibis.Features.Conversations
         {
             // create new message
             var user = await Users.FindAsync(User.Id());
-            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, "TestUserName", "AA");
+            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, user.FullName, user.Initials;
 
             // upload file to Azure blob storage and set message.AudioId as file url
             // transcribes wav file to text and sets message.Text
