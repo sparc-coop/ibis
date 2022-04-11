@@ -175,7 +175,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
+                    "$ref": "#/components/schemas/User"
                   }
                 ]
               }
@@ -184,7 +184,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
+                    "$ref": "#/components/schemas/User"
                   }
                 ]
               }
@@ -193,7 +193,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateStripeCustomerRequest"
+                    "$ref": "#/components/schemas/User"
                   }
                 ]
               }
@@ -206,17 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "boolean"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "boolean"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "boolean"
                 }
               }
             }
@@ -442,123 +442,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetUserResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetUserConversations": {
-      "post": {
-        "tags": [
-          "GetUserConversations"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Conversation"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Conversation"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Conversation"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MergeAudio": {
-      "post": {
-        "tags": [
-          "MergeAudio"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
                 }
               }
             }
@@ -807,6 +690,24 @@
   },
   "components": {
     "schemas": {
+      "ActiveConversation": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "connectionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "ActiveUser": {
         "type": "object",
         "properties": {
@@ -861,11 +762,6 @@
             "format": "date-time",
             "readOnly": true
           },
-          "lastActiveDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
           "activeUsers": {
             "type": "array",
             "items": {
@@ -883,16 +779,6 @@
             "readOnly": true
           },
           "audioId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateStripeCustomerRequest": {
-        "type": "object",
-        "properties": {
-          "userId": {
             "type": "string",
             "nullable": true
           }
@@ -967,7 +853,7 @@
             "type": "string",
             "nullable": true
           },
-          "email": {
+          "emial": {
             "type": "string",
             "nullable": true
           },
@@ -995,27 +881,6 @@
           },
           "isRightToLeft": {
             "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MergeAudioRequest": {
-        "type": "object",
-        "properties": {
-          "files": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1076,14 +941,6 @@
           },
           "isNew": {
             "type": "boolean"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userInitials": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1198,6 +1055,71 @@
           },
           "fileName": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "primaryLanguageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "languagesSpoken": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Language"
+            },
+            "nullable": true
+          },
+          "activeConversations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveConversation"
+            },
             "nullable": true
           }
         },
