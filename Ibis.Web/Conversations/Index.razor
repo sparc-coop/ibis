@@ -33,9 +33,9 @@
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-@*            <button @onclick="Upload">
+            <button @onclick="@Upload">
                <i class="material-icons">cloud_upload</i>
-            </button>*@
+            </button>
             <button @onclick="DownloadText" aria-label="Download Text">
                 <i class="material-icons">file_download</i>
             </button>
@@ -73,8 +73,7 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text
 @inject IJSRuntime JS
-@using Microsoft.AspNetCore.SignalR.Client;
-@using Ibis.Features;
+@using Microsoft.AspNetCore.SignalR.Client
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -83,8 +82,8 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
-    InputFileChangeEventArgs e;
-    MemoryStream ms;
+    InputFileChangeEventArgs? e;
+    MemoryStream? ms;
     string? fileName;
 
     HubConnection Connection { get; set; }
@@ -144,6 +143,9 @@
     {
         var bytes = ms.ToArray();
         var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
+        var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
+        Conversation = conversation.Conversation;
+        Messages = conversation.Messages.ToList();
         // message isn't populating to chatbox UI automatically, but shows after page refresh
         // also consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
     }
