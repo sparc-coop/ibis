@@ -73,8 +73,6 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text
 @inject IJSRuntime JS
-@using Microsoft.AspNetCore.SignalR.Client;
-@using Ibis.Features;
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -83,7 +81,6 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
-    InputFileChangeEventArgs e;
     MemoryStream ms;
     string? fileName;
 
