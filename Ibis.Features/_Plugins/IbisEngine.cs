@@ -14,8 +14,7 @@ namespace Ibis.Features._Plugins
         HttpClient Translator { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
-        public IRepository<Message> Message { get; }
-        public IRepository<Conversation> Conversations { get; }
+        public IRepository<Message> Messages { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -41,7 +40,7 @@ namespace Ibis.Features._Plugins
 
             File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
             await Files.AddAsync(file);
-            
+
             message.SetAudio(file.Url!);
 
             await Parallel.ForEachAsync(message.Translations, async (translation, token) =>
@@ -68,7 +67,7 @@ namespace Ibis.Features._Plugins
         internal async Task TranslateAsync(Message message, List<Language> languages)
         {
             var otherLanguages = languages.Where(x => x.Name != message.Language).Select(x => x.Name).ToArray();
-            if (otherLanguages.Any())   
+            if (otherLanguages.Any())
                 await TranslateAsync(message, otherLanguages);
         }
 
@@ -109,20 +108,34 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        //internal async Task<string> UploadFile(Conversation conversation, string language, FileStream fileStream)
-        //{
-        //    string url = "";
+        internal async Task<Message> UploadFileAndTranscribe(Message message, byte[] bytes, string fileName)
+        {
+            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
+            await Files.AddAsync(file);
+            message.SetAudio(file.Url!);
+            message.SetOriginalUploadFileName(fileName);
 
-        //    Sparc.Storage.Azure.File file = new("speak", $"{conversation.Id}/conversation/{language}.wav", AccessTypes.Public, fileStream);
-        //    await Files.AddAsync(file);
-        //    conversation.SetAudio(file.Url!);
-        //    await Conversations.UpdateAsync(conversation);
-        //    url = file.Url!;
+            var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            var audioConfig = IbisHelpers.OpenWavFile(bytes);
 
-        //    return url;
-        //}
+            try
+            {
+                using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
+                {
+                    Console.WriteLine("Transcribing wav file...");
+                    var result = await recognizer.RecognizeOnceAsync();
+                    Console.WriteLine($"RECOGNIZED: Text={result.Text}");
 
-        //internal async Task<Message> TranscribeSpechFromUpload()
+                    message.SetText(result.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                var testing = ex.Message;
+            }
+
+            return message;
+        }
 
         private async Task<T> Post<T>(string url, object model)
         {

@@ -22,13 +22,10 @@ namespace Ibis.Features.Conversations
         public async override Task<Message> ExecuteAsync(TranscribeSpeechRequest request)
         {
             var user = await Users.FindAsync(User.Id());
-            //if (request.SourceType == SourceTypes.Microphone)
-            //{
-                var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user.FullName, user.Initials);
-                await IbisEngine.TranscribeSpeechFromMic(message);
-                await Messages.AddAsync(message);
-                return message;
-            //}
+            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone);
+            await IbisEngine.TranscribeSpeechFromMic(message);
+            await Messages.AddAsync(message);
+            return message;
         }
     }
 }

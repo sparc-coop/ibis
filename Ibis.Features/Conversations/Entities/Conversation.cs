@@ -14,8 +14,6 @@ public class Conversation : Root<string>
     public List<ActiveUser> ActiveUsers { get; internal set; }
     public List<Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
-    public SourceTypes? SourceType { get; set; }
-    public string? FileName { get; set; }
 
     private Conversation() 
     { 
@@ -55,8 +53,6 @@ public class Conversation : Root<string>
     }
 
     public void SetAudio(string audioId) => AudioId = audioId;
-
-    public void SetSourceType(SourceTypes sourceType) => SourceType = sourceType;
 }
 
 public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? PhoneNumber);

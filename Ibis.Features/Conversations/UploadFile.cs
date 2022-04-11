@@ -7,32 +7,35 @@ using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features.Conversations
 {
-    public record UploadFileRequest(string ConversationId, string Language, byte[] Bytes);
+    public record UploadFileRequest(string ConversationId, string Language, byte[] Bytes, string FileName);
 
-    public class UploadFile : PublicFeature<UploadFileRequest, Conversation>
+    public class UploadFile : PublicFeature<UploadFileRequest, Message>
     {
         public IbisEngine IbisEngine { get; }
-        public IRepository<Conversation> Conversations { get; }
+        public IRepository<Message> Messages { get; }
         public IRepository<User> Users { get; }
         public IRepository<File> Files { get; }
 
-        public UploadFile(IbisEngine ibisEngine, IRepository<Conversation> conversations, IRepository<File> files)
+        public UploadFile(IbisEngine ibisEngine, IRepository<User> users, IRepository <Message> messages, IRepository<File> files)
         {
             IbisEngine = ibisEngine;
-            Conversations = conversations;
+            Users = users;
+            Messages = messages;
             Files = files;
         }
 
-        public async override Task<Conversation> ExecuteAsync(UploadFileRequest request)
+        public async override Task<Message> ExecuteAsync(UploadFileRequest request)
         {
-            var conversation = await Conversations.FindAsync(request.ConversationId);
-            File file = new("speak", $"{request.ConversationId}/test.wav", AccessTypes.Public, new MemoryStream(request.Bytes));
-            await Files.AddAsync(file);
-            conversation.SetAudio(file.Url!);
-            await Conversations.UpdateAsync(conversation);
-            string url = file.Url!;
+            // create new message
+            var user = await Users.FindAsync(User.Id());
+            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload);
 
-            return conversation;
+            // upload file to Azure blob storage and set message.AudioId as file url
+            // transcribes wav file to text and sets message.Text
+            message = await IbisEngine.UploadFileAndTranscribe(message, request.Bytes, request.FileName);
+            await Messages.AddAsync(message);
+
+            return message;
         }
     }
 }

@@ -33,7 +33,7 @@
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-            <button @onclick="Upload">
+            <button @onclick="Upload" aria-label="Upload">
                 <i class="material-icons">cloud_upload</i>
             </button>
             <button @onclick="DownloadText">
@@ -45,20 +45,29 @@
             <button @onclick="Call">
                 <i class="material-icons">call</i>
             </button>
-            <button @onclick="Sms">
+            <button @onclick="Sms" aria-label="Sms">
                 <i class="material-icons">sms</i>
             </button>
-            <button @onclick="Speak">
+            <button @onclick="Speak" aria-label="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
         </div>
         <div class="buttons">
-            <button @onclick="SendText" class="active">
+            <button @onclick="SendText" aria-label="Send" class="active">
                 <i class="material-icons">send</i>
             </button>
         </div>
     </div>
-
+    <div class="upload">
+        <div class="buttons">
+            <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
+            <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange" />
+            <br/>
+            <button value="upload" type="submit" aria-label="Upload" @onclick="@UploadFile">
+                <i class="material-icons">cloud_upload</i>
+            </button>
+        </div>
+    </div>
 </section>
 
 @using Microsoft.AspNetCore.SignalR.Client
@@ -74,6 +83,9 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
+    InputFileChangeEventArgs e;
+    MemoryStream ms;
+    string? fileName;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -121,10 +133,26 @@
         StateHasChanged();
     }
 
-    async Task Upload()
+    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    {
+        ms = new MemoryStream();
+        fileName = e.File.Name;
+        await e.File.OpenReadStream().CopyToAsync(ms);
+    }
+
+    async Task UploadFile()
+    {
+        var bytes = ms.ToArray();
+        var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
+        // message isn't populating to chatbox UI automatically, but shows after page refresh
+        // also consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
+    }
+
+    void Upload()
     {
         // link or direct upload
     }
+
     async Task Call()
     {
 

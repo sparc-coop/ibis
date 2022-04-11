@@ -11,6 +11,7 @@ public class Message : Root<string>
     public DateTime Timestamp { get; private set; }
     public string? Text { get; private set; }
     public string? AudioId { get; private set; }
+    public string? OriginalUploadFileName { get; set; }
     public List<Translation> Translations { get; private set; }
     public bool IsNew { get; set; }
     public string UserName { get; set; }
@@ -41,6 +42,8 @@ public class Message : Root<string>
 
     public void SetText(string text) => Text = text;
     public void SetAudio(string audioId) => AudioId = audioId;
+    public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;
+
 
     public bool HasTranslation(string language)
     {
