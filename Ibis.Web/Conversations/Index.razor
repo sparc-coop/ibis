@@ -74,6 +74,7 @@
 @using System.Text
 @inject IJSRuntime JS
 @using Microsoft.AspNetCore.SignalR.Client
+@inject IModalService Modal
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -146,13 +147,12 @@
         var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
         Conversation = conversation.Conversation;
         Messages = conversation.Messages.ToList();
-        // message isn't populating to chatbox UI automatically, but shows after page refresh
-        // also consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
+        // consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
     }
 
     void Upload()
     {
-        // link or direct upload
+        Modal.Show<Upload>("Upload");
     }
 
     async Task Call()

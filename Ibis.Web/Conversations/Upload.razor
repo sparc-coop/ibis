@@ -1,0 +1,54 @@
+﻿<section class="upload">
+    <div class="input">
+        <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
+        <InputFile accept="audio/wav" name="UploadFileInput" />
+    </div>
+    <div class="buttons__modal">
+        <button @onclick="Submit" class="btn btn-primary">Upload</button>
+        <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+    </div>
+</section>
+
+@using Microsoft.AspNetCore.Components.Forms;
+@using Ibis.Features;
+@using Blazored.Modal;
+@inject IModalService Modal;
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+    string? Text;
+    Conversation? Conversation;
+    List<Message> Messages = new();
+    InputFileChangeEventArgs? e;
+    MemoryStream? ms;
+    string? fileName;
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    //async Task OnInputFileChange (InputFileChangeEventArgs e)
+    //{
+    //    ms = new MemoryStream();
+    //    fileName = e.File.Name;
+    //    await e.File.OpenReadStream().CopyToAsync(ms);
+    //}
+
+    //async Task UploadFile()
+    //{
+    //    var bytes = ms.ToArray();
+    //    var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
+    //    // message isn't populating to chatbox UI automatically, but shows after page refresh
+    //    // also consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
+    //}
+
+    void Submit()
+    {
+        ModalInstance.CloseAsync(ModalResult.Ok(true));
+    }
+
+    void Cancel()
+    {
+        ModalInstance.CancelAsync();
+    }
+}
