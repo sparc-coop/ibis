@@ -1,0 +1,95 @@
+﻿<section class="confirmOrEditText">
+    <div class="input">
+        <i class="material-icons">edit</i>
+        <input @bind="ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />
+@*        <button class="editText" aria-label="Edit" @onclick="@(()=>ShowEditTextModal(ConversationId, Language, MessageId, Text, ModifiedText))">
+            <i class="material-icons">edit</i>
+        </button>
+        <button class="editText" aria-label="Edit" @onclick="SendText">
+            <i class="material-icons">edit</i>
+        </button>
+*@        <div class="buttons">
+            <button @onclick="SendText" aria-label="Send" class="active">
+                <i class="material-icons">send</i>
+            </button>
+        </div>
+        <div class="buttons-cancel">
+            <button @onclick="Cancel" aria-label="Cancel">Cancel</button>
+        </div>
+    </div>
+</section>
+
+@using Blazored.Modal
+@inject IModalService Modal
+
+@code {
+    [Parameter] public string? ConversationId { get; set; }
+    [Parameter] public string? Language { get; set; }
+    [Parameter] public string? MessageId { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? ModifiedText { get; set; }
+    Conversation? Conversation;
+    List<Message> Messages = new();
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    //void ShowEditTextModal(string conversationId, string language, string messageId, string text, string modifiedText)
+    //{
+    //    // declare parameters
+    //    var parameters = new ModalParameters();
+    //    parameters.Add(nameof(EditText.ConversationId), conversationId);
+    //    parameters.Add(nameof(EditText.Language), language);
+    //    parameters.Add(nameof(EditText.MessageId), messageId);
+    //    parameters.Add(nameof(EditText.Text), text);
+    //    parameters.Add(nameof(EditText.ModifiedText), modifiedText);
+    //    // open up edit modal
+    //    Modal.Show<EditText>("Edit", parameters);
+    //}
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+
+        StateHasChanged();
+    }
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    //async Task SendText()
+    //{
+    //    var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null });
+    //    AddMessage(newMessage);
+    //    await ModalInstance.CloseAsync();
+    //}
+
+    async Task SendText()
+    {
+        Message newMessage;
+        if (ModifiedText == Text)
+        {
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null });
+        } else {
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText });
+        }
+        AddMessage(newMessage);
+        await ModalInstance.CloseAsync();
+    }
+
+    async Task Cancel()
+    {
+        // delete message
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { ConversationId = ConversationId, MessageId = MessageId });
+        // delete Audio file from Azure storage
+        // close modal
+        await ModalInstance.CancelAsync();
+        // return to conversations page
+    }
+}

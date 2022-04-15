@@ -33,7 +33,7 @@
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-            <button @onclick="@Upload">
+            <button @onclick="@(() => ShowUploadModal(Id, Language))">
                <i class="material-icons">cloud_upload</i>
             </button>
             <button @onclick="DownloadText" aria-label="Download Text">
@@ -58,16 +58,6 @@
             </button>
         </div>
     </div>
-    <div class="upload">
-        <div class="buttons">
-            <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
-            <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange" />
-            <br/>
-            <button value="upload" type="submit" aria-label="Upload" @onclick="@UploadFile">
-                <i class="material-icons">cloud_upload</i>
-            </button>
-        </div>
-    </div>
 </section>
 
 @using Microsoft.AspNetCore.SignalR.Client
@@ -83,9 +73,6 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
-    InputFileChangeEventArgs? e;
-    MemoryStream? ms;
-    string? fileName;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -133,26 +120,19 @@
         StateHasChanged();
     }
 
-    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    void ShowUploadModal(string conversationId, string language)
     {
-        ms = new MemoryStream();
-        fileName = e.File.Name;
-        await e.File.OpenReadStream().CopyToAsync(ms);
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.ConversationId), conversationId);
+        parameters.Add(nameof(Upload.Language), language);
+        Modal.Show<Upload>("Upload", parameters);
     }
 
-    async Task UploadFile()
+    async Task RefreshConversation()
     {
-        var bytes = ms.ToArray();
-        var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
         var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
         Conversation = conversation.Conversation;
         Messages = conversation.Messages.ToList();
-        // consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
-    }
-
-    void Upload()
-    {
-        Modal.Show<Upload>("Upload");
     }
 
     async Task Call()
@@ -166,7 +146,7 @@
 
     async Task Speak()
     {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language, SourceType = SourceTypes._4 });
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language });
         AddMessage(newMessage);
     }
 
@@ -178,7 +158,7 @@
 
     async Task SendText()
     {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language, MessageId = null });
         AddMessage(newMessage);
         Text = null;
     }

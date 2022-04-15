@@ -12,6 +12,7 @@ public class Translation
 
     public string Language { get; private set; }
     public string Text { get; private set; }
+    public string? ModifiedText { get; private set; }
     public string? AudioId { get; private set; }
     public double? Score { get; private set; }
 

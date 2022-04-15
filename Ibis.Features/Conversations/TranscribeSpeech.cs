@@ -5,7 +5,7 @@ using Sparc.Features;
 
 namespace Ibis.Features.Conversations
 {
-    public record TranscribeSpeechRequest(string ConversationId, string Language, SourceTypes SourceType);
+    public record TranscribeSpeechRequest(string ConversationId, string Language);
     public class TranscribeSpeech : PublicFeature<TranscribeSpeechRequest, Message>
     {
         public IRepository<Message> Messages { get; }

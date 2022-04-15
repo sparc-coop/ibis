@@ -224,6 +224,66 @@
         }
       }
     },
+    "/api/DeleteMessage": {
+      "post": {
+        "tags": [
+          "DeleteMessage"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetConversation": {
       "post": {
         "tags": [
@@ -899,6 +959,20 @@
         },
         "additionalProperties": false
       },
+      "DeleteMessageRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetConversationRequest": {
         "type": "object",
         "properties": {
@@ -1057,6 +1131,11 @@
             "nullable": true,
             "readOnly": true
           },
+          "modifiedText": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "audioId": {
             "type": "string",
             "nullable": true,
@@ -1116,6 +1195,14 @@
           "language": {
             "type": "string",
             "nullable": true
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "modifiedMessage": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1143,13 +1230,6 @@
           "language": {
             "type": "string",
             "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ]
           }
         },
         "additionalProperties": false

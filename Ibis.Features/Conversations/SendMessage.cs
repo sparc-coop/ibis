@@ -7,7 +7,7 @@ using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Conversations
 {
-    public record SendMessageRequest(string ConversationId, string Message, string Language);
+    public record SendMessageRequest(string ConversationId, string? Message, string Language, string? MessageId, string? ModifiedMessage);
     public class SendMessage : Feature<SendMessageRequest, Message>
     {
         public SendMessage(IRepository<Message> messages,
@@ -35,18 +35,48 @@ namespace Ibis.Features.Conversations
         public override async Task<Message> ExecuteAsync(SendMessageRequest request)
         {
             var user = await Users.FindAsync(User.Id());
+            Message message;
+            Conversation conversation;
 
-            var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user.FullName, user.Initials);
-            message.UserName = user.FullName;
-            message.SetText(request.Message);
+            // Message from text input
+            if (request.MessageId == null)
+            {
+                message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user.FullName, user.Initials);
+                message.UserName = user.FullName;
+                message.SetText(request.Message);
 
-            // Translate message to all other languages
-            var conversation = await Conversations.FindAsync(request.ConversationId);
-            conversation.LastActiveDate = DateTime.UtcNow;
-            await IbisEngine.TranslateAsync(message, conversation!.Languages);
-            await IbisEngine.SpeakAsync(message);
+                // Translate and Speak
+                conversation = await Conversations.FindAsync(request.ConversationId);
+                conversation.LastActiveDate = DateTime.UtcNow;
+                await IbisEngine.TranslateAsync(message, conversation!.Languages);
+                await IbisEngine.SpeakAsync(message);
+                await Messages.AddAsync(message);
+            } 
+            // Message from Upload
+            else if (request.MessageId != null && request.ModifiedMessage == null)
+            {
+                message = await Messages.FindAsync(request.MessageId);
+                message.SetModifiedText(request.ModifiedMessage);
 
-            await Messages.AddAsync(message);
+                // Translate, Speak is Audio from Upload
+                conversation = await Conversations.FindAsync(request.ConversationId);
+                conversation.LastActiveDate = DateTime.UtcNow;
+                await IbisEngine.TranslateAsync(message, conversation!.Languages);
+                await Messages.UpdateAsync(message);
+            } 
+            // Message from Upload AND modified
+            else
+            {
+                message = await Messages.FindAsync(request.MessageId);
+                message.SetModifiedText(request.ModifiedMessage);
+
+                // Translate modified message and speak
+                conversation = await Conversations.FindAsync(request.ConversationId);
+                conversation.LastActiveDate = DateTime.UtcNow;
+                await IbisEngine.TranslateAsync(message, conversation!.Languages);
+                await IbisEngine.SpeakAsync(message);
+                await Messages.UpdateAsync(message);
+            }
 
             await Conversations.UpdateAsync(conversation);
             await Conversation.Clients.Group($"{request.ConversationId}").SendAsync("NewMessage", message);

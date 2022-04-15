@@ -35,7 +35,8 @@ namespace Ibis.Features._Plugins
             config.SpeechSynthesisLanguage = message.Language;
 
             using var synthesizer = new SpeechSynthesizer(config, null);
-            var result = await synthesizer.SpeakTextAsync(message.Text);
+            var text = message.ModifiedText ?? message.Text;
+            var result = await synthesizer.SpeakTextAsync(text);
             using var stream = new MemoryStream(result.AudioData, false);
 
             File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
@@ -73,7 +74,8 @@ namespace Ibis.Features._Plugins
 
         internal async Task TranslateAsync(Message message, params string[] languages)
         {
-            object[] body = new object[] { new { message.Text } };
+            var text = message.ModifiedText ?? message.Text;
+            object[] body = new object[] { new { text } };
             var from = $"&from={message.Language.Split('-').First()}";
             var to = "&to=" + string.Join("&to=", languages.Select(x => x.Split('-').First()));
 
