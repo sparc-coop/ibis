@@ -137,6 +137,13 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
+        public async Task<List<KeyValuePair<string, LanguageItem>>> GetAllLanguages()
+        {
+            var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");
+            var result = await UnJsonify<LanguageTest>(response);
+            return result.translation.ToList();
+        }
+
         private async Task<T> Post<T>(string url, object model)
         {
             var response = await Translator.PostAsync(url, Jsonify(model));
@@ -174,4 +181,9 @@ namespace Ibis.Features._Plugins
     public record Alignment(string Proj);
 
     public record SentenceLength(int[] SrcSentLen, int[] TransSentLen);
+
+    public record Test(LanguageTest group);
+    public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
+    public record LanguageItem(string name, string nativeName, string dir);
+    public record TranslationDict(List<LanguageItem> items);
 }

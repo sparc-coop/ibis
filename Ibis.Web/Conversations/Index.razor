@@ -23,13 +23,24 @@
     @if(Messages.Count > 0)
     {
          <div class="messages">
-    @foreach (var message in Messages)
-    {
-        <MessageCard Message=message Language=@Language />
-    }
+            @foreach (var message in Messages)
+            {
+                <MessageCard Message=message Language=@Language />
+            }
         </div>   
     }
-    <div class="conversation-language">Language: @Language</div>
+    <div class="conversation-language">
+        Language: @Language
+        <div class="switch-lang">
+            <select @bind="@Language">
+			     <option disabled>Select Language</option>
+			     @foreach(var item in LanguageList.Languages)
+			     {
+				     <option>@item.Value.Name</option>
+			     }
+		     </select>
+        </div>
+    </div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
@@ -87,10 +98,13 @@
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
+    GetLanguageListResponse LanguageList;
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.UpdateUserAsync();
+        LanguageList = await PublicApi().GetLanguageListAsync();
+
+        var user = await Api.GetUserAsync();
 
         if (string.IsNullOrWhiteSpace(Language))
             Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
@@ -224,5 +238,10 @@
     {
         ToggleEdit = false;
         await Connection.SendAsync("UpdateConversation", Conversation);
+    }
+
+    async void SwitchTranslation()
+    {
+        //Messages = await Api.Add
     }
 }

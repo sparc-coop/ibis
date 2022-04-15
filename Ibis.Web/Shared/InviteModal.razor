@@ -1,0 +1,33 @@
+﻿<div class="invite">
+    <h3>Invite People</h3>
+    <div>
+        <input placeholder="email" @bind="InviteEmail"/>
+        <button @onclick="SendInvite">Send Invite</button>
+    </div>
+    <div>
+        <h5>Participants</h5>
+    </div>
+    <h6>Copy & Share Link</h6>
+    <div>
+        <div>conversation.ibis.com/ratio-view-wing</div>
+        <span>copy</span>
+    </div>
+</div>
+
+@code {
+    bool Sent = false;
+    string InviteEmail;
+
+    [Parameter] 
+    public string ConversationId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    async Task SendInvite()
+    {
+        //sent = await Api.InvieUserAsync();
+    }
+}

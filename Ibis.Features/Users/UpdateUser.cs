@@ -5,7 +5,8 @@ using System.Security.Claims;
 
 namespace Ibis.Features.Users
 {
-    public class UpdateUser : Feature<GetUserResponse>
+    public record UpdateUserRequest(string userId, string fullName, string languageId);
+    public class UpdateUser : Feature<UpdateUserRequest, bool>
     {
         public UpdateUser(IRepository<User> users)
         {
@@ -14,22 +15,14 @@ namespace Ibis.Features.Users
 
         public IRepository<User> Users { get; }
 
-        public override async Task<GetUserResponse> ExecuteAsync()
+        public override async Task<bool> ExecuteAsync(UpdateUserRequest request)
         {
-            var user = await Users.FindAsync(User.Id());
-            if (user == null)
-            {
-                user = new()
-                {
-                    Id = User.Id(),
-                    FirstName = User.FirstName(),
-                    LastName = User.LastName(),
-                    Email = User.Email()
-                };
-                await Users.UpdateAsync(user);
-            }
-
-            return new(user.Id, user.FullName, user.Email, user.PrimaryLanguageId);
+            User user = await Users.FindAsync(request.userId);
+            user.FirstName = request.fullName.Split(' ')[0];
+            user.LastName = request.fullName.Split(' ')[1];
+            user.PrimaryLanguageId = request.languageId;
+            await Users.UpdateAsync(user);
+            return true;
         }
     }
 }

@@ -38,7 +38,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.UpdateUserAsync();
+        var user = await Api.GetUserAsync();
         Conversations = await Api.GetUserConversationsAsync(user.Id);
     }
 
@@ -46,4 +46,6 @@
     {
         Nav.NavigateTo($"/conversations/{Id}", true);    
     }
+
+    public record LanguageItem(string name, string nativeName, string dir);
 }
