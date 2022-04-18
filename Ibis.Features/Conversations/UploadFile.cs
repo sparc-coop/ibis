@@ -26,12 +26,9 @@ namespace Ibis.Features.Conversations
 
         public async override Task<Message> ExecuteAsync(UploadFileRequest request)
         {
-            // create new message
             var user = await Users.FindAsync(User.Id());
             var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, user.FullName, user.Initials);
 
-            // upload file to Azure blob storage and set message.AudioId as file url
-            // transcribes wav file to text and sets message.Text
             message = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes);
             message = await IbisEngine.UploadAudioToStorage(message, request.Bytes, request.FileName);
             

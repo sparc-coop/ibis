@@ -55,24 +55,15 @@
 
     void ShowConfirmOrEditTextModal(string conversationId, string language, string messageId, string text)
     {
-        // declare parameters
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.ConversationId), conversationId);
         parameters.Add(nameof(ConfirmOrEditText.Language), language);
         parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
         parameters.Add(nameof(ConfirmOrEditText.Text), text);
         parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
-        // open up edit modal
+
         Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
     }
-
-
-    //async Task RefreshConversation()
-    //{
-    //    var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = ConversationId, Language = Language });
-    //    Conversation = conversation.Conversation;
-    //    Messages = conversation.Messages.ToList();
-    //}
 
     async Task Submit()
     {
@@ -82,7 +73,6 @@
             var bytes = ms.ToArray();
             var message = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = ConversationId, Language = Language, Bytes = bytes, FileName = fileName });
             ShowConfirmOrEditTextModal(ConversationId, Language, message.Id, message.Text);
-            //await RefreshConversation();
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

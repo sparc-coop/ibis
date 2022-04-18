@@ -154,15 +154,6 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        //internal async Task<Message> UploadModifiedAudioToStorage(Message message, byte[] bytes)
-        //{
-        //    Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}/modified.wav", AccessTypes.Public, new MemoryStream(bytes));
-        //    await Files.AddAsync(file);
-        //    message.SetModifiedAudio(file.Url!);
-
-        //    return message;
-        //}
-
         private async Task<T> Post<T>(string url, object model)
         {
             var response = await Translator.PostAsync(url, Jsonify(model));

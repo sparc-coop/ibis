@@ -54,7 +54,7 @@
             newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText });
         }
         AddMessage(newMessage);
-        await ModalInstance.CloseAsync();
+        await ModalInstance.CloseAsync(ModalResult.Ok(true));
     }
 
     async Task Cancel()
