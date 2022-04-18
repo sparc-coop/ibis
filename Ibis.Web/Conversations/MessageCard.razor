@@ -49,7 +49,19 @@
             //MessageText = translation?.Text ?? Message.ModifiedText;
             MessageText = Message.ModifiedText;
         }
-        MessageAudio = translation?.AudioId ?? Message.AudioId;
+
+        if (translation?.AudioId != null)
+        {
+            MessageAudio = translation.AudioId;
+            //MessageAudio = Message.ModifiedAudioId;
+
+        } else if (Message.ModifiedAudioId != null)
+        {
+            MessageAudio = Message.ModifiedAudioId;
+        } else
+        {
+            MessageAudio = Message.AudioId;
+        }
     }
 
     async Task PlayAudio(string id)

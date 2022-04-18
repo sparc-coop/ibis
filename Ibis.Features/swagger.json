@@ -1141,6 +1141,11 @@
             "nullable": true,
             "readOnly": true
           },
+          "modifiedAudioId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "originalUploadFileName": {
             "type": "string",
             "nullable": true
@@ -1242,6 +1247,11 @@
             "nullable": true
           },
           "text": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "modifiedText": {
             "type": "string",
             "nullable": true,
             "readOnly": true

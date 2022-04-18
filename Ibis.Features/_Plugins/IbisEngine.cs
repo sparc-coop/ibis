@@ -39,10 +39,19 @@ namespace Ibis.Features._Plugins
             var result = await synthesizer.SpeakTextAsync(text);
             using var stream = new MemoryStream(result.AudioData, false);
 
-            File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
-            await Files.AddAsync(file);
-
-            message.SetAudio(file.Url!);
+            Sparc.Storage.Azure.File file;
+            if (message.ModifiedText == null)
+            {
+                file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
+                await Files.AddAsync(file);
+                message.SetAudio(file.Url!);
+            }
+            else
+            {
+                file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}__modified.wav", AccessTypes.Public, stream);
+                await Files.AddAsync(file);
+                message.SetModifiedAudio(file.Url!);
+            }
 
             await Parallel.ForEachAsync(message.Translations, async (translation, token) =>
             {
@@ -56,7 +65,8 @@ namespace Ibis.Features._Plugins
             config.SpeechSynthesisLanguage = message.Language;
 
             using var synthesizer = new SpeechSynthesizer(config, null);
-            var result = await synthesizer.SpeakTextAsync(message.Text);
+            var text = message.ModifiedText ?? message.Text;
+            var result = await synthesizer.SpeakTextAsync(text);
             using var stream = new MemoryStream(result.AudioData, false);
 
             Sparc.Storage.Azure.File file = new("speak", $"{parentMessage.ConversationId}/{parentMessage.Id}/{message.Language}.wav", AccessTypes.Public, stream);
@@ -110,13 +120,8 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<Message> UploadFileAndTranscribe(Message message, byte[] bytes, string fileName)
+        internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes)
         {
-            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
-            await Files.AddAsync(file);
-            message.SetAudio(file.Url!);
-            message.SetOriginalUploadFileName(fileName);
-
             var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
             var audioConfig = IbisHelpers.OpenWavFile(bytes);
 
@@ -138,6 +143,25 @@ namespace Ibis.Features._Plugins
 
             return message;
         }
+
+        internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes, string fileName)
+        {
+            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
+            await Files.AddAsync(file);
+            message.SetAudio(file.Url!);
+            message.SetOriginalUploadFileName(fileName);
+
+            return message;
+        }
+
+        //internal async Task<Message> UploadModifiedAudioToStorage(Message message, byte[] bytes)
+        //{
+        //    Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}/modified.wav", AccessTypes.Public, new MemoryStream(bytes));
+        //    await Files.AddAsync(file);
+        //    message.SetModifiedAudio(file.Url!);
+
+        //    return message;
+        //}
 
         private async Task<T> Post<T>(string url, object model)
         {

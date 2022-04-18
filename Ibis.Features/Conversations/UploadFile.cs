@@ -32,7 +32,9 @@ namespace Ibis.Features.Conversations
 
             // upload file to Azure blob storage and set message.AudioId as file url
             // transcribes wav file to text and sets message.Text
-            message = await IbisEngine.UploadFileAndTranscribe(message, request.Bytes, request.FileName);
+            message = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes);
+            message = await IbisEngine.UploadAudioToStorage(message, request.Bytes, request.FileName);
+            
             await Messages.AddAsync(message);
 
             return message;
