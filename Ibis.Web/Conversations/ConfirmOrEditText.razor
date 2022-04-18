@@ -22,6 +22,7 @@
     [Parameter] public string? MessageId { get; set; }
     [Parameter] public string? Text { get; set; }
     [Parameter] public string? ModifiedText { get; set; }
+    [Parameter] public byte[]? Bytes { get; set;  }
     Conversation? Conversation;
     List<Message> Messages = new();
 
@@ -49,9 +50,9 @@
         Message newMessage;
         if (ModifiedText == Text)
         {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
         } else {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
         }
         AddMessage(newMessage);
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
@@ -59,11 +60,7 @@
 
     async Task Cancel()
     {
-        // delete message
         await Api.DeleteMessageAsync(new DeleteMessageRequest { ConversationId = ConversationId, MessageId = MessageId });
-        // delete Audio file from Azure storage
-        // close modal
         await ModalInstance.CancelAsync();
-        // return to conversations page
     }
 }

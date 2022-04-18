@@ -1208,6 +1208,11 @@
           "modifiedMessage": {
             "type": "string",
             "nullable": true
+          },
+          "bytes": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
           }
         },
         "additionalProperties": false

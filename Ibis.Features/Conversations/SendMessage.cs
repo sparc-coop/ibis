@@ -7,7 +7,7 @@ using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Conversations
 {
-    public record SendMessageRequest(string ConversationId, string? Message, string Language, string? MessageId, string? ModifiedMessage);
+    public record SendMessageRequest(string ConversationId, string? Message, string Language, string? MessageId, string? ModifiedMessage, byte[]? Bytes);
     public class SendMessage : Feature<SendMessageRequest, Message>
     {
         public SendMessage(IRepository<Message> messages,
@@ -61,6 +61,7 @@ namespace Ibis.Features.Conversations
                 // Translate, Speak is Audio from Upload
                 conversation = await Conversations.FindAsync(request.ConversationId);
                 conversation.LastActiveDate = DateTime.UtcNow;
+                await IbisEngine.UploadAudioToStorage(message, request.Bytes);
                 await IbisEngine.TranslateAsync(message, conversation!.Languages);
                 await Messages.UpdateAsync(message);
             } 
@@ -73,6 +74,7 @@ namespace Ibis.Features.Conversations
                 // Translate modified message and speak
                 conversation = await Conversations.FindAsync(request.ConversationId);
                 conversation.LastActiveDate = DateTime.UtcNow;
+                await IbisEngine.UploadAudioToStorage(message, request.Bytes);
                 await IbisEngine.TranslateAsync(message, conversation!.Languages);
                 await IbisEngine.SpeakAsync(message);
                 await Messages.UpdateAsync(message);

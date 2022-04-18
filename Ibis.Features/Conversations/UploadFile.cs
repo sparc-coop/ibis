@@ -29,9 +29,7 @@ namespace Ibis.Features.Conversations
             var user = await Users.FindAsync(User.Id());
             var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, user.FullName, user.Initials);
 
-            message = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes);
-            message = await IbisEngine.UploadAudioToStorage(message, request.Bytes, request.FileName);
-            
+            message = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes, request.FileName);            
             await Messages.AddAsync(message);
 
             return message;

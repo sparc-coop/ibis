@@ -53,7 +53,7 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string conversationId, string language, string messageId, string text)
+    void ShowConfirmOrEditTextModal(string conversationId, string language, string messageId, string text, byte[] bytes)
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.ConversationId), conversationId);
@@ -61,6 +61,7 @@
         parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
         parameters.Add(nameof(ConfirmOrEditText.Text), text);
         parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
+        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
 
         Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
     }
@@ -72,7 +73,7 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var message = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = ConversationId, Language = Language, Bytes = bytes, FileName = fileName });
-            ShowConfirmOrEditTextModal(ConversationId, Language, message.Id, message.Text);
+            ShowConfirmOrEditTextModal(ConversationId, Language, message.Id, message.Text, bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

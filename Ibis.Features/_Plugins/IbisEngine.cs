@@ -120,7 +120,7 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes)
+        internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
         {
             var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
             var audioConfig = IbisHelpers.OpenWavFile(bytes);
@@ -134,6 +134,7 @@ namespace Ibis.Features._Plugins
                     Console.WriteLine($"RECOGNIZED: Text={result.Text}");
 
                     message.SetText(result.Text);
+                    message.SetOriginalUploadFileName(fileName);
                 }
             }
             catch (Exception ex)
@@ -144,12 +145,11 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes, string fileName)
+        internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes)
         {
             Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
             await Files.AddAsync(file);
             message.SetAudio(file.Url!);
-            message.SetOriginalUploadFileName(fileName);
 
             return message;
         }

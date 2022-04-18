@@ -158,7 +158,7 @@
 
     async Task SendText()
     {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language, MessageId = null });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
         AddMessage(newMessage);
         Text = null;
     }
