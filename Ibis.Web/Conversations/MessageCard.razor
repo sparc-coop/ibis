@@ -40,9 +40,28 @@
     protected override void OnInitialized()
     {
         var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
-        MessageText = translation?.Text ?? Message.Text;
-        MessageAudio = translation?.AudioId ?? Message.AudioId;
+        if (Message.ModifiedText == null)
+        {
+            //MessageText = translation?.Text ?? Message.Text;
+            MessageText = Message.Text;
+        } else
+        {
+            //MessageText = translation?.Text ?? Message.ModifiedText;
+            MessageText = Message.ModifiedText;
+        }
 
+        if (translation?.AudioId != null)
+        {
+            MessageAudio = translation.AudioId;
+            //MessageAudio = Message.ModifiedAudioId;
+
+        } else if (Message.ModifiedAudioId != null)
+        {
+            MessageAudio = Message.ModifiedAudioId;
+        } else
+        {
+            MessageAudio = Message.AudioId;
+        }
     }
 
     async Task PlayAudio(string id)

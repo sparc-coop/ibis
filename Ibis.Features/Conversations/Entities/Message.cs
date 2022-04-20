@@ -10,7 +10,9 @@ public class Message : Root<string>
     public SourceTypes SourceType { get; private set; }
     public DateTime Timestamp { get; private set; }
     public string? Text { get; private set; }
+    public string? ModifiedText { get; private set; }
     public string? AudioId { get; private set; }
+    public string? ModifiedAudioId { get; private set; }
     public string? OriginalUploadFileName { get; set; }
     public List<Translation> Translations { get; private set; }
     public bool IsNew { get; set; }
@@ -41,7 +43,9 @@ public class Message : Root<string>
     }
 
     public void SetText(string text) => Text = text;
+    public void SetModifiedText(string text) => ModifiedText = text;
     public void SetAudio(string audioId) => AudioId = audioId;
+    public void SetModifiedAudio(string audioId) => ModifiedAudioId = audioId;
     public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;
 
 
