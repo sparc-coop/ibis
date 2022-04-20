@@ -31,15 +31,15 @@
     }
     <div class="conversation-language">
         Language: @Language
-        <div class="switch-lang">
-            <select @bind="@Language">
+@*        <div class="switch-lang">
+            <select @onchange="SwitchLanguage">
 			     <option disabled>Select Language</option>
 			     @foreach(var item in LanguageList.Languages)
 			     {
-				     <option>@item.Value.Name</option>
+				     <option value="@item.Key">@item.Value.Name</option>
 			     }
 		     </select>
-        </div>
+        </div>*@
     </div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
@@ -240,8 +240,14 @@
         await Connection.SendAsync("UpdateConversation", Conversation);
     }
 
-    async void SwitchTranslation()
+    async void SwitchLanguage(ChangeEventArgs e)
     {
-        //Messages = await Api.Add
+        Language = e.Value.ToString();
+
+        if(Messages.Any(x => x.Language != Language))
+        {
+            var response = await Api.AddTranslationAsync(new AddTranslationRequest { Messages = Messages, ConversationId = Conversation.Id, Language = Language});
+            Messages = response.ToList();
+        }
     }
 }
