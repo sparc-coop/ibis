@@ -288,10 +288,31 @@ main {
 
 .invite {
   max-width: 600px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
   max-height: 549px;
   background: #FFFFFF;
+  position: relative;
   border-radius: 16px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04); }
+  .invite .close {
+    position: absolute;
+    top: 15px;
+    right: 15px; }
+  .invite input {
+    padding: 8px 16px;
+    border: 1px solid #858a8f;
+    border-radius: 4px;
+    margin: 10px 0; }
+  .invite h5, .invite h6 {
+    padding: 15px 0; }
+
+.blazored-modal {
+  padding: 0; }
+
+.blazored-modal-header {
+  display: none; }
 
 .cards {
   display: flex;
@@ -332,13 +353,18 @@ main {
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
-  padding: 20px; }
+  padding: 20px;
+  position: relative; }
   .conversation .messages {
     padding: 10px;
     background: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #e6e6e6;
     margin: 30px; }
+  .conversation .user-invite {
+    position: absolute;
+    top: 30px;
+    right: 60px; }
   .conversation-language {
     padding: 0 32px; }
   .conversation h4 {

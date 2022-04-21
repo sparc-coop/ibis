@@ -20,6 +20,8 @@
             }
         </h4>   
     }
+    <InviteUser ConversationId="@Conversation.Id" />
+
     @if(Messages.Count > 0)
     {
          <div class="messages">
@@ -73,12 +75,6 @@
         </div>
     </div>
 </section>
-
-@using Microsoft.AspNetCore.SignalR.Client
-@using System.Text
-@inject IJSRuntime JS
-@using Microsoft.AspNetCore.SignalR.Client
-@inject IModalService Modal
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -229,7 +225,7 @@
         var num = 1;
         foreach(var message in Messages)
         {
-            
+
             //var frame = num;
             builder.AppendLine(num.ToString());
             num++;
@@ -261,11 +257,7 @@
     async void SwitchLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
-
-        if(Messages.Any(x => x.Language != Language))
-        {
-            var response = await Api.AddTranslationAsync(new AddTranslationRequest { Messages = Messages, ConversationId = Conversation.Id, Language = Language});
-            Messages = response.ToList();
-        }
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language});
+        Messages = response.ToList();      
     }
 }

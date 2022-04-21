@@ -1,33 +1,49 @@
 ﻿<div class="invite">
     <h3>Invite People</h3>
+    <button @onclick="Close" class="close">X</button>
     <div>
         <input placeholder="email" @bind="InviteEmail"/>
         <button @onclick="SendInvite">Send Invite</button>
     </div>
     <div>
         <h5>Participants</h5>
+        @if(Group != null)
+        {
+
+@*            List<ConversationUser> users = Group.Users.ToList();
+            @foreach(var user in users)
+            {
+                <div>@user.Name; 
+            }*@
+        }
     </div>
-    <h6>Copy & Share Link</h6>
+    <h6 @onclick="CopyLink">Copy & Share Link</h6>
     <div>
         <div>conversation.ibis.com/ratio-view-wing</div>
         <span>copy</span>
     </div>
 </div>
 
+
 @code {
     bool Sent = false;
     string InviteEmail;
+    ConversationUsersResponse Group;
 
     [Parameter] 
     public string ConversationId { get; set; }
+    [CascadingParameter] 
+    BlazoredModalInstance ModalInstance { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task OnInitializedAsync() => Group = await Api.GetConversationUsersAsync(ConversationId);
+
+    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { ConversationId = ConversationId, Email = InviteEmail });
+
+    async Task CopyLink()
     {
-
+    //
     }
 
-    async Task SendInvite()
-    {
-        //sent = await Api.InvieUserAsync();
-    }
+    void Close() => ModalInstance.CancelAsync();
 }

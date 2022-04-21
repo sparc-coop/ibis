@@ -18,10 +18,20 @@ namespace Ibis.Features.Users
         TwilioService Twilio { get; set; }
         public override async Task<bool> ExecuteAsync(InviteUserRequest request)
         {
-            string subject = "Ibis Conversation Invitation";
-            string message = "test message";
-            await Twilio.SendEmailAsync(request.email,subject, message);
-            return true;
+            try
+            {
+                string subject = "Ibis Conversation Invitation";
+                string message = "You have been invited to join conversation with Ibis!";
+                await Twilio.SendEmailAsync(request.email, subject, message, "support@kuv.io");
+
+                //save user to conversation
+
+                return true;
+            } catch (Exception ex)
+            {
+                return false;
+            }
+
         }
     }
 }

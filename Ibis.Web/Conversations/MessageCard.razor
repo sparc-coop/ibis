@@ -29,15 +29,13 @@
     </div>
 </article>
 
-@inject IJSRuntime JS
-
 @code {
     [Parameter] public Message Message { get; set; }
     [Parameter] public string Language { get; set; }
     string? MessageText;
     string? MessageAudio;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
         if (Message.ModifiedText == null)
