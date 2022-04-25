@@ -3,7 +3,7 @@
 @layout DashLayout
 @attribute [Authorize]
 
-<section class="conversation">
+@*<section class="conversation">
     <a href="/dashboard">All conversations</a>
     @if(Conversation != null)
     {
@@ -68,7 +68,45 @@
             </button>
         </div>
     </div>
+</section>*@
+
+
+<section class="conversations">
+    <div class="conversation">
+
+        <header>
+            <div>
+                <h2>Monthly Catchup</h2>
+                <button>Invite People</button>
+            </div>
+            <p>Conversation Time: <span>1:17</span></p>
+        
+        </header>
+
+        <div class="content">
+            <div class="conversation-grid">
+                <div class="conversation-card">
+                    <div class="conversation-card-content">
+                        <div class="account-name">
+                            Kieran Parker
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="camera-grid">
+
+    </div>
+
 </section>
+
+
+
 
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text

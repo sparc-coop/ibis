@@ -1,6 +1,6 @@
 ﻿@import "../_variables.scss";
 
-.conversation {
+/*.conversation {
     margin: 0 auto;
     width: 100%;
     max-width: 1000px;
@@ -92,4 +92,29 @@
         }
     }
 }
+}
+*/
+
+
+
+
+.conversations {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+
+    .conversation{
+        header{
+            div{
+                display: flex;
+                justify-content: space-between;
+
+                h2{
+                    font-size: 40px;
+                    line-height: 46.8px
+                }
+            }
+        }
+    }
 }
