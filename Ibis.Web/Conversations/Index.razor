@@ -3,7 +3,7 @@
 @layout DashLayout
 @attribute [Authorize]
 
-<section class="conversation">
+@*<section class="conversation">
     <a href="/dashboard">All conversations</a>
     @if(Conversation != null)
     {
@@ -32,7 +32,7 @@
         </div>   
     }
     <div class="conversation-language">
-        Language: @Language
+        Language: @Language*@
 @*        <div class="switch-lang">
             <select @onchange="SwitchLanguage">
 			     <option disabled>Select Language</option>
@@ -42,7 +42,7 @@
 			     }
 		     </select>
         </div>*@
-    </div>
+@*    </div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
@@ -74,7 +74,95 @@
             </button>
         </div>
     </div>
+</section>*@
+
+
+<section class="conversations">
+    <div class="conversation">
+
+        <header>
+            <div>
+                <h2>Monthly Catchup</h2>
+                <button class="user-invite"><img src="icons/person-Icon.svg" />Invite People</button> 
+            </div>
+            <p>Conversation Time: <span>1:17</span></p>
+        
+        </header>
+
+        <div class="content">
+            <div class="conversation-grid">
+                <div class="conversation-card card-1">
+                    <div class="conversation-card-content">
+                        <div class="account-name">
+                            Kieran Parker
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                        </p>
+                    </div>
+                </div>
+                <div class="conversation-card card-2">
+                    <div class="conversation-card-content">
+                        <div class="account-name">
+                            Kieran Parker
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="message-box-top">
+                    <div class="message">
+                        <input type="text" placeholder="Type Something..." />
+                    </div>
+                    <button class="button-send">Send <img src="icons/send.svg" /></button>
+                </div>
+                <div class="message-box-bottom">
+                    <div class="message-options">
+
+                        <div class="translate">
+                            <img src="icons/Translate.svg" />
+                            <p>Auto Translate</p>
+                        </div>
+
+                        @*Make Text Dark Blue When checked*@
+                        <div class="switch-wrapper">
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                              <input type="checkbox">
+                              <span class="slider round"></span>
+                            </label>
+                            <p>Voice</p>
+                            
+                        </div>
+                        @*Make Text Dark Blue When checked*@
+                        <div class="switch-wrapper">
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                              <input type="checkbox">
+                              <span class="slider round"></span>
+                            </label>
+                            <p>Text</p>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="camera-grid">
+
+    </div>
+
 </section>
+
+
+
 
 @code {
     [Parameter] public string? Id { get; set; }

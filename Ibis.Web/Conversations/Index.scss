@@ -1,6 +1,6 @@
 ﻿@import "../_variables.scss";
 
-.conversation {
+/*.conversation {
     margin: 0 auto;
     width: 100%;
     max-width: 1000px;
@@ -98,5 +98,206 @@
                 }
             }
         }
+    }
+}*/
+
+.conversations {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+
+    .conversation {
+
+        header {
+            margin-bottom: 20px;
+
+            div {
+                display: flex;
+                justify-content: space-between;
+
+                h2 {
+                    font-size: 40px;
+                    line-height: 46px;
+                    margin-bottom: 2px;
+                }
+
+                .user-invite {
+                    border: 1px solid $secondary;
+                    background: inherit;
+                    font-size: 16px;
+                    line-height: 20px;
+                    padding: 6px 12px;
+                    color: $secondary;
+                    border-radius: 8px;
+                    max-height: 32px;
+
+                    img {
+                        margin-right: 8px;
+                    }
+                }
+            }
+
+            p {
+                color: $gray;
+                font-size: 13px;
+                line-height: 16px;
+            }
+        }
+
+        .content {
+            .conversation-grid {
+                background: $white;
+                padding: 24px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+                border-radius: 12px 12px 0px 0px;
+
+                .card-1 {
+                    background: $card-1;
+                }
+
+                .card-2 {
+                    background: $card-2;
+                }
+
+                .conversation-card {
+                    padding: 16px;
+                    border-radius: 10px;
+                    margin-bottom: 16px;
+
+                    .account-name {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .message-box-top {
+                    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+                    border-radius: 16px 16px 0px 0px;
+                    border: 1px solid $light-gray;
+                    background: #FFFFFF;
+                    height: 105px;
+                    padding: 24px;
+                    position: relative;
+                    margin-top: 38px;
+
+                    ::placeholder {
+                        color: $grey-500;
+                    }
+
+                    .button-send {
+                        position: absolute;
+                        right: 24px;
+                        top: 20px;
+                        padding: 6px 12px;
+                        background: $dark-blue;
+                        border-radius: 8px;
+                        color: $white;
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            margin-left: 8px;
+                            margin-top: 0px;
+                        }
+                    }
+                }
+
+
+
+                .message-box-bottom {
+                    border-radius: 0px 0px 16px 16px;
+                    border: 1px solid $light-gray;
+                    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+                    background: #FFFFFF;
+                    padding: 16px;
+                    position: relative;
+
+                    .message-options {
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+
+                        .translate, .switch-wrapper {
+                            display: flex;
+                            align-items: center;
+                            font-size: 13px;
+                            line-height: 120%;
+                            color: $grey-400;
+                        }
+
+                        .translate {
+                            margin-right: 10px;
+                            cursor: pointer;
+
+                            img {
+                                margin-right: 8px;
+                            }
+                        }
+
+                        .switch-wrapper {
+                            margin-right: 14px;
+
+                            .switch {
+                                margin-right: 10px;
+                            }
+                        }
+
+                        .switch-wrapper:last-child {
+                            margin-right: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative !important;
+        display: inline-block !important;
+        width: 36px !important;
+        height: 20px !important;
+    }
+    /* The slider */
+    .slider {
+        position: absolute !important;
+        cursor: pointer !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background-color: $grey-100 !important;
+        -webkit-transition: .4s !important;
+        transition: .4s !important;
+    }
+
+    .slider:before {
+        position: absolute !important;
+        content: "" !important;
+        height: 16px !important;
+        width: 16px !important;
+        left: 2px !important;
+        bottom: 2px !important;
+        background-color: white !important;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    //colour 1
+    input:checked + .slider {
+        background-color: $dark-blue !important;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(16px) !important;
+        -ms-transform: translateX(16px) !important;
+        transform: translateX(16px) !important;
+    }
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
     }
 }
