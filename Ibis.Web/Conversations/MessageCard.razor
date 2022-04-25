@@ -29,20 +29,37 @@
     </div>
 </article>
 
-@inject IJSRuntime JS
-
 @code {
     [Parameter] public Message Message { get; set; }
     [Parameter] public string Language { get; set; }
     string? MessageText;
     string? MessageAudio;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
-        MessageText = translation?.Text ?? Message.Text;
-        MessageAudio = translation?.AudioId ?? Message.AudioId;
+        if (Message.ModifiedText == null)
+        {
+            //MessageText = translation?.Text ?? Message.Text;
+            MessageText = Message.Text;
+        } else
+        {
+            //MessageText = translation?.Text ?? Message.ModifiedText;
+            MessageText = Message.ModifiedText;
+        }
 
+        if (translation?.AudioId != null)
+        {
+            MessageAudio = translation.AudioId;
+            //MessageAudio = Message.ModifiedAudioId;
+
+        } else if (Message.ModifiedAudioId != null)
+        {
+            MessageAudio = Message.ModifiedAudioId;
+        } else
+        {
+            MessageAudio = Message.AudioId;
+        }
     }
 
     async Task PlayAudio(string id)

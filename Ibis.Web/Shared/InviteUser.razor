@@ -1,0 +1,16 @@
+﻿<button @onclick="OpenModal" class="user-invite">
+    <i class="material-icons">group_add</i>
+    Invite User
+</button>
+
+@code {
+    [Parameter]
+    public string ConversationId { get; set; }
+
+    void OpenModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConversationId), ConversationId);
+        Modal.Show<InviteModal>("InviteModal", parameters);
+    }
+}

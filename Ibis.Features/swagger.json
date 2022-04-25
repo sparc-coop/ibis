@@ -164,6 +164,75 @@
         }
       }
     },
+    "/api/AddTranslation": {
+      "post": {
+        "tags": [
+          "AddTranslation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddTranslationRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddTranslationRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddTranslationRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CreateStripeCustomer": {
       "post": {
         "tags": [
@@ -224,6 +293,66 @@
         }
       }
     },
+    "/api/DeleteMessage": {
+      "post": {
+        "tags": [
+          "DeleteMessage"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeleteMessageRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetConversation": {
       "post": {
         "tags": [
@@ -277,6 +406,83 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetConversationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetConversationUsers": {
+      "post": {
+        "tags": [
+          "GetConversationUsers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationUsersResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationUsersResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationUsersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetLanguageList": {
+      "post": {
+        "tags": [
+          "GetLanguageList"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLanguageListResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLanguageListResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLanguageListResponse"
                 }
               }
             }
@@ -406,25 +612,6 @@
         "tags": [
           "GetUser"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -499,6 +686,66 @@
                   "items": {
                     "$ref": "#/components/schemas/Conversation"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/InviteUser": {
+      "post": {
+        "tags": [
+          "InviteUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InviteUserRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InviteUserRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InviteUserRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
                 }
               }
             }
@@ -720,23 +967,54 @@
         "tags": [
           "UpdateUser"
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateUserRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateUserRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateUserRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserResponse"
+                  "type": "boolean"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserResponse"
+                  "type": "boolean"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserResponse"
+                  "type": "boolean"
                 }
               }
             }
@@ -829,6 +1107,20 @@
         },
         "additionalProperties": false
       },
+      "AddTranslationRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Conversation": {
         "type": "object",
         "properties": {
@@ -889,10 +1181,55 @@
         },
         "additionalProperties": false
       },
+      "ConversationUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "initials": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConversationUsersResponse": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversationUser"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateStripeCustomerRequest": {
         "type": "object",
         "properties": {
           "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeleteMessageRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "messageId": {
             "type": "string",
             "nullable": true
           }
@@ -928,6 +1265,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetLanguageListResponse": {
+        "type": "object",
+        "properties": {
+          "languages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringLanguageItemKeyValuePair"
             },
             "nullable": true
           }
@@ -978,6 +1328,20 @@
         },
         "additionalProperties": false
       },
+      "InviteUserRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Language": {
         "type": "object",
         "properties": {
@@ -995,6 +1359,24 @@
           },
           "isRightToLeft": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LanguageItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "dir": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1057,7 +1439,17 @@
             "nullable": true,
             "readOnly": true
           },
+          "modifiedText": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "audioId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "modifiedAudioId": {
             "type": "string",
             "nullable": true,
             "readOnly": true
@@ -1116,6 +1508,19 @@
           "language": {
             "type": "string",
             "nullable": true
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "modifiedMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "bytes": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1133,6 +1538,24 @@
         "type": "integer",
         "format": "int32"
       },
+      "StringLanguageItemKeyValuePair": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LanguageItem"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TranscribeSpeechRequest": {
         "type": "object",
         "properties": {
@@ -1143,13 +1566,6 @@
           "language": {
             "type": "string",
             "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ]
           }
         },
         "additionalProperties": false
@@ -1166,6 +1582,11 @@
             "nullable": true,
             "readOnly": true
           },
+          "modifiedText": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "audioId": {
             "type": "string",
             "nullable": true,
@@ -1176,6 +1597,24 @@
             "format": "double",
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "languageId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -1,20 +1,33 @@
-﻿using Sparc.Core;
+﻿using Sparc.Authentication.AzureADB2C;
+using Sparc.Core;
 using Sparc.Features;
 
 namespace Ibis.Features.Users
 {
     public record GetUserResponse(string Id, string FullName, string Email, string Language);
-    public class GetUser : Feature<string, GetUserResponse>
+    public class GetUser : Feature<GetUserResponse>
     {
         public IRepository<User> Users { get; }
         public GetUser(IRepository<User> users)
         {
             Users = users;
         }
-        public override async Task<GetUserResponse> ExecuteAsync(string userId)
+        public override async Task<GetUserResponse> ExecuteAsync()
         {
-            User user = await Users.FindAsync(userId);
-            return new(user.Id, user.FirstName, user.Email, user.PrimaryLanguageId);
+            var user = await Users.FindAsync(User.Id());
+            if (user == null)
+            {
+                user = new()
+                {
+                    Id = User.Id(),
+                    FirstName = User.FirstName(),
+                    LastName = User.LastName(),
+                    Email = User.Email()
+                };
+                await Users.UpdateAsync(user);
+            }
+
+            return new(user.Id, user.FullName, user.Email, user.PrimaryLanguageId);
         }
     }
 }

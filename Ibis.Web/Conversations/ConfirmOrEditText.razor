@@ -1,0 +1,63 @@
+﻿<section class="confirmOrEditText">
+    <div class="input">
+        <i class="material-icons">edit</i>
+        <input @bind="ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />
+        <div class="buttons">
+            <button @onclick="SendText" aria-label="Send" class="active">
+                <i class="material-icons">send</i>
+            </button>
+        </div>
+        <div class="buttons-cancel">
+            <button @onclick="Cancel" aria-label="Cancel">Cancel</button>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter] public string? ConversationId { get; set; }
+    [Parameter] public string? Language { get; set; }
+    [Parameter] public string? MessageId { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? ModifiedText { get; set; }
+    [Parameter] public byte[]? Bytes { get; set;  }
+    Conversation? Conversation;
+    List<Message> Messages = new();
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+
+        StateHasChanged();
+    }
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    async Task SendText()
+    {
+        Message newMessage;
+        if (ModifiedText == Text)
+        {
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
+        } else {
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
+        }
+        AddMessage(newMessage);
+        await ModalInstance.CloseAsync(ModalResult.Ok(true));
+    }
+
+    async Task Cancel()
+    {
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { ConversationId = ConversationId, MessageId = MessageId });
+        await ModalInstance.CancelAsync();
+    }
+}

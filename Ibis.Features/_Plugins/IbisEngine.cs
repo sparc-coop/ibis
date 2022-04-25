@@ -35,13 +35,23 @@ namespace Ibis.Features._Plugins
             config.SpeechSynthesisLanguage = message.Language;
 
             using var synthesizer = new SpeechSynthesizer(config, null);
-            var result = await synthesizer.SpeakTextAsync(message.Text);
+            var text = message.ModifiedText ?? message.Text;
+            var result = await synthesizer.SpeakTextAsync(text);
             using var stream = new MemoryStream(result.AudioData, false);
 
-            File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
-            await Files.AddAsync(file);
-
-            message.SetAudio(file.Url!);
+            Sparc.Storage.Azure.File file;
+            if (message.ModifiedText == null)
+            {
+                file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, stream);
+                await Files.AddAsync(file);
+                message.SetAudio(file.Url!);
+            }
+            else
+            {
+                file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}__modified.wav", AccessTypes.Public, stream);
+                await Files.AddAsync(file);
+                message.SetModifiedAudio(file.Url!);
+            }
 
             await Parallel.ForEachAsync(message.Translations, async (translation, token) =>
             {
@@ -55,7 +65,8 @@ namespace Ibis.Features._Plugins
             config.SpeechSynthesisLanguage = message.Language;
 
             using var synthesizer = new SpeechSynthesizer(config, null);
-            var result = await synthesizer.SpeakTextAsync(message.Text);
+            var text = message.ModifiedText ?? message.Text;
+            var result = await synthesizer.SpeakTextAsync(text);
             using var stream = new MemoryStream(result.AudioData, false);
 
             Sparc.Storage.Azure.File file = new("speak", $"{parentMessage.ConversationId}/{parentMessage.Id}/{message.Language}.wav", AccessTypes.Public, stream);
@@ -73,7 +84,8 @@ namespace Ibis.Features._Plugins
 
         internal async Task TranslateAsync(Message message, params string[] languages)
         {
-            object[] body = new object[] { new { message.Text } };
+            var text = message.ModifiedText ?? message.Text;
+            object[] body = new object[] { new { text } };
             var from = $"&from={message.Language.Split('-').First()}";
             var to = "&to=" + string.Join("&to=", languages.Select(x => x.Split('-').First()));
 
@@ -108,13 +120,8 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
-        internal async Task<Message> UploadFileAndTranscribe(Message message, byte[] bytes, string fileName)
+        internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
         {
-            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
-            await Files.AddAsync(file);
-            message.SetAudio(file.Url!);
-            message.SetOriginalUploadFileName(fileName);
-
             var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
             var audioConfig = IbisHelpers.OpenWavFile(bytes);
 
@@ -127,6 +134,7 @@ namespace Ibis.Features._Plugins
                     Console.WriteLine($"RECOGNIZED: Text={result.Text}");
 
                     message.SetText(result.Text);
+                    message.SetOriginalUploadFileName(fileName);
                 }
             }
             catch (Exception ex)
@@ -135,6 +143,22 @@ namespace Ibis.Features._Plugins
             }
 
             return message;
+        }
+
+        internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes)
+        {
+            Sparc.Storage.Azure.File file = new("speak", $"{message.ConversationId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
+            await Files.AddAsync(file);
+            message.SetAudio(file.Url!);
+
+            return message;
+        }
+
+        public async Task<List<KeyValuePair<string, LanguageItem>>> GetAllLanguages()
+        {
+            var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");
+            var result = await UnJsonify<LanguageTest>(response);
+            return result.translation.ToList();
         }
 
         private async Task<T> Post<T>(string url, object model)
@@ -167,11 +191,16 @@ namespace Ibis.Features._Plugins
 
     public record DetectedLanguage(string Language, float Score);
 
-    public record TextResult(string Text, string Script);
+    public record TextResult(string Text, string Script); 
 
     public record Translation(string Text, TextResult Transliteration, string To, Alignment Alignment, SentenceLength SentLen);
 
     public record Alignment(string Proj);
 
     public record SentenceLength(int[] SrcSentLen, int[] TransSentLen);
+
+    public record Test(LanguageTest group);
+    public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
+    public record LanguageItem(string name, string nativeName, string dir);
+    public record TranslationDict(List<LanguageItem> items);
 }

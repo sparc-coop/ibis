@@ -3,7 +3,7 @@
 @layout DashLayout
 @attribute [Authorize]
 
-@*<section class="conversation">
+<section class="conversation">
     <a href="/dashboard">All conversations</a>
     @if(Conversation != null)
     {
@@ -20,29 +20,42 @@
             }
         </h4>   
     }
+    <InviteUser ConversationId="@Conversation.Id" />
+
     @if(Messages.Count > 0)
     {
          <div class="messages">
-    @foreach (var message in Messages)
-    {
-        <MessageCard Message=message Language=@Language />
-    }
+            @foreach (var message in Messages)
+            {
+                <MessageCard Message=message Language=@Language />
+            }
         </div>   
     }
-    <div class="conversation-language">Language: @Language</div>
+    <div class="conversation-language">
+        Language: @Language
+@*        <div class="switch-lang">
+            <select @onchange="SwitchLanguage">
+			     <option disabled>Select Language</option>
+			     @foreach(var item in LanguageList.Languages)
+			     {
+				     <option value="@item.Key">@item.Value.Name</option>
+			     }
+		     </select>
+        </div>*@
+    </div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-            <button @onclick="Upload" aria-label="Upload">
-                <i class="material-icons">cloud_upload</i>
+            <button @onclick="@(() => ShowUploadModal(Id, Language))">
+               <i class="material-icons">cloud_upload</i>
             </button>
-            <button @onclick="DownloadText">
+            <button @onclick="DownloadText" aria-label="Download Text">
                 <i class="material-icons">file_download</i>
             </button>
-            <button @onclick="DownloadAudio">
+            <button @onclick="DownloadAudio" aria-label="Download Audio">
                 <i class="material-icons">audio_file</i>
             </button>
-            <button @onclick="Call">
+            <button @onclick="Call" aria-label="Call">
                 <i class="material-icons">call</i>
             </button>
             <button @onclick="Sms" aria-label="Sms">
@@ -51,6 +64,9 @@
             <button @onclick="Speak" aria-label="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
+             <button @onclick="DownloadSRT">
+                <i class="material-icons">file_download</i>
+            </button>
         </div>
         <div class="buttons">
             <button @onclick="SendText" aria-label="Send" class="active">
@@ -58,59 +74,7 @@
             </button>
         </div>
     </div>
-    <div class="upload">
-        <div class="buttons">
-            <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
-            <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange" />
-            <br/>
-            <button value="upload" type="submit" aria-label="Upload" @onclick="@UploadFile">
-                <i class="material-icons">cloud_upload</i>
-            </button>
-        </div>
-    </div>
-</section>*@
-
-
-<section class="conversations">
-    <div class="conversation">
-
-        <header>
-            <div>
-                <h2>Monthly Catchup</h2>
-                <button>Invite People</button>
-            </div>
-            <p>Conversation Time: <span>1:17</span></p>
-        
-        </header>
-
-        <div class="content">
-            <div class="conversation-grid">
-                <div class="conversation-card">
-                    <div class="conversation-card-content">
-                        <div class="account-name">
-                            Kieran Parker
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="camera-grid">
-
-    </div>
-
 </section>
-
-
-
-
-@using Microsoft.AspNetCore.SignalR.Client
-@using System.Text
-@inject IJSRuntime JS
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -119,16 +83,17 @@
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
-    MemoryStream ms;
-    string? fileName;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
+    GetLanguageListResponse LanguageList;
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.UpdateUserAsync();
+        LanguageList = await PublicApi().GetLanguageListAsync();
+
+        var user = await Api.GetUserAsync();
 
         if (string.IsNullOrWhiteSpace(Language))
             Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
@@ -168,24 +133,19 @@
         StateHasChanged();
     }
 
-    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    void ShowUploadModal(string conversationId, string language)
     {
-        ms = new MemoryStream();
-        fileName = e.File.Name;
-        await e.File.OpenReadStream().CopyToAsync(ms);
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.ConversationId), conversationId);
+        parameters.Add(nameof(Upload.Language), language);
+        Modal.Show<Upload>("Upload", parameters);
     }
 
-    async Task UploadFile()
+    async Task RefreshConversation()
     {
-        var bytes = ms.ToArray();
-        var result = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = Id, Language = "en-us", Bytes = bytes, FileName = fileName });
-        // message isn't populating to chatbox UI automatically, but shows after page refresh
-        // also consider creating an option for text from mic and text from upload to be approved/confirmed before saved and sent as a message
-    }
-
-    void Upload()
-    {
-        // link or direct upload
+        var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
+        Conversation = conversation.Conversation;
+        Messages = conversation.Messages.ToList();
     }
 
     async Task Call()
@@ -199,7 +159,7 @@
 
     async Task Speak()
     {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language, SourceType = SourceTypes._4 });
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language });
         AddMessage(newMessage);
     }
 
@@ -211,7 +171,7 @@
 
     async Task SendText()
     {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
         AddMessage(newMessage);
         Text = null;
     }
@@ -258,9 +218,46 @@
         return fileName;
     }
 
+    async Task DownloadSRT()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        var num = 1;
+        foreach(var message in Messages)
+        {
+
+            //var frame = num;
+            builder.AppendLine(num.ToString());
+            num++;
+            //hours:minutes:seconds,milliseconds –> hours:minutes:seconds,milliseconds
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("hh:mm:ss,ms") + " --> " + message.Timestamp.LocalDateTime.AddSeconds(10).ToString("hh:mm:ss,ms"));
+            builder.AppendLine(message.Text);
+            builder.Append(Environment.NewLine);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = Conversation?.Name + ".srt" ?? "testcaptions.srt";
+        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
     async void UpdateName()
     {
         ToggleEdit = false;
         await Connection.SendAsync("UpdateConversation", Conversation);
+    }
+
+    async void SwitchLanguage(ChangeEventArgs e)
+    {
+        Language = e.Value.ToString();
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language});
+        Messages = response.ToList();      
     }
 }

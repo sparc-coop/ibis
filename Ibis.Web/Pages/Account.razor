@@ -10,6 +10,16 @@
 		<h3>Edit profile information</h3>
 			<input placeholder="@(User.FullName ?? Name)"/>
 @*			<input placeholder="@(User.Email ?? Email)"/>*@
+		<label>Primary Language</label>
+		<div class="switch-lang">
+            <select @bind="@User.Language">
+			     <option disabled>Select Language</option>
+			     @foreach(var item in LanguageList.Languages)
+			     {
+				     <option value="@item.Key">@item.Value.Name</option>
+			     }
+		     </select>
+        </div>
 		<button @onclick="UpdateUser">Save</button>
 		}
 	</div>
@@ -38,33 +48,33 @@
 @inject IJSRuntime JS
 
 @code {
-	private GetUserResponse User;
-	public string Name = "Full Name";
-	private string Email = "Email";
-	bool userPayment = false;
+    private GetUserResponse User;
+    public string Name = "Full Name";
+    private string Email = "Email";
+    bool userPayment = false;
+    GetLanguageListResponse LanguageList;
 
-	protected override async Task OnInitializedAsync()
-	{
-		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
-		{
-			User = await Api.UpdateUserAsync();
-		}
-	}
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
-		if (clientSecret != "current-customer") {
-			userPayment = true;
-			await JS.InvokeAsync<string>("setPayment", clientSecret);
-		}
-		//User = await PublicApi().GetUserAsync(ProjectId);
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageList = await PublicApi().GetLanguageListAsync();
 
-	private async void UpdateUser()
-	{
-		await Api.UpdateUserAsync();
-	}
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if(user.Identity.IsAuthenticated)
+        {
+            User = await Api.GetUserAsync();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
+        if (clientSecret != "current-customer") {
+            userPayment = true;
+            await JS.InvokeAsync<string>("setPayment", clientSecret);
+        }
+    }
+
+   private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = User.FullName, LanguageId = User.Language });
 }
