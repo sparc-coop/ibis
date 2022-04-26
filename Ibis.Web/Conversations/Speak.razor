@@ -58,8 +58,9 @@
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
     }
 
-    void Cancel()
+    async Task Cancel()
     {
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { ConversationId = ConversationId, MessageId = Message.Id });
         ModalInstance.CancelAsync();
     }
 }
