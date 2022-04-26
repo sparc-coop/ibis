@@ -16,6 +16,7 @@
 @code {
     [Parameter] public string? ConversationId { get; set; }
     [Parameter] public string? Language { get; set; }
+    [Parameter] public SourceTypes? SourceType { get; set; }
     string? Text;
     Conversation? Conversation;
     List<Message> Messages = new();
@@ -53,11 +54,12 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string conversationId, string language, string messageId, string text, byte[] bytes)
+    void ShowConfirmOrEditTextModal(string? conversationId, string? language, SourceTypes? sourcetype, string messageId, string text, byte[] bytes)
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.ConversationId), conversationId);
         parameters.Add(nameof(ConfirmOrEditText.Language), language);
+        parameters.Add(nameof(ConfirmOrEditText.SourceType), sourcetype);
         parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
         parameters.Add(nameof(ConfirmOrEditText.Text), text);
         parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
@@ -73,7 +75,7 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var message = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = ConversationId, Language = Language, Bytes = bytes, FileName = fileName });
-            ShowConfirmOrEditTextModal(ConversationId, Language, message.Id, message.Text, bytes);
+            ShowConfirmOrEditTextModal(ConversationId, Language, SourceType, message.Id, message.Text, bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

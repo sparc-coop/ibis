@@ -120,6 +120,47 @@ namespace Ibis.Features._Plugins
             return message;
         }
 
+        public async Task<Message> ContinuousSpeechRecognitionAsync(Message message)
+        {
+            var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+            using (var recognizer = new SpeechRecognizer(speechConfig))
+            {
+                recognizer.Recognizing += (s, e) =>
+                {
+                    Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+                };
+                recognizer.Recognized += (s, e) =>
+                {
+                    var result = e.Result;
+                    if (result.Reason == ResultReason.RecognizedSpeech)
+                    {
+                        Console.WriteLine($"Final Message: {result.Text}.");
+                        message.SetText(message.Text + " " + result.Text); 
+                    }
+                };
+                recognizer.Canceled += (s, e) => {
+                    Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+                };
+                recognizer.SessionStarted += (s, e) => {
+                    Console.WriteLine("\n Session has started. You can start speaking...");
+                };
+                recognizer.SessionStopped += (s, e) => {
+                    Console.WriteLine("\n Session ended.");
+                };
+
+                await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+                do
+                {
+                    Console.WriteLine("Press ENTER to stop recording...");
+                }   while (Console.ReadKey().Key != ConsoleKey.Enter);
+
+                await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+            };
+
+            return message;
+        }
+
         internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
         {
             var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");

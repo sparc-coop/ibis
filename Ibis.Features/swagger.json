@@ -1437,6 +1437,14 @@
             "type": "string",
             "nullable": true
           },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ],
+            "nullable": true
+          },
           "messageId": {
             "type": "string",
             "nullable": true

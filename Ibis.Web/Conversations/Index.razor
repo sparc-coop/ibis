@@ -59,7 +59,7 @@
             <button @onclick="Sms" aria-label="Sms">
                 <i class="material-icons">sms</i>
             </button>
-            <button @onclick="Speak" aria-label="Speak">
+            <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
              <button @onclick="DownloadSRT">
@@ -142,7 +142,17 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(Upload.ConversationId), conversationId);
         parameters.Add(nameof(Upload.Language), language);
+        parameters.Add(nameof(Upload.SourceType), SourceTypes._3);
         Modal.Show<Upload>("Upload", parameters);
+    }
+
+    void ShowSpeakModal(string conversationId, string language)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Speak.ConversationId), conversationId);
+        parameters.Add(nameof(Speak.Language), language);
+        parameters.Add(nameof(Speak.SourceType), SourceTypes._4);
+        Modal.Show<Speak>("Send a voice message...", parameters);
     }
 
     async Task RefreshConversation()
@@ -161,11 +171,11 @@
 
     }
 
-    async Task Speak()
-    {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language });
-        AddMessage(newMessage);
-    }
+    //async Task Speak()
+    //{
+    //    var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language });
+    //    AddMessage(newMessage);
+    //}
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {

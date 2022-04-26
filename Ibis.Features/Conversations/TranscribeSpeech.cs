@@ -23,7 +23,7 @@ namespace Ibis.Features.Conversations
         {
             var user = await Users.FindAsync(User.Id());
             var message = new Message(request.ConversationId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user.FullName, user.Initials);
-            await IbisEngine.TranscribeSpeechFromMic(message);
+            await IbisEngine.ContinuousSpeechRecognitionAsync(message);
             await Messages.AddAsync(message);
             return message;
         }

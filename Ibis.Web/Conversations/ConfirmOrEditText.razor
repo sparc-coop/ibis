@@ -19,6 +19,7 @@
 @code {
     [Parameter] public string? ConversationId { get; set; }
     [Parameter] public string? Language { get; set; }
+    [Parameter] public SourceTypes? SourceType { get; set; }
     [Parameter] public string? MessageId { get; set; }
     [Parameter] public string? Text { get; set; }
     [Parameter] public string? ModifiedText { get; set; }
@@ -50,9 +51,9 @@
         Message newMessage;
         if (ModifiedText == Text)
         {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, SourceType = SourceType, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
         } else {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, SourceType = SourceType, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
         }
         AddMessage(newMessage);
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
