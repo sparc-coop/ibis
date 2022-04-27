@@ -9,6 +9,10 @@
             </button>
             <button @onclick="Cancel">cancel</button>
         </div>
+        @if (Text == null)
+        {
+            <audio src="/sounds/recording-beep.wav" autoplay />
+        }
     </div>
 </section>
 

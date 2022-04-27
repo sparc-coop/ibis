@@ -40,5 +40,9 @@
     <PackageReference Include="Sparc.Platforms.Web" Version="6.1.8" />
     <PackageReference Include="Stripe.net" Version="39.95.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="wwwroot\sounds\" />
+  </ItemGroup>
 
 </Project>
