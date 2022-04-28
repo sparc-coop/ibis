@@ -857,6 +857,7 @@ main {
 @font-face {
   font-family: "CircularStd-Medium";
   src: url(../fonts/CircularStd-Medium.ttf) format("truetype");
+  font-weight: normal;
 }
 @font-face {
   font-family: "CircularStd-Black";
@@ -865,6 +866,7 @@ main {
 @font-face {
   font-family: "CircularStd-Bold";
   src: url(../fonts/CircularStd-Bold.ttf) format("truetype");
+  font-weight: bold;
 }
 @font-face {
   font-family: "CircularStd-Book";
@@ -873,6 +875,7 @@ main {
 @font-face {
   font-family: "CircularStd-MediumItalic";
   src: url(../fonts/CircularStd-MediumItalic.ttf) format("truetype");
+  font-weight: normal;
 }
 @font-face {
   font-family: "CircularStd-BlackItalic";
@@ -881,6 +884,7 @@ main {
 @font-face {
   font-family: "CircularStd-BoldItalic";
   src: url(../fonts/CircularStd-BoldItalic.ttf) format("truetype");
+  font-weight: bold;
 }
 @font-face {
   font-family: "CircularStd-BookItalic";
