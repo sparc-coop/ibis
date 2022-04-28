@@ -15,9 +15,45 @@
 @import "Conversations/Index";
 @import "Conversations/MessageCard";
 
+//Normal Fonts call with 'font-family: CircularStd-Medium, sans-serif;'
+@font-face{
+    font-family: 'CircularStd-Medium';
+    src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-Black';
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-Bold';
+    src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-Book';
+    src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
+}
+
+//Italic Fonts
+@font-face {
+    font-family: 'CircularStd-MediumItalic';
+    src: url(wwwroot/fonts/CircularStd-MediumItalic.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-BlackItalic';
+    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-BoldItalic';
+    src: url(wwwroot/fonts/CircularStd-BoldItalic.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'CircularStd-BookItalic';
+    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
+}
+
 body {
     overflow-x: hidden;
-    font-family: sans-serif;
+    font-family: CircularStd-Medium, sans-serif;
 }
 
 .container {

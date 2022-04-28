@@ -595,6 +595,9 @@ main {
 .conversations .conversation .content .conversation-grid .conversation-card .account-name {
   margin-bottom: 10px;
 }
+.conversations .conversation .content .conversation-grid .message-box-top, .conversations .conversation .content .conversation-grid .message-box-bottom {
+  margin: 0px -8px;
+}
 .conversations .conversation .content .conversation-grid .message-box-top {
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px 16px 0px 0px;
@@ -707,13 +710,13 @@ main {
 }
 .conversations .camera-grid {
   background: #FFFFFF;
-  /*max-width: 376px;*/
+  max-width: 376px;
   padding: 16px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   border: 1px solid #E5E7EA;
   position: relative;
-  max-width: 33%;
+  width: 33%;
   min-width: 263px;
 }
 .conversations .camera-grid .presenter {
@@ -785,6 +788,7 @@ main {
   line-height: 120%;
   position: absolute;
   bottom: 16px;
+  left: 16px;
 }
 .conversations .camera-grid .camera-buttons .audio-buttons {
   display: flex;
@@ -850,9 +854,41 @@ main {
   display: none;
 }
 
+@font-face {
+  font-family: "CircularStd-Medium";
+  src: url(../fonts/CircularStd-Medium.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-Black";
+  src: url(../fonts/CircularStd-Black.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-Bold";
+  src: url(../fonts/CircularStd-Bold.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-Book";
+  src: url(../fonts/CircularStd-Book.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-MediumItalic";
+  src: url(../fonts/CircularStd-MediumItalic.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-BlackItalic";
+  src: url(../fonts/CircularStd-BlackItalic.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-BoldItalic";
+  src: url(../fonts/CircularStd-BoldItalic.ttf) format("truetype");
+}
+@font-face {
+  font-family: "CircularStd-BookItalic";
+  src: url(../fonts/CircularStd-BookItalic.ttf) format("truetype");
+}
 body {
   overflow-x: hidden;
-  font-family: sans-serif;
+  font-family: CircularStd-Medium, sans-serif;
 }
 
 .container {

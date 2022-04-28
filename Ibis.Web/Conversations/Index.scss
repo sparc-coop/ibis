@@ -109,7 +109,7 @@
     position: relative;
     display: flex;
     justify-content: space-between;
-
+        
     .conversation {
         color: $grey-900;
         width: 60%;
@@ -181,6 +181,10 @@
                     .account-name {
                         margin-bottom: 10px;
                     }
+                }
+
+                .message-box-top, .message-box-bottom {
+                    margin: 0px -8px;
                 }
 
                 .message-box-top {
@@ -320,13 +324,13 @@
 
     .camera-grid {
         background: $white;
-        /*max-width: 376px;*/
+        max-width: 376px;
         padding: 16px;
         box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
         border-radius: 16px;
         border: 1px solid $grey-100;
         position: relative;
-        max-width: 33%;
+        width: 33%;
         min-width: 263px;
 
         .presenter {
@@ -413,6 +417,7 @@
                 line-height: 120%;
                 position: absolute;
                 bottom: 16px;
+                left: 16px;
             }
 
             .audio-buttons {
