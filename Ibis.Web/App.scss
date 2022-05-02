@@ -71,6 +71,14 @@ button {
     color: $primary;
 }
 
+button.primary {
+    background: $secondary-900;
+    border-radius: 8px;
+    color: $white;
+    font-size: 16px;
+    line-height: 125%;
+}
+
 #app {
 
     .loader {
@@ -94,18 +102,46 @@ button {
     }
 }
 
+h1, h2, h3, h4, h5, h6{
+    line-height: 120%;
+}
+
+h1{
+    font-size: 61px;
+}
+
+h2{
+    font-size: 49px;
+}
+
+h3{
+    font-size: 39px;
+}
+
+h4 {
+    font-size: 39px;
+}
+
+h5 {
+    font-size: 25px;
+}
+
 h6{
     font-size: 20px;
-    line-height: 120%;
     font-weight: 600;
 }
 
-p.small {
+p.large {
+    font-size: 16px;
+    line-height: 120%;
+}
+
+p.medium {
     font-size: 13px;
     line-height: 120%;
 }
 
-p.xsmall{
+p.small{
     font-size: 10px;
     line-height: 120%;
 }
