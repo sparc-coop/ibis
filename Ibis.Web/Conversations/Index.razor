@@ -76,6 +76,12 @@
     </div>
 </section>
 
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Text
+@inject IJSRuntime JS
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IModalService Modal
+
 @code {
     [Parameter] public string? Id { get; set; }
     [Parameter]
