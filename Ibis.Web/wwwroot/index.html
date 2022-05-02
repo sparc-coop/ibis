@@ -23,6 +23,16 @@
 
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+
+    <script>
+        function openInviteOverlay() {
+            document.getElementById("inviteOverlay").style.display = "block";
+        }
+
+        function closeInviteOverlay() {
+            document.getElementById("inviteOverlay").style.display = "none";
+        }
+    </script>
 </body>
 
 </html>

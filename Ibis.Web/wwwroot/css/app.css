@@ -835,12 +835,12 @@ main {
 }
 
 .overlay {
-  background: #0A111D;
-  opacity: 0.75;
+  background: rgba(10, 17, 29, 0.75);
   height: 154%;
   width: 100vw;
   position: absolute;
   top: -2px;
+  display: none;
 }
 
 .invite-block {
@@ -859,6 +859,11 @@ main {
 }
 .invite-block h4 {
   margin-bottom: 24px;
+}
+.invite-block .close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 .invite-block .invite-search {
   display: flex;
@@ -938,6 +943,7 @@ main {
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
+  width: 100%;
 }
 .invite-block .share-link .share-link-wrapper input::placeholder {
   color: #6A7280;
