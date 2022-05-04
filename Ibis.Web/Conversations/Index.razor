@@ -32,16 +32,17 @@
         </div>   
     }
     <div class="conversation-language">
-        Language: @Language
-@*        <div class="switch-lang">
-            <select @onchange="SwitchLanguage">
-			     <option disabled>Select Language</option>
-			     @foreach(var item in LanguageList.Languages)
-			     {
-				     <option value="@item.Key">@item.Value.Name</option>
-			     }
-		     </select>
-        </div>*@
+        <label for="switch-lang">Language:</label>
+        <select id="switch-lang" @onchange="SwitchLanguage">
+			@foreach(var item in LanguageList.Languages)
+			{
+                if(item.Key == Language) {
+                    <option value="@item.Key" selected>@item.Value.Name</option>
+                } else {
+                    <option value="@item.Key">@item.Value.Name</option>
+                }
+			}
+		</select>
     </div>
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
@@ -93,6 +94,7 @@
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
+
     GetLanguageListResponse LanguageList;
 
     protected override async Task OnInitializedAsync()
@@ -102,7 +104,7 @@
         var user = await Api.GetUserAsync();
 
         if (string.IsNullOrWhiteSpace(Language))
-            Language = string.IsNullOrWhiteSpace(user.Language) ? "en-US" : user.Language;
+            Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
 
         if (string.IsNullOrWhiteSpace(Id))
         {
@@ -145,13 +147,6 @@
         parameters.Add(nameof(Upload.ConversationId), conversationId);
         parameters.Add(nameof(Upload.Language), language);
         Modal.Show<Upload>("Upload", parameters);
-    }
-
-    async Task RefreshConversation()
-    {
-        var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
-        Conversation = conversation.Conversation;
-        Messages = conversation.Messages.ToList();
     }
 
     async Task Call()
@@ -207,7 +202,7 @@
             mergeFiles.Add(message.AudioId);
         }
 
-        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en-US" });
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en" });
         Console.WriteLine(filePath);
         var fileName = GetFileName(Conversation?.Name);
         await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
