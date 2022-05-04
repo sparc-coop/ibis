@@ -25,7 +25,8 @@ namespace Ibis.Features.Conversations
 
             foreach (var message in untranslatedMessages)
             {
-                await IbisEngine.TranslateAsync(message, request.Language);
+                Message translatedMessage = await IbisEngine.TranslateAsync(message, request.Language);
+                await Messages.UpdateAsync(translatedMessage);
             }
 
             return Messages.Query.Where(x => x.ConversationId == request.ConversationId).ToList();
