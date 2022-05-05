@@ -82,7 +82,7 @@ namespace Ibis.Features._Plugins
                 await TranslateAsync(message, otherLanguages);
         }
 
-        internal async Task TranslateAsync(Message message, params string[] languages)
+        internal async Task<Message> TranslateAsync(Message message, params string[] languages)
         {
             var text = message.ModifiedText ?? message.Text;
             object[] body = new object[] { new { text } };
@@ -94,6 +94,8 @@ namespace Ibis.Features._Plugins
             foreach (TranslationResult o in result)
                 foreach (Translation t in o.Translations)
                     message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
+
+            return message;
         }
 
         internal async Task<Message> TranscribeSpeechFromMic(Message message)

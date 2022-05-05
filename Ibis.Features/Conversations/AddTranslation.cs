@@ -21,11 +21,13 @@ namespace Ibis.Features.Conversations
 
         public override async Task<List<Message>> ExecuteAsync(AddTranslationRequest request)
         {
-            var untranslatedMessages = await Messages.Query.Where(x => x.ConversationId == request.ConversationId).ToListAsync();
+            var untranslatedMessages = await Messages.Query
+                .Where(x => x.ConversationId == request.ConversationId).ToListAsync();
 
-            foreach (var message in untranslatedMessages)
+            foreach (var message in untranslatedMessages.Where(x => !x.HasTranslation(request.Language)))
             {
-                await IbisEngine.TranslateAsync(message, request.Language);
+                Message translatedMessage = await IbisEngine.TranslateAsync(message, request.Language);
+                await Messages.UpdateAsync(translatedMessage);
             }
 
             return Messages.Query.Where(x => x.ConversationId == request.ConversationId).ToList();

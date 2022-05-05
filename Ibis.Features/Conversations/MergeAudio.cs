@@ -26,7 +26,7 @@ namespace Ibis.Features.Conversations
         {
             string outputFile = "audio_output.wav";
             string result = await Combine(outputFile, request);
-            string conversationUrl = await UpdateConversation(request.ConversationId, "en-US");// request.Language);
+            string conversationUrl = await UpdateConversation(request.ConversationId, "en");// request.Language);
             return JsonConvert.SerializeObject(conversationUrl);
         }
 
