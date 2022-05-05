@@ -19,8 +19,8 @@
                 <button class="save" @onclick="@(() => UpdateName())">Save</button>
             }
         </h4>   
+        <InviteUser ConversationId="@Conversation.Id" />
     }
-    <InviteUser ConversationId="@Conversation.Id" />
 
     @if(Messages.Count > 0)
     {
@@ -77,7 +77,6 @@
     </div>
 </section>
 
-@using Microsoft.AspNetCore.SignalR.Client
 @using System.Text
 @inject IJSRuntime JS
 @using Microsoft.AspNetCore.SignalR.Client
@@ -255,10 +254,11 @@
         await Connection.SendAsync("UpdateConversation", Conversation);
     }
 
-    async void SwitchLanguage(ChangeEventArgs e)
+    async Task SwitchLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
         var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language});
-        Messages = response.ToList();      
+        Messages = response.ToList();
+        StateHasChanged();
     }
 }

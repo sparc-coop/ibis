@@ -12,13 +12,13 @@
         </time>*@
     </div>
     <div class="message-content">
-    @MessageText
-    @if (Message.IsNew && MessageAudio != null)
-    {
-        <audio autoplay>
-            <source src="@MessageAudio" />
-        </audio>
-    }
+        @MessageText
+        @if (Message.IsNew && MessageAudio != null)
+        {
+            <audio autoplay>
+                <source src="@MessageAudio" />
+            </audio>
+        }
 
         @if(MessageAudio != null)
         {
@@ -42,8 +42,7 @@
         var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
         if (Message.ModifiedText == null)
         {
-            //MessageText = translation?.Text ?? Message.Text;
-            MessageText = Message.Text;
+            MessageText = translation?.Text ?? Message.Text;
         } else
         {
             //MessageText = translation?.Text ?? Message.ModifiedText;
