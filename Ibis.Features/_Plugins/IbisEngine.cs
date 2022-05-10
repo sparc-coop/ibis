@@ -170,18 +170,11 @@ namespace Ibis.Features._Plugins
             return result.translation.ToList();
         }
 
-        public async Task<List<Dialect>> GetDialectsForLanguage(string language)
-        {
-            var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
-            var result = await UnJsonify<List<Dialect>>(response);
-            return result.ToList().FindAll(x => x.Locale.StartsWith(language));
-        }
-
-        public async Task<List<Voice>> GetVoicesForDialect(string locale)
+        public async Task<List<Voice>> GetAllVoices()
         {
             var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
             var result = await UnJsonify<List<Voice>>(response);
-            return result.ToList().FindAll(x => x.Locale.Equals(locale));
+            return result.ToList();
         }
 
         private async Task<T> Post<T>(string url, object model)
@@ -224,6 +217,6 @@ namespace Ibis.Features._Plugins
 
     public record Test(LanguageTest group);
     public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
-    public record LanguageItem(string name, string nativeName, string dir);
+    public record LanguageItem(string name, string nativeName, string dir, List<Dialect>? Dialects);
     public record TranslationDict(List<LanguageItem> items);
 }

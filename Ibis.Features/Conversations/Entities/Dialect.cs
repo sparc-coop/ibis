@@ -12,12 +12,12 @@ namespace Ibis.Features.Conversations.Entities
         private Dialect()
         { }
 
-        public Dialect(string language, string locale, string localeName)
+        public Dialect(string language, string locale, string localeName, List<Voice>? voices = null)
         {
             Language = language;
             Locale = locale;
             LocaleName = localeName;
-            Voices = new();
+            Voices = voices ?? new();
         }
 
         public void AddVoice(string locale, string name, string displayName, string localName, string shortName, string gender, string voiceType)
