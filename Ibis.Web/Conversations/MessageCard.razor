@@ -1,11 +1,11 @@
-﻿<article class="message-card">
-    <div class="message-info">
+﻿<article class="conversation-card" background="#EFEFEF">
+    <div class="conversation-card-content">
         <div class="user">
-            <h3>
+            <div class="account-name">
                 @(Message.UserName != null ? Message.UserName : "")
-                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
-            </h3>
-            <div class="avatar">@(Message.UserInitials != null ? Message.UserInitials : "")</div>
+@*                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>*@
+            </div>
+@*            <div class="avatar">@(Message.UserInitials != null ? Message.UserInitials : "")</div>*@
         </div>
 @*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
         @Message.Timestamp.ToString("f")
@@ -20,12 +20,12 @@
         </audio>
     }
 
-        @if(MessageAudio != null)
+@*        @if(MessageAudio != null)
         {
 
             <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
             <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
-        }
+        }*@
     </div>
 </article>
 

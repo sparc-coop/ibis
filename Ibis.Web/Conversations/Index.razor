@@ -82,15 +82,34 @@
 
         <header>
             <div class="header-wrapper">
-                <h2>Monthly Catchup</h2>
-                <button class="user-invite" onclick="openInviteOverlay()"><img src="icons/person-Icon.svg" />Invite People</button> 
+                @if(Conversation != null)
+                {
+                    @if(ToggleEdit == false)
+                    {
+                        <h2>@Conversation.Name</h2>
+                        <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
+                    } else
+                    {
+
+                        <input @bind="Conversation.Name">
+                        <button class="save" @onclick="@(() => UpdateName())">Save</button>
+                    }   
+                }
+                <InviteUser ConversationId="@Conversation.Id" />
             </div>
             <p class="large">Conversation Time: <span>1:17</span></p>
         </header>
 
         <div class="content">
             <div class="conversation-grid">
-                <div class="conversation-card card-1">
+                @if(Messages.Count > 0)
+                {
+                    @foreach (var message in Messages)
+                    {
+                        <MessageCard Message=message Language=@Language />
+                    }
+                }
+               @* <div class="conversation-card card-1">
                     <div class="conversation-card-content">
                         <div class="account-name">
                             Kieran Parker
@@ -140,13 +159,11 @@
                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
                         </p>
                     </div>
-                </div>
+                </div>*@
 
-                <div class="message-box-top">
-                    <div class="message">
-                        <input type="text" placeholder="Type Something..." />
-                    </div>
-                    <button class="button-send">Send <img src="icons/send.svg" /></button>
+                <div class="message-box">
+                    <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
+                    <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
                 </div>
                 <div class="message-box-bottom">
                     <div class="message-options">
@@ -201,77 +218,7 @@
             </div>
         </div>
     </div>
-
-    <div class="camera-grid">
-        <div class="presenter">
-            <div class="image-wrapper">
-                <img src="/images/1.png" />
-                <div class="camera-pin"><img src="/icons/Pin.svg" /></div>
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-                <h6 class="camera-name">Titus Kitamura</h6>
-                <div class="camera-translation"><p class="small">English</p><img src="/icons/Arrow_Swap.svg" /><p class="small">English</p></div>
-            </div>
-        </div>
-        
-        <div class="users">
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-                <p class="camera-name medium">Elanor Pera</p>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-                <p class="camera-name medium">Elanor Pera</p>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/Mute.svg" /></div>
-                <p class="camera-name medium">Elanor Pera</p>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-                <p class="camera-name medium">Elanor Pera</p>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/Mute.svg" /></div>
-                <p class="camera-name medium">Elanor Pera</p>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-            </div>
-            <div class="image-wrapper">
-                <img src="/images/2.png" />
-                <div class="camera-voice"><img src="/icons/MicStatus.svg" /></div>
-            </div>
-        </div>
-
-        <div class="camera-buttons">
-            <button>
-                <img src="/icons/Leave_icon.svg" />
-                Leave
-            </button>
-
-            <div class="audio-buttons">
-                <div><img src="/icons/Microphone.svg" /></div>
-                <div><img src="/icons/Video.svg" /></div>
-            </div>
-            
-        </div>
-        
-    </div>
-
+    <ChatBox />
 </section>
 
 <div id="inviteOverlay" class="overlay">
