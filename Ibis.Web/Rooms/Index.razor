@@ -7,19 +7,19 @@
         <div class="searchbar">
             <input placeholder="Search"/>
         </div>
-        <a class="add" href="/conversations/new">
+        <a class="add" href="/rooms/new">
             <i class="material-icons">add</i>
             New
         </a>
     </div>
-    <div class="conversations">
+    <div class="rooms">
         <h3>Rooms</h3>
         @if(Rooms != null)
         {
             <div>
                 @foreach(var room in Rooms.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
                 {
-                    <div class="conversation-card" @onclick="@(e => GoToRoom(room.RoomId))">
+                    <div class="room-card" @onclick="@(e => GoToRoom(room.RoomId))">
                         <h4>@room.Name</h4>
                         <span>
                             @(room.LastActiveDate != null 

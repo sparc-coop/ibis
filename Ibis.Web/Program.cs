@@ -2,8 +2,8 @@ using Ibis.Features;
 using Ibis.Web;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Sparc.Authentication.Blazor;
 using Blazored.Modal;
+using Sparc.Platforms.Web;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

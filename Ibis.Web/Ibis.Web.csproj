@@ -7,26 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Pricing.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\Pricing.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json" />
   </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Blazored.Modal" Version="6.0.1" />
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.4" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.4">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -35,8 +27,9 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Sparc.Platforms.Web" Version="6.1.8" />
-    <PackageReference Include="Stripe.net" Version="39.95.0" />
+    <PackageReference Include="Sparc.Platforms.Web" Version="6.3.6" />
+    <PackageReference Include="Sparc.UI" Version="6.3.0" />
+    <PackageReference Include="Stripe.net" Version="39.110.0" />
   </ItemGroup>
 
 </Project>
