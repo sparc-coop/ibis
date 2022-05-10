@@ -1,28 +1,22 @@
-﻿using Sparc.Authentication.AzureADB2C;
-using Sparc.Core;
-using Sparc.Features;
-using System.Security.Claims;
+﻿namespace Ibis.Features.Users;
 
-namespace Ibis.Features.Users
+public record UpdateUserRequest(string UserId, string FullName, string LanguageId);
+public class UpdateUser : Feature<UpdateUserRequest, bool>
 {
-    public record UpdateUserRequest(string userId, string fullName, string languageId);
-    public class UpdateUser : Feature<UpdateUserRequest, bool>
+    public UpdateUser(IRepository<User> users)
     {
-        public UpdateUser(IRepository<User> users)
-        {
-            Users = users;
-        }
+        Users = users;
+    }
 
-        public IRepository<User> Users { get; }
+    public IRepository<User> Users { get; }
 
-        public override async Task<bool> ExecuteAsync(UpdateUserRequest request)
-        {
-            User user = await Users.FindAsync(request.userId);
-            user.FirstName = request.fullName.Split(' ')[0];
-            user.LastName = request.fullName.Split(' ')[1];
-            user.PrimaryLanguageId = request.languageId;
-            await Users.UpdateAsync(user);
-            return true;
-        }
+    public override async Task<bool> ExecuteAsync(UpdateUserRequest request)
+    {
+        User user = await Users.FindAsync(request.UserId);
+        user.FirstName = request.FullName.Split(' ')[0];
+        user.LastName = request.FullName.Split(' ')[1];
+        user.PrimaryLanguageId = request.LanguageId;
+        await Users.UpdateAsync(user);
+        return true;
     }
 }

@@ -1,0 +1,85 @@
+﻿<section class="upload">
+    <div class="input">
+        <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
+        <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange"/>
+    </div>
+    @((MarkupString)ErrorMessageHTML)
+    <div class="buttons">
+        <button @onclick="Submit" class="btn btn-primary">Upload</button>
+        <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+    </div>
+</section>
+
+@inject IModalService Modal
+
+@code {
+    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string? Language { get; set; }
+    string? Text;
+    MemoryStream? ms;
+    string? fileName;
+    bool FileInputEmptyOnSubmit = false;
+    string? ErrorMessageHTML;
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    void ErrorMessage()
+    {
+        if (FileInputEmptyOnSubmit)
+        {
+            ErrorMessageHTML = @"<div class='error' style='color: red;'>**File cannot be empty</div>";
+        } else {
+            ErrorMessageHTML = "";
+        }
+    }
+
+    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    {
+        ms = new MemoryStream();
+        fileName = e.File.Name;
+        await e.File.OpenReadStream().CopyToAsync(ms);
+
+        if (FileInputEmptyOnSubmit = true)
+        {
+            FileInputEmptyOnSubmit = false;
+        } else
+        {
+            FileInputEmptyOnSubmit = true;
+        }
+        ErrorMessage();
+    }
+
+    void ShowConfirmOrEditTextModal(string roomId, string language, string messageId, string text, byte[] bytes)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
+        parameters.Add(nameof(ConfirmOrEditText.Language), language);
+        parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
+        parameters.Add(nameof(ConfirmOrEditText.Text), text);
+        parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
+        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
+
+        Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
+    }
+
+    async Task Submit()
+    {
+        if(ms != null)
+        {
+            FileInputEmptyOnSubmit = false;
+            var bytes = ms.ToArray();
+            var message = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+            ShowConfirmOrEditTextModal(RoomId, Language, message.Id, message.Text, bytes);
+            await ModalInstance.CloseAsync(ModalResult.Ok(true));
+        } else
+        {
+            FileInputEmptyOnSubmit = true;
+            ErrorMessage();
+        }
+    }
+
+    void Cancel()
+    {
+        ModalInstance.CancelAsync();
+    }
+}

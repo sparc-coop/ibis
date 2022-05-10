@@ -1,7 +1,4 @@
 ﻿@import "Pages/Index";
-@import "Pages/Dashboard";
-@import "Pages/ProjectPage";
-@import "Pages/Account";
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
@@ -12,8 +9,10 @@
 @import "Shared/ProjectsList";
 @import "Shared/LoginDisplay";
 
-@import "Conversations/Index";
-@import "Conversations/MessageCard";
+@import "Rooms/Index";
+@import "Rooms/Room";
+@import "Messages/MessageCard";
+@import "Users/Account";
 
 body {
     overflow-x: hidden;

@@ -1,0 +1,102 @@
+﻿@import "../_variables.scss";
+
+.room {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+
+    .messages {
+        padding: 10px;
+        background: $white;
+        border-radius: 10px;
+        border: 1px solid $light-gray;
+        margin: 30px;
+    }
+
+    .user-invite {
+        position: absolute;
+        top: 30px;
+        right: 60px;
+    } 
+    
+    &-language {
+        padding: 0 32px;
+    }
+
+    h4 {
+        padding: 20px 32px 10px;
+        font-weight: 500;
+        font-size: 18px;
+        color: $primary;
+        height: 76px;
+        position: relative;
+
+        i {
+            color: $primary;
+            cursor: pointer;
+            padding: 0 10px;
+            position: absolute;
+            left: -12px;
+            font-size: 18px;
+        }
+
+        button {
+            color: $primary;
+            cursor: pointer;
+            border: 1px solid $gray;
+            padding: 11px 16px;
+        }
+
+        input {
+            border: 1px solid $gray;
+            padding: 11px 16px;
+            padding-right: 150px;
+        }
+    }
+
+    .input {
+        position: relative;
+        padding: 10px 32px;
+
+        input {
+            border: 1px solid gray;
+            width: 100%;
+            padding: 16px;
+            padding-right: 150px;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            right: 50px;
+            margin-top: -12px;
+
+            i {
+                color: gray;
+            }
+
+            button:hover i, button.active i {
+                cursor: pointer;
+                color: red;
+            }
+        }
+
+        .options {
+            position: absolute;
+            top: -25px;
+            right: 50px;
+
+            i {
+                color: gray;
+                padding: 0 3px;
+
+                &:hover {
+                    cursor: pointer;
+                    color: red;
+                }
+            }
+        }
+    }
+}

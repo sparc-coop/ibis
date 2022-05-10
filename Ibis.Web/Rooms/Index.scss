@@ -1,0 +1,77 @@
+﻿@import "../_variables.scss";
+
+.dashboard {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1140px;
+
+    .actions {
+        display: flex;
+        padding: 25px 100px;
+        border-bottom: 1px solid $light-gray;
+
+        .searchbar {
+            width: 100%;
+        }
+
+        input {
+            background: $white;
+            border: 1px solid $light-gray;
+            padding: 15px 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .add {
+            display: flex;
+            width: 150px;
+            color: $white;
+            background: $secondary;
+            border-radius: 40px;
+            padding: 6px 25px;
+            line-height: 38px;
+            font-weight: bold;
+            font-size: 18px;
+
+            i {
+                padding: 7px;
+                font-size: 28px;
+                margin-top: -2px;
+            }
+        }
+    }
+
+    .container {
+        padding: 25px 100px;
+        display: block;
+    }
+
+    h3 {
+        color: $primary;
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: 12px;
+    }
+
+    .room-card {
+        cursor: pointer;
+        border: 1px solid $light-gray;
+        background: $white;
+        border-radius: 10px;
+        padding: 12px 20px;
+        margin: 15px 0;
+        position: relative;
+
+        span {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            color: $gray;
+            font-size: 14px;
+        }
+    }
+
+    .rooms {
+        padding: 30px 100px;
+    }
+}
