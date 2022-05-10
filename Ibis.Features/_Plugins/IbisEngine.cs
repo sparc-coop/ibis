@@ -133,9 +133,12 @@ public class IbisEngine
 
             recognizer.Recognized += (s, e) =>
             {
-                Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
-                newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
-                messages.Add(newMessage);
+                if (e.Result.Reason == ResultReason.RecognizedSpeech)
+                {
+                    Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
+                    newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
+                    messages.Add(newMessage);
+                }
             };
 
             recognizer.SessionStopped += (s, e) =>
