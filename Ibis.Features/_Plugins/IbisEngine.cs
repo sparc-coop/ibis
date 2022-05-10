@@ -12,12 +12,16 @@ namespace Ibis.Features._Plugins
     public class IbisEngine
     {
         HttpClient Translator { get; set; }
+        HttpClient Synthesizer { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
         public IRepository<Message> Messages { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
+            SpeechApiKey = configuration.GetConnectionString("Speech");
+            Files = files;
+
             Translator = new HttpClient
             {
                 BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com"),
@@ -25,8 +29,11 @@ namespace Ibis.Features._Plugins
             Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
             Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
 
-            SpeechApiKey = configuration.GetConnectionString("Speech");
-            Files = files;
+            Synthesizer = new HttpClient
+            {
+                BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
+            };
+            Synthesizer.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SpeechApiKey);
         }
 
         internal async Task SpeakAsync(Message message)
@@ -161,6 +168,20 @@ namespace Ibis.Features._Plugins
             var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");
             var result = await UnJsonify<LanguageTest>(response);
             return result.translation.ToList();
+        }
+
+        public async Task<List<Dialect>> GetDialectsForLanguage(string language)
+        {
+            var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
+            var result = await UnJsonify<List<Dialect>>(response);
+            return result.ToList().FindAll(x => x.Locale.StartsWith(language));
+        }
+
+        public async Task<List<Voice>> GetVoicesForDialect(string locale)
+        {
+            var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
+            var result = await UnJsonify<List<Voice>>(response);
+            return result.ToList().FindAll(x => x.Locale.Equals(locale));
         }
 
         private async Task<T> Post<T>(string url, object model)

@@ -30,6 +30,13 @@ namespace Ibis.Features.Conversations
                 await Messages.UpdateAsync(translatedMessage);
             }
 
+            Conversation? conversation = await Conversations.FindAsync(request.ConversationId);
+            if (conversation != null)
+            {
+                conversation.AddLanguage(request.Language);
+                await Conversations.UpdateAsync(conversation);
+            }
+
             return Messages.Query.Where(x => x.ConversationId == request.ConversationId).ToList();
         }
     }

@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Ibis.Features._Plugins;
+using Ibis.Features.Conversations.Entities;
+using System.Globalization;
 
 namespace Ibis.Features
 {
@@ -8,6 +10,7 @@ namespace Ibis.Features
         public string DisplayName { get; private set; }
         public string NativeName { get; private set; }
         public bool IsRightToLeft { get; private set; }
+        public List<Dialect> Dialects { get; private set; }
 
         private Language()
         {
@@ -21,6 +24,7 @@ namespace Ibis.Features
             DisplayName = culture.DisplayName;
             NativeName = culture.NativeName;
             IsRightToLeft = culture.TextInfo.IsRightToLeft;
+            Dialects = new();
         }
 
         public Language(string name, string displayName, string nativeName, bool isRightToLeft)
@@ -30,7 +34,17 @@ namespace Ibis.Features
             NativeName = nativeName;
             IsRightToLeft = isRightToLeft;
         }
-    }
-    
 
+        public void AddDialect(string language, string locale, string localeName)
+        {
+            Dialect dialect = new(language, locale, localeName);
+
+            var existing = Dialects.FindIndex(x => x.Locale == locale);
+
+            if (existing == -1)
+                Dialects.Add(dialect);
+            else
+                Dialects[existing] = dialect;
+        }
+    }
 }

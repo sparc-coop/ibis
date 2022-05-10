@@ -14,8 +14,8 @@ namespace Ibis.Features.Conversations
 
         public override async Task<GetLanguageListResponse> ExecuteAsync()
         {
-            var lanuages = await IbisEngine.GetAllLanguages();
-            return new(lanuages);
+            var languages = await IbisEngine.GetAllLanguages();
+            return new(languages);
         }
     }
 }
