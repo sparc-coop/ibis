@@ -1305,6 +1305,12 @@
             "format": "date-time",
             "readOnly": true
           },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "readOnly": true
+          },
           "text": {
             "type": "string",
             "nullable": true,
@@ -1344,6 +1350,10 @@
           "userInitials": {
             "type": "string",
             "nullable": true
+          },
+          "subroomId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1364,6 +1374,14 @@
             "nullable": true
           },
           "hostUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostMessageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostRoomId": {
             "type": "string",
             "nullable": true
           },
