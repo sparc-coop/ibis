@@ -13,16 +13,9 @@
     </div>
     <div class="message-content">
         @MessageText
-        @if (Message.IsNew && MessageAudio != null)
-        {
-            <audio autoplay>
-                <source src="@MessageAudio" />
-            </audio>
-        }
 
         @if(MessageAudio != null)
         {
-
             <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
             <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
         }

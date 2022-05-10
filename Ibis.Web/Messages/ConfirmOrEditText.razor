@@ -14,13 +14,12 @@
 </section>
 
 @code {
-    [Parameter] public string? ConversationId { get; set; }
+    [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Language { get; set; }
     [Parameter] public string? MessageId { get; set; }
     [Parameter] public string? Text { get; set; }
     [Parameter] public string? ModifiedText { get; set; }
     [Parameter] public byte[]? Bytes { get; set;  }
-    Conversation? Conversation;
     List<Message> Messages = new();
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
@@ -47,9 +46,9 @@
         Message newMessage;
         if (ModifiedText == Text)
         {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
         } else {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = ConversationId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
         }
         AddMessage(newMessage);
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
@@ -57,7 +56,7 @@
 
     async Task Cancel()
     {
-        await Api.DeleteMessageAsync(new DeleteMessageRequest { ConversationId = ConversationId, MessageId = MessageId });
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = MessageId });
         await ModalInstance.CancelAsync();
     }
 }

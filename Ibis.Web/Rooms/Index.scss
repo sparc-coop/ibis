@@ -53,7 +53,7 @@
         padding-bottom: 12px;
     }
 
-    .conversation-card {
+    .room-card {
         cursor: pointer;
         border: 1px solid $light-gray;
         background: $white;
@@ -71,7 +71,7 @@
         }
     }
 
-    .conversations {
+    .rooms {
         padding: 30px 100px;
     }
 }

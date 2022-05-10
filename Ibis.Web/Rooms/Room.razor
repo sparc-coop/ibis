@@ -1,25 +1,25 @@
-﻿@page "/conversations/new"
-@page "/conversations/{Id}"
+﻿@page "/rooms/new"
+@page "/rooms/{Id}"
 @layout DashLayout
 @attribute [Authorize]
 
-<section class="conversation">
-    <a href="/dashboard">All conversations</a>
-    @if(Conversation != null)
+<section class="room">
+    <a href="/rooms">All rooms</a>
+    @if(RoomInfo != null)
     {
         <h4>
             @if(ToggleEdit == false)
             {
-                @Conversation.Name
+                @RoomInfo.Name
                 <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
             } else
             {
 
-                <input @bind="Conversation.Name">
+                <input @bind="RoomInfo.Name">
                 <button class="save" @onclick="@(() => UpdateName())">Save</button>
             }
         </h4>   
-        <InviteUser ConversationId="@Conversation.Id" />
+        <InviteUser RoomId="@RoomInfo.RoomId" />
     }
 
     @if(Messages.Count > 0)
@@ -31,7 +31,7 @@
             }
         </div>   
     }
-    <div class="conversation-language">
+    <div class="room-language">
         <label for="switch-lang">Language:</label>
         <select id="switch-lang" @onchange="SwitchLanguage">
 			@foreach(var item in LanguageList.Languages)
@@ -87,7 +87,7 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
     string? Text;
-    Conversation? Conversation;
+    GetRoomResponse? RoomInfo;
     List<Message> Messages = new();
 
     HubConnection Connection { get; set; }
@@ -107,26 +107,23 @@
 
         if (string.IsNullOrWhiteSpace(Id))
         {
-            Conversation = await Api.StartConversationAsync();
-            Nav.NavigateTo($"/conversations/{Conversation.Id}", true);
+            RoomInfo = await Api.CreateRoomAsync();
+            Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
         }
         else 
         {
-            var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
-            Conversation = conversation.Conversation;
-            Messages = conversation.Messages.ToList();
+            RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
+            Messages = RoomInfo.Messages.ToList();
         }
 
         Connection = new HubConnectionBuilder()
-            .WithUrl(Config["ApiUrl"] + "/conversations")
+            .WithUrl(Config["ApiUrl"] + "/rooms")
             .Build();
 
-        Connection.On<Message>("NewMessage", message => {
-            message.IsNew = true;
-            AddMessage(message);
-        });
+        Connection.On<Message>("NewMessage", message => AddMessage(message));
+
         await Connection.StartAsync();
-        await Connection.SendAsync("AddToConversation", Conversation.Id, user.Id, Language);
+        await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
     }
 
     void AddMessage(Message message)
@@ -140,10 +137,10 @@
         StateHasChanged();
     }
 
-    void ShowUploadModal(string conversationId, string language)
+    void ShowUploadModal(string roomId, string language)
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(Upload.ConversationId), conversationId);
+        parameters.Add(nameof(Upload.RoomId), roomId);
         parameters.Add(nameof(Upload.Language), language);
         Modal.Show<Upload>("Upload", parameters);
     }
@@ -159,7 +156,7 @@
 
     async Task Speak()
     {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { ConversationId = Id, Language = Language });
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
         AddMessage(newMessage);
     }
 
@@ -171,7 +168,7 @@
 
     async Task SendText()
     {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { ConversationId = Conversation.Id, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomInfo.RoomId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
         AddMessage(newMessage);
         Text = null;
     }
@@ -187,7 +184,7 @@
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
         Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = GetFileName(Conversation?.Name);
+        var fileName = GetFileName(RoomInfo?.Name);
         Console.WriteLine("test1" + fileName);
         using var streamRef = new DotNetStreamReference(stream: fileStream);
         await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
@@ -201,9 +198,9 @@
             mergeFiles.Add(message.AudioId);
         }
 
-        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en" });
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, RoomId = RoomInfo.RoomId, Language = "en" });
         Console.WriteLine(filePath);
-        var fileName = GetFileName(Conversation?.Name);
+        var fileName = GetFileName(RoomInfo?.Name);
         await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
     }
 
@@ -238,7 +235,7 @@
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
         Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = Conversation?.Name + ".srt" ?? "testcaptions.srt";
+        var fileName = RoomInfo?.Name + ".srt" ?? "testcaptions.srt";
         foreach(char c in System.IO.Path.GetInvalidFileNameChars())
         {
             fileName = fileName.Replace(c, '_');
@@ -251,13 +248,13 @@
     async void UpdateName()
     {
         ToggleEdit = false;
-        await Connection.SendAsync("UpdateConversation", Conversation);
+        await Connection.SendAsync("UpdateRoom", RoomInfo);
     }
 
     async Task SwitchLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
-        var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language});
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language});
         Messages = response.ToList();
         StateHasChanged();
     }

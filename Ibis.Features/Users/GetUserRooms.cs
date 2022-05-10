@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public class GetUserRooms : Feature<string, List<Room>>
+public class GetUserRooms : Feature<string, List<GetRoomResponse>>
 {
     public GetUserRooms(IRepository<Room> rooms)
     {
@@ -9,8 +9,10 @@ public class GetUserRooms : Feature<string, List<Room>>
 
     public IRepository<Room> Rooms { get; }
  
-    public override async Task<List<Room>> ExecuteAsync(string userId)
+    public override async Task<List<GetRoomResponse>> ExecuteAsync(string userId)
     {
-        return await Rooms.Query.Where(x => x.HostUserId == userId).ToListAsync(); // || x.ActiveUsers.Any(y => y.UserId == userId)
+        var rooms = await Rooms.Query.Where(x => x.HostUserId == userId).ToListAsync(); // || x.ActiveUsers.Any(y => y.UserId == userId)
+
+        return rooms.Select(x => new GetRoomResponse(x)).ToList();
     }
 }

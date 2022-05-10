@@ -1,0 +1,51 @@
+﻿@page "/rooms"
+@layout DashLayout
+@attribute [Authorize]
+
+<div class="dashboard">
+	 <div class="actions">
+        <div class="searchbar">
+            <input placeholder="Search"/>
+        </div>
+        <a class="add" href="/conversations/new">
+            <i class="material-icons">add</i>
+            New
+        </a>
+    </div>
+    <div class="conversations">
+        <h3>Rooms</h3>
+        @if(Rooms != null)
+        {
+            <div>
+                @foreach(var room in Rooms.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
+                {
+                    <div class="conversation-card" @onclick="@(e => GoToRoom(room.RoomId))">
+                        <h4>@room.Name</h4>
+                        <span>
+                            @(room.LastActiveDate != null 
+                                ? room.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
+                                : room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
+                        </span>
+                    </div>
+                }
+            </div>   
+        }
+    </div>
+</div>
+
+@code {
+    ICollection<GetRoomResponse>? Rooms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await Api.GetUserAsync();
+        Rooms = await Api.GetUserRoomsAsync(user.Id);
+    }
+
+    void GoToRoom(string Id)
+    {
+        Nav.NavigateTo($"/rooms/{Id}", true);    
+    }
+
+    public record LanguageItem(string name, string nativeName, string dir);
+}

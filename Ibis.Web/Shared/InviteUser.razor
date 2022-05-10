@@ -5,12 +5,12 @@
 
 @code {
     [Parameter]
-    public string ConversationId { get; set; }
+    public string RoomId { get; set; }
 
     void OpenModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(ConversationId), ConversationId);
+        parameters.Add(nameof(RoomId), RoomId);
         Modal.Show<InviteModal>("InviteModal", parameters);
     }
 }

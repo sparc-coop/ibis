@@ -13,12 +13,9 @@
 @inject IModalService Modal
 
 @code {
-    [Parameter] public string? ConversationId { get; set; }
+    [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Language { get; set; }
     string? Text;
-    Conversation? Conversation;
-    List<Message> Messages = new();
-    InputFileChangeEventArgs? e;
     MemoryStream? ms;
     string? fileName;
     bool FileInputEmptyOnSubmit = false;
@@ -52,10 +49,10 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string conversationId, string language, string messageId, string text, byte[] bytes)
+    void ShowConfirmOrEditTextModal(string roomId, string language, string messageId, string text, byte[] bytes)
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmOrEditText.ConversationId), conversationId);
+        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
         parameters.Add(nameof(ConfirmOrEditText.Language), language);
         parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
         parameters.Add(nameof(ConfirmOrEditText.Text), text);
@@ -71,8 +68,8 @@
         {
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
-            var message = await Api.UploadFileAsync(new UploadFileRequest { ConversationId = ConversationId, Language = Language, Bytes = bytes, FileName = fileName });
-            ShowConfirmOrEditTextModal(ConversationId, Language, message.Id, message.Text, bytes);
+            var message = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+            ShowConfirmOrEditTextModal(RoomId, Language, message.Id, message.Text, bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

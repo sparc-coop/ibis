@@ -10,7 +10,7 @@
         @if(Group != null)
         {
 
-@*            List<ConversationUser> users = Group.Users.ToList();
+@*            List<RoomUser> users = Group.Users.ToList();
             @foreach(var user in users)
             {
                 <div>@user.Name; 
@@ -19,7 +19,7 @@
     </div>
     <h6 @onclick="CopyLink">Copy & Share Link</h6>
     <div>
-        <div>conversation.ibis.com/ratio-view-wing</div>
+        <div>room.ibis.com/ratio-view-wing</div>
         <span>copy</span>
     </div>
 </div>
@@ -28,17 +28,17 @@
 @code {
     bool Sent = false;
     string InviteEmail;
-    ConversationUsersResponse Group;
+    RoomUsersResponse Group;
 
     [Parameter] 
-    public string ConversationId { get; set; }
+    public string RoomId { get; set; }
     [CascadingParameter] 
     BlazoredModalInstance ModalInstance { get; set; } = default!;
 
 
-    protected override async Task OnInitializedAsync() => Group = await Api.GetConversationUsersAsync(ConversationId);
+    protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
-    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { ConversationId = ConversationId, Email = InviteEmail });
+    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
 
     async Task CopyLink()
     {
