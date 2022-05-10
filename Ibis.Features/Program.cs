@@ -1,4 +1,3 @@
-
 namespace Ibis.Features;
 
 public class Program

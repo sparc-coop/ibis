@@ -1,13 +1,14 @@
-﻿namespace Ibis.Features.Conversations.Entities;
+﻿namespace Ibis.Features.Messages;
 
 public class Translation
 {
     private Translation()
     { }
-    
-    public Translation(string language)
+
+    public Translation(string language, string text)
     {
         Language = language;
+        Text = text;
     }
 
     public string Language { get; private set; }
@@ -16,7 +17,6 @@ public class Translation
     public string? AudioId { get; private set; }
     public double? Score { get; private set; }
 
-    public void SetText(string text) => Text = text;
     public void SetAudio(string audioId) => AudioId = audioId;
 
 }

@@ -1,7 +1,6 @@
-﻿using Sparc.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Ibis.Features;
+namespace Ibis.Features.Users;
 public class User : Root<string>
 {
     public User()
@@ -12,7 +11,7 @@ public class User : Root<string>
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
-        ActiveConversations = new();
+        ActiveRooms = new();
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -35,10 +34,10 @@ public class User : Root<string>
     public string? PhoneNumber { get; set; }
     public string? FirstName { get; set; }
 
-    internal void JoinConversation(string conversationId, string connectionId)
+    internal void JoinRoom(string roomId, string connectionId)
     {
-        if (!ActiveConversations.Any(x => x.ConversationId == conversationId))
-            ActiveConversations.Add(new(conversationId, connectionId, DateTime.UtcNow));
+        if (!ActiveRooms.Any(x => x.RoomId == roomId))
+            ActiveRooms.Add(new(roomId, connectionId, DateTime.UtcNow));
     }
 
     public string? LastName { get; set; }
@@ -51,18 +50,18 @@ public class User : Root<string>
     public DateTime DateModified { get; set; }
     public string CustomerId { get; set; }
 
-    internal string? LeaveConversation(string conversationOrConnectionId)
+    internal string? LeaveRoom(string roomOrConnectionId)
     {
-        var conversationId = ActiveConversations.FirstOrDefault(x => x.ConversationId == conversationOrConnectionId || x.ConnectionId == conversationOrConnectionId)?.ConversationId;
-        if (conversationId == null) return null;
+        var roomId = ActiveRooms.FirstOrDefault(x => x.RoomId == roomOrConnectionId || x.ConnectionId == roomOrConnectionId)?.RoomId;
+        if (roomId == null) return null;
 
-        ActiveConversations.RemoveAll(x => x.ConversationId == conversationId);
-        return conversationId;
+        ActiveRooms.RemoveAll(x => x.RoomId == roomId);
+        return roomId;
     }
 
     public string PrimaryLanguageId { get; set; }
     public List<Language> LanguagesSpoken { get; set; }
-    public List<ActiveConversation> ActiveConversations { get; set; }
+    public List<ActiveRoom> ActiveRooms { get; set; }
 }
 
-public record ActiveConversation(string ConversationId, string ConnectionId, DateTime JoinDate);
+public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);

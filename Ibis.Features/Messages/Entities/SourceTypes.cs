@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Conversations.Entities
+﻿namespace Ibis.Features.Messages
 {
     public enum SourceTypes
     {

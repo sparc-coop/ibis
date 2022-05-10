@@ -1,9 +1,4 @@
-﻿using Ibis.Features._Plugins;
-using Ibis.Features.Conversations;
-using Ibis.Features.Users;
-using Sparc.Authentication.AzureADB2C;
-using Sparc.Core;
-using Sparc.Features;
+﻿using Sparc.Authentication.AzureADB2C;
 using Sparc.Notifications.Twilio;
 using Sparc.Plugins.Database.Cosmos;
 using Sparc.Storage.Azure;
@@ -38,7 +33,7 @@ namespace Ibis.Features
             app.Sparcify<Startup>(env);
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
-                endpoints.MapHub<ConversationHub>("/conversations");
+                endpoints.MapHub<RoomHub>("/rooms");
                 });
             app.UseDeveloperExceptionPage();
         }

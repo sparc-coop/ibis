@@ -1,33 +1,31 @@
-﻿using Sparc.Core;
-using System.Globalization;
+﻿namespace Ibis.Features.Rooms;
 
-namespace Ibis.Features.Conversations.Entities;
-
-public class Conversation : Root<string>
+public class Room : Root<string>
 {
-    public string ConversationId { get; set; }
+    public string RoomId { get; set; }
     public string Name { get; set; }
     public string HostUserId { get; set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? LastActiveDate { get; set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
-    public List<Translation> Translations { get; private set; }
+    public List<Messages.Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
 
-    private Conversation() 
+    private Room() 
     { 
         Id = Guid.NewGuid().ToString();
-        ConversationId = Id;
+        RoomId = Id;
         Name = "New Conversation";
         HostUserId = "";
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
         ActiveUsers = new();
+        Translations = new();
     }
 
-    public Conversation(string name, string hostUserId) : this()
+    public Room(string name, string hostUserId) : this()
     {
         Name = name;
         HostUserId = hostUserId;
