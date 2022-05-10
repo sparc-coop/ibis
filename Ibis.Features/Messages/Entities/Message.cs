@@ -7,6 +7,7 @@ public class Message : Root<string>
     public string Language { get; private set; }
     public SourceTypes SourceType { get; private set; }
     public DateTime Timestamp { get; private set; }
+    public long? Duration { get; private set; }
     public string? Text { get; private set; }
     public string? ModifiedText { get; private set; }
     public string? AudioId { get; private set; }
@@ -15,6 +16,7 @@ public class Message : Root<string>
     public List<Translation> Translations { get; private set; }
     public string UserName { get; set; }
     public string UserInitials { get; set; }
+    public string? SubroomId { get; set; }
 
     protected Message()
     {
@@ -44,8 +46,8 @@ public class Message : Root<string>
     public void SetAudio(string audioId) => AudioId = audioId;
     public void SetModifiedAudio(string audioId) => ModifiedAudioId = audioId;
     public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;
-
-
+    public void SetSubroomId(string id) => SubroomId = id;
+    
     public bool HasTranslation(string language)
     {
         return Translations.Any(x => x.Language.StartsWith(language));
@@ -67,5 +69,11 @@ public class Message : Root<string>
         return !HasTranslation(language)
             ? string.Empty
             : Translations.First(x => x.Language.StartsWith(language)).Text;
+    }
+
+    internal void SetTimestamp(long offsetInTicks, TimeSpan duration)
+    {
+        Timestamp = Timestamp.AddTicks(offsetInTicks);
+        Duration = duration.Ticks;
     }
 }

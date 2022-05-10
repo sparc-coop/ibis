@@ -119,29 +119,40 @@ public class IbisEngine
         return message;
     }
 
-    internal async Task<Message> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
+    internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
     {
         var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
         var audioConfig = IbisHelpers.OpenWavFile(bytes);
 
+        var messages = new List<Message>();
+
         try
         {
-            using (var recognizer = new SpeechRecognizer(speechConfig, audioConfig))
-            {
-                Console.WriteLine("Transcribing wav file...");
-                var result = await recognizer.RecognizeOnceAsync();
-                Console.WriteLine($"RECOGNIZED: Text={result.Text}");
+            using var recognizer = new SpeechRecognizer(speechConfig, audioConfig);
+            var stopRecognition = new TaskCompletionSource<int>();
 
-                message.SetText(result.Text);
-                message.SetOriginalUploadFileName(fileName);
-            }
+            recognizer.Recognized += (s, e) =>
+            {
+                Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
+                newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
+                messages.Add(newMessage);
+            };
+
+            recognizer.SessionStopped += (s, e) =>
+            {
+                stopRecognition.TrySetResult(0);
+            };
+
+            Console.WriteLine("Transcribing wav file...");
+            await recognizer.StartContinuousRecognitionAsync();
+            Task.WaitAny(new[] { stopRecognition.Task });
+            return messages;
         }
         catch (Exception ex)
         {
             var testing = ex.Message;
+            return new();
         }
-
-        return message;
     }
 
     internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes)
