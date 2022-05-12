@@ -1,13 +1,13 @@
-﻿<section class="upload">
+﻿<section class="upload modal">
+    <button class="close" @onclick="Cancel">
+        <img src="/icons/Close.svg"/>
+    </button>
     <div class="input">
-        <label for="UploadFileInput">Upload a WAV file:</label><br/><br/>
+        <h4>Upload a WAV file:</h4>
         <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange"/>
     </div>
     @((MarkupString)ErrorMessageHTML)
-    <div class="buttons">
-        <button @onclick="Submit" class="btn btn-primary">Upload</button>
-        <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
-    </div>
+    <button @onclick="Submit" class="btn btn-primary">Upload</button>
 </section>
 
 @inject IModalService Modal

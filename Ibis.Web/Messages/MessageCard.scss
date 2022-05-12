@@ -1,64 +1,212 @@
 ﻿@import "../_variables.scss";
 
-.message {
-    &-card {
-        padding: 13px 20px;
-        margin: 26px 20px;
-        position: relative;
-        background-color: #e6eef2;
-        border-radius: 10px;
-        width: fit-content;
+.message-grid {
+    background: $white;
+    padding: 0 16px 185px 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 12px 12px 12px 12px;
+    width: 60%;
+    max-width: 940px;
+    max-height: 700px;
+    position: relative;
+    overflow: hidden;
+
+    .message-list {
+        overflow-y: auto;
+        max-height: 540px;
+        padding: 24px 0 38px 0;
+
+        &::-webkit-scrollbar {
+            width: 7px;
+            border-radius: 6px;
+        }
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: $white;
+        }
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $grey-300;
+        }
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: $grey-400;
+        }
     }
 
-    &-info {
-        position: absolute;
-
-        h3 {
-            position: absolute;
-            left: -275px;
-            width: 200px;
-            text-align: right;
-            padding: 0 20px;
-        }
-
-        span {
-            display: block;
-            text-align: right;
-            font-size: 12px;
-            color: $gray;
-        }
+    .user {
+        position: relative;
+        padding-left: 35px;
+        font-size: 13px;
 
         .avatar {
-            background: #0d648f;
-            color: $white;
-            font-size: 13px;
-            width: 35px;
-            height: 35px;
-            line-height: 35px;
+            color: $black;
+            font-size: 12px;
+            width: 25px;
+            height: 25px;
+            line-height: 27px;
             text-align: center;
             border-radius: 45px;
             position: absolute;
-            left: -68px;
-            top: -10px;
+            left: 0;
+            top: -7px;
         }
     }
 
-    &-content {
-        i {
+    .message-card {
+        padding: 16px;
+        margin: 0 8px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+
+        .account-name {
+            margin-bottom: 10px;
+        }
+    }
+
+    .message-content {
+        font-size: 18px;
+        font-family: 'CircularStd-Book';
+        font-weight: 400;
+    }
+
+    .message-box {
+        position: absolute;
+        margin-top: 38px;
+        width: calc(100% - 32px);
+        bottom: 77px;
+
+        textarea {
+            resize: none;
+        }
+
+        .button-send {
             position: absolute;
-            right: -14px;
-            bottom: -10px;
-            color: $gray;
-            cursor: pointer;
-            font-size: 20px;
-            padding: 2px;
-            border: 1px solid $gray;
-            border-radius: 40px;
-            background: $white;
+            right: 24px;
+            top: 20px;
+            padding: 6px 12px;
+            background: $dark-blue;
+            border-radius: 8px;
+            color: $white;
+            display: flex;
+            align-items: center;
+            height: 32px;
+            max-width: 82px;
+            line-height: 20px;
+
+            img {
+                margin-left: 8px;
+                margin-top: 0px;
+            }
         }
     }
 
-    &-audio {
-        display: none;
+    .message-box-top {
+        box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+        border-radius: 16px 16px 0px 0px;
+        border: 1px solid $light-gray;
+        background: #FFFFFF;
+        height: 105px;
+        padding: 24px 112px 24px 24px;
+        width: 100%;
+        max-width: 100%;
+
+        ::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    .message-box-bottom {
+        border-radius: 0px 0px 16px 16px;
+        border: 1px solid $light-gray;
+        box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+        background: #FFFFFF;
+        padding: 16px;
+        position: absolute;
+        bottom: 16px;
+        border-top: none;
+        width: calc(100% - 32px);
+        max-width: 940px;
+        overflow: hidden;
+
+        .message-options {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            .select-upload {
+                margin-right: 30px;
+            }
+
+            .translate, .switch-wrapper {
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                line-height: 120%;
+                color: $grey-400;
+            }
+
+            .translate {
+                margin-right: 10px;
+                cursor: pointer;
+
+                img {
+                    margin-right: 8px;
+                }
+            }
+
+            .switch-wrapper {
+                margin-right: 14px;
+
+                .switch {
+                    margin-right: 10px;
+                }
+            }
+
+            .switch-wrapper:last-child {
+                margin-right: 0px;
+            }
+        }
+    }
+
+    .time-stamp {
+        position: absolute;
+        top: 0;
+        left: -40px;
+
+        .start {
+            color: $grey-700;
+            margin-bottom: 4px;
+        }
+
+        .time-duration {
+            color: $grey-400;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+
+            p.small:first-of-type {
+                margin-bottom: 2px;
+            }
+
+            .timeline-line {
+                border-left: 1px solid $grey-300;
+                height: 113px;
+                margin-bottom: 2px;
+            }
+
+            .timeline-line2 {
+                border-left: 1px solid $grey-300;
+                height: 86px;
+                margin-bottom: 2px;
+            }
+
+            .timeline-line3 {
+                border-left: 1px solid $grey-300;
+                height: 400px;
+                margin-bottom: 2px;
+            }
+        }
     }
 }

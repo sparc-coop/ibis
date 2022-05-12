@@ -17,6 +17,7 @@ public class Message : Root<string>
     public string UserName { get; set; }
     public string UserInitials { get; set; }
     public string? SubroomId { get; set; }
+    public string? Color { get; set; }
 
     protected Message()
     {

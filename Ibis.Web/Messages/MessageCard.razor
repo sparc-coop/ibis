@@ -1,11 +1,13 @@
-﻿<article class="message-card">
-    <div class="message-info">
+﻿<article class="message-card" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)">
+    <div class="message-card-content">
         <div class="user">
-            <h3>
+            <div class="avatar" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191"); filter: brightness(75%)">
+                @(Message.UserInitials != null ? Message.UserInitials : "")
+            </div>
+            <div class="account-name" style="color:#000000">
                 @(Message.UserName != null ? Message.UserName : "")
-                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
-            </h3>
-            <div class="avatar">@(Message.UserInitials != null ? Message.UserInitials : "")</div>
+@*                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>*@
+            </div>
         </div>
 @*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
         @Message.Timestamp.ToString("f")
@@ -13,12 +15,11 @@
     </div>
     <div class="message-content">
         @MessageText
-
-        @if(MessageAudio != null)
+@*        @if(MessageAudio != null)
         {
             <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
             <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
-        }
+        }*@
     </div>
 </article>
 

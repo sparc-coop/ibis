@@ -40,6 +40,7 @@ public class SendMessage : Feature<SendMessageRequest, Message>
             message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user.FullName, user.Initials);
             message.UserName = user.FullName;
             message.SetText(request.Message);
+            message.Color = user.Color;
 
             // Translate and Speak
             room = await Rooms.FindAsync(request.RoomId);

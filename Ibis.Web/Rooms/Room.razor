@@ -4,55 +4,115 @@
 @attribute [Authorize]
 
 <section class="room">
-    <a href="/rooms">All rooms</a>
-    @if (RoomInfo != null)
-    {
-        <h4>
-            @if (ToggleEdit == false)
-            {
-                @RoomInfo.Name
-                <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
-            }
-            else
-            {
-
-                <input @bind="RoomInfo.Name">
-                <button class="save" @onclick="@(() => UpdateName())">Save</button>
-            }
-        </h4>
-        <InviteUser RoomId="@RoomInfo.RoomId" />
-    }
-
-    @if (Messages.Count > 0)
-    {
-        <div class="messages">
-            @foreach (var message in Messages)
-            {
-                <MessageCard Message=message Language=@Language />
-            }
-        </div>
-    }
-
-    @if (LanguageList != null)
-    {
-        <div class="room-language">
-            <label for="switch-lang">Language:</label>
-            <select id="switch-lang" @onchange="SwitchLanguage">
-                @foreach (var item in LanguageList.Languages)
-                {
-                    if (item.Key == Language)
-                    {
-                        <option value="@item.Key" selected>@item.Value.Name</option>
-                    }
-                    else
-                    {
-                        <option value="@item.Key">@item.Value.Name</option>
-                    }
+    <div class="header">
+@*        <a href="/rooms">All rooms</a>*@
+        @if (RoomInfo != null)
+        {
+            <h2>
+@*                @if (ToggleEdit == false)
+                {*@
+                    @RoomInfo.Name
+@*                    <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
                 }
-            </select>
-        </div>
-    }
+                else
+                {
 
+                    <input @bind="RoomInfo.Name">
+                    <button class="save" @onclick="@(() => UpdateName())">Save</button>
+                }*@
+            </h2>
+            <InviteUser RoomId="@RoomInfo.RoomId" />
+        }
+    </div>
+    <div class="content">
+        <div class="message-grid">
+            <div class="message-list">
+                @if (Messages.Count > 0)
+                {
+                    @foreach (var message in Messages)
+                    {
+                        <MessageCard Message=message Language=@Language />
+                    }          
+                }
+            </div>
+
+            @if (LanguageList != null)
+            {
+    @*            <div class="room-language">
+                    <label for="switch-lang">Language:</label>
+                    <select id="switch-lang" @onchange="SwitchLanguage">
+                        @foreach (var item in LanguageList.Languages)
+                        {
+                            if (item.Key == Language)
+                            {
+                                <option value="@item.Key" selected>@item.Value.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Key">@item.Value.Name</option>
+                            }
+                        }
+                    </select>
+                </div>*@
+            }
+
+            <div class="message-box">
+                <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
+                <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
+            </div>
+            <div class="message-box-bottom">
+                <div class="message-options">
+                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload">
+                        <i class="material-icons">cloud_upload</i>
+                    </button>
+                    <div class="translate">
+                        <img src="icons/Translate.svg" />
+                        <p>Auto Translate</p>
+                    </div>
+
+                    @*Make Text Dark Blue When checked*@
+                    <div class="switch-wrapper">
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Voice</p>
+                            
+                    </div>
+                    @*Make Text Dark Blue When checked*@
+                    <div class="switch-wrapper">
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Text</p>
+                    </div>
+                </div>
+            </div>
+            <div class="time-stamp">
+                <p class="small start">Start</p>
+                <div class="time-duration">
+                    <p class="small">0:10</p>
+                    <div class="timeline-line"></div>
+                    <p class="small">0:25</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:27</p>
+                    <div class="timeline-line2"></div>
+                    <p class="small">0:31</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:34</p>
+                    <div class="timeline-line3"></div>
+                    <p class="small">1:17</p>
+                </div>
+            </div>
+        </div>
+        <ChatBox />
+    </div>
+@*
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
@@ -83,7 +143,7 @@
                 <i class="material-icons">send</i>
             </button>
         </div>
-    </div>
+    </div>*@
 </section>
 
 @using System.Text
