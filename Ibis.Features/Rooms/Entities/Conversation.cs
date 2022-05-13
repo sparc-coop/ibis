@@ -40,9 +40,11 @@ public class Room : Root<string>
         Name = room.Name;
         HostMessageId = message.Id;
         HostRoomId = room.Id;
-        Languages = room.Languages;
-        ActiveUsers = room.ActiveUsers;
-        Translations = room.Translations;
+
+        // Need to create a new copy of these objects, so Entity Framework doesn't get confused
+        Languages = room.Languages.Select(x => new Language(x.Name, x.DisplayName, x.NativeName, x.IsRightToLeft)).ToList();
+        ActiveUsers = room.ActiveUsers.Select(x => new ActiveUser(x.UserId, x.JoinDate, x.Language, x.PhoneNumber)).ToList();
+        Translations = room.Translations.Select(x => new Messages.Translation(x.Language, x.Text)).ToList();
     }
 
     public void AddLanguage(string language)
