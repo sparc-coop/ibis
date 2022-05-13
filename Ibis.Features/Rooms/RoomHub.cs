@@ -50,8 +50,14 @@ public class RoomHub : Hub
         return roomId;
     }
 
-    public async Task UpdateRoom(Room room)
+    public async Task UpdateRoom(GetRoomResponse roomInfo)
     {
-        await Rooms.UpdateAsync(room);
+        var room = await Rooms.FindAsync(roomInfo.RoomId);
+        if (room != null)
+        {
+            room.LastActiveDate = roomInfo.LastActiveDate;
+            room.Name = roomInfo.Name;
+            await Rooms.UpdateAsync(room);
+        }
     }
 }
