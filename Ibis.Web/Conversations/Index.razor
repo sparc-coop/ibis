@@ -65,6 +65,12 @@
              <button @onclick="DownloadSRT">
                 <i class="material-icons">file_download</i>
             </button>
+             <button @onclick="DownloadBRF">
+                <i class="material-icons">file_download</i>
+            </button>
+                         <button @onclick="BrailleUnicode">
+                <i class="material-icons">file_download</i>
+            </button>
         </div>
         <div class="buttons">
             <button @onclick="SendText" aria-label="Send" class="active">
@@ -72,12 +78,14 @@
             </button>
         </div>
     </div>
+    <div>hi @brailletext</div>
 </section>
 
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text
 @inject IJSRuntime JS
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Net
 @inject IModalService Modal
 
 @code {
@@ -92,6 +100,7 @@
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
     GetLanguageListResponse LanguageList;
+    string brailletext = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -229,7 +238,7 @@
         var num = 1;
         foreach(var message in Messages)
         {
-            
+
             //var frame = num;
             builder.AppendLine(num.ToString());
             num++;
@@ -268,4 +277,96 @@
             Messages = response.ToList();
         }
     }
+
+    async Task DownloadBRF()
+    {
+
+        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { ConversationId = Conversation.Id });
+
+
+        StringBuilder builder = new StringBuilder();
+        foreach(var message in braille)
+        {
+            builder.AppendLine(message);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = Conversation?.Name + ".brf" ?? "BrailleTranslation.brf";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+    }
+
+    async void BrailleUnicode()
+    {
+        string str = "";
+
+        foreach (var msg in Messages)
+        {
+            str += ToBraille(msg.Text);
+        }
+        
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = Conversation?.Name + ".txt" ?? "testbraille.txt";
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    string ToBraille(string msg)
+    {
+        Dictionary<char, string> dicU = new Dictionary<char, string>();
+
+        dicU.Add('a', "⠁");
+        dicU.Add('b', "⠃");
+        dicU.Add('c', "⠉");
+        dicU.Add('d', "⠙");
+        dicU.Add('e', "⠑");
+        dicU.Add('f', "⠋");
+        dicU.Add('g', "⠛");
+        dicU.Add('h', "⠓");
+        dicU.Add('i', "⠊");
+        dicU.Add('j', "⠚");
+        dicU.Add('k', "⠅");
+        dicU.Add('l', "⠇");
+        dicU.Add('m', "⠍");
+        dicU.Add('n', "⠝");
+        dicU.Add('o', "⠕");
+        dicU.Add('p', "⠏");
+        dicU.Add('q', "⠟");
+        dicU.Add('r', "⠗");
+        dicU.Add('s', "⠎");
+        dicU.Add('t', "⠞");
+        dicU.Add('u', "⠥");
+        dicU.Add('v', "⠧");
+        dicU.Add('w', "⠺");
+        dicU.Add('x', "⠭");
+        dicU.Add('y', "⠽");
+        dicU.Add('z', "⠵");
+        dicU.Add(' ', "  ");
+
+        String TextField = msg;
+        char[] charArr = TextField.ToCharArray();
+        string translatedText = "";
+        foreach (char ch in charArr)
+        {
+            char c = ch;
+
+            if (dicU.ContainsKey(c))
+            {
+                translatedText += dicU[c];
+            } else
+            {
+                translatedText += c;
+            }
+        }
+
+        return translatedText;
+    }
+
+
 }
