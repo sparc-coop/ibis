@@ -52,7 +52,6 @@ public class SendMessage : Feature<SendMessageRequest, Message>
         else if (request.MessageId != null && request.ModifiedMessage == null)
         {
             message = await Messages.FindAsync(request.MessageId);
-            message.SetModifiedText(request.ModifiedMessage);
 
             // Translate, Speak is Audio from Upload
             room = await Rooms.FindAsync(request.RoomId);

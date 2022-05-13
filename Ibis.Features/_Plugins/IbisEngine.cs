@@ -119,7 +119,7 @@ public class IbisEngine
         return message;
     }
 
-    internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
+    internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes)
     {
         var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
         var audioConfig = IbisHelpers.OpenWavFile(bytes);
@@ -137,6 +137,7 @@ public class IbisEngine
                 {
                     Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
                     newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
+                    newMessage.SetText(e.Result.Text);
                     messages.Add(newMessage);
                 }
             };

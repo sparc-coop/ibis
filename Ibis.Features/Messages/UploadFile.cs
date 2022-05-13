@@ -27,9 +27,22 @@ public class UploadFile : PublicFeature<UploadFileRequest, Message>
         message.SetSubroomId(subroom.Id);
         await Rooms.UpdateAsync(subroom);
 
-        var messages = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes, request.FileName);
+        message.SetOriginalUploadFileName(request.FileName);
+
+        var messages = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes);
         foreach (var subMessage in messages)
+        {
             await Messages.AddAsync(subMessage);
+            if (message.Text == null)
+            {
+                message.SetText(subMessage.Text);
+            } else
+            {
+                message.SetText(message.Text + " " + subMessage.Text);
+            }
+        }
+
+        await Messages.AddAsync(message);
 
         return message;
     }
