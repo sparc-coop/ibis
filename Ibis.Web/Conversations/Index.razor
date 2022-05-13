@@ -5,50 +5,59 @@
 
 <section class="conversation">
     <a href="/dashboard">All conversations</a>
-    @if(Conversation != null)
+    @if (Conversation != null)
     {
         <h4>
-            @if(ToggleEdit == false)
+            @if (ToggleEdit == false)
             {
                 @Conversation.Name
                 <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
-            } else
+            }
+            else
             {
 
                 <input @bind="Conversation.Name">
                 <button class="save" @onclick="@(() => UpdateName())">Save</button>
             }
-        </h4>   
+        </h4>
         <InviteUser ConversationId="@Conversation.Id" />
     }
 
-    @if(Messages.Count > 0)
+    @if (Messages.Count > 0)
     {
-         <div class="messages">
+        <div class="messages">
             @foreach (var message in Messages)
             {
                 <MessageCard Message=message Language=@Language />
             }
-        </div>   
+        </div>
     }
-    <div class="conversation-language">
-        <label for="switch-lang">Language:</label>
-        <select id="switch-lang" @onchange="SwitchLanguage">
-			@foreach(var item in LanguageList.Languages)
-			{
-                if(item.Key == Language) {
-                    <option value="@item.Key" selected>@item.Value.Name</option>
-                } else {
-                    <option value="@item.Key">@item.Value.Name</option>
+
+    @if (LanguageList != null)
+    {
+        <div class="conversation-language">
+            <label for="switch-lang">Language:</label>
+            <select id="switch-lang" @onchange="SwitchLanguage">
+                @foreach (var item in LanguageList.Languages)
+                {
+                    if (item.Key == Language)
+                    {
+                        <option value="@item.Key" selected>@item.Value.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Key">@item.Value.Name</option>
+                    }
                 }
-			}
-		</select>
-    </div>
+            </select>
+        </div>
+    }
+
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
             <button @onclick="@(() => ShowUploadModal(Id, Language))">
-               <i class="material-icons">cloud_upload</i>
+                <i class="material-icons">cloud_upload</i>
             </button>
             <button @onclick="DownloadText" aria-label="Download Text">
                 <i class="material-icons">file_download</i>
@@ -65,7 +74,7 @@
             <button @onclick="Speak" aria-label="Speak">
                 <i class="material-icons">keyboard_voice</i>
             </button>
-             <button @onclick="DownloadSRT">
+            <button @onclick="DownloadSRT">
                 <i class="material-icons">file_download</i>
             </button>
         </div>
@@ -110,7 +119,7 @@
             Conversation = await Api.StartConversationAsync();
             Nav.NavigateTo($"/conversations/{Conversation.Id}", true);
         }
-        else 
+        else
         {
             var conversation = await Api.GetConversationAsync(new GetConversationRequest { ConversationId = Id, Language = Language });
             Conversation = conversation.Conversation;
@@ -121,7 +130,8 @@
             .WithUrl(Config["ApiUrl"] + "/conversations")
             .Build();
 
-        Connection.On<Message>("NewMessage", message => {
+        Connection.On<Message>("NewMessage", message =>
+        {
             message.IsNew = true;
             AddMessage(message);
         });
@@ -179,9 +189,9 @@
     async Task DownloadText()
     {
         StringBuilder builder = new StringBuilder();
-        foreach(var message in Messages)
+        foreach (var message in Messages)
         {
-            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " +  message.Text);
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " + message.Text);
         }
 
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
@@ -196,12 +206,12 @@
     async Task DownloadAudio()
     {
         List<string> mergeFiles = new List<string>();
-        foreach(var message in Messages)
+        foreach (var message in Messages)
         {
             mergeFiles.Add(message.AudioId);
         }
 
-        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest {Files = mergeFiles, ConversationId = Conversation.Id, Language = "en" });
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest { Files = mergeFiles, ConversationId = Conversation.Id, Language = "en" });
         Console.WriteLine(filePath);
         var fileName = GetFileName(Conversation?.Name);
         await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
@@ -210,7 +220,7 @@
     string GetFileName(string name)
     {
         var fileName = name;// != null ? name + ".txt" : "transcript.txt";
-        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
         {
             fileName = fileName.Replace(c, '_');
         }
@@ -223,7 +233,7 @@
         StringBuilder builder = new StringBuilder();
 
         var num = 1;
-        foreach(var message in Messages)
+        foreach (var message in Messages)
         {
 
             //var frame = num;
@@ -239,7 +249,7 @@
         Stream fileStream = new MemoryStream(bytes);
 
         var fileName = Conversation?.Name + ".srt" ?? "testcaptions.srt";
-        foreach(char c in System.IO.Path.GetInvalidFileNameChars())
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
         {
             fileName = fileName.Replace(c, '_');
         }
@@ -257,7 +267,7 @@
     async Task SwitchLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
-        var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language});
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { ConversationId = Conversation.Id, Language = Language });
         Messages = response.ToList();
         StateHasChanged();
     }
