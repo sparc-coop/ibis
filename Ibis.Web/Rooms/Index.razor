@@ -4,16 +4,30 @@
 
 <div class="dashboard">
 	 <div class="actions">
-        <div class="searchbar">
-            <input placeholder="Search"/>
-        </div>
-        <a class="add" href="/rooms/new">
-            <i class="material-icons">add</i>
-            New
-        </a>
+         <div class="header">
+             <h3>Your Rooms</h3>
+             <a class="add" href="/rooms/new"><i class="material-icons">add</i>Create New Room</a>
+         </div>
+         <div class="search-wrapper">
+             <div class="searchbar">
+                 <input placeholder="Search rooms"/>
+                 <a class="search"><img src="/icons/Search.svg" /></a>
+             </div>
+
+             @*Grid toggle here*@
+             <div class="grid-wrapper">
+                 <div class="grid">
+                     Grid
+                 </div>
+                 <div class="list">
+                     List
+                 </div>
+             </div>
+         </div>
     </div>
+
+
     <div class="rooms">
-        <h3>Rooms</h3>
         @if(Rooms != null)
         {
             <div>
@@ -30,6 +44,155 @@
                 }
             </div>   
         }
+
+        <div class="room-card">
+            <div class="top-bar">
+                <div class="room-icon">
+                    <img src="/icons/Room-Icon.svg" />
+                </div>
+                <div class="option-icons">
+                    <img src="/icons/link.svg" />
+                    <img src="/icons/more-vertical.svg" />
+                </div>
+            </div>
+            <div class="room-details">
+                <h6>RoundTable</h6>
+                <p class="medium">Last used: 26th April, 2022</p>
+            </div>
+            <div class="room-members">
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar-more.svg" />
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="top-bar">
+                <div class="room-icon">
+                    <img src="/icons/Room-Icon.svg" />
+                </div>
+                <div class="option-icons">
+                    <img src="/icons/link.svg" />
+                    <img src="/icons/more-vertical.svg" />
+                </div>
+            </div>
+            <div class="room-details">
+                <h6>RoundTable</h6>
+                <p class="medium">Last used: 26th April, 2022</p>
+            </div>
+            <div class="room-members">
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar-more.svg" />
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="top-bar">
+                <div class="room-icon">
+                    <img src="/icons/Room-Icon.svg" />
+                </div>
+                <div class="option-icons">
+                    <img src="/icons/link.svg" />
+                    <img src="/icons/more-vertical.svg" />
+                </div>
+            </div>
+            <div class="room-details">
+                <h6>RoundTable</h6>
+                <p class="medium">Last used: 26th April, 2022</p>
+            </div>
+            <div class="room-members">
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar-more.svg" />
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="top-bar">
+                <div class="room-icon">
+                    <img src="/icons/Room-Icon.svg" />
+                </div>
+                <div class="option-icons">
+                    <img src="/icons/link.svg" />
+                    <img src="/icons/more-vertical.svg" />
+                </div>
+            </div>
+            <div class="room-details">
+                <h6>RoundTable</h6>
+                <p class="medium">Last used: 26th April, 2022</p>
+            </div>
+            <div class="room-members">
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar.svg" />
+                </div>
+                <div class="member">
+                    <img src="/images/Avatar-more.svg" />
+                </div>
+                
+            </div>
+        </div>
+
     </div>
 </div>
 
