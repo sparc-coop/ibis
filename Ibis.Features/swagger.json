@@ -1197,7 +1197,46 @@
         },
         "additionalProperties": false
       },
-      "GetLanguageListResponse": {
+      "Dialect": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "locale": {
+            "type": "string",
+            "nullable": true
+          },
+          "localeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "voices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Voice"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetConversationRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetConversationResponse": {
         "type": "object",
         "properties": {
           "languages": {
@@ -1213,12 +1252,11 @@
       "GetRoomRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
+          "languages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringLanguageItemKeyValuePair"
+            },
             "nullable": true
           }
         },
@@ -1309,6 +1347,14 @@
           },
           "isRightToLeft": {
             "type": "boolean"
+          },
+          "dialects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dialect"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1326,6 +1372,13 @@
           },
           "dir": {
             "type": "string",
+            "nullable": true
+          },
+          "dialects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dialect"
+            },
             "nullable": true
           }
         },
@@ -1584,24 +1637,6 @@
         "type": "integer",
         "format": "int32"
       },
-      "StringLanguageItemKeyValuePair": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "nullable": true
-          },
-          "value": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/LanguageItem"
-              }
-            ],
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "TranscribeSpeechRequest": {
         "type": "object",
         "properties": {
@@ -1681,6 +1716,40 @@
             "nullable": true
           },
           "fileName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Voice": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "localeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceType": {
             "type": "string",
             "nullable": true
           }
