@@ -1,0 +1,424 @@
+﻿@page "/rooms/new"
+@page "/rooms/{Id}"
+@layout DashLayout
+@attribute [Authorize]
+
+<section class="room">
+    <div class="header">
+@*        <a href="/rooms">All rooms</a>*@
+        @if (RoomInfo != null)
+        {
+            <h2>
+@*                @if (ToggleEdit == false)
+                {*@
+                    @RoomInfo.Name
+@*                    <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
+                }
+                else
+                {
+
+                    <input @bind="RoomInfo.Name">
+                    <button class="save" @onclick="@(() => UpdateName())">Save</button>
+                }*@
+            </h2>
+            <InviteUser RoomId="@RoomInfo.RoomId" />
+        }
+    </div>
+    <div class="content">
+        <div class="message-grid">
+            <div class="message-list">
+                @if (Messages.Count > 0)
+                {
+                    @foreach (var message in Messages)
+                    {
+                        <MessageCard Message=message Language=@Language />
+                    }          
+                }
+            </div>
+
+            @if (LanguageList != null)
+            {
+    @*            <div class="room-language">
+                    <label for="switch-lang">Language:</label>
+                    <select id="switch-lang" @onchange="SwitchLanguage">
+                        @foreach (var item in LanguageList.Languages)
+                        {
+                            if (item.Key == Language)
+                            {
+                                <option value="@item.Key" selected>@item.Value.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Key">@item.Value.Name</option>
+                            }
+                        }
+                    </select>
+                </div>*@
+            }
+
+            <div class="message-box">
+                <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
+                <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
+            </div>
+            <div class="message-box-bottom">
+                <div class="message-options">
+                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload">
+                        <i class="material-icons">cloud_upload</i>
+                    </button>
+                    <div class="translate">
+                        <img src="icons/Translate.svg" />
+                        <p>Auto Translate</p>
+                    </div>
+
+                    @*Make Text Dark Blue When checked*@
+                    <div class="switch-wrapper">
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Voice</p>
+                            
+                    </div>
+                    @*Make Text Dark Blue When checked*@
+                    <div class="switch-wrapper">
+                        <!-- Rounded switch -->
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Text</p>
+                    </div>
+                </div>
+            </div>
+            <div class="time-stamp">
+                <p class="small start">Start</p>
+                <div class="time-duration">
+                    <p class="small">0:10</p>
+                    <div class="timeline-line"></div>
+                    <p class="small">0:25</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:27</p>
+                    <div class="timeline-line2"></div>
+                    <p class="small">0:31</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:34</p>
+                    <div class="timeline-line3"></div>
+                    <p class="small">1:17</p>
+                </div>
+            </div>
+        </div>
+        <ChatBox />
+    </div>
+@*
+    <div class="input">
+        <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+        <div class="options">
+            <button @onclick="@(() => ShowUploadModal(Id, Language))">
+                <i class="material-icons">cloud_upload</i>
+            </button>
+            <button @onclick="DownloadText" aria-label="Download Text">
+                <i class="material-icons">file_download</i>
+            </button>
+            <button @onclick="DownloadAudio" aria-label="Download Audio">
+                <i class="material-icons">audio_file</i>
+            </button>
+            <button @onclick="Call" aria-label="Call">
+                <i class="material-icons">call</i>
+            </button>
+            <button @onclick="Sms" aria-label="Sms">
+                <i class="material-icons">sms</i>
+            </button>
+            <button @onclick="Speak" aria-label="Speak">
+                <i class="material-icons">keyboard_voice</i>
+            </button>
+            <button @onclick="DownloadSRT">
+                <i class="material-icons">file_download</i>
+            </button>
+        </div>
+        <div class="buttons">
+            <button @onclick="SendText" aria-label="Send" class="active">
+                <i class="material-icons">send</i>
+            </button>
+        </div>
+    </div>*@
+</section>
+
+@using System.Text
+@inject IJSRuntime JS
+@using Ibis.Web.Messages
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IModalService Modal
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+    string? Text;
+    GetRoomResponse? RoomInfo;
+    List<Message> Messages = new();
+
+    HubConnection Connection { get; set; }
+    bool IsConnected => Connection?.State == HubConnectionState.Connected;
+    bool ToggleEdit = false;
+
+    GetLanguageListResponse LanguageList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageList = await PublicApi().GetLanguageListAsync();
+
+        var user = await Api.GetUserAsync();
+
+        if (string.IsNullOrWhiteSpace(Language))
+            Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
+
+        if (string.IsNullOrWhiteSpace(Id))
+        {
+            RoomInfo = await Api.CreateRoomAsync();
+            Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
+        }
+        else
+        {
+            RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
+            Messages = RoomInfo.Messages.ToList();
+        }
+
+        Connection = new HubConnectionBuilder()
+            .WithUrl(Config["ApiUrl"] + "/rooms")
+            .Build();
+
+        Connection.On<Message>("NewMessage", message => AddMessage(message));
+
+        await Connection.StartAsync();
+        await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
+    }
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+
+        StateHasChanged();
+    }
+
+    void ShowUploadModal(string roomId, string language)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.RoomId), roomId);
+        parameters.Add(nameof(Upload.Language), language);
+        Modal.Show<Upload>("Upload", parameters);
+    }
+
+    async Task Call()
+    {
+
+    }
+    async Task Sms()
+    {
+
+    }
+
+    async Task Speak()
+    {
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
+        AddMessage(newMessage);
+    }
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    async Task SendText()
+    {
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomInfo.RoomId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
+        AddMessage(newMessage);
+        Text = null;
+        StateHasChanged();
+    }
+
+    async Task DownloadText()
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach (var message in Messages)
+        {
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " + message.Text);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = GetFileName(RoomInfo?.Name);
+        Console.WriteLine("test1" + fileName);
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    async Task DownloadAudio()
+    {
+        List<string> mergeFiles = new List<string>();
+        foreach (var message in Messages)
+        {
+            mergeFiles.Add(message.AudioId);
+        }
+
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest { Files = mergeFiles, RoomId = RoomInfo.RoomId, Language = "en" });
+        Console.WriteLine(filePath);
+        var fileName = GetFileName(RoomInfo?.Name);
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
+    }
+
+    string GetFileName(string name)
+    {
+        var fileName = name;// != null ? name + ".txt" : "transcript.txt";
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        return fileName;
+    }
+
+    async Task DownloadSRT()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        var num = 1;
+        foreach (var message in Messages)
+        {
+
+            //var frame = num;
+            builder.AppendLine(num.ToString());
+            num++;
+            //hours:minutes:seconds,milliseconds –> hours:minutes:seconds,milliseconds
+            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("hh:mm:ss,ms") + " --> " + message.Timestamp.LocalDateTime.AddSeconds(10).ToString("hh:mm:ss,ms"));
+            builder.AppendLine(message.Text);
+            builder.Append(Environment.NewLine);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = RoomInfo?.Name + ".srt" ?? "testcaptions.srt";
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    async void UpdateName()
+    {
+        ToggleEdit = false;
+        await Connection.SendAsync("UpdateRoom", RoomInfo);
+    }
+
+    async Task SwitchLanguage(ChangeEventArgs e)
+    {
+        Language = e.Value.ToString();
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
+        Messages = response.ToList();
+        StateHasChanged();
+    }
+
+
+    
+    async Task DownloadBRF()
+    {
+
+        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { RoomId = RoomInfo.RoomId });
+
+
+        StringBuilder builder = new StringBuilder();
+        foreach(var message in braille)
+        {
+            builder.AppendLine(message);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = RoomInfo?.Name + ".brf" ?? "BrailleTranslation.brf";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+    }
+
+    async void BrailleUnicode()
+    {
+        string str = "";
+
+        foreach (var msg in Messages)
+        {
+            str += ToBraille(msg.Text);
+        }
+        
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = RoomInfo?.Name + ".txt" ?? "testbraille.txt";
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    string ToBraille(string msg)
+    {
+        Dictionary<char, string> dicU = new Dictionary<char, string>();
+
+        dicU.Add('a', "⠁");
+        dicU.Add('b', "⠃");
+        dicU.Add('c', "⠉");
+        dicU.Add('d', "⠙");
+        dicU.Add('e', "⠑");
+        dicU.Add('f', "⠋");
+        dicU.Add('g', "⠛");
+        dicU.Add('h', "⠓");
+        dicU.Add('i', "⠊");
+        dicU.Add('j', "⠚");
+        dicU.Add('k', "⠅");
+        dicU.Add('l', "⠇");
+        dicU.Add('m', "⠍");
+        dicU.Add('n', "⠝");
+        dicU.Add('o', "⠕");
+        dicU.Add('p', "⠏");
+        dicU.Add('q', "⠟");
+        dicU.Add('r', "⠗");
+        dicU.Add('s', "⠎");
+        dicU.Add('t', "⠞");
+        dicU.Add('u', "⠥");
+        dicU.Add('v', "⠧");
+        dicU.Add('w', "⠺");
+        dicU.Add('x', "⠭");
+        dicU.Add('y', "⠽");
+        dicU.Add('z', "⠵");
+        dicU.Add(' ', "  ");
+
+        String TextField = msg;
+        char[] charArr = TextField.ToCharArray();
+        string translatedText = "";
+        foreach (char ch in charArr)
+        {
+            char c = ch;
+
+            if (dicU.ContainsKey(c))
+            {
+                translatedText += dicU[c];
+            } else
+            {
+                translatedText += c;
+            }
+        }
+
+        return translatedText;
+    }
+}

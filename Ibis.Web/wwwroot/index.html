@@ -23,6 +23,16 @@
 
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+
+    <script>
+        function openRoomOverlay() {
+            document.getElementById("roomoverlay").style.display = "block";
+        }
+
+        function closeRoomOverlay() {
+            document.getElementById("roomoverlay").style.display = "none";
+        }
+    </script>
 </body>
 
 </html>

@@ -1,26 +1,30 @@
-﻿<div class="invite">
-    <h3>Invite People</h3>
-    <button @onclick="Close" class="close">X</button>
-    <div>
-        <input placeholder="email" @bind="InviteEmail"/>
-        <button @onclick="SendInvite">Send Invite</button>
+﻿<div class="invite-block modal">
+    <h4>Invite People</h4>
+    <button class="close" @onclick="Close">
+        <img src="/icons/Close.svg"/>
+    </button>
+    <div class="invite-search">
+        <input placeholder="Email" @bind="InviteEmail"/>
+        <button @onclick="SendInvite" class="primary">Send Invite</button>
     </div>
-    <div>
-        <h5>Participants</h5>
+    <div class="invite-users">
         @if(Group != null)
         {
+            <p class="medium">Participants</p>
 
-@*            List<ConversationUser> users = Group.Users.ToList();
+@*            List<RoomUser> users = Group.Users.ToList();
             @foreach(var user in users)
             {
                 <div>@user.Name; 
             }*@
         }
     </div>
-    <h6 @onclick="CopyLink">Copy & Share Link</h6>
-    <div>
-        <div>conversation.ibis.com/ratio-view-wing</div>
-        <span>copy</span>
+    <div class="share-link">
+        <p class="small" @onclick="CopyLink">Copy & Share Link</p>
+        <div class="share-link-wrapper">
+            <div>room.ibis.com/ratio-view-wing</div>
+            <img src="/icons/copy.svg" />
+        </div>
     </div>
 </div>
 
@@ -28,17 +32,17 @@
 @code {
     bool Sent = false;
     string InviteEmail;
-    ConversationUsersResponse Group;
+    RoomUsersResponse Group;
 
     [Parameter] 
-    public string ConversationId { get; set; }
+    public string RoomId { get; set; }
     [CascadingParameter] 
     BlazoredModalInstance ModalInstance { get; set; } = default!;
 
 
-    protected override async Task OnInitializedAsync() => Group = await Api.GetConversationUsersAsync(ConversationId);
+    protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
-    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { ConversationId = ConversationId, Email = InviteEmail });
+    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
 
     async Task CopyLink()
     {

@@ -230,7 +230,54 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/CreateRoom": {
+      "post": {
+        "tags": [
+          "CreateRoom"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
     "/api/CreateStripeCustomer": {
@@ -290,7 +337,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
     "/api/DeleteMessage": {
@@ -335,133 +391,34 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Room"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Room"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Conversation"
+                  "$ref": "#/components/schemas/Room"
                 }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetConversation": {
-      "post": {
-        "tags": [
-          "GetConversation"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetConversationRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetConversationRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetConversationRequest"
-                  }
-                ]
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetConversationResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetConversationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetConversationResponse"
-                }
-              }
-            }
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
           }
-        }
+        ]
       }
     },
-    "/api/GetConversationUsers": {
-      "post": {
-        "tags": [
-          "GetConversationUsers"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConversationUsersResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConversationUsersResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConversationUsersResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetLanguageList": {
+    "/publicapi/GetLanguageList": {
       "post": {
         "tags": [
           "GetLanguageList"
@@ -490,10 +447,10 @@
         }
       }
     },
-    "/api/GetOrCreateProject": {
+    "/publicapi/GetRoom": {
       "post": {
         "tags": [
-          "GetOrCreateProject"
+          "GetRoom"
         ],
         "requestBody": {
           "content": {
@@ -501,7 +458,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ProjectRequest"
+                    "$ref": "#/components/schemas/GetRoomRequest"
                   }
                 ]
               }
@@ -510,7 +467,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ProjectRequest"
+                    "$ref": "#/components/schemas/GetRoomRequest"
                   }
                 ]
               }
@@ -519,7 +476,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ProjectRequest"
+                    "$ref": "#/components/schemas/GetRoomRequest"
                   }
                 ]
               }
@@ -532,17 +489,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProjectResponse"
+                  "$ref": "#/components/schemas/GetRoomResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProjectResponse"
+                  "$ref": "#/components/schemas/GetRoomResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProjectResponse"
+                  "$ref": "#/components/schemas/GetRoomResponse"
                 }
               }
             }
@@ -550,10 +507,10 @@
         }
       }
     },
-    "/api/GetProjects": {
+    "/api/GetRoomUsers": {
       "post": {
         "tags": [
-          "GetProjects"
+          "GetRoomUsers"
         ],
         "requestBody": {
           "content": {
@@ -580,9 +537,78 @@
             "content": {
               "text/plain": {
                 "schema": {
+                  "$ref": "#/components/schemas/RoomUsersResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomUsersResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomUsersResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
+      }
+    },
+    "/publicapi/GetTextToBraille": {
+      "post": {
+        "tags": [
+          "GetTextToBraille"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetProjectResponse"
+                    "type": "string"
                   }
                 }
               },
@@ -590,7 +616,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetProjectResponse"
+                    "type": "string"
                   }
                 }
               },
@@ -598,7 +624,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetProjectResponse"
+                    "type": "string"
                   }
                 }
               }
@@ -633,13 +659,22 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
-    "/api/GetUserConversations": {
+    "/api/GetUserRooms": {
       "post": {
         "tags": [
-          "GetUserConversations"
+          "GetUserRooms"
         ],
         "requestBody": {
           "content": {
@@ -668,7 +703,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Conversation"
+                    "$ref": "#/components/schemas/GetRoomResponse"
                   }
                 }
               },
@@ -676,7 +711,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Conversation"
+                    "$ref": "#/components/schemas/GetRoomResponse"
                   }
                 }
               },
@@ -684,13 +719,22 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Conversation"
+                    "$ref": "#/components/schemas/GetRoomResponse"
                   }
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
     "/api/InviteUser": {
@@ -750,10 +794,19 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
-    "/api/MergeAudio": {
+    "/publicapi/MergeAudio": {
       "post": {
         "tags": [
           "MergeAudio"
@@ -870,39 +923,19 @@
               }
             }
           }
-        }
-      }
-    },
-    "/api/StartConversation": {
-      "post": {
-        "tags": [
-          "StartConversation"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Conversation"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Conversation"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Conversation"
-                }
-              }
-            }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
           }
-        }
+        ]
       }
     },
-    "/api/TranscribeSpeech": {
+    "/publicapi/TranscribeSpeech": {
       "post": {
         "tags": [
           "TranscribeSpeech"
@@ -1019,10 +1052,19 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:Bearer"
+            ]
+          }
+        ]
       }
     },
-    "/api/UploadFile": {
+    "/publicapi/UploadFile": {
       "post": {
         "tags": [
           "UploadFile"
@@ -1110,7 +1152,7 @@
       "AddTranslationRequest": {
         "type": "object",
         "properties": {
-          "conversationId": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
@@ -1121,14 +1163,292 @@
         },
         "additionalProperties": false
       },
-      "Conversation": {
+      "BrailleRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateStripeCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeleteMessageRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetLanguageListResponse": {
+        "type": "object",
+        "properties": {
+          "languages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringLanguageItemKeyValuePair"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRoomRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRoomResponse": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastActiveDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserResponse": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "nullable": true
           },
-          "conversationId": {
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InviteUserRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Language": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isRightToLeft": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LanguageItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "dir": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MergeAudioRequest": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "readOnly": true
+          },
+          "text": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "modifiedText": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "audioId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "modifiedAudioId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "originalUploadFileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Translation"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userInitials": {
+            "type": "string",
+            "nullable": true
+          },
+          "subroomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Room": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
             "type": "string",
             "nullable": true
           },
@@ -1137,6 +1457,14 @@
             "nullable": true
           },
           "hostUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostMessageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostRoomId": {
             "type": "string",
             "nullable": true
           },
@@ -1181,7 +1509,7 @@
         },
         "additionalProperties": false
       },
-      "ConversationUser": {
+      "RoomUser": {
         "type": "object",
         "properties": {
           "name": {
@@ -1199,336 +1527,14 @@
         },
         "additionalProperties": false
       },
-      "ConversationUsersResponse": {
+      "RoomUsersResponse": {
         "type": "object",
         "properties": {
           "users": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ConversationUser"
+              "$ref": "#/components/schemas/RoomUser"
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateStripeCustomerRequest": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "DeleteMessageRequest": {
-        "type": "object",
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "messageId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Dialect": {
-        "type": "object",
-        "properties": {
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "locale": {
-            "type": "string",
-            "nullable": true
-          },
-          "localeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "voices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Voice"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetConversationRequest": {
-        "type": "object",
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetConversationResponse": {
-        "type": "object",
-        "properties": {
-          "conversation": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Conversation"
-              }
-            ],
-            "nullable": true
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetLanguageListResponse": {
-        "type": "object",
-        "properties": {
-          "languages": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/LanguageItem"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetProjectResponse": {
-        "type": "object",
-        "properties": {
-          "projectId": {
-            "type": "string",
-            "nullable": true
-          },
-          "projectName": {
-            "type": "string",
-            "nullable": true
-          },
-          "projectUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetUserResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "fullName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "InviteUserRequest": {
-        "type": "object",
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Language": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "nativeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "isRightToLeft": {
-            "type": "boolean"
-          },
-          "dialects": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Dialect"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "LanguageItem": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "nativeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "dir": {
-            "type": "string",
-            "nullable": true
-          },
-          "dialects": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Dialect"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "MergeAudioRequest": {
-        "type": "object",
-        "properties": {
-          "files": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Message": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ]
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "text": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "modifiedText": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "audioId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "modifiedAudioId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "originalUploadFileName": {
-            "type": "string",
-            "nullable": true
-          },
-          "translations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Translation"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "isNew": {
-            "type": "boolean"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userInitials": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProjectRequest": {
-        "type": "object",
-        "properties": {
-          "projectId": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
             "nullable": true
           }
         },
@@ -1537,7 +1543,7 @@
       "SendMessageRequest": {
         "type": "object",
         "properties": {
-          "conversationId": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
@@ -1578,10 +1584,28 @@
         "type": "integer",
         "format": "int32"
       },
+      "StringLanguageItemKeyValuePair": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LanguageItem"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TranscribeSpeechRequest": {
         "type": "object",
         "properties": {
-          "conversationId": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
@@ -1601,8 +1625,7 @@
           },
           "text": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "modifiedText": {
             "type": "string",
@@ -1644,7 +1667,7 @@
       "UploadFileRequest": {
         "type": "object",
         "properties": {
-          "conversationId": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
@@ -1663,40 +1686,14 @@
           }
         },
         "additionalProperties": false
-      },
-      "Voice": {
-        "type": "object",
-        "properties": {
-          "locale": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "localeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "shortName": {
-            "type": "string",
-            "nullable": true
-          },
-          "gender": {
-            "type": "string",
-            "nullable": true
-          },
-          "voiceType": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "description": "Enter JWT Bearer token **_only_**",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

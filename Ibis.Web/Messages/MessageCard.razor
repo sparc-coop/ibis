@@ -1,0 +1,64 @@
+﻿<article class="message-card" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)">
+    <div class="message-card-content">
+        <div class="user">
+            <div class="avatar" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191"); filter: brightness(75%)">
+                @(Message.UserInitials != null ? Message.UserInitials : "")
+            </div>
+            <div class="account-name" style="color:#000000">
+                @(Message.UserName != null ? Message.UserName : "")
+@*                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>*@
+            </div>
+        </div>
+@*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
+        @Message.Timestamp.ToString("f")
+        </time>*@
+    </div>
+    <div class="message-content">
+        @MessageText
+@*        @if(MessageAudio != null)
+        {
+            <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
+            <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+        }*@
+    </div>
+</article>
+
+@inject IJSRuntime JS
+
+@code {
+    [Parameter] public Message Message { get; set; }
+    [Parameter] public string Language { get; set; }
+    string? MessageText;
+    string? MessageAudio;
+
+    protected override void OnParametersSet()
+    {
+        var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
+        if (Message.ModifiedText == null)
+        {
+            MessageText = translation?.Text ?? Message.Text;
+        } else
+        {
+            //MessageText = translation?.Text ?? Message.ModifiedText;
+            MessageText = Message.ModifiedText;
+        }
+
+        if (translation?.AudioId != null)
+        {
+            MessageAudio = translation.AudioId;
+            //MessageAudio = Message.ModifiedAudioId;
+
+        } else if (Message.ModifiedAudioId != null)
+        {
+            MessageAudio = Message.ModifiedAudioId;
+        } else
+        {
+            MessageAudio = Message.AudioId;
+        }
+    }
+
+    async Task PlayAudio(string id)
+    {
+        await JS.InvokeVoidAsync("playAudio", id);
+    }
+}

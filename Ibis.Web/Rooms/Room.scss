@@ -1,0 +1,194 @@
+﻿@import "../_variables.scss";
+
+.room {
+    margin: 0px auto;
+    width: 100%;
+    max-width: 90%;
+    padding: 20px;
+    position: relative;
+
+    .content {
+        display: flex;
+        position: relative;
+        justify-content: space-around;
+        align-items: self-start;
+        max-width: 1400px;
+    }
+
+    .header {
+        justify-content: space-between;
+        max-width: 940px;
+        width: 100%;
+        margin: 20px auto;
+        position: relative;
+
+        h2 {
+            font-size: 40px;
+            line-height: 46px;
+            margin-bottom: 2px;
+        }
+
+        .user-invite {
+            border: 1px solid $secondary;
+            background: inherit;
+            font-size: 16px;
+            line-height: 20px;
+            padding: 6px 12px;
+            color: $secondary;
+            border-radius: 8px;
+            max-height: 32px;
+            position: absolute;
+            right: 0;
+            top: 0;
+
+            img {
+                margin-right: 8px;
+            }
+        }
+    }
+
+   
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative !important;
+        display: inline-block !important;
+        width: 36px !important;
+        height: 20px !important;
+    }
+    /* The slider */
+    .slider {
+        position: absolute !important;
+        cursor: pointer !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background-color: $grey-100 !important;
+        -webkit-transition: .4s !important;
+        transition: .4s !important;
+    }
+
+    .slider:before {
+        position: absolute !important;
+        content: "" !important;
+        height: 16px !important;
+        width: 16px !important;
+        left: 2px !important;
+        bottom: 2px !important;
+        background-color: white !important;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    //colour 1
+    input:checked + .slider {
+        background-color: $dark-blue !important;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(16px) !important;
+        -ms-transform: translateX(16px) !important;
+        transform: translateX(16px) !important;
+    }
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .messages {
+        padding: 10px;
+        background: $white;
+        border-radius: 10px;
+        border: 1px solid $light-gray;
+        margin: 30px;
+    }
+
+    .user-invite {
+        position: absolute;
+        top: 30px;
+        right: 60px;
+    }
+
+    &-language {
+        padding: 0 32px;
+        position: absolute;
+    }
+
+    h4 {
+        padding: 20px 32px 10px;
+        font-weight: 500;
+        font-size: 18px;
+        color: $primary;
+        height: 76px;
+        position: relative;
+
+        i {
+            color: $primary;
+            cursor: pointer;
+            padding: 0 10px;
+            position: absolute;
+            left: -12px;
+            font-size: 18px;
+        }
+
+        button {
+            color: $primary;
+            cursor: pointer;
+            border: 1px solid $gray;
+            padding: 11px 16px;
+        }
+
+        input {
+            border: 1px solid $gray;
+            padding: 11px 16px;
+            padding-right: 150px;
+        }
+    }
+
+    .input {
+        position: relative;
+        padding: 10px 32px;
+
+        input {
+            border: 1px solid gray;
+            width: 100%;
+            padding: 16px;
+            padding-right: 150px;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            right: 50px;
+            margin-top: -12px;
+
+            i {
+                color: gray;
+            }
+
+            button:hover i, button.active i {
+                cursor: pointer;
+                color: red;
+            }
+        }
+
+        .options {
+            position: absolute;
+            top: -25px;
+            right: 50px;
+
+            i {
+                color: gray;
+                padding: 0 3px;
+
+                &:hover {
+                    cursor: pointer;
+                    color: red;
+                }
+            }
+        }
+    }
+}
