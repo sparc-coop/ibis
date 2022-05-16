@@ -148,6 +148,7 @@
 
 @using System.Text
 @inject IJSRuntime JS
+@using Ibis.Web.Messages
 @using Microsoft.AspNetCore.SignalR.Client
 @inject IModalService Modal
 
@@ -327,5 +328,97 @@
         var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
         Messages = response.ToList();
         StateHasChanged();
+    }
+
+
+    
+    async Task DownloadBRF()
+    {
+
+        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { RoomId = RoomInfo.RoomId });
+
+
+        StringBuilder builder = new StringBuilder();
+        foreach(var message in braille)
+        {
+            builder.AppendLine(message);
+        }
+
+        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = RoomInfo?.Name + ".brf" ?? "BrailleTranslation.brf";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+    }
+
+    async void BrailleUnicode()
+    {
+        string str = "";
+
+        foreach (var msg in Messages)
+        {
+            str += ToBraille(msg.Text);
+        }
+        
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = RoomInfo?.Name + ".txt" ?? "testbraille.txt";
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    string ToBraille(string msg)
+    {
+        Dictionary<char, string> dicU = new Dictionary<char, string>();
+
+        dicU.Add('a', "⠁");
+        dicU.Add('b', "⠃");
+        dicU.Add('c', "⠉");
+        dicU.Add('d', "⠙");
+        dicU.Add('e', "⠑");
+        dicU.Add('f', "⠋");
+        dicU.Add('g', "⠛");
+        dicU.Add('h', "⠓");
+        dicU.Add('i', "⠊");
+        dicU.Add('j', "⠚");
+        dicU.Add('k', "⠅");
+        dicU.Add('l', "⠇");
+        dicU.Add('m', "⠍");
+        dicU.Add('n', "⠝");
+        dicU.Add('o', "⠕");
+        dicU.Add('p', "⠏");
+        dicU.Add('q', "⠟");
+        dicU.Add('r', "⠗");
+        dicU.Add('s', "⠎");
+        dicU.Add('t', "⠞");
+        dicU.Add('u', "⠥");
+        dicU.Add('v', "⠧");
+        dicU.Add('w', "⠺");
+        dicU.Add('x', "⠭");
+        dicU.Add('y', "⠽");
+        dicU.Add('z', "⠵");
+        dicU.Add(' ', "  ");
+
+        String TextField = msg;
+        char[] charArr = TextField.ToCharArray();
+        string translatedText = "";
+        foreach (char ch in charArr)
+        {
+            char c = ch;
+
+            if (dicU.ContainsKey(c))
+            {
+                translatedText += dicU[c];
+            } else
+            {
+                translatedText += c;
+            }
+        }
+
+        return translatedText;
     }
 }
