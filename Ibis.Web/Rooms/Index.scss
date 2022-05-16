@@ -6,72 +6,412 @@
     max-width: 1140px;
 
     .actions {
-        display: flex;
-        padding: 25px 100px;
-        border-bottom: 1px solid $light-gray;
+        padding: 32px 0px;
 
-        .searchbar {
-            width: 100%;
-        }
-
-        input {
-            background: $white;
-            border: 1px solid $light-gray;
-            padding: 15px 20px;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .add {
+        .header, .search {
             display: flex;
-            width: 150px;
-            color: $white;
-            background: $secondary;
-            border-radius: 40px;
-            padding: 6px 25px;
-            line-height: 38px;
-            font-weight: bold;
-            font-size: 18px;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-            i {
-                padding: 7px;
-                font-size: 28px;
-                margin-top: -2px;
+        .header {
+            margin-bottom: 18px;
+
+            h3 {
+            }
+
+            .add {
+                display: flex;
+                align-items: center;
+                color: $white;
+                background: $primary-500;
+                border-radius: 8px;
+                padding: 8px 16px;
+                line-height: 20px;
+                font-weight: bold;
+                font-size: 16px;
+
+                i {
+                    margin-right: 8px;
+                    margin-top: -2px;
+                }
+            }
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .searchbar {
+                width: 100%;
+                max-width: 480px;
+            }
+
+            ::placeholder {
+                color: $grey-500;
+            }
+
+            input {
+                background: $white;
+                border: 1px solid $grey-300;
+                padding: 10px 14px 10px 42px;
+                max-width: 400px;
+                width: 100%;
+                box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+                border-radius: 8px;
+            }
+
+            .search {
+                position: absolute;
+                left: 16px;
+                top: 28%;
+                cursor: pointer;
+            }
+
+            .grid-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: $grey-200;
+                color: $grey-500;
+                border: 1px soild $grey-100;
+                border-radius: 8px;
+                padding: 4px;
+                font-size: 14px;
+                line-height: 20px;
+                column-gap: 4px;
+
+                .grid, .list {
+                    padding: 8px 12px;
+                }
+
+                //This is the toggle style
+                .grid {
+                    background: $white;
+                    color: $grey-700;
+                    box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+                    border-radius: 6px;
+                }
             }
         }
     }
 
-    .container {
-        padding: 25px 100px;
-        display: block;
+    .rooms {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 32px;
+        .room-card {
+            background: $white;
+            padding: 24px;
+            border: 1px solid $grey-200;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 352px;
+            cursor: pointer;
+
+            .top-bar {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+
+                .room-icon {
+                    padding: 8px;
+                    border-radius: 8px;
+                    background: $primary-100;
+                }
+
+                .options-icons {
+                    cursor: pointer;
+                }
+
+                .options-icons:first-of-type {
+                    margin-right: 10px;
+                }
+            }
+
+            .room-details {
+                margin-bottom: 22px;
+
+                h6 {
+                    color: $grey-900;
+                    font-weight: 500;
+                    margin-bottom: 2px;
+                }
+
+                p.medium {
+                    color: $grey-400;
+                }
+            }
+
+            .room-members {
+                display: flex;
+                align-items: center;
+
+                .member {
+                    margin-left: -6px;
+                }
+
+                .member:first-of-type {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+//Overlay
+.overlay {
+    background: rgba(10, 17, 29, 0.75);
+    height: 100%;
+    width: 100vw;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+
+.invite-block {
+    background: $white;
+    border: 1px solid $grey-200;
+    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    min-width: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -398px;
+    margin-left: -300px;
+    z-index: 1;
+    padding: 32px 40px 40px 40px;
+
+    h4 {
+        margin-bottom: 24px;
     }
 
-    h3 {
-        color: $primary;
-        font-size: 20px;
-        font-weight: bold;
-        padding-bottom: 12px;
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
     }
 
-    .room-card {
-        cursor: pointer;
-        border: 1px solid $light-gray;
-        background: $white;
-        border-radius: 10px;
-        padding: 12px 20px;
-        margin: 15px 0;
-        position: relative;
+    .room-icons, .room-name-wrapper, .invite-search, .invite-users {
+        margin-bottom: 24px;
 
-        span {
-            position: absolute;
-            right: 35px;
-            top: 15px;
-            color: $gray;
-            font-size: 14px;
+        p.medium {
+            margin-bottom: 6px;
         }
     }
 
-    .rooms {
-        padding: 30px 100px;
+    .room-icons {
+        .room-icon-wrapper {
+            display: flex;
+            align-items: center;
+
+            .room-icon {
+                border-radius: 8px;
+                padding: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 40px;
+                margin-right: 9px;
+                cursor: pointer;
+            }
+
+            .room-icon:nth-child(1) {
+                border: 1px solid $primary-300;
+                background: $primary-100;
+            }
+
+            .room-icon:nth-child(2) {
+                border: 1px solid $secondary-400;
+                background: $secondary-200;
+            }
+
+            .room-icon:nth-child(3) {
+                border: 1px solid $purple;
+                background: $primary-50;
+            }
+
+            .room-icon:nth-child(4) {
+                border: 1px solid $success-200;
+                background: $success-50;
+                margin-right: 0px;
+            }
+        }
+    }
+
+    .room-name-wrapper {
+        label {
+            margin-bottom: 6px;
+        }
+
+        input {
+            border: 1px solid $grey-300;
+            /*box-shadow: 0px 1px 2px rgb(16 24 40 / 5%);*/
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            line-height: 120%;
+            width: 100%;
+        }
+
+        ::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    .invite-search {
+
+        .search-member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            border: 1px solid $grey-300;
+            /*box-shadow: 0px 1px 2px rgb(16 24 40 / 5%);*/
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            line-height: 120%;
+            max-width: 72%;
+            width: 72%;
+        }
+
+        button.primary {
+            padding: 8px 16px;
+            color: $secondary-900;
+            border: 1px solid $secondary-900;
+        }
+
+        ::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    .invite-users {
+        margin-bottom: 40px;
+
+        p.medium {
+            margin-bottom: 12px;
+        }
+
+        .user-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+
+            .user-left {
+                display: flex;
+                align-items: center;
+
+                img {
+                    margin-right: 8px;
+                }
+
+                p.large {
+                    line-height: 19px;
+                    color: $grey-700;
+                }
+            }
+
+            .user-right {
+                .host, .present, .success, .invited {
+                    border-radius: 16px;
+                    padding: 4px 6px;
+                }
+
+                .host {
+                    color: $primary-700;
+                    background: $primary-200;
+                    border: 1px solid $primary-700;
+                }
+
+                .present {
+                    background: $secondary-200;
+                    color: $secondary-700;
+                    border: 1px solid $secondary-700;
+                }
+
+                .success {
+                    border: 1px solid $success-500;
+                    background: $success-50;
+                    color: $success-500;
+                }
+
+                .invited {
+                    background: $grey-100;
+                    color: $grey-500;
+                    border: 1px solid $grey-500;
+                }
+            }
+        }
+    }
+
+    .share-link {
+        margin-bottom: 32px;
+
+        p.medium {
+            color: $grey-700;
+            margin-bottom: 6px;
+        }
+
+        .share-link-wrapper {
+            position: relative;
+
+            input {
+                border: 1px solid $grey-300;
+                box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+                border-radius: 8px;
+                padding: 10px 14px;
+                width: 100%;
+            }
+
+            input::placeholder {
+                color: $grey-500;
+            }
+
+            img {
+                position: absolute;
+                right: 11px;
+                top: 11px;
+            }
+        }
+    }
+
+    .create-room {
+        background: $primary-500;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: $white;
+        font-size: 16px;
+        line-height: 20px;
+        float: right;
+    }
+}
+
+
+@media only screen and (max-width: 1142px) {
+    .dashboard .rooms .room-card {
+        width: 30%;
+        max-width: none;
+    }
+}
+
+@media only screen and (max-width: 660px) {
+    .dashboard .rooms .room-card {
+        width: 46%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .dashboard .rooms .room-card {
+        width: 100%;
     }
 }
