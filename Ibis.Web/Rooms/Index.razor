@@ -6,17 +6,15 @@
 	 <div class="actions">
          <div class="header">
              <h3>Your Rooms</h3>
-             <button class="add" onclick="openRoomOverlay()"><i class="material-icons">add</i>Create New Room</button>
+             <button class="add" @onclick="ShowRoomModal"><i class="material-icons">add</i>Create New Room</button>
          </div>
          <div class="search-wrapper">
              <div class="searchbar">
                  <input placeholder="Search rooms"/>
                  <a class="search"><img src="/icons/Search.svg" /></a>
              </div>
-
-             @*Grid toggle here*@
              <div class="grid-wrapper">
-                 <div class="grid">
+                 <div class="grid"  >
                      Grid
                  </div>
                  <div class="list">
@@ -30,276 +28,52 @@
     <div class="rooms">
         @if(Rooms != null)
         {
-            <div>
-                @foreach(var room in Rooms.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
-                {
-                    <div class="room-card" @onclick="@(e => GoToRoom(room.RoomId))">
-                        <h4>@room.Name</h4>
-                        <span>
-                            @(room.LastActiveDate != null 
-                                ? room.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
-                                : room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
-                        </span>
+            @foreach(var room in Rooms.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
+            {
+                <div class="room-card" @onclick="@(e => GoToRoom(room.RoomId))">
+                    <div class="top-bar">
+                        <div class="room-icon">
+                            <img src="/icons/Room-Icon.svg" />
+                        </div>
+                        <div class="option-icons">
+                            <img src="/icons/link.svg" />
+                            <img src="/icons/more-vertical.svg" />
+                        </div>
                     </div>
-                }
-            </div>   
+                    <div class="room-details">
+                        <h6>@room.Name</h6>
+                        <p class="medium">
+                        @(room.LastActiveDate != null 
+                            ? room.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
+                            : room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
+                        </p>
+                    </div>
+                <div class="room-members">
+                    <div class="member">
+                        <img src="/images/Avatar.svg" />
+                    </div>
+                    <div class="member">
+                        <img src="/images/Avatar.svg" />
+                    </div>
+                    <div class="member">
+                        <img src="/images/Avatar.svg" />
+                    </div>
+                    <div class="member">
+                        <img src="/images/Avatar.svg" />
+                    </div>
+                    <div class="member">
+                        <img src="/images/Avatar.svg" />
+                    </div>
+                    <div class="member">
+                        <img src="/images/Avatar-more.svg" />
+                    </div>              
+                </div>
+            </div>
+            }  
         }
-
-        <div class="room-card">
-            <div class="top-bar">
-                <div class="room-icon">
-                    <img src="/icons/Room-Icon.svg" />
-                </div>
-                <div class="option-icons">
-                    <img src="/icons/link.svg" />
-                    <img src="/icons/more-vertical.svg" />
-                </div>
-            </div>
-            <div class="room-details">
-                <h6>RoundTable</h6>
-                <p class="medium">Last used: 26th April, 2022</p>
-            </div>
-            <div class="room-members">
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar-more.svg" />
-                </div>
-                
-            </div>
-        </div>
-
-        <div class="room-card">
-            <div class="top-bar">
-                <div class="room-icon">
-                    <img src="/icons/Room-Icon.svg" />
-                </div>
-                <div class="option-icons">
-                    <img src="/icons/link.svg" />
-                    <img src="/icons/more-vertical.svg" />
-                </div>
-            </div>
-            <div class="room-details">
-                <h6>RoundTable</h6>
-                <p class="medium">Last used: 26th April, 2022</p>
-            </div>
-            <div class="room-members">
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar-more.svg" />
-                </div>
-                
-            </div>
-        </div>
-
-        <div class="room-card">
-            <div class="top-bar">
-                <div class="room-icon">
-                    <img src="/icons/Room-Icon.svg" />
-                </div>
-                <div class="option-icons">
-                    <img src="/icons/link.svg" />
-                    <img src="/icons/more-vertical.svg" />
-                </div>
-            </div>
-            <div class="room-details">
-                <h6>RoundTable</h6>
-                <p class="medium">Last used: 26th April, 2022</p>
-            </div>
-            <div class="room-members">
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar-more.svg" />
-                </div>
-                
-            </div>
-        </div>
-
-        <div class="room-card">
-            <div class="top-bar">
-                <div class="room-icon">
-                    <img src="/icons/Room-Icon.svg" />
-                </div>
-                <div class="option-icons">
-                    <img src="/icons/link.svg" />
-                    <img src="/icons/more-vertical.svg" />
-                </div>
-            </div>
-            <div class="room-details">
-                <h6>RoundTable</h6>
-                <p class="medium">Last used: 26th April, 2022</p>
-            </div>
-            <div class="room-members">
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar.svg" />
-                </div>
-                <div class="member">
-                    <img src="/images/Avatar-more.svg" />
-                </div>
-                
-            </div>
-        </div>
     </div>
 </div>
 
-<div id="roomoverlay" class="overlay">
-            <div class="invite-block">
-                <h4>Create Room</h4>
-                <div class="room-icons">
-                    <p class="medium">Room Icon</p>
-                    <div class="room-icon-wrapper">
-                        <a class="room-icon">
-                            <img src="/icons/User-Voice__Outline.svg" />
-                        </a>
-                        <a class="room-icon">
-                            <img src="/icons/Circle.svg" />
-                        </a>
-                        <a class="room-icon">
-                            <img src="/icons/Speech.svg" />
-                        </a>
-                        <a class="room-icon">
-                            <img src="/icons/Send-Arrow.svg" />
-                        </a>
-                    </div>
-                </div>
-                <div class="room-name-wrapper">
-                    <p class="medium">Room Name</p>
-                    <input type="email" placeholder="Enter Room Name" />
-                </div>
-                <div class="invite-search">
-                    <p class="medium">Invite Room Members</p>
-                    <div class="search-member">
-                        <input type="email" placeholder="joshua@kuv.io" />
-                        <button class="primary">Add Member</button>
-                    </div>
-                </div>
-                
-                <div class="invite-users">
-                    <p class="medium">Participants</p>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small host">Host</p>
-                        </div>
-                    </div>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small success">Success</p>
-                        </div>
-                    </div>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small success">Success</p>
-                        </div>
-                    </div>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small invited">Invited</p>
-                        </div>
-                    </div>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small invited">Invited</p>
-                        </div>
-                    </div>
-                    <div class="user-wrapper">
-                        <div class="user-left">
-                            <img src="/icons/Badge.svg"/>
-                            <p class="large">Kieran Parker</p>
-                        </div>
-                        <div class="user-right">
-                            <p class="small invited">Invited</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="share-link">
-                    <p class="medium">Copy & Share Link</p>
-                    <div class="share-link-wrapper">
-                        <input placeholder="conversation.ibis.com/ratio-view-wing" />
-                        <img src="/icons/copy.svg" />
-                    </div>
-                </div>
-
-                <a class="create-room" href="/">Create Room</a>
-
-                <button class="close" onclick="closeRoomOverlay()">
-                    <img src="/icons/Close.svg"/>
-                </button>
-            </div>
-    </div>
 
 @code {
     ICollection<GetRoomResponse>? Rooms;
@@ -310,10 +84,15 @@
         Rooms = await Api.GetUserRoomsAsync(user.Id);
     }
 
+    public record LanguageItem(string name, string nativeName, string dir);
+
+    void ShowRoomModal()
+    {
+        Modal.Show<RoomModal>("RoomModal");
+    }
+
     void GoToRoom(string Id)
     {
         Nav.NavigateTo($"/rooms/{Id}", true);    
     }
-
-    public record LanguageItem(string name, string nativeName, string dir);
 }

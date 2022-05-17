@@ -1,0 +1,97 @@
+﻿<div class="invite-block modal">
+    <h4>Create Room</h4>
+    <div class="room-icons">
+        <p class="medium">Room Icon</p>
+        <div class="room-icon-wrapper">
+            <a class="room-icon">
+                <img src="/icons/User-Voice__Outline.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Circle.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Speech.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Send-Arrow.svg" />
+            </a>
+        </div>
+    </div>
+    <div class="room-name-wrapper">
+        <p class="medium">Room Name</p>
+        <input type="email" placeholder="Enter Room Name" @bind="Name" />
+    </div>
+    <p class="medium">Invite Room Members</p>
+    <div class="invite-search">
+        <input type="email" placeholder="Email" />
+        <button class="secondary">Add Member</button>
+    </div>
+                
+    <div class="invite-users">
+        <p class="medium">Participants</p>
+        <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">Kieran Parker</p>
+            </div>
+            <div class="user-right">
+                <p class="small host">Host</p>
+            </div>
+        </div>
+        <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">Kieran Parker</p>
+            </div>
+            <div class="user-right">
+                <p class="small success">Success</p>
+            </div>
+        </div>
+        <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">Kieran Parker</p>
+            </div>
+            <div class="user-right">
+                <p class="small success">Success</p>
+            </div>
+        </div>
+        <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">Kieran Parker</p>
+            </div>
+            <div class="user-right">
+                <p class="small invited">Invited</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="share-link">
+        <p class="medium">Copy & Share Link</p>
+        <div class="share-link-wrapper">
+            <div>conversation.ibis.com/ratio-view-wing</div>
+            <img src="/icons/copy.svg" />
+        </div>
+    </div>
+
+    <button class="create-room" @onclick="CreateRoom">Create Room</button>
+
+    <button class="close" @onclick="Close">
+        <img src="/icons/Close.svg"/>
+    </button>
+</div>
+
+@code {
+    [CascadingParameter] 
+    BlazoredModalInstance ModalInstance { get; set; } = default!;
+    void Close() => ModalInstance.CancelAsync();
+    string Name;
+    RoomUsersResponse Group = new RoomUsersResponse();
+
+    async Task CreateRoom()
+    {
+        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
+        Nav.NavigateTo($"/rooms/{response.RoomId}", true);
+    }
+}

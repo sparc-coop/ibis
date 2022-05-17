@@ -70,7 +70,7 @@
         display: flex;
         justify-content: space-between;
         column-gap: 26px;
-        margin-bottom: 24px;
+        margin: 6px 0 24px;
 
         input {
             border: 1px solid $grey-300;
@@ -176,5 +176,23 @@
                 top: 11px;
             }
         }
+    }
+
+    button.secondary {
+        color: $primary;
+        border: 1px solid $primary;
+        background: $white;
+        padding: 9.5px 12px;
+    }
+
+    .create-room {
+        background: $primary-500;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: $white;
+        font-size: 16px;
+        line-height: 20px;
+        float: right;
+        cursor: pointer;
     }
 }

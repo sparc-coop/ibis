@@ -1,6 +1,7 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public class CreateRoom : Feature<GetRoomResponse>
+public record NewRoomRequest(string RoomName, List<RoomUser>? Participants);
+public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
 {
     public CreateRoom(IRepository<Room> rooms)
     {
@@ -9,9 +10,9 @@ public class CreateRoom : Feature<GetRoomResponse>
 
     public IRepository<Room> Rooms { get; }
 
-    public async override Task<GetRoomResponse> ExecuteAsync()
+    public async override Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
     {
-        var room = new Room("Test Room", User.Id());
+        var room = new Room(request.RoomName, User.Id());
         await Rooms.AddAsync(room);
         return new(room);
     }

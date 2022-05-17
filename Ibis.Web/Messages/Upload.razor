@@ -3,14 +3,12 @@
         <img src="/icons/Close.svg"/>
     </button>
     <div class="input">
-        <h4>Upload a WAV file:</h4>
-        <InputFile accept="audio/wav" name="UploadFileInput" OnChange="@OnInputFileChange"/>
+        <h4>Upload a file</h4>
+        <InputFile type="file" accept="audio/wav, video/*" name="UploadFileInput" OnChange="@OnInputFileChange"/>
     </div>
     @((MarkupString)ErrorMessageHTML)
     <button @onclick="Submit" class="btn btn-primary">Upload</button>
 </section>
-
-@inject IModalService Modal
 
 @code {
     [Parameter] public string? RoomId { get; set; }
@@ -37,7 +35,7 @@
     {
         ms = new MemoryStream();
         fileName = e.File.Name;
-        await e.File.OpenReadStream().CopyToAsync(ms);
+        await e.File.OpenReadStream(maxAllowedSize: 50000000).CopyToAsync(ms);
 
         if (FileInputEmptyOnSubmit = true)
         {
@@ -64,11 +62,13 @@
 
     async Task Submit()
     {
+        Message message;
+
         if(ms != null)
         {
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
-            var message = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+            message = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
             ShowConfirmOrEditTextModal(RoomId, Language, message.Id, message.Text, bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else

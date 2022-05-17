@@ -167,6 +167,15 @@ public class IbisEngine
         return message;
     }
 
+    internal async Task<Message> UploadVideoToStorage(Message message, byte[] bytes)
+    {
+        Sparc.Storage.Azure.File file = new("speak", $"{message.RoomId}/video/{message.Language}.mp4", AccessTypes.Public, new MemoryStream(bytes));
+        await Files.AddAsync(file);
+        message.SetAudio(file.Url!);
+
+        return message;
+    }
+
     public async Task<List<KeyValuePair<string, LanguageItem>>> GetAllLanguages()
     {
         var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");

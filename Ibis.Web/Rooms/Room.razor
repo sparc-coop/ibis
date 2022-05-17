@@ -150,7 +150,6 @@
 @inject IJSRuntime JS
 @using Ibis.Web.Messages
 @using Microsoft.AspNetCore.SignalR.Client
-@inject IModalService Modal
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -177,7 +176,7 @@
 
         if (string.IsNullOrWhiteSpace(Id))
         {
-            RoomInfo = await Api.CreateRoomAsync();
+            RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
             Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
         }
         else

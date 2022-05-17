@@ -6,10 +6,9 @@
     padding: 15px;
 
     .logo {
-        margin: 0 auto;
 
         img {
-            width: 120px;
+            width: 100px;
         }
     }
 
@@ -22,13 +21,19 @@
     .nav-link {
         color: $primary;
         font-weight: bold;
-        margin: 5px 25px;
+        margin: 14px 25px;
         position: absolute;
         right: 200px;
         top: 4px;
 
         i {
             font-size: 32px;
+        }
+
+        &.account {
+            right: 340px;
+            padding: 0;
+            margin: 6px;
         }
     }
 }
