@@ -36,9 +36,9 @@
                 }
             </div>
 
-            @if (LanguageList != null)
+@*            @if (LanguageList != null)
             {
-    @*            <div class="room-language">
+                <div class="room-language">
                     <label for="switch-lang">Language:</label>
                     <select id="switch-lang" @onchange="SwitchLanguage">
                         @foreach (var item in LanguageList.Languages)
@@ -53,9 +53,33 @@
                             }
                         }
                     </select>
-                </div>*@
+                </div>
+                @if (Dialects != null) 
+                {
+                    <div class="room-dialect">
+                        <label for="switch-dialect">Dialect:</label>
+                        <select id="switch-dialect" @onchange="SwitchDialect">
+                            @foreach (var item in Dialects.Languages)
+                            {
+                                <option value="@item.Locale">@item.LocaleName</option>
+                            }
+                        </select>
+                    </div>
+                    @if (Voices != null)
+                    {
+                        <div class="room-voice">
+                            <label for="switch-voice">Voice:</label>
+                            <select id="switch-voice" @onchange="SwitchVoice">
+                                @foreach (var item in Voices.Languages)
+                                {
+                                    <option value="@item.ShortName">@item.DisplayName (@item.Gender.subString(0, 1))</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                }
             }
-
+*@
             <div class="message-box">
                 <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
                 <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
@@ -159,6 +183,10 @@
     string? Text;
     GetRoomResponse? RoomInfo;
     List<Message> Messages = new();
+    //List<Dialect>? Dialects = new();
+    //List<Voice>? Voices = new();
+    //Dialect? Dialect;
+    //Voice? Voice;
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -322,15 +350,25 @@
         await Connection.SendAsync("UpdateRoom", RoomInfo);
     }
 
-    async Task SwitchLanguage(ChangeEventArgs e)
-    {
-        Language = e.Value.ToString();
-        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
-        Messages = response.ToList();
-        StateHasChanged();
-    }
+    //async Task SwitchLanguage(ChangeEventArgs e)
+    //{
+    //    Language = e.Value.ToString();
+    //    Dialects = LanguageList.Languages.Where(x => x.Value.Dialects.Language == Language);
+    //    var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
+    //    Messages = response.ToList();
+    //    StateHasChanged();
+    //}
 
+    //void SwitchDialect(ChangeEventArgs e)
+    //{
+    //    Dialect = Dialects.Where(x => x.Locale == e.Value.ToString());
+    //    Voices = Dialects.Where(x => x.Voices.Locale == Dialect.Language);
+    //}
 
+    //void SwitchVoice(ChangeEventArgs e)
+    //{
+    //    Voice = Voices.Where(x => x.ShortName == e.Value.ToString());
+    //}
     
     async Task DownloadBRF()
     {
