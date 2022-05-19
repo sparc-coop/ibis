@@ -137,6 +137,7 @@ public class IbisEngine
                 {
                     Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
                     newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
+                    newMessage.SetText(e.Result.Text);
                     messages.Add(newMessage);
                 }
             };
@@ -167,13 +168,12 @@ public class IbisEngine
         return message;
     }
 
-    internal async Task<Message> UploadVideoToStorage(Message message, byte[] bytes)
+    internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
     {
-        Sparc.Storage.Azure.File file = new("speak", $"{message.RoomId}/video/{message.Language}.mp4", AccessTypes.Public, new MemoryStream(bytes));
+        File file = new("speak", $"{roomId}/video/{fileName}.mp4", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);
-        message.SetAudio(file.Url!);
 
-        return message;
+        return file.Url;
     }
 
     public async Task<List<KeyValuePair<string, LanguageItem>>> GetAllLanguages()

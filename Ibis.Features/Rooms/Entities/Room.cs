@@ -40,9 +40,9 @@ public class Room : Root<string>
         Name = room.Name;
         HostMessageId = message.Id;
         HostRoomId = room.Id;
-        Languages = room.Languages;
-        ActiveUsers = room.ActiveUsers;
-        Translations = room.Translations;
+        //Languages = room.Languages;
+        //ActiveUsers = room.ActiveUsers;
+        //Translations = room.Translations;
     }
 
     public void AddLanguage(string language)

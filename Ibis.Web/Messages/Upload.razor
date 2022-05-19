@@ -47,14 +47,15 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string roomId, string language, string messageId, string text, byte[] bytes)
+    void ShowConfirmOrEditTextModal(string roomId, string language, List<Message> messages, byte[] bytes)//string messageId, string text, 
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
         parameters.Add(nameof(ConfirmOrEditText.Language), language);
-        parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
-        parameters.Add(nameof(ConfirmOrEditText.Text), text);
-        parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
+        parameters.Add(nameof(ConfirmOrEditText.Messages), messages);
+        //parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
+        //parameters.Add(nameof(ConfirmOrEditText.Text), text);
+        //parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
         parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
 
         Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
@@ -62,14 +63,16 @@
 
     async Task Submit()
     {
-        Message message;
-
         if(ms != null)
         {
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
-            message = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
-            ShowConfirmOrEditTextModal(RoomId, Language, message.Id, message.Text, bytes);
+            var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+            foreach(var message in messages)
+            {
+                message.ModifiedText = message.Text;
+            }
+            ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);//message.Id, message.Text, bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {
