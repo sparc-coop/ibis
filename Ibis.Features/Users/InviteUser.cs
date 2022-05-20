@@ -18,7 +18,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
         {
             string subject = "Ibis Room Invitation";
             string message = "You have been invited to join a room with Ibis!";
-            await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuv.io");
+            await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuviocreative.com");
 
             //save user to room
 
