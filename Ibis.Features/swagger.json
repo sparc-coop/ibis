@@ -1222,27 +1222,13 @@
         },
         "additionalProperties": false
       },
-      "GetConversationRequest": {
-        "type": "object",
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetConversationResponse": {
+      "GetLanguageListResponse": {
         "type": "object",
         "properties": {
           "languages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StringLanguageItemKeyValuePair"
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/LanguageItem"
             },
             "nullable": true
           }
@@ -1252,11 +1238,12 @@
       "GetRoomRequest": {
         "type": "object",
         "properties": {
-          "languages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StringLanguageItemKeyValuePair"
-            },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
             "nullable": true
           }
         },
