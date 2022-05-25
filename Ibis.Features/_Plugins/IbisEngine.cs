@@ -182,18 +182,18 @@ namespace Ibis.Features._Plugins
         return result.translation.ToList();
     }
 
-        public async Task<List<Voice>> GetAllVoices()
-        {
-            var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
-            var result = await UnJsonify<List<Voice>>(response);
-            return result.ToList();
-        }
+    public async Task<List<Voice>> GetAllVoices()
+    {
+        var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
+        var result = await UnJsonify<List<Voice>>(response);
+        return result.ToList();
+    }
 
-        private async Task<T> Post<T>(string url, object model)
-        {
-            var response = await Translator.PostAsync(url, Jsonify(model));
-            return await UnJsonify<T>(response);
-        }
+    private async Task<T> Post<T>(string url, object model)
+    {
+        var response = await Translator.PostAsync(url, Jsonify(model));
+        return await UnJsonify<T>(response);
+    }
 
     private StringContent Jsonify(object model)
     {
@@ -227,8 +227,8 @@ public record Alignment(string Proj);
 
 public record SentenceLength(int[] SrcSentLen, int[] TransSentLen);
 
-    public record Test(LanguageTest group);
-    public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
-    public record LanguageItem(string name, string nativeName, string dir, List<Dialect>? Dialects);
-    public record TranslationDict(List<LanguageItem> items);
+public record Test(LanguageTest group);
+public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
+public record LanguageItem(string name, string nativeName, string dir, List<Dialect>? Dialects);
+public record TranslationDict(List<LanguageItem> items);
 }
