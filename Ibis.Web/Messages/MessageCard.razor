@@ -1,4 +1,6 @@
-﻿<article class="message-card" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)">
+﻿<article class="message-card @(Message.SubroomId != null ? "subroom" : "")" 
+    style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)"
+    @onclick="GoToSubroom">
     <div class="message-card-content">
         <div class="user">
             <div class="avatar" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191"); filter: brightness(75%)">
@@ -28,6 +30,7 @@
 @code {
     [Parameter] public Message Message { get; set; }
     [Parameter] public string Language { get; set; }
+    [Parameter] public string Type { get; set; }
     string? MessageText;
     string? MessageAudio;
 
@@ -60,5 +63,11 @@
     async Task PlayAudio(string id)
     {
         await JS.InvokeVoidAsync("playAudio", id);
+    }
+
+    async Task GoToSubroom()
+    {
+        if(Message.SubroomId != null)
+            Nav.NavigateTo($"/rooms/{Message.SubroomId}", true);    
     }
 }

@@ -53,20 +53,20 @@ public class GetRoom : PublicFeature<GetRoomRequest, GetRoomResponse>
         //Check for subrooms
         List<Room> subrooms = await Rooms.Query.Where(x => x.HostRoomId == room.Id).ToListAsync();
 
-        foreach(var subroom in subrooms)
+        foreach (var subroom in subrooms)
         {
             var messageList = Messages.Query
                 .Where(x => x.RoomId == subroom.Id)
                 .OrderBy(x => x.Timestamp)
                 .ToList();
 
-            foreach(var message in messageList)
+            foreach (var message in messageList)
             {
                 messages.Add(message);
             }
         }
 
-        var untranslatedMessages = messages.Where(x => !x.HasTranslation(request.Language)).ToList();
+        var untranslatedMessages = messages.Where(x => !x.HasTranslation(request.Language) && x.Text != null).ToList();
         foreach (var message in untranslatedMessages)
         {
             await IbisEngine.TranslateAsync(message, request.Language);

@@ -18,6 +18,7 @@ public class Message : Root<string>
     public string UserInitials { get; set; }
     public string? SubroomId { get; set; }
     public string? Color { get; set; }
+    public string? VideoId { get; set; }
 
     protected Message()
     {
@@ -48,6 +49,7 @@ public class Message : Root<string>
     public void SetModifiedAudio(string audioId) => ModifiedAudioId = audioId;
     public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;
     public void SetSubroomId(string id) => SubroomId = id;
+    public void SetVideo(string videoId) => VideoId = videoId;
     
     public bool HasTranslation(string language)
     {

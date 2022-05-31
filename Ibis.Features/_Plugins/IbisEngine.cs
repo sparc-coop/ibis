@@ -138,6 +138,8 @@ public class IbisEngine
                     Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
                     newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
                     newMessage.SetText(e.Result.Text);
+                    if (message.SubroomId != null)
+                        newMessage.SetSubroomId(message.SubroomId);
                     messages.Add(newMessage);
                 }
             };
@@ -172,7 +174,6 @@ public class IbisEngine
     {
         File file = new("speak", $"{roomId}/video/{fileName}.mp4", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);
-
         return file.Url;
     }
 

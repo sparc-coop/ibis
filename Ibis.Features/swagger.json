@@ -1477,6 +1477,10 @@
           "color": {
             "type": "string",
             "nullable": true
+          },
+          "videoId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

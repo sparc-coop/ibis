@@ -14,18 +14,18 @@
                  <a class="search"><img src="/icons/Search.svg" /></a>
              </div>
              <div class="grid-wrapper">
-                 <div class="grid"  >
+                 <div class="selected @(listView != "" ? "selected-left" : null)"></div>
+                 <div class="grid" @onclick="ToggleListView">
                      Grid
                  </div>
-                 <div class="list">
+                 <div class="list" @onclick="ToggleListView">
                      List
                  </div>
              </div>
          </div>
     </div>
 
-
-    <div class="rooms">
+    <div class="rooms @listView">
         @if(Rooms != null)
         {
             @foreach(var room in Rooms.OrderByDescending(x => x.LastActiveDate).ThenByDescending(x => x.StartDate))
@@ -77,6 +77,7 @@
 
 @code {
     ICollection<GetRoomResponse>? Rooms;
+    string listView = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,5 +95,16 @@
     void GoToRoom(string Id)
     {
         Nav.NavigateTo($"/rooms/{Id}", true);    
+    }
+
+    void ToggleListView()
+    {
+        if(string.IsNullOrEmpty(listView))
+        {
+            listView = "show-list";
+        } else
+        {
+            listView = "";
+        }
     }
 }

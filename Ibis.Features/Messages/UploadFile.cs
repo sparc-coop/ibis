@@ -34,19 +34,28 @@ public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
             if (request.FileName.Contains(".wav"))
             {
                 messages = await IbisEngine.TranscribeSpeechFromFile(message, request.Bytes, request.FileName);
-                foreach (var subMessage in messages)
-                    await Messages.AddAsync(subMessage);
+                if (messages.Count > 1)
+                {
+                    foreach (var subMessage in messages)
+                    {
+                        subMessage.SetSubroomId(subroom.Id);
+                        await Messages.AddAsync(subMessage);
+                    }
+                }
             }
             else
             {
-                //run video file upload
-                //string url = await IbisEngine.UploadVideoToStorage(room.Id, "fileName");
+                //video file upload
+                //get audio from video file
+                string url = await IbisEngine.UploadVideoToStorage(room.Id, request.FileName, request.Bytes);
+                message.SetVideo(url);
+                await Messages.UpdateAsync(message);
             }
 
             return messages;
         } catch(Exception ex)
         {
-            var testing = ex.Message;
+            var message = ex.Message;
             return null;
         }
     }

@@ -65,6 +65,12 @@
                     <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload">
                         <i class="material-icons">cloud_upload</i>
                     </button>
+                    <button @onclick="DownloadText" aria-label="Download Text" class="select-upload">
+                        <i class="material-icons">file_download</i>
+                    </button>
+                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload">
+                        <i class="material-icons">audio_file</i>
+                    </button>
                     <div class="translate">
                         <img src="icons/Translate.svg" />
                         <p>Auto Translate</p>
@@ -116,12 +122,6 @@
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-            <button @onclick="@(() => ShowUploadModal(Id, Language))">
-                <i class="material-icons">cloud_upload</i>
-            </button>
-            <button @onclick="DownloadText" aria-label="Download Text">
-                <i class="material-icons">file_download</i>
-            </button>
             <button @onclick="DownloadAudio" aria-label="Download Audio">
                 <i class="material-icons">audio_file</i>
             </button>
