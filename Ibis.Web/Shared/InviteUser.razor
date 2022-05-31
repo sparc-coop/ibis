@@ -1,0 +1,16 @@
+﻿<button @onclick="OpenModal" class="user-invite">
+    <img src="icons/person-Icon.svg" />
+    Invite People
+</button>
+
+@code {
+    [Parameter]
+    public string RoomId { get; set; }
+
+    void OpenModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(RoomId), RoomId);
+        Modal.Show<InviteModal>("InviteModal", parameters);
+    }
+}

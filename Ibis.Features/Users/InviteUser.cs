@@ -1,27 +1,32 @@
-﻿using Ibis.Features._Plugins;
-using Sparc.Core;
-using Sparc.Features;
-using Sparc.Notifications.Twilio;
+﻿using Sparc.Notifications.Twilio;
 
-namespace Ibis.Features.Users
+namespace Ibis.Features.Users;
+
+public record InviteUserRequest(string RoomId, string Email);
+public class InviteUser : Feature<InviteUserRequest, bool>
 {
-    public record InviteUserRequest(string conversationId, string email);
-    public class InviteUser : Feature<InviteUserRequest, bool>
-    {
 
-        public InviteUser(IRepository<User> users, TwilioService twilio)
+    public InviteUser(TwilioService twilio)
+    {
+        Twilio = twilio;
+    }
+    TwilioService Twilio { get; set; }
+
+    public override async Task<bool> ExecuteAsync(InviteUserRequest request)
+    {
+        try
         {
-            Users = users;
-            Twilio = twilio;
-        }
-        IRepository<User> Users { get; set; }
-        TwilioService Twilio { get; set; }
-        public override async Task<bool> ExecuteAsync(InviteUserRequest request)
-        {
-            string subject = "Ibis Conversation Invitation";
-            string message = "test message";
-            await Twilio.SendEmailAsync(request.email,subject, message);
+            string subject = "Ibis Room Invitation";
+            string message = "You have been invited to join a room with Ibis!";
+            await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuv.io");
+
+            //save user to room
+
             return true;
+        } catch (Exception)
+        {
+            return false;
         }
+
     }
 }

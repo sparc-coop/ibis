@@ -1,0 +1,70 @@
+﻿@page "/transcribe"
+
+<section class="speak">
+    <div class="input">
+        <input @bind="Text" readonly=true />
+        <div class="buttons">
+            <button @onclick="SendText">
+                <i class="material-icons">send</i>
+            </button>
+            <button @onclick="Cancel">cancel</button>
+        </div>
+        @if (Text == null)
+        {
+            <audio src="/sounds/recording-beep.wav" autoplay />
+        }
+    </div>
+</section>
+
+@using Blazored.Modal;
+@inject IModalService Modal;
+
+@code {
+    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string? Language { get; set; }
+    [Parameter] public SourceTypes? SourceType { get; set; }
+    string? Text;
+    Message? Message;
+    Ibis.Features.Room? Room;
+    List<Message> Messages = new();
+    InputFileChangeEventArgs? e;
+    MemoryStream? ms;
+    string? fileName;
+    bool FileInputEmptyOnSubmit = false;
+    string? ErrorMessageHTML;
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    string? SpeechApiKey;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = RoomId, Language = Language });
+        Text = newMessage.Text;
+        Message = newMessage;
+    }
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+
+        StateHasChanged();
+    }
+
+    async Task SendText()
+    {
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Message.Text, Language = Language, MessageId = Message.Id, ModifiedMessage = null, Bytes = null });
+        AddMessage(newMessage);
+        await ModalInstance.CloseAsync(ModalResult.Ok(true));
+    }
+
+    async Task Cancel()
+    {
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = Message.Id });
+        ModalInstance.CancelAsync();
+    }
+}

@@ -1,26 +1,21 @@
-﻿using Ibis.Features.Conversations.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Ibis.Features._Plugins
+namespace Ibis.Features._Plugins;
+
+public class IbisContext : DbContext
 {
-    public class IbisContext : DbContext
+    public DbSet<Room> Rooms => Set<Room>();
+    public DbSet<Message> Messages => Set<Message>();
+    public DbSet<User> Users => Set<User>();
+
+    public IbisContext(DbContextOptions options) : base(options)
     {
-        public DbSet<Project> Projects => Set<Project>();
-        public DbSet<Conversation> Conversations => Set<Conversation>();
-        public DbSet<Message> Messages => Set<Message>();
-        public DbSet<User> Users => Set<User>();
+    }
 
-        public IbisContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<User>().HasPartitionKey(x => x.UserId);
-            builder.Entity<Project>().HasPartitionKey(x => x.UserId);
-
-            builder.Entity<Conversation>().ToContainer("Conversations").HasPartitionKey(x => x.ConversationId);
-            builder.Entity<Message>().ToContainer("Conversations").HasPartitionKey(x => x.ConversationId);
-        }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<User>().HasPartitionKey(x => x.UserId);
+        builder.Entity<Room>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
+        builder.Entity<Message>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
     }
 }

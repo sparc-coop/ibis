@@ -1,7 +1,4 @@
 ﻿@import "Pages/Index";
-@import "Pages/Dashboard";
-@import "Pages/ProjectPage";
-@import "Pages/Account";
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
@@ -11,9 +8,60 @@
 @import "Shared/InviteModal";
 @import "Shared/ProjectsList";
 @import "Shared/LoginDisplay";
+@import "Shared/ChatBox";
 
-@import "Conversations/Index";
-@import "Conversations/MessageCard";
+@import "Rooms/Index";
+@import "Rooms/Room";
+@import "Messages/MessageCard";
+@import "Users/Account";
+
+
+//Regular fonts
+@font-face {
+    font-family: 'CircularStd-Medium';
+    src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'CircularStd-Black';
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd-Bold';
+    src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'CircularStd-Book';
+    src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
+}
+
+//Italic Fonts
+@font-face {
+    font-family: 'CircularStd-MediumItalic';
+    src: url(wwwroot/fonts/CircularStd-MediumItalic.ttf) format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'CircularStd-BlackItalic';
+    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd-BoldItalic';
+    src: url(wwwroot/fonts/CircularStd-BoldItalic.ttf) format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'CircularStd-BookItalic';
+    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
+}
+
 
 body {
     overflow-x: hidden;
@@ -52,4 +100,49 @@ button {
             transform: rotate(360deg);
         }
     }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 120%;
+    font-family: 'CircularStd-Medium', sans-serif;
+}
+
+h1 {
+    font-size: 61px;
+}
+
+h2 {
+    font-size: 49px;
+}
+
+h3 {
+    font-size: 39px;
+}
+
+h4 {
+    font-size: 39px;
+}
+
+h5 {
+    font-size: 25px;
+}
+
+h6 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+p.large {
+    font-size: 16px;
+    line-height: 120%;
+}
+
+p.medium {
+    font-size: 13px;
+    line-height: 120%;
+}
+
+p.small {
+    font-size: 10px;
+    line-height: 120%;
 }

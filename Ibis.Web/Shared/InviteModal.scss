@@ -2,8 +2,179 @@
 
 .invite {
     max-width: 600px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
     max-height: 549px;
     background: $white;
+    position: relative;
     border-radius: 16px;
     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    input {
+        padding: 8px 16px;
+        border: 1px solid $gray;
+        border-radius: 4px;
+        margin: 10px 0;
+    }
+
+    h5, h6 {
+        padding: 15px 0;
+    }
+}
+
+.blazored-modal {
+    padding: 0;
+
+    &-overlay {
+        background: rgba(10, 17, 29, 0.75);
+    }
+}
+
+.blazored-modal-header {
+    display: none;
+}
+
+.modal {
+    background: $white;
+    border: 1px solid $grey-200;
+    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    min-width: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -274.5px;
+    margin-left: -300px;
+    z-index: 1;
+    padding: 32px 40px 40px 40px;
+
+    h4 {
+        margin-bottom: 24px;
+        font-size: 31px;
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .invite-search {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 26px;
+        margin-bottom: 24px;
+
+        input {
+            border: 1px solid $grey-300;
+            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            line-height: 120%;
+            max-width: 72%;
+            width: 72%;
+        }
+
+        button.primary {
+            padding: 8px 16px;
+            color: $white;
+            background: $secondary-900;
+        }
+
+        ::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    .invite-users {
+        margin-bottom: 40px;
+
+        p.medium {
+            margin-bottom: 12px;
+        }
+
+        .user-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+
+            .user-left {
+                display: flex;
+                align-items: center;
+
+                img {
+                    margin-right: 8px;
+                }
+
+                p.large {
+                    line-height: 19px;
+                }
+            }
+
+            .user-right {
+                .host {
+                    color: $primary-700;
+                    background: $primary-200;
+                    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+                    border-radius: 16px;
+                    border: 1px solid $primary-700;
+                    padding: 4px 6px;
+                }
+
+                .present {
+                    background: $secondary-200;
+                    color: $secondary-700;
+                    border: 1px solid $secondary-700;
+                    border-radius: 16px;
+                    padding: 4px 6px;
+                }
+
+                .invited {
+                    background: $grey-100;
+                    color: $grey-500;
+                    border: 1px solid $grey-500;
+                    border-radius: 16px;
+                    padding: 4px 6px;
+                }
+            }
+        }
+    }
+
+    .share-link {
+        cursor: pointer;
+
+        p.small {
+            color: $grey-500;
+            margin-bottom: 6px;
+        }
+
+        .share-link-wrapper {
+            position: relative;
+
+            > div {
+                border: 1px solid $grey-300;
+                box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+                border-radius: 8px;
+                padding: 10px 14px;
+                width: 100%;
+                font-family: 'CircularStd-Book';
+                color: $grey-500;
+            }
+
+            img {
+                position: absolute;
+                right: 11px;
+                top: 11px;
+            }
+        }
+    }
 }
