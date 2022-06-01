@@ -1420,6 +1420,10 @@
           "email": {
             "type": "string",
             "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

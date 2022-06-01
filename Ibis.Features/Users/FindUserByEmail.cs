@@ -21,10 +21,10 @@ public class FindUserByEmail : Feature<FindUserRequest, User>
         {
             user = new()
             {
-                Id = User.Id(),
-                FirstName = User.FirstName(),
-                LastName = User.LastName(),
-                Email = User.Email()
+                //Id = User.Id(),
+                //FirstName = User.FirstName(),
+                //LastName = User.LastName(),
+                Email = req.Email
             };
             await Users.UpdateAsync(user);
         }

@@ -109,7 +109,9 @@
 
         foreach (var email in emails)
         {
-            await Api.InviteUserAsync(new InviteUserRequest { Email = email, RoomId = response.RoomId });
+            var invitee = await Api.FindUserByEmailAsync(new FindUserRequest { Email = email });
+            await Api.InviteUserAsync(new InviteUserRequest { Email = email, RoomId = response.RoomId, UserId = invitee.UserId });
+
         }
         
 
