@@ -13,8 +13,9 @@ public class IbisEngine
     string SpeechApiKey { get; set; }
     public IRepository<File> Files { get; }
     public IRepository<Message> Messages { get; }
+    public IRepository<User> Users { get; }
 
-    public IbisEngine(IConfiguration configuration, IRepository<File> files)
+    public IbisEngine(IConfiguration configuration, IRepository<File> files, IRepository<User> users)
     {
         Translator = new HttpClient
         {
@@ -25,6 +26,7 @@ public class IbisEngine
 
         SpeechApiKey = configuration.GetConnectionString("Speech");
         Files = files;
+        Users = users;
     }
 
     internal async Task SpeakAsync(Message message)
@@ -88,11 +90,12 @@ public class IbisEngine
         var to = "&to=" + string.Join("&to=", languages.Select(x => x.Split('-').First()));
 
         var result = await Post<TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
-
-        foreach (TranslationResult o in result)
-            foreach (Translation t in o.Translations)
-                message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
-
+        if (result != null && result.Length > 0)
+        {
+            foreach (TranslationResult o in result)
+                foreach (Translation t in o.Translations)
+                    message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
+        }
         return message;
     }
     internal async Task<Message> TranscribeSpeechFromMic(Message message)
@@ -119,43 +122,107 @@ public class IbisEngine
         return message;
     }
 
-    public async Task<Message> ContinuousSpeechRecognitionAsync(Message message)
+    //public async Task<Message> ContinuousSpeechRecognitionAsync(Message message)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+    //    using (var recognizer = new SpeechRecognizer(speechConfig))
+    //    {
+    //        recognizer.Recognizing += (s, e) =>
+    //        {
+    //            Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+    //        };
+    //        recognizer.Recognized += (s, e) =>
+    //        {
+    //            var result = e.Result;
+    //            if (result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Console.WriteLine($"Final Message: {result.Text}.");
+    //                message.SetText(message.Text + " " + result.Text);
+    //            }
+    //        };
+    //        recognizer.Canceled += (s, e) => {
+    //            Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+    //        };
+    //        recognizer.SessionStarted += (s, e) => {
+    //            Console.WriteLine("\n Session has started. You can start speaking...");
+    //        };
+    //        recognizer.SessionStopped += (s, e) => {
+    //            Console.WriteLine("\n Session ended.");
+    //        };
+
+    //        await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+    //        do
+    //        {
+    //            Console.WriteLine("Press ENTER to stop recording...");
+    //        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+
+    //        await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+    //    };
+
+    //    return message;
+    //}
+
+    public async Task<Message> ContinuousSpeechRecognitionAsync(Message message, string userId)
     {
         var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+
+        var user = await Users.FindAsync(userId);
+        if (user != null)
+        {
+            user.SetStopRecognizingSpeech(false);
+            await Users.UpdateAsync(user);
+        }
+
+        bool StopSpeechRecognition = false;
+
         using (var recognizer = new SpeechRecognizer(speechConfig))
         {
             recognizer.Recognizing += (s, e) =>
             {
                 Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
             };
-            recognizer.Recognized += (s, e) =>
+            recognizer.Recognized += async (s, e) =>
             {
                 var result = e.Result;
                 if (result.Reason == ResultReason.RecognizedSpeech)
                 {
                     Console.WriteLine($"Final Message: {result.Text}.");
                     message.SetText(message.Text + " " + result.Text);
+
+                    user = await Users.FindAsync(userId);
+                    if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
                 }
             };
-            recognizer.Canceled += (s, e) => {
+            recognizer.Canceled += (s, e) =>
+            {
                 Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
             };
-            recognizer.SessionStarted += (s, e) => {
+            recognizer.SessionStarted += (s, e) =>
+            {
                 Console.WriteLine("\n Session has started. You can start speaking...");
             };
-            recognizer.SessionStopped += (s, e) => {
+            recognizer.SessionStopped += (s, e) =>
+            {
                 Console.WriteLine("\n Session ended.");
             };
 
             await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
 
-            do
-            {
-                Console.WriteLine("Press ENTER to stop recording...");
-            } while (Console.ReadKey().Key != ConsoleKey.Enter);
+            //do
+            //{
+            //    Console.WriteLine("Press ENTER to stop recording...");
+            //} while (StopSpeechRecognition == false);
 
-            await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
-        };
+            //if (StopSpeechRecognition == false)
+            //{
+            //    user = await Users.FindAsync(userId);
+            //    if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
+            //}
+
+            if (StopSpeechRecognition == true)
+                await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+        }
 
         return message;
     }

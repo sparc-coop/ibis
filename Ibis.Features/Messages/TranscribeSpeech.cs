@@ -18,7 +18,7 @@ public class TranscribeSpeech : PublicFeature<TranscribeSpeechRequest, Message>
     {
         var user = await Users.FindAsync(User.Id());
         var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user.FullName, user.Initials);
-        await IbisEngine.TranscribeSpeechFromMic(message);
+        await IbisEngine.ContinuousSpeechRecognitionAsync(message, user.Id);
         await Messages.AddAsync(message);
         return message;
     }

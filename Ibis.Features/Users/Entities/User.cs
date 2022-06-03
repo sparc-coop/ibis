@@ -79,6 +79,8 @@ public class User : Root<string>
         var h = hash % 360;
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
+    public bool? StopRecognizingSpeech { get; set; }
+    public void SetStopRecognizingSpeech(bool stop) => StopRecognizingSpeech = stop;
 }
 
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);

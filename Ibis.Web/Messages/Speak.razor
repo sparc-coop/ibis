@@ -1,6 +1,4 @@
-﻿@page "/transcribe"
-
-<section class="speak">
+﻿<section class="speak">
     <div class="input">
         <input @bind="Text" readonly=true />
         <div class="buttons">
@@ -13,6 +11,11 @@
         {
             <audio src="/sounds/recording-beep.wav" autoplay />
         }
+        <div>                    
+            <button @onclick="@(StopSpeechRecognition)" aria-label="Stop Recording">
+                <i class="material-icons" style="color: red;">keyboard_voice</i>
+            </button>
+        </div>
     </div>
 </section>
 
@@ -25,17 +28,9 @@
     [Parameter] public SourceTypes? SourceType { get; set; }
     string? Text;
     Message? Message;
-    Ibis.Features.Room? Room;
     List<Message> Messages = new();
-    InputFileChangeEventArgs? e;
-    MemoryStream? ms;
-    string? fileName;
-    bool FileInputEmptyOnSubmit = false;
-    string? ErrorMessageHTML;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
-
-    string? SpeechApiKey;
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,6 +50,12 @@
         StateHasChanged();
     }
 
+    async Task StopSpeechRecognition()
+    {
+        var user = await Api.GetUserAsync();
+        await Api.StopSpeechRecognitionAsync(user.Id);
+    }
+
     async Task SendText()
     {
         var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Message.Text, Language = Language, MessageId = Message.Id, ModifiedMessage = null, Bytes = null });
@@ -65,6 +66,6 @@
     async Task Cancel()
     {
         await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = Message.Id });
-        ModalInstance.CancelAsync();
+        await ModalInstance.CancelAsync();
     }
 }
