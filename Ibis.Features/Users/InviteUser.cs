@@ -19,22 +19,25 @@ public class InviteUser : Feature<InviteUserRequest, bool>
 
     public override async Task<bool> ExecuteAsync(InviteUserRequest request)
     {
+
         try
         {
             string subject = "Ibis Room Invitation";
-            string message = "You have been invited to join a room with Ibis!";
-            await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuviocreative.com");
+            string message = "You have been invited to join Ibis!";
+            //await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuviocreative.com");
 
+            //save user to room
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).FirstOrDefault();
             var user = Users.Query.Where(u => u.UserId == request.UserId).FirstOrDefault();
 
             if (room != null & user != null)
             {
+
                 room.AddUser(request.UserId, "English");
                 user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
             }
 
-            //save user to room
+            
             return true;
         } catch (Exception)
         {
