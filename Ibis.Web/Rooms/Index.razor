@@ -10,7 +10,7 @@
          </div>
          <div class="search-wrapper">
              <div class="searchbar">
-                 <input placeholder="Search rooms"/>
+                 <input placeholder="Search rooms" @onchange="@SearchRooms"/>
                  <a class="search"><img src="/icons/Search.svg" /></a>
              </div>
              <div class="grid-wrapper">
@@ -36,8 +36,17 @@
                             <img src="/icons/Room-Icon.svg" />
                         </div>
                         <div class="option-icons">
-                            <img src="/icons/link.svg" />
-                            <img src="/icons/more-vertical.svg" />
+                            <input type="hidden" id="room-link" value="@("https://www.ibis.com/" + room.RoomId)" />
+                            <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
+                            <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
+                        </div>
+                        <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
+                            <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"></div>
+                            <ul>
+                                <li>@room.Name</li>
+                                <li>Edit Name</li>
+                                <li @onclick="@(e => ShowDeleteModal(room.RoomId))">Delete Room</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="room-details">
@@ -49,9 +58,6 @@
                         </p>
                     </div>
                 <div class="room-members">
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
                     <div class="member">
                         <img src="/images/Avatar.svg" />
                     </div>
@@ -77,12 +83,15 @@
 
 @code {
     ICollection<GetRoomResponse>? Rooms;
+    ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
+    string showDropdown = "";
 
     protected override async Task OnInitializedAsync()
     {
         var user = await Api.GetUserAsync();
         Rooms = await Api.GetUserRoomsAsync(user.Id);
+        OriginalList = Rooms;
     }
 
     public record LanguageItem(string name, string nativeName, string dir);
@@ -105,6 +114,35 @@
         } else
         {
             listView = "";
+        }
+    }
+
+    async Task ToggleDropdown(string roomId)
+    {
+        await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
+    }
+
+    async Task ShareLink(string roomLink)
+    {
+        //copy room share link to clipboard
+        //get room name
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
+    }
+    void ShowDeleteModal(string roomId)
+    {
+        Modal.Show<DeleteModal>("DeleteModal");
+    }
+
+    void SearchRooms(ChangeEventArgs search)
+    {
+        string searchTerm = search.Value.ToString().ToLower();
+
+        if (searchTerm.Length >= 3)
+        {
+            Rooms = Rooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
+        } else if (string.IsNullOrEmpty(searchTerm))
+        {
+            Rooms = OriginalList;
         }
     }
 }

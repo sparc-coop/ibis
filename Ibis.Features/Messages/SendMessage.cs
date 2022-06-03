@@ -59,6 +59,7 @@ public class SendMessage : Feature<SendMessageRequest, Message>
             room = await Rooms.FindAsync(request.RoomId);
             room.LastActiveDate = DateTime.UtcNow;
             //await IbisEngine.UploadAudioToStorage(message, request.Bytes);
+            await IbisEngine.SpeakAsync(message);
             await IbisEngine.TranslateAsync(message, room!.Languages);
             await Messages.UpdateAsync(message);
         }
@@ -72,6 +73,7 @@ public class SendMessage : Feature<SendMessageRequest, Message>
             room = await Rooms.FindAsync(request.RoomId);
             room.LastActiveDate = DateTime.UtcNow;
             //await IbisEngine.UploadAudioToStorage(message, request.Bytes);
+            await IbisEngine.SpeakAsync(message);
             await IbisEngine.TranslateAsync(message, room!.Languages);
             await IbisEngine.SpeakAsync(message);
             await Messages.UpdateAsync(message);

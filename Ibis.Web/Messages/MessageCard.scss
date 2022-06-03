@@ -7,14 +7,14 @@
     border-radius: 12px 12px 12px 12px;
     width: 100%;
     max-width: 940px;
-    max-height: 700px;
+    max-height: 664px;
     min-height: 500px;
     position: relative;
     overflow: hidden;
 
     .message-list {
         overflow-y: auto;
-        max-height: 540px;
+        max-height: 520px;
         padding: 24px 0 38px 0;
 
         &::-webkit-scrollbar {
@@ -166,47 +166,6 @@
 
             .switch-wrapper:last-child {
                 margin-right: 0px;
-            }
-        }
-    }
-
-    .time-stamp {
-        position: absolute;
-        top: 0;
-        left: -40px;
-
-        .start {
-            color: $grey-700;
-            margin-bottom: 4px;
-        }
-
-        .time-duration {
-            color: $grey-400;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 16px;
-
-            p.small:first-of-type {
-                margin-bottom: 2px;
-            }
-
-            .timeline-line {
-                border-left: 1px solid $grey-300;
-                height: 113px;
-                margin-bottom: 2px;
-            }
-
-            .timeline-line2 {
-                border-left: 1px solid $grey-300;
-                height: 86px;
-                margin-bottom: 2px;
-            }
-
-            .timeline-line3 {
-                border-left: 1px solid $grey-300;
-                height: 400px;
-                margin-bottom: 2px;
             }
         }
     }

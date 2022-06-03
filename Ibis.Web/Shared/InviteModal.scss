@@ -31,27 +31,24 @@
 
 .blazored-modal {
     padding: 0;
+    border-radius: 16px;
 
     &-overlay {
         background: rgba(10, 17, 29, 0.75);
     }
+
+    &-header {
+        display: none;
+    }
 }
 
-.blazored-modal-header {
-    display: none;
-}
 
 .modal {
+    position: relative;
     background: $white;
-    border: 1px solid $grey-200;
     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
     border-radius: 16px;
     min-width: 600px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -274.5px;
-    margin-left: -300px;
     z-index: 1;
     padding: 32px 40px 40px 40px;
 
@@ -64,6 +61,12 @@
         position: absolute;
         top: 20px;
         right: 20px;
+    }
+
+    button.primary {
+        padding: 8px 16px;
+        color: $white;
+        background: $secondary-900;
     }
 
     .invite-search {
@@ -83,14 +86,14 @@
             width: 72%;
         }
 
-        button.primary {
-            padding: 8px 16px;
-            color: $white;
-            background: $secondary-900;
-        }
-
         ::placeholder {
             color: $grey-500;
+        }
+
+        .search-member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     }
 
@@ -149,6 +152,15 @@
         }
     }
 
+
+    &.upload {
+        button.primary {
+            position: absolute;
+            right: 40px;
+            bottom: 30px;
+        }
+    }
+
     .share-link {
         cursor: pointer;
 
@@ -195,6 +207,25 @@
         float: right;
         cursor: pointer;
     }
+
+    &.confirm-text {
+        button.primary {
+            margin-top: 20px;
+            i {
+                vertical-align: middle;
+                padding: 0 0 1px 10px;
+            }
+        }
+
+        textarea {
+            display: block;
+            padding: 8px;
+            margin: 12px 0;
+            width: 100%;
+            border: 1px solid $grey-400;
+            border-radius: 6px;
+        }
+    }
 }
 
 //Overlay
@@ -210,15 +241,9 @@
 
 .invite-block {
     background: $white;
-    border: 1px solid $grey-200;
     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
     border-radius: 16px;
     min-width: 600px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -398px;
-    margin-left: -300px;
     z-index: 1;
     padding: 32px 40px 40px 40px;
 
@@ -292,36 +317,6 @@
             font-size: 16px;
             line-height: 120%;
             width: 100%;
-        }
-
-        ::placeholder {
-            color: $grey-500;
-        }
-    }
-
-    .invite-search {
-
-        .search-member {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        input {
-            border: 1px solid $grey-300;
-            /*box-shadow: 0px 1px 2px rgb(16 24 40 / 5%);*/
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 16px;
-            line-height: 120%;
-            max-width: 72%;
-            width: 72%;
-        }
-
-        button.primary {
-            padding: 8px 16px;
-            color: $secondary-900;
-            border: 1px solid $secondary-900;
         }
 
         ::placeholder {

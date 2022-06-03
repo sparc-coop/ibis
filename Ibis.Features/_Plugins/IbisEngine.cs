@@ -161,20 +161,26 @@ public class IbisEngine
         }
     }
 
-    internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes)
-    {
-        Sparc.Storage.Azure.File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
-        await Files.AddAsync(file);
-        message.SetAudio(file.Url!);
+    //internal async Task<Message> UploadAudioToStorage(Message message, byte[] bytes)
+    //{
+    //    File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Language}.wav", AccessTypes.Public, new MemoryStream(bytes));
+    //    await Files.AddAsync(file);
+    //    message.SetAudio(file.Url!);
 
-        return message;
+    //    return message;
+    //}
+    internal async Task<string> UploadAudioToStorage(Room subroom, byte[] bytes)
+    {
+        File file = new("speak", $"{subroom.RoomId}/upload/original.wav", AccessTypes.Public, new MemoryStream(bytes));
+        await Files.AddAsync(file);
+        return file.Url!;
     }
 
     internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
     {
         File file = new("speak", $"{roomId}/video/{fileName}.mp4", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);
-        return file.Url;
+        return file.Url!;
     }
 
     public async Task<List<KeyValuePair<string, LanguageItem>>> GetAllLanguages()

@@ -7,7 +7,7 @@
         <InputFile type="file" accept="audio/wav, video/*" name="UploadFileInput" OnChange="@OnInputFileChange"/>
     </div>
     @((MarkupString)ErrorMessageHTML)
-    <button @onclick="Submit" class="btn btn-primary">Upload</button>
+    <button @onclick="Submit" class="primary">Upload</button>
 </section>
 
 @code {
@@ -47,7 +47,7 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string roomId, string language, List<Message> messages, byte[] bytes)//string messageId, string text, 
+    void ShowConfirmOrEditTextModal(string roomId, string language, List<Message> messages, byte[] bytes)
     {
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
@@ -72,7 +72,7 @@
             {
                 message.ModifiedText = message.Text;
             }
-            ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);//message.Id, message.Text, bytes);
+            ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

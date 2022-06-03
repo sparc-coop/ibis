@@ -221,8 +221,8 @@ main {
 
 .dash-layout {
   background: #fafbfc;
-  min-height: calc(100vh - 134px);
-  padding: 10px;
+  min-height: calc(100vh - 139px);
+  padding: 20px;
 }
 
 .nav-menu {
@@ -282,26 +282,21 @@ main {
 
 .blazored-modal {
   padding: 0;
+  border-radius: 16px;
 }
 .blazored-modal-overlay {
   background: rgba(10, 17, 29, 0.75);
 }
-
 .blazored-modal-header {
   display: none;
 }
 
 .modal {
+  position: relative;
   background: #FFFFFF;
-  border: 1px solid #E5E7EA;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   min-width: 600px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -274.5px;
-  margin-left: -300px;
   z-index: 1;
   padding: 32px 40px 40px 40px;
 }
@@ -313,6 +308,11 @@ main {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+.modal button.primary {
+  padding: 8px 16px;
+  color: #FFFFFF;
+  background: #003B5F;
 }
 .modal .invite-search {
   display: flex;
@@ -330,13 +330,13 @@ main {
   max-width: 72%;
   width: 72%;
 }
-.modal .invite-search button.primary {
-  padding: 8px 16px;
-  color: #FFFFFF;
-  background: #003B5F;
-}
 .modal .invite-search ::placeholder {
   color: #6A7280;
+}
+.modal .invite-search .search-member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .modal .invite-users {
   margin-bottom: 40px;
@@ -382,6 +382,11 @@ main {
   border-radius: 16px;
   padding: 4px 6px;
 }
+.modal.upload button.primary {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+}
 .modal .share-link {
   cursor: pointer;
 }
@@ -422,6 +427,21 @@ main {
   float: right;
   cursor: pointer;
 }
+.modal.confirm-text button.primary {
+  margin-top: 20px;
+}
+.modal.confirm-text button.primary i {
+  vertical-align: middle;
+  padding: 0 0 1px 10px;
+}
+.modal.confirm-text textarea {
+  display: block;
+  padding: 8px;
+  margin: 12px 0;
+  width: 100%;
+  border: 1px solid #9BA3AF;
+  border-radius: 6px;
+}
 
 .overlay {
   background: rgba(10, 17, 29, 0.75);
@@ -435,15 +455,9 @@ main {
 
 .invite-block {
   background: #FFFFFF;
-  border: 1px solid #E5E7EA;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   min-width: 600px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -398px;
-  margin-left: -300px;
   z-index: 1;
   padding: 32px 40px 40px 40px;
 }
@@ -505,29 +519,6 @@ main {
   width: 100%;
 }
 .invite-block .room-name-wrapper ::placeholder {
-  color: #6A7280;
-}
-.invite-block .invite-search .search-member {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.invite-block .invite-search input {
-  border: 1px solid #D1D4DC;
-  /*box-shadow: 0px 1px 2px rgb(16 24 40 / 5%);*/
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 16px;
-  line-height: 120%;
-  max-width: 72%;
-  width: 72%;
-}
-.invite-block .invite-search button.primary {
-  padding: 8px 16px;
-  color: #003B5F;
-  border: 1px solid #003B5F;
-}
-.invite-block .invite-search ::placeholder {
   color: #6A7280;
 }
 
@@ -775,9 +766,11 @@ main {
   border-radius: 8px;
   width: 100%;
   height: 196px;
-  max-width: 352px;
+  max-width: 362px;
   cursor: pointer;
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
+  position: relative;
+  z-index: 1;
 }
 .dashboard .rooms .room-card .top-bar {
   display: flex;
@@ -816,6 +809,34 @@ main {
 }
 .dashboard .rooms .room-card .room-members .member:first-of-type {
   margin-left: 0;
+}
+.dashboard .rooms .room-card .dropdown {
+  visibility: hidden;
+  position: absolute;
+  z-index: 10;
+  top: 28px;
+  right: -10px;
+  padding: 10px;
+  background: #FFFFFF;
+  border-radius: 6px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+.dashboard .rooms .room-card .dropdown li {
+  padding: 5px 0;
+}
+.dashboard .rooms .room-card .dropdown ul {
+  position: relative;
+  z-index: 12;
+}
+.dashboard .rooms .room-card .dropdown--overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 .dashboard .rooms.show-list {
   display: block;
@@ -904,6 +925,40 @@ main {
 }
 .room .header .user-invite img {
   margin-right: 8px;
+}
+.room .time-stamp {
+  position: absolute;
+  top: 0;
+  left: 100px;
+}
+.room .time-stamp .start {
+  color: #364150;
+  margin-bottom: 4px;
+}
+.room .time-stamp .time-duration {
+  color: #9BA3AF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.room .time-stamp .time-duration p.small:first-of-type {
+  margin-bottom: 2px;
+}
+.room .time-stamp .time-duration .timeline-line {
+  border-left: 1px solid #D1D4DC;
+  height: 113px;
+  margin-bottom: 2px;
+}
+.room .time-stamp .time-duration .timeline-line2 {
+  border-left: 1px solid #D1D4DC;
+  height: 86px;
+  margin-bottom: 2px;
+}
+.room .time-stamp .time-duration .timeline-line3 {
+  border-left: 1px solid #D1D4DC;
+  height: 400px;
+  margin-bottom: 2px;
 }
 .room .switch {
   position: relative !important;
@@ -1034,14 +1089,14 @@ main {
   border-radius: 12px 12px 12px 12px;
   width: 100%;
   max-width: 940px;
-  max-height: 700px;
+  max-height: 664px;
   min-height: 500px;
   position: relative;
   overflow: hidden;
 }
 .message-grid .message-list {
   overflow-y: auto;
-  max-height: 540px;
+  max-height: 520px;
   padding: 24px 0 38px 0;
   /* Track */
   /* Handle */
@@ -1174,40 +1229,6 @@ main {
 }
 .message-grid .message-box-bottom .message-options .switch-wrapper:last-child {
   margin-right: 0px;
-}
-.message-grid .time-stamp {
-  position: absolute;
-  top: 0;
-  left: -40px;
-}
-.message-grid .time-stamp .start {
-  color: #364150;
-  margin-bottom: 4px;
-}
-.message-grid .time-stamp .time-duration {
-  color: #9BA3AF;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.message-grid .time-stamp .time-duration p.small:first-of-type {
-  margin-bottom: 2px;
-}
-.message-grid .time-stamp .time-duration .timeline-line {
-  border-left: 1px solid #D1D4DC;
-  height: 113px;
-  margin-bottom: 2px;
-}
-.message-grid .time-stamp .time-duration .timeline-line2 {
-  border-left: 1px solid #D1D4DC;
-  height: 86px;
-  margin-bottom: 2px;
-}
-.message-grid .time-stamp .time-duration .timeline-line3 {
-  border-left: 1px solid #D1D4DC;
-  height: 400px;
-  margin-bottom: 2px;
 }
 .message-grid .subroom {
   margin-left: 40px;

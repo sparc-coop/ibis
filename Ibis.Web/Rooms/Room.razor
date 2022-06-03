@@ -97,34 +97,30 @@
                     </div>
                 </div>
             </div>
-            <div class="time-stamp">
-                <p class="small start">Start</p>
-                <div class="time-duration">
-                    <p class="small">0:10</p>
-                    <div class="timeline-line"></div>
-                    <p class="small">0:25</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:27</p>
-                    <div class="timeline-line2"></div>
-                    <p class="small">0:31</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:34</p>
-                    <div class="timeline-line3"></div>
-                    <p class="small">1:17</p>
-                </div>
-            </div>
         </div>
-@*        <ChatBox />*@
+@*        <div class="time-stamp">
+            <p class="small start">Start</p>
+            <div class="time-duration">
+                <p class="small">0:10</p>
+                <div class="timeline-line"></div>
+                <p class="small">0:25</p>
+            </div>
+            <div class="time-duration">
+                <p class="small">0:27</p>
+                <div class="timeline-line2"></div>
+                <p class="small">0:31</p>
+            </div>
+            <div class="time-duration">
+                <p class="small">0:34</p>
+                <div class="timeline-line3"></div>
+                <p class="small">1:17</p>
+            </div>
+        </div>*@
     </div>
 @*
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="options">
-            <button @onclick="DownloadAudio" aria-label="Download Audio">
-                <i class="material-icons">audio_file</i>
-            </button>
             <button @onclick="Call" aria-label="Call">
                 <i class="material-icons">call</i>
             </button>

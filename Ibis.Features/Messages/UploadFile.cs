@@ -26,6 +26,8 @@ public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
             var room = await Rooms.FindAsync(request.RoomId);
 
             var subroom = new Room(room!, message);
+            string fileUrl = await IbisEngine.UploadAudioToStorage(subroom, request.Bytes);
+            subroom.AudioId = fileUrl;
             message.SetSubroomId(subroom.Id);
             await Rooms.UpdateAsync(subroom);
 
@@ -38,6 +40,7 @@ public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
                 {
                     foreach (var subMessage in messages)
                     {
+                        await IbisEngine.SpeakAsync(subMessage);
                         subMessage.SetSubroomId(subroom.Id);
                         await Messages.AddAsync(subMessage);
                     }

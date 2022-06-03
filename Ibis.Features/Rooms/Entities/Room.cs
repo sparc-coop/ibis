@@ -10,6 +10,7 @@ public class Room : Root<string>
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? LastActiveDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
     public List<Messages.Translation> Translations { get; private set; }
     public string? AudioId { get; set; }

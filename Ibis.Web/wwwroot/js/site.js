@@ -69,3 +69,17 @@ function triggerFileDownload(fileName, url) {
 function playAudio(id) {
     document.getElementById("play-" + id).play();
 }
+
+function toggleRoomDropdown(roomId) {
+    const dropdown = document.getElementById("dropdown-" + roomId);
+    if (dropdown.style.visibility == "visible") {
+        dropdown.style.visibility = "hidden";
+    } else {
+        dropdown.style.visibility = "visible";
+    }
+}
+
+function copyToClipboard(id) {
+    var copyText = document.getElementById(id).value;
+    navigator.clipboard.writeText(copyText);
+}

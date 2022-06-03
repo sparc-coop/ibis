@@ -8,7 +8,7 @@
             </div>
             <div class="account-name" style="color:#000000">
                 @(Message.UserName != null ? Message.UserName : "")
-@*                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>*@
+                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
             </div>
         </div>
 @*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
@@ -17,11 +17,11 @@
     </div>
     <div class="message-content">
         @MessageText
-@*        @if(MessageAudio != null)
+        @if(MessageAudio != null)
         {
             <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
-            <i class="material-icons" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
-        }*@
+            <i class="material-icons" @onclick:stopPropagation="true"  @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+        }
     </div>
 </article>
 
