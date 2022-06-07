@@ -43,7 +43,6 @@
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
                             <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"></div>
                             <ul>
-                                <li>@room.Name</li>
                                 <li>Edit Name</li>
                                 <li @onclick="@(e => ShowDeleteModal(room.RoomId))">Delete Room</li>
                             </ul>

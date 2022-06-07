@@ -20,9 +20,10 @@
         }
     </div>
     <div class="share-link">
-        <p class="small" @onclick="CopyLink">Copy & Share Link</p>
-        <div class="share-link-wrapper">
+        <p class="medium">Copy & Share Link</p>
+        <div class="share-link-wrapper" @onclick="CopyLink">
             <div>room.ibis.com/ratio-view-wing</div>
+            <span>@CopyConfirm</span>
             <img src="/icons/copy.svg" />
         </div>
     </div>
@@ -38,7 +39,7 @@
     public string RoomId { get; set; }
     [CascadingParameter] 
     BlazoredModalInstance ModalInstance { get; set; } = default!;
-
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
@@ -46,7 +47,10 @@
 
     async Task CopyLink()
     {
-    //
+        //
+        CopyConfirm = "Copied!";
+        await Task.Delay(3000);
+        CopyConfirm = "";
     }
 
     void Close() => ModalInstance.CancelAsync();

@@ -20,7 +20,7 @@
         @if(MessageAudio != null)
         {
             <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
-            <i class="material-icons" @onclick:stopPropagation="true"  @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+            <i class="material-icons" @onclick:stopPropagation="true" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
         }
     </div>
 </article>

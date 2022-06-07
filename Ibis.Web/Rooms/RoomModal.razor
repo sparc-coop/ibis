@@ -53,24 +53,18 @@
                 <p class="large">Kieran Parker</p>
             </div>
             <div class="user-right">
-                <p class="small success">Success</p>
-            </div>
-        </div>
-        <div class="user-wrapper">
-            <div class="user-left">
-                <img src="/icons/Badge.svg"/>
-                <p class="large">Kieran Parker</p>
-            </div>
-            <div class="user-right">
                 <p class="small invited">Invited</p>
             </div>
         </div>
     </div>
 
     <div class="share-link">
-        <p class="medium">Copy & Share Link</p>
-        <div class="share-link-wrapper">
+        <p class="medium">
+            Copy & Share Link
+        </p>
+        <div class="share-link-wrapper" @onclick="CopyLink">
             <div>conversation.ibis.com/ratio-view-wing</div>
+            <span>@CopyConfirm</span>
             <img src="/icons/copy.svg" />
         </div>
     </div>
@@ -88,10 +82,19 @@
     void Close() => ModalInstance.CancelAsync();
     string Name;
     RoomUsersResponse Group = new RoomUsersResponse();
+    string CopyConfirm = "";
 
     async Task CreateRoom()
     {
         GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
         Nav.NavigateTo($"/rooms/{response.RoomId}", true);
+    }
+
+    async Task CopyLink()
+    {
+        //
+        CopyConfirm = "Copied!";
+        await Task.Delay(3000);
+        CopyConfirm = "";
     }
 }

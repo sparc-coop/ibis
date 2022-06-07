@@ -254,32 +254,6 @@ main {
   padding: 0 20px;
 }
 
-.invite {
-  max-width: 600px;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  max-height: 549px;
-  background: #FFFFFF;
-  position: relative;
-  border-radius: 16px;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-}
-.invite .close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-.invite input {
-  padding: 8px 16px;
-  border: 1px solid #858a8f;
-  border-radius: 4px;
-  margin: 10px 0;
-}
-.invite h5, .invite h6 {
-  padding: 15px 0;
-}
-
 .blazored-modal {
   padding: 0;
   border-radius: 16px;
@@ -298,7 +272,7 @@ main {
   border-radius: 16px;
   min-width: 600px;
   z-index: 1;
-  padding: 32px 40px 40px 40px;
+  padding: 24px;
 }
 .modal h4 {
   margin-bottom: 24px;
@@ -368,10 +342,10 @@ main {
   border: 1px solid #CA1E14;
   padding: 4px 6px;
 }
-.modal .invite-users .user-wrapper .user-right .present {
+.modal .invite-users .user-wrapper .user-right .success {
   background: #EEF4FA;
-  color: #2E7BA5;
-  border: 1px solid #2E7BA5;
+  color: #12B76A;
+  border: 1px solid #12B76A;
   border-radius: 16px;
   padding: 4px 6px;
 }
@@ -389,9 +363,14 @@ main {
 }
 .modal .share-link {
   cursor: pointer;
+  margin-bottom: 70px;
 }
 .modal .share-link p.small {
   color: #6A7280;
+  margin-bottom: 6px;
+}
+.modal .share-link p.medium {
+  color: #364150;
   margin-bottom: 6px;
 }
 .modal .share-link .share-link-wrapper {
@@ -411,21 +390,19 @@ main {
   right: 11px;
   top: 11px;
 }
+.modal .share-link .share-link-wrapper span {
+  font-size: 16px;
+  position: absolute;
+  right: 50px;
+  top: 12px;
+  color: #12B76A;
+}
 .modal button.secondary {
   color: #013b60;
   border: 1px solid #013b60;
   background: #FFFFFF;
-  padding: 9.5px 12px;
-}
-.modal .create-room {
-  background: #FF3520;
+  padding: 0 12px;
   border-radius: 8px;
-  padding: 8px 16px;
-  color: #FFFFFF;
-  font-size: 16px;
-  line-height: 20px;
-  float: right;
-  cursor: pointer;
 }
 .modal.confirm-text button.primary {
   margin-top: 20px;
@@ -459,21 +436,27 @@ main {
   border-radius: 16px;
   min-width: 600px;
   z-index: 1;
-  padding: 32px 40px 40px 40px;
 }
 .invite-block h4 {
   margin-bottom: 24px;
-}
-.invite-block .close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
 }
 .invite-block .room-icons, .invite-block .room-name-wrapper, .invite-block .invite-search, .invite-block .invite-users {
   margin-bottom: 24px;
 }
 .invite-block .room-icons p.medium, .invite-block .room-name-wrapper p.medium, .invite-block .invite-search p.medium, .invite-block .invite-users p.medium {
   margin-bottom: 6px;
+}
+.invite-block .create-room {
+  background: #FF3520;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 20px;
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  cursor: pointer;
 }
 .invite-block .room-icons .room-icon-wrapper {
   display: flex;
@@ -511,7 +494,6 @@ main {
 }
 .invite-block .room-name-wrapper input {
   border: 1px solid #D1D4DC;
-  /*box-shadow: 0px 1px 2px rgb(16 24 40 / 5%);*/
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 16px;
