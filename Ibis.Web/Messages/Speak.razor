@@ -1,21 +1,27 @@
 ﻿<section class="speak">
     <div class="input">
-        <input @bind="Text" readonly=true />
+@*        <input @bind="Text" readonly=true />
         <div class="buttons">
             <button @onclick="SendText">
                 <i class="material-icons">send</i>
             </button>
             <button @onclick="Cancel">cancel</button>
         </div>
+*@
+        <h3>Recording...</h3>
         @if (Text == null)
         {
-            <audio src="/sounds/recording-beep.wav" autoplay />
+            <audio src="/sounds/beep_up.wav" autoplay />
         }
-        <div>                    
+@*        <div class="buttons">
             <button @onclick="@(StopSpeechRecognition)" aria-label="Stop Recording">
-                <i class="material-icons" style="color: red;">keyboard_voice</i>
+                <i class="material-icons" style="color: darkred;">keyboard_voice</i>
             </button>
-        </div>
+            @if (StopRecordingSpeech == true)
+            {
+                <audio src="/sounds/beep_down.wav" autoplay />
+            }
+        </div>*@
     </div>
 </section>
 
@@ -29,43 +35,68 @@
     string? Text;
     Message? Message;
     List<Message> Messages = new();
+    //bool StopRecordingSpeech = false;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = RoomId, Language = Language });
-        Text = newMessage.Text;
-        Message = newMessage;
+        if (newMessage != null)
+        {
+            //StopRecordingSpeech = true;
+            Text = newMessage.Text;
+            Message = newMessage;
+            ShowConfirmOrEditTextModal(RoomId, Language, Message.Id, Message.Text, Message.SourceType, null);
+        }
+        if (newMessage.Text == null || newMessage.Text.Length == 0) {
+            await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = newMessage.Id });
+        }
+        ModalInstance.CloseAsync(ModalResult.Ok(true));
     }
 
-    void AddMessage(Message message)
+    void ShowConfirmOrEditTextModal(string roomId, string language, string messageId, string text, SourceTypes sourceType, byte[]? bytes)
     {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id);
-        if (existingId > -1)
-            Messages[existingId] = message;
-        else
-            Messages.Add(message);
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
+        parameters.Add(nameof(ConfirmOrEditText.Language), language);
+        parameters.Add(nameof(ConfirmOrEditText.MessageId), messageId);
+        parameters.Add(nameof(ConfirmOrEditText.Text), text);
+        parameters.Add(nameof(ConfirmOrEditText.ModifiedText), text);
+        parameters.Add(nameof(ConfirmOrEditText.SourceType), sourceType);
+        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
 
-        StateHasChanged();
+        Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
     }
 
-    async Task StopSpeechRecognition()
-    {
-        var user = await Api.GetUserAsync();
-        await Api.StopSpeechRecognitionAsync(user.Id);
-    }
+    //void AddMessage(Message message)
+    //{
+    //    var existingId = Messages.FindIndex(x => x.Id == message.Id);
+    //    if (existingId > -1)
+    //        Messages[existingId] = message;
+    //    else
+    //        Messages.Add(message);
 
-    async Task SendText()
-    {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Message.Text, Language = Language, MessageId = Message.Id, ModifiedMessage = null, Bytes = null });
-        AddMessage(newMessage);
-        await ModalInstance.CloseAsync(ModalResult.Ok(true));
-    }
+    //    StateHasChanged();
+    //}
 
-    async Task Cancel()
-    {
-        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = Message.Id });
-        await ModalInstance.CancelAsync();
-    }
+    //async Task StopSpeechRecognition()
+    //{
+    //    StopRecordingSpeech = true;
+    //    var user = await Api.GetUserAsync();
+    //    await Api.StopSpeechRecognitionAsync(user.Id);
+    //}
+
+    //async Task SendText()
+    //{
+    //    var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Message.Text, Language = Language, MessageId = Message.Id, ModifiedMessage = null, Bytes = null });
+    //    AddMessage(newMessage);
+    //    await ModalInstance.CloseAsync(ModalResult.Ok(true));
+    //}
+
+    //async Task Cancel()
+    //{
+    //    await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = Message.Id });
+    //    ModalInstance.CancelAsync();
+    //}
 }

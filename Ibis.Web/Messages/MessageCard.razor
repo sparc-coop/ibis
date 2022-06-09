@@ -39,14 +39,14 @@
             MessageText = translation?.Text ?? Message.Text;
         } else
         {
-            //MessageText = translation?.Text ?? Message.ModifiedText;
+            MessageText = translation?.Text ?? Message.ModifiedText;
             MessageText = Message.ModifiedText;
         }
 
         if (translation?.AudioId != null)
         {
             MessageAudio = translation.AudioId;
-            //MessageAudio = Message.ModifiedAudioId;
+            MessageAudio = Message.ModifiedAudioId;
 
         } else if (Message.ModifiedAudioId != null)
         {

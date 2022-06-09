@@ -1,5 +1,6 @@
 ﻿<section class="confirmOrEditText">
     <div class="input">
+        <audio src="/sounds/beep_down.wav" autoplay />
         <i class="material-icons">edit</i>
         <input @bind="ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />
         <div class="buttons">
@@ -19,6 +20,7 @@
     [Parameter] public string? MessageId { get; set; }
     [Parameter] public string? Text { get; set; }
     [Parameter] public string? ModifiedText { get; set; }
+    [Parameter] public SourceTypes SourceType { get; set; }
     [Parameter] public byte[]? Bytes { get; set;  }
     List<Message> Messages = new();
 
@@ -46,17 +48,18 @@
         Message newMessage;
         if (ModifiedText == Text)
         {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = null, SourceType = SourceType, Bytes = Bytes });
         } else {
-            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, Bytes = Bytes });
+            newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = Text, Language = Language, MessageId = MessageId, ModifiedMessage = ModifiedText, SourceType = SourceType, Bytes = Bytes });
         }
         AddMessage(newMessage);
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
+        StateHasChanged();
     }
 
     async Task Cancel()
     {
         await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = MessageId });
-        await ModalInstance.CancelAsync();
+        ModalInstance.CancelAsync();
     }
 }
