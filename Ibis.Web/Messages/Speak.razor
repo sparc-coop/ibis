@@ -1,4 +1,4 @@
-﻿<section class="speak">
+﻿<section class="speak modal">
     <div class="input">
         <input @bind="Text" readonly=true />
         <div class="buttons">
@@ -53,7 +53,7 @@
     async Task StopSpeechRecognition()
     {
         var user = await Api.GetUserAsync();
-        await Api.StopSpeechRecognitionAsync(user.Id);
+        //await Api.StopSpeechRecognitionAsync("328d6bb4-2326-4560-af01-9aa9c59b3f0f");
     }
 
     async Task SendText()

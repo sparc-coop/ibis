@@ -78,8 +78,11 @@
                         </label>
                         <p>Voice</p>
                     </div>*@
-                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak">
+                    <button @onclick="@(e => SpeechRecognition(true))" aria-label="Speak">
                         <i class="material-icons">keyboard_voice</i>
+                    </button>
+                    <button @onclick="@(e => SpeechRecognition(false))" aria-label="Stop Recording">
+                        <i class="material-icons" style="color: red;">keyboard_voice</i>
                     </button>
                     @*Make Text Dark Blue When checked*@
 @*                    <div class="switch-wrapper">
@@ -164,8 +167,30 @@
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
+    bool Recording = false;
 
     GetLanguageListResponse LanguageList;
+
+
+    async Task SpeechRecognition(bool status)
+    {
+        if (status == false)
+            Recording = false;
+        else
+            Recording = true;
+
+
+        Message newMessage = new Message();
+
+        if(Recording == true)
+        {
+            newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
+            Text = newMessage.Text;
+        } else
+        {
+          await Api.StopSpeechRecognitionAsync(newMessage);  
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
