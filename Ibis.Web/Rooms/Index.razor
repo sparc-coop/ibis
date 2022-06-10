@@ -35,7 +35,7 @@
                         <div class="room-icon">
                             <img src="/icons/Room-Icon.svg" />
                         </div>
-                        <div class="option-icons">
+                        <div class="option-icons" @onclick:stopPropagation="true">
                             <input type="hidden" id="room-link" value="@("https://www.ibis.com/" + room.RoomId)" />
                             <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
                             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
@@ -43,7 +43,7 @@
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
                             <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"></div>
                             <ul>
-                                <li>Edit Name</li>
+                                <li @onclick="@(e => ShowEditModal(room.RoomId, room.Name))">Edit Name</li>
                                 <li @onclick="@(e => ShowDeleteModal(room.RoomId))">Delete Room</li>
                             </ul>
                         </div>
@@ -130,6 +130,14 @@
     void ShowDeleteModal(string roomId)
     {
         Modal.Show<DeleteModal>("DeleteModal");
+    }
+
+    async Task ShowEditModal(string roomId, string name)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditModal.RoomId), roomId);
+        parameters.Add(nameof(EditModal.Title), name);
+        Modal.Show<EditModal>("EditModal", parameters);
     }
 
     void SearchRooms(ChangeEventArgs search)

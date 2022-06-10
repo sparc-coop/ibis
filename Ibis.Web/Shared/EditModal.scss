@@ -1,0 +1,24 @@
+﻿@import "../_variables.scss";
+
+.edit-modal {
+    input {
+        border: 1px solid $grey-700;
+        padding: 6px 16px;
+        display: block;
+    }
+
+    button {
+
+        &.primary {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+        }
+
+        &.secondary {
+            margin-top: 30px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+    }
+}
