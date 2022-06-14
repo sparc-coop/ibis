@@ -79,6 +79,7 @@ public class User : Root<string>
         var h = hash % 360;
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
+    public bool? Onboarded { get; set; }
 }
 
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
