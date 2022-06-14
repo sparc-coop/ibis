@@ -18,7 +18,7 @@
     async void DeleteRoom()
     {
         await Api.RemoveRoomAsync(RoomId);
-        await ModalInstance.CloseAsync();
+        await ModalInstance.CancelAsync();
     }
 
     void Close() => ModalInstance.CancelAsync();

@@ -85,10 +85,11 @@
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
     string showDropdown = "";
+    GetUserResponse user;
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.GetUserAsync();
+        user = await Api.GetUserAsync();
         Rooms = await Api.GetUserRoomsAsync(user.Id);
         OriginalList = Rooms;
     }
@@ -127,9 +128,19 @@
         //get room name
         await JS.InvokeVoidAsync("copyToClipboard", roomLink);
     }
-    void ShowDeleteModal(string roomId)
+
+    async Task ShowDeleteModal(string room)
     {
-        Modal.Show<DeleteModal>("DeleteModal");
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DeleteModal.RoomId), room);
+        var deleteModal = Modal.Show<DeleteModal>("DeleteModal", parameters);        
+        var result = await deleteModal.Result;
+
+        if(result.Cancelled)
+        {
+            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", room);
+        }
     }
 
     async Task ShowEditModal(string roomId, string name)
@@ -137,7 +148,14 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditModal.RoomId), roomId);
         parameters.Add(nameof(EditModal.Title), name);
-        Modal.Show<EditModal>("EditModal", parameters);
+        var editModal = Modal.Show<EditModal>("EditModal", parameters);
+
+        var result = await editModal.Result;
+        if(result.Cancelled)
+        {
+            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
+        }
     }
 
     void SearchRooms(ChangeEventArgs search)

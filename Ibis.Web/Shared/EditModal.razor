@@ -26,6 +26,7 @@
     {
         await Api.UpdateRoomOptionsAsync(new RoomOptionsRequest{RoomId = RoomId, Title = Title});
         await OnTitleChanged.InvokeAsync(Title);
+        await ModalInstance.CancelAsync();
     }
 
     void Close() => ModalInstance.CancelAsync();
