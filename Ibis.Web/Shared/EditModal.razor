@@ -24,7 +24,7 @@
 
     async void UpdateRoom()
     {
-        await Api.UpdateRoomOptionsAsync(new RoomOptionsRequest{RoomId = RoomId, Title = Title});
+        //await Api.UpdateRoomOptionsAsync(new RoomOptionsRequest{RoomId = RoomId, Title = Title});
         await OnTitleChanged.InvokeAsync(Title);
     }
 

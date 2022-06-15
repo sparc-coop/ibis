@@ -86,8 +86,8 @@
 
     async Task CreateRoom()
     {
-        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
-        Nav.NavigateTo($"/rooms/{response.RoomId}", true);
+        //GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
+        //Nav.NavigateTo($"/rooms/{response.RoomId}", true);
     }
 
     async Task CopyLink()
