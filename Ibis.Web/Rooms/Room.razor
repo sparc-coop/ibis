@@ -172,8 +172,8 @@
 
         if (string.IsNullOrWhiteSpace(Id))
         {
-            //RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
-            //Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
+            RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
+            Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
         }
         else
         {

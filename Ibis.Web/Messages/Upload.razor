@@ -68,11 +68,11 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
-            //foreach(var message in messages)
-            //{
-            //    message.ModifiedText = message.Text;
-            //}
-            //ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);
+            foreach(var message in messages)
+            {
+                message.ModifiedText = message.Text;
+            }
+            ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);
             await ModalInstance.CloseAsync(ModalResult.Ok(true));
         } else
         {

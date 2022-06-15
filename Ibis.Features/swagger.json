@@ -230,16 +230,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreateRoom": {
@@ -299,16 +290,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreateStripeCustomer": {
@@ -368,16 +350,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/DeleteMessage": {
@@ -437,19 +410,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/GetLanguageList": {
+    "/api/GetLanguageList": {
       "post": {
         "tags": [
           "GetLanguageList"
@@ -478,7 +442,7 @@
         }
       }
     },
-    "/publicapi/GetRoom": {
+    "/api/GetRoom": {
       "post": {
         "tags": [
           "GetRoom"
@@ -583,19 +547,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/GetTextToBraille": {
+    "/api/GetTextToBraille": {
       "post": {
         "tags": [
           "GetTextToBraille"
@@ -690,16 +645,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetUserRooms": {
@@ -756,16 +702,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/InviteUser": {
@@ -825,19 +762,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/MergeAudio": {
+    "/api/MergeAudio": {
       "post": {
         "tags": [
           "MergeAudio"
@@ -942,16 +870,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/SendMessage": {
@@ -1011,19 +930,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/TranscribeSpeech": {
+    "/api/TranscribeSpeech": {
       "post": {
         "tags": [
           "TranscribeSpeech"
@@ -1140,16 +1050,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UpdateUser": {
@@ -1209,19 +1110,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/UploadFile": {
+    "/api/UploadFile": {
       "post": {
         "tags": [
           "UploadFile"
@@ -1892,14 +1784,6 @@
           }
         },
         "additionalProperties": false
-      }
-    },
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "description": "Enter JWT Bearer token **_only_**",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
