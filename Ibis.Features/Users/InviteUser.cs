@@ -27,15 +27,15 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             //await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuviocreative.com");
 
             //save user to room
-            var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).FirstOrDefault();
-            var user = Users.Query.Where(u => u.UserId == request.UserId).FirstOrDefault();
+            //var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).FirstOrDefault();
+            //var user = Users.Query.Where(u => u.UserId == request.UserId).FirstOrDefault();
 
-            if (room != null & user != null)
-            {
+            //if (room != null & user != null)
+            //{
 
-                room.AddUser(request.UserId, "English");
-                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
-            }
+            //    room.AddUser(request.UserId, "English");
+            //    user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
+            //}
 
             
             return true;

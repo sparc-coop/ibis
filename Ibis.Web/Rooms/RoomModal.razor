@@ -105,14 +105,28 @@
 
     async Task CreateRoom()
     {
+
+        //var userList = new List<RoomUser>();
+        //foreach(var item in room.ActiveUsers)
+        //{
+        //    User user = await Users.FindAsync(item.UserId);
+
+        //}
+        //foreach (var email in emails)
+        //{
+        //    var invitee = await Api.FindUserByEmailAsync(new FindUserRequest { Email = email });
+        //    //await Api.InviteUserAsync(new InviteUserRequest { Email = email, UserId = invitee.UserId });
+
+        //    RoomUser roomUser = new RoomUser();
+        //    roomUser.Email = invitee.Email;
+        //    roomUser.Name = invitee.DisplayName;
+        //    userList.Add(roomUser);
+
+
+        //    //Group.Users.Add(invitee);
+        //}
+
         GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
-
-        foreach (var email in emails)
-        {
-            var invitee = await Api.FindUserByEmailAsync(new FindUserRequest { Email = email });
-            await Api.InviteUserAsync(new InviteUserRequest { Email = email, RoomId = response.RoomId, UserId = invitee.UserId });
-
-        }
         
 
         Nav.NavigateTo($"/rooms/{response.RoomId}", true);

@@ -26,7 +26,8 @@ public class FindUserByEmail : Feature<FindUserRequest, User>
             //LastName = User.LastName(),
             Email = req.Email
             };
-            await Users.UpdateAsync(user);
+            await Users.AddAsync(user);
+            //await Users.UpdateAsync(user);
         }
 
         return user;
