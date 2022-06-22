@@ -21,7 +21,12 @@
                     <button class="save" @onclick="@(() => UpdateName())">Save</button>
                 }*@
             </h2>
-            <InviteUser RoomId="@RoomInfo.RoomId" />
+
+                <div>hi @foreach (var u in userlist.Users)
+                {
+                    <h3>@u.Email</h3>
+                }</div>
+            <InviteUser RoomId="@RoomInfo.RoomId" />           
         }
     </div>
     <div class="content">
@@ -193,6 +198,8 @@
     string? Text;
     GetRoomResponse? RoomInfo;
     List<Message> Messages = new();
+    RoomUsersResponse userlist = new();
+
 
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
@@ -236,6 +243,9 @@
         else
         {
             RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
+
+            userlist = await Api.GetRoomUsersAsync(Id);
+
             Messages = RoomInfo.Messages.ToList();
         }
 

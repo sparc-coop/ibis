@@ -23,8 +23,8 @@
     </div>
     <p class="medium">Invite Room Members</p>
     <div class="invite-search">
-        <input type="email" placeholder="Email" />
-        <button class="secondary">Add Member</button>
+        <input type="email" placeholder="Email" @bind="InviteEmail" />
+        <button class="secondary" @onclick="InviteUser">Add Member</button>
     </div>
                 
     <div class="invite-users">
@@ -38,22 +38,42 @@
                 <p class="small host">Host</p>
             </div>
         </div>
-        <div class="user-wrapper">
+        @foreach (var inv in emails)
+        {
+                    <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">@inv</p>
+            </div>
+            <div class="user-right">
+                <p class="small invited">Inviting</p>
+            </div>
+        </div>
+        }
+
+        @if (Group.Users != null)
+        {
+          foreach (var user in Group.Users)
+        {
+           <div class="user-wrapper">
+            <div class="user-left">
+                <img src="/icons/Badge.svg"/>
+                <p class="large">@user.Name</p>
+            </div>
+            <div class="user-right">
+                <p class="small success">Success</p>
+            </div>
+        </div>
+        }
+        }
+
+                   <div class="user-wrapper">
             <div class="user-left">
                 <img src="/icons/Badge.svg"/>
                 <p class="large">Kieran Parker</p>
             </div>
             <div class="user-right">
                 <p class="small success">Success</p>
-            </div>
-        </div>
-        <div class="user-wrapper">
-            <div class="user-left">
-                <img src="/icons/Badge.svg"/>
-                <p class="large">Kieran Parker</p>
-            </div>
-            <div class="user-right">
-                <p class="small invited">Invited</p>
             </div>
         </div>
     </div>
@@ -81,13 +101,53 @@
     BlazoredModalInstance ModalInstance { get; set; } = default!;
     void Close() => ModalInstance.CancelAsync();
     string Name;
+    string InviteEmail;
     RoomUsersResponse Group = new RoomUsersResponse();
     string CopyConfirm = "";
+    List<string> emails = new List<string>();
+    List<User> invited = new List<User>();
 
     async Task CreateRoom()
     {
-        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
+
+        var userList = new List<RoomUser>();
+        //foreach(var item in room.ActiveUsers)
+        //{
+        //    User user = await Users.FindAsync(item.UserId);
+
+        //}
+
+        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name }); //Participants = Group
+
+        foreach (var email in emails)
+        {
+            var invitee = await Api.FindUserByEmailAsync(new FindUserRequest { Email = email });
+            var newRoomUser = await Api.InviteUserAsync(new InviteUserRequest { Email = email, RoomId = response.RoomId, UserId = invitee.UserId });
+
+            //RoomUser roomUser = new RoomUser();
+            //roomUser.Email = invitee.Email;
+            //roomUser.Name = invitee.DisplayName;
+            //roomUser.Initials = invitee.Initials;
+            //userList.Add(newRoomUser);
+
+            
+            //Group.Users.Add(invitee);
+        }
+
+        //GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Participants = userList }); 
+        
+
         Nav.NavigateTo($"/rooms/{response.RoomId}", true);
+    }
+
+    async void InviteUser() {
+        emails.Add(InviteEmail);
+        //foreach(var email in emails)
+        //{
+        //    var invitee = await Api.FindUserByEmailAsync(new FindUserRequest { Email = email });
+        //    invited.Add(invitee);
+        //}
+
     }
 
     async Task CopyLink()
