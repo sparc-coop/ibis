@@ -1,0 +1,58 @@
+﻿@page "/step-one"
+@layout EmptyLayout
+
+<div class="onboarding">
+    <h3>Welcome to Ibis@(User != null ? ", " + User.FullName + "." : ".")</h3>
+    <p>
+        If you have a few minutes, we would love to show you where 
+        the magic happens and get you setup with the basics, 
+        so you know how to use ibis to it’s full potential.
+    </p>
+
+    <div>
+        <label>Pronouns</label>
+        <select>
+            <option>Select Pronoun</option>
+        </select>
+        <label>First name</label>
+        <input @bind="FirstName"/>
+        <label>Last name</label>
+        <input @bind="LastName"/>
+        <label>Description</label>
+        <textarea placeholder="Enter a little about yourself"></textarea>
+    </div>
+      
+    <div class="actions">
+        <button class="skip" @onclick="@(e => GoTo("rooms"))">No Thanks, I got this.</button>
+        <button class="next" @onclick="@(e => GoTo("step-two"))">Confirm</button>
+    </div>
+    <div class="steps">
+
+    </div>
+</div>
+
+@code {
+    private GetUserResponse User;
+    public string FirstName = "First Name";
+    public string LastName = "Last Name";
+    public string Description = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if(user.Identity.IsAuthenticated)
+        {
+            User = await Api.GetUserAsync();
+        }
+    }
+
+    async void GoTo(string page)
+    {
+        await UpdateUser();
+        Nav.NavigateTo($"/{page}", true);    
+    }
+
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = User.Language });
+}

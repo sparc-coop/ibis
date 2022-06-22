@@ -1,0 +1,71 @@
+﻿@page "/step-two"
+@layout EmptyLayout
+
+<div class="onboarding">
+    <h3>Setting a dialect preset</h3>
+    <p>
+        With Ibis, you are able to translate live video
+        or text into a language of your preference. 
+        <br/>
+        But, for those who want more than one setting, 
+        you can create presets to apply to your rooms, 
+        and quickly swap between them as needed.
+        <br/>
+        Let’s create your default preset.
+    </p>
+
+    <div>
+        <label>Preset Name</label>
+        <input placeholder="Default profile"/>
+        <label>Translate incoming voice to:</label>
+        <select>
+            <option>English</option>
+        </select>
+        <label>Translate incoming text to:</label>
+                <select>
+            <option>English</option>
+        </select>
+        <label>Your translator gender</label>
+        <select>
+            <option>Female</option>
+            <option>Male</option>
+        </select>
+        <p>
+            This is how others will hear you when they translate your messages/audio
+        </p>
+    </div>
+
+    <div class="actions">
+        <button>Skip</button>
+        <button>Confirm</button>
+    </div>
+    <div class="steps">
+
+    </div>
+</div>
+
+@code {
+    private GetUserResponse User;
+    public string FirstName = "First Name";
+    public string LastName = "Last Name";
+    public string Description = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if(user.Identity.IsAuthenticated)
+        {
+            User = await Api.GetUserAsync();
+        }
+    }
+
+    async void GoTo(string page)
+    {
+        await UpdateUser();
+        Nav.NavigateTo($"/{page}", true);    
+    }
+
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = User.Language });
+}

@@ -1,0 +1,59 @@
+﻿@page "/step-three"
+@layout EmptyLayout
+
+<div class="onboarding">
+    <h3>Creating a room</h3>
+    <p>
+        With Ibis, you are able to create rooms for specific teams, topics, or uses. 
+        <br/>
+        You can create a room for yourself, to act as a way to upload, 
+        translate and transcribe audio, video and text documents.
+        <br/>
+        Or, add team members to start chatting live.
+    </p>
+
+    <div>
+        <label>Room Type</label>
+        <input />
+        <label>Room Name</label>
+        <input @bind="Name" placeholder="Enter Room Name"/>
+        <label>Description</label>
+        <textarea placeholder="Enter a little about yourself"></textarea>
+    </div>
+      
+    <div class="actions">
+        <button>Skip</button>
+        <button>Create & Continue</button>
+    </div>
+    <div class="steps">
+
+    </div>
+</div>
+
+@code {
+    private GetUserResponse User;
+    public string Name = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if(user.Identity.IsAuthenticated)
+        {
+            User = await Api.GetUserAsync();
+        }
+    }
+
+    async Task CreateRoom()
+    {
+        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
+        Nav.NavigateTo($"/step-four", true);
+    }
+
+    
+    async void GoTo(string page)
+    {
+        Nav.NavigateTo($"/{page}", true);    
+    }
+}
