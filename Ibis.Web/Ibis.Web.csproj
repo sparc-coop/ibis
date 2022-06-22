@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\sounds\beep_down.wav" />
+    <None Include="wwwroot\sounds\beep_up.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
     <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json" />
   </ItemGroup>
   

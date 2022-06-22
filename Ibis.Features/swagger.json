@@ -1809,6 +1809,14 @@
             "type": "string",
             "nullable": true
           },
+          "sourceType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceTypes"
+              }
+            ],
+            "nullable": true
+          },
           "bytes": {
             "type": "string",
             "format": "byte",

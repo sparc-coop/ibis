@@ -3,7 +3,7 @@ using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Messages;
 
-public record SendMessageRequest(string RoomId, string? Message, string Language, string? MessageId, string? ModifiedMessage, byte[]? Bytes);
+public record SendMessageRequest(string RoomId, string? Message, string Language, string? MessageId, string? ModifiedMessage, SourceTypes? SourceType, byte[]? Bytes);
 public class SendMessage : Feature<SendMessageRequest, Message>
 {
     public SendMessage(IRepository<Message> messages,
@@ -49,8 +49,33 @@ public class SendMessage : Feature<SendMessageRequest, Message>
             await IbisEngine.SpeakAsync(message);
             await Messages.AddAsync(message);
         }
+        // Message from Microphone
+        else if (request.MessageId != null && request.SourceType == SourceTypes.Microphone && request.ModifiedMessage == null)
+        {
+            message = await Messages.FindAsync(request.MessageId);
+            message.SetModifiedText(request.ModifiedMessage);
+
+            // Translate, Speak is Audio from Upload
+            room = await Rooms.FindAsync(request.RoomId);
+            room.LastActiveDate = DateTime.UtcNow;
+            await IbisEngine.TranslateAsync(message, room!.Languages);
+            await Messages.UpdateAsync(message);
+        }
+        // Message from Mirocphone AND modified
+        else if (request.MessageId != null && request.SourceType == SourceTypes.Microphone && request.ModifiedMessage != null)
+        {
+            message = await Messages.FindAsync(request.MessageId);
+            message.SetModifiedText(request.ModifiedMessage);
+
+            // Translate modified message and speak
+            room = await Rooms.FindAsync(request.RoomId);
+            room.LastActiveDate = DateTime.UtcNow;
+            await IbisEngine.TranslateAsync(message, room!.Languages);
+            await IbisEngine.SpeakAsync(message);
+            await Messages.UpdateAsync(message);
+        }
         // Message from Upload
-        else if (request.MessageId != null && request.ModifiedMessage == null)
+        else if (request.MessageId != null && request.SourceType == SourceTypes.Upload && request.ModifiedMessage == null)
         {
             message = await Messages.FindAsync(request.MessageId);
             message.SetModifiedText(request.ModifiedMessage);

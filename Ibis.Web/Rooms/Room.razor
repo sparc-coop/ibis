@@ -29,7 +29,7 @@
             <div class="message-list">
                 @if (Messages.Count > 0)
                 {
-                    @foreach (var message in Messages)
+                    @foreach (var message in Messages.Where(x => x.Text != null && x.Text.Length > 0))
                     {
                         <MessageCard Message=message Language=@Language />
                     }          
@@ -55,26 +55,27 @@
                         <img src="icons/Translate.svg" />
                         <p>Auto Translate</p>
                     </div>
-
                     @*Make Text Dark Blue When checked*@
-                    <div class="switch-wrapper">
+                    @*<div class="switch-wrapper">
                         <!-- Rounded switch -->
                         <label class="switch">
                             <input type="checkbox">
                             <span class="slider round"></span>
                         </label>
                         <p>Voice</p>
-                            
-                    </div>
+                    </div>*@
+                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak">
+                        <i class="material-icons">keyboard_voice</i>
+                    </button>
                     @*Make Text Dark Blue When checked*@
-                    <div class="switch-wrapper">
+@*                    <div class="switch-wrapper">
                         <!-- Rounded switch -->
                         <label class="switch">
                             <input type="checkbox">
                             <span class="slider round"></span>
                         </label>
                         <p>Text</p>
-                    </div>
+                    </div>*@
                 </div>
             </div>
 @*            <div class="time-stamp">
@@ -267,6 +268,15 @@
         Modal.Show<Upload>("Upload", parameters);
     }
 
+    void ShowSpeakModal(string conversationId, string language)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Speak.RoomId), conversationId);
+        parameters.Add(nameof(Speak.Language), language);
+        parameters.Add(nameof(Speak.SourceType), SourceTypes._4);
+        Modal.Show<Speak>("Send a voice message...", parameters);
+    }
+
     async Task Call()
     {
 
@@ -276,11 +286,11 @@
 
     }
 
-    async Task Speak()
-    {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
-        AddMessage(newMessage);
-    }
+    //async Task Speak()
+    //{
+    //    var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
+    //    AddMessage(newMessage);
+    //}
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {

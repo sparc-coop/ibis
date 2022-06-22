@@ -3,6 +3,9 @@
     <div>
         @foreach(var message in Messages.ToList())
         {
+            <audio src="/sounds/beep_down.wav" autoplay />
+            <i class="material-icons">edit</i>
+            <input @bind="ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />
             <textarea @bind="message.ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />     
         }
         <div class="buttons">
@@ -48,6 +51,7 @@
         }
 
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
+        StateHasChanged();
     }
 
     async Task Cancel()

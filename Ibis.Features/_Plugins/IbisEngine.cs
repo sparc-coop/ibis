@@ -95,14 +95,14 @@ namespace Ibis.Features._Plugins
         var to = "&to=" + string.Join("&to=", languages.Select(x => x.Split('-').First()));
 
         var result = await Post<TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
-
-        foreach (TranslationResult o in result)
-            foreach (Translation t in o.Translations)
-                message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
-
+        if (result != null && result.Length > 0)
+        {
+            foreach (TranslationResult o in result)
+                foreach (Translation t in o.Translations)
+                    message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
+        }
         return message;
     }
-
     internal async Task<Message> TranscribeSpeechFromMic(Message message)
     {
         var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
@@ -126,6 +126,119 @@ namespace Ibis.Features._Plugins
         }
         return message;
     }
+
+    //public async Task<Message> ContinuousSpeechRecognitionAsync(Message message)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+    //    using (var recognizer = new SpeechRecognizer(speechConfig))
+    //    {
+    //        recognizer.Recognizing += (s, e) =>
+    //        {
+    //            Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+    //        };
+    //        recognizer.Recognized += (s, e) =>
+    //        {
+    //            var result = e.Result;
+    //            if (result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Console.WriteLine($"Final Message: {result.Text}.");
+    //                message.SetText(message.Text + " " + result.Text);
+    //            }
+    //        };
+    //        recognizer.Canceled += (s, e) => {
+    //            Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+    //        };
+    //        recognizer.SessionStarted += (s, e) => {
+    //            Console.WriteLine("\n Session has started. You can start speaking...");
+    //        };
+    //        recognizer.SessionStopped += (s, e) => {
+    //            Console.WriteLine("\n Session ended.");
+    //        };
+
+    //        await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+    //        do
+    //        {
+    //            Console.WriteLine("Press ENTER to stop recording...");
+    //        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+
+    //        await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+    //    };
+
+    //    return message;
+    //}
+
+    //public async Task<Message> ContinuousSpeechRecognitionAsync(Message message, string userId)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+    //    var stopRecognition = new TaskCompletionSource<int>();
+
+    //    var user = await Users.FindAsync(userId);
+    //    if (user != null)
+    //    {
+    //        user.SetStopRecognizingSpeech(false);
+    //        await Users.UpdateAsync(user);
+    //    }
+
+    //    bool StopSpeechRecognition = false;
+
+    //    using (var recognizer = new SpeechRecognizer(speechConfig))
+    //    {
+    //        recognizer.Recognizing += (s, e) =>
+    //        {
+    //            Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+    //        };
+    //        recognizer.Recognized += async (s, e) =>
+    //        {
+    //            var result = e.Result;
+    //            if (result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Console.WriteLine($"Final Message: {result.Text}.");
+    //                message.SetText(message.Text + " " + result.Text);
+    //                user = await Users.FindAsync(userId);
+    //                if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
+    //            }
+    //        };
+    //        recognizer.Canceled += (s, e) =>
+    //        {
+    //            Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+    //            stopRecognition.TrySetResult(0);
+    //        };
+    //        recognizer.SessionStarted += (s, e) =>
+    //        {
+    //            Console.WriteLine("\n Session has started. You can start speaking...");
+    //        };
+    //        recognizer.SessionStopped += (s, e) =>
+    //        {
+    //            Console.WriteLine("\n Session ended.");
+    //            stopRecognition.TrySetResult(0);
+    //        };
+
+    //        await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+    //        //do
+    //        //{
+    //        //    Console.WriteLine("Press ENTER to stop recording...");
+    //        //} while (StopSpeechRecognition == false);
+
+    //        //if (StopSpeechRecognition == false)
+    //        //{
+    //        //    user = await Users.FindAsync(userId);
+    //        //    if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
+    //        //}
+
+    //        // Waits for completion. Use Task.WaitAny to keep the task rooted.
+    //        if (StopSpeechRecognition == true)
+    //        {
+    //            Task.WaitAny(new[] { stopRecognition.Task });
+    //            return message;
+    //        }
+    //        //if (StopSpeechRecognition == true)
+    //        //    await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+    //    }
+
+    //    return message;
+    //}
 
     internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
     {
@@ -235,7 +348,7 @@ public record TranslationResult(DetectedLanguage DetectedLanguage, TextResult So
 
 public record DetectedLanguage(string Language, float Score);
 
-public record TextResult(string Text, string Script); 
+public record TextResult(string Text, string Script);
 
 public record Translation(string Text, TextResult Transliteration, string To, Alignment Alignment, SentenceLength SentLen);
 

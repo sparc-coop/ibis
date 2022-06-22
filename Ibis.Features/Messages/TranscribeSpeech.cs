@@ -18,8 +18,15 @@ public class TranscribeSpeech : PublicFeature<TranscribeSpeechRequest, Message>
     {
         var user = await Users.FindAsync(User.Id());
         var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user.FullName, user.Initials);
-        await IbisEngine.TranscribeSpeechFromMic(message);
-        await Messages.AddAsync(message);
+        message = await IbisEngine.TranscribeSpeechFromMic(message);
+        if (message.Text == null || message.Text.Length == 0)
+        {
+            await Messages.DeleteAsync(message);
+        }
+        else
+        {
+            await Messages.AddAsync(message);
+        }
         return message;
     }
 }
