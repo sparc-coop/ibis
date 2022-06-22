@@ -21,7 +21,7 @@ public class FindUserByEmail : Feature<FindUserRequest, User>
         {
             user = new()
             {
-                Id = Guid.NewGuid().ToString(),
+             Id = Guid.NewGuid().ToString(),
             //FirstName = User.FirstName(),
             //LastName = User.LastName(),
             Email = req.Email

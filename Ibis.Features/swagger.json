@@ -1413,11 +1413,11 @@
       "InviteUserRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
+          "email": {
             "type": "string",
             "nullable": true
           },
-          "email": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
