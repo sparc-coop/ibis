@@ -1024,6 +1024,7 @@ main {
 .room-language {
   padding: 0 32px;
   position: absolute;
+  right: 0;
 }
 .room h4 {
   padding: 20px 32px 10px;

@@ -36,26 +36,6 @@
                 }
             </div>
 
-            @if (LanguageList != null)
-            {
-    @*            <div class="room-language">
-                    <label for="switch-lang">Language:</label>
-                    <select id="switch-lang" @onchange="SwitchLanguage">
-                        @foreach (var item in LanguageList.Languages)
-                        {
-                            if (item.Key == Language)
-                            {
-                                <option value="@item.Key" selected>@item.Value.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Key">@item.Value.Name</option>
-                            }
-                        }
-                    </select>
-                </div>*@
-            }
-
             <div class="message-box">
                 <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
                 <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
@@ -97,25 +77,83 @@
                     </div>
                 </div>
             </div>
+@*            <div class="time-stamp">
+                <p class="small start">Start</p>
+                <div class="time-duration">
+                    <p class="small">0:10</p>
+                    <div class="timeline-line"></div>
+                    <p class="small">0:25</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:27</p>
+                    <div class="timeline-line2"></div>
+                    <p class="small">0:31</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:34</p>
+                    <div class="timeline-line3"></div>
+                    <p class="small">1:17</p>
+                </div>
+            </div>*@
         </div>
-@*        <div class="time-stamp">
-            <p class="small start">Start</p>
-            <div class="time-duration">
-                <p class="small">0:10</p>
-                <div class="timeline-line"></div>
-                <p class="small">0:25</p>
+        
+        @if (LanguageList != null)
+        {
+            <div class="room-language">
+                <label for="switch-lang">Language:</label>
+                <select id="switch-lang" @onchange="SwitchLanguage">
+                    @foreach (var item in LanguageList.Languages)
+                    {
+                        if (item.Key == Language)
+                        {
+                            <option value="@item.Key" selected>@item.Value.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Key">@item.Value.Name</option>
+                        }
+                    }
+                </select>
+                @if (Dialects != null)
+                {
+                    <div class="room-dialect">
+                        <label for="switch-dialect">Dialect:</label>
+                        <select id="switch-dialect" @onchange="SwitchDialect">
+                            @foreach (var item in Dialects)
+                            {
+                                if (item.Locale == Dialect.Locale)
+                                {
+                                    <option value="@item.Locale" selected>@item.LocaleName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Locale">@item.LocaleName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    @if (Voices != null)
+                    {
+                        <div class="room-voice">
+                            <label for="switch-voice">Voice:</label>
+                            <select id="switch-voice" @onchange="SwitchVoice">
+                                @foreach (var item in Voices)
+                                {
+                                    if (item.ShortName == Voice.ShortName)
+                                    {
+                                        <option value="@item.ShortName" selected>@item.DisplayName (@item.Gender.Substring(0, 1))</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ShortName">@item.DisplayName (@item.Gender.Substring(0, 1))</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    }
+                }
             </div>
-            <div class="time-duration">
-                <p class="small">0:27</p>
-                <div class="timeline-line2"></div>
-                <p class="small">0:31</p>
-            </div>
-            <div class="time-duration">
-                <p class="small">0:34</p>
-                <div class="timeline-line3"></div>
-                <p class="small">1:17</p>
-            </div>
-        </div>*@
+        }
     </div>
 @*
     <div class="input">
@@ -160,15 +198,34 @@
     bool ToggleEdit = false;
 
     GetLanguageListResponse LanguageList;
+    List<Dialect>? Dialects = new();
+    List<Voice>? Voices = new();
+    Dialect? Dialect;
+    Voice? Voice;
 
     protected override async Task OnInitializedAsync()
     {
-        LanguageList = await PublicApi().GetLanguageListAsync();
+      LanguageList = await PublicApi().GetLanguageListAsync();
 
         var user = await Api.GetUserAsync();
 
         if (string.IsNullOrWhiteSpace(Language))
+        {
             Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
+            var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+            var LanguageItem = LanguagePair.First(x => x.Key == Language);
+            Dialects = LanguageItem.Value.Dialects.ToList();
+            if (Language == "en") {
+                Dialect = Dialects.First(x => x.Locale == "en-US");
+                Voices = Dialect.Voices.ToList();
+                Voice = Voices.First(x => x.Locale == Dialect.Locale);
+            }
+            else {
+                Dialect = Dialects.First(x => x.Language == Language);
+                Voices = Dialect.Voices.ToList();
+                Voice = Voices.First(x => x.Locale == Dialect.Locale);
+            }
+        }
 
         if (string.IsNullOrWhiteSpace(Id))
         {
@@ -320,12 +377,28 @@
     async Task SwitchLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
+        var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+        var LanguageItem = LanguagePair.First(x => x.Key == Language);
+        Dialects = LanguageItem.Value.Dialects.ToList();
+        Dialect = Dialects.Find(x => x.Locale == LanguageItem.Value.Name);
+        Voices = Dialect.Voices.ToList();
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
         var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
         Messages = response.ToList();
         StateHasChanged();
     }
 
+    void SwitchDialect(ChangeEventArgs e)
+    {
+        //Dialect = Dialects.Where(x => x.Locale == e.Value.ToString());
+        Dialect = Dialects.Find(x => x.Locale == e.Value.ToString());
+        Voices = Dialect.Voices.ToList();
+    }
 
+    void SwitchVoice(ChangeEventArgs e)
+    {
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+    }
     
     async Task DownloadBRF()
     {
