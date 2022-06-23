@@ -36,7 +36,7 @@
                             <img src="/icons/Room-Icon.svg" />
                         </div>
                         <div class="option-icons" @onclick:stopPropagation="true">
-                            <input type="hidden" id="room-link" value="@("https://www.ibis.com/" + room.RoomId)" />
+                            <input type="hidden" id="@room.RoomId" value="@("https://www.ibis.com/" + room.RoomId)" />
                             <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
                             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
                         </div>

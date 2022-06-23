@@ -12,6 +12,7 @@ public class Room : Root<string>
     public DateTime? LastActiveDate { get; set; }
     public DateTime? EndDate { get; set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
+    public List<string> PendingUsers { get; set; }
     public List<Messages.Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
 
@@ -25,6 +26,7 @@ public class Room : Root<string>
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
         ActiveUsers = new();
+        PendingUsers = new();
         Translations = new();
     }
 

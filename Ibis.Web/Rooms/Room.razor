@@ -5,27 +5,13 @@
 
 <section class="room">
     <div class="header">
-@*        <a href="/rooms">All rooms</a>*@
         @if (RoomInfo != null)
         {
             <h2>
-@*                @if (ToggleEdit == false)
-                {*@
-                    @RoomInfo.Name
-@*                    <i class="material-icons" @onclick="@(() => ToggleEdit = true)">edit</i>
-                }
-                else
-                {
-
-                    <input @bind="RoomInfo.Name">
-                    <button class="save" @onclick="@(() => UpdateName())">Save</button>
-                }*@
+                @RoomInfo.Name
+                <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
+                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))"/>
             </h2>
-
-                <div>hi @foreach (var u in userlist.Users)
-                {
-                    <h3>@u.Email</h3>
-                }</div>
             <InviteUser RoomId="@RoomInfo.RoomId" />           
         }
     </div>
@@ -508,5 +494,12 @@
         }
 
         return translatedText;
+    }
+
+    async Task ShareLink(string roomLink)
+    {
+        //copy room share link to clipboard
+        //get room name
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
     }
 }

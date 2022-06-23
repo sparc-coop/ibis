@@ -9,19 +9,21 @@
                     <img class="dash-icon" src="../icons/dashboard.svg"/>
                 </a>
                 <div class="dropdown">
-                    <div class="nav-link account" @onclick="@(e => ShowMenu = !ShowMenu)">
-                        @if(!string.IsNullOrEmpty(user.ProfileImg))
+                    <div class="nav-link account-nav" @onclick="@(e => ShowMenu = !ShowMenu)">
+                        @if(user != null)
                         {
-                            <img src="@user.ProfileImg" class="profile"/>
-                        } else
-                        {
-                            <i class="material-icons profile">account_circle</i>   
+                            @if(!string.IsNullOrEmpty(user.ProfileImg))
+                            {
+                                <img src="@user.ProfileImg" class="profile"/>
+                            } else
+                            {
+                                <i class="material-icons profile">account_circle</i>   
+                            }   
                         }
                         <img src="../icons/down-arrow.png" class="arrow"/>
                     </div>
                     @if(ShowMenu == true)
                     {
-                    <div class="menu-overlay" @onclick="@(e => ShowMenu = !ShowMenu)"></div>
                     <div class="dropdown--menu">
                         @if(!string.IsNullOrEmpty(user.ProfileImg))
                         {
@@ -46,6 +48,10 @@
             </Authorized>
         </AuthorizeView>
     </div>
+    @if(ShowMenu == true)
+    {
+        <div class="menu-overlay" @onclick="@(e => ShowMenu = !ShowMenu)"></div>
+    }
 </div>
 <main class="dash-layout">
     @Body

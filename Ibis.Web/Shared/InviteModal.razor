@@ -10,19 +10,45 @@
     <div class="invite-users">
         @if(Group != null)
         {
-            <p class="medium">Participants</p>
-
-@*            List<RoomUser> users = Group.Users.ToList();
+            <h5>Participants</h5>
+            List<RoomUser> users = Group.Users.ToList();
             @foreach(var user in users)
             {
-                <div>@user.Name; 
-            }*@
+                <div class="user-wrapper">
+                    <div class="user-left">
+                        <div class="avatar">@(user.Initials != null ? user.Initials : "")</div>
+                        <p class="large">@(user.Name != null ? user.Name : user.Email)</p>
+                    </div>
+                    <div class="user-right">                      
+                        @if(user.Name == null)
+                        {
+                            <p class="small invited">Pending</p>
+                        } else
+                        {
+                            <p class="small success">Success</p>
+                        }
+                    </div>
+                </div>
+            }
+            @foreach(var email in NewEmails)
+            {
+                <div class="user-wrapper">
+                    <div class="user-left">
+                        <div class="avatar"></div>
+                        <p class="large">@email</p>
+                    </div>
+                    <div class="user-right">
+                        <p class="small invited">Pending</p>    
+                    </div>
+                </div>
+            }
         }
     </div>
     <div class="share-link">
         <p class="medium">Copy & Share Link</p>
         <div class="share-link-wrapper" @onclick="CopyLink">
-            <div>room.ibis.com/ratio-view-wing</div>
+            <input type="hidden" id="@RoomId" value="@("https://www.ibis.com/" + RoomId)" />
+            <div>room.ibis.com/@RoomId</div>
             <span>@CopyConfirm</span>
             <img src="/icons/copy.svg" />
         </div>
@@ -34,6 +60,7 @@
     bool Sent = false;
     string InviteEmail;
     RoomUsersResponse Group;
+    List<string> NewEmails = new List<string>();
 
     [Parameter] 
     public string RoomId { get; set; }
@@ -43,11 +70,16 @@
 
     protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
-    async Task SendInvite() => Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
+    async Task SendInvite()
+    {
+        NewEmails.Add(InviteEmail);
+        Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
+    }
 
     async Task CopyLink()
     {
-        //
+        //add link to copy
+        await JS.InvokeVoidAsync("copyToClipboard", RoomId);
         CopyConfirm = "Copied!";
         await Task.Delay(3000);
         CopyConfirm = "";

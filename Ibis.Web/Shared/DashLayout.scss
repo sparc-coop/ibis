@@ -41,10 +41,10 @@
         right: 0;
         z-index: 10;
 
-        .account {
+        .account-nav {
             position: absolute;
             top: -2px;
-            right: 20px;
+            right: 40px;
             cursor: pointer;
 
             .profile {
@@ -57,14 +57,9 @@
 
             .arrow {
                 position: absolute;
-                right: -44px;
+                right: -60px;
                 top: 10px;
             }
-        }
-
-        .menu-overlay {
-            height: 98vh;
-            width: 100vw;
         }
 
         &--menu {
@@ -111,6 +106,14 @@
             }
         }
     }
+}
+
+.menu-overlay {
+    height: 98vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: 9;
 }
 
 .dash-layout {

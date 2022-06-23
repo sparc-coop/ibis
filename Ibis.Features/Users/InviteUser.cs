@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record InviteUserRequest(string Email, string RoomId, string UserId);
+public record InviteUserRequest(string Email, string RoomId);
 public class InviteUser : Feature<InviteUserRequest, bool>
 {
     public IRepository<Room> Rooms { get; }
@@ -22,56 +22,45 @@ public class InviteUser : Feature<InviteUserRequest, bool>
 
         try
         {
-
-           
-
-            string subject = "Ibis Room Invitation";
-            string message = "";
+            string subject = "Ibis Invitation";
+            string messageBody = "";
             string roomLink = "";
 
-            //save user to room
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).FirstOrDefault();
-            var user = Users.Query.Where(u => u.UserId == request.UserId).FirstOrDefault();
+            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
 
-            if (user.FullName != null) //check new or existing
+            if (user != null) //check new or existing
             {
                 roomLink = request.RoomId;
-                message = "You have been added to new room on Ibis!";
+                messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {
-                message = "You have been invited to join Ibis!";
+                messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 
-            await Twilio.SendEmailAsync(request.Email, subject, message, "support@kuviocreative.com");
+            await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
 
-            //if (room != null & user != null)
-            //{
+            //save user to room
+            if (room != null && user != null)
+            {
+                room.AddUser(user.UserId, user.PrimaryLanguageId);
+                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
+            }
 
-            //    room.AddUser(request.UserId, "English");
-            //    user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
-            //}
+            //add pending user if not yet signed up
+            if (room != null && user == null && !room.PendingUsers.Contains(request.Email))
+            {
+                room.PendingUsers.Add(request.Email);
+            }
 
-            var userList = new List<RoomUser>();
-            //foreach(var item in room.ActiveUsers)
-            //{
-            //    User user = await Users.FindAsync(item.UserId);
-
-            //}
-
-                RoomUser roomUser = new RoomUser(Name: "Invitee", Initials: "TBD", Email: request.Email);
-            //roomUser.Email = invitee.Email;
-            //roomUser.Name = invitee.DisplayName;
-            //roomUser.Initials = invitee.Initials;
-            //userList.Add(roomUser);
-
-            //GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Participants = userList });
-
+            await Rooms.UpdateAsync(room);
 
             return true;
-        } catch (Exception)
+
+        } catch (Exception ex)
         {
+            var test = ex.Message;
             return false;
-            //return new RoomUser(Name: "Invitee", Initials: "TBD", Email: "None");
         }
 
     }
