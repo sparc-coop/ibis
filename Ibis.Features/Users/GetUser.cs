@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record GetUserResponse(string Id, string FullName, string Email, string Language);
+public record GetUserResponse(string Id, string FullName, string Email, string Language, string ProfileImg);
 public class GetUser : Feature<GetUserResponse>
 {
     public IRepository<User> Users { get; }
@@ -26,6 +26,6 @@ public class GetUser : Feature<GetUserResponse>
             await Users.UpdateAsync(user);
         }
 
-        return new(user.Id, user.FullName, user.Email, user.PrimaryLanguageId);
+        return new(user.Id, user.FullName, user.Email, user.PrimaryLanguageId, user.ProfileImg);
     }
 }

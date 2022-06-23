@@ -50,6 +50,7 @@ public class User : Root<string>
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
     public string CustomerId { get; set; }
+    public string ProfileImg { get; set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
     {

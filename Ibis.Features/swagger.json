@@ -1566,6 +1566,10 @@
           "language": {
             "type": "string",
             "nullable": true
+          },
+          "profileImg": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2078,6 +2082,10 @@
             "format": "date-time"
           },
           "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileImg": {
             "type": "string",
             "nullable": true
           },
