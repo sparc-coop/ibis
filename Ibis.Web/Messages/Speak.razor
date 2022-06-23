@@ -63,7 +63,7 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
         parameters.Add(nameof(ConfirmOrEditText.Language), language);
-        parameters.Add(nameof(ConfirmOrEditText.Messages), MessageList);
+        parameters.Add(nameof(ConfirmOrEditText.MessageList), MessageList);
         parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
 
         Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);

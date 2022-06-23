@@ -2088,6 +2088,14 @@
             "type": "string",
             "nullable": true
           },
+          "pronouns": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "profileImg": {
             "type": "string",
             "nullable": true
@@ -2112,6 +2120,10 @@
           },
           "color": {
             "type": "string",
+            "nullable": true
+          },
+          "onboarded": {
+            "type": "boolean",
             "nullable": true
           }
         },
