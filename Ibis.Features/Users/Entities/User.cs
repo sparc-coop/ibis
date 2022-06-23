@@ -50,6 +50,8 @@ public class User : Root<string>
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
     public string CustomerId { get; set; }
+    public string? Pronouns { get; set; }
+    public string? Description { get; set; }
     public string ProfileImg { get; set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
@@ -80,6 +82,7 @@ public class User : Root<string>
         var h = hash % 360;
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
+    public bool? Onboarded { get; set; }
 }
 
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);

@@ -1,0 +1,56 @@
+﻿@page "/step-four"
+@layout EmptyLayout
+  
+
+<div class="onboarding">
+    <h3>That's it!</h3>
+    <p>
+        You are now all set up and ready to go.
+        <br/>
+        We will continue to give a few hints & tips here and there as you explore Ibis. 
+        <br/>
+        If you have any issues or questions, pelase reach out to us via email: <a href="mailto:support@ibis.com">support@ibis.com</a>
+    </p>
+
+    <div>
+        <label>Preset Name</label>
+        <input placeholder="Default profile"/>
+        <label>Translate incoming voice to:</label>
+        <select>
+            <option>English</option>
+        </select>
+        <label>Translate incoming text to:</label>
+        <select>
+            <option>English</option>
+        </select>
+        <label>Your translator gender</label>
+        <select>
+            <option>Female</option>
+            <option>Male</option>
+        </select>
+        <p>
+            This is how others will hear you when they translate your messages/audio
+        </p>
+    </div>
+
+    <div class="actions">
+        <button>No Thanks, I got this.</button>
+        <button>Confirm</button>
+    </div>
+    <div class="steps">
+
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    private GetUserResponse User;
+    public string FirstName = "First Name";
+    public string LastName = "Last Name";
+    public string Description = "";
+
+    void GoTo(string page)
+    {
+        Nav.NavigateTo($"/{page}", true);    
+    }
+}

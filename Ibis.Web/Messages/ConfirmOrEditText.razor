@@ -5,14 +5,14 @@
         {
             <audio src="/sounds/beep_down.wav" autoplay />  
         }
-        @foreach(var message in Messages.ToList())
+        @foreach(var message in MessageList.ToList())
         {
             <i class="material-icons">edit</i>
             <textarea @bind="message.ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />     
         }
         <div class="buttons">
             <button @onclick="SendText" aria-label="Send" class="primary">
-                @(Messages.Count > 1 ? "Save Messages" : "Save Message")
+                @(MessageList.Count > 1 ? "Save Messages" : "Save Message")
                 <i class="material-icons">send</i>
             </button>
         </div>
@@ -25,7 +25,7 @@
 @code {
     [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Language { get; set; }
-    [Parameter] public List<Message>? Messages { get; set; }
+    [Parameter] public List<Message>? MessageList { get; set; }
     [Parameter] public byte[]? Bytes { get; set;  }
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
@@ -39,7 +39,7 @@
     async Task SendText()
     {
         
-        foreach(var message in Messages.ToList())
+        foreach(var message in MessageList.ToList())
         {
             Message newMessage;
             if (message.ModifiedText == message.Text)
@@ -49,7 +49,7 @@
                 newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomId, Message = message.Text, Language = Language, MessageId = message.Id, ModifiedMessage = message.ModifiedText, Bytes = Bytes });
             }
 
-            Messages.Add(newMessage);
+            MessageList.Add(newMessage);
         }
 
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
@@ -58,7 +58,7 @@
 
     async Task Cancel()
     {
-        foreach(var message in Messages.ToList())
+        foreach(var message in MessageList.ToList())
         {
             await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = message.Id });    
         }
