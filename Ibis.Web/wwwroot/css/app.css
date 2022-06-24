@@ -1290,12 +1290,61 @@ main {
 .onboarding label {
   color: #364150;
   font-size: 14px;
-  padding-bottom: 6px;
 }
-.onboarding .actions {
+.onboarding select, .onboarding input, .onboarding textarea {
+  width: 100%;
+  padding: 10.5px 14px;
+  border: 1px solid #D1D4DC;
+  margin-bottom: 16px;
+  margin-top: 6px;
+}
+.onboarding select {
+  background-position: right 15px center;
+  background-size: 10px;
+  background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M24 30.75 12 18.75 14.15 16.6 24 26.5 33.85 16.65 36 18.8Z"/></svg>');
+}
+.onboarding textarea {
+  margin-bottom: 6px;
+}
+.onboarding ::placeholder {
+  color: #6A7280;
+}
+.onboarding .bottom-nav {
   position: absolute;
   bottom: 53px;
-  right: 80px;
+  /*right: 80px;*/
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+}
+.onboarding .bottom-nav .actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.onboarding .bottom-nav .actions .steps {
+  display: flex;
+  align-items: center;
+}
+.onboarding .bottom-nav .actions .steps .step-circle {
+  width: 24px;
+  height: 24px;
+  color: #D1D4DC;
+  padding: 0;
+}
+.onboarding .bottom-nav .actions .steps .step-line {
+  width: 80px;
+  border: 0px;
+  height: 2px;
+  background: #D1D4DC;
+  padding: 0;
+}
+.onboarding .bottom-nav .actions .steps .step-active {
+  color: #2E7BA5;
+}
+.onboarding .bottom-nav .actions .steps .line-active {
+  background: #2E7BA5;
 }
 .onboarding button {
   padding: 10px 16px;

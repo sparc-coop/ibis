@@ -25,14 +25,74 @@
     label {
         color: $grey-700;
         font-size: 14px;
-        padding-bottom: 6px;
     }
 
-    .actions {
+    select, input, textarea {
+        width: 100%;
+        padding: 10.5px 14px;
+        border: 1px solid $grey-300;
+        margin-bottom: 16px;
+        margin-top: 6px;
+    }
+
+    select {
+        background-position: right 15px center;
+        background-size: 10px;
+        background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M24 30.75 12 18.75 14.15 16.6 24 26.5 33.85 16.65 36 18.8Z"/></svg>');
+    }
+
+    textarea {
+        margin-bottom: 6px;
+    }
+
+    ::placeholder {
+        color: $grey-500;
+    }
+
+    .bottom-nav {
         position: absolute;
         bottom: 53px;
-        right: 80px;
+        /*right: 80px;*/
+        width: 90%;
+        display: flex;
+        justify-content: flex-start;
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+
+            .steps {
+                display: flex;
+                align-items: center;
+
+                .step-circle {
+                    width: 24px;
+                    height: 24px;
+                    color: $grey-300;
+                    padding: 0;
+                }
+
+                .step-line {
+                    width: 80px;
+                    border: 0px;
+                    height: 2px;
+                    background: $grey-300;
+                    padding: 0;
+                }
+
+                .step-active {
+                    color: $secondary-700;
+                }
+
+                .line-active {
+                    background: $secondary-700;
+                }
+            }
+        }
     }
+
 
     button {
         padding: 10px 16px;

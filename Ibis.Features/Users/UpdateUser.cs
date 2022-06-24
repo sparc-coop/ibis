@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public record UpdateUserRequest(string UserId, string FullName, string LanguageId);
+public record UpdateUserRequest(string UserId, string FullName, string LanguageId, string Pronouns, string Description);
 public class UpdateUser : Feature<UpdateUserRequest, bool>
 {
     public UpdateUser(IRepository<User> users)
@@ -16,6 +16,8 @@ public class UpdateUser : Feature<UpdateUserRequest, bool>
         user.FirstName = request.FullName.Split(' ')[0];
         user.LastName = request.FullName.Split(' ')[1];
         user.PrimaryLanguageId = request.LanguageId;
+        user.Pronouns = request.Pronouns;
+        user.Description = request.Description;
         await Users.UpdateAsync(user);
         return true;
     }
