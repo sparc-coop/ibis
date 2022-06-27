@@ -21,12 +21,17 @@
                     <button class="save" @onclick="@(() => UpdateName())">Save</button>
                 }*@
             </h2>
-
-                <div>hi @foreach (var u in userlist.Users)
-                {
-                    <h3>@u.Email</h3>
-                }</div>
-            <InviteUser RoomId="@RoomInfo.RoomId" />           
+            @if (userlist.Users.Count > 0)
+            {
+                <div>
+                    hi 
+                    @foreach (var u in userlist.Users)
+                    {
+                        <h3>@u.Email</h3>
+                    }
+                </div>
+                <InviteUser RoomId="@RoomInfo.RoomId" />
+            }
         }
     </div>
     <div class="content">
@@ -103,7 +108,7 @@
             </div>*@
         </div>
         
-        @if (LanguageList != null)
+@*        @if (LanguageList != null)
         {
             <div class="room-language">
                 <label for="switch-lang">Language:</label>
@@ -160,7 +165,7 @@
                 }
             </div>
         }
-    </div>
+*@    </div>
 @*
     <div class="input">
         <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />

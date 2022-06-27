@@ -1,0 +1,119 @@
+﻿@page "/LanguagePresetCard"
+@layout DashLayout
+
+<article class="language-preset-card">
+    <div class="container">
+        <div class="content">
+            <h2>Preset #1</h2>
+            <label>Preset Name</label>
+            <br />
+            <input @bind="Name" type="text" placeholder="New Preset"/>
+            <br/>
+            <label>Primary Language</label>
+            <select @onchange="ChangeLanguage">
+                <option class="placeholder">Select a language</option>
+                @if (LanguageList != null)
+                {
+                    @foreach (var item in LanguageList.Languages)
+                    {
+                        <option value="@item.Key">@item.Value.Name
+                            @if (@item.Value.Name != @item.Value.NativeName)
+                            {
+                                <span> (@item.Value.NativeName)</span>
+                            }
+                        </option>
+                    }
+                }
+            </select>
+            <p>This is what incoming text will be translated to</p>
+            <label>Dialect</label>
+            @if (Language == null) {
+                <select disabled>
+                    <option class="placeholder">Select a Dialect</option>
+                </select>
+            } else {
+                <select @onchange="ChangeDialect" >
+                    <option class="placeholder">Select a Dialect</option>
+                    @if (Dialects != null)
+                    {
+
+                        @foreach (var item in Dialects)
+                        {
+                            <option value="@item.Locale">@item.LocaleName</option>
+                        }
+                    }
+                </select>
+            }
+            <label>Voice</label>
+            @if (Dialect == null) {
+                <select disabled>
+                    <option class="placeholder">Select a Voice</option>
+                </select>
+            } else {
+                <select @onchange="ChangeVoice">
+                    <option class="placeholder">Select a Voice</option>
+                @if (Voices != null)
+                {
+                    @foreach (var item in Voices)
+                    {
+                        <option value="@item.ShortName">@item.DisplayName</option>
+                    }
+                }
+                </select>
+            }
+            <p>This is how your outgoing voice will sound like</p>
+            <label>Your translator gender</label>
+            <select @bind="VoiceGender">
+                <option>Female</option>
+                <option>Male</option>
+            </select>
+            <p>This is the gender of your outgoing voice when your messages/audio are translated</p>
+        </div>
+        <div class="collapse">^@*<i class="material-icon">expand_less_outlined</i>*@</div>
+    </div>
+    <div class="divider"></div>
+    <div class="actions">
+        <button class="delete">Delete</button>
+        <button class="save">Save Changes</button>
+    </div>
+</article>
+
+@code {
+    GetLanguageListResponse? LanguageList;
+    List<Language>? Languages;
+    List<Dialect>? Dialects;
+    List<Voice>? Voices;
+    string? Language;
+    Dialect? Dialect;
+    Voice? Voice;
+
+    string? Name;
+    string? VoiceGender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LanguageList = await Api.GetLanguageListAsync();
+    }
+    
+    async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        Language = e.Value.ToString();
+        var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+        var LanguageItem = LanguagePair.First(x => x.Key == Language);
+        Dialects = LanguageItem.Value.Dialects.ToList();
+        Dialect = Dialects.Find(x => x.Locale == LanguageItem.Value.Name);
+        Voices = Dialect.Voices.ToList();
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+    }
+
+    void ChangeDialect(ChangeEventArgs e)
+    {
+        Dialect = Dialects.Find(x => x.Locale == e.Value.ToString());
+        Voices = Dialect.Voices.ToList();
+    }
+
+    void ChangeVoice(ChangeEventArgs e)
+    {
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+    }
+}

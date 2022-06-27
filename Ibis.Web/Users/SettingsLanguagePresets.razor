@@ -1,0 +1,18 @@
+﻿@page "/settings/language-presets"
+@layout DashLayout
+
+<div class="language-presets">
+    <h2>Language Presets</h2>
+    <p>Create & Edit your language presets</p>
+    <div class="presets">
+@*        @foreach (var item in LanguagePresets)
+        {
+            
+        }
+*@    </div>
+</div>
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+}

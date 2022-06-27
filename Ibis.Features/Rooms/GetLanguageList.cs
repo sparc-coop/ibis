@@ -12,10 +12,11 @@ public class GetLanguageList : PublicFeature<GetLanguageListResponse>//List<stri
     public override async Task<GetLanguageListResponse> ExecuteAsync()
     {
         var languages = await IbisEngine.GetAllLanguages();
+        var sortedLanguages = languages.OrderBy(x => x.Value.name);
         var voices = await IbisEngine.GetAllVoices();
 
         var result = new Dictionary<string, LanguageItem>();
-        foreach (var language in languages)
+        foreach (var language in sortedLanguages)
         {
             var voicesByDialect = voices
                 .Where(x => x.Locale.Split("-").First() == language.Key)
