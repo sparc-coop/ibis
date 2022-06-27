@@ -56,12 +56,12 @@
                 {
                     @foreach (var item in Voices)
                     {
-                        <option value="@item.ShortName">@item.DisplayName</option>
+                        <option value="@item.ShortName">@item.DisplayName (@item.Gender.Substring(0,1))</option>
                     }
                 }
                 </select>
             }
-            <p>This is how your outgoing voice will sound like</p>
+            <p>This is how your outgoing voice will sound</p>
             <label>Your translator gender</label>
             <select @bind="VoiceGender">
                 <option>Female</option>
@@ -69,7 +69,9 @@
             </select>
             <p>This is the gender of your outgoing voice when your messages/audio are translated</p>
         </div>
-        <div class="collapse">^@*<i class="material-icon">expand_less_outlined</i>*@</div>
+        <div class="collapse">
+            <i class="material-icons">expand_less</i>
+        </div>
     </div>
     <div class="divider"></div>
     <div class="actions">

@@ -8,7 +8,7 @@
     border: 1px solid $grey-200;
     border-radius: 8px;
     box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
-    font-family: 'CircularStd-Medium';
+    font-family: 'CircularStd-Book';
     font-style: normal;
     line-height: 120%;
 
@@ -32,13 +32,15 @@
             h2 {
                 font-size: 20px;
                 color: $grey-700;
+                font-family: 'CircularStd-Medium';
                 margin-bottom: 24px;
             }
 
             label {
                 margin: 8px 0px 8px 0px;
-                font-size: 14px;
                 color: $grey-700;
+                font-family: 'CircularStd-Medium';
+                font-size: 14px;
             }
 
             input {
@@ -56,16 +58,16 @@
                 border: 1px solid $grey-300;
                 border-radius: 8px;
                 background-position: right;
-                background-image: url('../wwwroot/icons/Arrow_Down_Chevron.svg');
-                margin: 8px 0px 8px 0px;
+/*                background-image: url('../wwwroot/icons/Arrow_Down_Chevron.svg');
+*/              margin: 8px 0px 8px 0px;
                 padding: 10px 14px;
                 font-size: 16px;
 
-                i.add {
+/*                i.add {
                     background-color: $grey-100;
                     color: $primary-700;
                 }
-
+*/
                 option {
                     margin-left: 14px;
                 }
@@ -101,15 +103,13 @@
             &.delete {
                 background: $grey-200;
                 color: $grey-500;
-                width: 80px;
-                height: 36px;
+                padding: 8px 16px;
             }
 
             &.save {
                 background: $primary-500;
                 color: $white;
-                width: 134px;
-                height: 36px;
+                padding: 8px 16px;
             }
         }
     }
