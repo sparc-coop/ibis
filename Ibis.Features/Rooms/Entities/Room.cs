@@ -14,6 +14,7 @@ public class Room : Root<string>
     public List<ActiveUser> ActiveUsers { get; internal set; }
     public List<Messages.Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
+    public string? LanguagePresetId { get; set; }
 
     private Room() 
     { 
@@ -66,6 +67,7 @@ public class Room : Root<string>
     }
 
     public void SetAudio(string audioId) => AudioId = audioId;
+    public void SetLanguagePreset(string presetId) => LanguagePresetId = presetId;
 }
 
 public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? PhoneNumber);

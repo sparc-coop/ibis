@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Ibis.Features.Users.Entities;
+using Newtonsoft.Json;
 
 namespace Ibis.Features.Users;
 public class User : Root<string>
@@ -12,6 +13,7 @@ public class User : Root<string>
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
+        LanguagePresetsForRooms = new();
         Color = SetColor();
     }
 
@@ -78,6 +80,14 @@ public class User : Root<string>
 
         var h = hash % 360;
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
+    }
+    public List<LanguagePresetRoomPair> LanguagePresetsForRooms { get; set; }
+    internal void AddLanguagePresetToRoom(LanguagePresetRoomPair preset)
+    {
+        if (!LanguagePresetsForRooms.Any(x => x.RoomId == preset.RoomId))
+        {
+            LanguagePresetsForRooms.Add(preset);
+        }
     }
 }
 

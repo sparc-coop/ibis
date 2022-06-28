@@ -795,6 +795,12 @@ main {
         border-left: 1px solid #D1D4DC;
         height: 400px;
         margin-bottom: 2px; }
+  .room .message-box-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-content: center; }
+    .room .message-box-bottom .message-language-preset select {
+      background-position: right; }
   .room .switch {
     position: relative !important;
     display: inline-block !important;
@@ -1086,7 +1092,7 @@ main {
         width: 100%;
         border: 1px solid #D1D4DC;
         border-radius: 8px;
-        /*                background-position: right;*/
+        background-position: right;
         /*                background-image: url('../../../wwwroot/icons/Arrow_Down_Chevron.svg');
 */
         margin: 8px 0px 8px 0px;

@@ -85,6 +85,20 @@
             }
         }
     }
+
+    .message-box-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+
+        .message-language-preset {
+            select {
+                background-position: right;
+            }
+        }
+
+    }
+
     /* The switch - the box around the slider */
     .switch {
         position: relative !important;

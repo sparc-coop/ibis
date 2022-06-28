@@ -233,6 +233,66 @@
         }
       }
     },
+    "/api/CreateLanguagePreset": {
+      "post": {
+        "tags": [
+          "CreateLanguagePreset"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateLanguagePresetRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CreateRoom": {
       "post": {
         "tags": [
@@ -495,6 +555,63 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetLanguageListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetLanguagePresets": {
+      "post": {
+        "tags": [
+          "GetLanguagePresets"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LanguagePreset"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LanguagePreset"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LanguagePreset"
+                  }
                 }
               }
             }
@@ -1053,6 +1170,66 @@
         }
       }
     },
+    "/api/UpdateLanguagePresetForRoomUser": {
+      "post": {
+        "tags": [
+          "UpdateLanguagePresetForRoomUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateLanguagePresetRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/UpdateRoomOptions": {
       "post": {
         "tags": [
@@ -1309,6 +1486,43 @@
         },
         "additionalProperties": false
       },
+      "CreateLanguagePresetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "languageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dialectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceGender": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateStripeCustomerRequest": {
         "type": "object",
         "properties": {
@@ -1525,6 +1739,69 @@
         },
         "additionalProperties": false
       },
+      "LanguagePreset": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "languageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dialectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "outgoingVoiceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "outgoingVoiceGender": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "dateModified": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LanguagePresetRoomPair": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "presetId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateModified": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "MergeAudioRequest": {
         "type": "object",
         "properties": {
@@ -1725,6 +2002,10 @@
           "audioId": {
             "type": "string",
             "nullable": true
+          },
+          "languagePresetId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1870,6 +2151,47 @@
         },
         "additionalProperties": false
       },
+      "UpdateLanguagePresetRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "languageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dialectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceGender": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -1984,6 +2306,13 @@
           },
           "color": {
             "type": "string",
+            "nullable": true
+          },
+          "languagePresetsForRooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LanguagePresetRoomPair"
+            },
             "nullable": true
           }
         },
