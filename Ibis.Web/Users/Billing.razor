@@ -1,0 +1,63 @@
+﻿@page "/billing"
+@layout DashLayout
+@attribute [Authorize]
+
+<div class="account">
+	<div class="account--header">
+		<h3>Billing info</h3>
+		<p>Update your billing information here.</p>
+	</div>
+	<div class="account--card">
+		@if(userPayment == true)
+		{
+			<h3>Save credit card for future billing</h3>
+		<form id="payment-form">
+			<div id="payment-element">
+			<!-- Elements will create form elements here -->
+			</div>
+			<button id="submit">Submit</button>
+			<div id="error-message">
+			<!-- Display error message to your customers here -->
+			</div>
+		</form>
+		} 
+	@*
+		@if(userPayment == false) {
+			<button class="edit-payment">Update Saved Payment Information</button>
+		}*@
+	</div>
+</div>
+
+@code {
+	private GetUserResponse User;
+	public string FirstName = "First Name";
+	public string LastName = "Last Name";
+	private string Email = "Email";
+	bool userPayment = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if(user.Identity.IsAuthenticated)
+		{
+			User = await Api.GetUserAsync();
+
+			if(User.FullName != null)
+			{
+				FirstName = User.FullName.Split(' ')[0];
+				LastName = User.FullName.Split(' ')[1];
+			}
+		}
+	}
+
+	
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		//string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
+		//if (clientSecret != "current-customer") {
+		//    userPayment = true;
+		//    await JS.InvokeAsync<string>("setPayment", clientSecret);
+		//}
+	}
+}

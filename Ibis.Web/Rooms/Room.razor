@@ -1,5 +1,6 @@
 ﻿@page "/rooms/new"
 @page "/rooms/{Id}"
+@page "/{Id}"
 @layout DashLayout
 @attribute [Authorize]
 
@@ -11,6 +12,7 @@
                 @RoomInfo.Name
                 <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
                 <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))"/>
+                <span>@CopyConfirm</span>
             </h2>
             <InviteUser RoomId="@RoomInfo.RoomId" />           
         }
@@ -196,53 +198,60 @@
     List<Voice>? Voices = new();
     Dialect? Dialect;
     Voice? Voice;
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync()
     {
-      LanguageList = await PublicApi().GetLanguageListAsync();
+        LanguageList = await PublicApi().GetLanguageListAsync();
 
-        var user = await Api.GetUserAsync();
-
-        if (string.IsNullOrWhiteSpace(Language))
+        try
         {
-            Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
-            var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
-            var LanguageItem = LanguagePair.First(x => x.Key == Language);
-            Dialects = LanguageItem.Value.Dialects.ToList();
-            if (Language == "en") {
-                Dialect = Dialects.First(x => x.Locale == "en-US");
-                Voices = Dialect.Voices.ToList();
-                Voice = Voices.First(x => x.Locale == Dialect.Locale);
+            var user = await Api.GetUserAsync();
+
+            if (string.IsNullOrWhiteSpace(Language))
+            {
+                Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
+                var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+                var LanguageItem = LanguagePair.First(x => x.Key == Language);
+                Dialects = LanguageItem.Value.Dialects.ToList();
+                if (Language == "en") {
+                    Dialect = Dialects.First(x => x.Locale == "en-US");
+                    Voices = Dialect.Voices.ToList();
+                    Voice = Voices.First(x => x.Locale == Dialect.Locale);
+                }
+                else {
+                    Dialect = Dialects.First(x => x.Language == Language);
+                    Voices = Dialect.Voices.ToList();
+                    Voice = Voices.First(x => x.Locale == Dialect.Locale);
+                }
             }
-            else {
-                Dialect = Dialects.First(x => x.Language == Language);
-                Voices = Dialect.Voices.ToList();
-                Voice = Voices.First(x => x.Locale == Dialect.Locale);
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
+                Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
             }
-        }
+            else
+            {
+                RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
 
-        if (string.IsNullOrWhiteSpace(Id))
-        {
-            RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
-            Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
-        }
-        else
-        {
-            RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
+                userlist = await Api.GetRoomUsersAsync(Id);
 
-            userlist = await Api.GetRoomUsersAsync(Id);
+                Messages = RoomInfo.Messages.ToList();
+            }
 
-            Messages = RoomInfo.Messages.ToList();
-        }
+            Connection = new HubConnectionBuilder()
+                .WithUrl(Config["ApiUrl"] + "/rooms")
+                .Build();
 
-        Connection = new HubConnectionBuilder()
-            .WithUrl(Config["ApiUrl"] + "/rooms")
-            .Build();
+            Connection.On<Message>("NewMessage", message => AddMessage(message));
 
-        Connection.On<Message>("NewMessage", message => AddMessage(message));
-
-        await Connection.StartAsync();
-        await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
+            await Connection.StartAsync();
+            await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
+        } 
+        catch {
+            Nav.NavigateTo("/");
+        }  
     }
 
     void AddMessage(Message message)
@@ -499,7 +508,10 @@
     async Task ShareLink(string roomLink)
     {
         //copy room share link to clipboard
-        //get room name
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "room");
+        CopyConfirm = "Copied!";
+        StateHasChanged();
+        await Task.Delay(2000);
+        CopyConfirm = "";
     }
 }

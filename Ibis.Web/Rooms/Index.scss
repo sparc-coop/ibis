@@ -99,7 +99,7 @@
                     z-index: 1;
                     position: absolute;
                     transition: transform 300ms cubic-bezier(0.5, 0.01, 0.47, 0.99);
-                    
+
                     &-left {
                         transform: translateX(50px);
                     }
@@ -141,6 +141,14 @@
 
                     img {
                         padding: 4px 6px;
+                    }
+
+                    span {
+                        font-size: 12px;
+                        color: $success-500;
+                        position: absolute;
+                        margin-left: -41px;
+                        top: 36px;
                     }
                 }
             }

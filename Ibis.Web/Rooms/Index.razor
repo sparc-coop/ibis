@@ -41,6 +41,7 @@
                         <div class="option-icons" @onclick:stopPropagation="true">
                             <input type="hidden" id="@room.RoomId" value="@("https://www.ibis.com/" + room.RoomId)" />
                             <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
+                            <span id="copy-@room.RoomId"></span>
                             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
                         </div>
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
@@ -89,6 +90,7 @@
     string listView = "";
     string showDropdown = "";
     GetUserResponse user;
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -127,9 +129,7 @@
 
     async Task ShareLink(string roomLink)
     {
-        //copy room share link to clipboard
-        //get room name
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "list");
     }
 
     async Task ShowDeleteModal(string room)

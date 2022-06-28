@@ -27,12 +27,16 @@
                     <div class="dropdown--menu">
                         @if(!string.IsNullOrEmpty(user.ProfileImg))
                         {
-                            <img src="@user.ProfileImg"/>
-                            <p>@user.FullName</p>
+                            <div class="account-link" @onclick="GoTo">
+                                <img src="@user.ProfileImg"/>
+                                <p>@user.FullName</p>
+                            </div>
                         } else
                         {
-                            <i class="material-icons">account_circle</i>   
-                            <p>@user.FullName</p>
+                            <div class="account-link" @onclick="GoTo">
+                                <i class="material-icons">account_circle</i>   
+                                <p>@user.FullName</p>
+                            </div>
                         }
                         <ul>
                             <li><a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a></li>
@@ -75,5 +79,10 @@
     {
         await SignOutManager.SetSignOutState();
         Nav.NavigateTo("authentication/logout");
+    }
+
+    void GoTo()
+    {
+        Nav.NavigateTo($"/account", true);    
     }
 }

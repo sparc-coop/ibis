@@ -240,6 +240,9 @@ main {
   right: -60px;
   top: 10px;
 }
+.dash-header .dropdown .account-link {
+  cursor: pointer;
+}
 .dash-header .dropdown--menu {
   width: 256px;
   height: 151px;
@@ -256,9 +259,8 @@ main {
   display: inline;
 }
 .dash-header .dropdown--menu img {
-  padding: 14px;
+  margin: 10px 14px;
   vertical-align: middle;
-  margin-top: -3px;
   height: 30px;
   width: 30px;
   border-radius: 50px;
@@ -918,6 +920,13 @@ main {
 .dashboard .rooms .room-card .top-bar .option-icons img {
   padding: 4px 6px;
 }
+.dashboard .rooms .room-card .top-bar .option-icons span {
+  font-size: 12px;
+  color: #12B76A;
+  position: absolute;
+  margin-left: -41px;
+  top: 36px;
+}
 .dashboard .rooms .room-card .room-details {
   margin-bottom: 22px;
 }
@@ -1061,6 +1070,13 @@ main {
 .room .header .share {
   margin: 0 0 10px 10px;
   cursor: pointer;
+}
+.room .header span {
+  font-size: 12px;
+  color: #12B76A;
+  position: absolute;
+  margin-left: 12px;
+  top: 3px;
 }
 .room .time-stamp {
   position: absolute;
@@ -1372,17 +1388,51 @@ main {
 }
 
 .account {
-  padding: 100px 20px;
+  padding: 15px 20px 100px 20px;
+}
+.account--header {
+  margin: 0 auto;
+  max-width: 736px;
+  width: 100%;
+  text-align: left;
+  padding-top: 40px;
 }
 .account h3 {
-  color: #013b60;
+  color: #0A111D;
   font-size: 20px;
   padding-bottom: 30px;
+  font-family: "CircularStd-Medium";
+  font-size: 25px;
+  line-height: 120%;
+  padding-bottom: 4px;
+}
+.account p {
+  font-family: "CircularStd-Book";
+  font-size: 16px;
+  line-height: 120%;
+  color: #6A7280;
+  padding-bottom: 16px;
+}
+.account .divider {
+  border-top: 1px solid #E5E7EA;
+  width: 100%;
+  position: absolute;
+  bottom: 68px;
 }
 .account button {
   color: #013b60;
-  border: 1px solid #013b60;
   padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+}
+.account button.save {
+  background: #FF3520;
+  color: #FFFFFF;
+}
+.account button.cancel {
+  background: #E5E7EA;
+  color: #6A7280;
+  margin-right: 16px;
 }
 .account--left {
   width: 50%;
@@ -1396,6 +1446,128 @@ main {
   padding: 12px 20px;
   background: #FFFFFF;
   border: 1px solid #e6e6e6;
+}
+.account--card {
+  width: 100%;
+  max-width: 736px;
+  height: 506px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EA;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 8px;
+  margin: 0 auto;
+  position: relative;
+}
+.account--card select {
+  width: 191px;
+  height: 40px;
+  cursor: pointer;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background-position: 90% center;
+}
+.account--card option {
+  padding: 4px 8px;
+}
+.account--card label {
+  display: block;
+  padding-bottom: 6px;
+  font-family: "CircularStd-Medium";
+  font-size: 14px;
+  line-height: 20px;
+  color: #364150;
+}
+.account--card input, .account--card textarea {
+  max-width: 332px;
+  width: 100%;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.account--card textarea {
+  min-height: 128px;
+}
+.account--card.last input, .account--card.last textarea {
+  width: 100%;
+  max-width: 688px;
+  margin-bottom: 24px;
+}
+.account--card .inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.account--card .inline > div {
+  max-width: 332px;
+  width: 100%;
+}
+.account--card .email {
+  position: relative;
+}
+.account--card .email input {
+  max-width: 688px;
+  padding-left: 42px;
+}
+.account--card .email img {
+  position: absolute;
+  left: 14px;
+  bottom: 35px;
+}
+.account--card .section {
+  padding: 24px;
+}
+.account--card .section:last-child {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  padding: 0;
+}
+.account--card .section > div {
+  padding-bottom: 24px;
+}
+.account--card .photo-upload {
+  position: relative;
+}
+.account--card .photo-upload img {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+.account--card .photo-upload input {
+  width: 100%;
+  max-width: 602px;
+  height: 120px;
+  position: relative;
+  z-index: 10;
+  background: transparent;
+}
+.account--card .photo-upload input::file-selector-button {
+  display: none;
+}
+.account--card .photo-upload .upload-icon {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 40px;
+  height: 40px;
+}
+.account--card .photo-upload p {
+  position: absolute;
+  left: 39%;
+  bottom: 20px;
+  font-size: 13px;
+  font-family: "CircularStd-Medium";
+}
+.account--card .photo-upload p span {
+  color: #FF3520;
 }
 
 .onboarding {

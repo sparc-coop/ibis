@@ -297,7 +297,14 @@ namespace Ibis.Features._Plugins
         return file.Url!;
     }
 
-    internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
+    internal async Task<string> UploadPhotoToStorage(string userId, string filename, byte[] bytes)
+    {
+        File file = new("account-photos", $"{userId}/{filename}", AccessTypes.Public, new MemoryStream(bytes));
+        await Files.AddAsync(file);
+        return file.Url!;
+    }
+
+        internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
     {
         File file = new("speak", $"{roomId}/video/{fileName}.mp4", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);

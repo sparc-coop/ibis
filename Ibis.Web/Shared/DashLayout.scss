@@ -62,6 +62,10 @@
             }
         }
 
+        .account-link {
+            cursor: pointer;
+        }
+
         &--menu {
             width: 256px;
             height: 151px;
@@ -79,9 +83,8 @@
             }
 
             img {
-                padding: 14px;
+                margin: 10px 14px;
                 vertical-align: middle;
-                margin-top: -3px;
                 height: 30px;
                 width: 30px;
                 border-radius: 50px;
