@@ -1287,6 +1287,9 @@ main {
   line-height: 120%;
   padding: 12px 0 40px;
 }
+.onboarding a {
+  color: #FF3520;
+}
 .onboarding label {
   color: #364150;
   font-size: 14px;
@@ -1308,6 +1311,164 @@ main {
 }
 .onboarding ::placeholder {
   color: #6A7280;
+}
+.onboarding .room-icons {
+  margin-bottom: 16px;
+}
+.onboarding .room-icons .room-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+.onboarding .room-icons .room-icon-wrapper .room-icon {
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 40px;
+  margin-right: 9px;
+  cursor: pointer;
+}
+.onboarding .room-icons .room-icon-wrapper .room-icon:nth-child(1) {
+  border: 1px solid #FF9E70;
+  background: #FAF1E8;
+}
+.onboarding .room-icons .room-icon-wrapper .room-icon:nth-child(2) {
+  border: 1px solid #AACAE1;
+  background: #EEF4FA;
+}
+.onboarding .room-icons .room-icon-wrapper .room-icon:nth-child(3) {
+  border: 1px solid #D6BBFB;
+  background: #F9F5FF;
+}
+.onboarding .room-icons .room-icon-wrapper .room-icon:nth-child(4) {
+  border: 1px solid #A6F4C5;
+  background: #ECFDF3;
+  margin-right: 0px;
+}
+.onboarding .room-name-wrapper label {
+  margin-bottom: 6px;
+}
+.onboarding .room-name-wrapper input {
+  border: 1px solid #D1D4DC;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  line-height: 120%;
+  width: 100%;
+}
+.onboarding .room-name-wrapper ::placeholder {
+  color: #6A7280;
+}
+.onboarding .invite-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /*        column-gap: 26px;
+  margin: 6px 0 24px;*/
+}
+.onboarding .invite-search input {
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  /*            padding: 10px 14px;*/
+  font-size: 16px;
+  /* line-height: 120%;*/
+  max-width: 72%;
+  /*            width: 72%;*/
+}
+.onboarding .invite-search ::placeholder {
+  color: #6A7280;
+}
+.onboarding .invite-search .search-member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.onboarding .invite-users {
+  /* margin-bottom: 40px;*/
+}
+.onboarding .invite-users p.medium {
+  margin-bottom: 12px;
+}
+.onboarding .invite-users .user-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.onboarding .invite-users .user-wrapper .user-left {
+  display: flex;
+  align-items: center;
+}
+.onboarding .invite-users .user-wrapper .user-left img {
+  margin-right: 8px;
+}
+.onboarding .invite-users .user-wrapper .user-left p.large {
+  line-height: 19px;
+}
+.onboarding .invite-users .user-wrapper .user-right .host {
+  color: #CA1E14;
+  background: #FFCDAA;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+  border: 1px solid #CA1E14;
+  padding: 4px 6px;
+}
+.onboarding .invite-users .user-wrapper .user-right .success {
+  background: #EEF4FA;
+  color: #12B76A;
+  border: 1px solid #12B76A;
+  border-radius: 16px;
+  padding: 4px 6px;
+}
+.onboarding .invite-users .user-wrapper .user-right .invited {
+  background: #F3F5F6;
+  color: #6A7280;
+  border: 1px solid #6A7280;
+  border-radius: 16px;
+  padding: 4px 6px;
+}
+.onboarding.upload button.primary {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+}
+.onboarding .share-link {
+  cursor: pointer;
+  margin-bottom: 70px;
+}
+.onboarding .share-link p.small {
+  color: #6A7280;
+  margin-bottom: 6px;
+}
+.onboarding .share-link p.medium {
+  color: #364150;
+  margin-bottom: 6px;
+}
+.onboarding .share-link .share-link-wrapper {
+  position: relative;
+}
+.onboarding .share-link .share-link-wrapper > div {
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: 100%;
+  font-family: "CircularStd-Book";
+  color: #6A7280;
+}
+.onboarding .share-link .share-link-wrapper img {
+  position: absolute;
+  right: 11px;
+  top: 11px;
+}
+.onboarding .share-link .share-link-wrapper span {
+  font-size: 16px;
+  position: absolute;
+  right: 50px;
+  top: 12px;
+  color: #12B76A;
 }
 .onboarding .bottom-nav {
   position: absolute;
@@ -1331,14 +1492,18 @@ main {
   width: 24px;
   height: 24px;
   color: #D1D4DC;
-  padding: 0;
+  padding: 0px;
+  margin: 0px;
+  margin-left: -2px;
 }
 .onboarding .bottom-nav .actions .steps .step-line {
   width: 80px;
   border: 0px;
   height: 2px;
   background: #D1D4DC;
-  padding: 0;
+  padding: 0px;
+  margin: 0px;
+  margin-left: -2px;
 }
 .onboarding .bottom-nav .actions .steps .step-active {
   color: #2E7BA5;
@@ -1358,6 +1523,14 @@ main {
 .onboarding button.next {
   color: #FFFFFF;
   background: #FF3520;
+}
+.onboarding button.secondary {
+  color: #013b60;
+  border: 1px solid #013b60;
+  background: #FFFFFF;
+  border-radius: 8px;
+  height: 39px;
+  margin-top: -10px;
 }
 
 @font-face {

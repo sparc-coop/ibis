@@ -2,38 +2,89 @@
 @layout EmptyLayout
 
 <div class="onboarding">
-    <h3>Creating a room</h3>
+            <h3>Creating a room</h3>
     <p>
         With Ibis, you are able to create rooms for specific teams, topics, or uses. 
-        <br/>
+        <br/><br/>
         You can create a room for yourself, to act as a way to upload, 
         translate and transcribe audio, video and text documents.
-        <br/>
+        <br/><br/>
         Or, add team members to start chatting live.
     </p>
 
-    <div>
-        <label>Room Type</label>
-        <input />
-        <label>Room Name</label>
-        <input @bind="Name" placeholder="Enter Room Name"/>
-        <label>Description</label>
-        <textarea placeholder="Enter a little about yourself"></textarea>
-    </div>
-      
-    <div class="actions">
-        <button>Skip</button>
-        <button>Create & Continue</button>
-    </div>
-    <div class="steps">
 
+
+    <div class="room-icons">
+        <label>Room Icon</label>
+        <div class="room-icon-wrapper">
+            <a class="room-icon">
+                <img src="/icons/User-Voice__Outline.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Circle.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Speech.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Send-Arrow.svg" />
+            </a>
+        </div>
     </div>
+    <div class="room-name-wrapper">
+        <label>Room Name</label>
+        <input type="email" placeholder="Enter Room Name" @bind="Name" />
+    </div>
+    <label>Invite Room Members (Optional)</label>
+    <div class="invite-search">
+        <input type="email" placeholder="Email" />
+        <button class="secondary">Add Member</button>
+    </div>
+
+
+    <div class="share-link">
+        <label>
+            Copy & Share Link
+        </label>
+        <div class="share-link-wrapper" @onclick="CopyLink">
+            <div>conversation.ibis.com/ratio-view-wing</div>
+            <span>@CopyConfirm</span>
+            <img src="/icons/copy.svg" />
+        </div>
+    </div>   
+
+      
+                      <div class="bottom-nav">
+              <div class="actions">
+            <div class="steps">
+                <div class="step-circle step-active">
+        <i class="material-icons-outlined">check_circle</i>
+        </div>
+        <hr class="step-line line-active" />
+                                <div class="step-circle step-active">
+        <i class="material-icons-outlined">check_circle</i>
+        </div>
+        <hr class="step-line line-active" />
+                                <div class="step-circle step-active">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                        <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="skip" @onclick="@(e => Nav.NavigateTo($"/step-four", true))">Skip</button>
+        <button class="next" @onclick="@(e => GoTo("step-four"))">Confirm</button>
+        </div>
+    </div>
+      </div>
 </div>
 
 @code {
     private GetUserResponse User;
     public string Name = "";
-
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,5 +106,13 @@
     async void GoTo(string page)
     {
         Nav.NavigateTo($"/{page}", true);    
+    }
+
+        async Task CopyLink()
+    {
+        //
+        CopyConfirm = "Copied!";
+        await Task.Delay(3000);
+        CopyConfirm = "";
     }
 }
