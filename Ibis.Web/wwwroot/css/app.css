@@ -1375,7 +1375,7 @@ main {
   /*height: 76px;*/
 }
 .settings-nav-bg .settings-nav-wrapper {
-  padding: 16px;
+  padding: 16px 0px;
   color: #6A7280;
 }
 .settings-nav-bg .settings-nav {
