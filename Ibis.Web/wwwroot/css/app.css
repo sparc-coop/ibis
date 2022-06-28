@@ -1388,24 +1388,55 @@ main {
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
+  /*This is for a non animation hover effect*/
+  /*.nav-block:hover {
+      background: $white;
+      color: $grey-700;
+      box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+      border-radius: 6px;
+      padding-bottom: 10px;
+      padding-top: 10px;
+  }*/
 }
 .settings-nav-bg .settings-nav .nav-block {
-  padding: 12px;
+  padding: 12px 0;
   margin-right: 4px;
 }
 .settings-nav-bg .settings-nav .nav-block a {
-  padding: 12px 0;
+  padding: 12px;
+  position: relative;
+  z-index: 1;
+}
+.settings-nav-bg .settings-nav .nav-block a:hover {
+  color: #364150;
+  transition-delay: 0.1s;
 }
 .settings-nav-bg .settings-nav .nav-block:first-child {
   margin-left: 4px;
 }
-.settings-nav-bg .settings-nav .nav-block:hover {
-  background: #FFFFFF;
-  color: #364150;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+.settings-nav-bg .settings-nav .nav-block a:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 1px;
+  content: ".";
+  color: transparent;
+  background: #FFF;
+  visibility: none;
+  opacity: 0;
+  z-index: -1;
+  transition-duration: 0.5s;
   border-radius: 6px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+}
+.settings-nav-bg .settings-nav .nav-block a:hover:after {
+  opacity: 1;
+  visibility: visible;
+  height: 100%;
 }
 
 .onboarding {
