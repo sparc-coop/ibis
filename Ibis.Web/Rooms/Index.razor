@@ -61,21 +61,16 @@
                         </p>
                     </div>
                 <div class="room-members">
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar-more.svg" />
-                    </div>              
+                    @foreach(var member in room.ActiveUsers.Take(10))
+                    {
+                        @if(member.ProfileImg != null)
+                        {
+                            <img src="@member.ProfileImg" />
+                        } 
+                        else {
+                            <i class="material-icons">account_circle</i>   
+                        }    
+                    }      
                 </div>
             </div>
             }  

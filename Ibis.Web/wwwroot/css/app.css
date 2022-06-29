@@ -447,11 +447,6 @@ main {
   background: #E5E7EA;
   margin-right: 8px;
 }
-.modal.upload button.primary {
-  position: absolute;
-  right: 40px;
-  bottom: 30px;
-}
 .modal .share-link {
   cursor: pointer;
   margin-bottom: 16px;
@@ -942,11 +937,17 @@ main {
   display: flex;
   align-items: center;
 }
-.dashboard .rooms .room-card .room-members .member {
+.dashboard .rooms .room-card .room-members img, .dashboard .rooms .room-card .room-members i {
+  width: 26px;
+  height: 26px;
+  border-radius: 30px;
   margin-left: -6px;
 }
-.dashboard .rooms .room-card .room-members .member:first-of-type {
+.dashboard .rooms .room-card .room-members img:first-of-type, .dashboard .rooms .room-card .room-members i:first-of-type {
   margin-left: 0;
+}
+.dashboard .rooms .room-card .room-members img {
+  border: 2px solid white;
 }
 .dashboard .rooms .room-card .dropdown {
   visibility: hidden;
@@ -1272,6 +1273,7 @@ main {
   position: relative;
   padding-left: 35px;
   font-size: 13px;
+  display: flex;
 }
 .message-grid .user .avatar {
   color: #000000;
@@ -1284,6 +1286,12 @@ main {
   position: absolute;
   left: 0;
   top: -7px;
+}
+.message-grid .user i {
+  cursor: pointer;
+  font-size: 18px;
+  color: #1D2937;
+  margin: -3px 0 0 12px;
 }
 .message-grid .message-card {
   padding: 16px;
@@ -1298,6 +1306,7 @@ main {
   font-size: 18px;
   font-family: "CircularStd-Book";
   font-weight: 400;
+  padding-top: 6px;
 }
 .message-grid .message-box {
   position: absolute;
@@ -1385,6 +1394,73 @@ main {
 }
 .message-grid .subroom {
   margin-left: 40px;
+}
+
+.upload {
+  position: relative;
+}
+.upload button.primary {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+}
+.upload .photo-upload {
+  position: relative;
+  border: 1px dashed #E5E7EA;
+  border-radius: 8px;
+  margin-bottom: 70px;
+}
+.upload .photo-upload img {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+.upload .photo-upload input {
+  width: 100%;
+  max-width: 602px;
+  height: 120px;
+  position: relative;
+  z-index: 10;
+  background: transparent;
+  padding: 20px;
+  cursor: pointer;
+}
+.upload .photo-upload input::file-selector-button {
+  display: none;
+}
+.upload .photo-upload .upload-icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 10%;
+  width: 40px;
+  height: 40px;
+}
+.upload .photo-upload p {
+  position: absolute;
+  left: 32%;
+  bottom: 20px;
+  font-size: 13px;
+  font-family: "CircularStd-Medium";
+}
+.upload .photo-upload p span {
+  color: #FF3520;
+}
+.upload .loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 17px;
+  margin: auto;
+  border: 9px solid #E5E7EA;
+  width: 60px;
+  height: 60px;
+  border-top: 9px solid #013b60;
+  border-radius: 50%;
+  animation: spin 3s linear infinite;
 }
 
 .account {
@@ -1533,8 +1609,9 @@ main {
 }
 .account--card .photo-upload {
   position: relative;
+  text-align: center;
 }
-.account--card .photo-upload img {
+.account--card .photo-upload img, .account--card .photo-upload i {
   height: 64px;
   width: 64px;
   border-radius: 64px;

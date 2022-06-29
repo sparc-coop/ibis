@@ -11,7 +11,7 @@
             <h2>
                 @RoomInfo.Name
                 <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
-                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))"/>
+                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))" title="Share Link"/>
                 <span>@CopyConfirm</span>
             </h2>
             <InviteUser RoomId="@RoomInfo.RoomId" />           
@@ -35,15 +35,18 @@
             </div>
             <div class="message-box-bottom">
                 <div class="message-options">
-                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload">
+                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload"  title="Upload file">
                         <i class="material-icons">cloud_upload</i>
                     </button>
-                    <button @onclick="DownloadText" aria-label="Download Text" class="select-upload">
-                        <i class="material-icons">file_download</i>
-                    </button>
-                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload">
-                        <i class="material-icons">audio_file</i>
-                    </button>
+                    @if (Messages.Count > 0)
+                    {
+                        <button @onclick="DownloadText" aria-label="Download Text" class="select-upload"  title="Download text transcript">
+                            <i class="material-icons">file_download</i>
+                        </button>
+                        <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                            <i class="material-icons">audio_file</i>
+                        </button>
+                    }
                     <div class="translate">
                         <img src="icons/Translate.svg" />
                         <p>Auto Translate</p>
@@ -57,7 +60,7 @@
                         </label>
                         <p>Voice</p>
                     </div>*@
-                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak">
+                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak" title="Speech to text">
                         <i class="material-icons">keyboard_voice</i>
                     </button>
                     @*Make Text Dark Blue When checked*@
@@ -149,29 +152,6 @@
             </div>
         }
     </div>
-@*
-    <div class="input">
-        <input @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
-        <div class="options">
-            <button @onclick="Call" aria-label="Call">
-                <i class="material-icons">call</i>
-            </button>
-            <button @onclick="Sms" aria-label="Sms">
-                <i class="material-icons">sms</i>
-            </button>
-            <button @onclick="Speak" aria-label="Speak">
-                <i class="material-icons">keyboard_voice</i>
-            </button>
-            <button @onclick="DownloadSRT">
-                <i class="material-icons">file_download</i>
-            </button>
-        </div>
-        <div class="buttons">
-            <button @onclick="SendText" aria-label="Send" class="active">
-                <i class="material-icons">send</i>
-            </button>
-        </div>
-    </div>*@
 </section>
 
 @using System.Text
@@ -291,12 +271,6 @@
 
     }
 
-    //async Task Speak()
-    //{
-    //    var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = Id, Language = Language });
-    //    AddMessage(newMessage);
-    //}
-
     async Task MaybeSendText(KeyboardEventArgs args)
     {
         if (args.Code == "Enter")
@@ -316,7 +290,11 @@
         StringBuilder builder = new StringBuilder();
         foreach (var message in Messages)
         {
-            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") + ": " + message.Text);
+            builder.AppendLine(
+                message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") +
+                ": " +
+                (message.ModifiedText == null ? message.Text : message.ModifiedText) 
+            );
         }
 
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
@@ -344,7 +322,7 @@
 
     string GetFileName(string name)
     {
-        var fileName = name;// != null ? name + ".txt" : "transcript.txt";
+        var fileName = name;
         foreach (char c in System.IO.Path.GetInvalidFileNameChars())
         {
             fileName = fileName.Replace(c, '_');

@@ -43,7 +43,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             //save user to room
             if (room != null && user != null)
             {
-                room.AddUser(user.UserId, user.PrimaryLanguageId);
+                room.AddUser(user.UserId, user.PrimaryLanguageId, user.ProfileImg);
                 user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
             }
 

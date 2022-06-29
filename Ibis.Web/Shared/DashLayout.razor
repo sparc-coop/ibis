@@ -25,19 +25,16 @@
                     @if(ShowMenu == true)
                     {
                     <div class="dropdown--menu">
-                        @if(!string.IsNullOrEmpty(user.ProfileImg))
-                        {
-                            <div class="account-link" @onclick="GoTo">
+                        <div class="account-link" @onclick="GoTo">
+                            @if(!string.IsNullOrEmpty(user.ProfileImg))
+                            {
                                 <img src="@user.ProfileImg"/>
-                                <p>@user.FullName</p>
-                            </div>
-                        } else
-                        {
-                            <div class="account-link" @onclick="GoTo">
+                            } 
+                            else {
                                 <i class="material-icons">account_circle</i>   
-                                <p>@user.FullName</p>
-                            </div>
-                        }
+                            }
+                            <p>@user.FullName</p>
+                        </div>
                         <ul>
                             <li><a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a></li>
                             <li>
