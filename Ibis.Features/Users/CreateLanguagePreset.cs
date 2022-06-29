@@ -32,6 +32,7 @@ public class CreateLanguagePreset : Feature<CreateLanguagePresetRequest, Languag
             {
                 // change current default
                 var currentDefault = userLanguagePresets.First(x => x.IsDefault == true);
+                user.SetDefaultLanguagePreset(newPreset.Id);
                 currentDefault.IsDefault = false;
                 await LanguagePresets.UpdateAsync(currentDefault);
 
@@ -43,6 +44,7 @@ public class CreateLanguagePreset : Feature<CreateLanguagePresetRequest, Languag
                     user.LanguagePresetsForRooms.Remove(item);
                     user.LanguagePresetsForRooms.Add(newItem);
                 }
+
                 await Users.UpdateAsync(user);
             }
             

@@ -36,6 +36,7 @@ public class RoomHub : Hub
     {
         var user = await Users.FindAsync(userId);
         await Users.ExecuteAsync(userId, user => user.JoinRoom(roomId, Context.ConnectionId));
+        await Users.ExecuteAsync(userId, user => user.AddLanguagePresetToRoom(new LanguagePresetRoomPair(user.Id, user.DefaultLanguagePresetId, roomId, DateTime.Now)));
         await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!.Id, user.PrimaryLanguageId, user.PhoneNumber));
     }
 
@@ -46,6 +47,8 @@ public class RoomHub : Hub
         await Users.UpdateAsync(user);
 
         await Rooms.ExecuteAsync(roomId, room => room.RemoveUser(userId));
+        LanguagePresetRoomPair pair = user.LanguagePresetsForRooms.First(x => x.UserId == userId && x.RoomId == roomId);
+        await Users.ExecuteAsync(userId, user => user.LanguagePresetsForRooms.Remove(pair));
 
         return roomId;
     }

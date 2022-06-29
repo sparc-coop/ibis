@@ -30,6 +30,7 @@ public class UpdateLanguagePreset : Feature<UpdateLanguagePresetRequest, Languag
             {
                 // change current default
                 var currentDefault = userLanguagePresets.First(x => x.IsDefault == true);
+                user.SetDefaultLanguagePreset(preset.Id);
                 currentDefault.IsDefault = false;
                 await LanguagePresets.UpdateAsync(currentDefault);
 

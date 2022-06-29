@@ -81,14 +81,19 @@ public class User : Root<string>
         var h = hash % 360;
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
+    public string? DefaultLanguagePresetId { get; set; }
+    public void SetDefaultLanguagePreset(string Id) => DefaultLanguagePresetId = Id;
     public List<LanguagePresetRoomPair> LanguagePresetsForRooms { get; set; }
-    //internal void AddLanguagePresetToRoom(LanguagePresetRoomPair preset)
-    //{
-    //    if (!LanguagePresetsForRooms.Any(x => x.RoomId == preset.RoomId))
-    //    {
-    //        LanguagePresetsForRooms.Add(preset);
-    //    }
-    //}
+
+    public void AddLanguagePresetToRoom(LanguagePresetRoomPair pair)
+    {
+        var existing = LanguagePresetsForRooms.Any(x => x.UserId == pair.UserId && x.PresetId == pair.PresetId && x.RoomId == pair.RoomId);
+        if (existing)
+        {
+            return;
+        }
+        LanguagePresetsForRooms.Add(pair);
+    }
 }
 public record LanguagePresetRoomPair(string UserId, string PresetId, string RoomId, DateTime DateModified);
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
