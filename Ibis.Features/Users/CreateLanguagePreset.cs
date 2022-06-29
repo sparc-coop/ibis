@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record CreateLanguagePresetRequest(string Name, string UserId, string LanguageId, string DialectId, string VoiceId, string VoiceGender, bool IsDefault, string RoomId);
+public record CreateLanguagePresetRequest(string Name, string UserId, string LanguageId, string DialectId, string VoiceId, string VoiceGender, bool IsDefault);
 
 public class CreateLanguagePreset : Feature<CreateLanguagePresetRequest, LanguagePreset>
 {
@@ -34,14 +34,14 @@ public class CreateLanguagePreset : Feature<CreateLanguagePresetRequest, Languag
                 var currentDefault = userLanguagePresets.First(x => x.IsDefault == true);
                 currentDefault.IsDefault = false;
                 await LanguagePresets.UpdateAsync(currentDefault);
-                
+
                 // update all presetRoomPairs using currentDefault to use newPreset
                 var usingDefault = user.LanguagePresetsForRooms.Where(x => x.PresetId == currentDefault.Id);
-                foreach (var item in usingDefault) 
+                foreach (var item in usingDefault)
                 {
-                    item.PresetId = newPreset.Id;
-                    item.DateModified = DateTime.Now;
-                    await LanguagePresetRoomPairs.UpdateAsync(item);
+                    LanguagePresetRoomPair newItem = new LanguagePresetRoomPair(request.UserId, newPreset.Id, item.RoomId, DateTime.Now);
+                    user.LanguagePresetsForRooms.Remove(item);
+                    user.LanguagePresetsForRooms.Add(newItem);
                 }
                 await Users.UpdateAsync(user);
             }

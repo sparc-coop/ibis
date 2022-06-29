@@ -82,13 +82,13 @@ public class User : Root<string>
         return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
     public List<LanguagePresetRoomPair> LanguagePresetsForRooms { get; set; }
-    internal void AddLanguagePresetToRoom(LanguagePresetRoomPair preset)
-    {
-        if (!LanguagePresetsForRooms.Any(x => x.RoomId == preset.RoomId))
-        {
-            LanguagePresetsForRooms.Add(preset);
-        }
-    }
+    //internal void AddLanguagePresetToRoom(LanguagePresetRoomPair preset)
+    //{
+    //    if (!LanguagePresetsForRooms.Any(x => x.RoomId == preset.RoomId))
+    //    {
+    //        LanguagePresetsForRooms.Add(preset);
+    //    }
+    //}
 }
-
+public record LanguagePresetRoomPair(string UserId, string PresetId, string RoomId, DateTime DateModified);
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
