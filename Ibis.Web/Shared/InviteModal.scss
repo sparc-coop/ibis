@@ -82,6 +82,11 @@
             align-items: center;
             margin-bottom: 12px;
 
+            .large {
+                font-family: 'CircularStd-Book';
+                font-size: 16px;
+            }
+
             .user-left {
                 display: flex;
                 align-items: center;
@@ -122,6 +127,25 @@
                 }
             }
         }
+
+        h5 {
+            font-family: 'CircularStd-Book';
+            font-size: 13px;
+            padding-bottom: 14px;
+        }
+
+        .avatar {
+            color: $grey-700;
+            font-family: 'CircularStd-Medium';
+            font-size: 11px;
+            width: 25px;
+            height: 25px;
+            line-height: 27px;
+            text-align: center;
+            border-radius: 45px;
+            background: $grey-200;
+            margin-right: 8px;
+        }
     }
 
 
@@ -135,7 +159,8 @@
 
     .share-link {
         cursor: pointer;
-        margin-bottom: 70px;
+        margin-bottom: 16px;
+        margin-top: 45px;
 
         p.small {
             color: $grey-500;
@@ -145,6 +170,8 @@
         p.medium {
             color: $grey-700;
             margin-bottom: 6px;
+            font-size: 11px;
+            font-family: 'CircularStd-Book';
         }
 
         .share-link-wrapper {
@@ -187,6 +214,7 @@
     &.confirm-text {
         button.primary {
             margin-top: 20px;
+
             i {
                 vertical-align: middle;
                 padding: 0 0 1px 10px;
@@ -201,6 +229,10 @@
             border: 1px solid $grey-400;
             border-radius: 6px;
         }
+    }
+
+    &.room-modal {
+        padding-bottom: 70px;
     }
 }
 

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Audio\**" />
+    <Content Remove="Audio\**" />
+    <EmbeddedResource Remove="Audio\**" />
+    <None Remove="Audio\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include=".config\dotnet-tools.json" />
   </ItemGroup>
 
@@ -16,7 +23,7 @@
     <PackageReference Include="NAudio" Version="1.10.0" />
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
     <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.8" />
-    <PackageReference Include="Sparc.Features" Version="6.2.1" />
+    <PackageReference Include="Sparc.Features" Version="6.1.4" />
     <PackageReference Include="Sparc.Notifications.Twilio" Version="6.1.0" />
     <PackageReference Include="Sparc.Storage.Azure" Version="6.0.1" />
     <PackageReference Include="Stripe.net" Version="39.110.0" />

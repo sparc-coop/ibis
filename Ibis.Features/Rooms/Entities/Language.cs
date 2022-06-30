@@ -8,6 +8,7 @@ public class Language
     public string DisplayName { get; private set; }
     public string NativeName { get; private set; }
     public bool IsRightToLeft { get; private set; }
+    public List<Dialect> Dialects { get; private set; }
 
     private Language()
     {
@@ -29,5 +30,17 @@ public class Language
         DisplayName = displayName;
         NativeName = nativeName;
         IsRightToLeft = isRightToLeft;
+    }
+
+    public void AddDialect(string language, string locale, string localeName)
+    {
+        Dialect dialect = new(language, locale, localeName);
+
+        var existing = Dialects.FindIndex(x => x.Locale == locale);
+
+        if (existing == -1)
+            Dialects.Add(dialect);
+        else
+            Dialects[existing] = dialect;
     }
 }

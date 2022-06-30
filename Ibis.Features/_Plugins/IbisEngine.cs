@@ -5,26 +5,34 @@ using Sparc.Storage.Azure;
 using System.Text;
 using File = Sparc.Storage.Azure.File;
 
-namespace Ibis.Features._Plugins;
-
-public class IbisEngine
+namespace Ibis.Features._Plugins
 {
-    HttpClient Translator { get; set; }
-    string SpeechApiKey { get; set; }
-    public IRepository<File> Files { get; }
-
-    public IbisEngine(IConfiguration configuration, IRepository<File> files)
+    public class IbisEngine
     {
-        Translator = new HttpClient
-        {
-            BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com"),
-        };
-        Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
-        Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
+        HttpClient Translator { get; set; }
+        HttpClient Synthesizer { get; set; }
+        string SpeechApiKey { get; set; }
+        public IRepository<File> Files { get; }
+        public IRepository<Message> Messages { get; }
 
-        SpeechApiKey = configuration.GetConnectionString("Speech");
-        Files = files;
-    }
+        public IbisEngine(IConfiguration configuration, IRepository<File> files)
+        {
+            SpeechApiKey = configuration.GetConnectionString("Speech");
+            Files = files;
+
+            Translator = new HttpClient
+            {
+                BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com"),
+            };
+            Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
+            Translator.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
+
+            Synthesizer = new HttpClient
+            {
+                BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
+            };
+            Synthesizer.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SpeechApiKey);
+        }
 
     internal async Task SpeakAsync(Message message)
     {
@@ -87,14 +95,14 @@ public class IbisEngine
         var to = "&to=" + string.Join("&to=", languages.Select(x => x.Split('-').First()));
 
         var result = await Post<TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
-
-        foreach (TranslationResult o in result)
-            foreach (Translation t in o.Translations)
-                message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
-
+        if (result != null && result.Length > 0)
+        {
+            foreach (TranslationResult o in result)
+                foreach (Translation t in o.Translations)
+                    message.AddTranslation(languages.First(x => x.StartsWith(t.To, StringComparison.InvariantCultureIgnoreCase)), t.Text);
+        }
         return message;
     }
-
     internal async Task<Message> TranscribeSpeechFromMic(Message message)
     {
         var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
@@ -118,6 +126,119 @@ public class IbisEngine
         }
         return message;
     }
+
+    //public async Task<Message> ContinuousSpeechRecognitionAsync(Message message)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+    //    using (var recognizer = new SpeechRecognizer(speechConfig))
+    //    {
+    //        recognizer.Recognizing += (s, e) =>
+    //        {
+    //            Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+    //        };
+    //        recognizer.Recognized += (s, e) =>
+    //        {
+    //            var result = e.Result;
+    //            if (result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Console.WriteLine($"Final Message: {result.Text}.");
+    //                message.SetText(message.Text + " " + result.Text);
+    //            }
+    //        };
+    //        recognizer.Canceled += (s, e) => {
+    //            Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+    //        };
+    //        recognizer.SessionStarted += (s, e) => {
+    //            Console.WriteLine("\n Session has started. You can start speaking...");
+    //        };
+    //        recognizer.SessionStopped += (s, e) => {
+    //            Console.WriteLine("\n Session ended.");
+    //        };
+
+    //        await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+    //        do
+    //        {
+    //            Console.WriteLine("Press ENTER to stop recording...");
+    //        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+
+    //        await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+    //    };
+
+    //    return message;
+    //}
+
+    //public async Task<Message> ContinuousSpeechRecognitionAsync(Message message, string userId)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SpeechApiKey, "eastus");
+    //    var stopRecognition = new TaskCompletionSource<int>();
+
+    //    var user = await Users.FindAsync(userId);
+    //    if (user != null)
+    //    {
+    //        user.SetStopRecognizingSpeech(false);
+    //        await Users.UpdateAsync(user);
+    //    }
+
+    //    bool StopSpeechRecognition = false;
+
+    //    using (var recognizer = new SpeechRecognizer(speechConfig))
+    //    {
+    //        recognizer.Recognizing += (s, e) =>
+    //        {
+    //            Console.WriteLine($"RECOGNIZING: {e.Result.Text}");
+    //        };
+    //        recognizer.Recognized += async (s, e) =>
+    //        {
+    //            var result = e.Result;
+    //            if (result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Console.WriteLine($"Final Message: {result.Text}.");
+    //                message.SetText(message.Text + " " + result.Text);
+    //                user = await Users.FindAsync(userId);
+    //                if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
+    //            }
+    //        };
+    //        recognizer.Canceled += (s, e) =>
+    //        {
+    //            Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
+    //            stopRecognition.TrySetResult(0);
+    //        };
+    //        recognizer.SessionStarted += (s, e) =>
+    //        {
+    //            Console.WriteLine("\n Session has started. You can start speaking...");
+    //        };
+    //        recognizer.SessionStopped += (s, e) =>
+    //        {
+    //            Console.WriteLine("\n Session ended.");
+    //            stopRecognition.TrySetResult(0);
+    //        };
+
+    //        await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+    //        //do
+    //        //{
+    //        //    Console.WriteLine("Press ENTER to stop recording...");
+    //        //} while (StopSpeechRecognition == false);
+
+    //        //if (StopSpeechRecognition == false)
+    //        //{
+    //        //    user = await Users.FindAsync(userId);
+    //        //    if (user != null && user.StopRecognizingSpeech == true) StopSpeechRecognition = true;
+    //        //}
+
+    //        // Waits for completion. Use Task.WaitAny to keep the task rooted.
+    //        if (StopSpeechRecognition == true)
+    //        {
+    //            Task.WaitAny(new[] { stopRecognition.Task });
+    //            return message;
+    //        }
+    //        //if (StopSpeechRecognition == true)
+    //        //    await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+    //    }
+
+    //    return message;
+    //}
 
     internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
     {
@@ -176,7 +297,14 @@ public class IbisEngine
         return file.Url!;
     }
 
-    internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
+    internal async Task<string> UploadPhotoToStorage(string userId, string filename, byte[] bytes)
+    {
+        File file = new("account-photos", $"{userId}/{filename}", AccessTypes.Public, new MemoryStream(bytes));
+        await Files.AddAsync(file);
+        return file.Url!;
+    }
+
+        internal async Task<string> UploadVideoToStorage(string roomId, string fileName, byte[] bytes)
     {
         File file = new("speak", $"{roomId}/video/{fileName}.mp4", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);
@@ -188,6 +316,13 @@ public class IbisEngine
         var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");
         var result = await UnJsonify<LanguageTest>(response);
         return result.translation.ToList();
+    }
+
+    public async Task<List<Voice>> GetAllVoices()
+    {
+        var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
+        var result = await UnJsonify<List<Voice>>(response);
+        return result.ToList();
     }
 
     private async Task<T> Post<T>(string url, object model)
@@ -220,7 +355,7 @@ public record TranslationResult(DetectedLanguage DetectedLanguage, TextResult So
 
 public record DetectedLanguage(string Language, float Score);
 
-public record TextResult(string Text, string Script); 
+public record TextResult(string Text, string Script);
 
 public record Translation(string Text, TextResult Transliteration, string To, Alignment Alignment, SentenceLength SentLen);
 
@@ -230,5 +365,6 @@ public record SentenceLength(int[] SrcSentLen, int[] TransSentLen);
 
 public record Test(LanguageTest group);
 public record LanguageTest(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
-public record LanguageItem(string name, string nativeName, string dir);
+public record LanguageItem(string name, string nativeName, string dir, List<Dialect>? Dialects);
 public record TranslationDict(List<LanguageItem> items);
+}

@@ -6,7 +6,10 @@
 	 <div class="actions">
          <div class="header">
              <h3>Your Rooms</h3>
-             <button class="add" @onclick="ShowRoomModal"><i class="material-icons">add</i>Create New Room</button>
+             <button class="add" @onclick="ShowRoomModal">
+                 <i class="material-icons">add</i>Create New Room
+            </button>
+            <Tooltip Text="Start your first room!"/>
          </div>
          <div class="search-wrapper">
              <div class="searchbar">
@@ -36,8 +39,9 @@
                             <img src="/icons/Room-Icon.svg" />
                         </div>
                         <div class="option-icons" @onclick:stopPropagation="true">
-                            <input type="hidden" id="room-link" value="@("https://www.ibis.com/" + room.RoomId)" />
+                            <input type="hidden" id="@room.RoomId" value="@("https://www.ibis.com/" + room.RoomId)" />
                             <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
+                            <span id="copy-@room.RoomId"></span>
                             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
                         </div>
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
@@ -85,10 +89,12 @@
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
     string showDropdown = "";
+    GetUserResponse user;
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.GetUserAsync();
+        user = await Api.GetUserAsync();
         Rooms = await Api.GetUserRoomsAsync(user.Id);
         OriginalList = Rooms;
     }
@@ -123,13 +129,21 @@
 
     async Task ShareLink(string roomLink)
     {
-        //copy room share link to clipboard
-        //get room name
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "list");
     }
-    void ShowDeleteModal(string roomId)
+
+    async Task ShowDeleteModal(string room)
     {
-        Modal.Show<DeleteModal>("DeleteModal");
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DeleteModal.RoomId), room);
+        var deleteModal = Modal.Show<DeleteModal>("DeleteModal", parameters);        
+        var result = await deleteModal.Result;
+
+        if(result.Cancelled)
+        {
+            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", room);
+        }
     }
 
     async Task ShowEditModal(string roomId, string name)
@@ -137,7 +151,14 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(EditModal.RoomId), roomId);
         parameters.Add(nameof(EditModal.Title), name);
-        Modal.Show<EditModal>("EditModal", parameters);
+        var editModal = Modal.Show<EditModal>("EditModal", parameters);
+
+        var result = await editModal.Result;
+        if(result.Cancelled)
+        {
+            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
+        }
     }
 
     void SearchRooms(ChangeEventArgs search)

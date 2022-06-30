@@ -28,7 +28,7 @@ public class ReceiveSms : TwilioController
 
         if (user != null && roomId != null)
         {
-            var request = new SendMessageRequest(roomId, incomingMessage.Body, user.PrimaryLanguageId, null, null, null);
+            var request = new SendMessageRequest(roomId, incomingMessage.Body, user.PrimaryLanguageId, null, null, SourceTypes.Sms, null);
             await SendMessage.ExecuteAsync(request);
         }
 

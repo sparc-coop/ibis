@@ -52,6 +52,7 @@ public class User : Root<string>
     public string CustomerId { get; set; }
     public string? Pronouns { get; set; }
     public string? Description { get; set; }
+    public string ProfileImg { get; set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
     {

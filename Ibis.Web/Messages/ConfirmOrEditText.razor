@@ -1,8 +1,13 @@
 ﻿<section class="confirm-text modal">
     <h5>Edit Messages</h5>
     <div>
+        @if(MessageList.Any(x => x.SourceType == SourceTypes._4))
+        {
+            <audio src="/sounds/beep_down.wav" autoplay />  
+        }
         @foreach(var message in MessageList.ToList())
         {
+            <i class="material-icons">edit</i>
             <textarea @bind="message.ModifiedText" @bind:event="oninput" @onkeydown=MaybeSendText />     
         }
         <div class="buttons">
@@ -48,6 +53,7 @@
         }
 
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
+        StateHasChanged();
     }
 
     async Task Cancel()

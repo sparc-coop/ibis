@@ -2,79 +2,133 @@
 @layout DashLayout
 @attribute [Authorize]
 
-<div class="account container">
-	<h3>User Settings</h3>
-	<div class="account--left">
-		@if(User != null)
-		{
-		<h3>Edit profile information</h3>
-			<input placeholder="@(User.FullName ?? Name)"/>
-@*			<input placeholder="@(User.Email ?? Email)"/>*@
-		<label>Primary Language</label>
-		<div class="switch-lang">
-            <select @bind="@User.Language">
-			     <option disabled>Select Language</option>
-			     @foreach(var item in LanguageList.Languages)
-			     {
-				     <option value="@item.Key">@item.Value.Name</option>
-			     }
-		     </select>
-        </div>
-		<button @onclick="UpdateUser">Save</button>
-		}
+<div class="account">
+	<div class="account--header">
+		<h3>Personal info</h3>
+		<p>Update your photo and personal details here.</p>
 	</div>
 
-	<div>
-		@if(userPayment == true)
+	<div class="account--card">
+		@if(User != null)
 		{
-			<h3>Save credit card for future billing</h3>
-		<form id="payment-form">
-		  <div id="payment-element">
-			<!-- Elements will create form elements here -->
-		  </div>
-		  <button id="submit">Submit</button>
-		  <div id="error-message">
-			<!-- Display error message to your customers here -->
-		  </div>
-		</form>
-		} 
-@*
-		@if(userPayment == false) {
-			<button class="edit-payment">Update Saved Payment Information</button>
-		}*@
+			<div class="section">
+				<div>
+					<label>Pronouns</label>
+					<select @bind="User.Pronouns">
+						<option disabled selected>Select Pronoun</option>
+						<option value="She/Her">She/Her</option>
+						<option value="He/Him">He/Him</option>
+						<option value="They/Them">They/Them</option>
+					</select>
+				</div>
+				<div class="inline">
+					<div>
+						<label>First name</label>
+						<input @bind="FirstName"/>
+					</div>
+					<div>
+						<label>Last name</label>
+						<input @bind="LastName"/>
+					</div>
+				</div>
+				<div class="email">
+					<img src="/icons/email.png"/>
+					<label>Email address</label>
+					<input @bind="User.Email"/>
+				</div>
+				<div class="photo-upload">
+					@if(User.ProfileImg != null)
+					{
+						<img src="@User.ProfileImg" />
+					}
+					<InputFile OnChange="OnInputFileChange" />
+					<img class="upload-icon" src="/icons/upload.png" />
+					<p>
+						<span>Click to upload</span> or drag and drop
+						<br/>
+						SVG, PNG, or JPG (max. 800x400px)
+					</p>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="section">
+				<button class="cancel">Cancel</button>
+				<button @onclick="UpdateUser" class="save">Save Changes</button>
+			</div>
+		}
+	</div>
+	<div class="account--header">
+	<h3>Additional info</h3>
+	<p>Update your additional details here.</p>
+	</div>
+
+	<div class="account--card last">
+		@if(User != null)
+		{
+			<div class="section">
+				<label>Username</label>
+				<input placeholder="Username"/>
+				<label>Website</label>
+				<input/>
+				<label>Description</label>
+				<textarea @bind="User.Description"></textarea>
+			</div>
+			<div class="divider"></div>
+			<div class="section">
+				<button class="cancel">Cancel</button>
+				<button @onclick="UpdateUser" class="save">Save Changes</button>
+			</div>
+		}
 	</div>
 </div>
 
 @inject IJSRuntime JS
 
 @code {
-    private GetUserResponse User;
-    public string Name = "Full Name";
-    private string Email = "Email";
-    bool userPayment = false;
-    GetLanguageListResponse LanguageList;
+	private GetUserResponse User;
+	public string FirstName = "First Name";
+	public string LastName = "Last Name";
+	public string Email = "Email";
+	//public string Description = "";
+	//public string Pronouns = "";
+	//public string Username 
+	public string Website = "";
 
 
-    protected override async Task OnInitializedAsync()
-    {
-        LanguageList = await PublicApi().GetLanguageListAsync();
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if(user.Identity.IsAuthenticated)
+		{
+			User = await Api.GetUserAsync();
 
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        if(user.Identity.IsAuthenticated)
-        {
-            User = await Api.GetUserAsync();
-        }
-    }
+			if(User.FullName != null)
+			{
+				FirstName = User.FullName.Split(' ')[0];
+				LastName = User.FullName.Split(' ')[1];
+			}
+		}
+	}
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
-        if (clientSecret != "current-customer") {
-            userPayment = true;
-            await JS.InvokeAsync<string>("setPayment", clientSecret);
-        }
-    }
+	private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { 
+		UserId = User.Id, 
+		FullName = FirstName + " " + LastName , 
+		LanguageId = User.Language,
+		Description = User.Description,
+		Pronouns = User.Pronouns
 
-   private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = User.FullName, LanguageId = User.Language });
+	});
+
+	private async Task OnInputFileChange(InputFileChangeEventArgs e)
+	{
+		Stream stream = e.File.OpenReadStream(maxAllowedSize: 2000000);
+		var path = e.File.Name;
+		MemoryStream ms = new MemoryStream();
+		await stream.CopyToAsync(ms);
+		var bytes = ms.ToArray();
+		stream.Close();
+
+		User.ProfileImg = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { UserId = User.Id, FileName = path, Bytes = bytes });
+	}
 }

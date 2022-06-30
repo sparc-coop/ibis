@@ -1,0 +1,33 @@
+﻿@import "../_variables.scss";
+
+.tooltip-wrapper {
+    position: absolute;
+    right: 0;
+    top: -40px;
+    visibility: hidden;
+
+    &:hover span {
+        visibility: visible;
+    }
+
+    span {
+        width: 120px;
+        background-color: #363636;
+        color: $white;
+        text-align: center;
+        padding: 15px;
+        border-radius: 6px;
+        z-index: 1;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 178%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+    }
+}

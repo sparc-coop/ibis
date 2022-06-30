@@ -205,18 +205,88 @@ main {
 .dash-header .nav-link {
   color: #013b60;
   font-weight: bold;
-  margin: 14px 25px;
+  margin: 12px 25px;
   position: absolute;
-  right: 200px;
-  top: 4px;
+  right: 56px;
 }
 .dash-header .nav-link i {
-  font-size: 32px;
+  font-size: 40px;
 }
-.dash-header .nav-link.account {
-  right: 340px;
-  padding: 0;
-  margin: 6px;
+.dash-header .nav-link .dash-icon {
+  height: 23px;
+  width: 23px;
+  right: 44px;
+}
+.dash-header .dropdown {
+  position: absolute;
+  right: 0;
+  z-index: 10;
+}
+.dash-header .dropdown .account-nav {
+  position: absolute;
+  top: -2px;
+  right: 40px;
+  cursor: pointer;
+}
+.dash-header .dropdown .account-nav .profile {
+  height: 40px;
+  width: 40px;
+  border-radius: 60px;
+  position: absolute;
+  top: -7px;
+}
+.dash-header .dropdown .account-nav .arrow {
+  position: absolute;
+  right: -60px;
+  top: 10px;
+}
+.dash-header .dropdown .account-link {
+  cursor: pointer;
+}
+.dash-header .dropdown--menu {
+  width: 256px;
+  height: 151px;
+  background: #FFFFFF;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  text-align: left;
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+.dash-header .dropdown--menu p {
+  display: inline;
+}
+.dash-header .dropdown--menu img {
+  margin: 10px 14px;
+  vertical-align: middle;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+}
+.dash-header .dropdown--menu i {
+  font-size: 30px;
+  padding: 14px;
+  vertical-align: middle;
+  margin-top: -3px;
+}
+.dash-header .dropdown--menu ul {
+  margin: 0;
+  padding: 5px 14px 14px 14px;
+  border-top: 1px solid #D1D4DC;
+}
+.dash-header .dropdown--menu li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.menu-overlay {
+  height: 98vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  z-index: 9;
 }
 
 .dash-layout {
@@ -324,6 +394,10 @@ main {
   align-items: center;
   margin-bottom: 12px;
 }
+.modal .invite-users .user-wrapper .large {
+  font-family: "CircularStd-Book";
+  font-size: 16px;
+}
 .modal .invite-users .user-wrapper .user-left {
   display: flex;
   align-items: center;
@@ -356,6 +430,23 @@ main {
   border-radius: 16px;
   padding: 4px 6px;
 }
+.modal .invite-users h5 {
+  font-family: "CircularStd-Book";
+  font-size: 13px;
+  padding-bottom: 14px;
+}
+.modal .invite-users .avatar {
+  color: #364150;
+  font-family: "CircularStd-Medium";
+  font-size: 11px;
+  width: 25px;
+  height: 25px;
+  line-height: 27px;
+  text-align: center;
+  border-radius: 45px;
+  background: #E5E7EA;
+  margin-right: 8px;
+}
 .modal.upload button.primary {
   position: absolute;
   right: 40px;
@@ -363,7 +454,8 @@ main {
 }
 .modal .share-link {
   cursor: pointer;
-  margin-bottom: 70px;
+  margin-bottom: 16px;
+  margin-top: 45px;
 }
 .modal .share-link p.small {
   color: #6A7280;
@@ -372,6 +464,8 @@ main {
 .modal .share-link p.medium {
   color: #364150;
   margin-bottom: 6px;
+  font-size: 11px;
+  font-family: "CircularStd-Book";
 }
 .modal .share-link .share-link-wrapper {
   position: relative;
@@ -418,6 +512,9 @@ main {
   width: 100%;
   border: 1px solid #9BA3AF;
   border-radius: 6px;
+}
+.modal.room-modal {
+  padding-bottom: 70px;
 }
 
 .overlay {
@@ -669,6 +766,35 @@ main {
   border-radius: 6px;
 }
 
+.tooltip-wrapper {
+  position: absolute;
+  right: 0;
+  top: -40px;
+  visibility: hidden;
+}
+.tooltip-wrapper:hover span {
+  visibility: visible;
+}
+.tooltip-wrapper span {
+  width: 120px;
+  background-color: #363636;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 15px;
+  border-radius: 6px;
+  z-index: 1;
+}
+.tooltip-wrapper span::after {
+  content: "";
+  position: absolute;
+  top: 178%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
 .dashboard {
   margin: 0 auto;
   width: 100%;
@@ -684,6 +810,7 @@ main {
 }
 .dashboard .actions .header {
   margin-bottom: 18px;
+  position: relative;
 }
 .dashboard .actions .header .add {
   display: flex;
@@ -757,10 +884,9 @@ main {
   width: 50px;
   z-index: 1;
   position: absolute;
-  transition: all 0.4s ease;
+  transition: transform 300ms cubic-bezier(0.5, 0.01, 0.47, 0.99);
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected-left {
-  transition: all 0.4s ease;
   transform: translateX(50px);
 }
 .dashboard .rooms {
@@ -779,7 +905,6 @@ main {
   cursor: pointer;
   margin: 0 auto 30px auto;
   position: relative;
-  z-index: 1;
 }
 .dashboard .rooms .room-card .top-bar {
   display: flex;
@@ -794,6 +919,13 @@ main {
 }
 .dashboard .rooms .room-card .top-bar .option-icons img {
   padding: 4px 6px;
+}
+.dashboard .rooms .room-card .top-bar .option-icons span {
+  font-size: 12px;
+  color: #12B76A;
+  position: absolute;
+  margin-left: -41px;
+  top: 36px;
 }
 .dashboard .rooms .room-card .room-details {
   margin-bottom: 22px;
@@ -828,7 +960,10 @@ main {
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
 }
 .dashboard .rooms .room-card .dropdown li {
-  padding: 5px 0;
+  padding: 6px;
+}
+.dashboard .rooms .room-card .dropdown li:hover {
+  text-decoration: underline;
 }
 .dashboard .rooms .room-card .dropdown ul {
   position: relative;
@@ -932,6 +1067,17 @@ main {
 .room .header .user-invite img {
   margin-right: 8px;
 }
+.room .header .share {
+  margin: 0 0 10px 10px;
+  cursor: pointer;
+}
+.room .header span {
+  font-size: 12px;
+  color: #12B76A;
+  position: absolute;
+  margin-left: 12px;
+  top: 3px;
+}
 .room .time-stamp {
   position: absolute;
   top: 0;
@@ -1023,6 +1169,7 @@ main {
 .room-language {
   padding: 0 32px;
   position: absolute;
+  right: 0;
 }
 .room h4 {
   padding: 20px 32px 10px;
@@ -1241,17 +1388,51 @@ main {
 }
 
 .account {
-  padding: 100px 20px;
+  padding: 15px 20px 100px 20px;
+}
+.account--header {
+  margin: 0 auto;
+  max-width: 736px;
+  width: 100%;
+  text-align: left;
+  padding-top: 40px;
 }
 .account h3 {
-  color: #013b60;
+  color: #0A111D;
   font-size: 20px;
   padding-bottom: 30px;
+  font-family: "CircularStd-Medium";
+  font-size: 25px;
+  line-height: 120%;
+  padding-bottom: 4px;
+}
+.account p {
+  font-family: "CircularStd-Book";
+  font-size: 16px;
+  line-height: 120%;
+  color: #6A7280;
+  padding-bottom: 16px;
+}
+.account .divider {
+  border-top: 1px solid #E5E7EA;
+  width: 100%;
+  position: absolute;
+  bottom: 68px;
 }
 .account button {
   color: #013b60;
-  border: 1px solid #013b60;
   padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+}
+.account button.save {
+  background: #FF3520;
+  color: #FFFFFF;
+}
+.account button.cancel {
+  background: #E5E7EA;
+  color: #6A7280;
+  margin-right: 16px;
 }
 .account--left {
   width: 50%;
@@ -1265,6 +1446,128 @@ main {
   padding: 12px 20px;
   background: #FFFFFF;
   border: 1px solid #e6e6e6;
+}
+.account--card {
+  width: 100%;
+  max-width: 736px;
+  height: 506px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EA;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 8px;
+  margin: 0 auto;
+  position: relative;
+}
+.account--card select {
+  width: 191px;
+  height: 40px;
+  cursor: pointer;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background-position: 90% center;
+}
+.account--card option {
+  padding: 4px 8px;
+}
+.account--card label {
+  display: block;
+  padding-bottom: 6px;
+  font-family: "CircularStd-Medium";
+  font-size: 14px;
+  line-height: 20px;
+  color: #364150;
+}
+.account--card input, .account--card textarea {
+  max-width: 332px;
+  width: 100%;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.account--card textarea {
+  min-height: 128px;
+}
+.account--card.last input, .account--card.last textarea {
+  width: 100%;
+  max-width: 688px;
+  margin-bottom: 24px;
+}
+.account--card .inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.account--card .inline > div {
+  max-width: 332px;
+  width: 100%;
+}
+.account--card .email {
+  position: relative;
+}
+.account--card .email input {
+  max-width: 688px;
+  padding-left: 42px;
+}
+.account--card .email img {
+  position: absolute;
+  left: 14px;
+  bottom: 35px;
+}
+.account--card .section {
+  padding: 24px;
+}
+.account--card .section:last-child {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  padding: 0;
+}
+.account--card .section > div {
+  padding-bottom: 24px;
+}
+.account--card .photo-upload {
+  position: relative;
+}
+.account--card .photo-upload img {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+.account--card .photo-upload input {
+  width: 100%;
+  max-width: 602px;
+  height: 120px;
+  position: relative;
+  z-index: 10;
+  background: transparent;
+}
+.account--card .photo-upload input::file-selector-button {
+  display: none;
+}
+.account--card .photo-upload .upload-icon {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 40px;
+  height: 40px;
+}
+.account--card .photo-upload p {
+  position: absolute;
+  left: 39%;
+  bottom: 20px;
+  font-size: 13px;
+  font-family: "CircularStd-Medium";
+}
+.account--card .photo-upload p span {
+  color: #FF3520;
 }
 
 .onboarding {
