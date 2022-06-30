@@ -11,32 +11,61 @@
 
     <div>
         <label>Pronouns</label>
-        <select>
-            <option>Select Pronoun</option>
+        <select @bind="Pronouns">
+            <option value="" disabled selected>Select Pronoun</option>
+            <option value="SheHer">She/Her</option>
+            <option value="HeHim">He/Him</option>
+            <option value="TheyThem">They/Them</option>
         </select>
         <label>First name</label>
-        <input @bind="FirstName"/>
+        <input @bind="FirstName" placeholder="First Name" />
         <label>Last name</label>
-        <input @bind="LastName"/>
+        <input @bind="LastName"  placeholder="Last Name"/>
         <label>Description</label>
-        <textarea placeholder="Enter a little about yourself"></textarea>
-    </div>
-      
-    <div class="actions">
-        <button class="skip" @onclick="@(e => GoTo("rooms"))">No Thanks, I got this.</button>
-        <button class="next" @onclick="@(e => GoTo("step-two"))">Confirm</button>
-    </div>
-    <div class="steps">
+        <textarea @bind="Description"
+          @bind:event="oninput"
+          maxlength="@descLimit"
+          placeholder="Enter a little about yourself"/>
+        <label>@(descLimit - Description.Count()) characters left</label>
+
+
 
     </div>
+                  <div class="bottom-nav">
+              <div class="actions">
+            <div class="steps">
+                <div class="step-circle step-active">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                                <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                                <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                        <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="skip" @onclick="@(e => GoTo("rooms"))">No Thanks, I got this.</button>
+        <button class="next" @onclick="@(e => GoTo("step-two"))">Confirm</button>
+        </div>
+    </div>
+      </div>
+
 </div>
 
 @code {
     private GetUserResponse User;
-    public string FirstName = "First Name";
-    public string LastName = "Last Name";
+    public string FirstName = "";
+    public string LastName = "";
     public string Description = "";
-
+    public string Pronouns = "";
+    public int descLimit = 275;
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,7 +74,7 @@
         if(user.Identity.IsAuthenticated)
         {
             User = await Api.GetUserAsync();
-        }
+        } 
     }
 
     async void GoTo(string page)
@@ -54,5 +83,5 @@
         Nav.NavigateTo($"/{page}", true);    
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = User.Language });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = "", Pronouns = Pronouns, Description = Description });
 }
