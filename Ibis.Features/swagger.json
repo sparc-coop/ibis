@@ -1960,11 +1960,11 @@
             "type": "string",
             "nullable": true
           },
-          "description": {
+          "pronouns": {
             "type": "string",
             "nullable": true
           },
-          "pronouns": {
+          "description": {
             "type": "string",
             "nullable": true
           }
