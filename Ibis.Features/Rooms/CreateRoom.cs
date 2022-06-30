@@ -16,15 +16,13 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
     {
         var room = new Room(request.RoomName, User.Id());
 
-        List<User> users = new List<User>();
-
         //find current users
         foreach(string email in request.Emails!)
         {
             var user = Users.Query.Where(u => u.Email == email).FirstOrDefault();
             if(user != null)
             {
-                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, user.PhoneNumber);
+                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber);
                 room.ActiveUsers.Add(newMember);
             } else
             {

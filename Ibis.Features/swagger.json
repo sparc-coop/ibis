@@ -1338,6 +1338,10 @@
             "type": "string",
             "nullable": true
           },
+          "profileImg": {
+            "type": "string",
+            "nullable": true
+          },
           "phoneNumber": {
             "type": "string",
             "nullable": true
@@ -1485,6 +1489,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          },
+          "activeUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveUser"
             },
             "nullable": true
           }

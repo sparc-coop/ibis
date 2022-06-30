@@ -73,6 +73,7 @@
     async Task SendInvite()
     {
         NewEmails.Add(InviteEmail);
+        InviteEmail = "";
         Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
     }
 

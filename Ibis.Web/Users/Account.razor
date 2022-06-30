@@ -40,6 +40,8 @@
 					@if(User.ProfileImg != null)
 					{
 						<img src="@User.ProfileImg" />
+					} else {
+						<i class="material-icons">account_circle</i>  
 					}
 					<InputFile OnChange="OnInputFileChange" />
 					<img class="upload-icon" src="/icons/upload.png" />

@@ -172,8 +172,9 @@
 
         .photo-upload {
             position: relative;
+            text-align: center;
 
-            img {
+            img, i {
                 height: 64px;
                 width: 64px;
                 border-radius: 64px;
