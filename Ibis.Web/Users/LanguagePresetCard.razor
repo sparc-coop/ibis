@@ -68,6 +68,10 @@
                 <option>Male</option>
             </select>
             <p>This is the gender of your outgoing voice when your messages/audio are translated</p>
+            <div class="default-checkbox">
+                <label>Make this my default preset</label>
+                <input type="checkbox" @bind="IsDefault" />
+            </div>
         </div>
         <div class="collapse">
             <i class="material-icons">expand_less</i>
@@ -75,12 +79,14 @@
     </div>
     <div class="divider"></div>
     <div class="actions">
-        <button class="delete">Delete</button>
-        <button class="save">Save Changes</button>
+        <button class="delete" @onclick="@(e => ShowDeleteModal(Id))">Delete</button>
+        <button class="save" @onclick="Submit">Save Changes</button>
     </div>
 </article>
 
 @code {
+    [Parameter] public string? Id { get; set; }
+    GetUserResponse? User;
     GetLanguageListResponse? LanguageList;
     List<Language>? Languages;
     List<Dialect>? Dialects;
@@ -91,12 +97,13 @@
 
     string? Name;
     string? VoiceGender;
+    bool IsDefault;
 
     protected override async Task OnInitializedAsync()
     {
         LanguageList = await Api.GetLanguageListAsync();
     }
-    
+
     async Task ChangeLanguage(ChangeEventArgs e)
     {
         Language = e.Value.ToString();
@@ -118,4 +125,32 @@
     {
         Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
     }
+
+    async Task<LanguagePreset> Submit()
+    {
+        //if PresetId, update, else create
+        LanguagePreset preset;
+        if (Id != null)
+        {
+            preset = await Api.UpdateLanguagePresetAsync(new UpdateLanguagePresetRequest { Id = Id, UserId = User.Id, Name = Name, LanguageId = Language, DialectId = Dialect.Locale, VoiceId = Voice.ShortName, VoiceGender = VoiceGender, IsDefault = IsDefault });
+            return preset;
+        }
+        preset = await Api.CreateLanguagePresetAsync(new CreateLanguagePresetRequest { UserId = User.Id, Name = Name, LanguageId = Language, DialectId = Dialect.Locale, VoiceId = Voice.ShortName, VoiceGender = VoiceGender, IsDefault = IsDefault });
+        return preset;
+    }
+
+    async Task ShowDeleteModal(string presetId)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DeleteLanguagePresetModal.PresetId), presetId);
+        var deleteModal = Modal.Show<DeleteLanguagePresetModal>("DeleteLanguagePresetModal", parameters);        
+        var result = await deleteModal.Result;
+
+        //if(result.Cancelled)
+        //{
+        //    Rooms = await Api.GetUserRoomsAsync(user.Id);
+        //    await JS.InvokeVoidAsync("toggleRoomDropdown", room);
+        //}
+    }
+
 }

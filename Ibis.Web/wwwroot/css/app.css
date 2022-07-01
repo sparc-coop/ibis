@@ -1048,16 +1048,121 @@ main {
     background: #FFFFFF;
     border: 1px solid #e6e6e6; }
 
-.language-preset-card {
-  position: absolute;
-  top: 25%;
+.language-presets {
+  background-color: transparent;
+  margin: 55px 0px 55px 0px;
   left: 25%;
   width: 50%;
+  position: absolute; }
+  .language-presets h2 {
+    color: #0A111D;
+    font-size: 25px;
+    font-family: 'CircularStd-Medium';
+    line-height: 30px;
+    margin-bottom: 4px; }
+  .language-presets p {
+    color: #6A7280;
+    font-size: 16px;
+    font-family: 'CircularStd-Book';
+    line-height: 19.2px;
+    margin-bottom: 8px; }
+  .language-presets .create {
+    width: 100%;
+    border: 1px solid #D1D4DC;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+    background-color: transparent;
+    font-family: 'CircularStd-Book';
+    line-height: 120%;
+    margin: 8px 0px; }
+    .language-presets .create .container {
+      display: flex;
+      justify-content: space-between; }
+      .language-presets .create .container .collapse {
+        margin: 24px 24px 0px 0px;
+        color: #6A7280; }
+        .language-presets .create .container .collapse :hover {
+          cursor: pointer; }
+      .language-presets .create .container .content {
+        width: 100%;
+        margin: 24px; }
+        .language-presets .create .container .content h2 {
+          font-size: 20px;
+          color: #364150;
+          font-family: 'CircularStd-Book'; }
+        .language-presets .create .container .content p.hint {
+          margin-bottom: 24px; }
+        .language-presets .create .container .content label {
+          margin: 8px 0px 8px 0px;
+          color: #364150;
+          font-family: 'CircularStd-Medium';
+          font-size: 14px; }
+        .language-presets .create .container .content input {
+          width: 100%;
+          border: 1px solid #D1D4DC;
+          border-radius: 8px;
+          margin: 8px 0px 8px 0px;
+          padding: 10px 14px;
+          color: #6A7280;
+          font-family: 'CircularStd-Book';
+          font-size: 16px; }
+          .language-presets .create .container .content input[type=checkbox] {
+            width: 14px;
+            appearance: radio; }
+        .language-presets .create .container .content .default-checkbox {
+          display: flex;
+          gap: 8px;
+          align-items: center; }
+        .language-presets .create .container .content select {
+          width: 100%;
+          border: 1px solid #D1D4DC;
+          border-radius: 8px;
+          background-position: right;
+          /*                background-image: url('../../../wwwroot/icons/Arrow_Down_Chevron.svg');
+        */
+          margin: 8px 0px 8px 0px;
+          padding: 10px 14px;
+          font-size: 16px;
+          /*                i.add {
+                            background-color: $grey-100;
+                            color: $primary-700;
+                        }
+        */ }
+          .language-presets .create .container .content select option {
+            margin-left: 14px; }
+        .language-presets .create .container .content p {
+          margin-bottom: 8px;
+          font-size: 14px;
+          color: #6A7280; }
+    .language-presets .create .divider {
+      width: 100%;
+      height: 1px;
+      border: 1px solid #D1D4DC; }
+    .language-presets .create .actions {
+      height: 69px;
+      position: relative;
+      display: flex;
+      justify-content: flex-end; }
+      .language-presets .create .actions button {
+        border-radius: 8px;
+        text-align: center;
+        padding: 8px 16px; }
+        .language-presets .create .actions button.create-preset {
+          background: #FF3520;
+          color: #FFFFFF;
+          margin: 16px 24px; }
+
+.language-preset-card {
+  /*    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;*/
+  width: 100%;
+  margin: 8px 0px;
   border: 1px solid #E5E7EA;
   border-radius: 8px;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
   font-family: 'CircularStd-Book';
-  font-style: normal;
   line-height: 120%; }
   .language-preset-card .container {
     display: flex;
@@ -1073,7 +1178,7 @@ main {
       .language-preset-card .container .content h2 {
         font-size: 20px;
         color: #364150;
-        font-family: 'CircularStd-Medium';
+        font-family: 'CircularStd-Book';
         margin-bottom: 24px; }
       .language-preset-card .container .content label {
         margin: 8px 0px 8px 0px;
@@ -1084,10 +1189,18 @@ main {
         width: 100%;
         border: 1px solid #D1D4DC;
         border-radius: 8px;
-        color: #0A111D;
         margin: 8px 0px 8px 0px;
         padding: 10px 14px;
+        color: #0A111D;
+        font-family: 'CircularStd-Book';
         font-size: 16px; }
+        .language-preset-card .container .content input[type=checkbox] {
+          width: 14px;
+          appearance: radio; }
+      .language-preset-card .container .content .default-checkbox {
+        display: flex;
+        gap: 8px;
+        align-items: center; }
       .language-preset-card .container .content select {
         width: 100%;
         border: 1px solid #D1D4DC;

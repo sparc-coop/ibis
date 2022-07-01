@@ -233,6 +233,66 @@
         }
       }
     },
+    "/api/ChangeLanguagePresetForRoomUser": {
+      "post": {
+        "tags": [
+          "ChangeLanguagePresetForRoomUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeLanguagePresetRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeLanguagePresetRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePreset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CreateLanguagePreset": {
       "post": {
         "tags": [
@@ -385,6 +445,54 @@
                     "$ref": "#/components/schemas/CreateStripeCustomerRequest"
                   }
                 ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DeleteLanguagePreset": {
+      "post": {
+        "tags": [
+          "DeleteLanguagePreset"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
               }
             }
           }
@@ -1170,10 +1278,10 @@
         }
       }
     },
-    "/api/UpdateLanguagePresetForRoomUser": {
+    "/api/UpdateLanguagePreset": {
       "post": {
         "tags": [
-          "UpdateLanguagePresetForRoomUser"
+          "UpdateLanguagePreset"
         ],
         "requestBody": {
           "content": {
@@ -1486,6 +1594,24 @@
         },
         "additionalProperties": false
       },
+      "ChangeLanguagePresetRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "presetId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateLanguagePresetRequest": {
         "type": "object",
         "properties": {
@@ -1515,10 +1641,6 @@
           },
           "isDefault": {
             "type": "boolean"
-          },
-          "roomId": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2162,10 +2284,6 @@
             "type": "string",
             "nullable": true
           },
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "type": "string",
             "nullable": true
@@ -2305,6 +2423,10 @@
             "nullable": true
           },
           "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLanguagePresetId": {
             "type": "string",
             "nullable": true
           },

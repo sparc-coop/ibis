@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record UpdateLanguagePresetRequest(string Id, string UserId, string Name, string LanguageId, string DialectId, string VoiceId, string VoiceGender, bool IsDefault, string? RoomId);
+public record UpdateLanguagePresetRequest(string Id, string UserId, string Name, string LanguageId, string DialectId, string VoiceId, string VoiceGender, bool IsDefault);
 public class UpdateLanguagePreset : Feature<UpdateLanguagePresetRequest, LanguagePreset>
 {
     public IRepository<User> Users { get; }

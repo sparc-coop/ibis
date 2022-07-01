@@ -5,14 +5,151 @@
     <h2>Language Presets</h2>
     <p>Create & Edit your language presets</p>
     <div class="presets">
-@*        @foreach (var item in LanguagePresets)
+        @if (@UserLanguagePresets != null)
         {
-            
+            foreach (var item in @UserLanguagePresets)
+            {
+                <LanguagePresetCard Id=item.Id />
+            }
         }
-*@    </div>
+    </div>
+    <div class="create">
+        <div class="container">
+            <div class="content">
+                <h2>Create New Preset</h2>
+                <p class="hint">Enter your settings to create a new preset</p>
+                <label>Preset Name</label>
+                <br />
+                <input @bind="Name" type="text" placeholder="Enter Preset Name"/>
+                <br/>
+                <label>Primary Language</label>
+                <select @onchange="ChangeLanguage">
+                    <option class="placeholder">Select a language</option>
+                    @if (LanguageList != null)
+                    {
+                        @foreach (var item in LanguageList.Languages)
+                        {
+                            <option value="@item.Key">@item.Value.Name
+                                @if (@item.Value.Name != @item.Value.NativeName)
+                                {
+                                    <span> (@item.Value.NativeName)</span>
+                                }
+                            </option>
+                        }
+                    }
+                </select>
+                <p>This is what incoming text will be translated to</p>
+                <label>Dialect</label>
+                @if (Language == null) {
+                    <select disabled>
+                        <option class="placeholder">Select a Dialect</option>
+                    </select>
+                } else {
+                    <select @onchange="ChangeDialect" >
+                        <option class="placeholder">Select a Dialect</option>
+                        @if (Dialects != null)
+                        {
+
+                            @foreach (var item in Dialects)
+                            {
+                                <option value="@item.Locale">@item.LocaleName</option>
+                            }
+                        }
+                    </select>
+                }
+                <label>Voice</label>
+                @if (Dialect == null) {
+                    <select disabled>
+                        <option class="placeholder">Select a Voice</option>
+                    </select>
+                } else {
+                    <select @onchange="ChangeVoice">
+                        <option class="placeholder">Select a Voice</option>
+                    @if (Voices != null)
+                    {
+                        @foreach (var item in Voices)
+                        {
+                            <option value="@item.ShortName">@item.DisplayName (@item.Gender.Substring(0,1))</option>
+                        }
+                    }
+                    </select>
+                }
+                <p>This is how your outgoing voice will sound</p>
+                <label>Your translator gender</label>
+                <select @bind="VoiceGender">
+                    <option>Female</option>
+                    <option>Male</option>
+                </select>
+                <p>This is the gender of your outgoing voice when your messages/audio are translated</p>
+                <div class="default-checkbox">
+                    <label>Make this my default preset</label>
+                    <input type="checkbox" @bind="IsDefault" />
+                </div>
+            </div>
+            <div class="collapse">
+@*                    <i class="material-icons">expand_less</i>
+*@                </div>
+        </div>
+        <div class="divider"></div>
+        <div class="actions">
+            <button class="create-preset" @onclick="CreatePreset">Create New Preset</button>
+        </div>
+    </div>
 </div>
 
 @code {
-    [Parameter] public string? Id { get; set; }
-    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+    [Parameter] public string? UserId { get; set; }
+    //[SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
+
+    GetUserResponse? UserResponse;
+    List<LanguagePreset> UserLanguagePresets;
+
+    GetLanguageListResponse? LanguageList;
+    List<Language>? Languages;
+    List<Dialect>? Dialects;
+    List<Voice>? Voices;
+    string? Language;
+    Dialect? Dialect;
+    Voice? Voice;
+
+    string? Name;
+    string? VoiceGender;
+    bool IsDefault;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetUserResponse UserResponse = await Api.GetUserAsync();
+        var presets = await Api.GetLanguagePresetsAsync(UserResponse.Id.ToString());
+        UserLanguagePresets = presets.ToList();
+
+        LanguageList = await Api.GetLanguageListAsync();
+    }
+
+    async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        Language = e.Value.ToString();
+        var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+        var LanguageItem = LanguagePair.First(x => x.Key == Language);
+        Dialects = LanguageItem.Value.Dialects.ToList();
+        Dialect = Dialects.Find(x => x.Locale == LanguageItem.Value.Name);
+        Voices = Dialect.Voices.ToList();
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+    }
+
+    void ChangeDialect(ChangeEventArgs e)
+    {
+        Dialect = Dialects.Find(x => x.Locale == e.Value.ToString());
+        Voices = Dialect.Voices.ToList();
+    }
+
+    void ChangeVoice(ChangeEventArgs e)
+    {
+        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+    }
+
+    async Task<LanguagePreset> CreatePreset ()
+    {
+        LanguagePreset preset = await Api.CreateLanguagePresetAsync(new CreateLanguagePresetRequest { UserId = UserResponse.Id, Name = Name, LanguageId = Language, DialectId = Dialect.Locale, VoiceId = Voice.ShortName, VoiceGender = VoiceGender, IsDefault = IsDefault });
+        return preset;
+    }
 }

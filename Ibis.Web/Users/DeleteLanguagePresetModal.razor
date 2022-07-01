@@ -1,0 +1,24 @@
+﻿<div class="delete-languagepreset-modal modal">
+    <h4>Delete Preset</h4>
+    <button class="close" @onclick="Close">
+        <img src="/icons/Close.svg"/>
+    </button>
+    <p>Are you sure you want to delete this preset?</p>
+    <button @onclick="Close" class="secondary">Cancel</button>
+    <button @onclick="Delete" class="primary">Delete</button>
+</div>
+
+@code {
+    [Parameter] 
+    public string PresetId { get; set; }
+    [CascadingParameter] 
+    BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    async void Delete()
+    {
+        await Api.DeleteLanguagePresetAsync(PresetId);
+        await ModalInstance.CancelAsync();
+    }
+
+    void Close() => ModalInstance.CancelAsync();
+}
