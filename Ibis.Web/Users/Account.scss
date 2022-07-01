@@ -76,6 +76,7 @@
             margin-left: 4px;
         }
 
+        //Start of Animated Hover
         .nav-block a:after {
             display: block;
             position: absolute;
@@ -101,6 +102,9 @@
             visibility: visible;
             height: 100%;
         }
+        //End of Animated Hover
+
+
         /*This is for a non animation hover effect*/
         /*.nav-block:hover {
             background: $white;
