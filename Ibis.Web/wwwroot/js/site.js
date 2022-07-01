@@ -79,7 +79,14 @@ function toggleRoomDropdown(roomId) {
     }
 }
 
-function copyToClipboard(id) {
+function copyToClipboard(id, copyType) {
     var copyText = document.getElementById(id).value;
     navigator.clipboard.writeText(copyText);
+
+    if (copyType == "list") {
+        document.getElementById("copy-" + id).textContent += "Copied!";
+        setTimeout(function () {
+            document.getElementById("copy-" + id).textContent = "";
+        }, 2000);
+    }
 }

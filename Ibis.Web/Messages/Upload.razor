@@ -4,10 +4,20 @@
     </button>
     <div class="input">
         <h4>Upload a file</h4>
-        <InputFile type="file" accept="audio/wav, video/*" name="UploadFileInput" OnChange="@OnInputFileChange"/>
+        <div class="photo-upload">
+			<InputFile type="file" accept="audio/wav, video/*" name="UploadFileInput" OnChange="@OnInputFileChange"/>
+			<img class="upload-icon" src="/icons/upload.png" />
+			<p>
+				<span>Click to upload</span> or drag and drop
+			</p>
+		</div>
     </div>
     @((MarkupString)ErrorMessageHTML)
     <button @onclick="Submit" class="primary">Upload</button>
+    @if(loading == true)
+    {
+         <div class="loading"></div>   
+    }
 </section>
 
 @code {
@@ -18,6 +28,7 @@
     string? fileName;
     bool FileInputEmptyOnSubmit = false;
     string? ErrorMessageHTML;
+    bool loading = false;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
@@ -60,6 +71,7 @@
 
     async Task Submit()
     {
+        loading = true;
         if(ms != null)
         {
             FileInputEmptyOnSubmit = false;
@@ -76,6 +88,7 @@
             FileInputEmptyOnSubmit = true;
             ErrorMessage();
         }
+        loading = false;
     }
 
     void Cancel()

@@ -56,10 +56,10 @@ public class Room : Root<string>
         Languages.Add(new(language));
     }
 
-    public void AddUser(string userId, string language, string? phoneNumber = null)
+    public void AddUser(string userId, string language, string? profileImg, string? phoneNumber = null)
     {
         if (!ActiveUsers.Any(x => x.UserId == userId))
-            ActiveUsers.Add(new(userId, DateTime.UtcNow, language, phoneNumber));
+            ActiveUsers.Add(new(userId, DateTime.UtcNow, language, profileImg, phoneNumber));
     }
 
     public void RemoveUser(string userId)
@@ -70,4 +70,4 @@ public class Room : Root<string>
     public void SetAudio(string audioId) => AudioId = audioId;
 }
 
-public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? PhoneNumber);
+public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? ProfileImg, string? PhoneNumber);

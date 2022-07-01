@@ -11,10 +11,14 @@
 @import "Shared/ChatBox";
 @import "Shared/DeleteModal";
 @import "Shared/EditModal";
+@import "Shared/Tooltip";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
+
 @import "Messages/MessageCard";
+@import "Messages/Upload";
+
 @import "Users/Account";
 @import "Users/Notifications";
 

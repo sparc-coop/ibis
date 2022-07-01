@@ -36,7 +36,7 @@ public class RoomHub : Hub
     {
         var user = await Users.FindAsync(userId);
         await Users.ExecuteAsync(userId, user => user.JoinRoom(roomId, Context.ConnectionId));
-        await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!.Id, user.PrimaryLanguageId, user.PhoneNumber));
+        await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!.Id, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber));
     }
 
     private async Task<string> UnregisterRoomAsync(string roomId, string userId)

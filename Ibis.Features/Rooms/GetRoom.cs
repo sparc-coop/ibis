@@ -8,6 +8,7 @@ public record GetRoomResponse
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
     public List<Message>? Messages { get; set; }
+    public List<ActiveUser>? ActiveUsers { get; set; }
 
     public GetRoomResponse(Room room)
     {
@@ -15,6 +16,7 @@ public record GetRoomResponse
         LastActiveDate = room.LastActiveDate;
         StartDate = room.StartDate;
         Name = room.Name;
+        ActiveUsers = room.ActiveUsers;
     }
 
     public GetRoomResponse(Room room, List<Message> messages) : this(room) => Messages = messages;

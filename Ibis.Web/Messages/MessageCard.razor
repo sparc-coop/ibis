@@ -10,18 +10,15 @@
                 @(Message.UserName != null ? Message.UserName : "")
                 <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
             </div>
+            @if(MessageAudio != null)
+            {
+                <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
+                <i class="material-icons" @onclick:stopPropagation="true" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+            }
         </div>
-@*        <time datetime="@($"{Message.Timestamp:yyyy-MM-dd}T{Message.Timestamp:hh:mm:ss}Z")">
-        @Message.Timestamp.ToString("f")
-        </time>*@
     </div>
     <div class="message-content">
         @MessageText
-        @if(MessageAudio != null)
-        {
-            <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
-            <i class="material-icons" @onclick:stopPropagation="true" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
-        }
     </div>
 </article>
 

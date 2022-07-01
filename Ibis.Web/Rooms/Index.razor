@@ -6,7 +6,10 @@
 	 <div class="actions">
          <div class="header">
              <h3>Your Rooms</h3>
-             <button class="add" @onclick="ShowRoomModal"><i class="material-icons">add</i>Create New Room</button>
+             <button class="add" @onclick="ShowRoomModal">
+                 <i class="material-icons">add</i>Create New Room
+            </button>
+            <Tooltip Text="Start your first room!"/>
          </div>
          <div class="search-wrapper">
              <div class="searchbar">
@@ -38,6 +41,7 @@
                         <div class="option-icons" @onclick:stopPropagation="true">
                             <input type="hidden" id="@room.RoomId" value="@("https://www.ibis.com/" + room.RoomId)" />
                             <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
+                            <span id="copy-@room.RoomId"></span>
                             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
                         </div>
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
@@ -57,21 +61,16 @@
                         </p>
                     </div>
                 <div class="room-members">
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar.svg" />
-                    </div>
-                    <div class="member">
-                        <img src="/images/Avatar-more.svg" />
-                    </div>              
+                    @foreach(var member in room.ActiveUsers.Take(10))
+                    {
+                        @if(member.ProfileImg != null)
+                        {
+                            <img src="@member.ProfileImg" />
+                        } 
+                        else {
+                            <i class="material-icons">account_circle</i>   
+                        }    
+                    }      
                 </div>
             </div>
             }  
@@ -86,6 +85,7 @@
     string listView = "";
     string showDropdown = "";
     GetUserResponse user;
+    string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -124,9 +124,7 @@
 
     async Task ShareLink(string roomLink)
     {
-        //copy room share link to clipboard
-        //get room name
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink);
+        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "list");
     }
 
     async Task ShowDeleteModal(string room)

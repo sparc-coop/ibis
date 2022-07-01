@@ -230,16 +230,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreateRoom": {
@@ -299,16 +290,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreateStripeCustomer": {
@@ -368,16 +350,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/DeleteMessage": {
@@ -437,16 +410,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/FindUserByEmail": {
@@ -506,19 +470,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/GetLanguageList": {
+    "/api/GetLanguageList": {
       "post": {
         "tags": [
           "GetLanguageList"
@@ -547,7 +502,7 @@
         }
       }
     },
-    "/publicapi/GetRoom": {
+    "/api/GetRoom": {
       "post": {
         "tags": [
           "GetRoom"
@@ -652,19 +607,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/GetTextToBraille": {
+    "/api/GetTextToBraille": {
       "post": {
         "tags": [
           "GetTextToBraille"
@@ -759,16 +705,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetUserRooms": {
@@ -825,16 +762,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/InviteUser": {
@@ -894,19 +822,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/MergeAudio": {
+    "/api/MergeAudio": {
       "post": {
         "tags": [
           "MergeAudio"
@@ -1011,16 +930,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/SendMessage": {
@@ -1080,19 +990,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/TranscribeSpeech": {
+    "/api/TranscribeSpeech": {
       "post": {
         "tags": [
           "TranscribeSpeech"
@@ -1209,16 +1110,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UpdateUser": {
@@ -1278,19 +1170,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:Bearer"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/publicapi/UploadFile": {
+    "/api/UploadFile": {
       "post": {
         "tags": [
           "UploadFile"
@@ -1358,6 +1241,66 @@
           }
         }
       }
+    },
+    "/api/UserPhotoUpload": {
+      "post": {
+        "tags": [
+          "UserPhotoUpload"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadUserPhotoRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadUserPhotoRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UploadUserPhotoRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1392,6 +1335,10 @@
             "format": "date-time"
           },
           "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileImg": {
             "type": "string",
             "nullable": true
           },
@@ -1544,6 +1491,13 @@
               "$ref": "#/components/schemas/Message"
             },
             "nullable": true
+          },
+          "activeUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveUser"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1568,6 +1522,14 @@
             "nullable": true
           },
           "profileImg": {
+            "type": "string",
+            "nullable": true
+          },
+          "pronouns": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           }
@@ -2008,6 +1970,14 @@
           "languageId": {
             "type": "string",
             "nullable": true
+          },
+          "pronouns": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2030,6 +2000,25 @@
           },
           "fileName": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UploadUserPhotoRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bytes": {
+            "type": "string",
+            "format": "byte",
             "nullable": true
           }
         },
@@ -2162,14 +2151,6 @@
           }
         },
         "additionalProperties": false
-      }
-    },
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "description": "Enter JWT Bearer token **_only_**",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }

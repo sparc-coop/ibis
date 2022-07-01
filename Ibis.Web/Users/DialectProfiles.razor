@@ -1,0 +1,35 @@
+﻿@page "/dialects"
+@layout DashLayout
+@attribute [Authorize]
+
+<div class="account">
+	<div class="account--header">
+		<h3>Dialect Profiles</h3>
+		<p>Create & Edit your dialect presets.</p>
+	</div>
+	<div class="account--card">
+
+	</div>
+</div>
+
+@code {
+	private GetUserResponse User;
+	public string FirstName = "First Name";
+	public string LastName = "Last Name";
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if(user.Identity.IsAuthenticated)
+		{
+			User = await Api.GetUserAsync();
+
+			if(User.FullName != null)
+			{
+				FirstName = User.FullName.Split(' ')[0];
+				LastName = User.FullName.Split(' ')[1];
+			}
+		}
+	}
+}

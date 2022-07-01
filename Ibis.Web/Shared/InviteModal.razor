@@ -73,15 +73,17 @@
     async Task SendInvite()
     {
         NewEmails.Add(InviteEmail);
+        InviteEmail = "";
         Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
     }
 
     async Task CopyLink()
     {
-        //add link to copy
-        await JS.InvokeVoidAsync("copyToClipboard", RoomId);
+        //link to copy
+        await JS.InvokeVoidAsync("copyToClipboard", RoomId, "invite");
         CopyConfirm = "Copied!";
-        await Task.Delay(3000);
+        StateHasChanged();
+        await Task.Delay(2000);
         CopyConfirm = "";
     }
 
