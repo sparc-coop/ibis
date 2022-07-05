@@ -6,11 +6,11 @@
     <p>
         With Ibis, you are able to translate live video
         or text into a language of your preference. 
-        <br/>
+        <br/><br />
         But, for those who want more than one setting, 
         you can create presets to apply to your rooms, 
         and quickly swap between them as needed.
-        <br/>
+        <br/><br />
         Let’s create your default preset.
     </p>
 
@@ -35,21 +35,37 @@
         </p>
     </div>
 
-    <div class="actions">
-        <button>Skip</button>
-        <button>Confirm</button>
-    </div>
-    <div class="steps">
 
+                      <div class="bottom-nav">
+              <div class="actions">
+            <div class="steps">
+                <div class="step-circle step-active">
+        <i class="material-icons-outlined">check_circle</i>
+        </div>
+        <hr class="step-line line-active" />
+                                <div class="step-circle step-active">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                                <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
+        <hr class="step-line" />
+                        <div class="step-circle">
+        <i class="material-icons-outlined">adjust</i>
+        </div>
     </div>
+    <div class="buttons">
+        <button class="skip" @onclick="@(e => Nav.NavigateTo($"/step-three", true))">Skip</button>
+        <button class="next" @onclick="@(e => GoTo("step-three"))">Confirm</button>
+        </div>
+    </div>
+      </div>
 </div>
 
 @code {
     private GetUserResponse User;
-    public string FirstName = "First Name";
-    public string LastName = "Last Name";
-    public string Description = "";
-
+    public string Language = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,5 +83,5 @@
         Nav.NavigateTo($"/{page}", true);    
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = User.Language });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, LanguageId = Language });
 }

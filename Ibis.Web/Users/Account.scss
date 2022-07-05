@@ -192,6 +192,7 @@
                 position: relative;
                 z-index: 10;
                 background: transparent;
+                cursor: pointer;
 
                 &::file-selector-button {
                     display: none;
