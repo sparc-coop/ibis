@@ -217,3 +217,88 @@
         }
     }
 }
+
+
+// Settings Nav Styles
+.settings-nav-bg {
+    background: $white;
+    margin: -20px;
+    border-top: 1px solid $grey-200;
+    /*height: 76px;*/
+
+    .settings-nav-wrapper {
+        padding: 16px 0px;
+        color: $grey-500;
+    }
+
+    .settings-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: $grey-200;
+        border: 1px solid $grey-100;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+
+        .nav-block {
+            padding: 12px 0;
+            margin-right: 4px;
+
+            a {
+                padding: 12px;
+                position: relative;
+                z-index: 1;
+            }
+
+            a:hover {
+                color: $grey-700;
+                transition-delay: .1s;
+            }
+        }
+
+        .nav-block:first-child {
+            margin-left: 4px;
+        }
+
+        //Start of Animated Hover
+        .nav-block a:after {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            height: 1px;
+            content: '.';
+            color: transparent;
+            background: #FFF;
+            visibility: none;
+            opacity: 0;
+            z-index: -1;
+            transition-duration: .5s;
+            border-radius: 6px;
+        }
+
+        .nav-block a:hover:after {
+            opacity: 1;
+            visibility: visible;
+            height: 100%;
+        }
+        //End of Animated Hover
+
+
+        /*This is for a non animation hover effect*/
+        /*.nav-block:hover {
+            background: $white;
+            color: $grey-700;
+            box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+            border-radius: 6px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }*/
+    }
+}

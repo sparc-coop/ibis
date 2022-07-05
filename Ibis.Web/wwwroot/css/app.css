@@ -1359,6 +1359,165 @@ main {
         .account--card .photo-upload p span {
           color: #FF3520; }
 
+.settings-nav-bg {
+  background: #FFFFFF;
+  margin: -20px;
+  border-top: 1px solid #E5E7EA;
+  /*height: 76px;*/
+}
+.settings-nav-bg .settings-nav-wrapper {
+  padding: 16px 0px;
+  color: #6A7280;
+}
+.settings-nav-bg .settings-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #E5E7EA;
+  border: 1px solid #F3F5F6;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  /*This is for a non animation hover effect*/
+  /*.nav-block:hover {
+      background: $white;
+      color: $grey-700;
+      box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+      border-radius: 6px;
+      padding-bottom: 10px;
+      padding-top: 10px;
+  }*/
+}
+.settings-nav-bg .settings-nav .nav-block {
+  padding: 12px 0;
+  margin-right: 4px;
+}
+.settings-nav-bg .settings-nav .nav-block a {
+  padding: 12px;
+  position: relative;
+  z-index: 1;
+}
+.settings-nav-bg .settings-nav .nav-block a:hover {
+  color: #364150;
+  transition-delay: 0.1s;
+}
+.settings-nav-bg .settings-nav .nav-block:first-child {
+  margin-left: 4px;
+}
+.settings-nav-bg .settings-nav .nav-block a:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 1px;
+  content: ".";
+  color: transparent;
+  background: #FFF;
+  visibility: none;
+  opacity: 0;
+  z-index: -1;
+  transition-duration: 0.5s;
+  border-radius: 6px;
+}
+.settings-nav-bg .settings-nav .nav-block a:hover:after {
+  opacity: 1;
+  visibility: visible;
+  height: 100%;
+}
+
+.notifcations-section {
+  padding: 100px 20px;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+}
+.notifcations-section .notification-header {
+  margin-bottom: 16px;
+}
+.notifcations-section .notification-header h5 {
+  color: #0A111D;
+}
+.notifcations-section p.large {
+  color: #6A7280;
+}
+.notifcations-section .content-background {
+  border-bottom: 1px solid #E5E7EA;
+}
+.notifcations-section .content-block {
+  background: #FFFFFF;
+  padding: 24px;
+  font-weight: 400;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 8px 8px 0px 0px;
+}
+.notifcations-section .content-block .notifications-from-ibis, .notifcations-section .content-block .comments, .notifcations-section .content-block .reminders {
+  margin-bottom: 24px;
+}
+.notifcations-section .content-block h6 {
+  color: #364150;
+  line-height: 24px;
+  font-weight: 400;
+}
+.notifcations-section .content-block p.large {
+  color: #364150;
+}
+.notifcations-section .content-block p.medium {
+  color: #6A7280;
+}
+.notifcations-section .content-block .section-header {
+  margin-bottom: 20px;
+}
+.notifcations-section .content-block .section-content .checkbox-wrapper {
+  display: flex;
+  margin-bottom: 16px;
+}
+.notifcations-section .content-block .section-content .checkbox-wrapper .input-type {
+  margin-right: 8px;
+}
+.notifcations-section .content-block .section-content .checkbox-wrapper:last-child {
+  margin-bottom: 24px;
+}
+.notifcations-section .content-block input {
+  border: 1px solid #D1D4DC;
+  border-radius: 8px;
+  accent-color: #EA281B;
+  appearance: auto;
+}
+.notifcations-section .content-block input:checked {
+  border: 1px solid #EA281B;
+}
+.notifcations-section .button-wrapper {
+  background: #FFFFFF;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  border-radius: 0px 0px 8px 8px;
+  column-gap: 16px;
+  border-top: 1px solid #E5E7EA;
+}
+.notifcations-section .btn-primary {
+  background: #FF3520;
+  color: #FFFFFF;
+}
+.notifcations-section .btn-secondary {
+  background: #E5E7EA;
+  color: #6A7280;
+}
+.notifcations-section .btn-medium {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 125%;
+}
+
 .onboarding {
   background: #F3F5F6;
   height: 100vh;
