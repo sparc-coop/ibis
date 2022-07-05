@@ -20,7 +20,7 @@ public class GetRoomUsers : Feature<string, RoomUsersResponse>
         foreach(var item in room.ActiveUsers)
         {
             User user = await Users.FindAsync(item.UserId);
-            userList.Add(new(user.FullName, user.Initials, user.Email));
+            userList.Add(new(user.FullName != null ? user.FullName : "", user.Initials, user.Email));
         }
         if(room.PendingUsers != null)
 		{
