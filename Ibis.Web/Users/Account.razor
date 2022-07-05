@@ -63,7 +63,6 @@
 	<h3>Additional info</h3>
 	<p>Update your additional details here.</p>
 	</div>
-
 	<div class="account--card last">
 		@if(User != null)
 		{
@@ -71,9 +70,13 @@
 				<label>Username</label>
 				<input placeholder="Username"/>
 				<label>Website</label>
-				<input/>
+				<input placeholder="www.website.com"/>
 				<label>Description</label>
-				<textarea @bind="User.Description"></textarea>
+				<textarea @bind="User.Description" maxlength="1000"></textarea>
+				<label>Country</label>
+				<input placeholder="Country"/>
+				<label>Timezone</label>
+				<input placeholder="EST"/>
 			</div>
 			<div class="divider"></div>
 			<div class="section">

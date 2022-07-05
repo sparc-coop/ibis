@@ -1569,6 +1569,10 @@ main {
 .account--card textarea {
   min-height: 128px;
 }
+.account--card.last {
+  height: auto;
+  padding-bottom: 50px;
+}
 .account--card.last input, .account--card.last textarea {
   width: 100%;
   max-width: 688px;

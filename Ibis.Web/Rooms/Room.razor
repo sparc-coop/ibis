@@ -2,7 +2,6 @@
 @page "/rooms/{Id}"
 @page "/{Id}"
 @layout DashLayout
-@attribute [Authorize]
 
 <section class="room">
     <div class="header">
@@ -229,8 +228,9 @@
             await Connection.StartAsync();
             await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
         } 
-        catch {
-            Nav.NavigateTo("/");
+        catch (Exception ex){
+            var test = ex.Message;
+            //Nav.NavigateTo("/");
         }  
     }
 
