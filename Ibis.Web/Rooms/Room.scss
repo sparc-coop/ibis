@@ -93,152 +93,161 @@
 
         .message-language-preset {
             select {
+                width: 100%;
+                border: 1px solid $grey-300;
+                border-radius: 8px;
                 background-position: right;
+                margin: 8px 0px 8px 0px;
+                padding: 10px 14px;
+                font-size: 16px;
+
+                option {
+                    margin-left: 14px;
+                }
             }
         }
 
-    }
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative !important;
+            display: inline-block !important;
+            width: 36px !important;
+            height: 20px !important;
+        }
+        /* The slider */
+        .slider {
+            position: absolute !important;
+            cursor: pointer !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-color: $grey-100 !important;
+            -webkit-transition: .4s !important;
+            transition: .4s !important;
+        }
 
-    /* The switch - the box around the slider */
-    .switch {
-        position: relative !important;
-        display: inline-block !important;
-        width: 36px !important;
-        height: 20px !important;
-    }
-    /* The slider */
-    .slider {
-        position: absolute !important;
-        cursor: pointer !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        background-color: $grey-100 !important;
-        -webkit-transition: .4s !important;
-        transition: .4s !important;
-    }
+        .slider:before {
+            position: absolute !important;
+            content: "" !important;
+            height: 16px !important;
+            width: 16px !important;
+            left: 2px !important;
+            bottom: 2px !important;
+            background-color: white !important;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        //colour 1
+        input:checked + .slider {
+            background-color: $dark-blue !important;
+        }
 
-    .slider:before {
-        position: absolute !important;
-        content: "" !important;
-        height: 16px !important;
-        width: 16px !important;
-        left: 2px !important;
-        bottom: 2px !important;
-        background-color: white !important;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-    //colour 1
-    input:checked + .slider {
-        background-color: $dark-blue !important;
-    }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(16px) !important;
+            -ms-transform: translateX(16px) !important;
+            transform: translateX(16px) !important;
+        }
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
 
-    input:checked + .slider:before {
-        -webkit-transform: translateX(16px) !important;
-        -ms-transform: translateX(16px) !important;
-        transform: translateX(16px) !important;
-    }
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
+        .slider.round:before {
+            border-radius: 50%;
+        }
 
-    .slider.round:before {
-        border-radius: 50%;
-    }
+        .messages {
+            padding: 10px;
+            background: $white;
+            border-radius: 10px;
+            border: 1px solid $light-gray;
+            margin: 30px;
+        }
 
-    .messages {
-        padding: 10px;
-        background: $white;
-        border-radius: 10px;
-        border: 1px solid $light-gray;
-        margin: 30px;
-    }
-
-    .user-invite {
-        position: absolute;
-        top: 30px;
-        right: 60px;
-    }
-
-    &-language {
-        padding: 0 32px;
-        position: absolute;
-        right: 0;
-    }
-
-    h4 {
-        padding: 20px 32px 10px;
-        font-weight: 500;
-        font-size: 18px;
-        color: $primary;
-        height: 76px;
-        position: relative;
-
-        i {
-            color: $primary;
-            cursor: pointer;
-            padding: 0 10px;
+        .user-invite {
             position: absolute;
-            left: -12px;
+            top: 30px;
+            right: 60px;
+        }
+
+        &-language {
+            padding: 0 32px;
+            position: absolute;
+            right: 0;
+        }
+
+        h4 {
+            padding: 20px 32px 10px;
+            font-weight: 500;
             font-size: 18px;
-        }
-
-        button {
             color: $primary;
-            cursor: pointer;
-            border: 1px solid $gray;
-            padding: 11px 16px;
-        }
-
-        input {
-            border: 1px solid $gray;
-            padding: 11px 16px;
-            padding-right: 150px;
-        }
-    }
-
-    .input {
-        position: relative;
-        padding: 10px 32px;
-
-        input {
-            border: 1px solid gray;
-            width: 100%;
-            padding: 16px;
-            padding-right: 150px;
-        }
-
-        .buttons {
-            position: absolute;
-            top: 50%;
-            right: 50px;
-            margin-top: -12px;
+            height: 76px;
+            position: relative;
 
             i {
-                color: gray;
-            }
-
-            button:hover i, button.active i {
+                color: $primary;
                 cursor: pointer;
-                color: red;
+                padding: 0 10px;
+                position: absolute;
+                left: -12px;
+                font-size: 18px;
+            }
+
+            button {
+                color: $primary;
+                cursor: pointer;
+                border: 1px solid $gray;
+                padding: 11px 16px;
+            }
+
+            input {
+                border: 1px solid $gray;
+                padding: 11px 16px;
+                padding-right: 150px;
             }
         }
 
-        .options {
-            position: absolute;
-            top: -25px;
-            right: 50px;
+        .input {
+            position: relative;
+            padding: 10px 32px;
 
-            i {
-                color: gray;
-                padding: 0 3px;
+            input {
+                border: 1px solid gray;
+                width: 100%;
+                padding: 16px;
+                padding-right: 150px;
+            }
 
-                &:hover {
+            .buttons {
+                position: absolute;
+                top: 50%;
+                right: 50px;
+                margin-top: -12px;
+
+                i {
+                    color: gray;
+                }
+
+                button:hover i, button.active i {
                     cursor: pointer;
                     color: red;
+                }
+            }
+
+            .options {
+                position: absolute;
+                top: -25px;
+                right: 50px;
+
+                i {
+                    color: gray;
+                    padding: 0 3px;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: red;
+                    }
                 }
             }
         }

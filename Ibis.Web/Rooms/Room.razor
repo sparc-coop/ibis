@@ -53,9 +53,11 @@
 
             <div class="message-box-bottom">
                 <div class="message-language-preset">
-                    @*@if(LanguagePresetList.Count > 0) {}*@
-                    <select @onchange=UpdateLanguagePresetForRoom>
-
+                    <select @onchange="UpdateLanguagePresetForRoom">
+                        @foreach(var item in UserLanguagePresets)
+                        {
+                            <option value=@item.Id>@item.Name</option>
+                        }
                     </select>
                 </div>
                 <div class="message-options">
@@ -157,18 +159,24 @@
     HubConnection Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
     bool ToggleEdit = false;
-    
+
     GetLanguageListResponse LanguageList;
     List<Dialect>? Dialects = new();
     List<Voice>? Voices = new();
     Dialect? Dialect;
     Voice? Voice;
 
+    List<LanguagePreset>? UserLanguagePresets;
+
     protected override async Task OnInitializedAsync()
     {
-        LanguageList = await PublicApi().GetLanguageListAsync();
-
         var user = await Api.GetUserAsync();
+
+        LanguageList = await PublicApi().GetLanguageListAsync();
+        var presets = await Api.GetLanguagePresetsAsync(user.Id.ToString());
+        if (presets != null) {
+             UserLanguagePresets = presets.ToList();
+        }
 
         if (string.IsNullOrWhiteSpace(Language))
         {
