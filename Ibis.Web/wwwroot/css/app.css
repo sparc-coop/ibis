@@ -49,6 +49,12 @@
     visibility: hidden;
   }
 }
+.landing .btn-primary:hover {
+  background: #FF3520;
+}
+.landing .btn-secondary:hover {
+  background: #E5E7EA;
+}
 .landing .section-1 {
   background: #f9f1e8;
   display: flex;
@@ -73,10 +79,10 @@
   line-height: 73px;
 }
 .landing .section-1 button {
-  background: #fe3205;
+  /*background: $secondary;
   border-radius: 4px;
   padding: 12px 30px;
-  font-size: 20px;
+  font-size: 20px;*/
 }
 .landing .card {
   border-radius: 8px;
@@ -138,10 +144,10 @@
   padding-top: 140px;
 }
 .landing .section-2 button {
-  background: #fe3205;
+  /*background: $secondary;
   border-radius: 4px;
   padding: 16px 40px;
-  font-size: 20px;
+  font-size: 20px;*/
 }
 .landing .banner {
   margin: 0 auto;
@@ -165,10 +171,10 @@
   position: absolute;
   top: 84px;
   right: 110px;
-  background: #fe3205;
+  /*background: $secondary;
   border-radius: 4px;
   padding: 16px 40px;
-  font-size: 20px;
+  font-size: 20px;*/
 }
 
 .pricing-page {
@@ -539,12 +545,12 @@ main {
   margin-bottom: 6px;
 }
 .invite-block .create-room {
-  background: #FF3520;
+  /*background: $primary-500;
   border-radius: 8px;
   padding: 8px 16px;
-  color: #FFFFFF;
+  color: $white;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 20px;*/
   position: absolute;
   right: 24px;
   bottom: 24px;
@@ -630,11 +636,11 @@ main {
   top: 40px;
 }
 .login-display .login, .login-display button {
-  border: 2px solid #fe3205;
-  color: #fe3205;
+  /*border: 2px solid $secondary-900;
+  color: $secondary-900;
   font-size: 20px;
   padding: 12px 30px;
-  border-radius: 4px;
+  border-radius: 4px;*/
 }
 
 .camera-grid {
@@ -867,13 +873,13 @@ main {
 .dashboard .actions .header .add {
   display: flex;
   align-items: center;
-  color: #FFFFFF;
-  background: #FF3520;
+  /*color: $white;
+  background: $primary-500;
   border-radius: 8px;
   padding: 8px 16px;
   line-height: 20px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 16px;*/
 }
 .dashboard .actions .header .add i {
   margin-right: 8px;
@@ -925,6 +931,10 @@ main {
   padding: 8px 12px;
   cursor: pointer;
   z-index: 2;
+}
+.dashboard .actions .search-wrapper .grid-wrapper .grid:focus, .dashboard .actions .search-wrapper .grid-wrapper .list:focus {
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), 0px 0px 0px 2px #C7C9D1;
+  border-radius: 8px;
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected {
   background: #FFFFFF;
@@ -2111,8 +2121,78 @@ body {
   position: relative;
 }
 
-button {
-  color: #013b60;
+/*button {
+    color: $primary;
+}*/
+.btn-primary {
+  background: #FF3520;
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: #003B5F;
+  color: #FFFFFF;
+}
+
+.btn-secondary-invert {
+  border: 2px solid #003B5F;
+  color: #003B5F;
+}
+
+.btn-grey {
+  background: #E5E7EA !important;
+  color: #6A7280;
+}
+
+.btn-medium {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 125%;
+}
+
+.btn-large {
+  padding: 12px 30px;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+.btn-primary:hover {
+  background: #FF3520;
+}
+
+.btn-secondary:hover {
+  background: #2E7BA5;
+}
+
+.btn-secondary-invert:hover {
+  border-color: #2E7BA5;
+  color: #2E7BA5;
+}
+
+.btn-grey:hover {
+  background: #F3F5F6;
+}
+
+.btn-primary:focus {
+  background: #FF3520;
+  box-shadow: 0px 0px 0px 2px #FFCDAA;
+}
+
+.btn-secondary:focus {
+  background: #003B5F;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), 0px 0px 0px 2px #D3E4F1;
+  border-radius: 8px;
+}
+
+.btn-secondary-invert:focus {
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), 0px 0px 0px 2px #AACAE1;
+  outline: #AACAE1;
+}
+
+.btn-grey:focus {
+  background: #E5E7EA;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), 0px 0px 0px 2px #C7C9D1;
 }
 
 #app .loader {
@@ -2176,4 +2256,34 @@ p.medium {
 p.small {
   font-size: 10px;
   line-height: 120%;
+}
+
+a.link-primary {
+  color: #FF3520;
+}
+
+a.link-secondary {
+  color: #003B5F;
+}
+
+a.link-primary:hover {
+  color: #FF6539;
+}
+
+a.link-secondary:hover {
+  color: #2E7BA5;
+}
+
+a:focus {
+  text-decoration: solid;
+}
+
+input:focus, select:focus, textarea:focus {
+  border: 1px solid #D1D4DC !important;
+  box-shadow: 0px 0px 0px 2px #ff9e70, 0px 1px 2px rgba(16, 24, 40, 0.05) !important;
+}
+
+img:focus {
+  box-shadow: 0px 0px 0px 2px #FFCDAA;
+  outline: #FFCDAA;
 }
