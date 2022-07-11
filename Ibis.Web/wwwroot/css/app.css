@@ -253,7 +253,7 @@ main {
   width: 256px;
   height: 151px;
   background: #FFFFFF;
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   text-align: left;
@@ -280,7 +280,7 @@ main {
 .dash-header .dropdown--menu ul {
   margin: 0;
   padding: 5px 14px 14px 14px;
-  border-top: 1px solid #D1D4DC;
+  border-top: 1px solid #C7C9D1;
 }
 .dash-header .dropdown--menu li {
   padding: 5px;
@@ -371,7 +371,7 @@ main {
   margin: 6px 0 24px;
 }
 .modal .invite-search input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
@@ -381,7 +381,7 @@ main {
   width: 72%;
 }
 .modal .invite-search ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .modal .invite-search .search-member {
   display: flex;
@@ -431,8 +431,8 @@ main {
 }
 .modal .invite-users .user-wrapper .user-right .invited {
   background: #F3F5F6;
-  color: #6A7280;
-  border: 1px solid #6A7280;
+  color: #525963;
+  border: 1px solid #525963;
   border-radius: 16px;
   padding: 4px 6px;
 }
@@ -442,7 +442,7 @@ main {
   padding-bottom: 14px;
 }
 .modal .invite-users .avatar {
-  color: #364150;
+  color: #28303B;
   font-family: "CircularStd-Medium";
   font-size: 11px;
   width: 25px;
@@ -459,11 +459,11 @@ main {
   margin-top: 45px;
 }
 .modal .share-link p.small {
-  color: #6A7280;
+  color: #525963;
   margin-bottom: 6px;
 }
 .modal .share-link p.medium {
-  color: #364150;
+  color: #28303B;
   margin-bottom: 6px;
   font-size: 11px;
   font-family: "CircularStd-Book";
@@ -472,13 +472,13 @@ main {
   position: relative;
 }
 .modal .share-link .share-link-wrapper > div {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
   width: 100%;
   font-family: "CircularStd-Book";
-  color: #6A7280;
+  color: #525963;
 }
 .modal .share-link .share-link-wrapper img {
   position: absolute;
@@ -511,7 +511,7 @@ main {
   padding: 8px;
   margin: 12px 0;
   width: 100%;
-  border: 1px solid #9BA3AF;
+  border: 1px solid #858C96;
   border-radius: 6px;
 }
 .modal.room-modal {
@@ -591,7 +591,7 @@ main {
   margin-bottom: 6px;
 }
 .invite-block .room-name-wrapper input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 16px;
@@ -599,7 +599,7 @@ main {
   width: 100%;
 }
 .invite-block .room-name-wrapper ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 
 .cards {
@@ -752,7 +752,7 @@ main {
 }
 
 .edit-modal input {
-  border: 1px solid #364150;
+  border: 1px solid #28303B;
   padding: 6px 16px;
   display: block;
 }
@@ -803,7 +803,7 @@ main {
 }
 .settings-nav-bg .settings-nav-wrapper {
   padding: 16px 0px;
-  color: #6A7280;
+  color: #525963;
 }
 .settings-nav-bg .settings-nav {
   display: flex;
@@ -825,7 +825,7 @@ main {
   margin: 0 4px;
 }
 .settings-nav-bg .settings-nav a:hover {
-  color: #364150;
+  color: #28303B;
   transition-delay: 0.1s;
 }
 .settings-nav-bg .settings-nav a:after, .settings-nav-bg .settings-nav .active:after {
@@ -896,11 +896,11 @@ main {
   max-width: 480px;
 }
 .dashboard .actions .search-wrapper ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .dashboard .actions .search-wrapper input {
   background: #FFFFFF;
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   padding: 10px 14px 10px 42px;
   max-width: 400px;
   width: 100%;
@@ -918,7 +918,7 @@ main {
   justify-content: space-between;
   align-items: center;
   background: #E5E7EA;
-  color: #6A7280;
+  color: #525963;
   border: 1px soild #F3F5F6;
   border-radius: 8px;
   padding: 4px;
@@ -938,7 +938,7 @@ main {
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected {
   background: #FFFFFF;
-  color: #364150;
+  color: #28303B;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
   border-radius: 6px;
   transition: 0.4s;
@@ -993,12 +993,12 @@ main {
   margin-bottom: 22px;
 }
 .dashboard .rooms .room-card .room-details h6 {
-  color: #0A111D;
+  color: #070C14;
   font-weight: 500;
   margin-bottom: 2px;
 }
 .dashboard .rooms .room-card .room-details p.medium {
-  color: #9BA3AF;
+  color: #858C96;
 }
 .dashboard .rooms .room-card .room-members {
   display: flex;
@@ -1152,11 +1152,11 @@ main {
   left: 100px;
 }
 .room .time-stamp .start {
-  color: #364150;
+  color: #28303B;
   margin-bottom: 4px;
 }
 .room .time-stamp .time-duration {
-  color: #9BA3AF;
+  color: #858C96;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1166,17 +1166,17 @@ main {
   margin-bottom: 2px;
 }
 .room .time-stamp .time-duration .timeline-line {
-  border-left: 1px solid #D1D4DC;
+  border-left: 1px solid #C7C9D1;
   height: 113px;
   margin-bottom: 2px;
 }
 .room .time-stamp .time-duration .timeline-line2 {
-  border-left: 1px solid #D1D4DC;
+  border-left: 1px solid #C7C9D1;
   height: 86px;
   margin-bottom: 2px;
 }
 .room .time-stamp .time-duration .timeline-line3 {
-  border-left: 1px solid #D1D4DC;
+  border-left: 1px solid #C7C9D1;
   height: 400px;
   margin-bottom: 2px;
 }
@@ -1331,10 +1331,10 @@ main {
   background: #FFFFFF;
 }
 .message-grid .message-list::-webkit-scrollbar-thumb {
-  background: #D1D4DC;
+  background: #C7C9D1;
 }
 .message-grid .message-list::-webkit-scrollbar-thumb:hover {
-  background: #9BA3AF;
+  background: #858C96;
 }
 .message-grid .user {
   position: relative;
@@ -1357,7 +1357,7 @@ main {
 .message-grid .user i {
   cursor: pointer;
   font-size: 18px;
-  color: #1D2937;
+  color: #161E29;
   margin: -3px 0 0 12px;
 }
 .message-grid .message-card {
@@ -1413,7 +1413,7 @@ main {
   max-width: 100%;
 }
 .message-grid .message-box-top ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .message-grid .message-box-bottom {
   border-radius: 0px 0px 16px 16px;
@@ -1441,7 +1441,7 @@ main {
   align-items: center;
   font-size: 13px;
   line-height: 120%;
-  color: #9BA3AF;
+  color: #858C96;
 }
 .message-grid .message-box-bottom .message-options .translate {
   margin-right: 10px;
@@ -1541,7 +1541,7 @@ main {
   padding-top: 40px;
 }
 .account h3 {
-  color: #0A111D;
+  color: #070C14;
   font-size: 20px;
   padding-bottom: 30px;
   font-family: "CircularStd-Medium";
@@ -1553,7 +1553,7 @@ main {
   font-family: "CircularStd-Book";
   font-size: 16px;
   line-height: 120%;
-  color: #6A7280;
+  color: #525963;
   padding-bottom: 16px;
 }
 .account .divider {
@@ -1574,7 +1574,7 @@ main {
 }
 .account button.cancel {
   background: #E5E7EA;
-  color: #6A7280;
+  color: #525963;
   margin-right: 16px;
 }
 .account--left {
@@ -1606,7 +1606,7 @@ main {
   width: 191px;
   height: 40px;
   cursor: pointer;
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
@@ -1621,14 +1621,14 @@ main {
   font-family: "CircularStd-Medium";
   font-size: 14px;
   line-height: 20px;
-  color: #364150;
+  color: #28303B;
 }
 .account--card input, .account--card textarea {
   max-width: 332px;
   width: 100%;
   height: 40px;
   background: #FFFFFF;
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
@@ -1731,10 +1731,10 @@ main {
   margin-bottom: 16px;
 }
 .notifcations-section .notification-header h5 {
-  color: #0A111D;
+  color: #070C14;
 }
 .notifcations-section p.large {
-  color: #6A7280;
+  color: #525963;
 }
 .notifcations-section .content-background {
   border-bottom: 1px solid #E5E7EA;
@@ -1750,15 +1750,15 @@ main {
   margin-bottom: 24px;
 }
 .notifcations-section .content-block h6 {
-  color: #364150;
+  color: #28303B;
   line-height: 24px;
   font-weight: 400;
 }
 .notifcations-section .content-block p.large {
-  color: #364150;
+  color: #28303B;
 }
 .notifcations-section .content-block p.medium {
-  color: #6A7280;
+  color: #525963;
 }
 .notifcations-section .content-block .section-header {
   margin-bottom: 20px;
@@ -1774,7 +1774,7 @@ main {
   margin-bottom: 24px;
 }
 .notifcations-section .content-block input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   border-radius: 8px;
   accent-color: #EA281B;
   appearance: auto;
@@ -1798,7 +1798,7 @@ main {
 }
 .notifcations-section .btn-secondary {
   background: #E5E7EA;
-  color: #6A7280;
+  color: #525963;
 }
 .notifcations-section .btn-medium {
   padding: 8px 16px;
@@ -1816,12 +1816,12 @@ main {
   position: relative;
 }
 .onboarding h3 {
-  color: #0A111D;
+  color: #070C14;
   font-size: 31px;
   font-weight: 500;
 }
 .onboarding p {
-  color: #6A7280;
+  color: #525963;
   font-family: "CircularStd-Book";
   font-size: 16px;
   line-height: 120%;
@@ -1831,13 +1831,13 @@ main {
   color: #FF3520;
 }
 .onboarding label {
-  color: #364150;
+  color: #28303B;
   font-size: 14px;
 }
 .onboarding select, .onboarding input, .onboarding textarea {
   width: 100%;
   padding: 10.5px 14px;
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   margin-bottom: 16px;
   margin-top: 6px;
 }
@@ -1850,7 +1850,7 @@ main {
   margin-bottom: 6px;
 }
 .onboarding ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .onboarding .room-icons {
   margin-bottom: 16px;
@@ -1890,7 +1890,7 @@ main {
   margin-bottom: 6px;
 }
 .onboarding .room-name-wrapper input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 16px;
@@ -1898,7 +1898,7 @@ main {
   width: 100%;
 }
 .onboarding .room-name-wrapper ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .onboarding .invite-search {
   display: flex;
@@ -1908,7 +1908,7 @@ main {
   margin: 6px 0 24px;*/
 }
 .onboarding .invite-search input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   /*            padding: 10px 14px;*/
@@ -1918,7 +1918,7 @@ main {
   /*            width: 72%;*/
 }
 .onboarding .invite-search ::placeholder {
-  color: #6A7280;
+  color: #525963;
 }
 .onboarding .invite-search .search-member {
   display: flex;
@@ -1964,8 +1964,8 @@ main {
 }
 .onboarding .invite-users .user-wrapper .user-right .invited {
   background: #F3F5F6;
-  color: #6A7280;
-  border: 1px solid #6A7280;
+  color: #525963;
+  border: 1px solid #525963;
   border-radius: 16px;
   padding: 4px 6px;
 }
@@ -1979,24 +1979,24 @@ main {
   margin-bottom: 70px;
 }
 .onboarding .share-link p.small {
-  color: #6A7280;
+  color: #525963;
   margin-bottom: 6px;
 }
 .onboarding .share-link p.medium {
-  color: #364150;
+  color: #28303B;
   margin-bottom: 6px;
 }
 .onboarding .share-link .share-link-wrapper {
   position: relative;
 }
 .onboarding .share-link .share-link-wrapper > div {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
   width: 100%;
   font-family: "CircularStd-Book";
-  color: #6A7280;
+  color: #525963;
 }
 .onboarding .share-link .share-link-wrapper img {
   position: absolute;
@@ -2031,7 +2031,7 @@ main {
 .onboarding .bottom-nav .actions .steps .step-circle {
   width: 24px;
   height: 24px;
-  color: #D1D4DC;
+  color: #C7C9D1;
   padding: 0px;
   margin: 0px;
   margin-left: -2px;
@@ -2040,7 +2040,7 @@ main {
   width: 80px;
   border: 0px;
   height: 2px;
-  background: #D1D4DC;
+  background: #C7C9D1;
   padding: 0px;
   margin: 0px;
   margin-left: -2px;
@@ -2057,7 +2057,7 @@ main {
 }
 .onboarding button.skip {
   background: #E5E7EA;
-  color: #6A7280;
+  color: #525963;
   margin-right: 10px;
 }
 .onboarding button.next {
@@ -2141,7 +2141,7 @@ body {
 
 .btn-grey {
   background: #E5E7EA !important;
-  color: #6A7280;
+  color: #525963;
 }
 
 .btn-medium {
@@ -2279,7 +2279,7 @@ a:focus {
 }
 
 input:focus, select:focus, textarea:focus {
-  border: 1px solid #D1D4DC !important;
+  border: 1px solid #C7C9D1 !important;
   box-shadow: 0px 0px 0px 2px #ff9e70, 0px 1px 2px rgba(16, 24, 40, 0.05) !important;
 }
 
