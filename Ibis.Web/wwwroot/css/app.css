@@ -78,12 +78,6 @@
   font-weight: bold;
   line-height: 73px;
 }
-.landing .section-1 button {
-  /*background: $secondary;
-  border-radius: 4px;
-  padding: 12px 30px;
-  font-size: 20px;*/
-}
 .landing .card {
   border-radius: 8px;
   background: #FFFFFF;
@@ -545,12 +539,6 @@ main {
   margin-bottom: 6px;
 }
 .invite-block .create-room {
-  /*background: $primary-500;
-  border-radius: 8px;
-  padding: 8px 16px;
-  color: $white;
-  font-size: 16px;
-  line-height: 20px;*/
   position: absolute;
   right: 24px;
   bottom: 24px;
@@ -634,13 +622,6 @@ main {
   position: absolute;
   right: 0;
   top: 40px;
-}
-.login-display .login, .login-display button {
-  /*border: 2px solid $secondary-900;
-  color: $secondary-900;
-  font-size: 20px;
-  padding: 12px 30px;
-  border-radius: 4px;*/
 }
 
 .camera-grid {
@@ -873,13 +854,6 @@ main {
 .dashboard .actions .header .add {
   display: flex;
   align-items: center;
-  /*color: $white;
-  background: $primary-500;
-  border-radius: 8px;
-  padding: 8px 16px;
-  line-height: 20px;
-  font-weight: bold;
-  font-size: 16px;*/
 }
 .dashboard .actions .header .add i {
   margin-right: 8px;
