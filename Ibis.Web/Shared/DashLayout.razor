@@ -6,7 +6,7 @@
         <AuthorizeView>
             <Authorized>
                 <a href="rooms" class="nav-link">
-                    <img class="dash-icon" src="../icons/dashboard.svg"/>
+                    <img class="dash-icon" src="../icons/dashboard.svg" alt="Dashboard Menu Icon"/>
                 </a>
                 <div class="dropdown">
                     <div class="nav-link account-nav" @onclick="@(e => ShowMenu = !ShowMenu)">
@@ -14,13 +14,13 @@
                         {
                             @if(!string.IsNullOrEmpty(user.ProfileImg))
                             {
-                                <img src="@user.ProfileImg" class="profile"/>
+                                <img src="@user.ProfileImg" class="profile" alt="Profile Image"/>
                             } else
                             {
                                 <i class="material-icons profile">account_circle</i>   
                             }   
                         }
-                        <img src="../icons/down-arrow.png" class="arrow"/>
+                        <img src="../icons/down-arrow.png" class="arrow" alt="Down Arrow Icon"/>
                     </div>
                     @if(ShowMenu == true)
                     {
@@ -28,7 +28,7 @@
                         <div class="account-link" @onclick="GoTo">
                             @if(!string.IsNullOrEmpty(user.ProfileImg))
                             {
-                                <img src="@user.ProfileImg"/>
+                                <img src="@user.ProfileImg" alt="Profile Image"/>
                             } 
                             else {
                                 <i class="material-icons">account_circle</i>   
@@ -38,7 +38,7 @@
                         <ul>
                             <li><a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a></li>
                             <li>
-                                <button class="logout" @onclick="BeginLogout">
+                                <button class="btn-secondary-invert btn-large logout" @onclick="BeginLogout">
                                     Log Out
                                 </button>
                             </li>

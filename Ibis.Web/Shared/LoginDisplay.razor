@@ -1,12 +1,12 @@
 ﻿<div class="login-display">
     <AuthorizeView>
         <Authorized>
-            <button class="logout" @onclick="BeginLogout">
+            <button class="btn-secondary-invert btn-large logout" @onclick="BeginLogout">
                 Log Out
             </button>
         </Authorized>
         <NotAuthorized>
-            <a href="authentication/login" class="login">Get Started</a>
+            <a href="authentication/login" class="btn-secondary-invert btn-large login">Get Started</a>
         </NotAuthorized>
     </AuthorizeView>
 </div>

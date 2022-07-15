@@ -5,15 +5,18 @@
 	 <div class="actions">
          <div class="header">
              <h3>Your Rooms</h3>
-             <button class="add" @onclick="ShowRoomModal">
+             <button class="btn-primary btn-medium add" @onclick="ShowRoomModal">
                  <i class="material-icons">add</i>Create New Room
             </button>
             <Tooltip Text="Start your first room!"/>
          </div>
          <div class="search-wrapper">
              <div class="searchbar">
-                 <input placeholder="Search rooms" @onchange="@SearchRooms"/>
-                 <a class="search"><img src="/icons/Search.svg" /></a>
+                 <label>
+                    <input placeholder="Search rooms" @onchange="@SearchRooms"/>
+                    <a class="search"><img src="/icons/Search.svg" alt="Search Icon" /></a>
+                 </label>
+                 
              </div>
              <div class="grid-wrapper">
                  <div class="selected @(listView != "" ? "selected-left" : null)"></div>
@@ -37,13 +40,13 @@
                 <div class="room-card" @onclick="@(e => GoToRoom(room.RoomId))">
                     <div class="top-bar">
                         <div class="room-icon">
-                            <img src="/icons/Room-Icon.svg" />
+                            <img src="/icons/Room-Icon.svg" alt="Room Icon" />
                         </div>
                         <div class="option-icons" @onclick:stopPropagation="true">
                             <input type="hidden" id="@room.RoomId" value="@("https://www.ibis.com/" + room.RoomId)" />
-                            <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))"/>
+                            <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(room.RoomId))" alt="Attachment Icon"/>
                             <span id="copy-@room.RoomId"></span>
-                            <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"/>
+                            <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))" alt="More Options Icon"/>
                         </div>
                         <div class="dropdown" id="@("dropdown-"+room.RoomId)" @onclick:stopPropagation="true">
                             <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(room.RoomId))"></div>
@@ -66,7 +69,7 @@
                     {
                         @if(member.ProfileImg != null)
                         {
-                            <img src="@member.ProfileImg" />
+                            <img src="@member.ProfileImg" alt="Member Image"/>
                         } 
                         else {
                             <i class="material-icons">account_circle</i>   

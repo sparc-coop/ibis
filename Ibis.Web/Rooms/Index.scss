@@ -21,13 +21,6 @@
             .add {
                 display: flex;
                 align-items: center;
-                color: $white;
-                background: $primary-500;
-                border-radius: 8px;
-                padding: 8px 16px;
-                line-height: 20px;
-                font-weight: bold;
-                font-size: 16px;
 
                 i {
                     margin-right: 8px;
@@ -86,6 +79,11 @@
                     padding: 8px 12px;
                     cursor: pointer;
                     z-index: 2;
+                }
+
+                .grid:focus, .list:focus {
+                    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05), 0px 0px 0px 2px #C7C9D1;
+                    border-radius: 8px;
                 }
 
                 .selected {
