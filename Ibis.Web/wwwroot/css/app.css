@@ -1277,6 +1277,155 @@ main {
   color: red;
 }
 
+.timeline-bg {
+  background: #FFFFFF;
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.06)) drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.04));
+  border-radius: 8px;
+}
+.timeline-bg .timeline {
+  padding: 26px 16px 20px 16px;
+}
+.timeline-bg .timeline .timeline-bar {
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  z-index: 1;
+}
+.timeline-bg .timeline .timeline-bar svg {
+  pointer-events: none;
+  fill: #5696BE;
+  width: 100%;
+  border-radius: 2px;
+}
+.timeline-bg .timeline .timeline-bar .timeline-cover {
+  background: #FFFFFF;
+  height: 10px;
+  overflow: hidden;
+  mix-blend-mode: color;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 2px;
+  width: 37%;
+}
+.timeline-bg .timeline .timeline-bar .sub-timeline-bar {
+  top: 6px;
+  color: #AACAE1;
+  border-radius: 2px;
+  position: absolute;
+}
+.timeline-bg .timeline .timeline-bar #sub-timeline-1 {
+  width: 127%;
+}
+.timeline-bg .timeline .timeline-bar #sub-timeline-2 {
+  width: 39%;
+}
+.timeline-bg .timeline .timeline-bar .time-start, .timeline-bg .timeline .timeline-bar .time-current, .timeline-bg .timeline .timeline-bar .time-end {
+  position: absolute;
+  bottom: 6px;
+  color: #9BA3AF;
+}
+.timeline-bg .timeline .timeline-bar .time-start {
+  left: 0px;
+}
+.timeline-bg .timeline .timeline-bar .time-current {
+  color: #003B5F;
+  font-weight: 500;
+  right: calc(36% - 2px);
+}
+.timeline-bg .timeline .timeline-bar .time-end {
+  right: 0px;
+}
+.timeline-bg .bg-divider {
+  width: 1px;
+  height: 50px;
+  background: #F3F5F6;
+  position: absolute;
+}
+.timeline-bg .percent-5 {
+  left: 5%;
+  top: 0;
+}
+.timeline-bg .percent-10 {
+  left: 10%;
+  top: 0;
+}
+.timeline-bg .percent-15 {
+  left: 15%;
+  top: 0;
+}
+.timeline-bg .percent-20 {
+  left: 20%;
+  top: 0;
+}
+.timeline-bg .percent-25 {
+  left: 25%;
+  top: 0;
+}
+.timeline-bg .percent-30 {
+  left: 30%;
+  top: 0;
+}
+.timeline-bg .percent-35 {
+  left: 35%;
+  top: 0;
+}
+.timeline-bg .percent-40 {
+  left: 40%;
+  top: 0;
+}
+.timeline-bg .percent-45 {
+  left: 45%;
+  top: 0;
+}
+.timeline-bg .percent-50 {
+  left: 50%;
+  top: 0;
+}
+.timeline-bg .percent-55 {
+  left: 55%;
+  top: 0;
+}
+.timeline-bg .percent-60 {
+  left: 60%;
+  top: 0;
+}
+.timeline-bg .percent-65 {
+  left: 65%;
+  top: 0;
+}
+.timeline-bg .percent-70 {
+  left: 70%;
+  top: 0;
+}
+.timeline-bg .percent-75 {
+  left: 75%;
+  top: 0;
+}
+.timeline-bg .percent-80 {
+  left: 80%;
+  top: 0;
+}
+.timeline-bg .percent-85 {
+  left: 85%;
+  top: 0;
+}
+.timeline-bg .percent-90 {
+  left: 90%;
+  top: 0;
+}
+.timeline-bg .percent-95 {
+  left: 95%;
+  top: 0;
+}
+.timeline-bg .percent-100 {
+  left: 100%;
+  top: 0;
+}
+
 .message-grid {
   background: #FFFFFF;
   padding: 0 16px 185px 16px;
