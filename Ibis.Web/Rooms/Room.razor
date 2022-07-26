@@ -10,7 +10,7 @@
             <h2>
                 @RoomInfo.Name
                 <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
-                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))" title="Share Link"/>
+                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))" title="Share Link" alt="Attachment Icon"/>
                 <span>@CopyConfirm</span>
             </h2>
             <InviteUser RoomId="@RoomInfo.RoomId" />           
@@ -29,8 +29,10 @@
             </div>
 
             <div class="message-box">
-                <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
-                <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
+                <label>
+                    <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
+                    <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" alt="Send Icon" /></button>
+                </label>
             </div>
             <div class="message-box-bottom">
                 <div class="message-options">
@@ -47,7 +49,7 @@
                         </button>
                     }
                     <div class="translate">
-                        <img src="icons/Translate.svg" />
+                        <img src="icons/Translate.svg" alt="Translate Icon" />
                         <p>Auto Translate</p>
                     </div>
                     @*Make Text Dark Blue When checked*@

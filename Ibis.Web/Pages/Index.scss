@@ -63,6 +63,14 @@
         }
     }
 
+    .btn-primary:hover {
+        background: $primary-500;
+    }
+
+    .btn-secondary:hover {
+        background: $grey-200;
+    }
+
     .section-1 {
         background: $tertiary;
         display: flex;
@@ -88,13 +96,6 @@
             font-size: 60px;
             font-weight: bold;
             line-height: 73px;
-        }
-
-        button {
-            background: $secondary;
-            border-radius: 4px;
-            padding: 12px 30px;
-            font-size: 20px;
         }
     }
 
@@ -172,10 +173,10 @@
         }
 
         button {
-            background: $secondary;
+            /*background: $secondary;
             border-radius: 4px;
             padding: 16px 40px;
-            font-size: 20px;
+            font-size: 20px;*/
         }
     }
 
@@ -203,10 +204,10 @@
             position: absolute;
             top: 84px;
             right: 110px;
-            background: $secondary;
+            /*background: $secondary;
             border-radius: 4px;
             padding: 16px 40px;
-            font-size: 20px;
+            font-size: 20px;*/
         }
     }
 }

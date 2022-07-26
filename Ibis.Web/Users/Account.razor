@@ -32,19 +32,19 @@
 					</div>
 				</div>
 				<div class="email">
-					<img src="/icons/email.png"/>
+					<img src="/icons/email.png" alt="Email Icon"/>
 					<label>Email address</label>
 					<input @bind="User.Email"/>
 				</div>
 				<div class="photo-upload">
 					@if(User.ProfileImg != null)
 					{
-						<img src="@User.ProfileImg" />
+						<img src="@User.ProfileImg" alt="Profile Image" />
 					} else {
 						<i class="material-icons">account_circle</i>  
 					}
 					<InputFile OnChange="OnInputFileChange" />
-					<img class="upload-icon" src="/icons/upload.png" />
+					<img class="upload-icon" src="/icons/upload.png" alt="Cloud Upload Icon" />
 					<p>
 						<span>Click to upload</span> or drag and drop
 						<br/>
