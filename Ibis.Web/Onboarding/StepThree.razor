@@ -82,7 +82,7 @@
 </div>
 
 @code {
-    private GetUserResponse User;
+    private GetUserResponse? User;
     public string Name = "";
     string CopyConfirm = "";
 
@@ -90,7 +90,7 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        if(user.Identity.IsAuthenticated)
+        if(user.Identity!.IsAuthenticated)
         {
             User = await Api.GetUserAsync();
         }
@@ -103,7 +103,7 @@
     }
 
     
-    async void GoTo(string page)
+    void GoTo(string page)
     {
         Nav.NavigateTo($"/{page}", true);    
     }

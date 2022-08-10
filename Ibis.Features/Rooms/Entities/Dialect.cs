@@ -8,7 +8,12 @@ public class Dialect
     public List<Voice> Voices { get; private set; }
 
     private Dialect()
-    { }
+    {
+        Language = "";
+        Locale = "";
+        LocaleName = "";
+        Voices = new();
+    }
 
     public Dialect(string language, string locale, string localeName, List<Voice>? voices = null)
     {

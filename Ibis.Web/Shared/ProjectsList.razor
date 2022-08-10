@@ -19,13 +19,11 @@ else
 @using Ibis.Features
 
 @code {
-    private int currentCount = 0;
-
     [Parameter]
     public int InitialValue { get; set; }
 
     [Parameter]
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
     public bool IsLoading { get; set; } = true;
 
@@ -36,15 +34,15 @@ else
         //currentCount = InitialValue;
     }
 
-    private ICollection<ProjectsList> Projects { get; set; }
+    private ICollection<ProjectsList> Projects { get; set; } = new List<ProjectsList>();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
         //Projects = await PublicApi().GetProjectsAsync(UserId);
         //IsLoading = false;
         //StateHasChanged();
         //base.OnAfterRender(firstRender);
-    }
+    //}
 
     void gotoProject(string projectId)
     {

@@ -3,7 +3,10 @@
 public class Translation
 {
     private Translation()
-    { }
+    {
+        Language = "";
+        Text = "";
+    }
 
     public Translation(string language, string text)
     {

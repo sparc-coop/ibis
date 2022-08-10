@@ -29,17 +29,17 @@
 </div>
 
 @code {
-	private GetUserResponse User;
+	GetUserResponse? User;
 	public string FirstName = "First Name";
 	public string LastName = "Last Name";
-	private string Email = "Email";
+	// private string? Email;
 	bool userPayment = false;
 
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
+		if(user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
 
@@ -52,12 +52,12 @@
 	}
 
 	
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
+	//protected override Task OnAfterRenderAsync(bool firstRender)
+	//{
 		//string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
 		//if (clientSecret != "current-customer") {
 		//    userPayment = true;
 		//    await JS.InvokeAsync<string>("setPayment", clientSecret);
 		//}
-	}
+	//}
 }

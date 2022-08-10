@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Features;
 public class User : Root<string>
 {
     public User()
@@ -12,7 +12,6 @@ public class User : Root<string>
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
-        Color = SetColor();
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -49,10 +48,11 @@ public class User : Root<string>
     public string Initials => $"{FirstName?[0]}{LastName?[0]}";
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
-    public string CustomerId { get; set; }
-    public string? Pronouns { get; set; }
-    public string? Description { get; set; }
-    public string ProfileImg { get; set; }
+    public string? CustomerId { get; set; }
+    public string? ProfileImg { get; internal set; }
+    public string? Pronouns { get; internal set; }
+    public string? Description { get; internal set; }
+    public string? Color { get; internal set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
     {
@@ -66,23 +66,6 @@ public class User : Root<string>
     public string PrimaryLanguageId { get; set; }
     public List<Language> LanguagesSpoken { get; set; }
     public List<ActiveRoom> ActiveRooms { get; set; }
-    public string? Color { get; set; }
-    public string SetColor()
-    {
-        var hash = 0;
-        int s = 50;
-        int l = 65;
-
-        if (Initials != null)
-            for (var i = 0; i < Initials.Length; i++)
-            {
-                hash = Initials.ToCharArray().Sum(x => x) % 100 + ((hash << 5) - hash);
-            }
-
-        var h = hash % 360;
-        return "hsl(" + h + ", " + s + "%, " + l + "%)";
-    }
-    public bool? Onboarded { get; set; }
 }
 
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);

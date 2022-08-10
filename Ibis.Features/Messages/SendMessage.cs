@@ -31,20 +31,22 @@ public class SendMessage : Feature<SendMessageRequest, Message>
     public override async Task<Message> ExecuteAsync(SendMessageRequest request)
     {
         var user = await Users.FindAsync(User.Id());
-        Message message;
-        Room room;
+        Message? message;
+        Room? room;
 
         // Message from text input
         if (request.MessageId == null)
         {
-            message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user.FullName, user.Initials);
-            message.UserName = user.FullName;
-            message.SetText(request.Message);
+            message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Text, user!.FullName, user.Initials)
+            {
+                UserName = user.FullName
+            };
+            message.SetText(request.Message!);
             message.Color = user.Color;
 
             // Translate and Speak
             room = await Rooms.FindAsync(request.RoomId);
-            room.LastActiveDate = DateTime.UtcNow;
+            room!.LastActiveDate = DateTime.UtcNow;
             await IbisEngine.TranslateAsync(message, room!.Languages);
             await IbisEngine.SpeakAsync(message);
             await Messages.AddAsync(message);
@@ -53,11 +55,11 @@ public class SendMessage : Feature<SendMessageRequest, Message>
         else if (request.MessageId != null && request.SourceType == SourceTypes.Microphone && request.ModifiedMessage == null)
         {
             message = await Messages.FindAsync(request.MessageId);
-            message.SetModifiedText(request.ModifiedMessage);
+            message!.SetModifiedText(request.ModifiedMessage);
 
             // Translate, Speak is Audio from Upload
             room = await Rooms.FindAsync(request.RoomId);
-            room.LastActiveDate = DateTime.UtcNow;
+            room!.LastActiveDate = DateTime.UtcNow;
             await IbisEngine.TranslateAsync(message, room!.Languages);
             await Messages.UpdateAsync(message);
         }
@@ -65,11 +67,11 @@ public class SendMessage : Feature<SendMessageRequest, Message>
         else if (request.MessageId != null && request.SourceType == SourceTypes.Microphone && request.ModifiedMessage != null)
         {
             message = await Messages.FindAsync(request.MessageId);
-            message.SetModifiedText(request.ModifiedMessage);
+            message!.SetModifiedText(request.ModifiedMessage);
 
             // Translate modified message and speak
             room = await Rooms.FindAsync(request.RoomId);
-            room.LastActiveDate = DateTime.UtcNow;
+            room!.LastActiveDate = DateTime.UtcNow;
             await IbisEngine.TranslateAsync(message, room!.Languages);
             await IbisEngine.SpeakAsync(message);
             await Messages.UpdateAsync(message);
@@ -78,11 +80,11 @@ public class SendMessage : Feature<SendMessageRequest, Message>
         else if (request.MessageId != null && request.SourceType == SourceTypes.Upload && request.ModifiedMessage == null)
         {
             message = await Messages.FindAsync(request.MessageId);
-            message.SetModifiedText(request.ModifiedMessage);
+            message!.SetModifiedText(request.ModifiedMessage);
 
             // Translate, Speak is Audio from Upload
             room = await Rooms.FindAsync(request.RoomId);
-            room.LastActiveDate = DateTime.UtcNow;
+            room!.LastActiveDate = DateTime.UtcNow;
             //await IbisEngine.UploadAudioToStorage(message, request.Bytes);
             await IbisEngine.SpeakAsync(message);
             await IbisEngine.TranslateAsync(message, room!.Languages);
@@ -91,12 +93,12 @@ public class SendMessage : Feature<SendMessageRequest, Message>
         // Message from Upload AND modified
         else
         {
-            message = await Messages.FindAsync(request.MessageId);
-            message.SetModifiedText(request.ModifiedMessage);
+            message = await Messages.FindAsync(request.MessageId!);
+            message!.SetModifiedText(request.ModifiedMessage);
 
             // Translate modified message and speak
             room = await Rooms.FindAsync(request.RoomId);
-            room.LastActiveDate = DateTime.UtcNow;
+            room!.LastActiveDate = DateTime.UtcNow;
             //await IbisEngine.UploadAudioToStorage(message, request.Bytes);
             await IbisEngine.SpeakAsync(message);
             await IbisEngine.TranslateAsync(message, room!.Languages);

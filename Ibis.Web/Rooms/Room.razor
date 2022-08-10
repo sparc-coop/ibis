@@ -34,7 +34,7 @@
             </div>
             <div class="message-box-bottom">
                 <div class="message-options">
-                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload"  title="Upload file">
+                    <button @onclick="ShowUploadModal" class="select-upload"  title="Upload file">
                         <i class="material-icons">cloud_upload</i>
                     </button>
                     @if (Messages.Count > 0)
@@ -59,7 +59,7 @@
                         </label>
                         <p>Voice</p>
                     </div>*@
-                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak" title="Speech to text">
+                    <button @onclick="ShowSpeakModal" aria-label="Speak" title="Speech to text">
                         <i class="material-icons">keyboard_voice</i>
                     </button>
                     @*Make Text Dark Blue When checked*@
@@ -117,7 +117,7 @@
                         <select id="switch-dialect" @onchange="SwitchDialect">
                             @foreach (var item in Dialects)
                             {
-                                if (item.Locale == Dialect.Locale)
+                                if (item.Locale == Dialect!.Locale)
                                 {
                                     <option value="@item.Locale" selected>@item.LocaleName</option>
                                 }
@@ -135,7 +135,7 @@
                             <select id="switch-voice" @onchange="SwitchVoice">
                                 @foreach (var item in Voices)
                                 {
-                                    if (item.ShortName == Voice.ShortName)
+                                    if (item.ShortName == Voice!.ShortName)
                                     {
                                         <option value="@item.ShortName" selected>@item.DisplayName (@item.Gender.Substring(0, 1))</option>
                                     }
@@ -159,7 +159,7 @@
 @using Microsoft.AspNetCore.SignalR.Client
 
 @code {
-    [Parameter] public string? Id { get; set; }
+    [Parameter] public string Id { get; set; } = "";
     [Parameter]
     [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
     string? Text;
@@ -168,11 +168,10 @@
     RoomUsersResponse userlist = new();
 
 
-    HubConnection Connection { get; set; }
+    HubConnection? Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
-    bool ToggleEdit = false;
 
-    GetLanguageListResponse LanguageList;
+    GetLanguageListResponse? LanguageList;
     List<Dialect>? Dialects = new();
     List<Voice>? Voices = new();
     Dialect? Dialect;
@@ -245,31 +244,31 @@
         StateHasChanged();
     }
 
-    void ShowUploadModal(string roomId, string language)
+    void ShowUploadModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(Upload.RoomId), roomId);
-        parameters.Add(nameof(Upload.Language), language);
+        parameters.Add(nameof(Upload.RoomId), Id);
+        parameters.Add(nameof(Upload.Language), Language);
         Modal.Show<Upload>("Upload", parameters);
     }
 
-    void ShowSpeakModal(string conversationId, string language)
+    void ShowSpeakModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(Speak.RoomId), conversationId);
-        parameters.Add(nameof(Speak.Language), language);
+        parameters.Add(nameof(Speak.RoomId), Id);
+        parameters.Add(nameof(Speak.Language), Language);
         parameters.Add(nameof(Speak.SourceType), SourceTypes._4);
         Modal.Show<Speak>("Send a voice message...", parameters);
     }
 
-    async Task Call()
-    {
+    //async Task Call()
+    //{
 
-    }
-    async Task Sms()
-    {
+    //}
+    //async Task Sms()
+    //{
 
-    }
+    //}
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
@@ -279,7 +278,7 @@
 
     async Task SendText()
     {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomInfo.RoomId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
+        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomInfo!.RoomId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
         AddMessage(newMessage);
         Text = null;
         StateHasChanged();
@@ -300,7 +299,7 @@
         byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
         Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = GetFileName(RoomInfo?.Name);
+        var fileName = GetFileName(RoomInfo!.Name);
         Console.WriteLine("test1" + fileName);
         using var streamRef = new DotNetStreamReference(stream: fileStream);
         await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
@@ -314,9 +313,9 @@
             mergeFiles.Add(message.AudioId);
         }
 
-        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest { Files = mergeFiles, RoomId = RoomInfo.RoomId, Language = "en" });
+        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest { Files = mergeFiles, RoomId = RoomInfo!.RoomId, Language = "en" });
         Console.WriteLine(filePath);
-        var fileName = GetFileName(RoomInfo?.Name);
+        var fileName = GetFileName(RoomInfo!.Name);
         await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
     }
 
@@ -363,40 +362,38 @@
 
     async void UpdateName()
     {
-        ToggleEdit = false;
-        await Connection.SendAsync("UpdateRoom", RoomInfo);
+        await Connection!.SendAsync("UpdateRoom", RoomInfo);
     }
 
     async Task SwitchLanguage(ChangeEventArgs e)
     {
-        Language = e.Value.ToString();
-        var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
+        Language = e.Value!.ToString();
+        var LanguagePair = LanguageList!.Languages.Where(x => x.Key == Language);
         var LanguageItem = LanguagePair.First(x => x.Key == Language);
         Dialects = LanguageItem.Value.Dialects.ToList();
         Dialect = Dialects.Find(x => x.Locale == LanguageItem.Value.Name);
-        Voices = Dialect.Voices.ToList();
+        Voices = Dialect!.Voices.ToList();
         Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
-        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
+        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo!.RoomId, Language = Language });
         Messages = response.ToList();
         StateHasChanged();
     }
 
     void SwitchDialect(ChangeEventArgs e)
     {
-        //Dialect = Dialects.Where(x => x.Locale == e.Value.ToString());
-        Dialect = Dialects.Find(x => x.Locale == e.Value.ToString());
-        Voices = Dialect.Voices.ToList();
+        Dialect = Dialects!.Find(x => x.Locale == e.Value!.ToString());
+        Voices = Dialect!.Voices.ToList();
     }
 
     void SwitchVoice(ChangeEventArgs e)
     {
-        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
+        Voice = Voices!.Find(x => x.ShortName == e.Value!.ToString());
     }
     
     async Task DownloadBRF()
     {
 
-        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { RoomId = RoomInfo.RoomId });
+        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { RoomId = RoomInfo!.RoomId });
 
 
         StringBuilder builder = new StringBuilder();

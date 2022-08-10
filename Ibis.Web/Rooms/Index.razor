@@ -79,12 +79,10 @@
 
 
 @code {
-    ICollection<GetRoomResponse>? Rooms;
+    ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
-    string showDropdown = "";
-    GetUserResponse user;
-    string CopyConfirm = "";
+    GetUserResponse? user;
 
     protected override async Task OnInitializedAsync()
     {
@@ -135,7 +133,7 @@
 
         if(result.Cancelled)
         {
-            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            Rooms = await Api.GetUserRoomsAsync(user!.Id);
             await JS.InvokeVoidAsync("toggleRoomDropdown", room);
         }
     }
@@ -150,21 +148,21 @@
         var result = await editModal.Result;
         if(result.Cancelled)
         {
-            Rooms = await Api.GetUserRoomsAsync(user.Id);
+            Rooms = await Api.GetUserRoomsAsync(user!.Id);
             await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
         }
     }
 
     void SearchRooms(ChangeEventArgs search)
     {
-        string searchTerm = search.Value.ToString().ToLower();
+        string searchTerm = search.Value!.ToString()!.ToLower();
 
         if (searchTerm.Length >= 3)
         {
             Rooms = Rooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
         } else if (string.IsNullOrEmpty(searchTerm))
         {
-            Rooms = OriginalList;
+            Rooms = OriginalList!;
         }
     }
 }

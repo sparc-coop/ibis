@@ -2077,17 +2077,25 @@
             "type": "string",
             "nullable": true
           },
+          "profileImg": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "pronouns": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "description": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
-          "profileImg": {
+          "color": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "primaryLanguageId": {
             "type": "string",
@@ -2105,14 +2113,6 @@
             "items": {
               "$ref": "#/components/schemas/ActiveRoom"
             },
-            "nullable": true
-          },
-          "color": {
-            "type": "string",
-            "nullable": true
-          },
-          "onboarded": {
-            "type": "boolean",
             "nullable": true
           }
         },

@@ -12,7 +12,10 @@ public class UpdateRoomOptions : Feature<RoomOptionsRequest, bool>
 
     public override async Task<bool> ExecuteAsync(RoomOptionsRequest request)
     {
-        Room room = await Rooms.FindAsync(request.roomId);
+        var room = await Rooms.FindAsync(request.roomId);
+        if (room == null)
+            return false;
+
         room.Name = request.Title;
         await Rooms.UpdateAsync(room);
         return true;

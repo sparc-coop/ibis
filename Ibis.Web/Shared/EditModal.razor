@@ -12,14 +12,10 @@
 
 
 @code {
-    [Parameter] 
-    public string RoomId { get; set; }
-    [Parameter]
-    public string Title { get; set; }
-    [Parameter]
-    public EventCallback<string> OnTitleChanged { get; set; }
-    [CascadingParameter] 
-    BlazoredModalInstance ModalInstance { get; set; } = default!;
+    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public EventCallback<string> OnTitleChanged { get; set; }
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
 
     async void UpdateRoom()

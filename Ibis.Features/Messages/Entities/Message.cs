@@ -44,7 +44,7 @@ public class Message : Root<string>
     }
 
     public void SetText(string text) => Text = text;
-    public void SetModifiedText(string text) => ModifiedText = text;
+    public void SetModifiedText(string? text) => ModifiedText = text;
     public void SetAudio(string audioId) => AudioId = audioId;
     public void SetModifiedAudio(string audioId) => ModifiedAudioId = audioId;
     public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;

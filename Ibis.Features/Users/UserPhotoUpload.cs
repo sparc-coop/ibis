@@ -14,16 +14,17 @@ public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
     public IRepository<User> Users { get; }
     public override async Task<string> ExecuteAsync(UploadUserPhotoRequest request)
     {
-        try
+		try
 		{
 			string fileUrl = await IbisEngine.UploadPhotoToStorage(request.UserId, request.FileName, request.Bytes);
 			var user = await Users.FindAsync(User.Id());
-			user.ProfileImg = fileUrl;
+			user!.ProfileImg = fileUrl;
 			await Users.UpdateAsync(user);
 
 			return JsonConvert.SerializeObject(fileUrl);
 
-		} catch(Exception ex)
+		}
+		catch (Exception)
 		{
             return "";
 		}

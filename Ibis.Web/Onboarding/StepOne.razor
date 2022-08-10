@@ -60,7 +60,7 @@
 </div>
 
 @code {
-    private GetUserResponse User;
+    private GetUserResponse? User;
     public string FirstName = "";
     public string LastName = "";
     public string Description = "";
@@ -71,7 +71,7 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        if(user.Identity.IsAuthenticated)
+        if(user.Identity!.IsAuthenticated)
         {
             User = await Api.GetUserAsync();
         } 
@@ -83,5 +83,5 @@
         Nav.NavigateTo($"/{page}", true);    
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, FullName = FirstName + " " + LastName, LanguageId = "", Pronouns = Pronouns, Description = Description });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, FullName = FirstName + " " + LastName, LanguageId = "", Pronouns = Pronouns, Description = Description });
 }

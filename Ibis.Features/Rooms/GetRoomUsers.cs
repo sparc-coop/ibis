@@ -16,17 +16,22 @@ public class GetRoomUsers : Feature<string, RoomUsersResponse>
     public override async Task<RoomUsersResponse> ExecuteAsync(string roomId)
     {
         var room = await Rooms.FindAsync(roomId);
+        if (room == null)
+            throw new NotFoundException("Room not found!");
+
+
         var userList = new List<RoomUser>();
         foreach(var item in room.ActiveUsers)
         {
-            User user = await Users.FindAsync(item.UserId);
-            userList.Add(new(user.FullName != null ? user.FullName : "", user.Initials, user.Email));
+            var user = await Users.FindAsync(item.UserId);
+            if (user != null)
+                userList.Add(new(user.FullName ?? "", user.Initials, user.Email ?? ""));
         }
         if(room.PendingUsers != null)
 		{
             foreach (var pendingUser in room.PendingUsers)
             {
-                userList.Add(new(null, null, pendingUser));
+                userList.Add(new("", "", pendingUser));
             }
         }
 

@@ -14,7 +14,7 @@
 </div>
 
 @code {
-	private GetUserResponse User;
+	private GetUserResponse? User;
 	public string FirstName = "First Name";
 	public string LastName = "Last Name";
 
@@ -22,7 +22,7 @@
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
+		if(user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
 

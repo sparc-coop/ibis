@@ -10,14 +10,12 @@
 
 
 @code {
-    [Parameter] 
-    public string RoomId { get; set; }
-    [CascadingParameter] 
-    BlazoredModalInstance ModalInstance { get; set; } = default!;
+    [Parameter] public string? RoomId { get; set; }
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     async void DeleteRoom()
     {
-        await Api.RemoveRoomAsync(RoomId);
+        await Api.RemoveRoomAsync(RoomId!);
         await ModalInstance.CancelAsync();
     }
 

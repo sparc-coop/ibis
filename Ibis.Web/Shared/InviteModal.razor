@@ -58,23 +58,24 @@
 
 @code {
     bool Sent = false;
-    string InviteEmail;
-    RoomUsersResponse Group;
+    string? InviteEmail;
+    RoomUsersResponse? Group;
     List<string> NewEmails = new List<string>();
 
-    [Parameter] 
-    public string RoomId { get; set; }
-    [CascadingParameter] 
-    BlazoredModalInstance ModalInstance { get; set; } = default!;
+    [Parameter] public string? RoomId { get; set; }
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
     string CopyConfirm = "";
 
     protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
     async Task SendInvite()
     {
-        NewEmails.Add(InviteEmail);
-        InviteEmail = "";
-        Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
+        if (!string.IsNullOrWhiteSpace(InviteEmail))
+        {
+            NewEmails.Add(InviteEmail);
+            InviteEmail = "";
+            Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
+        }
     }
 
     async Task CopyLink()

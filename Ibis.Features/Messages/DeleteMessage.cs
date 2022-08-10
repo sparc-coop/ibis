@@ -15,7 +15,10 @@ public class DeleteMessage : Feature<DeleteMessageRequest, Room>
     public override async Task<Room> ExecuteAsync(DeleteMessageRequest request)
     {
         var message = await Messages.FindAsync(request.MessageId);
-        await Messages.DeleteAsync(message);
-        return await Rooms.FindAsync(request.RoomId);
+        if (message != null)
+            await Messages.DeleteAsync(message);
+        
+        var room = await Rooms.FindAsync(request.RoomId);
+        return room!;
     }
 }

@@ -10,7 +10,15 @@ public class Voice
     public string VoiceType { get; private set; }
 
     private Voice()
-    { }
+    {
+        Locale = "";
+        Name = "";
+        DisplayName = "";
+        LocaleName = "";
+        ShortName = "";
+        Gender = "";
+        VoiceType = "";
+    }
 
     public Voice(string locale, string name, string displayName, string localeName, string shortName, string gender, string voiceType)
     {

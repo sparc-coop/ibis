@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record GetUserResponse(string Id, string FullName, string Email, string Language, string ProfileImg, string Pronouns, string Description);
+public record GetUserResponse(string Id, string FullName, string? Email, string Language, string? ProfileImg, string? Pronouns, string? Description);
 public class GetUser : Feature<GetUserResponse>
 {
     public IRepository<User> Users { get; }

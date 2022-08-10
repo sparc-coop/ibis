@@ -13,7 +13,6 @@ namespace Ibis.Features._Plugins
         HttpClient Synthesizer { get; set; }
         string SpeechApiKey { get; set; }
         public IRepository<File> Files { get; }
-        public IRepository<Message> Messages { get; }
 
         public IbisEngine(IConfiguration configuration, IRepository<File> files)
         {
@@ -315,17 +314,17 @@ namespace Ibis.Features._Plugins
     {
         var response = await Translator.GetAsync("/languages?api-version=3.0&scope=translation");
         var result = await UnJsonify<LanguageTest>(response);
-        return result.translation.ToList();
+        return result!.translation.ToList();
     }
 
     public async Task<List<Voice>> GetAllVoices()
     {
         var response = await Synthesizer.GetAsync("/cognitiveservices/voices/list");
         var result = await UnJsonify<List<Voice>>(response);
-        return result.ToList();
+        return result!.ToList();
     }
 
-    private async Task<T> Post<T>(string url, object model)
+    private async Task<T?> Post<T>(string url, object model)
     {
         var response = await Translator.PostAsync(url, Jsonify(model));
         return await UnJsonify<T>(response);
@@ -337,7 +336,7 @@ namespace Ibis.Features._Plugins
         return new StringContent(json, Encoding.UTF8, "application/json");
     }
 
-    private async Task<T> UnJsonify<T>(HttpResponseMessage response)
+    private async Task<T?> UnJsonify<T>(HttpResponseMessage response)
     {
         var result = await response.Content.ReadAsStringAsync();
         try

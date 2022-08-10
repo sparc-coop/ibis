@@ -48,12 +48,14 @@
             Text = newMessage.Text;
             newMessage.ModifiedText = Text;
             Message = newMessage;
-            ShowConfirmOrEditTextModal(RoomId, Language, Message, Message.Text, Message.SourceType, null);
+            ShowConfirmOrEditTextModal(RoomId!, Language!, Message, Message.Text, Message.SourceType, null);
+            if (newMessage.Text == null || newMessage.Text.Length == 0)
+            {
+                await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = newMessage.Id });
+            }
         }
-        if (newMessage.Text == null || newMessage.Text.Length == 0) {
-            await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = newMessage.Id });
-        }
-        ModalInstance.CloseAsync(ModalResult.Ok(true));
+        
+        await ModalInstance.CloseAsync(ModalResult.Ok(true));
     }
 
     void ShowConfirmOrEditTextModal(string roomId, string language, Message message, string text, SourceTypes sourceType, byte[]? bytes)

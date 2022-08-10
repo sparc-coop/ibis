@@ -22,7 +22,7 @@ public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
         try
         {
             var user = await Users.FindAsync(User.Id());
-            var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, user.FullName, user.Initials);
+            var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Upload, user!.FullName, user.Initials);
             var room = await Rooms.FindAsync(request.RoomId);
 
             var subroom = new Room(room!, message);
@@ -50,16 +50,16 @@ public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
             {
                 //video file upload
                 //get audio from video file
-                string url = await IbisEngine.UploadVideoToStorage(room.Id, request.FileName, request.Bytes);
+                string url = await IbisEngine.UploadVideoToStorage(room!.Id, request.FileName, request.Bytes);
                 message.SetVideo(url);
                 await Messages.UpdateAsync(message);
             }
 
             return messages;
-        } catch(Exception ex)
+        }
+        catch (Exception)
         {
-            var message = ex.Message;
-            return null;
+            return new();
         }
     }
 }

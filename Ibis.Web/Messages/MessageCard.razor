@@ -25,9 +25,9 @@
 @inject IJSRuntime JS
 
 @code {
-    [Parameter] public Message Message { get; set; }
-    [Parameter] public string Language { get; set; }
-    [Parameter] public string Type { get; set; }
+    [Parameter] public Message Message { get; set; } = new();
+    [Parameter] public string Language { get; set; } = "";
+    [Parameter] public string Type { get; set; } = "";
     string? MessageText;
     string? MessageAudio;
 
@@ -62,7 +62,7 @@
         await JS.InvokeVoidAsync("playAudio", id);
     }
 
-    async Task GoToSubroom()
+    void GoToSubroom()
     {
         if(Message.SubroomId != null)
             Nav.NavigateTo($"/rooms/{Message.SubroomId}", true);    

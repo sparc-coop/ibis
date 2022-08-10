@@ -6,7 +6,7 @@ namespace Ibis.Features.Users;
 public record CreateStripeCustomerRequest(string userId);
 public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
 {
-    public IConfiguration? Configuration { get; }
+    public IConfiguration Configuration { get; }
     public IRepository<User> Users { get; }
 
     public CreateStripeCustomer(IConfiguration configuration, IRepository<User> users)
@@ -19,7 +19,10 @@ public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
     {
         StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
 
-        User user = await Users.FindAsync(request.userId);
+        User? user = await Users.FindAsync(request.userId);
+        if (user == null)
+            throw new NotAuthorizedException("User not found!");
+
         string intent = "";
         var service = new CustomerService();
 

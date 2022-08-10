@@ -12,9 +12,13 @@ public class Language
 
     private Language()
     {
+        Name = "";
+        DisplayName = "";
+        NativeName = "";
+        Dialects = new();
     }
 
-    public Language(string name)
+    public Language(string name) : this()
     {
         var culture = CultureInfo.GetCultureInfo(name);
 
@@ -24,7 +28,7 @@ public class Language
         IsRightToLeft = culture.TextInfo.IsRightToLeft;
     }
 
-    public Language(string name, string displayName, string nativeName, bool isRightToLeft)
+    public Language(string name, string displayName, string nativeName, bool isRightToLeft) : this()
     {
         Name = name;
         DisplayName = displayName;

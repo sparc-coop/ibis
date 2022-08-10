@@ -20,7 +20,7 @@ public class MergeAudio : PublicFeature<MergeAudioRequest, string>
     public async override Task<string> ExecuteAsync(MergeAudioRequest request)
     {
         string outputFile = "audio_output.wav";
-        string result = await Combine(outputFile, request);
+        await Combine(outputFile, request);
         string roomUrl = await UpdateRoom(request.RoomId, "en");// request.Language);
         return JsonConvert.SerializeObject(roomUrl);
     }
@@ -36,49 +36,47 @@ public class MergeAudio : PublicFeature<MergeAudioRequest, string>
             var response = await client.GetAsync(sourceFile);
 
             Stream stream = await response.Content.ReadAsStreamAsync();
-            FileInfo? fileInfo = new FileInfo("audio.wav");
+            FileInfo? fileInfo = new("audio.wav");
             var fileStream = fileInfo.OpenWrite();
             await stream.CopyToAsync(fileStream);
             fileStream.Close();
 
-            using (WaveFileReader reader = new WaveFileReader(fileStream.Name))
+            using WaveFileReader reader = new WaveFileReader(fileStream.Name);
+            if (waveFileWriter == null)
             {
-                if (waveFileWriter == null)
+                // first time in create new Writer
+                waveFileWriter = new WaveFileWriter(outputFile, reader.WaveFormat);
+            }
+            else
+            {
+                if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat))
                 {
-                    // first time in create new Writer
-                    waveFileWriter = new WaveFileWriter(outputFile, reader.WaveFormat);
+                    throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
                 }
-                else
-                {
-                    if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat))
-                    {
-                        throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
-                    }
-                }
+            }
 
-                int read;
-                while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    waveFileWriter.Write(buffer, 0, read);
-                }
+            int read;
+            while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                waveFileWriter.Write(buffer, 0, read);
             }
         }
 
-        waveFileWriter.Dispose();
+        waveFileWriter?.Dispose();
 
         return outputFile;
     }
 
     async Task<string> UpdateRoom(string roomId, string language)
     {
-        Room room = await Rooms.FindAsync(roomId);
+        var room = await Rooms.FindAsync(roomId);
         string url = "";
 
         using (var fileStream = new FileStream("audio_output.wav", FileMode.Open))
         {
-            Sparc.Storage.Azure.File file = new("speak", $"{roomId}/room/{language}.wav", AccessTypes.Public, fileStream);
+            File file = new("speak", $"{roomId}/room/{language}.wav", AccessTypes.Public, fileStream);
             await Files.AddAsync(file);
-            room.SetAudio(file.Url!);
+            room!.SetAudio(file.Url!);
             await Rooms.UpdateAsync(room);
             url = file.Url!;
         }

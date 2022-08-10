@@ -22,7 +22,7 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
             var user = Users.Query.Where(u => u.Email == email).FirstOrDefault();
             if(user != null)
             {
-                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber);
+                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, null, user.PhoneNumber);
                 room.ActiveUsers.Add(newMember);
             } else
             {

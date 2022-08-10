@@ -90,7 +90,7 @@
 @inject IJSRuntime JS
 
 @code {
-	private GetUserResponse User;
+	private GetUserResponse? User;
 	public string FirstName = "First Name";
 	public string LastName = "Last Name";
 	public string Email = "Email";
@@ -104,11 +104,11 @@
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
+		if (user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
 
-			if(User.FullName != null)
+			if (User.FullName != null)
 			{
 				FirstName = User.FullName.Split(' ')[0];
 				LastName = User.FullName.Split(' ')[1];
@@ -117,7 +117,7 @@
 	}
 
 	private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { 
-		UserId = User.Id, 
+		UserId = User!.Id, 
 		FullName = FirstName + " " + LastName , 
 		LanguageId = User.Language,
 		Description = User.Description,
@@ -134,6 +134,6 @@
 		var bytes = ms.ToArray();
 		stream.Close();
 
-		User.ProfileImg = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { UserId = User.Id, FileName = path, Bytes = bytes });
+		User!.ProfileImg = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { UserId = User.Id, FileName = path, Bytes = bytes });
 	}
 }

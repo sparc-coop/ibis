@@ -69,11 +69,9 @@
     [CascadingParameter] 
     BlazoredModalInstance ModalInstance { get; set; } = default!;
     void Close() => ModalInstance.CancelAsync();
-    string Name;
-    string RoomId;
-    string InviteEmail;
+    string? Name;
+    string InviteEmail = "";
     RoomUsersResponse Group = new RoomUsersResponse();
-    string CopyConfirm = "";
     List<string> emails = new List<string>();
     List<User> invited = new List<User>();
 
@@ -83,7 +81,7 @@
         Nav.NavigateTo($"/rooms/{response.RoomId}", true);
     }
 
-    async void InviteUser() {
+    void InviteUser() {
         emails.Add(InviteEmail);
         InviteEmail = "";
     }

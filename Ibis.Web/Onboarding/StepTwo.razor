@@ -64,14 +64,14 @@
 </div>
 
 @code {
-    private GetUserResponse User;
+    private GetUserResponse? User;
     public string Language = "";
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        if(user.Identity.IsAuthenticated)
+        if(user.Identity!.IsAuthenticated)
         {
             User = await Api.GetUserAsync();
         }
@@ -83,5 +83,5 @@
         Nav.NavigateTo($"/{page}", true);    
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User.Id, LanguageId = Language });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, LanguageId = Language });
 }

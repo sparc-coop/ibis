@@ -26,14 +26,14 @@
                     {
                     <div class="dropdown--menu">
                         <div class="account-link" @onclick="GoTo">
-                            @if(!string.IsNullOrEmpty(user.ProfileImg))
+                            @if(!string.IsNullOrEmpty(user?.ProfileImg))
                             {
                                 <img src="@user.ProfileImg"/>
                             } 
                             else {
                                 <i class="material-icons">account_circle</i>   
                             }
-                            <p>@user.FullName</p>
+                            <p>@user?.FullName</p>
                         </div>
                         <ul>
                             <li><a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a></li>
@@ -64,7 +64,7 @@
 
 @inject SignOutSessionStateManager SignOutManager
 @code{
-    GetUserResponse user;
+    GetUserResponse? user;
     bool ShowMenu = false;
 
     protected override async Task OnInitializedAsync()

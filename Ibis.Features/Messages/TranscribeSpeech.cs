@@ -17,7 +17,7 @@ public class TranscribeSpeech : PublicFeature<TranscribeSpeechRequest, Message>
     public async override Task<Message> ExecuteAsync(TranscribeSpeechRequest request)
     {
         var user = await Users.FindAsync(User.Id());
-        var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user.FullName, user.Initials);
+        var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user!.FullName, user.Initials);
         message = await IbisEngine.TranscribeSpeechFromMic(message);
         if (message.Text == null || message.Text.Length == 0)
         {
