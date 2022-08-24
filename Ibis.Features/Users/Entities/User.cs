@@ -53,6 +53,7 @@ public class User : Root<string>
     public string? Pronouns { get; internal set; }
     public string? Description { get; internal set; }
     public string? Color { get; internal set; }
+    public Voice? Voice { get; internal set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
     {
@@ -61,6 +62,14 @@ public class User : Root<string>
 
         ActiveRooms.RemoveAll(x => x.RoomId == roomId);
         return roomId;
+    }
+
+    internal void ChangeLanguage(string language)
+    {
+        if (!LanguagesSpoken.Any(x => x.Id == language))
+            return;
+        
+        PrimaryLanguageId = language;
     }
 
     public string PrimaryLanguageId { get; set; }

@@ -22,7 +22,11 @@ namespace Ibis.Features
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
                 .AddScoped<IbisEngine>()
-                .AddScoped<SendMessage>();
+                .AddScoped<SendMessage>()
+                .AddScoped<SpeakMessage>();
+
+            services.AddHostedService<Queue<Message, SpeakMessage>>();
+            services.AddSingleton(typeof(BackgroundTaskQueue<>));
             services.AddSignalR();
             services.AddRazorPages();
         }

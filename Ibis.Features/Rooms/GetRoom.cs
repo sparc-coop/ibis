@@ -41,7 +41,7 @@ public class GetRoom : PublicFeature<GetRoomRequest, GetRoomResponse>
         if (room == null)
             throw new NotFoundException($"Room {request.RoomId} not found!");
 
-        if (!room.Languages.Any(x => x.Name == request.Language))
+        if (!room.Languages.Any(x => x.Id == request.Language))
         {
             room.AddLanguage(request.Language);
             await Rooms.UpdateAsync(room);

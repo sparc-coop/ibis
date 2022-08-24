@@ -17,16 +17,17 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
         var room = new Room(request.RoomName, User.Id());
 
         //find current users
-        foreach(string email in request.Emails!)
+        foreach (string email in request.Emails!)
         {
             var user = Users.Query.Where(u => u.Email == email).FirstOrDefault();
-            if(user != null)
+            if (user != null)
             {
-                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, null, user.PhoneNumber);
+                ActiveUser newMember = new(user.Id, DateTime.Now, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber);
                 room.ActiveUsers.Add(newMember);
-            } else
+            }
+            else
             {
-                if(!room.PendingUsers.Any(x => x == email))
+                if (!room.PendingUsers.Any(x => x == email))
                     room.PendingUsers.Add(email);
             }
         }

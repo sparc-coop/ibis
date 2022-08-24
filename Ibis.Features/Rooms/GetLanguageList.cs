@@ -1,34 +1,34 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public record GetLanguageListResponse(Dictionary<string, LanguageItem> Languages);
-public class GetLanguageList : PublicFeature<GetLanguageListResponse>//List<string>>
+public class GetLanguageList : PublicFeature<List<Language>>
 {
-    public GetLanguageList(IbisEngine ibisEngine)
+    public GetLanguageList(ITranslator translator, ISynthesizer synthesizer)
     {
-        IbisEngine = ibisEngine;
+        Translator = translator;
+        Synthesizer = synthesizer;
     }
-    public IbisEngine IbisEngine { get; }
+    public ITranslator Translator { get; }
+    public ISynthesizer Synthesizer { get; }
 
-    public override async Task<GetLanguageListResponse> ExecuteAsync()
+    public override async Task<List<Language>> ExecuteAsync()
     {
-        var languages = await IbisEngine.GetAllLanguages();
-        var voices = await IbisEngine.GetAllVoices();
+        var languages = await Translator.GetLanguagesAsync();
+        var voices = await Synthesizer.GetVoicesAsync();
 
-        var result = new Dictionary<string, LanguageItem>();
+        var result = new List<Language>();
         foreach (var language in languages)
         {
             var voicesByDialect = voices
-                .Where(x => x.Locale.Split("-").First() == language.Key)
+                .Where(x => x.Locale.Split("-").First() == language.Id)
                 .GroupBy(x => x.Locale);
 
-            var dialects = voicesByDialect
-                .Select(x => new Dialect(language.Key, x.Key, x.First().LocaleName, x.ToList()))
-                .ToList();
+            foreach (var dialect in voicesByDialect)
+                language.AddDialect(dialect.Key, dialect.ToList());
 
-            result.Add(language.Key, language.Value with { Dialects = dialects });
+            result.Add(language);
         }
 
-        return new(result);
+        return result;
 
     }
 }

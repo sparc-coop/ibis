@@ -1,6 +1,8 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features._Events;
 
-public class Room : Root<string>
+namespace Ibis.Features.Rooms;
+
+public class Room : RootWithEvents<string>
 {
     public string RoomId { get; set; }
     public string Name { get; set; }
@@ -13,21 +15,19 @@ public class Room : Root<string>
     public DateTime? EndDate { get; set; }
     public List<ActiveUser> ActiveUsers { get; internal set; }
     public List<string> PendingUsers { get; set; }
-    public List<Messages.Translation> Translations { get; private set; }
     public string? AudioId { get; set; }
 
     private Room() 
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
-        Name = "New Conversation";
+        Name = "New Room";
         HostUserId = "";
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
         ActiveUsers = new();
         PendingUsers = new();
-        Translations = new();
     }
 
     public Room(string name, string hostUserId) : this()
@@ -48,12 +48,13 @@ public class Room : Root<string>
         //Translations = room.Translations;
     }
 
-    public void AddLanguage(string language)
+    public void AddLanguage(Language language)
     {
-        if (Languages.Any(x => x.Name == language))
+        if (Languages.Any(x => x.Id == language.Id))
             return;
 
-        Languages.Add(new(language));
+        Languages.Add(language);
+        Broadcast(new LanguageAdded(Id, language.Id));
     }
 
     public void AddUser(string userId, string language, string? profileImg, string? phoneNumber = null)
