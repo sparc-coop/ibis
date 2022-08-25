@@ -35,20 +35,24 @@ public class Message : RootWithEvents<string>
         Language = user.PrimaryLanguageId;
         Voice = user.Voice;
         Timestamp = DateTime.UtcNow;
-        Text = text;
+        SetText(text);
     }
 
-    public Message(Message sourceMessage, string toLanguage, string text)
+    public Message(Message sourceMessage, string toLanguage, string text) : this()
     {
         RoomId = sourceMessage.RoomId;
         UserId = sourceMessage.UserId;
         UserName = sourceMessage.UserName;
         UserInitials = sourceMessage.UserInitials;
         Language = toLanguage;
-        Text = text;
+        SetText(text);
     }
 
-    public void SetText(string text) => Text = text;
+    public void SetText(string text)
+    {
+        Text = text;
+        Broadcast(new MessageTextChanged(RoomId, Id));
+    }
     public void SetAudio(string audioId) => AudioUrl = audioId;
     public void SetVideo(string videoId) => VideoUrl = videoId;
     

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace Ibis.Features;
+
 public class User : Root<string>
 {
     public User()
@@ -64,12 +65,12 @@ public class User : Root<string>
         return roomId;
     }
 
-    internal void ChangeLanguage(string language)
+    internal void ChangeLanguage(Language language)
     {
-        if (!LanguagesSpoken.Any(x => x.Id == language))
-            return;
+        if (!LanguagesSpoken.Any(x => x.Id == language.Id))
+            LanguagesSpoken.Add(language);
         
-        PrimaryLanguageId = language;
+        PrimaryLanguageId = language.Id;
     }
 
     public string PrimaryLanguageId { get; set; }

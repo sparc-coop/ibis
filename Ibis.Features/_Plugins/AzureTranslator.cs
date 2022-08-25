@@ -43,4 +43,10 @@ public class AzureTranslator : ITranslator
             .Select(x => new Language(x.Key, x.Value.name, x.Value.nativeName, x.Value.dir == "rtl"))
             .ToList();
     }
+
+    public async Task<Language?> GetLanguageAsync(string language)
+    {
+        var languages = await GetLanguagesAsync();
+        return languages.FirstOrDefault(x => x.Id == language);
+    }
 }

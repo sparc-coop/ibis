@@ -1,28 +1,19 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿namespace Ibis.Features.Messages;
 
-namespace Ibis.Features.Messages;
-
-public class SpeakMessage : BackgroundFeature<Message>
+public record MessageTextChanged(string RoomId, string MessageId) : INotification;
+public class SpeakMessage : BackgroundFeature<MessageTextChanged>
 {
-    public SpeakMessage(ISynthesizer synthesizer, IRepository<Room> rooms, IHubContext<RoomHub> hub)
+    public SpeakMessage(ISynthesizer synthesizer, IRepository<Message> messages)
     {
         Synthesizer = synthesizer;
-        Rooms = rooms;
-        Hub = hub;
+        Messages = messages;
     }
 
     public ISynthesizer Synthesizer { get; }
-    public IRepository<Room> Rooms { get; }
-    public IHubContext<RoomHub> Hub { get; }
+    public IRepository<Message> Messages { get; }
 
-    public override async Task ExecuteAsync(Message message)
+    public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(message.RoomId);
-
-        if (!string.IsNullOrWhiteSpace(message.Text) && string.IsNullOrWhiteSpace(message.AudioUrl))
-            await message.SpeakAsync(Synthesizer);
-        
-        // var translatedMessages = 
-        // await Synthesizer.TranslateAsync(message, room)
+        await Messages.ExecuteAsync(notification.MessageId, async message => await message.SpeakAsync(Synthesizer));
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public record GetRoomRequest(string RoomId, string Language);
+public record GetRoomRequest(string RoomId);
 public record GetRoomResponse
 {
     public string RoomId { get; set; }
@@ -24,29 +24,23 @@ public record GetRoomResponse
 
 public class GetRoom : PublicFeature<GetRoomRequest, GetRoomResponse>
 {
-    public GetRoom(IRepository<Room> rooms, IRepository<Message> messages, IbisEngine ibisEngine)
+    public GetRoom(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)
     {
         Rooms = rooms;
         Messages = messages;
-        IbisEngine = ibisEngine;
+        Translator = translator;
     }
 
     public IRepository<Room> Rooms { get; }
     public IRepository<Message> Messages { get; }
-    public IbisEngine IbisEngine { get; }
+    public ITranslator Translator { get; }
 
     public async override Task<GetRoomResponse> ExecuteAsync(GetRoomRequest request)
     {
         var room = await Rooms.FindAsync(request.RoomId);
         if (room == null)
             throw new NotFoundException($"Room {request.RoomId} not found!");
-
-        if (!room.Languages.Any(x => x.Id == request.Language))
-        {
-            room.AddLanguage(request.Language);
-            await Rooms.UpdateAsync(room);
-        }
-
+        
         var messages = Messages.Query
             .Where(x => x.RoomId == room.Id)
             .OrderBy(x => x.Timestamp)
@@ -66,13 +60,6 @@ public class GetRoom : PublicFeature<GetRoomRequest, GetRoomResponse>
             {
                 messages.Add(message);
             }
-        }
-
-        var untranslatedMessages = messages.Where(x => !x.HasTranslation(request.Language) && x.Text != null).ToList();
-        foreach (var message in untranslatedMessages)
-        {
-            await IbisEngine.TranslateAsync(message, request.Language);
-            await Messages.UpdateAsync(message);
         }
 
         return new(room, messages);
