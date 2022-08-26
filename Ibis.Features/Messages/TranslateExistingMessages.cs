@@ -1,6 +1,6 @@
-﻿namespace Ibis.Features._Events;
+﻿namespace Ibis.Features.Messages;
 
-public record LanguageAdded(string RoomId, string Language) : INotification;
+public record LanguageAdded(string RoomId, Language Language) : INotification;
 public class TranslateExistingMessages : BackgroundFeature<LanguageAdded>
 {
     public TranslateExistingMessages(IRepository<Message> messages, ITranslator translator)
@@ -18,16 +18,16 @@ public class TranslateExistingMessages : BackgroundFeature<LanguageAdded>
             .Where(x => x.RoomId == notification.RoomId)
             .ToListAsync();
 
-        foreach (var message in untranslatedMessages.Where(x => !x.HasTranslation(notification.Language)))
+        foreach (var message in untranslatedMessages.Where(x => !x.HasTranslation(notification.Language.Id)))
         {
-            var translatedMessages = await Translator.TranslateAsync(message, notification.Language);
-            
+            var translatedMessages = await Translator.TranslateAsync(message, new() { notification.Language });
+
             foreach (var translatedMessage in translatedMessages)
                 await Messages.AddAsync(translatedMessage);
 
             if (translatedMessages.Any())
             {
-                message.AddTranslation(notification.Language, translatedMessages.First().Id);
+                message.AddTranslation(notification.Language.Id, translatedMessages.First().Id);
                 await Messages.UpdateAsync(message);
             }
         }

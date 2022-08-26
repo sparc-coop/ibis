@@ -4,7 +4,7 @@ using Sparc.Database.Cosmos;
 
 namespace Ibis.Features._Plugins;
 
-public class IbisContext : DbContextWithEvents
+public class IbisContext : SparcContext
 {
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<Message> Messages => Set<Message>();

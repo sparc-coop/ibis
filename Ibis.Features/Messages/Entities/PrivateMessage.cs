@@ -8,10 +8,4 @@ public class PrivateMessage : Message
     {
         ToUserId = "";
     }
-
-    public PrivateMessage(string roomId, string fromUserId, string toUserId, string language, SourceTypes sourceType, string name, string initials)
-        : base(roomId, fromUserId, language, sourceType, name, initials)
-    {
-        ToUserId = toUserId;
-    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Messages;
 
-public record MessageTextChanged(string RoomId, string MessageId) : INotification;
+public record MessageTextChanged(string RoomId, string MessageId, string Text) : RoomNotification(RoomId);
 public class SpeakMessage : BackgroundFeature<MessageTextChanged>
 {
     public SpeakMessage(ISynthesizer synthesizer, IRepository<Message> messages)

@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Messages;
 
-public class Message : RootWithEvents<string>
+public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string UserId { get; private set; }
@@ -51,7 +51,7 @@ public class Message : RootWithEvents<string>
     public void SetText(string text)
     {
         Text = text;
-        Broadcast(new MessageTextChanged(RoomId, Id));
+        Broadcast(new MessageTextChanged(RoomId, Id, Text));
     }
     public void SetAudio(string audioId) => AudioUrl = audioId;
     public void SetVideo(string videoId) => VideoUrl = videoId;
@@ -70,17 +70,16 @@ public class Message : RootWithEvents<string>
         AudioUrl = await engine.SpeakAsync(this);
     }
 
-    internal bool HasTranslation(string language)
+    internal bool HasTranslation(string languageId)
     {
-        return Translations != null && Translations.Any(x => x.Language == language);
+        return Translations != null && Translations.Any(x => x.Language == languageId);
     }
-
-    internal void AddTranslation(string language, string messageId)
+    
+    internal void AddTranslation(string languageId, string messageId)
     {
-        if (Translations == null)
-            Translations = new();
+        Translations ??= new();
 
-        if (!HasTranslation(language))
-            Translations.Add(new(language, messageId));
+        if (!HasTranslation(languageId))
+            Translations.Add(new(languageId, messageId));
     }
 }

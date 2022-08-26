@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sparc.Database.Cosmos;
 
-public class DbContextWithEvents : DbContext
+public class SparcContext : DbContext
 {
-    public DbContextWithEvents(DbContextOptions options, IMediator mediator) : base(options)
+    public SparcContext(DbContextOptions options, IMediator mediator) : base(options)
     {
         Mediator = mediator;
     }
@@ -14,14 +14,14 @@ public class DbContextWithEvents : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        var result = await base.SaveChangesAsync(cancellationToken);
         await DispatchDomainEventsAsync();
-        
-        return await base.SaveChangesAsync(cancellationToken);
+        return result; 
     }
 
     async Task DispatchDomainEventsAsync()
     {
-        var domainEntities = ChangeTracker.Entries<IRootWithEvents>().Where(x => x.Entity.Events != null && x.Entity.Events.Any());
+        var domainEntities = ChangeTracker.Entries<ISparcRoot>().Where(x => x.Entity.Events != null && x.Entity.Events.Any());
         var domainEvents = domainEntities.SelectMany(x => x.Entity.Events!).ToList();
         domainEntities.ToList().ForEach(entity => entity.Entity.Events!.Clear());
 

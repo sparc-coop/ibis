@@ -1,3 +1,40 @@
-﻿<Sparc.Platforms.Web.SparcApp 
-        MainLayout="typeof(MainLayout)" 
-        Startup="typeof(Program)" />
+﻿<CascadingValue Value="Hub">
+    <Sparc.Platforms.Web.SparcApp 
+            MainLayout="typeof(MainLayout)" 
+            Startup="typeof(Program)" />
+</CascadingValue>
+
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IAccessTokenProvider AccessTokenProvider
+
+@code {
+    HubConnection Hub = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Hub = new HubConnectionBuilder()
+                .WithUrl(Config["ApiUrl"] + "/rooms", options =>
+                {
+                    options.AccessTokenProvider = async () =>
+                    {
+                        var provider = await AccessTokenProvider.RequestAccessToken();
+                        if (provider.TryGetToken(out var token))
+                        {
+                            return token.Value;
+                        }
+                        return null;
+                    };
+                })
+                .Build();
+        Hub.On("ReceiveMessage", () => { }); // placeholder event so that we can add more On events afterward
+        await Hub.StartAsync();
+    } 
+
+    public async ValueTask DisposeAsync()
+    {
+        if (Hub is not null)
+        {
+            await Hub.DisposeAsync();
+        }
+    }
+}

@@ -1,8 +1,6 @@
-﻿using Ibis.Features._Events;
+﻿namespace Ibis.Features.Rooms;
 
-namespace Ibis.Features.Rooms;
-
-public class Room : RootWithEvents<string>
+public class Room : SparcRoot<string>
 {
     public string RoomId { get; set; }
     public string Name { get; set; }
@@ -54,7 +52,7 @@ public class Room : RootWithEvents<string>
             return;
 
         Languages.Add(language);
-        Broadcast(new LanguageAdded(Id, language.Id));
+        Broadcast(new LanguageAdded(Id, language));
     }
 
     public void AddUser(string userId, string language, string? profileImg, string? phoneNumber = null)
@@ -69,6 +67,22 @@ public class Room : RootWithEvents<string>
     }
 
     public void SetAudio(string audioId) => AudioId = audioId;
+
+    internal async Task TranslateAllAsync(List<Message> messages, ITranslator translator)
+    { 
+        
+    }
+
+    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator)
+    {
+        var translatedMessages = await translator.TranslateAsync(message, Languages);
+
+        // Add reference to all the new translated messages
+        foreach (var translatedMessage in translatedMessages)
+            message.AddTranslation(translatedMessage.Language, translatedMessage.Id);
+
+        return translatedMessages;
+    }
 }
 
 public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? ProfileImg, string? PhoneNumber);

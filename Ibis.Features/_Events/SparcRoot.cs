@@ -1,11 +1,11 @@
 ﻿namespace Sparc.Core;
 
-public interface IRootWithEvents
+public interface ISparcRoot
 {
     public List<INotification>? Events { get; }
 }
 
-public class RootWithEvents<T> : Root<T>, IRootWithEvents where T : notnull
+public class SparcRoot<T> : Root<T>, ISparcRoot where T : notnull
 {
     private List<INotification>? _events;
     public List<INotification>? Events => _events;

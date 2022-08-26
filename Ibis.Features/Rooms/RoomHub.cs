@@ -18,12 +18,6 @@ public class RoomHub : Hub
         await Clients.Group(roomId).SendAsync("NewMessage", message);
     }
 
-    public record Speech(byte[] Audio, Dictionary<long, long> WordBoundaries);
-    public async IAsyncEnumerable<Speech> Speak(string roomId, string userId)
-    {
-
-    }
-
     public async Task AddToRoom(string roomId, string userId, string language)
     {
         await RegisterRoomAsync(roomId, userId);

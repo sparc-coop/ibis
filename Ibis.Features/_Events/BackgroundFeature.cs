@@ -2,9 +2,6 @@
 
 namespace Sparc.Features;
 
-public interface INotification : MediatR.INotification
-{ }
-
 public abstract class BackgroundFeature<T> : INotificationHandler<T> where T : INotification
 {
     public abstract Task ExecuteAsync(T item);

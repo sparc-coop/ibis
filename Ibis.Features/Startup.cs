@@ -21,12 +21,9 @@ namespace Ibis.Features
                 .AddTwilio(Configuration);
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
-                .AddScoped<IbisEngine>()
-                .AddScoped<SendMessage>()
-                .AddScoped<SpeakMessage>();
+                .AddScoped<ITranslator, AzureTranslator>()
+                .AddScoped<ISynthesizer, AzureSynthesizer>();
 
-            services.AddHostedService<Queue<Message, SpeakMessage>>();
-            services.AddSingleton(typeof(BackgroundTaskQueue<>));
             services.AddSignalR();
             services.AddRazorPages();
         }

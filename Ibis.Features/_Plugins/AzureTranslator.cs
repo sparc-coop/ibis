@@ -14,11 +14,11 @@ public class AzureTranslator : ITranslator
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
     }
 
-    public async Task<List<Message>> TranslateAsync(Message message, params string[] toLanguages)
+    public async Task<List<Message>> TranslateAsync(Message message, List<Language> toLanguages)
     {
         object[] body = new object[] { new { message.Text } };
         var from = $"&from={message.Language.Split('-').First()}";
-        var to = "&to=" + string.Join("&to=", toLanguages.Select(x => x.Split('-').First()));
+        var to = "&to=" + string.Join("&to=", toLanguages.Select(x => x.Id.Split('-').First()));
 
         var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
         var translatedMessages = new List<Message>();
