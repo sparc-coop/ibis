@@ -1,6 +1,7 @@
 ﻿using Ibis.Features.Sparc.Realtime;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CognitiveServices.Speech;
+using NAudio.Wave;
 using Sparc.Storage.Azure;
 using File = Sparc.Storage.Azure.File;
 
@@ -58,6 +59,43 @@ public class AzureSpeaker : ISpeaker
             Duration = result.AudioDuration.Ticks,
             Subtitles = words
         };
+    }
+
+    public async Task<AudioMessage> SpeakAsync(List<Message> messages)
+    {
+        byte[] buffer = new byte[1024];
+        WaveFileWriter? waveFileWriter = null;
+        using var combinedAudio = new MemoryStream();
+
+        foreach (var message in messages.Where(x => x.Audio?.Url != null).OrderBy(x => x.Timestamp))
+        {
+            HttpClient client = new();
+            var inputAudio = await client.GetStreamAsync(message.Audio!.Url);
+
+            using WaveFileReader reader = new(inputAudio);
+            if (waveFileWriter == null)
+            {
+                // first time in create new Writer
+                waveFileWriter = new WaveFileWriter(combinedAudio, reader.WaveFormat);
+            }
+            else if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat))
+            {
+                throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
+            }
+
+            int read;
+            while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                waveFileWriter.Write(buffer, 0, read);
+            }
+        }
+
+        waveFileWriter?.Dispose();
+
+        File file = new("speak", $"{messages.First().RoomId}/{messages.First().Audio!.Voice!.ShortName}.wav", AccessTypes.Public, combinedAudio);
+        await Files.AddAsync(file);
+
+        return new(file.Url, 0, messages.First().Audio!.Voice);
     }
 
     public async Task<List<Voice>> GetVoicesAsync(string? language = null, string? dialect = null, string? gender = null)

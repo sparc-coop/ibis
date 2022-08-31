@@ -3,7 +3,6 @@
 namespace Ibis.Features.Messages;
 
 public record MessageTranslation(string LanguageId, string MessageId);
-public record UserSummary(string Id, string Name, string Initials, string Color);
 public record AudioMessage(string? Url, long Duration, Voice? Voice = null, List<Word>? Subtitles = null);
 public record Word(long Offset, long Duration, string Text);
 public class Message : SparcRoot<string>
@@ -15,21 +14,20 @@ public class Message : SparcRoot<string>
     public UserSummary User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
-    public string? VideoUrl { get; set; }
-    public List<MessageTranslation>? Translations { get; set; }
+    public List<MessageTranslation>? Translations { get; private set; }
 
     protected Message()
     {
         Id = Guid.NewGuid().ToString();
         RoomId = "";
-        User = new("", "", "", "");
+        User = new("");
         Language = "";
     }
 
     public Message(string roomId, User user, string text) : this()
     {
         RoomId = roomId;
-        User = new(user.Id, user.FullName, user.Initials, user.Color);
+        User = new(user);
         Language = user.PrimaryLanguageId;
         Audio = new(null, 0, user.Voice);
         Timestamp = DateTime.UtcNow;

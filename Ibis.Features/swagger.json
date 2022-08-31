@@ -404,6 +404,54 @@
         }
       }
     },
+    "/api/DeleteRoom": {
+      "post": {
+        "tags": [
+          "DeleteRoom"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/FindUserByEmail": {
       "post": {
         "tags": [
@@ -464,10 +512,10 @@
         }
       }
     },
-    "/api/GetLanguageList": {
+    "/api/GetLanguages": {
       "post": {
         "tags": [
-          "GetLanguageList"
+          "GetLanguages"
         ],
         "responses": {
           "200": {
@@ -562,10 +610,70 @@
         }
       }
     },
-    "/api/GetRoomUsers": {
+    "/api/GetRoomAudio": {
       "post": {
         "tags": [
-          "GetRoomUsers"
+          "GetRoomAudio"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomAudioRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomAudioRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomAudioRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioMessage"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioMessage"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetRooms": {
+      "post": {
+        "tags": [
+          "GetRooms"
         ],
         "requestBody": {
           "content": {
@@ -592,17 +700,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoomUsersResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetRoomResponse"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoomUsersResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetRoomResponse"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoomUsersResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetRoomResponse"
+                  }
                 }
               }
             }
@@ -632,63 +749,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetUserResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetUserRooms": {
-      "post": {
-        "tags": [
-          "GetUserRooms"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
                 }
               }
             }
@@ -728,114 +788,6 @@
                     "$ref": "#/components/schemas/InviteUserRequest"
                   }
                 ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MergeAudio": {
-      "post": {
-        "tags": [
-          "MergeAudio"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MergeAudioRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/RemoveRoom": {
-      "post": {
-        "tags": [
-          "RemoveRoom"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
               }
             }
           }
@@ -1323,32 +1275,6 @@
         },
         "additionalProperties": false
       },
-      "ActiveUser": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "joinDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "profileImg": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "AudioMessage": {
         "type": "object",
         "properties": {
@@ -1473,6 +1399,27 @@
         },
         "additionalProperties": false
       },
+      "GetRoomAudioRequest": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetRoomRequest": {
         "type": "object",
         "properties": {
@@ -1505,17 +1452,10 @@
             "nullable": true,
             "readOnly": true
           },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
-            },
-            "nullable": true
-          },
           "activeUsers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ActiveUser"
+              "$ref": "#/components/schemas/UserSummary"
             },
             "nullable": true
           }
@@ -1603,27 +1543,6 @@
         },
         "additionalProperties": false
       },
-      "MergeAudioRequest": {
-        "type": "object",
-        "properties": {
-          "files": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "Message": {
         "type": "object",
         "properties": {
@@ -1642,6 +1561,11 @@
           "roomId": {
             "type": "string",
             "nullable": true
+          },
+          "sourceMessageId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "language": {
             "type": "string",
@@ -1674,16 +1598,13 @@
             "type": "string",
             "nullable": true
           },
-          "videoUrl": {
-            "type": "string",
-            "nullable": true
-          },
           "translations": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/MessageTranslation"
             },
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1728,37 +1649,6 @@
           },
           "title": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RoomUser": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "initials": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RoomUsersResponse": {
-        "type": "object",
-        "properties": {
-          "users": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoomUser"
-            },
             "nullable": true
           }
         },
@@ -1979,6 +1869,13 @@
             "nullable": true
           },
           "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivesSms": {
+            "type": "boolean"
+          },
+          "language": {
             "type": "string",
             "nullable": true
           }

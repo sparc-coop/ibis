@@ -42,14 +42,14 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             //save user to room
             if (user != null)
             {
-                room.AddUser(user.UserId, user.PrimaryLanguageId, user.ProfileImg);
-                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
+                room.AddUser(user);
+                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.UtcNow));
             }
 
             //add pending user if not yet signed up
-            if (user == null && !room.PendingUsers.Contains(request.Email))
+            if (user == null && !room.PendingUsers.Any(x => x.Name == request.Email))
             {
-                room.PendingUsers.Add(request.Email);
+                room.PendingUsers.Add(new(request.Email));
             }
 
             await Rooms.UpdateAsync(room);

@@ -1,10 +1,10 @@
 ﻿using Ibis.Features.Sparc.Realtime;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Features.Users;
 
-public class GetLanguageList : PublicFeature<List<Language>>
+public class GetLanguages : PublicFeature<List<Language>>
 {
-    public GetLanguageList(ITranslator translator, ISpeaker synthesizer)
+    public GetLanguages(ITranslator translator, ISpeaker synthesizer)
     {
         Translator = translator;
         Synthesizer = synthesizer;

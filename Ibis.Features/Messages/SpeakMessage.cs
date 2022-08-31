@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record MessageTextChanged(Message Message) : RoomNotification(Message.RoomId);
+public record MessageTextChanged(Message Message) : GroupNotification(Message.RoomId);
 public class SpeakMessage : BackgroundFeature<MessageTextChanged>
 {
     public SpeakMessage(ISpeaker synthesizer, IRepository<Message> messages)

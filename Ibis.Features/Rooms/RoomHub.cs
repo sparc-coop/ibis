@@ -36,7 +36,7 @@ public class RoomHub : Hub
     {
         var user = await Users.FindAsync(userId);
         await Users.ExecuteAsync(userId, user => user.JoinRoom(roomId, Context.ConnectionId));
-        await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!.Id, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber));
+        await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!));
     }
 
     private async Task<string> UnregisterRoomAsync(string roomId, string userId)
@@ -45,7 +45,7 @@ public class RoomHub : Hub
         roomId = user!.LeaveRoom(roomId) ?? roomId;
         await Users.UpdateAsync(user);
 
-        await Rooms.ExecuteAsync(roomId, room => room.RemoveUser(userId));
+        await Rooms.ExecuteAsync(roomId, room => room.RemoveUser(user));
 
         return roomId;
     }

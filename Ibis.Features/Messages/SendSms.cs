@@ -15,16 +15,16 @@ public class SendSms : BackgroundFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(notification.RoomId);
+        var room = await Rooms.FindAsync(notification.GroupId);
 
         if (room == null || string.IsNullOrWhiteSpace(notification.Message.Text))
             return;
 
         var usersToSms = room!.ActiveUsers
-            .Where(x => x.PhoneNumber != null && notification.Message.Language == x.Language)
+            .Where(x => x.ReceivesSms && notification.Message.Language == x.Language)
             .ToList();
 
-        foreach (var userToSms in usersToSms)
-            await Twilio.SendSmsAsync(userToSms.PhoneNumber!, notification.Message.Text);
+        //foreach (var userToSms in usersToSms)
+        //    await Twilio.SendSmsAsync(userToSms.PhoneNumber!, notification.Message.Text);
     }
 }

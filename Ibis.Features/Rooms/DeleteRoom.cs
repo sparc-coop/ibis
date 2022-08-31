@@ -1,8 +1,8 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public class RemoveRoom : Feature<string, bool>
+public class DeleteRoom : Feature<string, bool>
 {
-    public RemoveRoom(IRepository<Room> rooms)
+    public DeleteRoom(IRepository<Room> rooms)
     {
         Rooms = rooms;
     }
@@ -15,7 +15,7 @@ public class RemoveRoom : Feature<string, bool>
         if (room == null)
             throw new NotFoundException($"Room {roomId} not found!");
 
-        room.EndDate = DateTime.Now;
+        room.Close();
         await Rooms.UpdateAsync(room);
         return true;
     }

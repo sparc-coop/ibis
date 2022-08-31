@@ -2,27 +2,27 @@
 
 namespace Ibis.Features.Rooms;
 
+public record SourceMessage(string RoomId, string MessageId);
 public class Room : SparcRoot<string>
 {
-    public string RoomId { get; set; }
-    public string Name { get; set; }
-    public UserSummary HostUser { get; set; }
-    public string? HostMessageId { get; set; }
-    public string? SourceRoomId { get; set; }
+    public string RoomId { get; private set; }
+    public string Name { get; private set; }
+    public UserSummary HostUser { get; private set; }
+    public List<UserSummary> ActiveUsers { get; private set; }
+    public List<UserSummary> PendingUsers { get; private set; }
+    public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
-    public DateTime? LastActiveDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public List<ActiveUser> ActiveUsers { get; internal set; }
-    public List<string> PendingUsers { get; set; }
-    public string? AudioId { get; set; }
+    public DateTime? LastActiveDate { get; private set; }
+    public DateTime? EndDate { get; private set; }
+    public AudioMessage? Audio { get; private set; }
 
     private Room() 
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
         Name = "New Room";
-        HostUserId = "";
+        HostUser = new("");
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
@@ -30,10 +30,10 @@ public class Room : SparcRoot<string>
         PendingUsers = new();
     }
 
-    public Room(string name, string hostUserId) : this()
+    public Room(string name, User hostUser) : this()
     {
         Name = name;
-        HostUserId = hostUserId;
+        HostUser = new(hostUser);
     }
 
     public Room(Room room, Message message) : this()
@@ -41,8 +41,7 @@ public class Room : SparcRoot<string>
         // Create a subroom from a message
 
         Name = room.Name;
-        HostMessageId = message.Id;
-        HostRoomId = room.Id;
+        SourceMessage = new(room.Id, message.Id);
         //Languages = room.Languages;
         //ActiveUsers = room.ActiveUsers;
         //Translations = room.Translations;
@@ -57,18 +56,16 @@ public class Room : SparcRoot<string>
         Broadcast(new LanguageAdded(Id, language));
     }
 
-    public void AddUser(string userId, string language, string? profileImg, string? phoneNumber = null)
+    public void AddUser(User user)
     {
-        if (!ActiveUsers.Any(x => x.UserId == userId))
-            ActiveUsers.Add(new(userId, DateTime.UtcNow, language, profileImg, phoneNumber));
+        if (!ActiveUsers.Any(x => x.Id == user.Id))
+            ActiveUsers.Add(new(user));
     }
 
-    public void RemoveUser(string userId)
+    public void RemoveUser(User user)
     {
-        ActiveUsers.RemoveAll(x => x.UserId == userId);
+        ActiveUsers.RemoveAll(x => x.Id == user.Id);
     }
-
-    public void SetAudio(string audioId) => AudioId = audioId;
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
     {
@@ -87,6 +84,19 @@ public class Room : SparcRoot<string>
 
         return translatedMessages;
     }
-}
 
-public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? ProfileImg, string? PhoneNumber);
+    internal async Task SpeakAsync(ISpeaker speaker, List<Message> messages)
+    {
+        Audio = await speaker.SpeakAsync(messages);        
+    }
+
+    internal void Close()
+    {
+        EndDate = DateTime.UtcNow;
+    }
+
+    internal void Rename(string title)
+    {
+        Name = title;
+    }
+}

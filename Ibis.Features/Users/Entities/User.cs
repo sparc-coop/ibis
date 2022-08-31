@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ibis.Features;
+namespace Ibis.Features.Users;
 
 public class User : Root<string>
 {

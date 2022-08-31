@@ -17,7 +17,7 @@ public class TranslateMessage : BackgroundFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(notification.RoomId);
+        var room = await Rooms.FindAsync(notification.GroupId);
 
         if (room == null || notification.Message == null)
             throw new NotFoundException("Not found!");
