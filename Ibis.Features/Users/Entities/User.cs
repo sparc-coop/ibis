@@ -8,6 +8,7 @@ public class User : Root<string>
     {
         Id = string.Empty;
         UserId = Id;
+        Color = "#ffffff";
         PrimaryLanguageId = string.Empty;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
@@ -53,7 +54,7 @@ public class User : Root<string>
     public string? ProfileImg { get; internal set; }
     public string? Pronouns { get; internal set; }
     public string? Description { get; internal set; }
-    public string? Color { get; internal set; }
+    public string Color { get; internal set; }
     public Voice? Voice { get; internal set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)

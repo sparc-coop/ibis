@@ -19,5 +19,5 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
         await Messages.AddAsync(message);
 
         return message;
-}
+    }
 }

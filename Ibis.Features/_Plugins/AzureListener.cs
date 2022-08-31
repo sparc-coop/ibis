@@ -74,6 +74,48 @@ public class AzureListener : IListener
         var audioConnection = _audioConnections.FirstOrDefault(x => x.SessionId == e.SessionId);
         if (audioConnection == null) return;
     }
+
+    //internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
+    //{
+    //    var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
+    //    var audioConfig = IbisHelpers.OpenWavFile(bytes);
+
+    //    var messages = new List<Message>();
+
+    //    try
+    //    {
+    //        using var recognizer = new SpeechRecognizer(speechConfig, audioConfig);
+    //        var stopRecognition = new TaskCompletionSource<int>();
+
+    //        recognizer.Recognized += (s, e) =>
+    //        {
+    //            if (e.Result.Reason == ResultReason.RecognizedSpeech)
+    //            {
+    //                Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
+    //                newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
+    //                newMessage.SetText(e.Result.Text);
+    //                if (message.SubroomId != null)
+    //                    newMessage.SetSubroomId(message.SubroomId);
+    //                messages.Add(newMessage);
+    //            }
+    //        };
+
+    //        recognizer.SessionStopped += (s, e) =>
+    //        {
+    //            stopRecognition.TrySetResult(0);
+    //        };
+
+    //        Console.WriteLine("Transcribing wav file...");
+    //        await recognizer.StartContinuousRecognitionAsync();
+    //        Task.WaitAny(new[] { stopRecognition.Task });
+    //        return messages;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        var testing = ex.Message;
+    //        return new();
+    //    }
+    //}
 }
 
 public class VoiceAudioStream : PullAudioInputStreamCallback

@@ -3,19 +3,17 @@
 namespace Ibis.Features.Messages;
 
 public record MessageTranslation(string LanguageId, string MessageId);
+public record UserSummary(string Id, string Name, string Initials, string Color);
+public record AudioMessage(string? Url, long Duration, Voice? Voice = null, List<Word>? Subtitles = null);
+public record Word(long Offset, long Duration, string Text);
 public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
-    public string UserId { get; private set; }
     public string Language { get; private set; }
     public DateTime Timestamp { get; private set; }
-    public long? Duration { get; private set; }
+    public UserSummary User { get; private set; }
+    public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
-    public string? AudioUrl { get; private set; }
-    public Voice? Voice { get; private set; }
-    public string UserName { get; set; }
-    public string UserInitials { get; set; }
-    public string? Color { get; set; }
     public string? VideoUrl { get; set; }
     public List<MessageTranslation>? Translations { get; set; }
 
@@ -23,20 +21,16 @@ public class Message : SparcRoot<string>
     {
         Id = Guid.NewGuid().ToString();
         RoomId = "";
-        UserId = "";
+        User = new("", "", "", "");
         Language = "";
-        UserName = "";
-        UserInitials = "";
     }
 
     public Message(string roomId, User user, string text) : this()
     {
         RoomId = roomId;
-        UserId = user.Id;
-        UserName = user.FullName;
-        UserInitials = user.Initials;
+        User = new(user.Id, user.FullName, user.Initials, user.Color);
         Language = user.PrimaryLanguageId;
-        Voice = user.Voice;
+        Audio = new(null, 0, user.Voice);
         Timestamp = DateTime.UtcNow;
         SetText(text);
     }
@@ -44,33 +38,26 @@ public class Message : SparcRoot<string>
     public Message(Message sourceMessage, string toLanguage, string text) : this()
     {
         RoomId = sourceMessage.RoomId;
-        UserId = sourceMessage.UserId;
-        UserName = sourceMessage.UserName;
-        UserInitials = sourceMessage.UserInitials;
+        User = sourceMessage.User;
         Language = toLanguage;
         SetText(text);
     }
 
     public void SetText(string text)
     {
+        if (Text == text)
+            return;
+        
         Text = text;
         Broadcast(new MessageTextChanged(this));
-    }
-    public void SetAudio(string audioId) => AudioUrl = audioId;
-    public void SetVideo(string videoId) => VideoUrl = videoId;
-    
-    internal void SetTimestamp(long offsetInTicks, TimeSpan duration)
-    {
-        Timestamp = Timestamp.AddTicks(offsetInTicks);
-        Duration = duration.Ticks;
     }
 
     internal async Task SpeakAsync(ISpeaker engine)
     {
-        if (Voice == null)
+        if (Audio?.Voice == null)
             return;
 
-        AudioUrl = await engine.SpeakAsync(this);
+        Audio = await engine.SpeakAsync(this);
     }
 
     internal bool HasTranslation(string languageId)

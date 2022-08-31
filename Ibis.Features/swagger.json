@@ -386,17 +386,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Room"
+                  "type": "boolean"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Room"
+                  "type": "boolean"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Room"
+                  "type": "boolean"
                 }
               }
             }
@@ -603,75 +603,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RoomUsersResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetTextToBraille": {
-      "post": {
-        "tags": [
-          "GetTextToBraille"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 }
               }
             }
@@ -986,6 +917,75 @@
               "text/json": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TranslateToBraille": {
+      "post": {
+        "tags": [
+          "TranslateToBraille"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BrailleRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -1349,6 +1349,35 @@
         },
         "additionalProperties": false
       },
+      "AudioMessage": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voice": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Voice"
+              }
+            ],
+            "nullable": true
+          },
+          "subtitles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Word"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BrailleRequest": {
         "type": "object",
         "properties": {
@@ -1614,11 +1643,6 @@
             "type": "string",
             "nullable": true
           },
-          "userId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
           "language": {
             "type": "string",
             "nullable": true,
@@ -1629,39 +1653,24 @@
             "format": "date-time",
             "readOnly": true
           },
-          "duration": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "readOnly": true
-          },
-          "text": {
-            "type": "string",
-            "nullable": true
-          },
-          "audioUrl": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "voice": {
+          "user": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/Voice"
+                "$ref": "#/components/schemas/UserSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "audio": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AudioMessage"
               }
             ],
             "nullable": true,
             "readOnly": true
           },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userInitials": {
-            "type": "string",
-            "nullable": true
-          },
-          "color": {
+          "text": {
             "type": "string",
             "nullable": true
           },
@@ -1705,86 +1714,6 @@
             "items": {
               "type": "string"
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Room": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INotification"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "hostUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "hostMessageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "hostRoomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "languages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Language"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "lastActiveDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "activeUsers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActiveUser"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "pendingUsers": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "audioId": {
-            "type": "string",
             "nullable": true
           }
         },
@@ -2034,6 +1963,28 @@
         },
         "additionalProperties": false
       },
+      "UserSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "initials": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Voice": {
         "type": "object",
         "properties": {
@@ -2062,6 +2013,24 @@
             "nullable": true
           },
           "voiceType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Word": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "text": {
             "type": "string",
             "nullable": true
           }

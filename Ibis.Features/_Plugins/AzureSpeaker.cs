@@ -11,7 +11,6 @@ public class AzureSpeaker : ISpeaker
     readonly HttpClient Client;
     readonly string SubscriptionKey;
     readonly IHubContext<RoomHub> Hub;
-    static readonly List<AudioConnection> _audioConnections = new();
 
     public IRepository<File> Files { get; }
 
@@ -29,29 +28,36 @@ public class AzureSpeaker : ISpeaker
         Files = files;
     }
 
-    public async Task<string?> SpeakAsync(Message message)
+    public async Task<AudioMessage?> SpeakAsync(Message message)
     {
-        if (message.Voice == null)
+        if (message.Audio?.Voice == null)
             return null;
 
-        var synthesizer = Synthesizer(message.Voice.ShortName);
+        var synthesizer = Synthesizer(message.Audio.Voice.ShortName);
+        var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {
-            Hub.Clients.Group(message.Voice.Locale).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
+            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
+            words.Add(new((long)e.AudioOffset, e.Duration.Ticks, e.Text));
         };
 
         synthesizer.Synthesizing += (sender, e) =>
         {
-            Hub.Clients.Group(message.Voice.Locale).SendAsync("Speak", message.Id, e.Result.AudioData);
+            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("Speak", message.Id, e.Result.AudioData);
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
 
         using var stream = new MemoryStream(result.AudioData, false);
-        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Voice.ShortName}.wav", AccessTypes.Public, stream);
+        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice.ShortName}.wav", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
-        return file.Url!;
+        return message.Audio with
+        {
+            Url = file.Url!,
+            Duration = result.AudioDuration.Ticks,
+            Subtitles = words
+        };
     }
 
     public async Task<List<Voice>> GetVoicesAsync(string? language = null, string? dialect = null, string? gender = null)
@@ -64,48 +70,6 @@ public class AzureSpeaker : ISpeaker
             .Where(x => gender == null || x.Gender == gender)
             .ToList();
     }
-
-    //internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)
-    //{
-    //    var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
-    //    var audioConfig = IbisHelpers.OpenWavFile(bytes);
-
-    //    var messages = new List<Message>();
-
-    //    try
-    //    {
-    //        using var recognizer = new SpeechRecognizer(speechConfig, audioConfig);
-    //        var stopRecognition = new TaskCompletionSource<int>();
-
-    //        recognizer.Recognized += (s, e) =>
-    //        {
-    //            if (e.Result.Reason == ResultReason.RecognizedSpeech)
-    //            {
-    //                Message newMessage = new(message.SubroomId!, message.UserId, message.Language, SourceTypes.Upload, message.UserName, message.UserInitials);
-    //                newMessage.SetTimestamp(e.Result.OffsetInTicks, e.Result.Duration);
-    //                newMessage.SetText(e.Result.Text);
-    //                if (message.SubroomId != null)
-    //                    newMessage.SetSubroomId(message.SubroomId);
-    //                messages.Add(newMessage);
-    //            }
-    //        };
-
-    //        recognizer.SessionStopped += (s, e) =>
-    //        {
-    //            stopRecognition.TrySetResult(0);
-    //        };
-
-    //        Console.WriteLine("Transcribing wav file...");
-    //        await recognizer.StartContinuousRecognitionAsync();
-    //        Task.WaitAny(new[] { stopRecognition.Task });
-    //        return messages;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        var testing = ex.Message;
-    //        return new();
-    //    }
-    //}
 
     SpeechSynthesizer Synthesizer(string voice)
     {
