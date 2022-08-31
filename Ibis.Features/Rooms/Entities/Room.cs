@@ -6,9 +6,9 @@ public class Room : SparcRoot<string>
 {
     public string RoomId { get; set; }
     public string Name { get; set; }
-    public string HostUserId { get; set; }
+    public UserSummary HostUser { get; set; }
     public string? HostMessageId { get; set; }
-    public string? HostRoomId { get; set; }
+    public string? SourceRoomId { get; set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? LastActiveDate { get; set; }
@@ -70,9 +70,16 @@ public class Room : SparcRoot<string>
 
     public void SetAudio(string audioId) => AudioId = audioId;
 
-    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator)
+    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
     {
-        var translatedMessages = await translator.TranslateAsync(message, Languages);
+        var languagesToTranslate = forceRetranslation
+            ? Languages
+            : Languages.Where(x => !message.HasTranslation(x.Id)).ToList();
+
+        if (!languagesToTranslate.Any())
+            return new();
+
+        var translatedMessages = await translator.TranslateAsync(message, languagesToTranslate);
 
         // Add reference to all the new translated messages
         foreach (var translatedMessage in translatedMessages)

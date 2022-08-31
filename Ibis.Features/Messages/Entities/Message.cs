@@ -9,6 +9,7 @@ public record Word(long Offset, long Duration, string Text);
 public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
+    public string? SourceMessageId { get; private set; }
     public string Language { get; private set; }
     public DateTime Timestamp { get; private set; }
     public UserSummary User { get; private set; }
@@ -38,6 +39,7 @@ public class Message : SparcRoot<string>
     public Message(Message sourceMessage, string toLanguage, string text) : this()
     {
         RoomId = sourceMessage.RoomId;
+        SourceMessageId = sourceMessage.Id;
         User = sourceMessage.User;
         Language = toLanguage;
         SetText(text);

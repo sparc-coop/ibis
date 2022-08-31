@@ -5,24 +5,30 @@ namespace Ibis.Features.Messages;
 public record LanguageAdded(string RoomId, Language Language) : INotification;
 public class TranslateExistingMessages : BackgroundFeature<LanguageAdded>
 {
-    public TranslateExistingMessages(IRepository<Message> messages, ITranslator translator)
+    public TranslateExistingMessages(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)
     {
+        Rooms = rooms;
         Messages = messages;
         Translator = translator;
     }
 
+    public IRepository<Room> Rooms { get; }
     public IRepository<Message> Messages { get; }
     public ITranslator Translator { get; }
 
     public override async Task ExecuteAsync(LanguageAdded notification)
     {
-        var untranslatedMessages = await Messages.Query
-            .Where(x => x.RoomId == notification.RoomId)
+        var room = await Rooms.FindAsync(notification.RoomId);
+        if (room == null)
+            throw new NotFoundException("Room not found!");
+        
+        var messages = await Messages.Query
+            .Where(x => x.RoomId == notification.RoomId && x.SourceMessageId == null)
             .ToListAsync();
 
-        foreach (var message in untranslatedMessages.Where(x => !x.HasTranslation(notification.Language.Id)))
+        foreach (var message in messages)
         {
-            var translatedMessages = await Translator.TranslateAsync(message, new() { notification.Language });
+            var translatedMessages = await room.TranslateAsync(message, Translator);
 
             foreach (var translatedMessage in translatedMessages)
                 await Messages.AddAsync(translatedMessage);
