@@ -53,6 +53,9 @@ public class AzureSpeaker : ISpeaker
         File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice.ShortName}.wav", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
+        var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
+        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice!.Name}");
+
         return message.Audio with
         {
             Url = file.Url!,

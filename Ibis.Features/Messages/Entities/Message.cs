@@ -15,6 +15,7 @@ public class Message : SparcRoot<string>
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation>? Translations { get; private set; }
+    public decimal Charge { get; private set; }
 
     protected Message()
     {
@@ -71,5 +72,11 @@ public class Message : SparcRoot<string>
 
         if (!HasTranslation(languageId))
             Translations.Add(new(languageId, messageId));
+    }
+
+    internal void AddCharge(decimal cost, string description)
+    {
+        Charge += cost;
+        Broadcast(new CostIncurred(this, description, cost));
     }
 }

@@ -21,9 +21,9 @@ public class User : Root<string>
     public string? Email
     {
         get { return _email; }
-        set
+        private set
         {
-            if (String.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 _email = null;
                 return;
@@ -33,29 +33,33 @@ public class User : Root<string>
         }
     }
 
-    public string? PhoneNumber { get; set; }
-    public string? FirstName { get; set; }
+    [JsonIgnore]
+    public string FullName => $"{FirstName} {LastName}";
+    [JsonIgnore]
+    public string Initials => $"{FirstName?[0]}{LastName?[0]}";
+    public string? PhoneNumber { get; private set; }
+    public string? FirstName { get; private set; }
+    public string? LastName { get; private set; }
+    public string? DisplayName { get; private set; }
+    public DateTime DateCreated { get; private set; }
+    public DateTime DateModified { get; private set; }
+    public string? CustomerId { get; private set; }
+    public string? ProfileImg { get; private set; }
+    public string? Pronouns { get; private set; }
+    public string? Description { get; private set; }
+    public string Color { get; private set; }
+    public Voice? Voice { get; private set; }
+    public decimal Balance { get; private set; }
+    public string PrimaryLanguageId { get; private set; }
+    public List<Language> LanguagesSpoken { get; private set; }
+    public List<ActiveRoom> ActiveRooms { get; private set; }
+
 
     internal void JoinRoom(string roomId, string connectionId)
     {
         if (!ActiveRooms.Any(x => x.RoomId == roomId))
             ActiveRooms.Add(new(roomId, connectionId, DateTime.UtcNow));
     }
-
-    public string? LastName { get; set; }
-    public string? DisplayName { get; set; }
-    [JsonIgnore]
-    public string FullName => $"{FirstName} {LastName}";
-    [JsonIgnore]
-    public string Initials => $"{FirstName?[0]}{LastName?[0]}";
-    public DateTime DateCreated { get; set; }
-    public DateTime DateModified { get; set; }
-    public string? CustomerId { get; set; }
-    public string? ProfileImg { get; internal set; }
-    public string? Pronouns { get; internal set; }
-    public string? Description { get; internal set; }
-    public string Color { get; internal set; }
-    public Voice? Voice { get; internal set; }
 
     internal string? LeaveRoom(string roomOrConnectionId)
     {
@@ -70,13 +74,14 @@ public class User : Root<string>
     {
         if (!LanguagesSpoken.Any(x => x.Id == language.Id))
             LanguagesSpoken.Add(language);
-        
+
         PrimaryLanguageId = language.Id;
     }
 
-    public string PrimaryLanguageId { get; set; }
-    public List<Language> LanguagesSpoken { get; set; }
-    public List<ActiveRoom> ActiveRooms { get; set; }
+    internal void AddCharge(UserCharge userCharge)
+    {
+        Balance += userCharge.Amount;
+    }
 }
 
 public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);

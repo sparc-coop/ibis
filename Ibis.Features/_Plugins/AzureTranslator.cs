@@ -30,7 +30,11 @@ public class AzureTranslator : ITranslator
             foreach (TranslationResult o in result)
                 foreach (Translation t in o.Translations)
                 {
-                    translatedMessages.Add(new(message, t.To, t.Text));
+                    var translatedMessage = new Message(message, t.To, t.Text);
+                    translatedMessages.Add(translatedMessage);
+
+                    var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
+                    message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
                 }
         }
 
