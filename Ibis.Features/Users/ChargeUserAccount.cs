@@ -22,7 +22,7 @@ public class ChargeUserAccount : BackgroundFeature<CostIncurred>
         if (room == null)
             return;
         
-        UserCharge userCharge = new(room.HostUser.Id, room.Id, notification.Message.Id, notification.Description, notification.Amount);
+        UserCharge userCharge = new(room.HostUser.Id, room.Id, notification.Message.Id, notification.Description, notification.Amount * 1.2M);
 
         await Users.ExecuteAsync(room.HostUser.Id, x => x.AddCharge(userCharge));
         await Charges.AddAsync(userCharge);
