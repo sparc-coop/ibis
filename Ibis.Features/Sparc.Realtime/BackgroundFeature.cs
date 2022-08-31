@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Sparc.Features;
+namespace Sparc.Realtime;
 
 public abstract class BackgroundFeature<T> : INotificationHandler<T> where T : INotification
 {

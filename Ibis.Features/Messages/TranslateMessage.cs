@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Messages;
 
 public class TranslateMessage : BackgroundFeature<MessageTextChanged>
 {
@@ -16,18 +18,15 @@ public class TranslateMessage : BackgroundFeature<MessageTextChanged>
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
         var room = await Rooms.FindAsync(notification.RoomId);
-        var message = await Messages.FindAsync(notification.MessageId);
 
-        if (room == null || message == null)
+        if (room == null || notification.Message == null)
             throw new NotFoundException("Not found!");
         
-        var translatedMessages = await room.TranslateAsync(message, Translator);
+        var translatedMessages = await room.TranslateAsync(notification.Message, Translator);
 
         foreach (var translatedMessage in translatedMessages)
-        {
             await Messages.AddAsync(translatedMessage);
-        }
         
-        await Messages.UpdateAsync(message);
+        await Messages.UpdateAsync(notification.Message);
     }
 }

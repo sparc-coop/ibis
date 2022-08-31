@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Sparc.Database.Cosmos;
 
 namespace Ibis.Features._Plugins;
 

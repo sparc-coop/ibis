@@ -1,4 +1,6 @@
-﻿namespace Sparc.Core;
+﻿using Sparc.Realtime;
+
+namespace Sparc.Core;
 
 public interface ISparcRoot
 {

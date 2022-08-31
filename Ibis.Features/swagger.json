@@ -164,10 +164,10 @@
         }
       }
     },
-    "/api/AddTranslation": {
+    "/api/ChangeLanguage": {
       "post": {
         "tags": [
-          "AddTranslation"
+          "ChangeLanguage"
         ],
         "requestBody": {
           "content": {
@@ -175,7 +175,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/AddTranslationRequest"
+                    "$ref": "#/components/schemas/ChangeLanguageRequest"
                   }
                 ]
               }
@@ -184,7 +184,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/AddTranslationRequest"
+                    "$ref": "#/components/schemas/ChangeLanguageRequest"
                   }
                 ]
               }
@@ -193,7 +193,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/AddTranslationRequest"
+                    "$ref": "#/components/schemas/ChangeLanguageRequest"
                   }
                 ]
               }
@@ -206,26 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Message"
-                  }
+                  "type": "boolean"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Message"
-                  }
+                  "type": "boolean"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Message"
-                  }
+                  "type": "boolean"
                 }
               }
             }
@@ -484,17 +475,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetLanguageListResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetLanguageListResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetLanguageListResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language"
+                  }
                 }
               }
             }
@@ -933,10 +933,10 @@
         }
       }
     },
-    "/api/SendMessage": {
+    "/api/TranscribeMessage": {
       "post": {
         "tags": [
-          "SendMessage"
+          "TranscribeMessage"
         ],
         "requestBody": {
           "content": {
@@ -944,7 +944,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
                   }
                 ]
               }
@@ -953,7 +953,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
                   }
                 ]
               }
@@ -962,7 +962,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SendMessageRequest"
+                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
                   }
                 ]
               }
@@ -975,17 +975,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "type": "string"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "type": "string"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "type": "string"
                 }
               }
             }
@@ -993,10 +993,10 @@
         }
       }
     },
-    "/api/TranscribeSpeech": {
+    "/api/TypeMessage": {
       "post": {
         "tags": [
-          "TranscribeSpeech"
+          "TypeMessage"
         ],
         "requestBody": {
           "content": {
@@ -1004,7 +1004,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                    "$ref": "#/components/schemas/TypeMessageRequest"
                   }
                 ]
               }
@@ -1013,7 +1013,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                    "$ref": "#/components/schemas/TypeMessageRequest"
                   }
                 ]
               }
@@ -1022,7 +1022,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
+                    "$ref": "#/components/schemas/TypeMessageRequest"
                   }
                 ]
               }
@@ -1349,23 +1349,23 @@
         },
         "additionalProperties": false
       },
-      "AddTranslationRequest": {
+      "BrailleRequest": {
         "type": "object",
         "properties": {
           "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "BrailleRequest": {
+      "ChangeLanguageRequest": {
         "type": "object",
         "properties": {
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
           "roomId": {
             "type": "string",
             "nullable": true
@@ -1402,22 +1402,30 @@
         "properties": {
           "language": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "locale": {
             "type": "string",
             "nullable": true
           },
-          "localeName": {
+          "displayName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "voices": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Voice"
             },
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1436,27 +1444,10 @@
         },
         "additionalProperties": false
       },
-      "GetLanguageListResponse": {
-        "type": "object",
-        "properties": {
-          "languages": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/LanguageItem"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "GetRoomRequest": {
         "type": "object",
         "properties": {
           "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
             "type": "string",
             "nullable": true
           }
@@ -1536,6 +1527,10 @@
         },
         "additionalProperties": false
       },
+      "INotification": {
+        "type": "object",
+        "additionalProperties": false
+      },
       "InviteUserRequest": {
         "type": "object",
         "properties": {
@@ -1553,7 +1548,7 @@
       "Language": {
         "type": "object",
         "properties": {
-          "name": {
+          "id": {
             "type": "string",
             "nullable": true
           },
@@ -1575,31 +1570,6 @@
             },
             "nullable": true,
             "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "LanguageItem": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "nativeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "dir": {
-            "type": "string",
-            "nullable": true
-          },
-          "dialects": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Dialect"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1632,6 +1602,14 @@
             "type": "string",
             "nullable": true
           },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/INotification"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
           "roomId": {
             "type": "string",
             "nullable": true
@@ -1643,14 +1621,8 @@
           },
           "language": {
             "type": "string",
-            "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ]
+            "nullable": true,
+            "readOnly": true
           },
           "timestamp": {
             "type": "string",
@@ -1665,33 +1637,19 @@
           },
           "text": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "modifiedText": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "audioId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "modifiedAudioId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "originalUploadFileName": {
-            "type": "string",
             "nullable": true
           },
-          "translations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Translation"
-            },
+          "audioUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "voice": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Voice"
+              }
+            ],
             "nullable": true,
             "readOnly": true
           },
@@ -1703,15 +1661,32 @@
             "type": "string",
             "nullable": true
           },
-          "subroomId": {
-            "type": "string",
-            "nullable": true
-          },
           "color": {
             "type": "string",
             "nullable": true
           },
-          "videoId": {
+          "videoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageTranslation"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MessageTranslation": {
+        "type": "object",
+        "properties": {
+          "languageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "messageId": {
             "type": "string",
             "nullable": true
           }
@@ -1741,6 +1716,14 @@
           "id": {
             "type": "string",
             "nullable": true
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/INotification"
+            },
+            "nullable": true,
+            "readOnly": true
           },
           "roomId": {
             "type": "string",
@@ -1800,14 +1783,6 @@
             },
             "nullable": true
           },
-          "translations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Translation"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
           "audioId": {
             "type": "string",
             "nullable": true
@@ -1860,58 +1835,6 @@
         },
         "additionalProperties": false
       },
-      "SendMessageRequest": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "messageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "modifiedMessage": {
-            "type": "string",
-            "nullable": true
-          },
-          "sourceType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SourceTypes"
-              }
-            ],
-            "nullable": true
-          },
-          "bytes": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SourceTypes": {
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "TranscribeSpeechRequest": {
         "type": "object",
         "properties": {
@@ -1926,32 +1849,16 @@
         },
         "additionalProperties": false
       },
-      "Translation": {
+      "TypeMessageRequest": {
         "type": "object",
         "properties": {
-          "language": {
+          "roomId": {
             "type": "string",
             "nullable": true
           },
           "text": {
             "type": "string",
             "nullable": true
-          },
-          "modifiedText": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "audioId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "score": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -2094,6 +2001,15 @@
           },
           "color": {
             "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "voice": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Voice"
+              }
+            ],
             "nullable": true,
             "readOnly": true
           },

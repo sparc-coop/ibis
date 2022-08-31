@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features._Plugins;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Sparc.Realtime;
 
 public static class HttpClientExtensions
 {

@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Users;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Users;
 
 public record ChangeLanguageRequest(string Language, string? RoomId);
 public class ChangeLanguage : Feature<ChangeLanguageRequest, bool>

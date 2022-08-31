@@ -1,5 +1,8 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
 
+namespace Ibis.Features.Messages;
+
+public record MessageTranslation(string LanguageId, string MessageId);
 public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
@@ -51,7 +54,7 @@ public class Message : SparcRoot<string>
     public void SetText(string text)
     {
         Text = text;
-        Broadcast(new MessageTextChanged(RoomId, Id, Text));
+        Broadcast(new MessageTextChanged(this));
     }
     public void SetAudio(string audioId) => AudioUrl = audioId;
     public void SetVideo(string videoId) => VideoUrl = videoId;
@@ -62,7 +65,7 @@ public class Message : SparcRoot<string>
         Duration = duration.Ticks;
     }
 
-    internal async Task SpeakAsync(ISynthesizer engine)
+    internal async Task SpeakAsync(ISpeaker engine)
     {
         if (Voice == null)
             return;
@@ -72,7 +75,7 @@ public class Message : SparcRoot<string>
 
     internal bool HasTranslation(string languageId)
     {
-        return Translations != null && Translations.Any(x => x.Language == languageId);
+        return Translations != null && Translations.Any(x => x.LanguageId == languageId);
     }
     
     internal void AddTranslation(string languageId, string messageId)

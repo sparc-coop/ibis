@@ -1,4 +1,5 @@
-﻿using Sparc.Authentication.AzureADB2C;
+﻿using Ibis.Features.Sparc.Realtime;
+using Sparc.Authentication.AzureADB2C;
 using Sparc.Notifications.Twilio;
 using Sparc.Plugins.Database.Cosmos;
 using Sparc.Storage.Azure;
@@ -22,7 +23,7 @@ namespace Ibis.Features
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
                 .AddScoped<ITranslator, AzureTranslator>()
-                .AddScoped<ISynthesizer, AzureSynthesizer>();
+                .AddScoped<ISpeaker, AzureSpeaker>();
 
             services.AddSignalR();
             services.AddRazorPages();

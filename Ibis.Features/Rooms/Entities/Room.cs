@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Rooms;
 
 public class Room : SparcRoot<string>
 {
@@ -67,11 +69,6 @@ public class Room : SparcRoot<string>
     }
 
     public void SetAudio(string audioId) => AudioId = audioId;
-
-    internal async Task TranslateAllAsync(List<Message> messages, ITranslator translator)
-    { 
-        
-    }
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator)
     {

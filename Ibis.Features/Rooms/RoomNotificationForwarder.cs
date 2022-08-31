@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Sparc.Realtime;
 
-namespace Ibis.Features._Events
+namespace Ibis.Features.Rooms
 {
     public class RoomNotificationForwarder : BackgroundFeature<RoomNotification>
     {

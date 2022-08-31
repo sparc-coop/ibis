@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Messages;
 
 public record LanguageAdded(string RoomId, Language Language) : INotification;
 public class TranslateExistingMessages : BackgroundFeature<LanguageAdded>

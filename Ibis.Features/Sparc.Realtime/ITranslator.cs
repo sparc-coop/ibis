@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Sparc.Realtime;
 
 public interface ITranslator
 {

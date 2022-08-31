@@ -1,14 +1,16 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Rooms;
 
 public class GetLanguageList : PublicFeature<List<Language>>
 {
-    public GetLanguageList(ITranslator translator, ISynthesizer synthesizer)
+    public GetLanguageList(ITranslator translator, ISpeaker synthesizer)
     {
         Translator = translator;
         Synthesizer = synthesizer;
     }
     public ITranslator Translator { get; }
-    public ISynthesizer Synthesizer { get; }
+    public ISpeaker Synthesizer { get; }
 
     public override async Task<List<Language>> ExecuteAsync()
     {

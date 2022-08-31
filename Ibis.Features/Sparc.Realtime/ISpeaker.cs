@@ -1,6 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Sparc.Realtime;
 
-public interface ISynthesizer
+public interface ISpeaker
 {
     Task<string?> SpeakAsync(Message message);
     Task<List<Voice>> GetVoicesAsync(string? language = null, string? dialect = null, string? gender = null);

@@ -1,4 +1,4 @@
-﻿namespace Sparc.Features;
+﻿namespace Sparc.Realtime;
 
 public interface INotification : MediatR.INotification
 { }

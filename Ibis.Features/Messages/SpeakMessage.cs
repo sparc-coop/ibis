@@ -1,19 +1,22 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
 
-public record MessageTextChanged(string RoomId, string MessageId, string Text) : RoomNotification(RoomId);
+namespace Ibis.Features.Messages;
+
+public record MessageTextChanged(Message Message) : RoomNotification(Message.RoomId);
 public class SpeakMessage : BackgroundFeature<MessageTextChanged>
 {
-    public SpeakMessage(ISynthesizer synthesizer, IRepository<Message> messages)
+    public SpeakMessage(ISpeaker synthesizer, IRepository<Message> messages)
     {
         Synthesizer = synthesizer;
         Messages = messages;
     }
 
-    public ISynthesizer Synthesizer { get; }
+    public ISpeaker Synthesizer { get; }
     public IRepository<Message> Messages { get; }
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        await Messages.ExecuteAsync(notification.MessageId, async message => await message.SpeakAsync(Synthesizer));
+        await notification.Message.SpeakAsync(Synthesizer);
+        await Messages.UpdateAsync(notification.Message);
     }
 }

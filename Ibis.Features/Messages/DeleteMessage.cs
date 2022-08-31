@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Features.Messages;
 
 public record DeleteMessageRequest(string RoomId, string MessageId);
-public class DeleteMessage : Feature<DeleteMessageRequest, Room>
+public class DeleteMessage : Feature<DeleteMessageRequest, bool>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<Message> Messages { get; }
@@ -12,13 +12,13 @@ public class DeleteMessage : Feature<DeleteMessageRequest, Room>
         Messages = messages;
     }
 
-    public override async Task<Room> ExecuteAsync(DeleteMessageRequest request)
+    public override async Task<bool> ExecuteAsync(DeleteMessageRequest request)
     {
         var message = await Messages.FindAsync(request.MessageId);
-        if (message != null)
-            await Messages.DeleteAsync(message);
-        
-        var room = await Rooms.FindAsync(request.RoomId);
-        return room!;
+        if (message == null) 
+            return false;
+
+        await Messages.DeleteAsync(message);
+        return true;
     }
 }

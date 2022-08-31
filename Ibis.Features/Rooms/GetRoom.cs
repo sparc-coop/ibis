@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Rooms;
 
 public record GetRoomRequest(string RoomId);
 public record GetRoomResponse

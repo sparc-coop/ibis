@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sparc.Database.Cosmos;
+namespace Sparc.Core;
 
 public class SparcContext : DbContext
 {

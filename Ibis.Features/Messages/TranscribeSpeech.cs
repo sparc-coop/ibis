@@ -1,32 +1,24 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features.Messages;
 
 public record TranscribeSpeechRequest(string RoomId, string Language);
-public class TranscribeMessage : PublicFeature<TranscribeSpeechRequest, Message>
+public class TranscribeMessage : PublicFeature<TranscribeSpeechRequest, string>
 {
     public IRepository<Message> Messages { get; }
     public IRepository<User> Users { get; }
-    public IbisEngine IbisEngine { get; }
+    public IListener Listener { get; }
 
-    public TranscribeMessage(IRepository<Message> messages, IRepository<User> users, IbisEngine ibisEngine)
+    public TranscribeMessage(IRepository<Message> messages, IRepository<User> users, IListener listener)
     {
         Messages = messages;
         Users = users;
-        IbisEngine = ibisEngine;
+        Listener = listener;
     }
 
-    public async override Task<Message> ExecuteAsync(TranscribeSpeechRequest request)
+    public async override Task<string> ExecuteAsync(TranscribeSpeechRequest request)
     {
-        var user = await Users.FindAsync(User.Id());
-        var message = new Message(request.RoomId, User.Id(), request.Language ?? user!.PrimaryLanguageId, SourceTypes.Microphone, user!.FullName, user.Initials);
-        message = await IbisEngine.TranscribeSpeechFromMic(message);
-        if (message.Text == null || message.Text.Length == 0)
-        {
-            await Messages.DeleteAsync(message);
-        }
-        else
-        {
-            await Messages.AddAsync(message);
-        }
-        return message;
+        return await Listener.BeginListeningAsync();
+        
     }
 }

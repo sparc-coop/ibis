@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features._Plugins;
+﻿using Ibis.Features.Sparc.Realtime;
+
+namespace Ibis.Features._Plugins;
 
 public class AzureTranslator : ITranslator
 {
@@ -50,3 +52,12 @@ public class AzureTranslator : ITranslator
         return languages.FirstOrDefault(x => x.Id == language);
     }
 }
+
+public record TranslationResult(DetectedLanguage DetectedLanguage, TextResult SourceText, Translation[] Translations);
+public record DetectedLanguage(string Language, float Score);
+public record TextResult(string Text, string Script);
+public record Translation(string Text, TextResult Transliteration, string To, Alignment Alignment, SentenceLength SentLen);
+public record Alignment(string Proj);
+public record SentenceLength(int[] SrcSentLen, int[] TransSentLen);
+public record LanguageList(Dictionary<string, LanguageItem> translation);//dictionary of languages //List<LanguageItem>> translation);//
+public record LanguageItem(string name, string nativeName, string dir, List<Dialect>? Dialects);
