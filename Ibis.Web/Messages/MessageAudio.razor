@@ -1,0 +1,14 @@
+﻿<div class="message-audio">
+    <audio id="@Id" src="@Audio.Url" />
+    <i class="material-icons" @onclick:stopPropagation="true" @onclick="Play">volume_up</i>
+</div>
+
+@code {
+    [Parameter] public AudioMessage Audio { get; set; } = null!;
+    string Id = Guid.NewGuid().ToString();
+
+    async Task Play()
+    {
+        await JS.InvokeVoidAsync("playAudio", Id);
+    }
+}

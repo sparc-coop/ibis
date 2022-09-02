@@ -67,17 +67,19 @@
         margin: 0 8px;
         border-radius: 10px;
         margin-bottom: 16px;
+        filter: brightness(170%);
 
         .account-name {
             margin-bottom: 10px;
         }
-    }
 
-    .message-content {
-        font-size: 18px;
-        font-family: 'CircularStd-Book';
-        font-weight: 400;
-        padding-top: 6px;
+
+        > p {
+            font-size: 18px;
+            font-family: 'CircularStd-Book';
+            font-weight: 400;
+            padding-top: 6px;
+        }
     }
 
     .message-box {

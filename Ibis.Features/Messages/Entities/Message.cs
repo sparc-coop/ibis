@@ -59,6 +59,7 @@ public class Message : SparcRoot<string>
             return;
 
         Audio = await engine.SpeakAsync(this);
+        Broadcast(new MessageAudioChanged(this));
     }
 
     internal bool HasTranslation(string languageId)

@@ -235,27 +235,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CostIncurred"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CostIncurred"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CostIncurred"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
               }
             }
           }
@@ -810,27 +825,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/GroupNotification"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/GroupNotification"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/GroupNotification"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
               }
             }
           }
@@ -913,27 +943,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             }
           }
@@ -956,27 +1001,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             }
           }
@@ -1059,27 +1119,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/LanguageAdded"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/LanguageAdded"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/LanguageAdded"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
               }
             }
           }
@@ -1102,27 +1177,42 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/MessageTextChanged"
-                  }
-                ]
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
               }
             }
           }
@@ -1588,29 +1678,41 @@
       },
       "CostIncurred": {
         "type": "object",
-        "properties": {
-          "groupId": {
-            "type": "string",
-            "nullable": true
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
           },
-          "message": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Message"
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "message": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ],
+                "nullable": true
+              },
+              "description": {
+                "type": "string",
+                "nullable": true
+              },
+              "amount": {
+                "type": "number",
+                "format": "double"
               }
-            ],
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
+            }
           }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
         },
-        "additionalProperties": false
+        "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
       },
       "CreateStripeCustomerRequest": {
         "type": "object",
@@ -1782,17 +1884,41 @@
       },
       "GroupNotification": {
         "type": "object",
-        "properties": {
-          "groupId": {
-            "type": "string",
-            "nullable": true
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
           }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
         },
-        "additionalProperties": false
+        "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
       },
       "INotification": {
+        "required": [
+          "$type"
+        ],
         "type": "object",
-        "additionalProperties": false
+        "properties": {
+          "$type": {
+            "type": "string",
+            "default": "Sparc.Realtime.INotification"
+          }
+        },
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        }
       },
       "InviteUserRequest": {
         "type": "object",
@@ -1839,21 +1965,33 @@
       },
       "LanguageAdded": {
         "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
           },
-          "language": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Language"
+          {
+            "type": "object",
+            "properties": {
+              "roomId": {
+                "type": "string",
+                "nullable": true
+              },
+              "language": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Language"
+                  }
+                ],
+                "nullable": true
               }
-            ],
-            "nullable": true
+            }
           }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
         },
-        "additionalProperties": false
+        "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
       },
       "Message": {
         "type": "object",
@@ -1926,23 +2064,65 @@
         },
         "additionalProperties": false
       },
+      "MessageAudioChanged": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "message": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ],
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageAudioChanged, Ibis.Features"
+      },
       "MessageTextChanged": {
         "type": "object",
-        "properties": {
-          "groupId": {
-            "type": "string",
-            "nullable": true
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
           },
-          "message": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Message"
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "message": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ],
+                "nullable": true
               }
-            ],
-            "nullable": true
+            }
           }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
         },
-        "additionalProperties": false
+        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
       },
       "MessageTranslation": {
         "type": "object",

@@ -1,0 +1,10 @@
+﻿<figure class="avatar" style="background: @User.Color">
+    @User.Initials
+    <figcaption>
+        @User.Name
+    </figcaption>
+</figure>
+
+@code {
+    [Parameter] public UserSummary User { get; set; } = null!;
+}

@@ -1,91 +1,38 @@
-﻿<article class="message-card @(Message.SubroomId != null ? "subroom" : "")"
-         style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)"
-         @onclick="GoToSubroom">
-    <div class="message-card-content">
-        <div class="user">
-            <div class="avatar" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191"); filter: brightness(75%)">
-                @(Message.UserInitials != null ? Message.UserInitials : "")
-            </div>
-            <div class="account-name" style="color:#000000">
-                @(Message.UserName != null ? Message.UserName : "")
-                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
-            </div>
-            @if (MessageAudio != null)
-            {
-                <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />
-                <i class="material-icons" @onclick:stopPropagation="true" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
-            }
-        </div>
-    </div>
-    <div class="message-content">
-        @MessageText
-    </div>
-</article>
+﻿@inherits RealtimeComponent
 
-@inject IJSRuntime JS
+<article class="message-card" style="background: @Message.User.Color" @onclick="GoToSubroom">
+    <Avatar User="Message.User" />
+    <time datetime="@Message.Timestamp.ToString("u")"></time>
+            @if (Message.Audio != null)
+            {
+                <MessageAudio Audio="Message.Audio" />
+            }
+    <p>@Message.Text</p>
+</article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
     [Parameter] public string Language { get; set; } = "";
     [Parameter] public string Type { get; set; } = "";
-    [CascadingParameter] public HubConnection? Hub { get; set; }
 
-    string? MessageText;
-    string? MessageAudio;
-    List<IDisposable> Events = new();
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         On<MessageTextChanged>(x =>
         {
             if (Message.Id == x.Message.Id)
                 Message.Text = x.Message.Text;
         });
+
+        On<MessageAudioChanged>(x =>
+        {
+            if (Message.Id == x.Message.Id)
+                Message.Audio = x.Message.Audio;
+        });
     }
-
-    private void On<T>(Action<T> action)
-    {
-        if (Hub != null)
-            Events.Add(Hub.On<T>(typeof(T).Name, action));
-    }
-
-    protected override void OnParametersSet()
-    {
-        var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
-        if (Message.ModifiedText == null)
-        {
-            MessageText = translation?.Text ?? Message.Text;
-        }
-        else
-        {
-            MessageText = translation?.Text ?? Message.ModifiedText;
-            MessageText = Message.ModifiedText;
-        }
-
-        if (translation?.AudioId != null)
-        {
-            MessageAudio = translation.AudioId;
-            MessageAudio = Message.ModifiedAudioId;
-
-        }
-        else if (Message.ModifiedAudioId != null)
-        {
-            MessageAudio = Message.ModifiedAudioId;
-        }
-        else
-        {
-            MessageAudio = Message.AudioId;
-        }
-    }
-
-    async Task PlayAudio(string id)
-    {
-        await JS.InvokeVoidAsync("playAudio", id);
-    }
-
+   
     void GoToSubroom()
     {
-        if (Message.SubroomId != null)
-            Nav.NavigateTo($"/rooms/{Message.SubroomId}", true);
+        //if (Message != null)
+        //    Nav.NavigateTo($"/rooms/{Message.SubroomId}", true);
     }
 }

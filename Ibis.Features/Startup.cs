@@ -19,13 +19,13 @@ namespace Ibis.Features
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration)
                 .AddAzureStorage(Configuration.GetConnectionString("Storage"))
-                .AddTwilio(Configuration);
+                .AddTwilio(Configuration)
+                .AddSparcRealtime();
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
                 .AddScoped<ITranslator, AzureTranslator>()
                 .AddScoped<ISpeaker, AzureSpeaker>();
 
-            services.AddSignalR();
             services.AddRazorPages();
         }
 

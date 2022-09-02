@@ -1,0 +1,22 @@
+﻿@implements IAsyncDisposable
+
+@code {
+    [CascadingParameter] public HubConnection? Hub { get; set; }
+    List<IDisposable> Events = new();
+
+    protected void On<T>(Action<T> action)
+    {
+        if (Hub != null)
+            Events.Add(Hub.On<T>(typeof(T).Name, action));
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        foreach (var evt in Events)
+            evt.Dispose();
+
+        Events.Clear();
+
+        return ValueTask.CompletedTask;
+    }
+}

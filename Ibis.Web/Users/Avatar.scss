@@ -1,0 +1,19 @@
+﻿@import "../_variables.scss";
+
+.avatar {
+    color: $black;
+    font-size: 12px;
+    width: 25px;
+    height: 25px;
+    line-height: 27px;
+    text-align: center;
+    border-radius: 45px;
+    position: absolute;
+    left: 0;
+    top: -7px;
+    filter: brightness(75%);
+
+    figcaption {
+        color: $black;
+    }
+}
