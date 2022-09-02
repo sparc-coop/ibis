@@ -1,4 +1,5 @@
 ﻿using Ibis.Features.Sparc.Realtime;
+using MediatR;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using System.Collections.Concurrent;
@@ -6,14 +7,17 @@ using System.Collections.Concurrent;
 namespace Ibis.Features._Plugins;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
-
+public record SpeechRecognizing(string SessionId, string Text, long Duration) : GroupNotification(SessionId);
+public record SpeechRecognized(string SessionId, string Text, long Duration) : GroupNotification(SessionId);
 public class AzureListener : IListener
 {
     readonly HttpClient Client;
     readonly string SubscriptionKey;
     static readonly List<AudioConnection> _audioConnections = new();
 
-    public AzureListener(IConfiguration configuration)
+    public IMediator Mediator { get; }
+
+    public AzureListener(IConfiguration configuration, IMediator mediator)
     {
         SubscriptionKey = configuration.GetConnectionString("Speech");
 
@@ -22,6 +26,7 @@ public class AzureListener : IListener
             BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
         };
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
+        Mediator = mediator;
     }
 
     public async Task<string> BeginListeningAsync()
@@ -67,12 +72,14 @@ public class AzureListener : IListener
     {
         var audioConnection = _audioConnections.FirstOrDefault(x => x.SessionId == e.SessionId);
         if (audioConnection == null) return;
+        Mediator.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 
     private void SpeechClient_Recognized(object? sender, SpeechRecognitionEventArgs e)
     {
         var audioConnection = _audioConnections.FirstOrDefault(x => x.SessionId == e.SessionId);
         if (audioConnection == null) return;
+        Mediator.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 
     //internal async Task<List<Message>> TranscribeSpeechFromFile(Message message, byte[] bytes, string fileName)

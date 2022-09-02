@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public class GetRooms : Feature<string, List<GetRoomResponse>>
+public class GetRooms : Feature<List<GetRoomResponse>>
 {
     public GetRooms(IRepository<Room> rooms)
     {
@@ -9,10 +9,10 @@ public class GetRooms : Feature<string, List<GetRoomResponse>>
 
     public IRepository<Room> Rooms { get; }
 
-    public override async Task<List<GetRoomResponse>> ExecuteAsync(string userId)
+    public override async Task<List<GetRoomResponse>> ExecuteAsync()
     {
         var rooms = await Rooms.Query
-            .Where(x => x.HostUser.Id == userId && x.EndDate == null)
+            .Where(x => x.HostUser.Id == User.Id() && x.EndDate == null)
             .ToListAsync();
 
         return rooms.Select(x => new GetRoomResponse(x)).ToList();

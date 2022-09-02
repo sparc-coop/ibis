@@ -1,27 +1,13 @@
-﻿<section class="speak">
+﻿@inherits RealtimeComponent
+
+<section class="speak">
     <div class="input">
-@*        <input @bind="Text" readonly=true />
-        <div class="buttons">
-            <button @onclick="SendText">
-                <i class="material-icons">send</i>
-            </button>
-            <button @onclick="Cancel">cancel</button>
-        </div>
-*@
-        <h3>Recording...</h3>
-        @if (Text == null)
+        @if (SessionId != null)
         {
+            <h3>Recording...</h3>
             <audio src="/sounds/beep_up.wav" autoplay />
         }
-@*        <div class="buttons">
-            <button @onclick="@(StopSpeechRecognition)" aria-label="Stop Recording">
-                <i class="material-icons" style="color: darkred;">keyboard_voice</i>
-            </button>
-            @if (StopRecordingSpeech == true)
-            {
-                <audio src="/sounds/beep_down.wav" autoplay />
-            }
-        </div>*@
+        <p>@Text</p>
     </div>
 </section>
 
@@ -31,34 +17,34 @@
 @code {
     [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Language { get; set; }
-    [Parameter] public SourceTypes? SourceType { get; set; }
     string? Text;
+    string? SessionId;
     Message? Message;
     List<Message> Messages = new();
-    //bool StopRecordingSpeech = false;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = RoomId, Language = Language });
-        if (newMessage != null)
+        var SessionId = await Api.HearMessageAsync();
+        On<SpeechRecognizing>(x =>
         {
-            //StopRecordingSpeech = true;
-            Text = newMessage.Text;
-            newMessage.ModifiedText = Text;
-            Message = newMessage;
-            ShowConfirmOrEditTextModal(RoomId!, Language!, Message, Message.Text, Message.SourceType, null);
-            if (newMessage.Text == null || newMessage.Text.Length == 0)
+            if (x.SessionId == SessionId)
+                Text = x.Text;
+        });
+
+        On<SpeechRecognized>(x =>
+        {
+            if (x.SessionId == SessionId)
             {
-                await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = newMessage.Id });
+                Text = x.Text;
             }
-        }
-        
+        });
+
         await ModalInstance.CloseAsync(ModalResult.Ok(true));
     }
 
-    void ShowConfirmOrEditTextModal(string roomId, string language, Message message, string text, SourceTypes sourceType, byte[]? bytes)
+    void ShowConfirmOrEditTextModal(string roomId, string language, Message message, string text, byte[]? bytes)
     {
         List<Message> MessageList = new List<Message>();
         MessageList.Add(message);

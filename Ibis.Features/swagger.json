@@ -733,25 +733,6 @@
         "tags": [
           "GetRooms"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "string"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -868,6 +849,35 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HearMessage": {
+      "post": {
+        "tags": [
+          "HearMessage"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -1044,66 +1054,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/TranscribeMessage": {
-      "post": {
-        "tags": [
-          "TranscribeMessage"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/TranscribeSpeechRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
           }
         }
       }
@@ -1538,6 +1488,64 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/events/UserNotificationForwarder": {
+      "post": {
+        "tags": [
+          "UserNotificationForwarder"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/INotification"
+                  },
+                  { }
+                ],
+                "discriminator": {
+                  "propertyName": "$type"
+                },
+                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -2169,19 +2177,73 @@
         },
         "additionalProperties": false
       },
-      "TranscribeSpeechRequest": {
+      "SpeechRecognized": {
         "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
           },
-          "language": {
-            "type": "string",
-            "nullable": true
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "sessionId": {
+                "type": "string",
+                "nullable": true
+              },
+              "text": {
+                "type": "string",
+                "nullable": true
+              },
+              "duration": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
           }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
         },
-        "additionalProperties": false
+        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognized, Ibis.Features"
+      },
+      "SpeechRecognizing": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "sessionId": {
+                "type": "string",
+                "nullable": true
+              },
+              "text": {
+                "type": "string",
+                "nullable": true
+              },
+              "duration": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognizing, Ibis.Features"
       },
       "TypeMessageRequest": {
         "type": "object",
@@ -2380,6 +2442,28 @@
           }
         },
         "additionalProperties": false
+      },
+      "UserNotification": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
       },
       "UserSummary": {
         "type": "object",

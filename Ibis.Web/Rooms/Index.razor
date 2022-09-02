@@ -62,13 +62,7 @@
                 <div class="room-members">
                     @foreach(var member in room.ActiveUsers.Take(10))
                     {
-                        @if(member.ProfileImg != null)
-                        {
-                            <img src="@member.ProfileImg" />
-                        } 
-                        else {
-                            <i class="material-icons">account_circle</i>   
-                        }    
+                        <Avatar User="member" />
                     }      
                 </div>
             </div>
@@ -82,12 +76,10 @@
     ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
-    GetUserResponse? user;
 
     protected override async Task OnInitializedAsync()
     {
-        user = await Api.GetUserAsync();
-        Rooms = await Api.GetUserRoomsAsync(user.Id);
+        Rooms = await Api.GetRoomsAsync();
         OriginalList = Rooms;
     }
 
@@ -133,7 +125,7 @@
 
         if(result.Cancelled)
         {
-            Rooms = await Api.GetUserRoomsAsync(user!.Id);
+            Rooms = await Api.GetRoomsAsync();
             await JS.InvokeVoidAsync("toggleRoomDropdown", room);
         }
     }
@@ -148,7 +140,7 @@
         var result = await editModal.Result;
         if(result.Cancelled)
         {
-            Rooms = await Api.GetUserRoomsAsync(user!.Id);
+            Rooms = await Api.GetRoomsAsync();
             await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
         }
     }
