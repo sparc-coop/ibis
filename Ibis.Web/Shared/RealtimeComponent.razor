@@ -7,7 +7,10 @@
     protected void On<T>(Action<T> action)
     {
         if (Hub != null)
-            Events.Add(Hub.On<T>(typeof(T).Name, action));
+            Events.Add(Hub.On<T>(typeof(T).Name, evt => {
+                action(evt);
+                StateHasChanged();
+            }));
     }
 
     public ValueTask DisposeAsync()
