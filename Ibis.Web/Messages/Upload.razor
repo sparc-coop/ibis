@@ -51,17 +51,6 @@
         ErrorMessage();
     }
 
-    void ShowConfirmOrEditTextModal(string roomId, string language, List<Message> messages, byte[] bytes)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
-        parameters.Add(nameof(ConfirmOrEditText.Language), language);
-        parameters.Add(nameof(ConfirmOrEditText.MessageList), messages);
-        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
-
-        Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
-    }
-
     async Task Submit()
     {
         loading = true;
@@ -70,12 +59,9 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
-            foreach(var message in messages)
-            {
-                message.ModifiedText = message.Text;
-            }
-            ShowConfirmOrEditTextModal(RoomId!, Language!, messages.ToList(), bytes);
-            await ModalInstance.CloseAsync(ModalResult.Ok(true));
+            
+            // ShowConfirmOrEditTextModal(RoomId!, Language!, messages.ToList(), bytes);
+            await ModalInstance.CloseAsync(ModalResult.Ok(messages));
         } else
         {
             FileInputEmptyOnSubmit = true;
