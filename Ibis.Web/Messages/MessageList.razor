@@ -1,0 +1,37 @@
+﻿@inherits RealtimeComponent
+
+<div class="message-grid">
+    <div class="message-list">
+        @if (Messages?.Count > 0)
+        {
+            @foreach (var message in Messages.Where(x => x.Text != null && x.Text.Length > 0))
+            {
+                <MessageCard Message=message />
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string RoomId { get; set; } = null!;
+    List<Message> Messages = new();
+
+    protected override void OnInitialized()
+    {
+        On<MessageTextChanged>(x =>
+        {
+            if (x.Message.RoomId == RoomId)
+                AddMessage(x.Message);
+        });
+    }
+
+    void AddMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+            Messages[existingId] = message;
+        else
+            Messages.Add(message);
+    }
+    
+}

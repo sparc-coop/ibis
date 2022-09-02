@@ -57,7 +57,7 @@ async function downloadFileFromStream(fileName, contentStreamReference) {
     URL.revokeObjectURL(url);
 }
 
-function triggerFileDownload(fileName, url) {
+function triggerFileDownload(url, fileName) {
     const anchorElement = document.createElement('a');
     anchorElement.href = url;
     anchorElement.download = fileName ?? '';

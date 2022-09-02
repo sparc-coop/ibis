@@ -10,6 +10,7 @@ public record GetRoomResponse
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
     public List<UserSummary>? ActiveUsers { get; set; }
+    public List<UserSummary>? PendingUsers { get; set; }
 
     public GetRoomResponse(Room room)
     {
@@ -18,6 +19,7 @@ public record GetRoomResponse
         StartDate = room.StartDate;
         Name = room.Name;
         ActiveUsers = room.ActiveUsers;
+        PendingUsers = room.PendingUsers;
     }
 }
 

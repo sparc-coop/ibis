@@ -5,7 +5,7 @@
 	 <div class="actions">
          <div class="header">
              <h3>Your Rooms</h3>
-             <button class="add" @onclick="ShowRoomModal">
+             <button class="add" @onclick="CreateRoom">
                  <i class="material-icons">add</i>Create New Room
             </button>
             <Tooltip Text="Start your first room!"/>
@@ -85,9 +85,9 @@
 
     public record LanguageItem(string name, string nativeName, string dir);
 
-    void ShowRoomModal()
+    void CreateRoom()
     {
-        Modal.Show<RoomModal>("RoomModal");
+        Modal.Show<CreateRoomModal>("Create Room");
     }
 
     void GoToRoom(string Id)

@@ -1,0 +1,90 @@
+﻿<div class="message-box">
+    <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+    <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
+</div>
+
+<div class="message-box-bottom">
+    <div class="message-options">
+        <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
+            <i class="material-icons">cloud_upload</i>
+        </button>
+        
+        <div class="translate">
+            <img src="icons/Translate.svg" />
+            <p>Auto Translate</p>
+        </div>
+        @*Make Text Dark Blue When checked*@
+        @*<div class="switch-wrapper">
+        <!-- Rounded switch -->
+        <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        </label>
+        <p>Voice</p>
+        </div>*@
+        <button @onclick="ShowSpeakModal" aria-label="Speak" title="Speech to text">
+            <i class="material-icons">keyboard_voice</i>
+        </button>
+        @*Make Text Dark Blue When checked*@
+        @*                    <div class="switch-wrapper">
+        <!-- Rounded switch -->
+        <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+        </label>
+        <p>Text</p>
+        </div>*@
+    </div>
+</div>
+@*            <div class="time-stamp">
+                <p class="small start">Start</p>
+                <div class="time-duration">
+                    <p class="small">0:10</p>
+                    <div class="timeline-line"></div>
+                    <p class="small">0:25</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:27</p>
+                    <div class="timeline-line2"></div>
+                    <p class="small">0:31</p>
+                </div>
+                <div class="time-duration">
+                    <p class="small">0:34</p>
+                    <div class="timeline-line3"></div>
+                    <p class="small">1:17</p>
+                </div>
+            </div>*@
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    string? Text;
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    async Task SendText()
+    {
+        var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = Text });
+        Text = null;
+        StateHasChanged();
+    }
+
+
+    void ShowUploadModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.RoomId), Room.RoomId);
+        Modal.Show<Upload>("Upload", parameters);
+    }
+
+    void ShowSpeakModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Speak.RoomId), Room.RoomId);
+        Modal.Show<Speak>("Send a voice message...", parameters);
+    }
+
+}

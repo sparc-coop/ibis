@@ -66,18 +66,16 @@
 </div>
 
 @code {
-    [CascadingParameter] 
-    BlazoredModalInstance ModalInstance { get; set; } = default!;
-    void Close() => ModalInstance.CancelAsync();
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
     string? Name;
     string InviteEmail = "";
-    RoomUsersResponse Group = new RoomUsersResponse();
     List<string> emails = new List<string>();
     List<User> invited = new List<User>();
 
     async Task CreateRoom()
     {      
-        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Emails = emails });
+        var response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Emails = emails });
         Nav.NavigateTo($"/rooms/{response.RoomId}", true);
     }
 
@@ -85,4 +83,6 @@
         emails.Add(InviteEmail);
         InviteEmail = "";
     }
+
+    void Close() => ModalInstance.CancelAsync();
 }

@@ -766,6 +766,66 @@
         }
       }
     },
+    "/api/GetRoomText": {
+      "post": {
+        "tags": [
+          "GetRoomText"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomTextResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomTextResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomTextResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetUser": {
       "post": {
         "tags": [
@@ -1851,6 +1911,37 @@
             "items": {
               "$ref": "#/components/schemas/UserSummary"
             },
+            "nullable": true
+          },
+          "pendingUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserSummary"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRoomTextRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "format": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRoomTextResponse": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
             "nullable": true
           }
         },

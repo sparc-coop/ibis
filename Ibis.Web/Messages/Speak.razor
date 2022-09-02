@@ -30,11 +30,8 @@
 @inject IModalService Modal;
 
 @code {
-    [Parameter] public string? RoomId { get; set; }
     string? Text;
     bool? IsRecording;
-    Message? Message;
-    List<Message> Messages = new();
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 

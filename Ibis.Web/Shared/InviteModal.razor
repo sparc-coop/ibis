@@ -8,47 +8,21 @@
         <button @onclick="SendInvite" class="primary">Send Invite</button>
     </div>
     <div class="invite-users">
-        @if(Group != null)
-        {
             <h5>Participants</h5>
-            List<RoomUser> users = Group.Users.ToList();
-            @foreach(var user in users)
+            @foreach(var user in Room.ActiveUsers)
             {
-                <div class="user-wrapper">
-                    <div class="user-left">
-                        <div class="avatar">@(user.Initials != null ? user.Initials : "")</div>
-                        <p class="large">@(user.Name != null ? user.Name : user.Email)</p>
-                    </div>
-                    <div class="user-right">                      
-                        @if(user.Name == null)
-                        {
-                            <p class="small invited">Pending</p>
-                        } else
-                        {
-                            <p class="small success">Success</p>
-                        }
-                    </div>
-                </div>
+                <Avatar User="user" />
             }
-            @foreach(var email in NewEmails)
+            @foreach(var user in Room.PendingUsers)
             {
-                <div class="user-wrapper">
-                    <div class="user-left">
-                        <div class="avatar"></div>
-                        <p class="large">@email</p>
-                    </div>
-                    <div class="user-right">
-                        <p class="small invited">Pending</p>    
-                    </div>
-                </div>
+                <Avatar User="user" />
             }
-        }
     </div>
     <div class="share-link">
         <p class="medium">Copy & Share Link</p>
         <div class="share-link-wrapper" @onclick="CopyLink">
-            <input type="hidden" id="@RoomId" value="@("https://www.ibis.com/" + RoomId)" />
-            <div>room.ibis.com/@RoomId</div>
+            <input type="hidden" id="@Room.RoomId" value="@("https://www.ibis.com/" + Room.RoomId)" />
+            <div>room.ibis.com/@Room.RoomId</div>
             <span>@CopyConfirm</span>
             <img src="/icons/copy.svg" />
         </div>
@@ -57,16 +31,13 @@
 
 
 @code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
     bool Sent = false;
     string? InviteEmail;
-    RoomUsersResponse? Group;
     List<string> NewEmails = new List<string>();
-
-    [Parameter] public string? RoomId { get; set; }
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
     string CopyConfirm = "";
-
-    protected override async Task OnInitializedAsync() => Group = await Api.GetRoomUsersAsync(RoomId);
 
     async Task SendInvite()
     {
@@ -74,14 +45,14 @@
         {
             NewEmails.Add(InviteEmail);
             InviteEmail = "";
-            Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = RoomId, Email = InviteEmail });
+            Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
         }
     }
 
     async Task CopyLink()
     {
         //link to copy
-        await JS.InvokeVoidAsync("copyToClipboard", RoomId, "invite");
+        await JS.InvokeVoidAsync("copyToClipboard", Room.RoomId, "invite");
         CopyConfirm = "Copied!";
         StateHasChanged();
         await Task.Delay(2000);
