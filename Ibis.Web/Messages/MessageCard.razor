@@ -38,8 +38,8 @@
     {
         On<MessageTextChanged>(x =>
         {
-            if (Message.Id == MessageId)
-                Message.Text = Text;
+            if (Message.Id == x.Message.Id)
+                Message.Text = x.Message.Text;
         });
     }
 

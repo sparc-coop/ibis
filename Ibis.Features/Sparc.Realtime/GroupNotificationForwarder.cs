@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Sparc.Realtime;
 
-public class GroupNotificationForwarder : BackgroundFeature<GroupNotification>
+public class GroupNotificationForwarder : RealtimeFeature<GroupNotification>
 {
     public GroupNotificationForwarder(IHubContext<RoomHub> hub)
     {

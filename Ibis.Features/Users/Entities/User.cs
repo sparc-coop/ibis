@@ -6,7 +6,7 @@ public class User : Root<string>
 {
     public User()
     {
-        Id = string.Empty;
+        Id = Guid.NewGuid().ToString();
         UserId = Id;
         Color = "#ffffff";
         PrimaryLanguageId = string.Empty;
@@ -14,6 +14,14 @@ public class User : Root<string>
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
+    }
+
+    public User(string id, string email, string? firstName = null, string? lastName = null) : this()
+    {
+        Id = id;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -81,6 +89,15 @@ public class User : Root<string>
     internal void AddCharge(UserCharge userCharge)
     {
         Balance += userCharge.Amount;
+    }
+
+    internal void UpdateProfile(string fullName, string languageId, string pronouns, string description)
+    {
+        FirstName = fullName.Split(' ')[0];
+        LastName = fullName.Split(' ')[1];
+        PrimaryLanguageId = languageId;
+        Pronouns = pronouns;
+        Description = description;
     }
 }
 

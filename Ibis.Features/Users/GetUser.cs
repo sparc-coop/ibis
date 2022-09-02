@@ -16,13 +16,7 @@ public class GetUser : Feature<GetUserResponse>
         var user = await Users.FindAsync(User.Id());
         if (user == null)
         {
-            user = new()
-            {
-                Id = User.Id(),
-                FirstName = User.FirstName(),
-                LastName = User.LastName(),
-                Email = User.Email()
-            };
+            user = new(User.Id(), User.Email(), User.FirstName(), User.LastName());
             await Users.UpdateAsync(user);
         }
 

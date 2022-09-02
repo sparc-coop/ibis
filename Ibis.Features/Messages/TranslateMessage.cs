@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public class TranslateMessage : BackgroundFeature<MessageTextChanged>
+public class TranslateMessage : RealtimeFeature<MessageTextChanged>
 {
     public TranslateMessage(IRepository<Message> messages, IRepository<Room> rooms, ITranslator translator)
     {

@@ -16,11 +16,9 @@ public class UpdateUser : Feature<UpdateUserRequest, bool>
         if (user == null)
             throw new NotFoundException("User not found!");
 
-        user.FirstName = request.FullName.Split(' ')[0];
-        user.LastName = request.FullName.Split(' ')[1];
-        user.PrimaryLanguageId = request.LanguageId;
-        user.Pronouns = request.Pronouns;
-        user.Description = request.Description;
+        user.UpdateProfile(request.FullName, request.LanguageId, request.Pronouns, request.Description);
+
+        
         await Users.UpdateAsync(user);
        
         return true;

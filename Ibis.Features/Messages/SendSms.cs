@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public class SendSms : BackgroundFeature<MessageTextChanged>
+public class SendSms : RealtimeFeature<MessageTextChanged>
 {
     public SendSms(IRepository<Room> rooms, TwilioService twilio)
     {

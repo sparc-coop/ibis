@@ -16,18 +16,10 @@ public class FindUserByEmail : Feature<FindUserRequest, User>
     {
         var user = Users.Query.Where(u => u.Email == req.Email).FirstOrDefault();
 
-        //var user = await Users.FindAsync(User.Id());
         if (user == null)
         {
-            user = new()
-            {
-             Id = Guid.NewGuid().ToString(),
-            //FirstName = User.FirstName(),
-            //LastName = User.LastName(),
-            Email = req.Email
-            };
+            user = new(Guid.NewGuid().ToString(), req.Email!);
             await Users.AddAsync(user);
-            //await Users.UpdateAsync(user);
         }
 
         return user;

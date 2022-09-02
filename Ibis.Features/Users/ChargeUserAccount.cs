@@ -3,7 +3,7 @@
 namespace Ibis.Features.Users;
 
 public record CostIncurred(Message Message, string Description, decimal Amount) : GroupNotification(Message.RoomId);
-public class ChargeUserAccount : BackgroundFeature<CostIncurred>
+public class ChargeUserAccount : RealtimeFeature<CostIncurred>
 {
     public ChargeUserAccount(IRepository<UserCharge> charges, IRepository<User> users, IRepository<Room> rooms)
     {

@@ -3,7 +3,7 @@
 namespace Ibis.Features.Messages;
 
 public record LanguageAdded(string RoomId, Language Language) : INotification;
-public class TranslateExistingMessages : BackgroundFeature<LanguageAdded>
+public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>
 {
     public TranslateExistingMessages(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)
     {

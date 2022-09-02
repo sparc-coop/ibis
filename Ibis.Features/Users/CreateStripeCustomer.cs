@@ -37,7 +37,7 @@ public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
             var customer = service.Create(options);
             intent = await SetupIntent(customer.Id);
 
-            user.CustomerId = customer.Id;
+            //user.CustomerId = customer.Id;
             await Users.UpdateAsync(user);
         }
         else
