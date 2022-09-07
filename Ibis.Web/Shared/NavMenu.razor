@@ -6,10 +6,22 @@
             <a href="rooms" class="nav-link">
                 <img class="dash-icon" src="../icons/dashboard.svg"/>
             </a>
+            <button class="logout" @onclick="BeginLogout">
+                Log Out
+            </button>
         </Authorized>
+        <NotAuthorized>
+            <a href="authentication/login" class="login">Get Started</a>
+        </NotAuthorized>
     </AuthorizeView>
-    <LoginDisplay />
 </div>
 
+@inject SignOutSessionStateManager SignOutManager
+
 @code {
+    private async Task BeginLogout(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Nav.NavigateTo("authentication/logout");
+    }
 }
