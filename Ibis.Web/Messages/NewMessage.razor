@@ -1,6 +1,17 @@
 ﻿<div class="message-box">
     <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
-    <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
+    @if (IsSpeak)
+    {
+        <button class="button-send" @onclick="ShowSpeakModal" aria-label="Speak">
+            Speak <img src="icons/Speech.svg" />
+        </button>
+    }
+    else
+    {
+        <button class="button-send" @onclick="SendText" aria-label="Send">
+            Send <img src="icons/send.svg" />
+        </button>
+    }
 </div>
 
 <div class="message-box-bottom">
@@ -9,55 +20,15 @@
             <i class="material-icons">cloud_upload</i>
         </button>
         
-        <div class="translate">
-            <img src="icons/Translate.svg" />
-            <p>Auto Translate</p>
-        </div>
-        @*Make Text Dark Blue When checked*@
-        @*<div class="switch-wrapper">
-        <!-- Rounded switch -->
-        <label class="switch">
-        <input type="checkbox">
-        <span class="slider round"></span>
-        </label>
-        <p>Voice</p>
-        </div>*@
-        <button @onclick="ShowSpeakModal" aria-label="Speak" title="Speech to text">
-            <i class="material-icons">keyboard_voice</i>
-        </button>
-        @*Make Text Dark Blue When checked*@
-        @*                    <div class="switch-wrapper">
-        <!-- Rounded switch -->
-        <label class="switch">
-        <input type="checkbox">
-        <span class="slider round"></span>
-        </label>
-        <p>Text</p>
-        </div>*@
+        <span>Call me</span>
+        <span>Text me</span>
     </div>
 </div>
-@*            <div class="time-stamp">
-                <p class="small start">Start</p>
-                <div class="time-duration">
-                    <p class="small">0:10</p>
-                    <div class="timeline-line"></div>
-                    <p class="small">0:25</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:27</p>
-                    <div class="timeline-line2"></div>
-                    <p class="small">0:31</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:34</p>
-                    <div class="timeline-line3"></div>
-                    <p class="small">1:17</p>
-                </div>
-            </div>*@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     string? Text;
+    bool IsSpeak => string.IsNullOrWhiteSpace(Text);
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
@@ -80,11 +51,15 @@
         Modal.Show<Upload>("Upload", parameters);
     }
 
-    void ShowSpeakModal()
+    async Task ShowSpeakModal()
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Speak.RoomId), Room.RoomId);
-        Modal.Show<Speak>("Send a voice message...", parameters);
+        var modal = Modal.Show<Speak>("Send a voice message...");
+        var result = await modal.Result;
+        if (!result.Cancelled)
+        {
+            Text = (string)result.Data;
+            await SendText();
+        }
     }
 
 }
