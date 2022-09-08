@@ -45,7 +45,7 @@ body {
     &--nav {
         display: flex;
         justify-content: space-between;
-        padding: 40px 60px;
+        padding: 30px 60px;
 
         .logo {
             width: 146px;
@@ -89,6 +89,7 @@ body {
     }
 
     .hero {
+        margin-top: 120px;
         margin-bottom: 120px;
         position: relative;
         text-align: center;
@@ -142,11 +143,11 @@ body {
         margin: auto;
         padding: 96px 40px;
         display: flex;
+        flex-direction: row-reverse;
         justify-content: center;
-        gap: 32px;
+        gap: 72px;
 
         .left-container {
-            margin-left: 100px;
             display: flex;
             gap: 32px;
 
@@ -188,7 +189,7 @@ body {
 
         .right-container {
             max-width: 528px;
-            margin: auto;
+            margin: auto 0;
 
             h2 {
                 margin: 0px;

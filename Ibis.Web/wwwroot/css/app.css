@@ -2161,7 +2161,7 @@ body {
 .landing--nav {
   display: flex;
   justify-content: space-between;
-  padding: 40px 60px;
+  padding: 30px 60px;
 }
 .landing--nav .logo {
   width: 146px;
@@ -2198,6 +2198,7 @@ body {
   transform: scale(103%);
 }
 .landing .hero {
+  margin-top: 120px;
   margin-bottom: 120px;
   position: relative;
   text-align: center;
@@ -2244,11 +2245,11 @@ body {
   margin: auto;
   padding: 96px 40px;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
-  gap: 32px;
+  gap: 72px;
 }
 .landing .section-1 .left-container {
-  margin-left: 100px;
   display: flex;
   gap: 32px;
 }
@@ -2282,7 +2283,7 @@ body {
 }
 .landing .section-1 .right-container {
   max-width: 528px;
-  margin: auto;
+  margin: auto 0;
 }
 .landing .section-1 .right-container h2 {
   margin: 0px;
