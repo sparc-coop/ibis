@@ -25,40 +25,44 @@
 
 @import "Onboarding/StepOne";
 
+@import "Landing/Landing";
 
+//Sans Serif Fonts
 //Regular fonts
+
 @font-face {
-    font-family: 'CircularStd-Medium';
+    font-family: 'CircularStd-Book'; //400
+    src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd-Medium'; //500
     src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
     font-weight: normal;
 }
 
 @font-face {
-    font-family: 'CircularStd-Black';
-    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'CircularStd-Bold';
+    font-family: 'CircularStd-Bold'; //700
     src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
     font-weight: bold;
 }
 
 @font-face {
-    font-family: 'CircularStd-Book';
-    src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
+    font-family: 'CircularStd-Black'; //800
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
 }
 
+
 //Italic Fonts
+@font-face {
+    font-family: 'CircularStd-BookItalic';
+    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
+}
+
 @font-face {
     font-family: 'CircularStd-MediumItalic';
     src: url(wwwroot/fonts/CircularStd-MediumItalic.ttf) format('truetype');
     font-weight: normal;
-}
-
-@font-face {
-    font-family: 'CircularStd-BlackItalic';
-    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
 }
 
 @font-face {
@@ -68,10 +72,72 @@
 }
 
 @font-face {
-    font-family: 'CircularStd-BookItalic';
-    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
+    font-family: 'CircularStd-BlackItalic';
+    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
 }
 
+//Serif Fonts
+//Regular
+@font-face {
+    font-family: 'FreightDispProLight-Regular'; //300
+    src: url(wwwroot/fonts/FreightDispProLight-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBook-Regular'; //400
+    src: url(wwwroot/fonts/FreightDispProBook-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProMedium-Regular'; //500
+    src: url(wwwroot/fonts/FreightDispProMedium-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProSemibold-Regular'; //600
+    src: url(wwwroot/fonts/FreightDispProSemibold-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBold-Regular'; //700
+    src: url(wwwroot/fonts/FreightDispProBold-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBlack-Regular'; //800
+    src: url(wwwroot/fonts/FreightDispProBlack-Regular.ttf) format('truetype');
+}
+
+//Italic
+@font-face {
+    font-family: 'FreightDispProLight-Italic';
+    src: url(wwwroot/fonts/FreightDispProLight-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBook-Italic';
+    src: url(wwwroot/fonts/FreightDispProBook-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProMedium-Italic';
+    src: url(wwwroot/fonts/FreightDispProMedium-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProSemibold-Italic';
+    src: url(wwwroot/fonts/FreightDispProSemibold-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBold-Italic';
+    src: url(wwwroot/fonts/FreightDispProBold-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FreightDispProBlack-Italic';
+    src: url(wwwroot/fonts/FreightDispProBlack-Italic.ttf) format('truetype');
+}
 
 body {
     overflow-x: hidden;
