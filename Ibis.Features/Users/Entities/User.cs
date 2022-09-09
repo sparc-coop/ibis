@@ -63,17 +63,15 @@ public class User : Root<string>
     public List<ActiveRoom> ActiveRooms { get; private set; }
 
 
-    internal void JoinRoom(string roomId, string connectionId)
+    internal void JoinRoom(string roomId)
     {
         if (!ActiveRooms.Any(x => x.RoomId == roomId))
-            ActiveRooms.Add(new(roomId, connectionId, DateTime.UtcNow));
+            ActiveRooms.Add(new(roomId, DateTime.UtcNow));
     }
 
-    internal string? LeaveRoom(string roomOrConnectionId)
+    internal string? LeaveRoom(string roomId)
     {
-        var roomId = ActiveRooms.FirstOrDefault(x => x.RoomId == roomOrConnectionId || x.ConnectionId == roomOrConnectionId)?.RoomId;
         if (roomId == null) return null;
-
         ActiveRooms.RemoveAll(x => x.RoomId == roomId);
         return roomId;
     }
@@ -101,4 +99,4 @@ public class User : Root<string>
     }
 }
 
-public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
+public record ActiveRoom(string RoomId, DateTime JoinDate);

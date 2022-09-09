@@ -3,13 +3,15 @@
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
+public record UserJoined(string RoomId, UserSummary User) : GroupNotification(RoomId);
+public record UserLeft(string RoomId, UserSummary User) : GroupNotification(RoomId);
+
 public class Room : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }
     public UserSummary HostUser { get; private set; }
-    public List<UserSummary> ActiveUsers { get; private set; }
-    public List<UserSummary> PendingUsers { get; private set; }
+    public List<UserSummary> Users { get; private set; }
     public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
@@ -26,8 +28,7 @@ public class Room : SparcRoot<string>
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
-        ActiveUsers = new();
-        PendingUsers = new();
+        Users = new();
     }
 
     public Room(string name, User hostUser) : this()
@@ -56,15 +57,36 @@ public class Room : SparcRoot<string>
         Broadcast(new LanguageAdded(Id, language));
     }
 
-    public void AddUser(User user)
+    public void AddActiveUser(User user)
     {
-        if (!ActiveUsers.Any(x => x.Id == user.Id))
-            ActiveUsers.Add(new(user));
+        var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
+        if (activeUser == null)
+        {
+            activeUser = new(user);
+            Users.Add(activeUser);
+        }
+        
+        if (!activeUser.IsOnline)
+        {
+            activeUser.IsOnline = true;
+            Broadcast(new UserJoined(Id, activeUser));
+        }
     }
 
-    public void RemoveUser(User user)
+    public void RemoveActiveUser(User user)
     {
-        ActiveUsers.RemoveAll(x => x.Id == user.Id);
+        var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
+        if (activeUser?.IsOnline == true)
+        {
+            activeUser.IsOnline = false;
+            Broadcast(new UserLeft(Id, activeUser));
+        }
+    }
+
+    internal void InviteUser(UserSummary user)
+    {
+        if (!Users.Any(x => x.Id == user.Id))
+            Users.Add(user);
     }
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
@@ -99,4 +121,5 @@ public class Room : SparcRoot<string>
     {
         Name = title;
     }
+
 }

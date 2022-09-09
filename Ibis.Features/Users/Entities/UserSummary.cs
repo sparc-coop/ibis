@@ -8,6 +8,7 @@ public record UserSummary
     public string Color { get; set; }
     public bool ReceivesSms { get; set; }
     public string Language { get; set; }
+    public bool IsOnline { get; set; }
 
     public UserSummary(User user)
     {
@@ -21,7 +22,7 @@ public record UserSummary
 
     public UserSummary(string email)
     {
-        Id = string.Empty;
+        Id = email;
         Name = email;
         Initials = string.Empty;
         Color = string.Empty;

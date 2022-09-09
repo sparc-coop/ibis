@@ -18,9 +18,8 @@ public class RoomHub : Hub
         await Clients.Group(roomId).SendAsync("NewMessage", message);
     }
 
-    public async Task AddToRoom(string roomId, string userId, string language)
+    public async Task AddToRoom(string roomId)
     {
-        await RegisterRoomAsync(roomId, userId);
         await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
         //await Groups.AddToGroupAsync(Context.ConnectionId, $"{roomId}|{language}");
     }
@@ -32,20 +31,13 @@ public class RoomHub : Hub
         //await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{roomId}|{language}");
     }
 
-    private async Task RegisterRoomAsync(string roomId, string userId)
-    {
-        var user = await Users.FindAsync(userId);
-        await Users.ExecuteAsync(userId, user => user.JoinRoom(roomId, Context.ConnectionId));
-        await Rooms.ExecuteAsync(roomId, conv => conv.AddUser(user!));
-    }
-
     private async Task<string> UnregisterRoomAsync(string roomId, string userId)
     {
         var user = await Users.FindAsync(userId);
         roomId = user!.LeaveRoom(roomId) ?? roomId;
         await Users.UpdateAsync(user);
 
-        await Rooms.ExecuteAsync(roomId, room => room.RemoveUser(user));
+        await Rooms.ExecuteAsync(roomId, room => room.RemoveActiveUser(user));
 
         return roomId;
     }

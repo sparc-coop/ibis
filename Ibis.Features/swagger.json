@@ -608,66 +608,6 @@
         }
       }
     },
-    "/api/GetRoom": {
-      "post": {
-        "tags": [
-          "GetRoom"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/GetRoomAudio": {
       "post": {
         "tags": [
@@ -1002,6 +942,66 @@
         }
       }
     },
+    "/api/JoinRoom": {
+      "post": {
+        "tags": [
+          "JoinRoom"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/JoinRoomRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/JoinRoomRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/JoinRoomRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoomResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events/SendSms": {
       "post": {
         "tags": [
@@ -1230,75 +1230,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/TranslateToBraille": {
-      "post": {
-        "tags": [
-          "TranslateToBraille"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BrailleRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -1680,10 +1611,6 @@
             "type": "string",
             "nullable": true
           },
-          "connectionId": {
-            "type": "string",
-            "nullable": true
-          },
           "joinDate": {
             "type": "string",
             "format": "date-time"
@@ -1715,16 +1642,6 @@
             "items": {
               "$ref": "#/components/schemas/Word"
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "BrailleRequest": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
             "nullable": true
           }
         },
@@ -1874,16 +1791,6 @@
         },
         "additionalProperties": false
       },
-      "GetRoomRequest": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "GetRoomResponse": {
         "type": "object",
         "properties": {
@@ -1906,14 +1813,7 @@
             "nullable": true,
             "readOnly": true
           },
-          "activeUsers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserSummary"
-            },
-            "nullable": true
-          },
-          "pendingUsers": {
+          "users": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserSummary"
@@ -2026,6 +1926,16 @@
             "type": "string",
             "nullable": true
           },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JoinRoomRequest": {
+        "type": "object",
+        "properties": {
           "roomId": {
             "type": "string",
             "nullable": true
@@ -2534,6 +2444,74 @@
         },
         "additionalProperties": false
       },
+      "UserJoined": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "roomId": {
+                "type": "string",
+                "nullable": true
+              },
+              "user": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserSummary"
+                  }
+                ],
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserJoined, Ibis.Features"
+      },
+      "UserLeft": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/INotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "nullable": true
+              },
+              "roomId": {
+                "type": "string",
+                "nullable": true
+              },
+              "user": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserSummary"
+                  }
+                ],
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserLeft, Ibis.Features"
+      },
       "UserNotification": {
         "type": "object",
         "allOf": [
@@ -2581,6 +2559,9 @@
           "language": {
             "type": "string",
             "nullable": true
+          },
+          "isOnline": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

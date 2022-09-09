@@ -34,23 +34,14 @@ public class InviteUser : Feature<InviteUserRequest, bool>
                 messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {
+                user = new(request.Email, request.Email);
                 messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 
             await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
 
-            //save user to room
-            if (user != null)
-            {
-                room.AddUser(user);
-                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.UtcNow));
-            }
-
-            //add pending user if not yet signed up
-            if (user == null && !room.PendingUsers.Any(x => x.Name == request.Email))
-            {
-                room.PendingUsers.Add(new(request.Email));
-            }
+            //add pending user
+            await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(new(user)));
 
             await Rooms.UpdateAsync(room);
 

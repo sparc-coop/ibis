@@ -1,22 +1,18 @@
 ﻿<div class="invite-block modal">
     <h4>Invite People</h4>
     <button class="close" @onclick="Close">
-        <img src="/icons/Close.svg"/>
+        <img src="/icons/Close.svg" />
     </button>
     <div class="invite-search">
-        <input placeholder="Email" @bind="InviteEmail"/>
+        <input placeholder="Email" @bind="InviteEmail" />
         <button @onclick="SendInvite" class="primary">Send Invite</button>
     </div>
     <div class="invite-users">
-            <h5>Participants</h5>
-            @foreach(var user in Room.ActiveUsers)
-            {
-                <Avatar User="user" />
-            }
-            @foreach(var user in Room.PendingUsers)
-            {
-                <Avatar User="user" />
-            }
+        <h5>Participants</h5>
+        @foreach (var user in Room.Users.OrderByDescending(x => x.IsOnline))
+        {
+            <Avatar User="user" />
+        }
     </div>
     <div class="share-link">
         <p class="medium">Copy & Share Link</p>

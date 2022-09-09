@@ -1,0 +1,19 @@
+﻿<CascadingValue Value="Connection">
+
+</CascadingValue>
+
+@code {
+    [Parameter] public string Url { get; set; } = "";
+
+    HubConnection? Connection { get; set; }
+    bool IsConnected => Connection?.State == HubConnectionState.Connected;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Connection = new HubConnectionBuilder()
+            .WithUrl(Url)
+            .Build();
+
+        await Connection.StartAsync();
+    }
+}

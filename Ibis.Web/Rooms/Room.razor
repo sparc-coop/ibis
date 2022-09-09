@@ -1,7 +1,7 @@
 ﻿@page "/rooms/{Id}"
 @layout DashLayout
 
-<CascadingValue Value="Connection">
+<RealtimeHub Url="@HubUrl">
     <section class="room">
         <header>
             @if (RoomInfo != null)
@@ -29,29 +29,20 @@
             <LanguageSelector />
         </div>
     </section>
-</CascadingValue>
+</RealtimeHub>
 
 @using Microsoft.AspNetCore.SignalR.Client
 
 @code {
     [Parameter] public string Id { get; set; } = null!;
     GetRoomResponse? RoomInfo;
-
-    HubConnection? Connection { get; set; }
-    bool IsConnected => Connection?.State == HubConnectionState.Connected;
-
     string CopyConfirm = "";
-
+    string HubUrl = "";
+    
     protected override async Task OnInitializedAsync()
     {
-        RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id });
-
-        Connection = new HubConnectionBuilder()
-            .WithUrl(Config["ApiUrl"] + "/rooms")
-            .Build();
-
-        await Connection.StartAsync();
-        await Connection.SendAsync("AddToRoom", RoomInfo.RoomId);
+        HubUrl = Config["ApiUrl"] + "/rooms";
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
     }
 
     async Task DownloadAudio()
@@ -90,7 +81,7 @@
 
     async void UpdateName()
     {
-        await Connection!.SendAsync("UpdateRoom", RoomInfo);
+        // await Connection!.SendAsync("UpdateRoom", RoomInfo);
     }
 
     async Task ShareLink(string roomLink)
