@@ -5,17 +5,14 @@
 @import "Shared/DashLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
-@import "Shared/InviteModal";
-@import "Shared/ProjectsList";
-@import "Shared/LoginDisplay";
 @import "Shared/ChatBox";
-@import "Shared/DeleteModal";
-@import "Shared/EditModal";
 @import "Shared/Tooltip";
-@import "Shared/AccountNav";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
+@import "Rooms/DeleteModal";
+@import "Rooms/EditModal";
+@import "Rooms/InviteModal";
 
 @import "Messages/MessageCard";
 @import "Messages/Upload";
@@ -23,6 +20,7 @@
 @import "Users/Account";
 @import "Users/Notifications";
 @import "Users/Avatar";
+@import "Users/AccountNav";
 
 @import "Onboarding/StepOne";
 

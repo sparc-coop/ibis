@@ -22,7 +22,7 @@ public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
 			string fileUrl = await UploadPhotoToStorage(request.UserId, request.FileName, request.Bytes);
 			var user = await Users.FindAsync(User.Id());
 			//user!.ProfileImg = fileUrl;
-			await Users.UpdateAsync(user);
+			await Users.UpdateAsync(user!);
 
 			return JsonConvert.SerializeObject(fileUrl);
 

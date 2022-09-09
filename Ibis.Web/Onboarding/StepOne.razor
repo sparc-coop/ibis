@@ -4,8 +4,8 @@
 <div class="onboarding">
     <h3>Welcome to Ibis@(User != null ? ", " + User.FullName + "." : ".")</h3>
     <p>
-        If you have a few minutes, we would love to show you where 
-        the magic happens and get you setup with the basics, 
+        If you have a few minutes, we would love to show you where
+        the magic happens and get you setup with the basics,
         so you know how to use ibis to it’s full potential.
     </p>
 
@@ -20,47 +20,46 @@
         <label>First name</label>
         <input @bind="FirstName" placeholder="First Name" />
         <label>Last name</label>
-        <input @bind="LastName"  placeholder="Last Name"/>
+        <input @bind="LastName" placeholder="Last Name" />
         <label>Description</label>
         <textarea @bind="Description"
-          @bind:event="oninput"
-          maxlength="@descLimit"
-          placeholder="Enter a little about yourself"/>
+                  @bind:event="oninput"
+                  maxlength="@descLimit"
+                  placeholder="Enter a little about yourself" />
         <label>@(descLimit - Description.Count()) characters left</label>
-
-
-
     </div>
-                  <div class="bottom-nav">
-              <div class="actions">
+
+    <div class="bottom-nav">
+        <div class="actions">
             <div class="steps">
                 <div class="step-circle step-active">
-        <i class="material-icons-outlined">adjust</i>
-        </div>
-        <hr class="step-line" />
-                                <div class="step-circle">
-        <i class="material-icons-outlined">adjust</i>
-        </div>
-        <hr class="step-line" />
-                                <div class="step-circle">
-        <i class="material-icons-outlined">adjust</i>
-        </div>
-        <hr class="step-line" />
-                        <div class="step-circle">
-        <i class="material-icons-outlined">adjust</i>
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+                <hr class="step-line" />
+                <div class="step-circle">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+                <hr class="step-line" />
+                <div class="step-circle">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+                <hr class="step-line" />
+                <div class="step-circle">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="skip" @onclick="@(e => GoTo("rooms"))">No Thanks, I got this.</button>
+                <button class="next" @onclick="@(e => GoTo("step-two"))">Confirm</button>
+            </div>
         </div>
     </div>
-    <div class="buttons">
-        <button class="skip" @onclick="@(e => GoTo("rooms"))">No Thanks, I got this.</button>
-        <button class="next" @onclick="@(e => GoTo("step-two"))">Confirm</button>
-        </div>
-    </div>
-      </div>
 
 </div>
 
 @code {
     private GetUserResponse? User;
+    
     public string FirstName = "";
     public string LastName = "";
     public string Description = "";
@@ -69,18 +68,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        if(user.Identity!.IsAuthenticated)
-        {
-            User = await Api.GetUserAsync();
-        } 
+        User = await Api.GetUserAsync();
     }
 
     async void GoTo(string page)
     {
         await UpdateUser();
-        Nav.NavigateTo($"/{page}", true);    
+        Nav.NavigateTo($"/{page}", true);
     }
 
     private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, FullName = FirstName + " " + LastName, LanguageId = "", Pronouns = Pronouns, Description = Description });

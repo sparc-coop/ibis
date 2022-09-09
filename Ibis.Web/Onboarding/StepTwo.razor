@@ -5,24 +5,24 @@
     <h3>Setting a dialect preset</h3>
     <p>
         With Ibis, you are able to translate live video
-        or text into a language of your preference. 
-        <br/><br />
-        But, for those who want more than one setting, 
-        you can create presets to apply to your rooms, 
+        or text into a language of your preference.
+        <br /><br />
+        But, for those who want more than one setting,
+        you can create presets to apply to your rooms,
         and quickly swap between them as needed.
-        <br/><br />
+        <br /><br />
         Let’s create your default preset.
     </p>
 
     <div>
         <label>Preset Name</label>
-        <input placeholder="Default profile"/>
+        <input placeholder="Default profile" />
         <label>Translate incoming voice to:</label>
         <select>
             <option>English</option>
         </select>
         <label>Translate incoming text to:</label>
-                <select>
+        <select>
             <option>English</option>
         </select>
         <label>Your translator gender</label>
@@ -36,31 +36,31 @@
     </div>
 
 
-                      <div class="bottom-nav">
-              <div class="actions">
+    <div class="bottom-nav">
+        <div class="actions">
             <div class="steps">
                 <div class="step-circle step-active">
-        <i class="material-icons-outlined">check_circle</i>
-        </div>
-        <hr class="step-line line-active" />
-                                <div class="step-circle step-active">
-        <i class="material-icons-outlined">adjust</i>
-        </div>
-        <hr class="step-line" />
-                                <div class="step-circle">
-        <i class="material-icons-outlined">adjust</i>
-        </div>
-        <hr class="step-line" />
-                        <div class="step-circle">
-        <i class="material-icons-outlined">adjust</i>
+                    <i class="material-icons-outlined">check_circle</i>
+                </div>
+                <hr class="step-line line-active" />
+                <div class="step-circle step-active">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+                <hr class="step-line" />
+                <div class="step-circle">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+                <hr class="step-line" />
+                <div class="step-circle">
+                    <i class="material-icons-outlined">adjust</i>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="skip" @onclick="@(e => Nav.NavigateTo($"/step-three", true))">Skip</button>
+                <button class="next" @onclick="@(e => GoTo("step-three"))">Confirm</button>
+            </div>
         </div>
     </div>
-    <div class="buttons">
-        <button class="skip" @onclick="@(e => Nav.NavigateTo($"/step-three", true))">Skip</button>
-        <button class="next" @onclick="@(e => GoTo("step-three"))">Confirm</button>
-        </div>
-    </div>
-      </div>
 </div>
 
 @code {
@@ -69,18 +69,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        if(user.Identity!.IsAuthenticated)
-        {
-            User = await Api.GetUserAsync();
-        }
+        User = await Api.GetUserAsync();
     }
 
     async void GoTo(string page)
     {
         await UpdateUser();
-        Nav.NavigateTo($"/{page}", true);    
+        Nav.NavigateTo($"/{page}", true);
     }
 
     private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, LanguageId = Language });

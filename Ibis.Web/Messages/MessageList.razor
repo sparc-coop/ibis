@@ -2,13 +2,9 @@
 
 <div class="message-grid">
     <div class="message-list">
-        @if (Messages?.Count > 0)
-        {
-            @foreach (var message in Messages.Where(x => x.Text != null && x.Text.Length > 0))
-            {
-                <MessageCard Message=message />
-            }
-        }
+        <Virtualize Items="Messages" Context="message">
+            <MessageCard Message="message" />
+        </Virtualize>
     </div>
 </div>
 
@@ -33,5 +29,5 @@
         else
             Messages.Add(message);
     }
-    
+
 }

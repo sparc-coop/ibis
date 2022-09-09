@@ -1,52 +1,46 @@
 ﻿@page "/step-four"
 @layout EmptyLayout
-  
+
 
 <div class="onboarding">
     <h3>That's it!</h3>
     <p>
         You are now all set up and ready to go.
-        <br/> <br/>
-        We will continue to give a few hints & tips here and there as you explore Ibis. 
-        <br/> <br/>
-        If you have any issues or questions, pelase reach out to us via email: <a class="share-link" href="mailto:support@ibis.com">support@ibis.com</a>
+        <br /> <br />
+        We will continue to give a few hints & tips here and there as you explore Ibis.
+        <br /> <br />
+        If you have any issues or questions, please reach out to us via email: <a class="share-link" href="mailto:support@ibis.com">support@ibis.com</a>
     </p>
 
-
-                  <div class="bottom-nav">
-              <div class="actions">
+    <div class="bottom-nav">
+        <div class="actions">
             <div class="steps">
                 <div class="step-circle step-active">
-        <i class="material-icons-outlined">check_circle</i>
-        </div>
-        <hr class="step-line line-active" />
-                                <div class="step-circle step-active">
-        <i class="material-icons-outlined">check_circle</i>
-        </div>
-        <hr class="step-line line-active" />
-                                <div class="step-circle step-active">
-        <i class="material-icons-outlined">check_circle</i>
-        </div>
-        <hr class="step-line line-active" />
-                        <div class="step-circle step-active">
-        <i class="material-icons-outlined">check_circle</i>
+                    <i class="material-icons-outlined">check_circle</i>
+                </div>
+                <hr class="step-line line-active" />
+                <div class="step-circle step-active">
+                    <i class="material-icons-outlined">check_circle</i>
+                </div>
+                <hr class="step-line line-active" />
+                <div class="step-circle step-active">
+                    <i class="material-icons-outlined">check_circle</i>
+                </div>
+                <hr class="step-line line-active" />
+                <div class="step-circle step-active">
+                    <i class="material-icons-outlined">check_circle</i>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="next" @onclick="@(e => GoTo("rooms"))">Take me to my room</button>
+            </div>
         </div>
     </div>
-    <div class="buttons">
-        <button class="next" @onclick="@(e => GoTo("rooms"))">Take me to my room</button>
-        </div>
-    </div>
-      </div>
 </div>
 
 @code {
-    [Parameter] public string? Id { get; set; }
-    public string FirstName = "First Name";
-    public string LastName = "Last Name";
-    public string Description = "";
-
     void GoTo(string page)
     {
-        Nav.NavigateTo($"/{page}", true);    
+        Nav.NavigateTo($"/{page}", true);
     }
 }
