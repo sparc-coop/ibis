@@ -2129,7 +2129,6 @@ body {
   background: #fafbfc;
 }
 .landing .btn-primary {
-  margin-right: 30px;
   padding: 21px 53px;
   border: none;
   border-radius: 5px;
@@ -2197,9 +2196,11 @@ body {
   cursor: pointer;
   transform: scale(103%);
 }
+.landing--nav.mobile {
+  display: none;
+}
 .landing .hero {
-  margin-top: 120px;
-  margin-bottom: 120px;
+  margin: 100px 0px;
   position: relative;
   text-align: center;
 }
@@ -2226,6 +2227,9 @@ body {
 .landing .hero .landing--button-container {
   margin-bottom: 150px;
 }
+.landing .hero .landing--button-container .btn-primary {
+  margin-right: 30px;
+}
 .landing .hero img.hero-image--room {
   width: 85%;
   max-width: 1200px;
@@ -2243,7 +2247,7 @@ body {
 .landing .section-1 {
   background: #f9f1e8;
   margin: auto;
-  padding: 96px 40px;
+  padding: 100px 40px;
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
@@ -2306,13 +2310,19 @@ body {
 }
 .landing .section-2 .row {
   margin: 100px auto;
-  padding: 80px 0;
+  padding: 80px 50px;
   display: flex;
   justify-content: space-between;
+}
+.landing .section-2 .row--feature2 {
+  flex-direction: row-reverse;
+  padding: 80px 50px 80px 30px;
+  gap: 40px;
 }
 .landing .section-2 .row--content {
   max-width: 528px;
   margin: auto 0;
+  z-index: 3;
 }
 .landing .section-2 .row--content h2 {
   margin: 0;
@@ -2339,7 +2349,7 @@ body {
   width: 610px;
   margin: auto;
   position: relative;
-  z-index: 5;
+  z-index: 2;
 }
 .landing .section-2 .row--images img.content-background {
   z-index: 1;
@@ -2366,34 +2376,642 @@ body {
   margin-bottom: 20px;
 }
 .landing .banner {
-  width: 100%;
-  max-width: 1400px;
+  width: 1143px;
   margin: 0 auto;
   position: relative;
 }
 .landing .banner img {
-  width: 1400px;
+  width: 100%;
 }
-.landing .banner h3 {
+.landing .banner img.mobile {
+  display: none;
+}
+.landing .banner .banner-content {
+  text-align: left;
+}
+.landing .banner .banner-content.desktop h3 {
   position: absolute;
   margin: 0;
   padding: 0;
-  top: 65px;
-  left: 120px;
+  top: 40px;
+  left: 100px;
   color: white;
   font-family: "CircularStd-Bold";
   font-size: 40px;
   line-height: 48px;
 }
-.landing .banner button {
+.landing .banner .banner-content.desktop button {
   padding: 21px 61px;
   border-radius: 5px;
   position: absolute;
-  top: 80px;
-  right: 100px;
+  top: 60px;
+  right: 80px;
   background: #FF3520;
   font-size: 20px;
   line-height: 24px;
+}
+.landing .banner .banner-content.mobile {
+  display: none;
+}
+@media only screen and (max-width: 1142px) {
+  .landing .btn-primary, .landing .btn-secondary {
+    padding: 18px 40px;
+    font-size: 16px;
+  }
+  .landing--nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 60px;
+  }
+  .landing--nav .logo {
+    width: 120px;
+  }
+  .landing--nav .menu a {
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .landing--nav .menu button {
+    padding: 13px 37px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .landing .hero .description h1 {
+    font-size: 70px;
+    line-height: 85px;
+  }
+  .landing .hero .description p {
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .landing .hero img.hero-image--room {
+    max-width: 1000px;
+  }
+  .landing .hero img.hero-background {
+    bottom: 40px;
+  }
+  .landing .section-1 {
+    gap: 30px;
+  }
+  .landing .section-1 .left-container {
+    gap: 20px;
+  }
+  .landing .section-1 .left-container .card-container .card {
+    width: 200px;
+    height: 250px;
+    margin-bottom: 20px;
+    padding-top: 25px;
+  }
+  .landing .section-1 .left-container .card-container .card .content {
+    margin: 0px 15px 0px 20px;
+  }
+  .landing .section-1 .left-container .card-container .card .content img {
+    width: 40px;
+  }
+  .landing .section-1 .left-container .card-container .card .content h3 {
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .landing .section-1 .left-container .card-container .card .content p {
+    font-size: 15px;
+    line-height: 19px;
+  }
+  .landing .section-1 .right-container h2 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+  .landing .section-1 .right-container p {
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .landing .section-2 {
+    max-width: 1142px;
+  }
+  .landing .section-2 .row {
+    padding: 20px 20px 20px 50px;
+    gap: 40px;
+  }
+  .landing .section-2 .row--feature2 {
+    padding: 40px 50px 60px 20px;
+    gap: 60px;
+  }
+  .landing .section-2 .row--content h2 {
+    font-size: 35px;
+    line-height: 42px;
+  }
+  .landing .section-2 .row--content p {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .landing .section-2 .row--images {
+    max-width: 600px;
+  }
+  .landing .section-2 .row--images img.content-image {
+    width: 380px;
+  }
+  .landing .section-2 .row--images img.content-background.feature1 {
+    width: 480px;
+    position: absolute;
+    top: -90px;
+    left: -60px;
+  }
+  .landing .section-2 .row--images img.content-background.feature2 {
+    width: 520px;
+    top: -100px;
+    left: -50px;
+  }
+  .landing .section-2 .row--images img.content-background.feature3 {
+    width: 500px;
+    top: -130px;
+    left: -40px;
+  }
+  .landing .banner {
+    width: 760px;
+    margin-top: 60px;
+  }
+  .landing .banner .banner-content {
+    text-align: left;
+  }
+  .landing .banner .banner-content.desktop h3 {
+    top: 25px;
+    left: 70px;
+    color: white;
+    font-family: "CircularStd-Bold";
+    font-size: 28px;
+    line-height: 35px;
+  }
+  .landing .banner .banner-content.desktop button {
+    padding: 15px 32px;
+    top: 36px;
+    right: 50px;
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .landing .banner .banner-content.mobile {
+    display: none;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .landing .landing--nav.desktop {
+    padding: 20px 40px;
+  }
+  .landing .landing--nav.desktop a {
+    margin-right: 35px;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .landing .btn-primary, .landing .btn-secondary {
+    padding: 15px 30px;
+    font-size: 14px;
+  }
+  .landing .landing--nav.desktop {
+    display: none;
+  }
+  .landing .landing--nav.mobile {
+    display: block;
+    justify-content: space-between;
+    padding: 15px 25px 15px 20px;
+  }
+  .landing .landing--nav.mobile .mobile-nav--container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .landing .landing--nav.mobile .mobile-nav--container .logo {
+    width: 85px;
+  }
+  .landing .landing--nav.mobile .menu {
+    padding-top: 10px;
+    display: none;
+  }
+  .landing .landing--nav.mobile .menu a {
+    margin-right: 55px;
+    color: #858a8f;
+    font-family: "CircularStd-Book";
+    font-size: 20px;
+    line-height: 25px;
+    text-decoration: none;
+    transition: 300ms ease-in-out;
+  }
+  .landing .landing--nav.mobile .menu a:hover {
+    cursor: pointer;
+    color: #858a8f;
+  }
+  .landing .landing--nav.mobile .menu a:active {
+    background: #FAFCFC;
+    color: #003B5F;
+  }
+  .landing .landing--nav.mobile .menu button {
+    padding: 13px 37px;
+    border: 1px solid #FF3520;
+    border-radius: 5px;
+    background: transparent;
+    color: #FF3520;
+    font-family: "CircularStd-Book";
+    font-size: 20px;
+    line-height: 25px;
+    transition: 200ms ease-in-out;
+  }
+  .landing .landing--nav.mobile .menu button:hover {
+    cursor: pointer;
+    transform: scale(103%);
+  }
+  .landing .hero {
+    margin: 80px 0px;
+  }
+  .landing .hero .description {
+    width: 400px;
+  }
+  .landing .hero .description h1 {
+    font-family: "CircularStd-Black";
+    font-size: 48px;
+    line-height: 50px;
+  }
+  .landing .hero .description p {
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .landing .hero .landing--button-container {
+    margin-bottom: 100px;
+  }
+  .landing .hero img.hero-image--room {
+    max-width: 480px;
+  }
+  .landing .section-1 {
+    padding: 50px;
+    display: block;
+  }
+  .landing .section-1 .right-container {
+    max-width: 480px;
+  }
+  .landing .section-1 .right-container h2 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+  .landing .section-1 .right-container p {
+    margin: 8px 0px;
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .landing .section-1 .right-container button {
+    margin: 24px 0px 48px 0px;
+  }
+  .landing .section-1 .left-container {
+    max-width: 480px;
+    justify-content: center;
+    gap: 20px;
+  }
+  .landing .section-1 .left-container .card-container .card {
+    width: 195px;
+    height: 218px;
+    padding-top: 20px;
+  }
+  .landing .section-1 .left-container .card-container .card .content {
+    margin: 0px 18px;
+  }
+  .landing .section-1 .left-container .card-container .card .content img {
+    width: 40px;
+  }
+  .landing .section-1 .left-container .card-container .card .content h3 {
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .landing .section-1 .left-container .card-container .card .content p {
+    font-size: 13px;
+    line-height: 15px;
+  }
+  .landing .section-2 {
+    max-width: 760px;
+    margin-top: 30px;
+  }
+  .landing .section-2 .row {
+    margin: 0px auto;
+    padding: 0px 50px;
+    display: block;
+  }
+  .landing .section-2 .row--content {
+    max-width: 760px;
+    margin: auto 0;
+  }
+  .landing .section-2 .row--content h2 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+  .landing .section-2 .row--content p {
+    max-width: 760px;
+    margin: 0;
+    padding: 15px 0;
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .landing .section-2 .row--content button {
+    margin-top: 24px;
+  }
+  .landing .section-2 .row--images {
+    width: 100%;
+    margin-top: 130px;
+    margin-bottom: 40px;
+    position: relative;
+    text-align: center;
+  }
+  .landing .section-2 .row--images img.content-image {
+    width: 90%;
+  }
+  .landing .section-2 .row--images img.content-background.feature1 {
+    width: 120%;
+    top: -100px;
+    left: -40px;
+  }
+  .landing .section-2 .row--images img.content-background.feature2 {
+    width: 120%;
+    top: -110px;
+    left: -20px;
+  }
+  .landing .section-2 .row--images img.content-background.feature3 {
+    width: 120%;
+    top: -130px;
+    left: -40px;
+  }
+  .landing .banner {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 40px;
+    position: relative;
+  }
+  .landing .banner img.desktop {
+    display: none;
+  }
+  .landing .banner img.mobile {
+    width: 100%;
+    display: block;
+  }
+  .landing .banner .banner-content.desktop {
+    display: none;
+  }
+  .landing .banner .banner-content.mobile {
+    display: block;
+    width: 330px;
+    position: absolute;
+    left: 75px;
+    bottom: 95px;
+  }
+  .landing .banner .banner-content.mobile h3 {
+    color: white;
+    font-family: "CircularStd-Bold";
+    font-size: 24px;
+    line-height: 31px;
+    margin-bottom: 45px;
+  }
+  .landing .banner .banner-content.mobile button {
+    width: 100%;
+    padding: 12px 71px;
+    background: #FF3520;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .landing .btn-primary, .landing .btn-secondary {
+    padding: 10px 25px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .landing .landing--nav.desktop {
+    display: none;
+  }
+  .landing .landing--nav.mobile {
+    display: block;
+    justify-content: space-between;
+    padding: 15px 25px 15px 20px;
+  }
+  .landing .landing--nav.mobile .mobile-nav--container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .landing .landing--nav.mobile .mobile-nav--container .logo {
+    width: 50px;
+  }
+  .landing .landing--nav.mobile .menu {
+    padding-top: 10px;
+    display: none;
+  }
+  .landing .landing--nav.mobile .menu a {
+    margin-right: 55px;
+    color: #858a8f;
+    font-family: "CircularStd-Book";
+    font-size: 20px;
+    line-height: 25px;
+    text-decoration: none;
+    transition: 300ms ease-in-out;
+  }
+  .landing .landing--nav.mobile .menu a:hover {
+    cursor: pointer;
+    color: #858a8f;
+  }
+  .landing .landing--nav.mobile .menu a:active {
+    background: #FAFCFC;
+    color: #003B5F;
+  }
+  .landing .landing--nav.mobile .menu button {
+    padding: 13px 37px;
+    border: 1px solid #FF3520;
+    border-radius: 5px;
+    background: transparent;
+    color: #FF3520;
+    font-family: "CircularStd-Book";
+    font-size: 20px;
+    line-height: 25px;
+    transition: 200ms ease-in-out;
+  }
+  .landing .landing--nav.mobile .menu button:hover {
+    cursor: pointer;
+    transform: scale(103%);
+  }
+  .landing .hero {
+    margin: 80px 0px;
+  }
+  .landing .hero .description {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    text-align: center;
+  }
+  .landing .hero .description h1 {
+    padding: 0px 36px;
+    font-family: "CircularStd-Black";
+    font-size: 45px;
+    line-height: 55px;
+  }
+  .landing .hero .description p {
+    margin: 20px 0px;
+    padding: 0px 36px;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .landing .hero .landing--button-container {
+    margin-bottom: 80px;
+    padding: 0px 20px;
+  }
+  .landing .hero .landing--button-container .btn-primary {
+    margin-right: 10px;
+  }
+  .landing .section-1 {
+    padding: 36px;
+    display: block;
+  }
+  .landing .section-1 .right-container {
+    max-width: 480px;
+  }
+  .landing .section-1 .right-container h2 {
+    font-size: 31px;
+    line-height: 38px;
+  }
+  .landing .section-1 .right-container p {
+    margin: 8px 0px;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .landing .section-1 .right-container button {
+    margin: 24px 0px 48px 0px;
+  }
+  .landing .section-1 .left-container {
+    max-width: 480px;
+    justify-content: center;
+    gap: 16px;
+  }
+  .landing .section-1 .left-container .card-container .card {
+    width: 136px;
+    height: 157px;
+    margin: 0px;
+    margin-bottom: 16px;
+    padding-top: 15px;
+  }
+  .landing .section-1 .left-container .card-container .card .content {
+    margin: 0px 12px;
+  }
+  .landing .section-1 .left-container .card-container .card .content img {
+    width: 25px;
+  }
+  .landing .section-1 .left-container .card-container .card .content h3 {
+    font-size: 13px;
+    line-height: 14px;
+  }
+  .landing .section-1 .left-container .card-container .card .content p {
+    font-size: 9px;
+    line-height: 13px;
+  }
+  .landing .section-2 {
+    max-width: 480px;
+  }
+  .landing .section-2 .row {
+    margin: 40px auto;
+    padding: 0;
+    display: block;
+  }
+  .landing .section-2 .row--content {
+    max-width: 480px;
+    margin: auto 0;
+    padding: 0px 36px;
+  }
+  .landing .section-2 .row--content h2 {
+    font-size: 31px;
+    line-height: 38px;
+  }
+  .landing .section-2 .row--content p {
+    max-width: 440px;
+    margin: 0;
+    padding: 8px 0;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .landing .section-2 .row--content button {
+    margin: 24px 0px;
+  }
+  .landing .section-2 .row--images {
+    width: 100%;
+    margin-top: 130px;
+    margin-bottom: 40px;
+    position: relative;
+    text-align: center;
+  }
+  .landing .section-2 .row--images img.content-image {
+    width: 90%;
+  }
+  .landing .section-2 .row--images img.content-background.feature1 {
+    width: 100%;
+    top: -75px;
+    left: 10px;
+  }
+  .landing .section-2 .row--images img.content-background.feature2 {
+    width: 110%;
+    top: -80px;
+    left: 0px;
+  }
+  .landing .section-2 .row--images img.content-background.feature3 {
+    width: 110%;
+    top: -120px;
+    left: -20px;
+  }
+  .landing .banner {
+    width: 360px;
+    margin: 0 auto;
+    margin-top: 40px;
+    position: relative;
+  }
+  .landing .banner img.desktop {
+    display: none;
+  }
+  .landing .banner img.mobile {
+    width: 100%;
+    display: block;
+  }
+  .landing .banner .banner-content.desktop {
+    display: none;
+  }
+  .landing .banner .banner-content.mobile {
+    display: block;
+    width: 239px;
+    position: absolute;
+    left: 60px;
+    bottom: 70px;
+  }
+  .landing .banner .banner-content.mobile h3 {
+    color: white;
+    font-family: "CircularStd-Bold";
+    font-size: 19px;
+    line-height: 31px;
+    margin-bottom: 25px;
+  }
+  .landing .banner .banner-content.mobile button {
+    width: 100%;
+    padding: 6px 71px;
+    background: #FF3520;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .landing .banner {
+    width: 280px;
+  }
+  .landing .banner .banner-content.mobile {
+    width: 195px;
+    position: absolute;
+    left: 42px;
+    bottom: 52px;
+  }
+  .landing .banner .banner-content.mobile h3 {
+    color: white;
+    font-family: "CircularStd-Bold";
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 25px;
+  }
+  .landing .banner .banner-content.mobile button {
+    width: 100%;
+    padding: 8px 25px;
+    background: #FF3520;
+    font-size: 13px;
+    line-height: 15px;
+  }
 }
 
 @font-face {

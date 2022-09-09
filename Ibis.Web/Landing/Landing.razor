@@ -2,8 +2,27 @@
 @layout LandingLayout
 
 <div class="landing">
-    <div class="landing--nav">
+    <div class="landing--nav desktop">
         <a href="/"><img class="logo" src="/images/logo_2x.png" /></a>
+        <div class="menu">
+            <a href="/About">About</a>
+            <a href="/Features">Features</a>
+            <a href="/Pricing">Pricing</a>
+            <button>Get Started</button>
+        </div>
+    </div>
+    <div class="landing--nav mobile">
+        <div class="mobile-nav--container">
+            <a href="/"><img class="logo" src="/images/logo_2x.png" /></a>
+            <label>
+                <input type="checkbox" class="menu--expand">
+                <i class="material-icons">menu</i>
+            </label>
+@*            <label>
+                <input type="checkbox" class="menu--close">
+                <i class="material-icons">menu</i>
+            </label>
+*@        </div>
         <div class="menu">
             <a href="/About">About</a>
             <a href="/Features">Features</a>
@@ -13,10 +32,9 @@
     </div>
     <div class="hero">
         <div class="description">
-        <h1>Come as you are</h1>
-        <p>Ibis uses Machine Learning to break down barriers and transform the way you communicate with your friends, family, or team</p>
+            <h1>Come as you are</h1>
+            <p>Ibis uses Machine Learning to break down barriers and transform the way you communicate with your friends, family, or team</p>
         </div>
-@*        <h1>@Model.GetString(key: "Title")</h1>  *@
         <div class="landing--button-container">
             <button class="btn-primary">Get Started</button>
             <button class="btn-secondary">Learn More</button>
@@ -80,8 +98,8 @@
         </div>
     </section>
     <section class="section-2">
-        <div class="row">
-            <div class="row--left row--content">
+        <div class="row row--feature1">
+            <div class="row--content">
                 <h2>Transcribe & Translate, choose from 130+ languages.</h2>
                 <p>
                     Messages are transformed into the form of communication and language that fits each user. 
@@ -89,48 +107,55 @@
                     which are read aloud using Synthesized Speech. Translate text or voice to one 
                     of our 139 supported languages.
                 </p>
-                <button class="btn-primary">Get Started</button>
+                <button class="btn-primary">Learn More</button>
             </div>
-            <div class="row--right row--images">
+            <div class="row--images">
                 <img class="content-background feature1" src="/images/landing/feature1_graphic.png" />
                 <img class="content-image feature1" src="/images/landing/feature1_image.png" />
             </div>
         </div>
-        <div class="row">
-            <div class="row--left row--images">
-                <img class="content-background feature2" src="/images/landing/feature2_graphic.png" />
-                <img class="content-image feature2" src="/images/landing/feature2_image.png" />
-            </div>
-            <div class="row--right row--content">
+        <div class="row row--feature2">
+            <div class="row--content">
                 <h2>Real-time Conversations with Timestamped Messages</h2>
                 <p>
                     Group chats are live as messages, video and audio files are automatically transformed 
                     to fit each user's communication preferences in real-time. 
                     All messages and uploads are timestamped.
                 </p>
-                <button class="btn-primary">Get Started</button>
+                <button class="btn-primary">Learn More</button>
+            </div>
+            <div class="row--left row--images">
+                <img class="content-background feature2" src="/images/landing/feature2_graphic.png" />
+                <img class="content-image feature2" src="/images/landing/feature2_image.png" />
             </div>
         </div>
-        <div class="row">
-            <div class="row--left row--content">
+        <div class="row row--feature3">
+            <div class="row--content">
                 <h2>Share Videos and Audio, Download full transcripts</h2>
                 <p>
                     Upload video and audio files to your group. A full transcript 
                     will be avialable to download in your language of choice. 
                     We don't want anyone missing out on any of the information or fun.
                 </p>
-                <button class="btn-primary">Get Started</button>
+                <button class="btn-primary">Learn More</button>
             </div>
-            <div class="row--right row--images">
+            <div class="row--images">
                 <img class="content-background feature3" src="/images/landing/feature3_graphic.png" />
                 <img class="content-image feature3" src="/images/landing/feature3_image.png" />
             </div>
         </div>
     </section>
     <section class="banner">
-        <img class="banner-image" src="/images/landing/banner.png" />
-        <h3>What are you waiting for? <br />Give Ibis a go!</h3>
-        <button class="btn-primary">Get Started</button>
+        <img class="banner-image desktop" src="/images/landing/banner.png" />
+        <div class="banner-content desktop">
+            <h3>What are you waiting for? <br />Give Ibis a go!</h3>
+            <button class="btn-primary">Get Started</button>
+        </div>
+        <img class="banner-image mobile" src="/images/landing/banner-mobile.png" />
+        <div class="banner-content mobile">
+            <h3>What are you waiting for? <br />Give Ibis a go!</h3>
+            <button class="btn-primary">Get Started</button>
+        </div>
     </section>
     <div class="footer">
 
