@@ -235,6 +235,7 @@ body {
             &--content {
                 max-width: 528px;
                 margin: auto 0;
+                position: relative;
                 z-index: 3;
 
                 h2 {
@@ -293,10 +294,6 @@ body {
                     }
                 }
             }
-
-            &:last-child {
-                margin-bottom: 20px;
-            }
         }
     }
 
@@ -304,6 +301,7 @@ body {
         width: 1143px;
         margin: 0 auto;
         position: relative;
+        z-index: 10;
 
         img {
             width: 100%;
@@ -699,10 +697,12 @@ body {
 
         .section-2 {
             max-width: 760px;
-            margin-top: 30px;
+            margin-top: 50px;
+            margin-bottom: 60px;
 
             .row {
                 margin: 0px auto;
+                margin-bottom: 100px;
                 padding: 0px 50px;
                 display: block;
 
@@ -730,8 +730,8 @@ body {
 
                 &--images {
                     width: 100%;
-                    margin-top: 130px;
-                    margin-bottom: 40px;
+                    margin-top: 140px;
+                    margin-bottom: 50px;
                     position: relative;
                     text-align: center;
 
@@ -974,6 +974,7 @@ body {
 
         .section-2 {
             max-width: 480px;
+            margin-bottom: 0px;
 
             .row {
                 margin: 40px auto;
@@ -1005,8 +1006,7 @@ body {
 
                 &--images {
                     width: 100%;
-                    margin-top: 130px;
-                    margin-bottom: 40px;
+                    margin-top: 110px;
                     position: relative;
                     text-align: center;
 
@@ -1040,7 +1040,6 @@ body {
         .banner {
             width: 360px;
             margin: 0 auto;
-            margin-top: 40px;
             position: relative;
 
             img.desktop {
