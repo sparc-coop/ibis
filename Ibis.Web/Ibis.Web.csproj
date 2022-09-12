@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Shared\DownloadIcon.razor" />
+    <None Include="Shared\PlayIcon.razor" />
+    <None Include="Shared\SendIcon.razor" />
+    <None Include="Shared\UploadIcon.razor" />
     <None Include="wwwroot\sounds\beep_down.wav" />
     <None Include="wwwroot\sounds\beep_up.wav" />
   </ItemGroup>

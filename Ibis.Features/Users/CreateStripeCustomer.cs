@@ -3,8 +3,7 @@ using Stripe;
 
 namespace Ibis.Features.Users;
 
-public record CreateStripeCustomerRequest(string userId);
-public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
+public class CreateStripeCustomer : Feature<string>
 {
     public IConfiguration Configuration { get; }
     public IRepository<User> Users { get; }
@@ -15,11 +14,11 @@ public class CreateStripeCustomer : Feature<CreateStripeCustomerRequest, string>
         Users = users;
     }
 
-    public override async Task<string> ExecuteAsync(CreateStripeCustomerRequest request)
+    public override async Task<string> ExecuteAsync()
     {
         StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
 
-        User? user = await Users.FindAsync(request.userId);
+        User? user = await Users.FindAsync(User.Id());
         if (user == null)
             throw new NotAuthorizedException("User not found!");
 

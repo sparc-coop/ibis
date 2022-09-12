@@ -1,6 +1,6 @@
-﻿<div class="message-audio">
+﻿<div class="message-audio" @onclick=Play>
     <audio id="@Id" src="@Audio.Url" />
-    <i class="material-icons" @onclick:stopPropagation="true" @onclick="Play">volume_up</i>
+    <PlayIcon />
 </div>
 
 @code {

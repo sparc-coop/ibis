@@ -29,7 +29,7 @@
 </div>
 
 @code {
-	GetUserResponse? User;
+	UserSummary? User;
 	public string FirstName = "First Name";
 	public string LastName = "Last Name";
 	// private string? Email;
@@ -43,10 +43,10 @@
 		{
 			User = await Api.GetUserAsync();
 
-			if(User.FullName != null)
+			if(User.Name != null)
 			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
+				FirstName = User.Name.Split(' ')[0];
+				LastName = User.Name.Split(' ')[1];
 			}
 		}
 	}

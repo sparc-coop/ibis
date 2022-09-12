@@ -1,9 +1,6 @@
-﻿using Sparc.Authentication.AzureADB2C;
+﻿namespace Ibis.Features.Users;
 
-namespace Ibis.Features.Users;
-
-//public record GetUserResponse(string Id, string FullName, string Email, string Language);
-public record FindUserRequest(string? Id, string? Email);
+public record FindUserRequest(string? Email);
 public class FindUserByEmail : Feature<FindUserRequest, User>
 {
     public IRepository<User> Users { get; }

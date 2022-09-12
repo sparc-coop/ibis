@@ -14,7 +14,7 @@
 			<div class="section">
 				<div>
 					<label>Pronouns</label>
-					<select @bind="User.Pronouns">
+					<select @bind="Request.Pronouns">
 						<option disabled selected>Select Pronoun</option>
 						<option value="She/Her">She/Her</option>
 						<option value="He/Him">He/Him</option>
@@ -23,26 +23,13 @@
 				</div>
 				<div class="inline">
 					<div>
-						<label>First name</label>
-						<input @bind="FirstName"/>
-					</div>
-					<div>
-						<label>Last name</label>
-						<input @bind="LastName"/>
+						<label>Name</label>
+						<input @bind="Request.FullName" />
 					</div>
 				</div>
-				<div class="email">
-					<img src="/icons/email.png"/>
-					<label>Email address</label>
-					<input @bind="User.Email"/>
-				</div>
+				
 				<div class="photo-upload">
-					@if(User.ProfileImg != null)
-					{
-						<img src="@User.ProfileImg" />
-					} else {
-						<i class="material-icons">account_circle</i>  
-					}
+					<Avatar User="User" />
 					<InputFile OnChange="OnInputFileChange" />
 					<img class="upload-icon" src="/icons/upload.png" />
 					<p>
@@ -90,40 +77,15 @@
 @inject IJSRuntime JS
 
 @code {
-	private GetUserResponse? User;
-	public string FirstName = "First Name";
-	public string LastName = "Last Name";
-	public string Email = "Email";
-	//public string Description = "";
-	//public string Pronouns = "";
-	//public string Username 
-	public string Website = "";
-
+	private UserSummary? User;
+	private UpdateUserRequest Request = new();
 
 	protected override async Task OnInitializedAsync()
 	{
-		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		var user = authState.User;
-		if (user.Identity!.IsAuthenticated)
-		{
-			User = await Api.GetUserAsync();
-
-			if (User.FullName != null)
-			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
-			}
-		}
+		User = await Api.GetUserAsync();
 	}
 
-	private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { 
-		UserId = User!.Id, 
-		FullName = FirstName + " " + LastName , 
-		LanguageId = User.Language,
-		Description = User.Description,
-		Pronouns = User.Pronouns
-
-	});
+	private async void UpdateUser() => await Api.UpdateUserAsync(Request);
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
 	{
@@ -134,6 +96,6 @@
 		var bytes = ms.ToArray();
 		stream.Close();
 
-		User!.ProfileImg = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { UserId = User.Id, FileName = path, Bytes = bytes });
+		User!.Image = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { FileName = path, Bytes = bytes });
 	}
 }

@@ -4,7 +4,7 @@ using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features.Users;
 
-public record UploadUserPhotoRequest(string UserId, string FileName, byte[] Bytes);
+public record UploadUserPhotoRequest(string FileName, byte[] Bytes);
 public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
 { 
 	public UserPhotoUpload(IRepository<User> users, IRepository<File> files)
@@ -19,7 +19,7 @@ public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
     {
 		try
 		{
-			string fileUrl = await UploadPhotoToStorage(request.UserId, request.FileName, request.Bytes);
+			string fileUrl = await UploadPhotoToStorage(User.Id(), request.FileName, request.Bytes);
 			var user = await Users.FindAsync(User.Id());
 			//user!.ProfileImg = fileUrl;
 			await Users.UpdateAsync(user!);

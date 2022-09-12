@@ -12,13 +12,13 @@
                 </h2>
                 <InviteUser RoomId="@RoomInfo.RoomId" />
                 <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
-                    <i class="material-icons">file_download</i>
+                    <DownloadIcon />
                 </button>
                 <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
-                    <i class="material-icons">file_download</i>
+                    <DownloadIcon />
                 </button>
                 <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
-                    <i class="material-icons">audio_file</i>
+                    <DownloadIcon />
                 </button>
             }
         </header>

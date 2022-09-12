@@ -21,7 +21,7 @@ public record GetRoomResponse
     }
 }
 
-public class JoinRoom : PublicFeature<JoinRoomRequest, GetRoomResponse>
+public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 {
     public JoinRoom(IRepository<Room> rooms, IRepository<User> users)
     {

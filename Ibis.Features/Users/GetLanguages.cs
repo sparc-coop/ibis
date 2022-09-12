@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public class GetLanguages : PublicFeature<List<Language>>
+public class GetLanguages : Feature<List<Language>>
 {
     public GetLanguages(ITranslator translator, ISpeaker synthesizer)
     {

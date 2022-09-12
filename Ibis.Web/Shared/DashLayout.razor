@@ -12,13 +12,7 @@
                     <div class="nav-link account-nav" @onclick="@(e => ShowMenu = !ShowMenu)">
                         @if(user != null)
                         {
-                            @if(!string.IsNullOrEmpty(user.ProfileImg))
-                            {
-                                <img src="@user.ProfileImg" class="profile"/>
-                            } else
-                            {
-                                <i class="material-icons profile">account_circle</i>   
-                            }   
+                            <Avatar User="user" />
                         }
                         <img src="../icons/down-arrow.png" class="arrow"/>
                     </div>
@@ -26,14 +20,7 @@
                     {
                     <div class="dropdown--menu">
                         <div class="account-link" @onclick="GoTo">
-                            @if(!string.IsNullOrEmpty(user?.ProfileImg))
-                            {
-                                <img src="@user.ProfileImg"/>
-                            } 
-                            else {
-                                <i class="material-icons">account_circle</i>   
-                            }
-                            <p>@user?.FullName</p>
+                            <Avatar User="user" />
                         </div>
                         <ul>
                             <li><a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a></li>
@@ -64,7 +51,7 @@
 
 @inject SignOutSessionStateManager SignOutManager
 @code{
-    GetUserResponse? user;
+    UserSummary? user;
     bool ShowMenu = false;
 
     protected override async Task OnInitializedAsync()

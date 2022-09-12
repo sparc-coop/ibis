@@ -64,7 +64,8 @@
 </div>
 
 @code {
-    private GetUserResponse? User;
+    private UserSummary? User;
+    private UpdateUserRequest Request = new();
     public string Language = "";
 
     protected override async Task OnInitializedAsync()
@@ -78,5 +79,5 @@
         Nav.NavigateTo($"/{page}", true);
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, LanguageId = Language });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { LanguageId = Language });
 }

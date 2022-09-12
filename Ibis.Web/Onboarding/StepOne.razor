@@ -2,7 +2,7 @@
 @layout EmptyLayout
 
 <div class="onboarding">
-    <h3>Welcome to Ibis@(User != null ? ", " + User.FullName + "." : ".")</h3>
+    <h3>Welcome to Ibis@(User != null ? ", " + User.Name + "." : ".")</h3>
     <p>
         If you have a few minutes, we would love to show you where
         the magic happens and get you setup with the basics,
@@ -11,22 +11,20 @@
 
     <div>
         <label>Pronouns</label>
-        <select @bind="Pronouns">
+        <select @bind="Request.Pronouns">
             <option value="" disabled selected>Select Pronoun</option>
             <option value="SheHer">She/Her</option>
             <option value="HeHim">He/Him</option>
             <option value="TheyThem">They/Them</option>
         </select>
-        <label>First name</label>
-        <input @bind="FirstName" placeholder="First Name" />
-        <label>Last name</label>
-        <input @bind="LastName" placeholder="Last Name" />
+        <label>Your name</label>
+        <input @bind="Request.FullName" placeholder="First Name" />
         <label>Description</label>
-        <textarea @bind="Description"
+        <textarea @bind="Request.Description"
                   @bind:event="oninput"
                   maxlength="@descLimit"
                   placeholder="Enter a little about yourself" />
-        <label>@(descLimit - Description.Count()) characters left</label>
+        <label>@(descLimit - Request.Description.Count()) characters left</label>
     </div>
 
     <div class="bottom-nav">
@@ -58,12 +56,9 @@
 </div>
 
 @code {
-    private GetUserResponse? User;
-    
-    public string FirstName = "";
-    public string LastName = "";
-    public string Description = "";
-    public string Pronouns = "";
+    private UserSummary? User;
+    private UpdateUserRequest Request = new();
+
     public int descLimit = 275;
 
     protected override async Task OnInitializedAsync()
@@ -77,5 +72,5 @@
         Nav.NavigateTo($"/{page}", true);
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { UserId = User!.Id, FullName = FirstName + " " + LastName, LanguageId = "", Pronouns = Pronouns, Description = Description });
+    private async Task UpdateUser() => await Api.UpdateUserAsync(Request);
 }

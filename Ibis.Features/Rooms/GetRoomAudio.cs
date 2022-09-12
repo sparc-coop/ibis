@@ -6,7 +6,7 @@ using File = Sparc.Storage.Azure.File;
 namespace Ibis.Features.Rooms;
 
 public record GetRoomAudioRequest(IEnumerable<string> Files, string RoomId, string Language);
-public class GetRoomAudio : PublicFeature<GetRoomAudioRequest, AudioMessage?>
+public class GetRoomAudio : Feature<GetRoomAudioRequest, AudioMessage?>
 {
     public GetRoomAudio(IRepository<Room> rooms, IRepository<Message> messages, ISpeaker speaker)
     {

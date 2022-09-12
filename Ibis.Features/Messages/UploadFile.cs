@@ -5,7 +5,7 @@ namespace Ibis.Features.Messages;
 
 public record UploadFileRequest(string RoomId, string Language, byte[] Bytes, string FileName);
 
-public class UploadFile : PublicFeature<UploadFileRequest, List<Message>>
+public class UploadFile : Feature<UploadFileRequest, List<Message>>
 {
     public IRepository<Message> Messages { get; }
     public IRepository<User> Users { get; }

@@ -14,9 +14,7 @@
 </div>
 
 @code {
-	private GetUserResponse? User;
-	public string FirstName = "First Name";
-	public string LastName = "Last Name";
+	private UserSummary? User;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -25,12 +23,6 @@
 		if(user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
-
-			if(User.FullName != null)
-			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
-			}
 		}
 	}
 }

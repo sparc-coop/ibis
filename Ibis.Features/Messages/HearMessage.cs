@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public class HearMessage : PublicFeature<string>
+public class HearMessage : Feature<string>
 {
     public IRepository<Message> Messages { get; }
     public IRepository<User> Users { get; }
