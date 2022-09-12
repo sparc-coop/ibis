@@ -1,9 +1,10 @@
 ﻿<CascadingValue Value="Connection">
-
+    @ChildContent
 </CascadingValue>
 
 @code {
     [Parameter] public string Url { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; } = null!;
 
     HubConnection? Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;

@@ -8,9 +8,7 @@
             {
                 <h2>
                     @RoomInfo.Name
-                    <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
-                    <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))" title="Share Link" />
-                    <span>@CopyConfirm</span>
+                    <RoomShare Room="RoomInfo" />
                 </h2>
                 <InviteUser RoomId="@RoomInfo.RoomId" />
                 <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
@@ -31,12 +29,10 @@
     </section>
 </RealtimeHub>
 
-@using Microsoft.AspNetCore.SignalR.Client
-
 @code {
     [Parameter] public string Id { get; set; } = null!;
+    
     GetRoomResponse? RoomInfo;
-    string CopyConfirm = "";
     string HubUrl = "";
     
     protected override async Task OnInitializedAsync()
@@ -49,17 +45,6 @@
     {
         var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = Id });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
-    }
-
-    string GetFileName(string name)
-    {
-        var fileName = name;
-        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-        {
-            fileName = fileName.Replace(c, '_');
-        }
-
-        return fileName;
     }
 
     async Task DownloadText(string format)
@@ -79,18 +64,8 @@
         await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 
-    async void UpdateName()
+    void UpdateName()
     {
         // await Connection!.SendAsync("UpdateRoom", RoomInfo);
-    }
-
-    async Task ShareLink(string roomLink)
-    {
-        //copy room share link to clipboard
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "room");
-        CopyConfirm = "Copied!";
-        StateHasChanged();
-        await Task.Delay(2000);
-        CopyConfirm = "";
     }
 }

@@ -32,7 +32,7 @@
     
     <div class="room-name-wrapper">
         <label>Room Name</label>
-        <input type="email" placeholder="Enter Room Name" @bind="Name" />
+        <input type="email" placeholder="Enter Room Name" @bind="NewRoom.RoomName" />
     </div>
     
     <label>Invite Room Members (Optional)</label>
@@ -41,16 +41,10 @@
         <button class="secondary">Add Member</button>
     </div>
 
-    <div class="share-link">
-        <label>
-            Copy & Share Link
-        </label>
-        <div class="share-link-wrapper" @onclick="CopyLink">
-            <div>conversation.ibis.com/ratio-view-wing</div>
-            <span>@CopyConfirm</span>
-            <img src="/icons/copy.svg" />
-        </div>
-    </div>
+    @if (Room != null)
+    {
+        <RoomShare Room="Room" />
+    }
 
     <div class="bottom-nav">
         <div class="actions">
@@ -81,8 +75,8 @@
 
 @code {
     private GetUserResponse? User;
-    public string Name = "";
-    string CopyConfirm = "";
+    private NewRoomRequest NewRoom = new();
+    private GetRoomResponse? Room;
 
     protected override async Task OnInitializedAsync()
     {
@@ -91,7 +85,7 @@
 
     async Task CreateRoom()
     {
-        GetRoomResponse response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name });//, Participants = Group
+        Room = await Api.CreateRoomAsync(NewRoom);//, Participants = Group
         Nav.NavigateTo($"/step-four", true);
     }
 
@@ -101,10 +95,5 @@
         Nav.NavigateTo($"/{page}", true);
     }
 
-    async Task CopyLink()
-    {
-        CopyConfirm = "Copied!";
-        await Task.Delay(3000);
-        CopyConfirm = "";
-    }
+    
 }

@@ -46,18 +46,6 @@
         }
     </div>
 
-@*    <div class="share-link room-modal">
-        <p class="medium">
-            Copy & Share Link
-        </p>
-        <div class="share-link-wrapper" @onclick="CopyLink">
-            <input type="hidden" id="room-link" value="@("https://www.ibis.com/" + RoomId)" />
-            <div>conversation.ibis.com/ratio-view-wing</div>
-            <span>@CopyConfirm</span>
-            <img src="/icons/copy.svg" />
-        </div>
-    </div>*@
-
     <button class="create-room" @onclick="CreateRoom">Create Room</button>
 
     <button class="close" @onclick="Close">

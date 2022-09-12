@@ -1,0 +1,24 @@
+﻿<div class="share-link">
+    <label>
+        Copy & Share Link
+    </label>
+    <div class="share-link-wrapper" @onclick="CopyLink">
+        <div>ibis.chat/@Room.RoomId</div>
+        <span>@CopyConfirm</span>
+        <img src="/icons/copy.svg" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    string RoomLink => $"{Nav.BaseUri}/{Room.RoomId}";
+    string CopyConfirm = "";
+    
+    async Task CopyLink()
+    {
+        await JS.InvokeVoidAsync("copyToClipboard", RoomLink, "list");
+        CopyConfirm = "Copied!";
+        await Task.Delay(3000);
+        CopyConfirm = "";
+    }
+}

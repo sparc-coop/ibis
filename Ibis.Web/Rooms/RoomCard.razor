@@ -1,19 +1,17 @@
-﻿<div class="room-card" @onclick="@(e => GoToRoom(Room.RoomId))">
+﻿<div class="room-card" @onclick="GoToRoom">
     <div class="top-bar">
         <div class="room-icon">
             <img src="/icons/Room-Icon.svg" />
         </div>
         <div class="option-icons" @onclick:stopPropagation="true">
-            <input type="hidden" id="@Room.RoomId" value="@("https://www.ibis.com/" + Room.RoomId)" />
-            <img src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(Room.RoomId))" />
-            <span id="copy-@Room.RoomId"></span>
-            <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(Room.RoomId))" />
+            <RoomShare Room="Room" />
+            <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="ToggleDropdown" />
         </div>
         <div class="dropdown" id="@("dropdown-"+Room.RoomId)" @onclick:stopPropagation="true">
-            <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="@(e => ToggleDropdown(Room.RoomId))"></div>
+            <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
             <ul>
-                <li @onclick="@(e => ShowEditModal(Room.RoomId, Room.Name))">Edit Name</li>
-                <li @onclick="@(e => ShowDeleteModal(Room.RoomId))">Delete Room</li>
+                <li @onclick="ShowEditModal">Edit Name</li>
+                <li @onclick="ShowDeleteModal">Delete Room</li>
             </ul>
         </div>
     </div>
@@ -38,45 +36,40 @@
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
 
-    void GoToRoom(string Id)
+    void GoToRoom()
     {
-        Nav.NavigateTo($"/rooms/{Id}", true);
+        Nav.NavigateTo($"/rooms/{Room.RoomId}", true);
     }
 
-    async Task ShowDeleteModal(string room)
+    async Task ShowDeleteModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(DeleteModal.RoomId), room);
+        parameters.Add(nameof(DeleteModal.RoomId), Room.RoomId);
         var deleteModal = Modal.Show<DeleteModal>("DeleteModal", parameters);
         var result = await deleteModal.Result;
 
         if (result.Cancelled)
         {
-            await JS.InvokeVoidAsync("toggleRoomDropdown", room);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
         }
     }
 
-    async Task ShowEditModal(string roomId, string name)
+    async Task ShowEditModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(EditModal.RoomId), roomId);
-        parameters.Add(nameof(EditModal.Title), name);
+        parameters.Add(nameof(EditModal.RoomId), Room.RoomId);
+        parameters.Add(nameof(EditModal.Title), Room.Name);
         var editModal = Modal.Show<EditModal>("EditModal", parameters);
 
         var result = await editModal.Result;
         if (result.Cancelled)
         {
-            await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
+            await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
         }
     }
 
-    async Task ToggleDropdown(string roomId)
+    async Task ToggleDropdown()
     {
-        await JS.InvokeVoidAsync("toggleRoomDropdown", roomId);
-    }
-
-    async Task ShareLink(string roomLink)
-    {
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "list");
+        await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
     }
 }

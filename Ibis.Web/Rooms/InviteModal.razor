@@ -14,15 +14,7 @@
             <Avatar User="user" />
         }
     </div>
-    <div class="share-link">
-        <p class="medium">Copy & Share Link</p>
-        <div class="share-link-wrapper" @onclick="CopyLink">
-            <input type="hidden" id="@Room.RoomId" value="@("https://www.ibis.com/" + Room.RoomId)" />
-            <div>room.ibis.com/@Room.RoomId</div>
-            <span>@CopyConfirm</span>
-            <img src="/icons/copy.svg" />
-        </div>
-    </div>
+    <RoomShare Room="Room" />
 </div>
 
 
@@ -33,7 +25,6 @@
     bool Sent = false;
     string? InviteEmail;
     List<string> NewEmails = new List<string>();
-    string CopyConfirm = "";
 
     async Task SendInvite()
     {
@@ -43,16 +34,6 @@
             InviteEmail = "";
             Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
         }
-    }
-
-    async Task CopyLink()
-    {
-        //link to copy
-        await JS.InvokeVoidAsync("copyToClipboard", Room.RoomId, "invite");
-        CopyConfirm = "Copied!";
-        StateHasChanged();
-        await Task.Delay(2000);
-        CopyConfirm = "";
     }
 
     void Close() => ModalInstance.CancelAsync();
