@@ -7,15 +7,19 @@
             <RoomShare Room="Room" />
             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="ToggleDropdown" />
         </div>
-        <div class="dropdown" id="@("dropdown-"+Room.RoomId)" @onclick:stopPropagation="true">
-            <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
-            <ul>
-                <li @onclick="ShowEditModal">Edit Name</li>
-                <li @onclick="ShowDeleteModal">Delete Room</li>
-            </ul>
-        </div>
+
+        @if (ShowDropdown)
+        {
+            <div class="dropdown" @onclick:stopPropagation="true">
+                <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
+                <ul>
+                    <li @onclick="ShowEditModal">Edit Name</li>
+                    <li @onclick="ShowDeleteModal">Delete Room</li>
+                </ul>
+            </div>
+        }
     </div>
-    
+
     <div class="room-details">
         <h6>@Room.Name</h6>
         <p class="medium">
@@ -24,7 +28,7 @@
                 : Room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
         </p>
     </div>
-    
+
     <div class="room-members">
         @foreach (var member in Room.Users.Take(10))
         {
@@ -35,6 +39,7 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    bool ShowDropdown;
 
     void GoToRoom()
     {
@@ -50,7 +55,7 @@
 
         if (result.Cancelled)
         {
-            await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
+            ToggleDropdown();
         }
     }
 
@@ -64,12 +69,12 @@
         var result = await editModal.Result;
         if (result.Cancelled)
         {
-            await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
+            ToggleDropdown();
         }
     }
 
-    async Task ToggleDropdown()
+    void ToggleDropdown()
     {
-        await JS.InvokeVoidAsync("toggleRoomDropdown", Room.RoomId);
+        ShowDropdown = !ShowDropdown;
     }
 }
