@@ -16,7 +16,7 @@
     
     async Task CopyLink()
     {
-        await JS.InvokeVoidAsync("copyToClipboard", RoomLink, "list");
+        await JS.InvokeVoidAsync("navigator.clipboard.writetext", RoomLink);
         CopyConfirm = "Copied!";
         await Task.Delay(3000);
         CopyConfirm = "";
