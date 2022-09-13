@@ -3,7 +3,6 @@
 namespace Ibis.Features.Messages;
 
 public record MessageTranslation(string LanguageId, string MessageId);
-public record AudioMessage(string? Url, long Duration, Voice? Voice = null, List<Word>? Subtitles = null);
 public record Word(long Offset, long Duration, string Text);
 public class Message : SparcRoot<string>
 {
