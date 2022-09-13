@@ -69,3 +69,8 @@ function triggerFileDownload(url, fileName) {
 function playAudio(id) {
     document.getElementById("play-" + id).play();
 }
+
+window.scrollToBottom = (id) => {
+    var div = document.getElementById(id);
+    div.scrollTop = div.scrollHeight;
+};

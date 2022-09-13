@@ -1,7 +1,7 @@
 ﻿@page "/rooms/{Id}"
 @layout DashLayout
 
-<RealtimeHub Url="@HubUrl">
+<RealtimeHub Url="@HubUrl" OnConnected="AddToRoom">
     <section class="room">
         <header>
             @if (RoomInfo != null)
@@ -23,7 +23,11 @@
             }
         </header>
         <div class="content">
-            <MessageList RoomId="Id" />
+            @if (RoomInfo != null)
+            {
+                <MessageList Room="RoomInfo" />
+            }
+            
             <LanguageSelector />
         </div>
     </section>
@@ -31,14 +35,19 @@
 
 @code {
     [Parameter] public string Id { get; set; } = null!;
-    
+
     GetRoomResponse? RoomInfo;
     string HubUrl = "";
-    
+
     protected override async Task OnInitializedAsync()
     {
         HubUrl = Config["ApiUrl"] + "/rooms";
         RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
+    }
+
+    async Task AddToRoom(HubConnection connection)
+    {
+        await connection.InvokeAsync("AddToRoom", Id);
     }
 
     async Task DownloadAudio()

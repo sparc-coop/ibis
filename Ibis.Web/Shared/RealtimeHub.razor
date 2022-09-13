@@ -5,10 +5,11 @@
 @code {
     [Parameter] public string Url { get; set; } = "";
     [Parameter] public RenderFragment ChildContent { get; set; } = null!;
+    [Parameter] public EventCallback<HubConnection> OnConnected { get; set; } = default;
 
     HubConnection? Connection { get; set; }
     bool IsConnected => Connection?.State == HubConnectionState.Connected;
-    
+
     protected override async Task OnInitializedAsync()
     {
         Connection = new HubConnectionBuilder()
@@ -16,5 +17,7 @@
             .Build();
 
         await Connection.StartAsync();
+        if (OnConnected.HasDelegate)
+            await OnConnected.InvokeAsync(Connection);
     }
 }

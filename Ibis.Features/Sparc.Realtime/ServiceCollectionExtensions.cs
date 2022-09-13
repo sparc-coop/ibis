@@ -1,14 +1,16 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using MediatR;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using INotification = Sparc.Realtime.INotification;
 
 namespace Ibis.Features.Sparc.Realtime;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddSparcRealtime(this IServiceCollection services)
+    public static IServiceCollection AddSparcRealtime<TStartup>(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
         {
@@ -17,6 +19,7 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddSignalR();
+        services.AddMediatR(typeof(TStartup));
 
         return services;
     }

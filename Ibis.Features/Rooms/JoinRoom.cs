@@ -1,4 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace Ibis.Features.Rooms;
 
@@ -10,27 +10,31 @@ public record GetRoomResponse
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
     public List<UserSummary>? Users { get; set; }
+    public List<Message>? Messages { get; set; }
 
-    public GetRoomResponse(Room room)
+    public GetRoomResponse(Room room, List<Message>? messages = null)
     {
         RoomId = room.Id;
         LastActiveDate = room.LastActiveDate;
         StartDate = room.StartDate;
         Name = room.Name;
         Users = room.Users;
+        Messages = messages;
     }
 }
 
 public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 {
-    public JoinRoom(IRepository<Room> rooms, IRepository<User> users)
+    public JoinRoom(IRepository<Room> rooms, IRepository<User> users, IRepository<Message> messages)
     {
         Rooms = rooms;
         Users = users;
+        Messages = messages;
     }
 
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
+    public IRepository<Message> Messages { get; }
 
     public async override Task<GetRoomResponse> ExecuteAsync(JoinRoomRequest request)
     {
@@ -42,6 +46,12 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
         await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(request.RoomId));
         await Rooms.ExecuteAsync(request.RoomId, room => room.AddActiveUser(user));
 
-        return new(room);
+        var messages = await Messages
+                .Query
+                .Where(message => message.Language == user.PrimaryLanguageId)
+                .OrderBy(x => x.Timestamp)
+                .ToListAsync();
+
+        return new(room, messages);
     }
 }

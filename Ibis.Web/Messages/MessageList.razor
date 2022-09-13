@@ -1,33 +1,47 @@
 ﻿@inherits RealtimeComponent
 
 <div class="message-grid">
-    <div class="message-list">
+    <div class="message-list" id="room-@Room.RoomId">
         <Virtualize Items="Messages" Context="message">
             <MessageCard Message="message" />
         </Virtualize>
     </div>
+    <NewMessage Room="Room" />
 </div>
 
 @code {
-    [Parameter] public string RoomId { get; set; } = null!;
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
     List<Message> Messages = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        On<MessageTextChanged>(x =>
+        Messages = Room.Messages.ToList();
+
+        On<MessageTextChanged>(async x =>
         {
-            if (x.Message.RoomId == RoomId)
-                AddMessage(x.Message);
+            if (x.Message.RoomId == Room.RoomId)
+                await AddMessage(x.Message);
         });
     }
 
-    void AddMessage(Message message)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
+    }
+
+    async Task AddMessage(Message message)
     {
         var existingId = Messages.FindIndex(x => x.Id == message.Id);
         if (existingId > -1)
+        {
             Messages[existingId] = message;
+        }
         else
+        {
             Messages.Add(message);
+            await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
+        }
     }
 
 }

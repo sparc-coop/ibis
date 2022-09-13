@@ -31,5 +31,8 @@ public class SparcContext : DbContext
             });
 
         await Task.WhenAll(tasks);
+        
+        foreach (var entity in domainEntities)
+            entity.Entity.Events!.Clear();
     }
 }
