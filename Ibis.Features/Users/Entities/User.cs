@@ -89,7 +89,7 @@ public class User : Root<string>
         Balance += userCharge.Amount;
     }
 
-    internal void UpdateProfile(string fullName, string languageId, string pronouns, string description)
+    internal void UpdateProfile(string fullName, string languageId, string? pronouns, string? description)
     {
         FirstName = fullName.Split(' ')[0];
         LastName = fullName.Split(' ')[1];

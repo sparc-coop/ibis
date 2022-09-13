@@ -14,7 +14,7 @@
 			<div class="section">
 				<div>
 					<label>Pronouns</label>
-					<select @bind="Request.Pronouns">
+					<select @bind="User.Pronouns">
 						<option disabled selected>Select Pronoun</option>
 						<option value="She/Her">She/Her</option>
 						<option value="He/Him">He/Him</option>
@@ -24,7 +24,7 @@
 				<div class="inline">
 					<div>
 						<label>Name</label>
-						<input @bind="Request.FullName" />
+						<input @bind="User.Name" />
 					</div>
 				</div>
 				
@@ -78,14 +78,13 @@
 
 @code {
 	private UserSummary? User;
-	private UpdateUserRequest Request = new();
 
 	protected override async Task OnInitializedAsync()
 	{
 		User = await Api.GetUserAsync();
 	}
 
-	private async void UpdateUser() => await Api.UpdateUserAsync(Request);
+	private async void UpdateUser() => await Api.UpdateUserAsync(User);
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
 	{

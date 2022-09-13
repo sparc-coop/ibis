@@ -1334,7 +1334,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateUserRequest"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 ]
               }
@@ -1343,7 +1343,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateUserRequest"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 ]
               }
@@ -1352,7 +1352,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateUserRequest"
+                    "$ref": "#/components/schemas/UserSummary"
                   }
                 ]
               }
@@ -2175,28 +2175,6 @@
             "nullable": true
           },
           "text": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateUserRequest": {
-        "type": "object",
-        "properties": {
-          "fullName": {
-            "type": "string",
-            "nullable": true
-          },
-          "languageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "pronouns": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
             "type": "string",
             "nullable": true
           }

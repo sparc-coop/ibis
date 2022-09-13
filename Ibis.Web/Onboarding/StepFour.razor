@@ -1,9 +1,4 @@
-﻿@page "/step-four"
-@layout EmptyLayout
-
-
-<div class="onboarding">
-    <h3>That's it!</h3>
+﻿    <h3>That's it!</h3>
     <p>
         You are now all set up and ready to go.
         <br /> <br />
@@ -11,36 +6,3 @@
         <br /> <br />
         If you have any issues or questions, please reach out to us via email: <a class="share-link" href="mailto:support@ibis.chat">support@ibis.chat</a>
     </p>
-
-    <div class="bottom-nav">
-        <div class="actions">
-            <div class="steps">
-                <div class="step-circle step-active">
-                    <i class="material-icons-outlined">check_circle</i>
-                </div>
-                <hr class="step-line line-active" />
-                <div class="step-circle step-active">
-                    <i class="material-icons-outlined">check_circle</i>
-                </div>
-                <hr class="step-line line-active" />
-                <div class="step-circle step-active">
-                    <i class="material-icons-outlined">check_circle</i>
-                </div>
-                <hr class="step-line line-active" />
-                <div class="step-circle step-active">
-                    <i class="material-icons-outlined">check_circle</i>
-                </div>
-            </div>
-            <div class="buttons">
-                <button class="next" @onclick="@(e => GoTo("rooms"))">Take me to my room</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@code {
-    void GoTo(string page)
-    {
-        Nav.NavigateTo($"/{page}", true);
-    }
-}
