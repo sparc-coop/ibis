@@ -823,62 +823,125 @@ body {
 
             &.mobile {
                 display: block;
-                justify-content: space-between;
                 padding: 15px 25px 15px 20px;
+                position: relative;
 
-                .mobile-nav--container {
-                    display: flex;
-                    justify-content: space-between;
+                .logo {
+                    position: relative;
+                    width: 50px;
+                    z-index: 50;
+                }
 
-                    .logo {
-                        width: 50px;
+                label.menu--toggle {
+                    position: absolute;
+                    top: 15px;
+                    right: 25px;
+                    z-index: 50;
+
+                    i {
+                        font-size: 20px;
+                    }
+                }
+
+                input.menu--toggle {
+                    display: none;
+
+                    &:not(:checked) {
+                        & ~ label span:last-child {
+                            display: none;
+                        }
+
+                        & ~ .menu {
+                            background: $background;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 0;
+                            height: 0;
+                        }
+
+                        & ~ .menu ul {
+                            margin-top: 40px;
+                        }
+                    }
+
+                    &:checked {
+                        & ~ label span:first-child {
+                            display: none;
+                        }
+
+                        & ~ .menu {
+                            background: $background;
+                            float: right;
+                            width: 100vw;
+                            height: 100vh;
+                        }
+
+                        & ~ menu ul {
+                            height: 100%;
+                        }
                     }
                 }
 
                 .menu {
-                    padding-top: 10px;
-                    display: none;
+                    margin: 25px -25px 0 -20px;
+                    padding: 0;
+                    display: block;
+                    background: $background;
+                    position: absolute;
+                    top: 40px;
+                    right: 25px;
+                    z-index: 20;
+                    transition: width 600ms, height 600ms;
 
-                    a {
-                        margin-right: 55px;
-                        color: $gray;
-                        font-family: 'CircularStd-Book';
-                        font-size: 20px;
-                        line-height: 25px;
-                        text-decoration: none;
-                        transition: 300ms ease-in-out;
+                    ul {
+                        background: $background;
+                        overflow: hidden;
 
-                        &:hover {
-                            cursor: pointer;
-                            color: $gray;
-                        }
+                        li {
+                            width: 100%;
+                            margin-bottom: 8px;
 
-                        &:active {
-                            background: $secondary-100;
-                            color: $secondary-900;
-                        }
-                    }
+                            &:active {
+                                background: $secondary-300;
+                            }
 
-                    button {
-                        padding: 13px 37px;
-                        border: 1px solid $primary-500;
-                        border-radius: 5px;
-                        background: transparent;
-                        color: $primary-500;
-                        font-family: 'CircularStd-Book';
-                        font-size: 20px;
-                        line-height: 25px;
-                        transition: 200ms ease-in-out;
+                            a {
+                                margin: 0;
+                                margin-left: 45px;
+                                font-size: 16px;
+                                line-height: 24px;
+                                text-decoration: none;
+                                transition: 200ms ease-in-out;
 
-                        &:hover {
-                            cursor: pointer;
-                            transform: scale(103%);
+                                &:active {
+                                    background: $secondary-300;
+                                    color: $secondary-900;
+                                }
+                            }
+
+                            button {
+                                width: 75%;
+                                min-width: 200px;
+                                margin-top: 16px;
+                                margin-left: 45px;
+                                padding: 5px 20px;
+                                border: 1px solid $primary-500;
+                                font-size: 16px;
+                                line-height: 20px;
+                                text-align: center;
+                                transition: 200ms ease-in-out;
+
+                                &:hover {
+                                    cursor: pointer;
+                                    transform: scale(103%);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-
 
         .hero {
             margin: 80px 0px;
