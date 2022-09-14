@@ -13,7 +13,7 @@
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     List<Message> Messages = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         Messages = Room.Messages.ToList();
 
@@ -26,7 +26,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (Messages.Any())
             await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
     }
 

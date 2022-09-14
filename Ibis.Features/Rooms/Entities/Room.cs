@@ -65,6 +65,9 @@ public class Room : SparcRoot<string>
             activeUser = new(user);
             Users.Add(activeUser);
         }
+
+        if (user.PrimaryLanguage != null)
+            AddLanguage(user.PrimaryLanguage);
         
         if (!activeUser.IsOnline)
         {

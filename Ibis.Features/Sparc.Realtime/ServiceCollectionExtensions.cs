@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSignalR();
         services.AddMediatR(typeof(TStartup));
-
+       
         return services;
     }
 }

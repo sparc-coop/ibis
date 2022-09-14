@@ -84,6 +84,8 @@ public class User : Root<string>
         PrimaryLanguageId = language.Id;
     }
 
+    internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == PrimaryLanguageId);
+
     internal void AddCharge(UserCharge userCharge)
     {
         Balance += userCharge.Amount;
