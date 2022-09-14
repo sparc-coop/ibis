@@ -2716,8 +2716,8 @@ body {
     margin: 24px 0px 48px 0px;
   }
   .landing .section-1 .left-container {
+    margin: 0 auto;
     max-width: 480px;
-    justify-content: center;
     gap: 20px;
   }
   .landing .section-1 .left-container .card-container .card {
