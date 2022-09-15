@@ -2168,20 +2168,22 @@ body {
 .landing--nav .menu {
   padding-top: 10px;
 }
-.landing--nav .menu a {
-  margin-right: 55px;
+.landing--nav .menu a.log-in {
+  margin-right: 35px;
   color: #858a8f;
   font-family: "CircularStd-Book";
   font-size: 20px;
   line-height: 25px;
   text-decoration: none;
   transition: 300ms ease-in-out;
+  display: inline-block;
 }
-.landing--nav .menu a:hover {
+.landing--nav .menu a.log-in:hover {
   cursor: pointer;
   color: #FF3520;
+  transform: scale(103%);
 }
-.landing--nav .menu button {
+.landing--nav .menu a.get-started {
   padding: 13px 37px;
   border: 1px solid #FF3520;
   border-radius: 5px;
@@ -2191,8 +2193,9 @@ body {
   font-size: 20px;
   line-height: 25px;
   transition: 200ms ease-in-out;
+  display: inline-block;
 }
-.landing--nav .menu button:hover {
+.landing--nav .menu a.get-started:hover {
   cursor: pointer;
   transform: scale(103%);
 }
@@ -2431,8 +2434,8 @@ body {
   }
   .landing--nav .menu button {
     padding: 13px 37px;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 22px;
   }
   .landing .hero .description h1 {
     font-size: 70px;
@@ -2553,9 +2556,6 @@ body {
   .landing .landing--nav.desktop {
     padding: 20px 40px;
   }
-  .landing .landing--nav.desktop a {
-    margin-right: 35px;
-  }
 }
 @media only screen and (max-width: 760px) {
   .landing .btn-primary, .landing .btn-secondary {
@@ -2643,26 +2643,27 @@ body {
   .landing .landing--nav.mobile .menu ul li:active {
     background: #D3E4F1;
   }
-  .landing .landing--nav.mobile .menu ul li a {
-    margin: 0;
-    margin-left: 45px;
+  .landing .landing--nav.mobile .menu ul li a.log-in {
+    width: 80%;
+    min-width: 200px;
+    margin: 0px 0px 6px 45px;
+    padding: 5px 20px;
+    border: 1px solid #858a8f;
+    border-radius: 5px;
     font-size: 16px;
     line-height: 24px;
     text-decoration: none;
+    text-align: center;
     transition: color 0ms, background 300ms ease-in-out;
   }
-  .landing .landing--nav.mobile .menu ul li a:hover {
-    color: #858a8f;
+  .landing .landing--nav.mobile .menu ul li a.log-in:hover {
+    cursor: pointer;
+    transform: scale(103%);
   }
-  .landing .landing--nav.mobile .menu ul li a:active {
-    background: #D3E4F1;
-    color: #003B5F;
-  }
-  .landing .landing--nav.mobile .menu ul li button {
+  .landing .landing--nav.mobile .menu ul li a.get-started {
     width: 80%;
     min-width: 200px;
-    margin-top: 16px;
-    margin-left: 45px;
+    margin: 6px 0px 0px 45px;
     padding: 5px 20px;
     border: 1px solid #FF3520;
     font-size: 16px;
@@ -2670,7 +2671,7 @@ body {
     text-align: center;
     transition: 200ms ease-in-out;
   }
-  .landing .landing--nav.mobile .menu ul li button:hover {
+  .landing .landing--nav.mobile .menu ul li a.get-started:hover {
     cursor: pointer;
     transform: scale(103%);
   }
@@ -2837,7 +2838,7 @@ body {
     font-size: 16px;
     line-height: 24px;
   }
-  .landing .landing--nav.mobile .menu ul li button {
+  .landing .landing--nav.mobile .menu ul li a.log-in, .landing .landing--nav.mobile .menu ul li a.get-started {
     width: 75%;
   }
   .landing .hero .description {

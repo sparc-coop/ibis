@@ -53,22 +53,24 @@ body {
         .menu {
             padding-top: 10px;
 
-            a {
-                margin-right: 55px;
+            a.log-in {
+                margin-right: 35px;
                 color: $gray;
                 font-family: 'CircularStd-Book';
                 font-size: 20px;
                 line-height: 25px;
                 text-decoration: none;
                 transition: 300ms ease-in-out;
+                display: inline-block;
 
                 &:hover {
                     cursor: pointer;
                     color: $primary-500;
+                    transform: scale(103%);
                 }
             }
 
-            button {
+            a.get-started {
                 padding: 13px 37px;
                 border: 1px solid $primary-500;
                 border-radius: 5px;
@@ -78,6 +80,8 @@ body {
                 font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
+                display: inline-block;
+
 
                 &:hover {
                     cursor: pointer;
@@ -368,8 +372,8 @@ body {
 
                 button {
                     padding: 13px 37px;
-                    font-size: 16px;
-                    line-height: 20px;
+                    font-size: 18px;
+                    line-height: 22px;
                 }
             }
         }
@@ -535,10 +539,6 @@ body {
         .landing--nav {
             &.desktop {
                 padding: 20px 40px;
-
-                a {
-                    margin-right: 35px;
-                }
             }
         }
     }
@@ -647,29 +647,29 @@ body {
                                 background: $secondary-300;
                             }
 
-                            a {
-                                margin: 0;
-                                margin-left: 45px;
+                            a.log-in {
+                                width: 80%;
+                                min-width: 200px;
+                                margin: 0px 0px 6px 45px;
+                                padding: 5px 20px;
+                                border: 1px solid $gray;
+                                border-radius: 5px;
                                 font-size: 16px;
                                 line-height: 24px;
                                 text-decoration: none;
+                                text-align: center;
                                 transition: color 0ms, background 300ms ease-in-out;
 
                                 &:hover {
-                                    color: $gray;
-                                }
-
-                                &:active {
-                                    background: $secondary-300;
-                                    color: $secondary-900;
+                                    cursor: pointer;
+                                    transform: scale(103%);
                                 }
                             }
 
-                            button {
+                            a.get-started {
                                 width: 80%;
                                 min-width: 200px;
-                                margin-top: 16px;
-                                margin-left: 45px;
+                                margin: 6px 0px 0px 45px;
                                 padding: 5px 20px;
                                 border: 1px solid $primary-500;
                                 font-size: 16px;
@@ -893,7 +893,7 @@ body {
             line-height: 24px;
         }
 
-        .landing--nav.mobile .menu ul li button {
+        .landing--nav.mobile .menu ul li a.log-in, .landing--nav.mobile .menu ul li a.get-started {
             width: 75%;
         }
 
