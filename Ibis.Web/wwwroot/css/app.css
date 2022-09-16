@@ -2128,7 +2128,7 @@ body {
   margin: 0px;
   background: #fafbfc;
 }
-.landing .btn-primary {
+.landing a.btn-primary {
   padding: 21px 53px;
   border: none;
   border-radius: 5px;
@@ -2137,8 +2137,9 @@ body {
   font-size: 20px;
   font-family: "CircularStd-Book";
   transition: 200ms ease-in-out;
+  display: inline-block;
 }
-.landing .btn-primary:hover {
+.landing a.btn-primary:hover {
   cursor: pointer;
   transform: scale(103%);
 }
@@ -2152,6 +2153,7 @@ body {
   font-size: 20px;
   font-family: "CircularStd-Book";
   transition: 200ms ease-in-out;
+  display: inline-block;
 }
 .landing .btn-secondary:hover {
   cursor: pointer;
@@ -2402,7 +2404,7 @@ body {
   font-size: 40px;
   line-height: 48px;
 }
-.landing .banner .banner-content.desktop button {
+.landing .banner .banner-content.desktop a.btn-primary {
   padding: 21px 61px;
   border-radius: 5px;
   position: absolute;
@@ -2432,7 +2434,7 @@ body {
     font-size: 18px;
     line-height: 25px;
   }
-  .landing--nav .menu button {
+  .landing--nav .menu a.get-started {
     padding: 13px 37px;
     font-size: 18px;
     line-height: 22px;
@@ -2541,12 +2543,15 @@ body {
     font-size: 28px;
     line-height: 35px;
   }
-  .landing .banner .banner-content.desktop button {
-    padding: 15px 32px;
-    top: 36px;
-    right: 50px;
-    font-size: 18px;
-    line-height: 20px;
+  .landing .banner .banner-content.desktop a.btn-primary {
+    padding: 15px 40px;
+    border-radius: 5px;
+    position: absolute;
+    top: 35px;
+    right: 70px;
+    background: #FF3520;
+    font-size: 20px;
+    line-height: 24px;
   }
   .landing .banner .banner-content.mobile {
     display: none;
@@ -2657,6 +2662,7 @@ body {
     transition: color 0ms, background 300ms ease-in-out;
   }
   .landing .landing--nav.mobile .menu ul li a.log-in:hover {
+    color: #858a8f;
     cursor: pointer;
     transform: scale(103%);
   }
@@ -2824,12 +2830,14 @@ body {
     line-height: 31px;
     margin-bottom: 45px;
   }
-  .landing .banner .banner-content.mobile button {
+  .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 12px 71px;
     background: #FF3520;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 24px;
+    display: inline-block;
+    text-align: center;
   }
 }
 @media only screen and (max-width: 480px) {
@@ -2992,7 +3000,7 @@ body {
     line-height: 31px;
     margin-bottom: 25px;
   }
-  .landing .banner .banner-content.mobile button {
+  .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 6px 71px;
     background: #FF3520;
@@ -3026,7 +3034,7 @@ body {
     line-height: 20px;
     margin-bottom: 25px;
   }
-  .landing .banner .banner-content.mobile button {
+  .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 8px 25px;
     background: #FF3520;

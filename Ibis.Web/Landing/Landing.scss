@@ -8,7 +8,7 @@ body {
     margin: 0px;
     background: $background;
 
-    .btn-primary {
+    a.btn-primary {
         padding: 21px 53px;
         border: none;
         border-radius: 5px;
@@ -17,6 +17,7 @@ body {
         font-size: 20px;
         font-family: 'CircularStd-Book';
         transition: 200ms ease-in-out;
+        display: inline-block;
 
         &:hover {
             cursor: pointer;
@@ -34,6 +35,7 @@ body {
         font-size: 20px;
         font-family: 'CircularStd-Book';
         transition: 200ms ease-in-out;
+        display: inline-block;
 
         &:hover {
             cursor: pointer;
@@ -331,7 +333,7 @@ body {
                     line-height: 48px;
                 }
 
-                button {
+                a.btn-primary {
                     padding: 21px 61px;
                     border-radius: 5px;
                     position: absolute;
@@ -370,7 +372,7 @@ body {
                     line-height: 25px;
                 }
 
-                button {
+                a.get-started {
                     padding: 13px 37px;
                     font-size: 18px;
                     line-height: 22px;
@@ -519,12 +521,15 @@ body {
                         line-height: 35px;
                     }
 
-                    button {
-                        padding: 15px 32px;
-                        top: 36px;
-                        right: 50px;
-                        font-size: 18px;
-                        line-height: 20px;
+                    a.btn-primary {
+                        padding: 15px 40px;
+                        border-radius: 5px;
+                        position: absolute;
+                        top: 35px;
+                        right: 70px;
+                        background: $primary-500;
+                        font-size: 20px;
+                        line-height: 24px;
                     }
                 }
 
@@ -661,6 +666,7 @@ body {
                                 transition: color 0ms, background 300ms ease-in-out;
 
                                 &:hover {
+                                    color: $gray;
                                     cursor: pointer;
                                     transform: scale(103%);
                                 }
@@ -874,12 +880,14 @@ body {
                         margin-bottom: 45px;
                     }
 
-                    button {
+                    a.btn-primary {
                         width: 100%;
                         padding: 12px 71px;
                         background: $primary-500;
-                        font-size: 16px;
+                        font-size: 18px;
                         line-height: 24px;
+                        display: inline-block;
+                        text-align: center;
                     }
                 }
             }
@@ -1086,7 +1094,7 @@ body {
                         margin-bottom: 25px;
                     }
 
-                    button {
+                    a.btn-primary {
                         width: 100%;
                         padding: 6px 71px;
                         background: $primary-500;
@@ -1132,7 +1140,7 @@ body {
                         margin-bottom: 25px;
                     }
 
-                    button {
+                    a.btn-primary {
                         width: 100%;
                         padding: 8px 25px;
                         background: $primary-500;
