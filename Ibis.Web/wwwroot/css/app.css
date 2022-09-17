@@ -549,97 +549,6 @@ main {
   flex-wrap: wrap;
   margin: auto -20px;
 }
-.dashboard .rooms .room-card {
-  background: #FFFFFF;
-  padding: 24px;
-  border: 1px solid #E5E7EA;
-  border-radius: 8px;
-  width: 100%;
-  height: 196px;
-  max-width: 362px;
-  cursor: pointer;
-  margin: 0 auto 30px auto;
-  position: relative;
-}
-.dashboard .rooms .room-card .top-bar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  position: relative;
-}
-.dashboard .rooms .room-card .top-bar .room-icon {
-  padding: 8px;
-  border-radius: 8px;
-  background: #FAF1E8;
-}
-.dashboard .rooms .room-card .top-bar .option-icons img {
-  padding: 4px 6px;
-}
-.dashboard .rooms .room-card .top-bar .option-icons span {
-  font-size: 12px;
-  color: #12B76A;
-  position: absolute;
-  margin-left: -41px;
-  top: 36px;
-}
-.dashboard .rooms .room-card .room-details {
-  margin-bottom: 22px;
-}
-.dashboard .rooms .room-card .room-details h6 {
-  color: #0A111D;
-  font-weight: 500;
-  margin-bottom: 2px;
-}
-.dashboard .rooms .room-card .room-details p.medium {
-  color: #9BA3AF;
-}
-.dashboard .rooms .room-card .room-members {
-  display: flex;
-  align-items: center;
-}
-.dashboard .rooms .room-card .room-members img, .dashboard .rooms .room-card .room-members i {
-  width: 26px;
-  height: 26px;
-  border-radius: 30px;
-  margin-left: -6px;
-}
-.dashboard .rooms .room-card .room-members img:first-of-type, .dashboard .rooms .room-card .room-members i:first-of-type {
-  margin-left: 0;
-}
-.dashboard .rooms .room-card .room-members img {
-  border: 2px solid white;
-}
-.dashboard .rooms .room-card .dropdown {
-  visibility: hidden;
-  position: absolute;
-  z-index: 10;
-  top: 28px;
-  right: -10px;
-  padding: 10px;
-  background: #FFFFFF;
-  border-radius: 6px;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-}
-.dashboard .rooms .room-card .dropdown li {
-  padding: 6px;
-}
-.dashboard .rooms .room-card .dropdown li:hover {
-  text-decoration: underline;
-}
-.dashboard .rooms .room-card .dropdown ul {
-  position: relative;
-  z-index: 12;
-}
-.dashboard .rooms .room-card .dropdown--overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
 .dashboard .rooms.show-list {
   display: block;
   margin-top: -10px;
@@ -903,15 +812,10 @@ main {
   border-radius: 8px;
   background: #FAF1E8;
 }
-.room-card header .option-icons img {
-  padding: 4px 6px;
-}
-.room-card header .option-icons span {
-  font-size: 12px;
-  color: #12B76A;
-  position: absolute;
-  margin-left: -41px;
-  top: 36px;
+.room-card header .option-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .room-card .room-details {
   margin-bottom: 22px;
@@ -939,37 +843,6 @@ main {
 }
 .room-card footer img {
   border: 2px solid white;
-}
-.room-card .dropdown {
-  visibility: hidden;
-  position: absolute;
-  z-index: 10;
-  top: 28px;
-  right: -10px;
-  padding: 10px;
-  background: #FFFFFF;
-  border-radius: 6px;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-}
-.room-card .dropdown li {
-  padding: 6px;
-}
-.room-card .dropdown li:hover {
-  text-decoration: underline;
-}
-.room-card .dropdown ul {
-  position: relative;
-  z-index: 12;
-}
-.room-card .dropdown--overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
 }
 
 @media only screen and (max-width: 1142px) {
@@ -1285,6 +1158,46 @@ main {
 }
 .invite-block .room-name-wrapper ::placeholder {
   color: #6A7280;
+}
+
+.room-menu {
+  position: relative;
+  overflow: visible;
+}
+.room-menu:hover svg path {
+  stroke: #6A7280;
+}
+.room-menu .dropdown {
+  position: absolute;
+  z-index: 10;
+  top: 28px;
+  right: -10px;
+  padding: 10px;
+  background: #FFFFFF;
+  border-radius: 6px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+.room-menu .dropdown li {
+  padding: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.room-menu .dropdown li:hover {
+  text-decoration: underline;
+}
+.room-menu .dropdown ul {
+  position: relative;
+  z-index: 12;
+}
+.room-menu .dropdown--overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 
 .message-grid {
