@@ -1,8 +1,8 @@
-﻿<div class="room-card" @onclick="GoToRoom">
-    <div class="top-bar">
-        <div class="room-icon">
+﻿<article class="room-card" @onclick="GoToRoom">
+    <header>
+        <figure>
             <img src="/icons/Room-Icon.svg" />
-        </div>
+        </figure>
         <div class="option-icons" @onclick:stopPropagation="true">
             <RoomShare Room="Room" />
             <img src="/icons/more-vertical.svg" @onclick:stopPropagation="true" @onclick="ToggleDropdown" />
@@ -18,24 +18,22 @@
                 </ul>
             </div>
         }
-    </div>
+    </header>
 
-    <div class="room-details">
-        <h6>@Room.Name</h6>
-        <p class="medium">
-            @(Room.LastActiveDate != null
-                ? Room.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
-                : Room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
-        </p>
-    </div>
+    <h6>@Room.Name</h6>
+    <time datetime="@Room.LastActiveDate?.ToString("u")">
+        @(Room.LastActiveDate != null
+            ? Room.LastActiveDate.Value.LocalDateTime.ToString("MMMM dd, H:mm tt")
+            : Room.StartDate.LocalDateTime.ToString("MMMM dd, H:mm tt"))
+    </time>
 
-    <div class="room-members">
+    <footer>
         @foreach (var member in Room.Users.Take(10))
         {
             <Avatar User="member" />
         }
-    </div>
-</div>
+    </footer>
+</article>
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;

@@ -259,22 +259,3 @@
         }
     }
 }
-
-
-@media only screen and (max-width: 1142px) {
-    .dashboard .rooms .room-card {
-        width: 30%;
-        max-width: none;
-    }
-}
-
-@media only screen and (max-width: 660px) {
-    .dashboard .rooms .room-card {
-        width: 46%;
-    }
-}
-@media only screen and (max-width: 480px) {
-    .dashboard .rooms .room-card {
-        width: 100%;
-    }
-}

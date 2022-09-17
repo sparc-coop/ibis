@@ -148,51 +148,7 @@
         }
     }
 
-    .share-link {
-        cursor: pointer;
-        margin-bottom: 16px;
-        margin-top: 45px;
-
-        p.small {
-            color: $grey-500;
-            margin-bottom: 6px;
-        }
-
-        p.medium {
-            color: $grey-700;
-            margin-bottom: 6px;
-            font-size: 11px;
-            font-family: 'CircularStd-Book';
-        }
-
-        .share-link-wrapper {
-            position: relative;
-
-            > div {
-                border: 1px solid $grey-300;
-                box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-                border-radius: 8px;
-                padding: 10px 14px;
-                width: 100%;
-                font-family: 'CircularStd-Book';
-                color: $grey-500;
-            }
-
-            img {
-                position: absolute;
-                right: 11px;
-                top: 11px;
-            }
-
-            span {
-                font-size: 16px;
-                position: absolute;
-                right: 50px;
-                top: 12px;
-                color: $success-500;
-            }
-        }
-    }
+    
 
     button.secondary {
         color: $primary;
