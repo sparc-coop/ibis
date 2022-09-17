@@ -794,8 +794,8 @@ main {
   padding: 24px;
   border: 1px solid #E5E7EA;
   border-radius: 8px;
-  height: 196px;
-  max-width: 362px;
+  height: auto;
+  width: 352px;
   cursor: pointer;
   position: relative;
   display: grid;
@@ -817,15 +817,14 @@ main {
   align-items: center;
   gap: 8px;
 }
-.room-card .room-details {
-  margin-bottom: 22px;
-}
-.room-card .room-details h6 {
+.room-card h6 {
   color: #0A111D;
   font-weight: 500;
   margin-bottom: 2px;
 }
-.room-card .room-details p.medium {
+.room-card time {
+  font-weight: 400;
+  font-size: 13px;
   color: #9BA3AF;
 }
 .room-card footer {
