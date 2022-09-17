@@ -8,7 +8,6 @@ public class User : Root<string>
     {
         Id = Guid.NewGuid().ToString();
         UserId = Id;
-        Color = "#ffffff";
         PrimaryLanguageId = string.Empty;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
@@ -55,7 +54,6 @@ public class User : Root<string>
     public string? ProfileImg { get; private set; }
     public string? Pronouns { get; private set; }
     public string? Description { get; private set; }
-    public string Color { get; private set; }
     public Voice? Voice { get; private set; }
     public decimal Balance { get; private set; }
     public string PrimaryLanguageId { get; private set; }

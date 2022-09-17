@@ -2299,11 +2299,6 @@
             "nullable": true,
             "readOnly": true
           },
-          "color": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
           "voice": {
             "allOf": [
               {
@@ -2444,10 +2439,6 @@
             "nullable": true
           },
           "initials": {
-            "type": "string",
-            "nullable": true
-          },
-          "color": {
             "type": "string",
             "nullable": true
           },

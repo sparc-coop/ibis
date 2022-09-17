@@ -1,6 +1,6 @@
 ﻿@inherits RealtimeComponent
 
-<article class="message-card" style="background: @Message.User.Color" @onclick="GoToSubroom">
+<article class="message-card" @onclick="GoToSubroom">
     <Avatar User="Message.User" />
     <time datetime="@Message.Timestamp.ToString("u")"></time>
             @if (Message.Audio != null)
