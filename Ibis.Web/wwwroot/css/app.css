@@ -547,7 +547,7 @@ main {
 .dashboard .rooms {
   display: flex;
   flex-wrap: wrap;
-  margin: auto -20px;
+  gap: 32px;
 }
 .dashboard .rooms.show-list {
   display: block;

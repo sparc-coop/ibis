@@ -111,7 +111,7 @@
     .rooms {
         display: flex;
         flex-wrap: wrap;
-        margin: auto -20px;
+        gap: 32px;
 
         &.show-list {
             display: block;
