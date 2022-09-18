@@ -34,6 +34,7 @@
                 display: flex;
                 gap: 24px;
             }
+
             li {
                 display: flex;
                 align-items: center;
@@ -57,7 +58,6 @@
                 }
 
                 &:hover {
-
                 }
 
                 &.open > ul {
@@ -69,6 +69,11 @@
         }
     }
 
+    main {
+        background: $background;
+        padding: 32px 6vw;
+    }
+
     &.mini {
         grid-template-rows: 49px auto;
 
@@ -78,15 +83,14 @@
             .logo img {
                 height: 28px;
             }
-        } 
+        }
 
         nav {
             display: none;
         }
-    }
 
-    main {
-        background: $background;
-        padding: 32px 6vw;
+        main {
+            padding: 24px;
+        }
     }
 }

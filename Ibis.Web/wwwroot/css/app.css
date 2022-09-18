@@ -228,6 +228,10 @@
   top: 130%;
   pointer-events: initial;
 }
+.main-layout main {
+  background: #fafbfc;
+  padding: 32px 6vw;
+}
 .main-layout.mini {
   grid-template-rows: 49px auto;
 }
@@ -240,9 +244,8 @@
 .main-layout.mini nav {
   display: none;
 }
-.main-layout main {
-  background: #fafbfc;
-  padding: 32px 6vw;
+.main-layout.mini main {
+  padding: 24px;
 }
 
 .page {
@@ -543,9 +546,6 @@ main {
 }
 
 .room {
-  margin: 0px auto;
-  width: 100%;
-  padding: 20px;
   position: relative;
   /* The switch - the box around the slider */
   /* The slider */

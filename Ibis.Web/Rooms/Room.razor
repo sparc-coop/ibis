@@ -7,7 +7,6 @@
             {
                 <h2>
                     @RoomInfo.Name
-                    <RoomShare Room="RoomInfo" />
                 </h2>
                 <InviteUser RoomId="@RoomInfo.RoomId" />
                 <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
