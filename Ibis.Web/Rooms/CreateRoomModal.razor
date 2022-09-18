@@ -64,7 +64,7 @@
     async Task CreateRoom()
     {      
         var response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Emails = emails });
-        Nav.NavigateTo($"/rooms/{response.RoomId}", true);
+        Nav.NavigateTo($"/rooms/{response.RoomId}");
     }
 
     void InviteUser() {
