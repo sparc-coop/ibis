@@ -83,7 +83,6 @@
             margin-bottom: 12px;
 
             .large {
-                font-family: 'CircularStd-Book';
                 font-size: 16px;
             }
 
@@ -129,14 +128,14 @@
         }
 
         h5 {
-            font-family: 'CircularStd-Book';
             font-size: 13px;
+            font-weight: 400;
             padding-bottom: 14px;
         }
 
         .avatar {
             color: $grey-700;
-            font-family: 'CircularStd-Medium';
+            font-weight: 500;
             font-size: 11px;
             width: 25px;
             height: 25px;

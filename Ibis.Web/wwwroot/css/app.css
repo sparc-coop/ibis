@@ -175,6 +175,63 @@
   padding: 50px 0;
 }
 
+.main-layout {
+  height: 100vh;
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 96px auto;
+}
+.main-layout > header {
+  background: #FFFFFF;
+  padding: 28px 6vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main-layout > header .logo img {
+  height: 40px;
+  width: auto;
+}
+.main-layout > header .logo figcaption {
+  display: none;
+}
+.main-layout > header a {
+  color: #013b60;
+}
+.main-layout > header nav > ul {
+  display: flex;
+  gap: 24px;
+}
+.main-layout > header nav li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+.main-layout > header nav li > ul {
+  position: absolute;
+  top: 170%;
+  pointer-events: none;
+  transition: top 0.2s ease-in, opacity 0.2s;
+  opacity: 0;
+  background-color: white;
+  padding: 16px;
+}
+.main-layout > header nav li > ul li {
+  padding: 8px;
+}
+.main-layout > header nav li.open > ul {
+  opacity: 1;
+  top: 130%;
+  pointer-events: initial;
+}
+.main-layout main {
+  background: #fafbfc;
+  padding: 32px 6vw;
+}
+
 .page {
   position: relative;
   display: flex;
@@ -187,112 +244,6 @@ main {
 
 .sidebar {
   background-image: linear-gradient(180deg, rgba(5, 39, 103, 0), #3a0647 70%);
-}
-
-.dash-header {
-  background: #FFFFFF;
-  text-align: center;
-  padding: 15px;
-}
-.dash-header .logo img {
-  width: 110px;
-}
-.dash-header .login-display {
-  position: absolute;
-  top: 0px;
-  right: 50px;
-}
-.dash-header .nav-link {
-  color: #013b60;
-  font-weight: bold;
-  margin: 12px 25px;
-  position: absolute;
-  right: 56px;
-}
-.dash-header .nav-link i {
-  font-size: 40px;
-}
-.dash-header .nav-link .dash-icon {
-  height: 23px;
-  width: 23px;
-  right: 44px;
-}
-.dash-header .dropdown {
-  position: absolute;
-  right: 0;
-  z-index: 10;
-}
-.dash-header .dropdown .account-nav {
-  position: absolute;
-  top: -2px;
-  right: 40px;
-  cursor: pointer;
-}
-.dash-header .dropdown .account-nav .profile {
-  height: 40px;
-  width: 40px;
-  border-radius: 60px;
-  position: absolute;
-  top: -7px;
-}
-.dash-header .dropdown .account-nav .arrow {
-  position: absolute;
-  right: -60px;
-  top: 10px;
-}
-.dash-header .dropdown .account-link {
-  cursor: pointer;
-}
-.dash-header .dropdown--menu {
-  width: 256px;
-  height: 151px;
-  background: #FFFFFF;
-  border: 1px solid #D1D4DC;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 8px;
-  text-align: left;
-  position: absolute;
-  top: 50px;
-  right: 0;
-}
-.dash-header .dropdown--menu p {
-  display: inline;
-}
-.dash-header .dropdown--menu img {
-  margin: 10px 14px;
-  vertical-align: middle;
-  height: 30px;
-  width: 30px;
-  border-radius: 50px;
-}
-.dash-header .dropdown--menu i {
-  font-size: 30px;
-  padding: 14px;
-  vertical-align: middle;
-  margin-top: -3px;
-}
-.dash-header .dropdown--menu ul {
-  margin: 0;
-  padding: 5px 14px 14px 14px;
-  border-top: 1px solid #D1D4DC;
-}
-.dash-header .dropdown--menu li {
-  padding: 5px;
-  cursor: pointer;
-}
-
-.menu-overlay {
-  height: 98vh;
-  width: 100vw;
-  position: absolute;
-  top: 0;
-  z-index: 9;
-}
-
-.dash-layout {
-  background: #fafbfc;
-  min-height: calc(100vh - 139px);
-  padding: 20px;
 }
 
 .nav-menu {
@@ -872,7 +823,6 @@ main {
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   padding: 10px 14px;
-  font-family: "CircularStd-Book";
   background: white;
   color: #6A7280;
   display: inline-block;
@@ -997,7 +947,6 @@ main {
   margin-bottom: 12px;
 }
 .modal .invite-users .user-wrapper .large {
-  font-family: "CircularStd-Book";
   font-size: 16px;
 }
 .modal .invite-users .user-wrapper .user-left {
@@ -1033,13 +982,13 @@ main {
   padding: 4px 6px;
 }
 .modal .invite-users h5 {
-  font-family: "CircularStd-Book";
   font-size: 13px;
+  font-weight: 400;
   padding-bottom: 14px;
 }
 .modal .invite-users .avatar {
   color: #364150;
-  font-family: "CircularStd-Medium";
+  font-weight: 500;
   font-size: 11px;
   width: 25px;
   height: 25px;
@@ -1268,7 +1217,6 @@ main {
 }
 .message-grid .message-card > p {
   font-size: 18px;
-  font-family: "CircularStd-Book";
   font-weight: 400;
   padding-top: 6px;
 }
@@ -1408,7 +1356,7 @@ main {
   left: 32%;
   bottom: 20px;
   font-size: 13px;
-  font-family: "CircularStd-Medium";
+  font-weight: 500;
 }
 .upload .photo-upload p span {
   color: #FF3520;
@@ -1441,13 +1389,12 @@ main {
   color: #0A111D;
   font-size: 20px;
   padding-bottom: 30px;
-  font-family: "CircularStd-Medium";
+  font-weight: 500;
   font-size: 25px;
   line-height: 120%;
   padding-bottom: 4px;
 }
 .account p {
-  font-family: "CircularStd-Book";
   font-size: 16px;
   line-height: 120%;
   color: #6A7280;
@@ -1515,7 +1462,7 @@ main {
 .account--card label {
   display: block;
   padding-bottom: 6px;
-  font-family: "CircularStd-Medium";
+  font-weight: 500;
   font-size: 14px;
   line-height: 20px;
   color: #364150;
@@ -1610,7 +1557,7 @@ main {
   left: 39%;
   bottom: 20px;
   font-size: 13px;
-  font-family: "CircularStd-Medium";
+  font-weight: 500;
 }
 .account--card .photo-upload p span {
   color: #FF3520;
@@ -1708,6 +1655,9 @@ main {
   border-radius: 45px;
   border: 2px solid white;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 .avatar aside {
   position: absolute;
@@ -1718,16 +1668,21 @@ main {
   color: white;
   font-weight: 600;
   font-size: 12px;
-  display: flex;
   align-items: center;
   justify-content: center;
+  display: none;
 }
 .avatar figcaption {
-  color: #000000;
+  color: #364150;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .room-card .avatar figcaption {
   display: none;
+}
+.room-card .avatar aside {
+  display: flex;
 }
 
 .settings-nav-bg {
@@ -1802,7 +1757,6 @@ main {
 }
 .onboarding p {
   color: #6A7280;
-  font-family: "CircularStd-Book";
   font-size: 16px;
   line-height: 120%;
   padding: 12px 0 40px;
@@ -1975,7 +1929,6 @@ main {
   border-radius: 8px;
   padding: 10px 14px;
   width: 100%;
-  font-family: "CircularStd-Book";
   color: #6A7280;
 }
 .onboarding .share-link .share-link-wrapper img {
@@ -2054,44 +2007,28 @@ main {
 }
 
 @font-face {
-  font-family: "CircularStd-Medium";
-  src: url(../fonts/CircularStd-Medium.ttf) format("truetype");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "CircularStd-Black";
-  src: url(../fonts/CircularStd-Black.ttf) format("truetype");
-}
-@font-face {
-  font-family: "CircularStd-Bold";
-  src: url(../fonts/CircularStd-Bold.ttf) format("truetype");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "CircularStd-Book";
+  font-family: "CircularStd";
+  font-weight: 400;
   src: url(../fonts/CircularStd-Book.ttf) format("truetype");
 }
 @font-face {
-  font-family: "CircularStd-MediumItalic";
-  src: url(../fonts/CircularStd-MediumItalic.ttf) format("truetype");
-  font-weight: normal;
+  font-family: "CircularStd";
+  font-weight: 500;
+  src: url(../fonts/CircularStd-Medium.ttf) format("truetype");
 }
 @font-face {
-  font-family: "CircularStd-BlackItalic";
-  src: url(../fonts/CircularStd-BlackItalic.ttf) format("truetype");
+  font-family: "CircularStd";
+  font-weight: 600;
+  src: url(../fonts/CircularStd-Bold.ttf) format("truetype");
 }
 @font-face {
-  font-family: "CircularStd-BoldItalic";
-  src: url(../fonts/CircularStd-BoldItalic.ttf) format("truetype");
-  font-weight: bold;
-}
-@font-face {
-  font-family: "CircularStd-BookItalic";
-  src: url(../fonts/CircularStd-BookItalic.ttf) format("truetype");
+  font-family: "CircularStd";
+  font-weight: 900;
+  src: url(../fonts/CircularStd-Black.ttf) format("truetype");
 }
 body {
   overflow-x: hidden;
-  font-family: sans-serif;
+  font-family: "CircularStd", sans-serif;
 }
 
 .container {
@@ -2125,7 +2062,8 @@ button {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 120%;
-  font-family: "CircularStd-Medium", sans-serif;
+  font-family: "CircularStd", sans-serif;
+  font-weight: 500;
 }
 
 h1 {
