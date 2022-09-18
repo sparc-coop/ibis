@@ -1,7 +1,10 @@
-﻿<CascadingValue Value="Connection">
+﻿@implements IAsyncDisposable
+
+<CascadingValue Value="Connection">
     @ChildContent
 </CascadingValue>
 
+@inject IAccessTokenProvider AccessTokenProvider
 @code {
     [Parameter] public string Url { get; set; } = "";
     [Parameter] public RenderFragment ChildContent { get; set; } = null!;
@@ -13,11 +16,33 @@
     protected override async Task OnInitializedAsync()
     {
         Connection = new HubConnectionBuilder()
-            .WithUrl(Url)
+            .WithUrl(Url, options =>
+                {
+                    options.AccessTokenProvider = async () =>
+                    {
+                        var provider = await AccessTokenProvider.RequestAccessToken();
+                        if (provider.TryGetToken(out var token))
+                        {
+                            return token.Value;
+                        }
+                        return null;
+                    };
+                })
             .Build();
 
+        Connection.On("ReceiveMessage", () => { }); // placeholder event so that we can add more On events afterward
+
         await Connection.StartAsync();
+
         if (OnConnected.HasDelegate)
             await OnConnected.InvokeAsync(Connection);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (Connection is not null)
+        {
+            await Connection.DisposeAsync();
+        }
     }
 }
