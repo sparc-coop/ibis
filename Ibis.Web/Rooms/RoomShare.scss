@@ -4,6 +4,11 @@
     cursor: pointer;
     position: relative;
 
+    svg {
+        height: 17px;
+        width: auto;
+    }
+
     &:hover svg path {
         stroke: $grey-500;
     }

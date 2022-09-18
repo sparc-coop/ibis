@@ -187,6 +187,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #E5E7EA;
 }
 .main-layout > header .logo img {
   height: 40px;
@@ -226,6 +227,18 @@
   opacity: 1;
   top: 130%;
   pointer-events: initial;
+}
+.main-layout.mini {
+  grid-template-rows: 49px auto;
+}
+.main-layout.mini > header {
+  padding: 10px 6vw;
+}
+.main-layout.mini > header .logo img {
+  height: 28px;
+}
+.main-layout.mini nav {
+  display: none;
 }
 .main-layout main {
   background: #fafbfc;
@@ -765,8 +778,8 @@ main {
 }
 .room-card header .option-icons {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: start;
+  gap: 13px;
 }
 .room-card h6 {
   color: #0A111D;
@@ -814,6 +827,10 @@ main {
 .share-link {
   cursor: pointer;
   position: relative;
+}
+.share-link svg {
+  height: 17px;
+  width: auto;
 }
 .share-link:hover svg path {
   stroke: #6A7280;
@@ -1111,6 +1128,10 @@ main {
 .room-menu {
   position: relative;
   overflow: visible;
+}
+.room-menu svg {
+  height: 17px;
+  width: auto;
 }
 .room-menu:hover svg path {
   stroke: #6A7280;

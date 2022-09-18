@@ -1,10 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="main-layout">
+<div class="main-layout @(IsRoom ? "mini" : "" )">
     <header>
         <a href="/">
             <figure class="logo">
-                <img src="/images/logo_2x.png" alt="Ibis" />
+                @if (IsRoom)
+                {
+                    <img src="/images/logo_icon.png" alt="Ibis" />
+                }
+                else
+                {
+                    <img src="/images/logo_2x.png" alt="Ibis" />
+                }
                 <figcaption>Ibis</figcaption>
             </figure>
         </a>
@@ -55,10 +62,13 @@
 
 @code {
     UserSummary? User;
-    bool ShowMenu = false;
+    bool ShowMenu;
+    bool IsRoom;
 
     protected override async Task OnParametersSetAsync()
     {
+        IsRoom = Nav.Uri.Contains("rooms/");
+
         if (User != null)
             return;
 
