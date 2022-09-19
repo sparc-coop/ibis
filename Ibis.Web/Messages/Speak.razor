@@ -1,27 +1,27 @@
-﻿<section class="speak">
+﻿@inherits RealtimeComponent
+
+<section class="speak">
     <div class="input">
-@*        <input @bind="Text" readonly=true />
-        <div class="buttons">
-            <button @onclick="SendText">
-                <i class="material-icons">send</i>
-            </button>
-            <button @onclick="Cancel">cancel</button>
-        </div>
-*@
-        <h3>Recording...</h3>
-        @if (Text == null)
+        @if (IsRecording == true)
         {
+            <h3>Recording...</h3>
             <audio src="/sounds/beep_up.wav" autoplay />
+            <p>@Text</p>
         }
-@*        <div class="buttons">
-            <button @onclick="@(StopSpeechRecognition)" aria-label="Stop Recording">
-                <i class="material-icons" style="color: darkred;">keyboard_voice</i>
-            </button>
-            @if (StopRecordingSpeech == true)
-            {
-                <audio src="/sounds/beep_down.wav" autoplay />
-            }
-        </div>*@
+        if (IsRecording == false)
+        {
+            <audio src="/sounds/beep_down.wav" autoplay />
+            <textarea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+            <div class="buttons">
+                <button @onclick="SendText" aria-label="Post Message" class="primary">
+                    Post
+                    <SendIcon />
+                </button>
+            </div>
+        }
+        <button class="close" @onclick="Cancel">
+            <img src="/icons/Close.svg" />
+        </button>
     </div>
 </section>
 
@@ -29,43 +29,43 @@
 @inject IModalService Modal;
 
 @code {
-    [Parameter] public string? RoomId { get; set; }
-    [Parameter] public string? Language { get; set; }
-    [Parameter] public SourceTypes? SourceType { get; set; }
     string? Text;
-    Message? Message;
-    List<Message> Messages = new();
-    //bool StopRecordingSpeech = false;
+    bool? IsRecording;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        var newMessage = await Api.TranscribeSpeechAsync(new TranscribeSpeechRequest { RoomId = RoomId, Language = Language });
-        if (newMessage != null)
+        var sessionId = await Api.HearMessageAsync();
+        if (sessionId != null)
+            IsRecording = true;
+
+        On<SpeechRecognizing>(x =>
         {
-            //StopRecordingSpeech = true;
-            Text = newMessage.Text;
-            newMessage.ModifiedText = Text;
-            Message = newMessage;
-            ShowConfirmOrEditTextModal(RoomId, Language, Message, Message.Text, Message.SourceType, null);
-        }
-        if (newMessage.Text == null || newMessage.Text.Length == 0) {
-            await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = newMessage.Id });
-        }
-        ModalInstance.CloseAsync(ModalResult.Ok(true));
+            if (x.SessionId == sessionId)
+                Text = x.Text;
+        });
+
+        On<SpeechRecognized>(x =>
+        {
+            if (x.SessionId == sessionId)
+            {
+                Text = x.Text;
+                IsRecording = false;
+            }
+        });
     }
 
-    void ShowConfirmOrEditTextModal(string roomId, string language, Message message, string text, SourceTypes sourceType, byte[]? bytes)
-    {
-        List<Message> MessageList = new List<Message>();
-        MessageList.Add(message);
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
-        parameters.Add(nameof(ConfirmOrEditText.Language), language);
-        parameters.Add(nameof(ConfirmOrEditText.MessageList), MessageList);
-        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
+    async Task Cancel() => await ModalInstance.CancelAsync();
 
-        Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    async Task SendText()
+    {
+        await ModalInstance.CloseAsync(ModalResult.Ok(Text));
     }
 }

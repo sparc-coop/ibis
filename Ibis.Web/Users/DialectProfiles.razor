@@ -1,6 +1,4 @@
 ﻿@page "/dialects"
-@layout DashLayout
-@attribute [Authorize]
 
 <AccountNav/>
 <div class="account">
@@ -14,23 +12,15 @@
 </div>
 
 @code {
-	private GetUserResponse User;
-	public string FirstName = "First Name";
-	public string LastName = "Last Name";
+	private UserSummary? User;
 
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
+		if(user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
-
-			if(User.FullName != null)
-			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
-			}
 		}
 	}
 }

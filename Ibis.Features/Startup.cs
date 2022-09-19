@@ -1,4 +1,5 @@
-﻿using Sparc.Authentication.AzureADB2C;
+﻿using Ibis.Features.Sparc.Realtime;
+using Sparc.Authentication.AzureADB2C;
 using Sparc.Notifications.Twilio;
 using Sparc.Plugins.Database.Cosmos;
 using Sparc.Storage.Azure;
@@ -18,13 +19,23 @@ namespace Ibis.Features
                 .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
                 .AddAzureADB2CAuthentication(Configuration)
                 .AddAzureStorage(Configuration.GetConnectionString("Storage"))
-                .AddTwilio(Configuration);
+                .AddTwilio(Configuration)
+                .AddSparcRealtime<Startup>();
 
             services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
-                .AddScoped<IbisEngine>()
-                .AddScoped<SendMessage>();
-            services.AddSignalR();
+                .AddScoped<ITranslator, AzureTranslator>()
+                .AddScoped<ISpeaker, AzureSpeaker>();
+
             services.AddRazorPages();
+
+            foreach (var duplicateService in services
+                .Where(x => x.ImplementationType?.BaseType == typeof(RealtimeFeature<>)))
+                //.GroupBy(x => x.ImplementationType).Where(x => x.Count() > 1))
+            {
+                Console.Write(duplicateService);
+                //foreach (var descriptor in duplicateService.Skip(1))
+                //    services.Remove(descriptor);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

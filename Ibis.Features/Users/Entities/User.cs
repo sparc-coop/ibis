@@ -1,18 +1,26 @@
 ﻿using Newtonsoft.Json;
 
 namespace Ibis.Features.Users;
+
 public class User : Root<string>
 {
     public User()
     {
-        Id = string.Empty;
+        Id = Guid.NewGuid().ToString();
         UserId = Id;
         PrimaryLanguageId = string.Empty;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
-        Color = SetColor();
+    }
+
+    public User(string id, string email, string? firstName = null, string? lastName = null) : this()
+    {
+        Id = id;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -20,9 +28,9 @@ public class User : Root<string>
     public string? Email
     {
         get { return _email; }
-        set
+        private set
         {
-            if (String.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 _email = null;
                 return;
@@ -32,57 +40,63 @@ public class User : Root<string>
         }
     }
 
-    public string? PhoneNumber { get; set; }
-    public string? FirstName { get; set; }
-
-    internal void JoinRoom(string roomId, string connectionId)
-    {
-        if (!ActiveRooms.Any(x => x.RoomId == roomId))
-            ActiveRooms.Add(new(roomId, connectionId, DateTime.UtcNow));
-    }
-
-    public string? LastName { get; set; }
-    public string? DisplayName { get; set; }
     [JsonIgnore]
     public string FullName => $"{FirstName} {LastName}";
     [JsonIgnore]
     public string Initials => $"{FirstName?[0]}{LastName?[0]}";
-    public DateTime DateCreated { get; set; }
-    public DateTime DateModified { get; set; }
-    public string CustomerId { get; set; }
-    public string? Pronouns { get; set; }
-    public string? Description { get; set; }
-    public string ProfileImg { get; set; }
+    public string? PhoneNumber { get; private set; }
+    public string? FirstName { get; private set; }
+    public string? LastName { get; private set; }
+    public string? DisplayName { get; private set; }
+    public DateTime DateCreated { get; private set; }
+    public DateTime DateModified { get; private set; }
+    public string? CustomerId { get; private set; }
+    public string? ProfileImg { get; private set; }
+    public string? Pronouns { get; private set; }
+    public string? Description { get; private set; }
+    public Voice? Voice { get; private set; }
+    public decimal Balance { get; private set; }
+    public string PrimaryLanguageId { get; private set; }
+    public List<Language> LanguagesSpoken { get; private set; }
+    public List<ActiveRoom> ActiveRooms { get; private set; }
 
-    internal string? LeaveRoom(string roomOrConnectionId)
+
+    internal void JoinRoom(string roomId)
     {
-        var roomId = ActiveRooms.FirstOrDefault(x => x.RoomId == roomOrConnectionId || x.ConnectionId == roomOrConnectionId)?.RoomId;
-        if (roomId == null) return null;
+        if (!ActiveRooms.Any(x => x.RoomId == roomId))
+            ActiveRooms.Add(new(roomId, DateTime.UtcNow));
+    }
 
+    internal string? LeaveRoom(string roomId)
+    {
+        if (roomId == null) return null;
         ActiveRooms.RemoveAll(x => x.RoomId == roomId);
         return roomId;
     }
 
-    public string PrimaryLanguageId { get; set; }
-    public List<Language> LanguagesSpoken { get; set; }
-    public List<ActiveRoom> ActiveRooms { get; set; }
-    public string? Color { get; set; }
-    public string SetColor()
+    internal void ChangeLanguage(Language language)
     {
-        var hash = 0;
-        int s = 50;
-        int l = 65;
+        if (!LanguagesSpoken.Any(x => x.Id == language.Id))
+            LanguagesSpoken.Add(language);
 
-        if (Initials != null)
-            for (var i = 0; i < Initials.Length; i++)
-            {
-                hash = Initials.ToCharArray().Sum(x => x) % 100 + ((hash << 5) - hash);
-            }
-
-        var h = hash % 360;
-        return "hsl(" + h + ", " + s + "%, " + l + "%)";
+        PrimaryLanguageId = language.Id;
     }
-    public bool? Onboarded { get; set; }
+
+    internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == PrimaryLanguageId);
+
+    internal void AddCharge(UserCharge userCharge)
+    {
+        Balance += userCharge.Amount;
+    }
+
+    internal void UpdateProfile(string fullName, string languageId, string? pronouns, string? description)
+    {
+        FirstName = fullName.Split(' ')[0];
+        LastName = fullName.Split(' ')[1];
+        PrimaryLanguageId = languageId;
+        Pronouns = pronouns;
+        Description = description;
+    }
 }
 
-public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
+public record ActiveRoom(string RoomId, DateTime JoinDate);

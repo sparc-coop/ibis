@@ -4,39 +4,36 @@ namespace Ibis.Features;
 
 public class Language
 {
-    public string Name { get; private set; }
+    public string Id { get; private set; }
     public string DisplayName { get; private set; }
     public string NativeName { get; private set; }
     public bool IsRightToLeft { get; private set; }
     public List<Dialect> Dialects { get; private set; }
 
-    private Language()
+    public Language(string id, string displayName, string nativeName, bool isRightToLeft)
     {
-    }
-
-    public Language(string name)
-    {
-        var culture = CultureInfo.GetCultureInfo(name);
-
-        Name = name;
-        DisplayName = culture.DisplayName;
-        NativeName = culture.NativeName;
-        IsRightToLeft = culture.TextInfo.IsRightToLeft;
-    }
-
-    public Language(string name, string displayName, string nativeName, bool isRightToLeft)
-    {
-        Name = name;
+        Id = id.Split("-").First();
         DisplayName = displayName;
         NativeName = nativeName;
         IsRightToLeft = isRightToLeft;
+        Dialects = new();
+
+        if (id.Contains('-'))
+        {
+            AddDialect(id);
+            DisplayName = DisplayName.Split('(').First().Trim();
+            NativeName = NativeName.Split('(').First().Trim();
+        }
     }
 
-    public void AddDialect(string language, string locale, string localeName)
+    public void AddDialect(string locale, List<Voice>? voices = null)
     {
-        Dialect dialect = new(language, locale, localeName);
+        Dialect dialect = new(locale);
+        if (voices != null)
+            foreach (var voice in voices)
+                dialect.AddVoice(voice);
 
-        var existing = Dialects.FindIndex(x => x.Locale == locale);
+        var existing = Dialects.FindIndex(x => x.Locale == dialect.Locale);
 
         if (existing == -1)
             Dialects.Add(dialect);

@@ -1,0 +1,65 @@
+﻿<div class="message-box">
+    <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+    @if (IsSpeak)
+    {
+        <button class="button-send" @onclick="ShowSpeakModal" aria-label="Speak">
+            Speak <img src="icons/Speech.svg" />
+        </button>
+    }
+    else
+    {
+        <button class="button-send" @onclick="SendText" aria-label="Send">
+            Send <img src="icons/send.svg" />
+        </button>
+    }
+</div>
+
+<div class="message-box-bottom">
+    <div class="message-options">
+        <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
+            <UploadIcon />
+        </button>
+        
+        <span>Call me</span>
+        <span>Text me</span>
+    </div>
+</div>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    string? Text;
+    bool IsSpeak => string.IsNullOrWhiteSpace(Text);
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+            await SendText();
+    }
+
+    async Task SendText()
+    {
+        var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = Text });
+        Text = null;
+        StateHasChanged();
+    }
+
+
+    void ShowUploadModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.RoomId), Room.RoomId);
+        Modal.Show<Upload>("Upload", parameters);
+    }
+
+    async Task ShowSpeakModal()
+    {
+        var modal = Modal.Show<Speak>("Send a voice message...");
+        var result = await modal.Result;
+        if (!result.Cancelled)
+        {
+            Text = (string)result.Data;
+            await SendText();
+        }
+    }
+
+}

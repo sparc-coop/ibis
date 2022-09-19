@@ -1,4 +1,7 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Microsoft.CognitiveServices.Speech;
+
+namespace Ibis.Features.Rooms;
+
 public class Voice
 {
     public string Locale { get; private set; }
@@ -8,9 +11,6 @@ public class Voice
     public string ShortName { get; private set; }
     public string Gender { get; private set; }
     public string VoiceType { get; private set; }
-
-    private Voice()
-    { }
 
     public Voice(string locale, string name, string displayName, string localeName, string shortName, string gender, string voiceType)
     {

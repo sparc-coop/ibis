@@ -12,7 +12,7 @@
 			</p>
 		</div>
     </div>
-    @((MarkupString)ErrorMessageHTML)
+    @ErrorMessageHTML
     <button @onclick="Submit" class="primary">Upload</button>
     @if(loading == true)
     {
@@ -23,11 +23,10 @@
 @code {
     [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Language { get; set; }
-    string? Text;
     MemoryStream? ms;
     string? fileName;
     bool FileInputEmptyOnSubmit = false;
-    string? ErrorMessageHTML;
+    MarkupString ErrorMessageHTML = new();
     bool loading = false;
 
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
@@ -36,9 +35,9 @@
     {
         if (FileInputEmptyOnSubmit)
         {
-            ErrorMessageHTML = @"<div class='error' style='color: red;'>**File cannot be empty</div>";
+            ErrorMessageHTML = new("<div class='error' style='color: red;'>**File cannot be empty</div>");
         } else {
-            ErrorMessageHTML = "";
+            ErrorMessageHTML = new();
         }
     }
 
@@ -48,25 +47,8 @@
         fileName = e.File.Name;
         await e.File.OpenReadStream(maxAllowedSize: 50000000).CopyToAsync(ms);
 
-        if (FileInputEmptyOnSubmit = true)
-        {
-            FileInputEmptyOnSubmit = false;
-        } else
-        {
-            FileInputEmptyOnSubmit = true;
-        }
+        FileInputEmptyOnSubmit = !FileInputEmptyOnSubmit;
         ErrorMessage();
-    }
-
-    void ShowConfirmOrEditTextModal(string roomId, string language, List<Message> messages, byte[] bytes)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmOrEditText.RoomId), roomId);
-        parameters.Add(nameof(ConfirmOrEditText.Language), language);
-        parameters.Add(nameof(ConfirmOrEditText.MessageList), messages);
-        parameters.Add(nameof(ConfirmOrEditText.Bytes), bytes);
-
-        Modal.Show<ConfirmOrEditText>("Review Before Sending", parameters);
     }
 
     async Task Submit()
@@ -77,12 +59,9 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
-            foreach(var message in messages)
-            {
-                message.ModifiedText = message.Text;
-            }
-            ShowConfirmOrEditTextModal(RoomId, Language, messages.ToList(), bytes);
-            await ModalInstance.CloseAsync(ModalResult.Ok(true));
+            
+            // ShowConfirmOrEditTextModal(RoomId!, Language!, messages.ToList(), bytes);
+            await ModalInstance.CloseAsync(ModalResult.Ok(messages));
         } else
         {
             FileInputEmptyOnSubmit = true;

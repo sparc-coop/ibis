@@ -1,357 +1,63 @@
-﻿@page "/rooms/new"
-@page "/rooms/{Id}"
-@page "/{Id}"
-@layout DashLayout
+﻿@page "/rooms/{Id}"
 
-<section class="room">
-    <div class="header">
+<RealtimeHub Url="@HubUrl" OnConnected="AddToRoom">
+    <section class="room">
+        <header>
+            @if (RoomInfo != null)
+            {
+                <h2>
+                    @RoomInfo.Name
+                </h2>
+                <InviteUser RoomId="@RoomInfo.RoomId" />
+                <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                    <DownloadIcon />
+                </button>
+                <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                    <DownloadIcon />
+                </button>
+                <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                    <DownloadIcon />
+                </button>
+            }
+        </header>
         @if (RoomInfo != null)
         {
-            <h2>
-                @RoomInfo.Name
-                <input type="hidden" id="@RoomInfo.RoomId" value="@("https://www.ibis.com/" + RoomInfo.RoomId)" />
-                <img class="share" src="/icons/link.svg" @onclick:stopPropagation="true" @onclick="@(e => ShareLink(RoomInfo.RoomId))" title="Share Link"/>
-                <span>@CopyConfirm</span>
-            </h2>
-            <InviteUser RoomId="@RoomInfo.RoomId" />           
+            <MessageList Room="RoomInfo" />
         }
-    </div>
-    <div class="content">
-        <div class="message-grid">
-            <div class="message-list">
-                @if (Messages.Count > 0)
-                {
-                    @foreach (var message in Messages.Where(x => x.Text != null && x.Text.Length > 0))
-                    {
-                        <MessageCard Message=message Language=@Language />
-                    }          
-                }
-            </div>
-
-            <div class="message-box">
-                <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText/>
-                <button class="button-send" @onclick="SendText" aria-label="Send">Send <img src="icons/send.svg" /></button>
-            </div>
-            <div class="message-box-bottom">
-                <div class="message-options">
-                    <button @onclick="@(() => ShowUploadModal(Id, Language))" class="select-upload"  title="Upload file">
-                        <i class="material-icons">cloud_upload</i>
-                    </button>
-                    @if (Messages.Count > 0)
-                    {
-                        <button @onclick="DownloadText" aria-label="Download Text" class="select-upload"  title="Download text transcript">
-                            <i class="material-icons">file_download</i>
-                        </button>
-                        <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
-                            <i class="material-icons">audio_file</i>
-                        </button>
-                    }
-                    <div class="translate">
-                        <img src="icons/Translate.svg" />
-                        <p>Auto Translate</p>
-                    </div>
-                    @*Make Text Dark Blue When checked*@
-                    @*<div class="switch-wrapper">
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        <p>Voice</p>
-                    </div>*@
-                    <button @onclick="@(() => ShowSpeakModal(Id, Language))" aria-label="Speak" title="Speech to text">
-                        <i class="material-icons">keyboard_voice</i>
-                    </button>
-                    @*Make Text Dark Blue When checked*@
-@*                    <div class="switch-wrapper">
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        <p>Text</p>
-                    </div>*@
-                </div>
-            </div>
-@*            <div class="time-stamp">
-                <p class="small start">Start</p>
-                <div class="time-duration">
-                    <p class="small">0:10</p>
-                    <div class="timeline-line"></div>
-                    <p class="small">0:25</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:27</p>
-                    <div class="timeline-line2"></div>
-                    <p class="small">0:31</p>
-                </div>
-                <div class="time-duration">
-                    <p class="small">0:34</p>
-                    <div class="timeline-line3"></div>
-                    <p class="small">1:17</p>
-                </div>
-            </div>*@
-        </div>
-        
-        @if (LanguageList != null)
-        {
-            <div class="room-language">
-                <label for="switch-lang">Language:</label>
-                <select id="switch-lang" @onchange="SwitchLanguage">
-                    @foreach (var item in LanguageList.Languages)
-                    {
-                        if (item.Key == Language)
-                        {
-                            <option value="@item.Key" selected>@item.Value.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Key">@item.Value.Name</option>
-                        }
-                    }
-                </select>
-                @if (Dialects != null)
-                {
-                    <div class="room-dialect">
-                        <label for="switch-dialect">Dialect:</label>
-                        <select id="switch-dialect" @onchange="SwitchDialect">
-                            @foreach (var item in Dialects)
-                            {
-                                if (item.Locale == Dialect.Locale)
-                                {
-                                    <option value="@item.Locale" selected>@item.LocaleName</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.Locale">@item.LocaleName</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    @if (Voices != null)
-                    {
-                        <div class="room-voice">
-                            <label for="switch-voice">Voice:</label>
-                            <select id="switch-voice" @onchange="SwitchVoice">
-                                @foreach (var item in Voices)
-                                {
-                                    if (item.ShortName == Voice.ShortName)
-                                    {
-                                        <option value="@item.ShortName" selected>@item.DisplayName (@item.Gender.Substring(0, 1))</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.ShortName">@item.DisplayName (@item.Gender.Substring(0, 1))</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    }
-                }
-            </div>
-        }
-    </div>
-</section>
-
-@using System.Text
-@inject IJSRuntime JS
-@using Ibis.Web.Messages
-@using Microsoft.AspNetCore.SignalR.Client
+    </section>
+</RealtimeHub>
 
 @code {
-    [Parameter] public string? Id { get; set; }
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "language")] public string? Language { get; set; }
-    string? Text;
+    [Parameter] public string Id { get; set; } = null!;
+
     GetRoomResponse? RoomInfo;
-    List<Message> Messages = new();
-    RoomUsersResponse userlist = new();
-
-
-    HubConnection Connection { get; set; }
-    bool IsConnected => Connection?.State == HubConnectionState.Connected;
-    bool ToggleEdit = false;
-
-    GetLanguageListResponse LanguageList;
-    List<Dialect>? Dialects = new();
-    List<Voice>? Voices = new();
-    Dialect? Dialect;
-    Voice? Voice;
-    string CopyConfirm = "";
+    string HubUrl = "";
 
     protected override async Task OnInitializedAsync()
     {
-        LanguageList = await PublicApi().GetLanguageListAsync();
-
-        try
-        {
-            var user = await Api.GetUserAsync();
-
-            if (string.IsNullOrWhiteSpace(Language))
-            {
-                Language = string.IsNullOrWhiteSpace(user.Language) ? "en" : user.Language;
-                var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
-                var LanguageItem = LanguagePair.First(x => x.Key == Language);
-                Dialects = LanguageItem.Value.Dialects.ToList();
-                if (Language == "en") {
-                    Dialect = Dialects.First(x => x.Locale == "en-US");
-                    Voices = Dialect.Voices.ToList();
-                    Voice = Voices.First(x => x.Locale == Dialect.Locale);
-                }
-                else {
-                    Dialect = Dialects.First(x => x.Language == Language);
-                    Voices = Dialect.Voices.ToList();
-                    Voice = Voices.First(x => x.Locale == Dialect.Locale);
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                RoomInfo = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = "New Room" });
-                Nav.NavigateTo($"/rooms/{RoomInfo.RoomId}", true);
-            }
-            else
-            {
-                RoomInfo = await Api.GetRoomAsync(new GetRoomRequest { RoomId = Id, Language = Language });
-
-                userlist = await Api.GetRoomUsersAsync(Id);
-
-                Messages = RoomInfo.Messages.ToList();
-            }
-
-            Connection = new HubConnectionBuilder()
-                .WithUrl(Config["ApiUrl"] + "/rooms")
-                .Build();
-
-            Connection.On<Message>("NewMessage", message => AddMessage(message));
-
-            await Connection.StartAsync();
-            await Connection.SendAsync("AddToRoom", RoomInfo.RoomId, user.Id, Language);
-        } 
-        catch (Exception ex){
-            var test = ex.Message;
-            //Nav.NavigateTo("/");
-        }  
+        HubUrl = Config["ApiUrl"] + "/rooms";
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
     }
 
-    void AddMessage(Message message)
+    async Task AddToRoom(HubConnection connection)
     {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id);
-        if (existingId > -1)
-            Messages[existingId] = message;
-        else
-            Messages.Add(message);
-
-        StateHasChanged();
-    }
-
-    void ShowUploadModal(string roomId, string language)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Upload.RoomId), roomId);
-        parameters.Add(nameof(Upload.Language), language);
-        Modal.Show<Upload>("Upload", parameters);
-    }
-
-    void ShowSpeakModal(string conversationId, string language)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Speak.RoomId), conversationId);
-        parameters.Add(nameof(Speak.Language), language);
-        parameters.Add(nameof(Speak.SourceType), SourceTypes._4);
-        Modal.Show<Speak>("Send a voice message...", parameters);
-    }
-
-    async Task Call()
-    {
-
-    }
-    async Task Sms()
-    {
-
-    }
-
-    async Task MaybeSendText(KeyboardEventArgs args)
-    {
-        if (args.Code == "Enter")
-            await SendText();
-    }
-
-    async Task SendText()
-    {
-        var newMessage = await Api.SendMessageAsync(new SendMessageRequest { RoomId = RoomInfo.RoomId, Message = Text, Language = Language, MessageId = null, ModifiedMessage = null, Bytes = null });
-        AddMessage(newMessage);
-        Text = null;
-        StateHasChanged();
-    }
-
-    async Task DownloadText()
-    {
-        StringBuilder builder = new StringBuilder();
-        foreach (var message in Messages)
-        {
-            builder.AppendLine(
-                message.Timestamp.LocalDateTime.ToString("MM/dd/yyyy hh:mm tt") +
-                ": " +
-                (message.ModifiedText == null ? message.Text : message.ModifiedText) 
-            );
-        }
-
-        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
-        Stream fileStream = new MemoryStream(bytes);
-
-        var fileName = GetFileName(RoomInfo?.Name);
-        Console.WriteLine("test1" + fileName);
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        await connection.InvokeAsync("AddToRoom", Id);
     }
 
     async Task DownloadAudio()
     {
-        List<string> mergeFiles = new List<string>();
-        foreach (var message in Messages)
-        {
-            mergeFiles.Add(message.AudioId);
-        }
-
-        var filePath = await Api.MergeAudioAsync(new MergeAudioRequest { Files = mergeFiles, RoomId = RoomInfo.RoomId, Language = "en" });
-        Console.WriteLine(filePath);
-        var fileName = GetFileName(RoomInfo?.Name);
-        await JS.InvokeVoidAsync("triggerFileDownload", fileName + ".wav", filePath);
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = Id });
+        await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
-    string GetFileName(string name)
+    async Task DownloadText(string format)
     {
-        var fileName = name;
-        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-        {
-            fileName = fileName.Replace(c, '_');
-        }
+        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = Id, Format = format });
 
-        return fileName;
-    }
-
-    async Task DownloadSRT()
-    {
-        StringBuilder builder = new StringBuilder();
-
-        var num = 1;
-        foreach (var message in Messages)
-        {
-
-            //var frame = num;
-            builder.AppendLine(num.ToString());
-            num++;
-            //hours:minutes:seconds,milliseconds –> hours:minutes:seconds,milliseconds
-            builder.AppendLine(message.Timestamp.LocalDateTime.ToString("hh:mm:ss,ms") + " --> " + message.Timestamp.LocalDateTime.AddSeconds(10).ToString("hh:mm:ss,ms"));
-            builder.AppendLine(message.Text);
-            builder.Append(Environment.NewLine);
-        }
-
-        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
+        byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
         Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = RoomInfo?.Name + ".srt" ?? "testcaptions.srt";
+        var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
         foreach (char c in System.IO.Path.GetInvalidFileNameChars())
         {
             fileName = fileName.Replace(c, '_');
@@ -361,135 +67,8 @@
         await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 
-    async void UpdateName()
+    void UpdateName()
     {
-        ToggleEdit = false;
-        await Connection.SendAsync("UpdateRoom", RoomInfo);
-    }
-
-    async Task SwitchLanguage(ChangeEventArgs e)
-    {
-        Language = e.Value.ToString();
-        var LanguagePair = LanguageList.Languages.Where(x => x.Key == Language);
-        var LanguageItem = LanguagePair.First(x => x.Key == Language);
-        Dialects = LanguageItem.Value.Dialects.ToList();
-        Dialect = Dialects.Find(x => x.Locale == LanguageItem.Value.Name);
-        Voices = Dialect.Voices.ToList();
-        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
-        var response = await Api.AddTranslationAsync(new AddTranslationRequest { RoomId = RoomInfo.RoomId, Language = Language });
-        Messages = response.ToList();
-        StateHasChanged();
-    }
-
-    void SwitchDialect(ChangeEventArgs e)
-    {
-        //Dialect = Dialects.Where(x => x.Locale == e.Value.ToString());
-        Dialect = Dialects.Find(x => x.Locale == e.Value.ToString());
-        Voices = Dialect.Voices.ToList();
-    }
-
-    void SwitchVoice(ChangeEventArgs e)
-    {
-        Voice = Voices.Find(x => x.ShortName == e.Value.ToString());
-    }
-    
-    async Task DownloadBRF()
-    {
-
-        ICollection<string> braille = await Api.GetTextToBrailleAsync(new BrailleRequest { RoomId = RoomInfo.RoomId });
-
-
-        StringBuilder builder = new StringBuilder();
-        foreach(var message in braille)
-        {
-            builder.AppendLine(message);
-        }
-
-        byte[] bytes = Encoding.ASCII.GetBytes(builder.ToString());
-        Stream fileStream = new MemoryStream(bytes);
-
-        var fileName = RoomInfo?.Name + ".brf" ?? "BrailleTranslation.brf";
-
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
-
-    }
-
-    async void BrailleUnicode()
-    {
-        string str = "";
-
-        foreach (var msg in Messages)
-        {
-            str += ToBraille(msg.Text);
-        }
-        
-        byte[] bytes = Encoding.UTF8.GetBytes(str);
-        Stream fileStream = new MemoryStream(bytes);
-
-        var fileName = RoomInfo?.Name + ".txt" ?? "testbraille.txt";
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
-    }
-
-    string ToBraille(string msg)
-    {
-        Dictionary<char, string> dicU = new Dictionary<char, string>();
-
-        dicU.Add('a', "⠁");
-        dicU.Add('b', "⠃");
-        dicU.Add('c', "⠉");
-        dicU.Add('d', "⠙");
-        dicU.Add('e', "⠑");
-        dicU.Add('f', "⠋");
-        dicU.Add('g', "⠛");
-        dicU.Add('h', "⠓");
-        dicU.Add('i', "⠊");
-        dicU.Add('j', "⠚");
-        dicU.Add('k', "⠅");
-        dicU.Add('l', "⠇");
-        dicU.Add('m', "⠍");
-        dicU.Add('n', "⠝");
-        dicU.Add('o', "⠕");
-        dicU.Add('p', "⠏");
-        dicU.Add('q', "⠟");
-        dicU.Add('r', "⠗");
-        dicU.Add('s', "⠎");
-        dicU.Add('t', "⠞");
-        dicU.Add('u', "⠥");
-        dicU.Add('v', "⠧");
-        dicU.Add('w', "⠺");
-        dicU.Add('x', "⠭");
-        dicU.Add('y', "⠽");
-        dicU.Add('z', "⠵");
-        dicU.Add(' ', "  ");
-
-        String TextField = msg;
-        char[] charArr = TextField.ToCharArray();
-        string translatedText = "";
-        foreach (char ch in charArr)
-        {
-            char c = ch;
-
-            if (dicU.ContainsKey(c))
-            {
-                translatedText += dicU[c];
-            } else
-            {
-                translatedText += c;
-            }
-        }
-
-        return translatedText;
-    }
-
-    async Task ShareLink(string roomLink)
-    {
-        //copy room share link to clipboard
-        await JS.InvokeVoidAsync("copyToClipboard", roomLink, "room");
-        CopyConfirm = "Copied!";
-        StateHasChanged();
-        await Task.Delay(2000);
-        CopyConfirm = "";
+        // await Connection!.SendAsync("UpdateRoom", RoomInfo);
     }
 }

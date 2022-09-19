@@ -1,19 +1,9 @@
 ﻿@import "../_variables.scss";
 
 .room {
-    margin: 0px auto;
-    width: 100%;
-    padding: 20px;
-    position: relative;
+    position: relative; 
 
-    .content {
-        display: flex;
-        position: relative;
-        justify-content: space-around;
-        align-items: self-start;
-    }
-
-    .header {
+    header {
         justify-content: space-between;
         max-width: 940px;
         width: 100%;

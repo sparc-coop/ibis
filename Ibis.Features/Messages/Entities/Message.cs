@@ -1,82 +1,82 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Ibis.Features.Sparc.Realtime;
 
-public class Message : Root<string>
+namespace Ibis.Features.Messages;
+
+public record MessageTranslation(string LanguageId, string MessageId);
+public record Word(long Offset, long Duration, string Text);
+public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
-    public string UserId { get; private set; }
+    public string? SourceMessageId { get; private set; }
     public string Language { get; private set; }
-    public SourceTypes SourceType { get; private set; }
     public DateTime Timestamp { get; private set; }
-    public long? Duration { get; private set; }
+    public UserSummary User { get; private set; }
+    public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
-    public string? ModifiedText { get; private set; }
-    public string? AudioId { get; private set; }
-    public string? ModifiedAudioId { get; private set; }
-    public string? OriginalUploadFileName { get; set; }
-    public List<Translation> Translations { get; private set; }
-    public string UserName { get; set; }
-    public string UserInitials { get; set; }
-    public string? SubroomId { get; set; }
-    public string? Color { get; set; }
-    public string? VideoId { get; set; }
+    public List<MessageTranslation>? Translations { get; private set; }
+    public decimal Charge { get; private set; }
 
     protected Message()
     {
         Id = Guid.NewGuid().ToString();
         RoomId = "";
-        UserId = "";
+        User = new("");
         Language = "";
-        SourceType = SourceTypes.Text;
-        Translations = new();
-        UserName = "";
-        UserInitials = "";
     }
 
-    public Message(string roomId, string fromUserId, string language, SourceTypes sourceType, string userName, string initials) : this()
+    public Message(string roomId, User user, string text) : this()
     {
         RoomId = roomId;
-        UserId = fromUserId;
-        Language = language;
-        SourceType = sourceType;
+        User = new(user);
+        Language = user.PrimaryLanguageId;
+        Audio = new(null, 0, user.Voice);
         Timestamp = DateTime.UtcNow;
-        UserName = userName;
-        UserInitials = initials;
+        SetText(text);
     }
 
-    public void SetText(string text) => Text = text;
-    public void SetModifiedText(string text) => ModifiedText = text;
-    public void SetAudio(string audioId) => AudioId = audioId;
-    public void SetModifiedAudio(string audioId) => ModifiedAudioId = audioId;
-    public void SetOriginalUploadFileName(string fileName) => OriginalUploadFileName = fileName;
-    public void SetSubroomId(string id) => SubroomId = id;
-    public void SetVideo(string videoId) => VideoId = videoId;
+    public Message(Message sourceMessage, string toLanguage, string text) : this()
+    {
+        RoomId = sourceMessage.RoomId;
+        SourceMessageId = sourceMessage.Id;
+        User = sourceMessage.User;
+        Language = toLanguage;
+        SetText(text);
+    }
+
+    public void SetText(string text)
+    {
+        if (Text == text)
+            return;
+        
+        Text = text;
+        Broadcast(new MessageTextChanged(this));
+    }
+
+    internal async Task SpeakAsync(ISpeaker engine)
+    {
+        if (Audio?.Voice == null)
+            return;
+
+        Audio = await engine.SpeakAsync(this);
+        Broadcast(new MessageAudioChanged(this));
+    }
+
+    internal bool HasTranslation(string languageId)
+    {
+        return Translations != null && Translations.Any(x => x.LanguageId == languageId);
+    }
     
-    public bool HasTranslation(string language)
+    internal void AddTranslation(string languageId, string messageId)
     {
-        return Translations.Any(x => x.Language.StartsWith(language));
-    }
-    public void AddTranslation(string language, string result, double? score = 0)
-    {
-        Translation translation = new(language, result);
+        Translations ??= new();
 
-        var existing = Translations.FindIndex(x => x.Language == language);
-
-        if (existing == -1)
-            Translations.Add(translation);
-        else
-            Translations[existing] = translation;
+        if (!HasTranslation(languageId))
+            Translations.Add(new(languageId, messageId));
     }
 
-    internal string GetTranslation(string language)
+    internal void AddCharge(decimal cost, string description)
     {
-        return !HasTranslation(language)
-            ? string.Empty
-            : Translations.First(x => x.Language.StartsWith(language)).Text;
-    }
-
-    internal void SetTimestamp(long offsetInTicks, TimeSpan duration)
-    {
-        Timestamp = Timestamp.AddTicks(offsetInTicks);
-        Duration = duration.Ticks;
+        Charge += cost;
+        Broadcast(new CostIncurred(this, description, cost));
     }
 }

@@ -1,0 +1,102 @@
+﻿@if (Languages != null)
+{
+    <div class="room-language">
+        <label for="switch-lang">Language:</label>
+        <select id="switch-lang" @onchange="SwitchLanguage">
+            @foreach (var item in Languages)
+            {
+                if (item.Id == SelectedLanguage?.Id)
+                {
+                    <option value="@item.Id" selected>
+                        @item.DisplayName
+                    </option>
+                }
+                else
+                {
+                    <option value="@item.Id">
+                        @item.DisplayName
+                    </option>
+                }
+            }
+        </select>
+
+        @if (SelectedLanguage?.Dialects?.Any() == true)
+        {
+            <div class="room-dialect">
+                <label for="switch-dialect">Dialect:</label>
+                <select id="switch-dialect" @onchange="SwitchDialect">
+                    @foreach (var item in SelectedLanguage.Dialects)
+                    {
+                        if (item.Locale == SelectedDialect?.Locale)
+                        {
+                            <option value="@item.Locale" selected>@item.DisplayName</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Locale">@item.DisplayName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            @if (SelectedDialect?.Voices?.Any() == true)
+            {
+                <div class="room-voice">
+                    <label for="switch-voice">Voice:</label>
+                    <select id="switch-voice" @onchange="SwitchVoice">
+                        @foreach (var item in SelectedDialect.Voices)
+                        {
+                            if (item.ShortName == SelectedVoice?.ShortName)
+                            {
+                                <option value="@item.ShortName" selected>@item.DisplayName (@item.Gender.Substring(0, 1))</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ShortName">@item.DisplayName (@item.Gender.Substring(0, 1))</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string? SelectedLanguageId { get; set; }
+    ICollection<Language>? Languages;
+    Language? SelectedLanguage;
+    Dialect? SelectedDialect;
+    Voice? SelectedVoice;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Languages = await Api.GetLanguagesAsync();
+
+        if (!string.IsNullOrWhiteSpace(SelectedLanguageId))
+            SelectedLanguage = Languages.FirstOrDefault(x => x.Id == SelectedLanguageId);
+    }
+
+
+    async Task SwitchLanguage(ChangeEventArgs e)
+    {
+        if (Languages == null)
+            return;
+
+        var languageId = e.Value!.ToString();
+        SelectedLanguage = Languages.FirstOrDefault(x => x.Id == languageId);
+        await Api.ChangeLanguageAsync(new ChangeLanguageRequest { RoomId = RoomId, Language = languageId });
+    }
+
+    void SwitchDialect(ChangeEventArgs e)
+    {
+        SelectedDialect = SelectedLanguage!.Dialects.FirstOrDefault(x => x.Locale == e.Value!.ToString());
+    }
+
+    void SwitchVoice(ChangeEventArgs e)
+    {
+        SelectedVoice = SelectedDialect!.Voices.FirstOrDefault(x => x.ShortName == e.Value!.ToString());
+    }
+
+}

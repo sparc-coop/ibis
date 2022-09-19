@@ -1,5 +1,6 @@
-﻿@page "/"
+﻿@page "/Landing"
 @attribute [AllowAnonymous]
+@layout MarketingLayout
 
 <div class="landing">
     <div class="hero">
@@ -97,7 +98,6 @@
 
 @inject IJSRuntime JS
 @code {
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JS.InvokeVoidAsync("textDisplay");

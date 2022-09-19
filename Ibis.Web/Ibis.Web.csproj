@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	<Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Shared\Icons\MoreVertical.razor" />
     <None Include="wwwroot\sounds\beep_down.wav" />
     <None Include="wwwroot\sounds\beep_up.wav" />
   </ItemGroup>

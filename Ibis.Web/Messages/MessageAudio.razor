@@ -1,0 +1,14 @@
+﻿<div class="message-audio" @onclick=Play>
+    <audio id="@Id" src="@Audio.Url" />
+    <PlayIcon />
+</div>
+
+@code {
+    [Parameter] public AudioMessage Audio { get; set; } = null!;
+    string Id = Guid.NewGuid().ToString();
+
+    async Task Play()
+    {
+        await JS.InvokeVoidAsync("playAudio", Id);
+    }
+}

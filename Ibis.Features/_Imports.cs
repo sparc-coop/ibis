@@ -1,5 +1,6 @@
 ﻿global using Sparc.Core;
 global using Sparc.Features;
+global using Sparc.Realtime;
 
 global using Ibis.Features.Rooms;
 global using Ibis.Features.Messages;

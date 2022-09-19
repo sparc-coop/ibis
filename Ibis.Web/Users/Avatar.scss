@@ -1,0 +1,40 @@
+﻿@import "../_variables.scss";
+
+.avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+        height: 24px;
+        width: 24px;
+
+        text {
+            fill: white;
+            font-weight: 600;
+            font-size: 40px;
+            font-family: 'CircularStd';
+        }
+    }
+
+    figcaption {
+        color: $grey-700;
+        font-size: 16px;
+        font-weight: 500;
+        filter: brightness(50%);
+    }
+}
+
+.room-card .avatar {
+    figcaption {
+        display: none;
+    }
+}
+
+.message-card .avatar {
+    z-index: 2;
+    figcaption {
+        font-size: 13px;
+    }
+}

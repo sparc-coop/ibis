@@ -1,0 +1,16 @@
+﻿<figure class="avatar">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="@User.Color" />
+        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">@User.Initials</text>
+    </svg>
+    <figcaption style="color: @User.Color">
+        @User.Name
+    </figcaption>
+</figure>
+
+@code {
+    [Parameter] public UserSummary User { get; set; } = null!;
+    double ViewBoxSize = 80;
+    double Size = 24;
+}
+

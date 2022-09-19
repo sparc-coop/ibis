@@ -57,7 +57,7 @@ async function downloadFileFromStream(fileName, contentStreamReference) {
     URL.revokeObjectURL(url);
 }
 
-function triggerFileDownload(fileName, url) {
+function triggerFileDownload(url, fileName) {
     const anchorElement = document.createElement('a');
     anchorElement.href = url;
     anchorElement.download = fileName ?? '';
@@ -70,23 +70,7 @@ function playAudio(id) {
     document.getElementById("play-" + id).play();
 }
 
-function toggleRoomDropdown(roomId) {
-    const dropdown = document.getElementById("dropdown-" + roomId);
-    if (dropdown.style.visibility == "visible") {
-        dropdown.style.visibility = "hidden";
-    } else {
-        dropdown.style.visibility = "visible";
-    }
-}
-
-function copyToClipboard(id, copyType) {
-    var copyText = document.getElementById(id).value;
-    navigator.clipboard.writeText(copyText);
-
-    if (copyType == "list") {
-        document.getElementById("copy-" + id).textContent += "Copied!";
-        setTimeout(function () {
-            document.getElementById("copy-" + id).textContent = "";
-        }, 2000);
-    }
-}
+window.scrollToBottom = (id) => {
+    var div = document.getElementById(id);
+    div.scrollTop = div.scrollHeight;
+};

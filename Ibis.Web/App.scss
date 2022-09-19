@@ -2,80 +2,60 @@
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
-@import "Shared/DashLayout";
+@import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
-@import "Shared/InviteModal";
-@import "Shared/ProjectsList";
-@import "Shared/LoginDisplay";
 @import "Shared/ChatBox";
-@import "Shared/DeleteModal";
-@import "Shared/EditModal";
 @import "Shared/Tooltip";
-@import "Shared/AccountNav";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
+@import "Rooms/RoomCard";
+@import "Rooms/RoomShare";
+@import "Rooms/DeleteModal";
+@import "Rooms/EditModal";
+@import "Rooms/InviteModal";
+@import "Rooms/RoomMenu";
 
 @import "Messages/MessageCard";
 @import "Messages/Upload";
 
 @import "Users/Account";
 @import "Users/Notifications";
+@import "Users/Avatar";
+@import "Users/AccountNav";
 
 @import "Onboarding/StepOne";
 
 
 //Regular fonts
 @font-face {
-    font-family: 'CircularStd-Medium';
-    src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
-    font-weight: normal;
-}
-
-@font-face {
-    font-family: 'CircularStd-Black';
-    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'CircularStd-Bold';
-    src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
-    font-weight: bold;
-}
-
-@font-face {
-    font-family: 'CircularStd-Book';
+    font-family: 'CircularStd';
+    font-weight: 400;
     src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
 }
 
-//Italic Fonts
 @font-face {
-    font-family: 'CircularStd-MediumItalic';
-    src: url(wwwroot/fonts/CircularStd-MediumItalic.ttf) format('truetype');
-    font-weight: normal;
+    font-family: 'CircularStd';
+    font-weight: 500;
+    src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'CircularStd-BlackItalic';
-    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
+    font-family: 'CircularStd';
+    font-weight: 600;
+    src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'CircularStd-BoldItalic';
-    src: url(wwwroot/fonts/CircularStd-BoldItalic.ttf) format('truetype');
-    font-weight: bold;
+    font-family: 'CircularStd';
+    font-weight: 900;
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
 }
-
-@font-face {
-    font-family: 'CircularStd-BookItalic';
-    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
-}
-
 
 body {
     overflow-x: hidden;
-    font-family: sans-serif;
+    font-family: 'CircularStd', sans-serif;
 }
 
 .container {
@@ -114,7 +94,8 @@ button {
 
 h1, h2, h3, h4, h5, h6 {
     line-height: 120%;
-    font-family: 'CircularStd-Medium', sans-serif;
+    font-family: 'CircularStd', sans-serif;
+    font-weight: 500;
 }
 
 h1 {

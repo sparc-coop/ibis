@@ -1,39 +1,40 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features.Sparc.Realtime;
 
-public class Room : Root<string>
+namespace Ibis.Features.Rooms;
+
+public record SourceMessage(string RoomId, string MessageId);
+public record UserJoined(string RoomId, UserSummary User) : GroupNotification(RoomId);
+public record UserLeft(string RoomId, UserSummary User) : GroupNotification(RoomId);
+
+public class Room : SparcRoot<string>
 {
-    public string RoomId { get; set; }
-    public string Name { get; set; }
-    public string HostUserId { get; set; }
-    public string? HostMessageId { get; set; }
-    public string? HostRoomId { get; set; }
+    public string RoomId { get; private set; }
+    public string Name { get; private set; }
+    public UserSummary HostUser { get; private set; }
+    public List<UserSummary> Users { get; private set; }
+    public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
-    public DateTime? LastActiveDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public List<ActiveUser> ActiveUsers { get; internal set; }
-    public List<string> PendingUsers { get; set; }
-    public List<Messages.Translation> Translations { get; private set; }
-    public string? AudioId { get; set; }
+    public DateTime? LastActiveDate { get; private set; }
+    public DateTime? EndDate { get; private set; }
+    public AudioMessage? Audio { get; private set; }
 
     private Room() 
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
-        Name = "New Conversation";
-        HostUserId = "";
+        Name = "New Room";
+        HostUser = new("");
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
-        ActiveUsers = new();
-        PendingUsers = new();
-        Translations = new();
+        Users = new();
     }
 
-    public Room(string name, string hostUserId) : this()
+    public Room(string name, User hostUser) : this()
     {
         Name = name;
-        HostUserId = hostUserId;
+        HostUser = new(hostUser);
     }
 
     public Room(Room room, Message message) : this()
@@ -41,33 +42,87 @@ public class Room : Root<string>
         // Create a subroom from a message
 
         Name = room.Name;
-        HostMessageId = message.Id;
-        HostRoomId = room.Id;
+        SourceMessage = new(room.Id, message.Id);
         //Languages = room.Languages;
         //ActiveUsers = room.ActiveUsers;
         //Translations = room.Translations;
     }
 
-    public void AddLanguage(string language)
+    public void AddLanguage(Language language)
     {
-        if (Languages.Any(x => x.Name == language))
+        if (Languages.Any(x => x.Id == language.Id))
             return;
 
-        Languages.Add(new(language));
+        Languages.Add(language);
+        Broadcast(new LanguageAdded(Id, language));
     }
 
-    public void AddUser(string userId, string language, string? profileImg, string? phoneNumber = null)
+    public void AddActiveUser(User user)
     {
-        if (!ActiveUsers.Any(x => x.UserId == userId))
-            ActiveUsers.Add(new(userId, DateTime.UtcNow, language, profileImg, phoneNumber));
+        var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
+        if (activeUser == null)
+        {
+            activeUser = new(user);
+            Users.Add(activeUser);
+        }
+
+        if (user.PrimaryLanguage != null)
+            AddLanguage(user.PrimaryLanguage);
+        
+        if (!activeUser.IsOnline)
+        {
+            activeUser.IsOnline = true;
+            Broadcast(new UserJoined(Id, activeUser));
+        }
     }
 
-    public void RemoveUser(string userId)
+    public void RemoveActiveUser(User user)
     {
-        ActiveUsers.RemoveAll(x => x.UserId == userId);
+        var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
+        if (activeUser?.IsOnline == true)
+        {
+            activeUser.IsOnline = false;
+            Broadcast(new UserLeft(Id, activeUser));
+        }
     }
 
-    public void SetAudio(string audioId) => AudioId = audioId;
+    internal void InviteUser(UserSummary user)
+    {
+        if (!Users.Any(x => x.Id == user.Id))
+            Users.Add(user);
+    }
+
+    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
+    {
+        var languagesToTranslate = forceRetranslation
+            ? Languages
+            : Languages.Where(x => !message.HasTranslation(x.Id)).ToList();
+
+        if (!languagesToTranslate.Any())
+            return new();
+
+        var translatedMessages = await translator.TranslateAsync(message, languagesToTranslate);
+
+        // Add reference to all the new translated messages
+        foreach (var translatedMessage in translatedMessages)
+            message.AddTranslation(translatedMessage.Language, translatedMessage.Id);
+
+        return translatedMessages;
+    }
+
+    internal async Task SpeakAsync(ISpeaker speaker, List<Message> messages)
+    {
+        Audio = await speaker.SpeakAsync(messages);        
+    }
+
+    internal void Close()
+    {
+        EndDate = DateTime.UtcNow;
+    }
+
+    internal void Rename(string title)
+    {
+        Name = title;
+    }
+
 }
-
-public record ActiveUser(string UserId, DateTime JoinDate, string Language, string? ProfileImg, string? PhoneNumber);
