@@ -20,14 +20,10 @@
                 </button>
             }
         </header>
-        <div class="content">
-            @if (RoomInfo != null)
-            {
-                <MessageList Room="RoomInfo" />
-            }
-            
-            <LanguageSelector />
-        </div>
+        @if (RoomInfo != null)
+        {
+            <MessageList Room="RoomInfo" />
+        }
     </section>
 </RealtimeHub>
 

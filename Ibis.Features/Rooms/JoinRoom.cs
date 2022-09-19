@@ -48,7 +48,7 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 
         var messages = await Messages
                 .Query
-                .Where(message => message.Language == user.PrimaryLanguageId)
+                .Where(message => message.RoomId == request.RoomId && message.Language == user.PrimaryLanguageId)
                 .OrderBy(x => x.Timestamp)
                 .ToListAsync();
 

@@ -551,12 +551,6 @@ main {
   /* The slider */
   /* Rounded sliders */
 }
-.room .content {
-  display: flex;
-  position: relative;
-  justify-content: space-around;
-  align-items: self-start;
-}
 .room header {
   justify-content: space-between;
   max-width: 940px;
@@ -1171,19 +1165,18 @@ main {
 
 .message-grid {
   background: #FFFFFF;
-  padding: 0 16px 185px 16px;
+  padding: 0 16px 216px 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 12px 12px 12px 12px;
+  border-radius: 12px;
   width: 100%;
   max-width: 940px;
-  max-height: 664px;
-  min-height: 500px;
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
 .message-grid .message-list {
   overflow-y: auto;
-  height: 520px;
+  height: 100%;
   padding: 24px 0 38px 0;
   /* Track */
   /* Handle */
@@ -1202,36 +1195,12 @@ main {
 .message-grid .message-list::-webkit-scrollbar-thumb:hover {
   background: #9BA3AF;
 }
-.message-grid .user {
-  position: relative;
-  padding-left: 35px;
-  font-size: 13px;
-  display: flex;
-}
-.message-grid .user .avatar {
-  color: #000000;
-  font-size: 12px;
-  width: 25px;
-  height: 25px;
-  line-height: 27px;
-  text-align: center;
-  border-radius: 45px;
-  position: absolute;
-  left: 0;
-  top: -7px;
-}
-.message-grid .user i {
-  cursor: pointer;
-  font-size: 18px;
-  color: #1D2937;
-  margin: -3px 0 0 12px;
-}
 .message-grid .message-card {
   padding: 16px;
   margin: 0 8px;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 16px;
-  filter: brightness(170%);
+  position: relative;
 }
 .message-grid .message-card .account-name {
   margin-bottom: 10px;
@@ -1240,6 +1209,18 @@ main {
   font-size: 18px;
   font-weight: 400;
   padding-top: 6px;
+  z-index: 2;
+}
+.message-grid .message-card .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  filter: brightness(170%);
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 1;
 }
 .message-grid .message-box {
   position: absolute;
@@ -1673,37 +1654,37 @@ main {
 }
 
 .avatar {
-  border-radius: 45px;
-  border: 2px solid white;
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
-.avatar aside {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  color: white;
+.avatar svg {
+  height: 24px;
+  width: 24px;
+}
+.avatar svg text {
+  fill: white;
   font-weight: 600;
-  font-size: 12px;
-  align-items: center;
-  justify-content: center;
-  display: none;
+  font-size: 40px;
+  font-family: "CircularStd";
 }
 .avatar figcaption {
   color: #364150;
   font-size: 16px;
   font-weight: 500;
+  filter: brightness(50%);
 }
 
 .room-card .avatar figcaption {
   display: none;
 }
-.room-card .avatar aside {
-  display: flex;
+
+.message-card .avatar {
+  z-index: 2;
+}
+.message-card .avatar figcaption {
+  font-size: 13px;
 }
 
 .settings-nav-bg {

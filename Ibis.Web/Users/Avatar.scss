@@ -1,31 +1,28 @@
 ﻿@import "../_variables.scss";
 
 .avatar {
-    border-radius: 45px;
-    border: 2px solid white;
     position: relative;
     display: inline-flex;
     align-items: center;
     gap: 8px;
 
-    aside {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        color: white;
-        font-weight: 600;
-        font-size: 12px;
-        align-items: center;
-        justify-content: center;
-        display: none;
+    svg {
+        height: 24px;
+        width: 24px;
+
+        text {
+            fill: white;
+            font-weight: 600;
+            font-size: 40px;
+            font-family: 'CircularStd';
+        }
     }
 
     figcaption {
         color: $grey-700;
         font-size: 16px;
         font-weight: 500;
+        filter: brightness(50%);
     }
 }
 
@@ -33,8 +30,11 @@
     figcaption {
         display: none;
     }
+}
 
-    aside {
-        display: flex;
+.message-card .avatar {
+    z-index: 2;
+    figcaption {
+        font-size: 13px;
     }
 }

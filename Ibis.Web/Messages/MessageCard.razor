@@ -1,17 +1,18 @@
 ﻿@inherits RealtimeComponent
 
 <article class="message-card" @onclick="GoToSubroom">
+    <div class="background" style="background: @Message.User.Color"></div>
     <Avatar User="Message.User" />
-    <time datetime="@Message.Timestamp.ToString("u")"></time>
-            @if (Message.Audio != null)
-            {
-                <MessageAudio Audio="Message.Audio" />
-            }
+    @if (Message.Audio != null)
+    {
+        <MessageAudio Audio="Message.Audio" />
+    }
     <p>@Message.Text</p>
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
+    string BackgroundColor = "#FFFFFF";
 
     protected override void OnInitialized()
     {

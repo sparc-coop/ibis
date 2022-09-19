@@ -3,13 +3,6 @@
 .room {
     position: relative; 
 
-    .content {
-        display: flex;
-        position: relative;
-        justify-content: space-around;
-        align-items: self-start;
-    }
-
     header {
         justify-content: space-between;
         max-width: 940px;

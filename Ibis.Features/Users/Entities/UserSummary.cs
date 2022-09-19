@@ -1,4 +1,7 @@
-﻿namespace Ibis.Features.Users;
+﻿using System;
+using System.Drawing;
+
+namespace Ibis.Features.Users;
 
 public class UserSummary
 {
@@ -11,12 +14,15 @@ public class UserSummary
     public string? Pronouns { get; set; }
     public string? Description { get; set; }
     public string? Image { get; set; }
+    public string Color { get; set; }
+    public int ColorHash { get; set; }
 
     private UserSummary() {
         Id = string.Empty;
         Name = string.Empty;
         Initials = string.Empty;
         Language = string.Empty;
+        Color = "#000000";
     }
 
     public UserSummary(User user)
@@ -29,6 +35,10 @@ public class UserSummary
         Pronouns = user.Pronouns;
         Description = user.Description;
         Image = user.ProfileImg;
+
+        // Generate dark pseudorandom main color for user that never changes (based on name)
+        ColorHash = HashCode(user.FullName);
+        Color = ColorTranslator.ToHtml(ColorFromHSV(ColorHash % 360, (ColorHash % 1000) / 1000.0, ((ColorHash % 20) + 50) / 100.0));
     }
 
     public UserSummary(string email)
@@ -37,5 +47,43 @@ public class UserSummary
         Name = email;
         Initials = string.Empty;
         Language = string.Empty;
+        Color = "#000000";
+    }
+
+    static int HashCode(string name)
+    {
+        var hash = 0;
+        for (var i = 0; i < name.Length; i++)
+        {
+            var character = name[i];
+            hash = ((hash << 5) - hash) + character;
+            hash &= hash; // Convert to 32bit integer
+        }
+        return Math.Abs(hash);
+    }
+
+    static Color ColorFromHSV(double hue, double saturation, double value)
+    {
+        int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+        double f = hue / 60 - Math.Floor(hue / 60);
+
+        value *= 255;
+        int v = Convert.ToInt32(value);
+        int p = Convert.ToInt32(value * (1 - saturation));
+        int q = Convert.ToInt32(value * (1 - f * saturation));
+        int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+        if (hi == 0)
+            return System.Drawing.Color.FromArgb(255, v, t, p);
+        else if (hi == 1)
+            return System.Drawing.Color.FromArgb(255, q, v, p);
+        else if (hi == 2)
+            return System.Drawing.Color.FromArgb(255, p, v, t);
+        else if (hi == 3)
+            return System.Drawing.Color.FromArgb(255, p, q, v);
+        else if (hi == 4)
+            return System.Drawing.Color.FromArgb(255, t, p, v);
+        else
+            return System.Drawing.Color.FromArgb(255, v, p, q);
     }
 }

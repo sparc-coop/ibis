@@ -1,42 +1,9 @@
 ﻿<figure class="avatar">
-    <svg viewBox="0 0 @ViewBoxSize @ViewBoxSize"
-         fill="none"
-         role="img"
-         xmlns="http://www.w3.org/2000/svg"
-         width=@Size
-         height=@Size>
-        <title>@User.Name</title>
-        <mask id="mask__marble" maskUnits="userSpaceOnUse" x="0" y="0" width="@ViewBoxSize" height="@ViewBoxSize">
-            <rect width="@ViewBoxSize" height="@ViewBoxSize" rx="@(ViewBoxSize * 2)" fill="#FFFFFF" />
-        </mask>
-        <g mask="url(#mask__marble)">
-            <rect width="@ViewBoxSize" height="@ViewBoxSize" fill="@Colors[0].Color" />
-
-            <path filter="url(#prefix__filter0_f)"
-                  d="M32.414 59.35L50.376 70.5H72.5v-71H33.728L26.5 13.381l19.057 27.08L32.414 59.35z"
-                  fill="@Colors[1].Color"
-                  transform="@Colors[1].Transform" />
-
-            <path filter="url(#prefix__filter0_f)"
-                  style="mix-blend-mode: overlay"
-                  d="M22.216 24L0 46.75l14.108 38.129L78 86l-3.081-59.276-22.378 4.005 12.972 20.186-23.35 27.395L22.215 24z"
-                  fill="@Colors[2].Color"
-                  transform="@Colors[2].Transform" />
-        </g>
-        <defs>
-            <filter id="prefix__filter0_f"
-                    filterUnits="userSpaceOnUse"
-                    colorInterpolationFilters="sRGB">
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                <feGaussianBlur stdDeviation="7" result="effect1_foregroundBlur" />
-            </filter>
-        </defs>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="@User.Color" />
+        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">@User.Initials</text>
     </svg>
-    <aside>
-        @User.Initials
-    </aside>
-    <figcaption>
+    <figcaption style="color: @User.Color">
         @User.Name
     </figcaption>
 </figure>
@@ -45,59 +12,5 @@
     [Parameter] public UserSummary User { get; set; } = null!;
     double ViewBoxSize = 80;
     double Size = 24;
-    List<string> ColorPalette = new() { "#013b60", "#fe3205", "#f9f1e8", "#d6bbfb", "#fd9e2e" };
-    List<(string Color, string Transform)> Colors = new();
-
-    // Implements https://source.boringavatars.com/marble/120/Joseph%20Young?colors=013b60,fe3205,f9f1e8,d6bbfb,fd9e2e
-    protected override void OnInitialized()
-    {
-        var numFromName = HashCode(User.Name);
-
-        for (var i = 0; i < 3; i++)
-        {
-            var color = GetRandomColor(numFromName + i);
-            var translateX = GetUnit(numFromName * (i + 1), ViewBoxSize / 10, 1);
-            var translateY = GetUnit(numFromName * (i + 1), ViewBoxSize / 10, 2);
-            var scale = 1.2 + GetUnit(numFromName * (i + 1), ViewBoxSize / 20) / 10;
-            var rotate = GetUnit(numFromName * (i + 1), 360, 1);
-
-            var transform = $"translate({translateX} {translateY}) rotate({rotate} {ViewBoxSize / 2} {ViewBoxSize / 2}) scale({scale})";
-            Colors.Add((color, transform));
-        }
-    }
-
-    double HashCode(string name)
-    {
-        var hash = 0;
-        for (var i = 0; i < name.Length; i++)
-        {
-            var character = name[i];
-            hash = ((hash << 5) - hash) + character;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return Math.Abs(hash);
-    }
-
-    double GetUnit(double number, double range, int? index = null)
-    {
-        var value = number % range;
-
-        if (index.HasValue && ((GetDigit(number, index.Value) % 2) == 0))
-        {
-            return -value;
-        }
-
-        return value;
-    }
-
-    double GetDigit(double number, int ntn)
-    {
-        return Math.Floor((number / Math.Pow(10, ntn)) % 10);
-    }
-
-    string GetRandomColor(double number)
-    {
-        return ColorPalette[(int)(number % ColorPalette.Count)];
-    }
 }
 

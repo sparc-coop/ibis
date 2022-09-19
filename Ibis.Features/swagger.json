@@ -2463,6 +2463,14 @@
           "image": {
             "type": "string",
             "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "colorHash": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
