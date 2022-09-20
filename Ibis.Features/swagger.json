@@ -539,6 +539,35 @@
         }
       }
     },
+    "/api/GetEmojis": {
+      "post": {
+        "tags": [
+          "GetEmojis"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetLanguages": {
       "post": {
         "tags": [
@@ -1724,6 +1753,26 @@
         "properties": {
           "email": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEmojisResponse": {
+        "type": "object",
+        "properties": {
+          "skintones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },

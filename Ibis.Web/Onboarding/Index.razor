@@ -3,19 +3,24 @@
 @if (User != null)
 {
     <div class="onboarding">
+        <Avatar User="User" />
+        
         @switch (Step)
         {
             case 1:
-                <StepOne User="User" />
+                <AccountDetails User="User" />
                 break;
             case 2:
-                <StepTwo User="User" />
+                <LanguageSelector User="User" />
                 break;
             case 3:
-                <StepThree User="User" />
+                <VoiceSelector User="User" />
                 break;
             case 4:
-                <StepFour />
+                <EmojiSelector User="User" />
+                break;
+            case 5:
+                <SetupComplete />
                 break;
         }
 

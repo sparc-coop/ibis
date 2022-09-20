@@ -1,0 +1,47 @@
+<h3>Choose your emoji</h3>
+<p>
+    Ibis uses inclusive skin-tone emojis to represent you in the room.
+</p>
+
+@if (Emojis != null)
+{
+    <h4>Choose your skin tone</h4>
+    <ul>
+        @foreach (var skintone in Emojis.Skintones)
+        {
+            <li @onclick="(() => SetSkintone(skintone))" class="@(User.SkinTone == skintone ? "selected" : "")">
+                @skintone
+            </li>
+        }
+    </ul>
+    
+    <h4>Choose your emoji</h4>
+    <ul>
+        @foreach (var emoji in Emojis.Emojis)
+        {
+            <li @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">
+                @emoji@User.SkinTone
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    GetEmojisResponse? Emojis { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Emojis = await Api.GetEmojisAsync();
+    }
+    
+    void SetSkintone(string skintone)
+    {
+        User.SkinTone = skintone;
+    }
+
+    void SetEmoji(string emoji)
+    {
+        User.Emoji = emoji;
+    }
+}
