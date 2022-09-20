@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public class UpdateUser : Feature<UserSummary, bool>
+public class UpdateUser : Feature<UserAvatar, bool>
 {
     public UpdateUser(IRepository<User> users)
     {
@@ -9,13 +9,13 @@ public class UpdateUser : Feature<UserSummary, bool>
 
     public IRepository<User> Users { get; }
 
-    public override async Task<bool> ExecuteAsync(UserSummary request)
+    public override async Task<bool> ExecuteAsync(UserAvatar avatar)
     {
         var user = await Users.FindAsync(User.Id());
         if (user == null)
             throw new NotFoundException("User not found!");
 
-        user.UpdateProfile(request.Name, request.Language, request.Pronouns, request.Description);
+        user.UpdateAvatar(avatar);
 
         
         await Users.UpdateAsync(user);

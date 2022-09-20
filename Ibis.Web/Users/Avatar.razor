@@ -1,16 +1,24 @@
-﻿<figure class="avatar">
+﻿<figure class="avatar" style="background: @User.BackgroundColor">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" fill="@User.Color" />
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">@User.Initials</text>
+        <circle cx="50" cy="50" r="45" fill="@User.ForegroundColor" />
+        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">
+            @Emoji
+        </text>
     </svg>
-    <figcaption style="color: @User.Color">
+    <figcaption style="color: @User.ForegroundColor">
         @User.Name
     </figcaption>
 </figure>
 
 @code {
-    [Parameter] public UserSummary User { get; set; } = null!;
+    [Parameter] public UserAvatar User { get; set; } = null!;
     double ViewBoxSize = 80;
     double Size = 24;
+
+    string Emoji => string.IsNullOrWhiteSpace(User.Emoji)
+        ? User.Initials
+        : string.IsNullOrWhiteSpace(User.SkinTone)
+        ? User.Emoji
+        : User.Emoji + User.SkinTone;
 }
 

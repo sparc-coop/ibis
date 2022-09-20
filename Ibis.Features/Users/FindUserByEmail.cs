@@ -15,7 +15,7 @@ public class FindUserByEmail : Feature<FindUserRequest, User>
 
         if (user == null)
         {
-            user = new(Guid.NewGuid().ToString(), req.Email!);
+            user = new(req.Email!);
             await Users.AddAsync(user);
         }
 

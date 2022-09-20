@@ -20,9 +20,9 @@ public class SendSms : RealtimeFeature<MessageTextChanged>
         if (room == null || string.IsNullOrWhiteSpace(notification.Message.Text))
             return;
 
-        var usersToSms = room!.Users
-            .Where(x => x.ReceivesSms && notification.Message.Language == x.Language)
-            .ToList();
+        //var usersToSms = room!.Users
+        //    .Where(x => x.ReceivesSms && notification.Message.Language == x.Language)
+        //    .ToList();
 
         //foreach (var userToSms in usersToSms)
         //    await Twilio.SendSmsAsync(userToSms.PhoneNumber!, notification.Message.Text);

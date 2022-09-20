@@ -746,17 +746,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               }
             }
@@ -1334,7 +1334,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1343,7 +1343,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1352,7 +1352,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1771,7 +1771,7 @@
           "users": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UserSummary"
+              "$ref": "#/components/schemas/UserAvatar"
             },
             "nullable": true
           },
@@ -1967,7 +1967,7 @@
           "user": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/UserSummary"
+                "$ref": "#/components/schemas/UserAvatar"
               }
             ],
             "nullable": true
@@ -2241,34 +2241,6 @@
             "type": "string",
             "nullable": true
           },
-          "fullName": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "initials": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
           "dateCreated": {
             "type": "string",
             "format": "date-time",
@@ -2280,21 +2252,6 @@
             "readOnly": true
           },
           "customerId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "profileImg": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "pronouns": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "description": {
             "type": "string",
             "nullable": true,
             "readOnly": true
@@ -2311,6 +2268,15 @@
           "balance": {
             "type": "number",
             "format": "double",
+            "readOnly": true
+          },
+          "avatar": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatar"
+              }
+            ],
+            "nullable": true,
             "readOnly": true
           },
           "primaryLanguageId": {
@@ -2333,6 +2299,60 @@
             },
             "nullable": true,
             "readOnly": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserAvatar": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "initials": {
+            "type": "string",
+            "nullable": true
+          },
+          "isOnline": {
+            "type": "boolean"
+          },
+          "foregroundColor": {
+            "type": "string",
+            "nullable": true
+          },
+          "backgroundColor": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "emoji": {
+            "type": "string",
+            "nullable": true
+          },
+          "skinTone": {
+            "type": "string",
+            "nullable": true
+          },
+          "pronouns": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2357,7 +2377,7 @@
               "user": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ],
                 "nullable": true
@@ -2391,7 +2411,7 @@
               "user": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ],
                 "nullable": true
@@ -2426,54 +2446,6 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
-      },
-      "UserSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "initials": {
-            "type": "string",
-            "nullable": true
-          },
-          "receivesSms": {
-            "type": "boolean"
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "isOnline": {
-            "type": "boolean"
-          },
-          "pronouns": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "image": {
-            "type": "string",
-            "nullable": true
-          },
-          "color": {
-            "type": "string",
-            "nullable": true
-          },
-          "colorHash": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
       },
       "Voice": {
         "type": "object",

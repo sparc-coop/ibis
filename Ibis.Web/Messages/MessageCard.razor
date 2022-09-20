@@ -1,7 +1,6 @@
 ﻿@inherits RealtimeComponent
 
-<article class="message-card" @onclick="GoToSubroom">
-    <div class="background" style="background: @Message.User.Color"></div>
+<article class="message-card" style="background: @Message.User.BackgroundColor" @onclick="GoToSubroom">
     <Avatar User="Message.User" />
     @if (Message.Audio != null)
     {

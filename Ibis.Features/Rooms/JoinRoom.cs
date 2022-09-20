@@ -9,7 +9,7 @@ public record GetRoomResponse
     public DateTime? LastActiveDate { get; set; }
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
-    public List<UserSummary>? Users { get; set; }
+    public List<UserAvatar>? Users { get; set; }
     public List<Message>? Messages { get; set; }
 
     public GetRoomResponse(Room room, List<Message>? messages = null)

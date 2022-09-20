@@ -3,15 +3,15 @@
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserSummary User) : GroupNotification(RoomId);
-public record UserLeft(string RoomId, UserSummary User) : GroupNotification(RoomId);
+public record UserJoined(string RoomId, UserAvatar User) : GroupNotification(RoomId);
+public record UserLeft(string RoomId, UserAvatar User) : GroupNotification(RoomId);
 
 public class Room : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }
-    public UserSummary HostUser { get; private set; }
-    public List<UserSummary> Users { get; private set; }
+    public UserAvatar HostUser { get; private set; }
+    public List<UserAvatar> Users { get; private set; }
     public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
@@ -24,7 +24,7 @@ public class Room : SparcRoot<string>
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
         Name = "New Room";
-        HostUser = new("");
+        HostUser = new User().Avatar;
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
@@ -34,7 +34,7 @@ public class Room : SparcRoot<string>
     public Room(string name, User hostUser) : this()
     {
         Name = name;
-        HostUser = new(hostUser);
+        HostUser = hostUser.Avatar;
     }
 
     public Room(Room room, Message message) : this()
@@ -62,7 +62,7 @@ public class Room : SparcRoot<string>
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser == null)
         {
-            activeUser = new(user);
+            activeUser = user.Avatar;
             Users.Add(activeUser);
         }
 
@@ -86,10 +86,10 @@ public class Room : SparcRoot<string>
         }
     }
 
-    internal void InviteUser(UserSummary user)
+    internal void InviteUser(User user)
     {
         if (!Users.Any(x => x.Id == user.Id))
-            Users.Add(user);
+            Users.Add(user.Avatar);
     }
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)

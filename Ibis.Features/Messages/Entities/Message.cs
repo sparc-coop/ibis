@@ -10,7 +10,7 @@ public class Message : SparcRoot<string>
     public string? SourceMessageId { get; private set; }
     public string Language { get; private set; }
     public DateTime Timestamp { get; private set; }
-    public UserSummary User { get; private set; }
+    public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation>? Translations { get; private set; }
@@ -20,14 +20,14 @@ public class Message : SparcRoot<string>
     {
         Id = Guid.NewGuid().ToString();
         RoomId = "";
-        User = new("");
+        User = new User().Avatar;
         Language = "";
     }
 
     public Message(string roomId, User user, string text) : this()
     {
         RoomId = roomId;
-        User = new(user);
+        User = user.Avatar;
         Language = user.PrimaryLanguageId;
         Audio = new(null, 0, user.Voice);
         Timestamp = DateTime.UtcNow;

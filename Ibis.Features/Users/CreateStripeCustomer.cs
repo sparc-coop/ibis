@@ -29,7 +29,7 @@ public class CreateStripeCustomer : Feature<string>
         {
             var options = new CustomerCreateOptions
             {
-                Name = user.FullName,
+                Name = user.Avatar.Name,
                 Email = user.Email
             };
 

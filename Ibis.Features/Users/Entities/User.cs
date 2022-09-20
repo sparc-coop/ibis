@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Ibis.Features.Users;
+﻿namespace Ibis.Features.Users;
 
 public class User : Root<string>
 {
@@ -13,14 +11,14 @@ public class User : Root<string>
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
+        Avatar = new(Id, "");
     }
 
-    public User(string id, string email, string? firstName = null, string? lastName = null) : this()
+    public User(string email) : this()
     {
-        Id = id;
+        Id = email;
         Email = email;
-        FirstName = firstName;
-        LastName = lastName;
+        Avatar = new(Id, email);
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -40,25 +38,16 @@ public class User : Root<string>
         }
     }
 
-    [JsonIgnore]
-    public string FullName => $"{FirstName} {LastName}";
-    [JsonIgnore]
-    public string Initials => $"{FirstName?[0]}{LastName?[0]}";
-    public string? PhoneNumber { get; private set; }
-    public string? FirstName { get; private set; }
-    public string? LastName { get; private set; }
-    public string? DisplayName { get; private set; }
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
     public string? CustomerId { get; private set; }
-    public string? ProfileImg { get; private set; }
-    public string? Pronouns { get; private set; }
-    public string? Description { get; private set; }
     public Voice? Voice { get; private set; }
     public decimal Balance { get; private set; }
+    public UserAvatar Avatar { get; private set; }
     public string PrimaryLanguageId { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
+    public string? PhoneNumber { get; private set; }
 
 
     internal void JoinRoom(string roomId)
@@ -89,13 +78,10 @@ public class User : Root<string>
         Balance += userCharge.Amount;
     }
 
-    internal void UpdateProfile(string fullName, string languageId, string? pronouns, string? description)
+    internal void UpdateAvatar(UserAvatar avatar)
     {
-        FirstName = fullName.Split(' ')[0];
-        LastName = fullName.Split(' ')[1];
-        PrimaryLanguageId = languageId;
-        Pronouns = pronouns;
-        Description = description;
+        avatar.Id = Id;
+        Avatar = avatar;
     }
 }
 

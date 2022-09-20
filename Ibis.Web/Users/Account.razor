@@ -26,17 +26,6 @@
 						<input @bind="User.Name" />
 					</div>
 				</div>
-				
-				<div class="photo-upload">
-					<Avatar User="User" />
-					<InputFile OnChange="OnInputFileChange" />
-					<img class="upload-icon" src="/icons/upload.png" />
-					<p>
-						<span>Click to upload</span> or drag and drop
-						<br/>
-						SVG, PNG, or JPG (max. 800x400px)
-					</p>
-				</div>
 			</div>
 			<div class="divider"></div>
 			<div class="section">
@@ -76,7 +65,7 @@
 @inject IJSRuntime JS
 
 @code {
-	private UserSummary? User;
+	private UserAvatar? User;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -93,7 +82,5 @@
 		await stream.CopyToAsync(ms);
 		var bytes = ms.ToArray();
 		stream.Close();
-
-		User!.Image = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { FileName = path, Bytes = bytes });
 	}
 }

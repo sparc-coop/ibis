@@ -23,8 +23,13 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
         //find current users
         foreach (string email in request.Emails)
         {
-            var user = Users.Query.FirstOrDefault(u => u.Email == email);
-            room.InviteUser(user == null ? new(email) : new(user));
+            var user = Users.Query.FirstOrDefault(u => u.Id == email);
+            if (user == null)
+            {
+                user = new User(email);
+                await Users.AddAsync(user);
+            }
+            room.InviteUser(user);
         }
 
         await Rooms.AddAsync(room);
