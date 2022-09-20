@@ -1,6 +1,4 @@
-﻿using Microsoft.CognitiveServices.Speech;
-
-namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Features.Rooms;
 
 public class Voice
 {

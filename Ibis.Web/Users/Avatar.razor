@@ -12,8 +12,6 @@
 
 @code {
     [Parameter] public UserAvatar User { get; set; } = null!;
-    double ViewBoxSize = 80;
-    double Size = 24;
 
     string Emoji => string.IsNullOrWhiteSpace(User.Emoji)
         ? User.Initials

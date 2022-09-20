@@ -1,28 +1,25 @@
-﻿<h3>Welcome to Ibis@(User != null ? ", " + User.Name + "." : ".")</h3>
+﻿<h3>Welcome to Ibis.</h3>
+
 <p>
-    If you have a few minutes, we would love to show you where
-    the magic happens and get you setup with the basics,
-    so you know how to use Ibis to its full potential.
+    Let's get your avatar set up. Ibis will use this avatar to represent
+    you across the entire app, so make sure it represents you!
 </p>
 
+<Avatar User="User" />
+
 <div>
-    <label>
-        Pronouns
-        <select @bind="User.Pronouns">
-            <option value="" disabled selected>Select Pronoun</option>
-            <option value="SheHer">She/Her</option>
-            <option value="HeHim">He/Him</option>
-            <option value="TheyThem">They/Them</option>
-        </select>
-    </label>
-    
     <label>
         Your name
         <input @bind="User.Name" placeholder="First Name" />
     </label>
-    
+
     <label>
-        Description
+        Pronouns (optional)
+        <input @bind="User.Pronouns" placeholder="He/him, she/her, they/them, etc." />
+    </label>
+
+    <label>
+        About You (optional)
         <textarea @bind="User.Description"
                   @bind:event="oninput"
                   maxlength="@descLimit"
@@ -32,9 +29,7 @@
 </div>
 
 @code {
-    [Parameter] public UserAvatar? User { get; set; }
+    [Parameter] public UserAvatar User { get; set; } = null!;
 
     public int descLimit = 275;
-
-    string T(string text) => "translated text";
 }

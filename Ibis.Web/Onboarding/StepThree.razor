@@ -1,11 +1,50 @@
-﻿    <h3>Creating a room</h3>
-    <p>
-        With Ibis, you are able to create rooms for specific teams, topics, or uses.
-        <br /><br />
-        You can create a room for yourself, to act as a way to upload,
-        translate and transcribe audio, video and text documents.
-        <br /><br />
-        Or, add team members to start chatting live.
-    </p>
+﻿<h3>Choose Your Voice</h3>
+<p>
+    When others in the room are listening to the room's audio, Ibis will use this voice to speak for you,
+    in their preferred language. Whenever the voice you choose isn't available in the room's language, Ibis will use the
+    most similar voice it can find.
+</p>
+<p>
+    So make sure the voice you choose represents you! If you're not sure, you can always change it later.
+</p>
 
-    <CreateRoomModal />
+@if (Dialects != null)
+{
+    <div>
+        @foreach (var dialect in Dialects)
+        {
+            <h4>@dialect.NativeName (@dialect.Locale)</h4>
+            <ul>
+                @foreach (var voice in dialect.Voices)
+                {
+                    <li @onclick="(() => SetVoice(voice))" class="@(SelectedVoice?.ShortName == voice.ShortName ? "selected" : "")">
+                        @voice.DisplayName
+                        <aside>@voice.Locale (@voice.Gender)</aside>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+}
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    IEnumerable<Dialect>? Dialects { get; set; }
+    Voice? SelectedVoice { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var languages = await Api.GetLanguagesAsync();
+        Dialects = languages.Where(x => x.Id == User.Language).SelectMany(x => x.Dialects);
+    }
+
+    async Task SetVoice(Voice voice)
+    {   
+        SelectedVoice = voice;
+        await Api.ChangeVoiceAsync(new ChangeVoiceRequest { Language = User.Language, VoiceName = SelectedVoice.ShortName });
+
+        // TODO: Add audio preview
+    }
+ 
+}

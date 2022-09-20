@@ -164,10 +164,10 @@
         }
       }
     },
-    "/api/ChangeLanguage": {
+    "/api/ChangeVoice": {
       "post": {
         "tags": [
-          "ChangeLanguage"
+          "ChangeVoice"
         ],
         "requestBody": {
           "content": {
@@ -175,7 +175,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -184,7 +184,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -193,7 +193,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -1616,10 +1616,14 @@
         },
         "additionalProperties": false
       },
-      "ChangeLanguageRequest": {
+      "ChangeVoiceRequest": {
         "type": "object",
         "properties": {
           "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceName": {
             "type": "string",
             "nullable": true
           },

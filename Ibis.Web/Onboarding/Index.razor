@@ -1,46 +1,49 @@
 ﻿@layout EmptyLayout
 
-<div class="onboarding">
-    @switch (Step)
-    {
-        case 1:
-            <StepOne User="User" />
-            break;
-        case 2:
-            <StepTwo User="User" />
-            break;
-        case 3:
-            <StepThree />
-            break;
-        case 4:
-            <StepFour />
-            break;
-    }
+@if (User != null)
+{
+    <div class="onboarding">
+        @switch (Step)
+        {
+            case 1:
+                <StepOne User="User" />
+                break;
+            case 2:
+                <StepTwo User="User" />
+                break;
+            case 3:
+                <StepThree User="User" />
+                break;
+            case 4:
+                <StepFour />
+                break;
+        }
 
-    <div class="bottom-nav">
-        <div class="actions">
-            <div class="steps">
-                @for (var i = 1; i <= 4; i++)
-                {
-                    <div class="step-circle @(Step >= i ? "step-active" : "")">
-                        <i class="material-icons-outlined">@(Step > i ? "check" : "adjust")</i>
-                    </div>
-                    @if (i < 4)
+        <div class="bottom-nav">
+            <div class="actions">
+                <div class="steps">
+                    @for (var i = 1; i <= 4; i++)
                     {
-                        <hr class="step-line" />
+                        <div class="step-circle @(Step >= i ? "step-active" : "")">
+                            <i class="material-icons-outlined">@(Step > i ? "check" : "adjust")</i>
+                        </div>
+                        @if (i < 4)
+                        {
+                            <hr class="step-line" />
+                        }
                     }
-                }
-            </div>
-            <div class="buttons">
-                @if (Step > 1)
-                {
-                    <button class="skip" @onclick="GoToPrevious">Back</button>
-                }
-                <button class="next" @onclick="GoToNext">Confirm</button>
+                </div>
+                <div class="buttons">
+                    @if (Step > 1)
+                    {
+                        <button class="skip" @onclick="GoToPrevious">Back</button>
+                    }
+                    <button class="next" @onclick="GoToNext">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 @code {
     int Step = 1;

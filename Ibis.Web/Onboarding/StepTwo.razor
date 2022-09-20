@@ -1,46 +1,33 @@
-﻿<h3>Set your default dialect</h3>
+﻿<h3>Set your default language</h3>
 <p>
-    With Ibis, you are able to translate live video
-    or text into a language of your preference.
-    <br /><br />
-    But, for those who want more than one setting,
-    you can create presets to apply to your rooms,
-    and quickly swap between them as needed.
-    <br /><br />
-    Let’s create your default preset.
+    Ibis will automatically translate all communications in the room 
+    (both text and audio) into your preferred language.
 </p>
 
-<div>
-    <label>
-        Preset Name
-        <input placeholder="Default profile" />
-    </label>
-
-    <label>
-        Translate incoming voice to:
-        <select>
-            <option>English</option>
-        </select>
-    </label>
-
-    <label>
-        Translate incoming text to:
-        <select>
-            <option>English</option>
-        </select>
-    </label>
-
-    <label>Your translator gender</label>
-    <select>
-        <option>Female</option>
-        <option>Male</option>
-    </select>
-
-    <p>
-        This is how others will hear you when they translate your messages/audio
-    </p>
-</div>
+@if (Languages != null)
+{
+    <ul>
+        @foreach (var language in Languages)
+        {
+            <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
+                @language.Id
+                <aside>@language.NativeName</aside>
+            </li>     
+        }
+    </ul>
+}
 
 @code {
-    [Parameter] public UserAvatar? User { get; set; }
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    ICollection<Language>? Languages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Languages = await Api.GetLanguagesAsync();
+    }
+
+    void SetLanguage(Language language)
+    {
+        User.Language = language.Id;
+    }
 }

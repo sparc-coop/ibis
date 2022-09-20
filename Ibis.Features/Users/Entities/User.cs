@@ -63,12 +63,13 @@ public class User : Root<string>
         return roomId;
     }
 
-    internal void ChangeLanguage(Language language)
+    internal void ChangeVoice(Language language, Voice voice)
     {
         if (!LanguagesSpoken.Any(x => x.Id == language.Id))
             LanguagesSpoken.Add(language);
 
         PrimaryLanguageId = language.Id;
+        Voice = voice;
     }
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == PrimaryLanguageId);
