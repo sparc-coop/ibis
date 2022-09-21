@@ -206,17 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               }
             }
@@ -1663,6 +1663,16 @@
         },
         "additionalProperties": false
       },
+      "ChangeVoiceResponse": {
+        "type": "object",
+        "properties": {
+          "previewAudioUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CostIncurred": {
         "type": "object",
         "allOf": [
@@ -1769,6 +1779,13 @@
             "nullable": true
           },
           "emojis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "colors": {
             "type": "array",
             "items": {
               "type": "string"
@@ -2374,7 +2391,8 @@
           },
           "initials": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "isOnline": {
             "type": "boolean"

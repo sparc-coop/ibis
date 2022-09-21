@@ -27,12 +27,12 @@
         <div class="bottom-nav">
             <div class="actions">
                 <div class="steps">
-                    @for (var i = 1; i <= 4; i++)
+                    @for (var i = 1; i <= 5; i++)
                     {
                         <div class="step-circle @(Step >= i ? "step-active" : "")">
                             <i class="material-icons-outlined">@(Step > i ? "check" : "adjust")</i>
                         </div>
-                        @if (i < 4)
+                        @if (i < 5)
                         {
                             <hr class="step-line" />
                         }
@@ -43,7 +43,7 @@
                     {
                         <button class="skip" @onclick="GoToPrevious">Back</button>
                     }
-                    <button class="next" @onclick="GoToNext">Confirm</button>
+                    <button class="next" @onclick="GoToNext">@(Step == 5 ? "Done" : "Next")</button>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
         }
     }
 
-    async void GoToNext()
+    async Task GoToNext()
     {
         await UpdateUser();
         if (Step < 4)

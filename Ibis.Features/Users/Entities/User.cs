@@ -84,6 +84,8 @@ public class User : Root<string>
         avatar.Id = Id;
         Avatar = avatar;
     }
+
+    public static User System => new("system");
 }
 
 public record ActiveRoom(string RoomId, DateTime JoinDate);

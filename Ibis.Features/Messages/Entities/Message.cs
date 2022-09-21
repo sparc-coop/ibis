@@ -8,7 +8,7 @@ public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
-    public string Language { get; private set; }
+    public string Language { get; protected set; }
     public DateTime Timestamp { get; private set; }
     public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
@@ -39,6 +39,7 @@ public class Message : SparcRoot<string>
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
         User = sourceMessage.User;
+        Audio = sourceMessage.Audio == null ? null : new(null, 0, sourceMessage.Audio.Voice);
         Language = toLanguage;
         SetText(text);
     }
@@ -78,5 +79,13 @@ public class Message : SparcRoot<string>
     {
         Charge += cost;
         Broadcast(new CostIncurred(this, description, cost));
+    }
+}
+
+public class SystemMessage : Message
+{
+    public SystemMessage(string text) : base("system", Users.User.System, text)
+    {
+        Language = "en";
     }
 }

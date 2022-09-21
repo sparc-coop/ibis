@@ -1657,11 +1657,16 @@ main {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  width: 100%;
+  max-height: 220px;
+  max-width: 340px;
+  border-radius: 12px;
+  padding: 12px;
 }
 .avatar svg {
-  height: 24px;
-  width: 24px;
+  max-height: 200px;
 }
 .avatar svg text {
   fill: white;
@@ -1670,10 +1675,17 @@ main {
   font-family: "CircularStd";
 }
 .avatar figcaption {
-  color: #364150;
-  font-size: 16px;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  color: white !important;
+  font-size: 20px;
   font-weight: 500;
-  filter: brightness(50%);
+  line-height: 120%;
+}
+.avatar figcaption aside {
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .room-card .avatar figcaption {
@@ -1685,6 +1697,9 @@ main {
 }
 .message-card .avatar figcaption {
   font-size: 13px;
+  color: #364150;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .settings-nav-bg {
@@ -1747,10 +1762,11 @@ main {
 .onboarding {
   background: #F3F5F6;
   height: 100vh;
-  width: 100%;
   max-width: 50%;
-  padding: 10%;
-  position: relative;
+  padding: 8vw;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .onboarding h3 {
   color: #0A111D;
@@ -2006,6 +2022,76 @@ main {
   border-radius: 8px;
   height: 39px;
   margin-top: -10px;
+}
+
+.language-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 40vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.language-selector li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: #E5E7EA;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 24px;
+}
+.language-selector li aside {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 12px;
+}
+.language-selector li:hover {
+  background: #FF9E70;
+}
+.language-selector li.selected {
+  background: #CA1E14;
+  color: white;
+}
+
+.voice-selector {
+  max-height: 40vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.voice-selector h4 {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 40px 0 20px;
+}
+.voice-selector ul {
+  margin-bottom: 20px;
+}
+.voice-selector ul li {
+  display: flex;
+  position: relative;
+  background: #E5E7EA;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.voice-selector ul li aside {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 12px;
+}
+.voice-selector ul li:hover {
+  background: #FF9E70;
+}
+.voice-selector ul li.selected {
+  background: #CA1E14;
+  color: white;
 }
 
 @font-face {

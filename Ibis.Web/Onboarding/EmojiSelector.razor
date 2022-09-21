@@ -6,7 +6,7 @@
 @if (Emojis != null)
 {
     <h4>Choose your skin tone</h4>
-    <ul>
+    <ul class="skintones">
         @foreach (var skintone in Emojis.Skintones)
         {
             <li @onclick="(() => SetSkintone(skintone))" class="@(User.SkinTone == skintone ? "selected" : "")">
@@ -14,13 +14,23 @@
             </li>
         }
     </ul>
-    
+
     <h4>Choose your emoji</h4>
-    <ul>
+    <ul class="emojis">
         @foreach (var emoji in Emojis.Emojis)
         {
             <li @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">
                 @emoji@User.SkinTone
+            </li>
+        }
+    </ul>
+
+    <h4>Choose your profile color</h4>
+    <ul class="colors">
+        @foreach (var color in Emojis.Colors)
+        {
+            <li @onclick="(() => SetColor(color))" class="@(User.ForegroundColor == color ? "selected" : "")">
+
             </li>
         }
     </ul>
@@ -34,7 +44,7 @@
     {
         Emojis = await Api.GetEmojisAsync();
     }
-    
+
     void SetSkintone(string skintone)
     {
         User.SkinTone = skintone;
@@ -43,5 +53,10 @@
     void SetEmoji(string emoji)
     {
         User.Emoji = emoji;
+    }
+
+    void SetColor(string color)
+    {
+        User.ForegroundColor = color;
     }
 }

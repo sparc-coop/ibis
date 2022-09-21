@@ -8,7 +8,7 @@
 <div>
     <label>
         Your name
-        <input @bind="User.Name" placeholder="First Name" />
+        <input @bind="User.Name" placeholder="Jane Doe" />
     </label>
 
     <label>
@@ -23,7 +23,12 @@
                   maxlength="@descLimit"
                   placeholder="Enter a little about yourself" />
     </label>
-    <aside>@(descLimit - User.Description.Count()) characters left</aside>
+    @if (User.Description != null)
+    {
+        <aside>
+            @(descLimit - User.Description.Count()) characters left
+         </aside>
+    }
 </div>
 
 @code {

@@ -7,7 +7,7 @@ public class UserAvatar
 {
     public string Id { get; set; }
     public string Name { get; set; }
-    public string Initials { get; set; }
+    public string Initials => string.IsNullOrWhiteSpace(Name) ? "" : string.Join(string.Empty, Name.Split(' ').Select(x => x[0]));
     public bool IsOnline { get; set; }
     public string ForegroundColor { get; set; }
     public string BackgroundColor { get; set; }
@@ -17,11 +17,15 @@ public class UserAvatar
     public string? Pronouns { get; set; }
     public string? Description { get; set; }
 
+    public UserAvatar() : this("", "")
+    {
+    }
+
+
     public UserAvatar(string id, string name)
     {
         Id = id; 
         Name = name;
-        Initials = string.Join(string.Empty, Name.Split(' ').Select(x => x[0]));
         ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
         BackgroundColor = CalculateBackgroundColor(ForegroundColor);
     }
@@ -48,7 +52,7 @@ public class UserAvatar
         var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
         var value = max / 255d;
 
-        var background = ColorFromHSV(hue, saturation, value / 0.2);
+        var background = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
         return ColorTranslator.ToHtml(background);
     }
 

@@ -33,6 +33,9 @@
                                 <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
                                 <ul>
                                     <li>
+                                        <button @onclick="@EditAvatar">Edit Your Avatar</button>
+                                    </li>
+                                    <li>
                                         <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a>
                                     </li>
                                     <li>
@@ -56,6 +59,10 @@
 
 <CascadingBlazoredModal HideCloseButton=true />
 
+@if (ShowOnboarding)
+{
+    <Ibis.Web.Onboarding.Index />
+}
 
 @inject SignOutSessionStateManager SignOutManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -64,6 +71,7 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
+    bool ShowOnboarding;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -76,7 +84,15 @@
         if (authState.User.Identity?.IsAuthenticated == true)
         {
             User = await Api.GetUserAsync();
+            if (User != null && User.Language == null)
+                ShowOnboarding = true;
         }
+    }
+
+    void EditAvatar()
+    {
+        ShowMenu = false;
+        ShowOnboarding = true;
     }
 
     private async Task BeginLogout(MouseEventArgs args)

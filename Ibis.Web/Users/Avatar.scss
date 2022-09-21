@@ -4,11 +4,16 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    width: 100%;
+    max-height: 220px;
+    max-width: 340px;
+    border-radius: 12px;
+    padding: 12px;
 
     svg {
-        height: 24px;
-        width: 24px;
+        max-height: 200px;
 
         text {
             fill: white;
@@ -19,10 +24,18 @@
     }
 
     figcaption {
-        color: $grey-700;
-        font-size: 16px;
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        color: white !important;
+        font-size: 20px;
         font-weight: 500;
-        filter: brightness(50%);
+        line-height: 120%;
+
+        aside {
+            font-weight: 400;
+            font-size: 12px;
+        }
     }
 }
 
@@ -34,7 +47,11 @@
 
 .message-card .avatar {
     z-index: 2;
+
     figcaption {
         font-size: 13px;
+        color: $grey-700;
+        font-size: 16px;
+        font-weight: 500;
     }
 }

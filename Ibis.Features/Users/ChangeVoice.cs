@@ -3,7 +3,8 @@
 namespace Ibis.Features.Users;
 
 public record ChangeVoiceRequest(string Language, string VoiceName, string? RoomId);
-public class ChangeVoice : Feature<ChangeVoiceRequest, bool>
+public record ChangeVoiceResponse(string? PreviewAudioUrl);
+public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
 {
     public ChangeVoice(IRepository<User> users, IRepository<Room> rooms, ITranslator translator, ISpeaker speaker)
     {
@@ -18,7 +19,7 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, bool>
     public ITranslator Translator { get; }
     public ISpeaker Speaker { get; }
 
-    public override async Task<bool> ExecuteAsync(ChangeVoiceRequest request)
+    public override async Task<ChangeVoiceResponse> ExecuteAsync(ChangeVoiceRequest request)
     {
         var language = await Translator.GetLanguageAsync(request.Language);
         if (language == null)
@@ -28,12 +29,19 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, bool>
         var voice = voices.FirstOrDefault(x => x.ShortName == request.VoiceName);
         if (voice == null)
             throw new Exception("Voice doesn't match language!");
-        
-        await Users.ExecuteAsync(User.Id(), x => x.ChangeVoice(language, voice));
+
+        var user = await Users.FindAsync(User.Id());
+        user!.ChangeVoice(language, voice);
+        await Users.UpdateAsync(user);
 
         if (request.RoomId != null)
             await Rooms.ExecuteAsync(request.RoomId, x => x.AddLanguage(language));
 
-        return true;
+        var name = string.IsNullOrWhiteSpace(user.Avatar.Name) ? voice.DisplayName : user.Avatar.Name;
+        var testMessage = new Message("", user, $"Hi, nice to meet you!");
+
+        var translation = await Translator.TranslateAsync(testMessage, "en", new() { language });
+        var speech = await Speaker.SpeakAsync(translation.First());
+        return new(speech?.Url);
     }
 }

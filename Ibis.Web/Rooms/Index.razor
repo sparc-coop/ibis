@@ -45,10 +45,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.GetUserAsync();
-        if (user != null && user.Language == null)
-            Nav.NavigateTo("/Onboarding");
-
         Rooms = await Api.GetRoomsAsync();
         OriginalList = Rooms;
     }

@@ -1,0 +1,40 @@
+﻿@import "../_variables.scss";
+
+.language-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-height: 40vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background: $grey-200;
+        padding: 12px;
+        cursor: pointer;
+        font-size: 24px;
+
+        aside {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: 12px;
+        }
+
+        &:hover {
+            background: $primary-300;
+        }
+
+        &.selected {
+            background: $primary-700;
+            color: white;
+        }
+    }
+
+}

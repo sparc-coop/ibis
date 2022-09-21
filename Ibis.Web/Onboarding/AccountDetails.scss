@@ -3,10 +3,11 @@
 .onboarding {
     background: $grey-100;
     height: 100vh;
-    width: 100%;
     max-width: 50%;
-    padding: 10%;
-    position: relative;
+    padding: 8vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 
     h3 {
         color: $grey-900;
