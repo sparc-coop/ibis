@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public class UpdateUser : Feature<UserAvatar, bool>
+public class UpdateUser : Feature<UserAvatar, UserAvatar>
 {
     public UpdateUser(IRepository<User> users)
     {
@@ -9,7 +9,7 @@ public class UpdateUser : Feature<UserAvatar, bool>
 
     public IRepository<User> Users { get; }
 
-    public override async Task<bool> ExecuteAsync(UserAvatar avatar)
+    public override async Task<UserAvatar> ExecuteAsync(UserAvatar avatar)
     {
         var user = await Users.FindAsync(User.Id());
         if (user == null)
@@ -20,6 +20,6 @@ public class UpdateUser : Feature<UserAvatar, bool>
         
         await Users.UpdateAsync(user);
        
-        return true;
+        return user.Avatar;
     }
 }

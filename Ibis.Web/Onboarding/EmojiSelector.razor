@@ -1,11 +1,6 @@
-<h3>Choose your emoji</h3>
-<p>
-    Ibis uses inclusive skin-tone emojis to represent you in the room.
-</p>
-
 @if (Emojis != null)
 {
-    <h4>Choose your skin tone</h4>
+    @*<h4>Choose your skin tone</h4>
     <ul class="skintones">
         @foreach (var skintone in Emojis.Skintones)
         {
@@ -14,30 +9,27 @@
             </li>
         }
     </ul>
-
-    <h4>Choose your emoji</h4>
+*@
     <ul class="emojis">
         @foreach (var emoji in Emojis.Emojis)
         {
             <li @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">
-                @emoji@User.SkinTone
-            </li>
-        }
-    </ul>
-
-    <h4>Choose your profile color</h4>
-    <ul class="colors">
-        @foreach (var color in Emojis.Colors)
-        {
-            <li @onclick="(() => SetColor(color))" class="@(User.ForegroundColor == color ? "selected" : "")">
-
+                @emoji
             </li>
         }
     </ul>
 }
 
+<footer>
+    <h3>Choose your emoji</h3>
+    <p>
+        Ibis uses universal emojis to represent you in the room.
+    </p>
+</footer>
+
 @code {
-    [Parameter] public UserAvatar User { get; set; } = null!;
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
     GetEmojisResponse? Emojis { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -45,18 +37,15 @@
         Emojis = await Api.GetEmojisAsync();
     }
 
-    void SetSkintone(string skintone)
+    async Task SetSkintone(string skintone)
     {
         User.SkinTone = skintone;
+        await OnUpdate.InvokeAsync(User);
     }
 
-    void SetEmoji(string emoji)
+    async Task SetEmoji(string emoji)
     {
         User.Emoji = emoji;
-    }
-
-    void SetColor(string color)
-    {
-        User.ForegroundColor = color;
+        await OnUpdate.InvokeAsync(User);
     }
 }

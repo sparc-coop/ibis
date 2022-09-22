@@ -1394,17 +1394,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               }
             }
@@ -2303,6 +2303,14 @@
             "type": "string",
             "nullable": true
           },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/INotification"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
           "userId": {
             "type": "string",
             "nullable": true
@@ -2403,7 +2411,8 @@
           },
           "backgroundColor": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "language": {
             "type": "string",
@@ -2422,6 +2431,10 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "voice": {
             "type": "string",
             "nullable": true
           }

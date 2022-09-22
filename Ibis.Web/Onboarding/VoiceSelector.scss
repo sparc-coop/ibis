@@ -1,18 +1,23 @@
 ﻿@import "../_variables.scss";
 
 .voice-selector {
-    max-height: 40vh;
     overflow-y: scroll;
     overflow-x: hidden;
+    height: 100%;
+    padding: 12px;
 
     h4 {
-        font-size: 12px;
-        font-weight: 400;
-        margin: 40px 0 20px;
+        color: $grey-700;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 0;
     }
 
     ul {
         margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
 
         li {
             display: flex;

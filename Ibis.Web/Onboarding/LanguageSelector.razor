@@ -1,10 +1,4 @@
-﻿<h3>Set your default language</h3>
-<p>
-    Ibis will automatically translate all communications in the room 
-    (both text and audio) into your preferred language.
-</p>
-
-@if (Languages != null)
+﻿@if (Languages != null)
 {
     <ul class="language-selector">
         @foreach (var language in Languages)
@@ -12,14 +6,23 @@
             <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
                 @language.Id
                 <aside>@language.NativeName</aside>
-            </li>     
+            </li>
         }
     </ul>
 }
 
+<footer>
+    <h3>Set your default language</h3>
+    <p>
+        Ibis will automatically translate all communications in the room
+        (both text and audio) into your preferred language.
+    </p>
+</footer>
+
 @code {
-    [Parameter] public UserAvatar User { get; set; } = null!;
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
     ICollection<Language>? Languages { get; set; }
+    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,5 +32,6 @@
     void SetLanguage(Language language)
     {
         User.Language = language.Id;
+        OnUpdate.InvokeAsync(User);
     }
 }

@@ -1,0 +1,35 @@
+@if (Emojis != null)
+{
+    <ul class="colors">
+        @foreach (var color in Emojis.Colors)
+        {
+            <li @onclick="(() => SetColor(color))" class="@(User.ForegroundColor == color ? "selected" : "")">
+                <span style="background: @color">&nbsp;</span>
+            </li>
+        }
+    </ul>
+}
+
+<footer>
+    <h3>Choose your profile color</h3>
+    <p>
+        Personalize your avatar with a color palette.
+    </p>
+</footer>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
+    GetEmojisResponse? Emojis { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Emojis = await Api.GetEmojisAsync();
+    }
+
+    async Task SetColor(string color)
+    {
+        User.ForegroundColor = color;
+        await OnUpdate.InvokeAsync(User);
+    }
+}

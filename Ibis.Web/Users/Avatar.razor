@@ -1,7 +1,7 @@
-﻿<figure class="avatar" style="background: @User.BackgroundColor">
+﻿<figure class="avatar @(HasEmoji ? "emoji" : "")" style="background: @User.BackgroundColor">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="45" fill="@User.ForegroundColor" />
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">
+        <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @User.ForegroundColor">
             @Emoji
         </text>
     </svg>
@@ -16,10 +16,9 @@
 @code {
     [Parameter] public UserAvatar User { get; set; } = null!;
 
-    string Emoji => string.IsNullOrWhiteSpace(User.Emoji)
+    bool HasEmoji => !string.IsNullOrWhiteSpace(User.Emoji);
+    string Emoji => !HasEmoji
         ? User.Initials
-        : string.IsNullOrWhiteSpace(User.SkinTone)
-        ? User.Emoji
-        : User.Emoji + User.SkinTone;
+        : User.Emoji;
 }
 

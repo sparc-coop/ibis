@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public class User : Root<string>
+public class User : SparcRoot<string>
 {
     public User()
     {
@@ -82,6 +82,7 @@ public class User : Root<string>
     internal void UpdateAvatar(UserAvatar avatar)
     {
         avatar.Id = Id;
+        avatar.Voice = Voice?.ShortName;
         Avatar = avatar;
     }
 

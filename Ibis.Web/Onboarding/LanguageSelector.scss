@@ -4,7 +4,6 @@
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    max-height: 40vh;
     overflow-y: scroll;
     overflow-x: hidden;
 
@@ -12,18 +11,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         position: relative;
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 60px;
         background: $grey-200;
         padding: 12px;
         cursor: pointer;
-        font-size: 24px;
+        font-size: 20px;
 
         aside {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
             font-size: 12px;
         }
 
