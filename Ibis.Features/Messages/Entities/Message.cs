@@ -15,6 +15,8 @@ public class Message : SparcRoot<string>
     public string? Text { get; private set; }
     public List<MessageTranslation>? Translations { get; private set; }
     public decimal Charge { get; private set; }
+    public string? SiteName { get; set; }
+    public string? Tag { get; set; }
 
     protected Message()
     {
@@ -40,6 +42,16 @@ public class Message : SparcRoot<string>
         SourceMessageId = sourceMessage.Id;
         User = sourceMessage.User;
         Language = toLanguage;
+        SetText(text);
+    }
+
+    public Message(string roomId, string text) : this()
+    {
+        RoomId = roomId;
+        //User = new(user);
+        //Language = user.PrimaryLanguageId;
+        //Audio = new(null, 0, user.Voice);
+        Timestamp = DateTime.UtcNow;
         SetText(text);
     }
 

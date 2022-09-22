@@ -539,6 +539,63 @@
         }
       }
     },
+    "/api/GetAllSlackMessages": {
+      "post": {
+        "tags": [
+          "GetAllSlackMessages"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetLanguages": {
       "post": {
         "tags": [
@@ -728,6 +785,54 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetRoomTextResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetSlackPosts": {
+      "post": {
+        "tags": [
+          "GetSlackPosts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1025,6 +1130,109 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CreatePost": {
+      "post": {
+        "tags": [
+          "SlackCommands"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PostId": {
+                    "type": "string"
+                  },
+                  "user_name": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "command": {
+                    "type": "string"
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "SiteName": {
+                    "type": "string"
+                  },
+                  "TagId": {
+                    "type": "string"
+                  },
+                  "PostType": {
+                    "type": "string"
+                  },
+                  "Title": {
+                    "type": "string"
+                  },
+                  "Id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "PostId": {
+                  "style": "form"
+                },
+                "user_name": {
+                  "style": "form"
+                },
+                "text": {
+                  "style": "form"
+                },
+                "command": {
+                  "style": "form"
+                },
+                "Timestamp": {
+                  "style": "form"
+                },
+                "SiteName": {
+                  "style": "form"
+                },
+                "TagId": {
+                  "style": "form"
+                },
+                "PostType": {
+                  "style": "form"
+                },
+                "Title": {
+                  "style": "form"
+                },
+                "Id": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -1997,6 +2205,14 @@
             "type": "number",
             "format": "double",
             "readOnly": true
+          },
+          "siteName": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
