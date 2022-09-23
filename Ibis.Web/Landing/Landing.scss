@@ -116,7 +116,8 @@ body {
             }
 
             p {
-                margin: 40px 0px;
+                margin: 0px;
+                margin-top: 8px;
                 padding: 0px;
                 color: $gray;
                 font-family: 'CircularStd-Bold';
@@ -126,12 +127,13 @@ body {
         }
 
         .landing--button-container {
+            margin-top: 72px;
             margin-bottom: 150px;
 
-            .btn-primary {
+/*            .btn-primary {
                 margin-right: 30px;
             }
-        }
+*/        }
 
         img.hero-image--room {
             width: 85%;
@@ -166,19 +168,18 @@ body {
             .card-container {
                 .card {
                     width: 286px;
-                    height: 300px;
+                    height: 340px;
                     margin: 0px;
                     margin-bottom: 32px;
-                    padding-top: 40px;
+                    padding: 32px 22px 31px 31px;
                     border-radius: 10px;
                     background: $white;
                     box-shadow: 0px 63px 50px rgba(67, 67, 68, 0.0705882);
 
                     .content {
-                        margin: 0px 20px 0px 30px;
-
                         img {
                             width: 55px;
+                            margin-bottom: 30px;
                         }
 
                         h3 {
@@ -189,6 +190,7 @@ body {
                         }
 
                         p {
+                            margin-top: 11px;
                             color: $gray;
                             font-family: 'FreightDispProSemibold-Regular';
                             font-size: 18px;
@@ -212,7 +214,8 @@ body {
             }
 
             p {
-                margin: 38px 0px;
+                margin: 0;
+                margin-top: 16px;
                 color: $gray;
                 font-family: 'FreightDispProSemibold-Regular';
                 font-size: 20px;
@@ -255,7 +258,8 @@ body {
                 p {
                     max-width: 440px;
                     margin: 0;
-                    padding: 30px 0;
+                    margin-top: 16px;
+                    margin-bottom: 55px;
                     color: $gray;
                     font-family: 'FreightDispProSemibold-Regular';
                     font-size: 20px;
@@ -410,16 +414,15 @@ body {
 
                 .card-container {
                     .card {
-                        width: 200px;
-                        height: 250px;
+                        width: 220px;
+                        height: 270px;
                         margin-bottom: 20px;
-                        padding-top: 25px;
+                        padding: 25px 17px 25px 25px;
 
                         .content {
-                            margin: 0px 15px 0px 20px;
-
                             img {
                                 width: 40px;
+                                margin-bottom: 20px;
                             }
 
                             h3 {
@@ -696,7 +699,7 @@ body {
 
         .hero {
             margin: 0;
-            padding: 80px 0;
+            padding: 100px 0;
 
             .description {
                 width: 400px;
@@ -714,7 +717,13 @@ body {
             }
 
             .landing--button-container {
-                margin-bottom: 100px;
+                margin: 55px 0;
+
+                a {
+                    padding: 10px 25px;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
             }
 
             img.hero-image--room {
@@ -747,18 +756,21 @@ body {
 
             .left-container {
                 margin: 0 auto;
-                max-width: 480px;
+                margin-bottom: 15px;
+                max-width: 400px;
+                justify-content: space-around;
                 gap: 20px;
 
                 .card-container {
+                    margin: 0 auto;
+                    margin-top: 48px;
+
                     .card {
-                        width: 195px;
-                        height: 218px;
-                        padding-top: 20px;
+                        width: 190px;
+                        height: 230px;
+                        padding: 20px;
 
                         .content {
-                            margin: 0px 18px;
-
                             img {
                                 width: 40px;
                             }
@@ -920,7 +932,6 @@ body {
                 }
 
                 p {
-                    margin: 20px 0px;
                     padding: 0px 36px;
                     font-size: 16px;
                     line-height: 25px;
@@ -931,10 +942,10 @@ body {
                 margin-bottom: 80px;
                 padding: 0px 20px;
 
-                .btn-primary {
+/*                .btn-primary {
                     margin-right: 10px;
                 }
-            }
+*/            }
         }
 
         .section-1 {
@@ -961,23 +972,22 @@ body {
             }
 
             .left-container {
-                max-width: 480px;
+                max-width: 300px;
                 justify-content: center;
                 gap: 16px;
 
                 .card-container {
                     .card {
                         width: 136px;
-                        height: 157px;
+                        height: 170px;
                         margin: 0px;
                         margin-bottom: 16px;
-                        padding-top: 15px;
+                        padding: 13px;
 
                         .content {
-                            margin: 0px 12px;
-
                             img {
                                 width: 25px;
+                                margin-bottom: 13px;
                             }
 
                             h3 {
@@ -988,6 +998,7 @@ body {
                             p {
                                 font-size: 9px;
                                 line-height: 13px;
+                                margin-top: 8px;
                             }
                         }
                     }
