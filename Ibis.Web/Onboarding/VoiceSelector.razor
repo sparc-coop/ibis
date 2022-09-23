@@ -37,7 +37,6 @@ else if (Dialects != null)
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
     IEnumerable<Dialect>? Dialects { get; set; }
     Voice? SelectedVoice { get; set; }
     string? AudioPreviewUrl { get; set; }

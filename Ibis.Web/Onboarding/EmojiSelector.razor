@@ -29,7 +29,6 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
     GetEmojisResponse? Emojis { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -40,12 +39,12 @@
     async Task SetSkintone(string skintone)
     {
         User.SkinTone = skintone;
-        await OnUpdate.InvokeAsync(User);
+        await Api.UpdateUserAsync(User);
     }
 
     async Task SetEmoji(string emoji)
     {
         User.Emoji = emoji;
-        await OnUpdate.InvokeAsync(User);
+        await Api.UpdateUserAsync(User);
     }
 }

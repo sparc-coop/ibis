@@ -69,21 +69,14 @@ public class Room : SparcRoot<string>
         if (user.PrimaryLanguage != null)
             AddLanguage(user.PrimaryLanguage);
         
-        if (!activeUser.IsOnline)
-        {
-            activeUser.IsOnline = true;
-            Broadcast(new UserJoined(Id, activeUser));
-        }
+        Broadcast(new UserJoined(Id, activeUser));
     }
 
     public void RemoveActiveUser(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
-        if (activeUser?.IsOnline == true)
-        {
-            activeUser.IsOnline = false;
+        if (activeUser != null)
             Broadcast(new UserLeft(Id, activeUser));
-        }
     }
 
     internal void InviteUser(User user)

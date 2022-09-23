@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Sparc.Realtime;
 
 [RealtimeFuture]
-public abstract class RealtimeFeature<T> : BaseAsyncEndpoint.WithRequest<T>.WithoutResponse, INotificationHandler<T> where T : INotification
+public abstract class RealtimeFeature<T> : BaseAsyncEndpoint.WithRequest<T>.WithoutResponse, INotificationHandler<T> where T : SparcNotification
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     public abstract Task ExecuteAsync(T item);

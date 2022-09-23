@@ -11,11 +11,11 @@ public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;
     readonly string SubscriptionKey;
-    readonly IHubContext<RoomHub> Hub;
+    readonly IHubContext<IbisHub> Hub;
 
     public IRepository<File> Files { get; }
 
-    public AzureSpeaker(IConfiguration configuration, IHubContext<RoomHub> hub, IRepository<File> files)
+    public AzureSpeaker(IConfiguration configuration, IHubContext<IbisHub> hub, IRepository<File> files)
     {
         SubscriptionKey = configuration.GetConnectionString("Speech");
 
@@ -38,13 +38,13 @@ public class AzureSpeaker : ISpeaker
         var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {
-            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
+            Hub.Clients.Group(message.User.Id).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
             words.Add(new((long)e.AudioOffset, e.Duration.Ticks, e.Text));
         };
 
         synthesizer.Synthesizing += (sender, e) =>
         {
-            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("Speak", message.Id, e.Result.AudioData);
+            Hub.Clients.Group(message.User.Id).SendAsync("Speak", message.Id, e.Result.AudioData);
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);

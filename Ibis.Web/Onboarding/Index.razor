@@ -18,19 +18,19 @@
             @switch (Tab)
             {
                 case "Profile":
-                    <AccountDetails OnUpdate="Save" />
+                    <AccountDetails />
                     break;
                 case "Language":
-                    <LanguageSelector OnUpdate="Save" />
+                    <LanguageSelector />
                     break;
                 case "Voice":
-                    <VoiceSelector OnUpdate="Save" />
+                    <VoiceSelector />
                     break;
                 case "Color":
-                    <ColorSelector OnUpdate="Save" />
+                    <ColorSelector />
                     break;
                 case "Emoji":
-                    <EmojiSelector OnUpdate="Save" />
+                    <EmojiSelector />
                     break;
             }
 
@@ -51,11 +51,6 @@
     }
 
     void SetTab(string tab) => Tab = tab;
-
-    async Task Save()
-    {
-        User = await Api.UpdateUserAsync(User);
-    }
 
     async Task Done()
     {

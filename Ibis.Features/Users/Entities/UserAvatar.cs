@@ -1,5 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Globalization;
 
 namespace Ibis.Features.Users;
@@ -29,15 +28,6 @@ public class UserAvatar
         Id = id;
         Name = name;
         ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
-    }
-
-    public UserAvatar(string id, string name, string language, string foregroundColor, string skinTone, string emoji)
-        : this(id, name)
-    {
-        Language = language;
-        ForegroundColor = foregroundColor;
-        SkinTone = skinTone;
-        Emoji = emoji;
     }
 
     public static string CalculateBackgroundColor(string foregroundColor)

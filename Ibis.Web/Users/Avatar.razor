@@ -1,4 +1,6 @@
-﻿<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "")" style="background: @User.BackgroundColor" @onclick=Edit>
+﻿@inherits RealtimeComponent
+
+<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "")" style="background: @User.BackgroundColor" @onclick=Edit>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="45" fill="@User.ForegroundColor" />
         <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @User.ForegroundColor">
@@ -22,6 +24,11 @@
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public bool CanEdit { get; set; }
     bool ShowEditor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await On<UserAvatarUpdated>(User.Id, x => User = x.Avatar);
+    }
 
     bool HasEmoji => !string.IsNullOrWhiteSpace(User.Emoji);
     string Emoji => !HasEmoji

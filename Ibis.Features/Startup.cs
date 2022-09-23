@@ -27,15 +27,6 @@ namespace Ibis.Features
                 .AddScoped<ISpeaker, AzureSpeaker>();
 
             services.AddRazorPages();
-
-            foreach (var duplicateService in services
-                .Where(x => x.ImplementationType?.BaseType == typeof(RealtimeFeature<>)))
-                //.GroupBy(x => x.ImplementationType).Where(x => x.Count() > 1))
-            {
-                Console.Write(duplicateService);
-                //foreach (var descriptor in duplicateService.Skip(1))
-                //    services.Remove(descriptor);
-            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +35,7 @@ namespace Ibis.Features
             app.Sparcify<Startup>(env);
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
-                endpoints.MapHub<RoomHub>("/rooms");
+                endpoints.MapHub<IbisHub>("/hub");
                 });
             app.UseDeveloperExceptionPage();
         }

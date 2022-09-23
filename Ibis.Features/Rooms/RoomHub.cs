@@ -1,49 +1,34 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ibis.Features.Rooms;
 
-public class RoomHub : Hub
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class IbisHub : SparcHub
 {
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
 
-    public RoomHub(IRepository<User> users, IRepository<Room> rooms)
+    public IbisHub(IRepository<User> users, IRepository<Room> rooms)
     {
         Users = users;
         Rooms = rooms;
     }
 
-    public async Task SendMessage(string roomId, Message message)
+    public override async Task OnConnectedAsync()
     {
-        await Clients.Group(roomId).SendAsync("NewMessage", message);
+        if (Context.UserIdentifier != null)
+            await Users.ExecuteAsync(Context.UserIdentifier, u => u.GoOnline(Context.ConnectionId));
+        
+        await base.OnConnectedAsync();
     }
 
-    public async Task AddToRoom(string roomId)
+    public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
-        //await Groups.AddToGroupAsync(Context.ConnectionId, $"{roomId}|{language}");
-    }
+        if (Context.UserIdentifier != null)
+            await Users.ExecuteAsync(Context.UserIdentifier, u => u.GoOffline());
 
-    public async Task RemoveFromRoom(string roomId, string userId)
-    {
-        roomId = await UnregisterRoomAsync(roomId, userId);
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
-        //await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{roomId}|{language}");
-    }
-
-    private async Task<string> UnregisterRoomAsync(string roomId, string userId)
-    {
-        var user = await Users.FindAsync(userId);
-        roomId = user!.LeaveRoom(roomId) ?? roomId;
-        await Users.UpdateAsync(user);
-
-        await Rooms.ExecuteAsync(roomId, room => room.RemoveActiveUser(user));
-
-        return roomId;
-    }
-
-    public async Task UpdateRoom(Room room)
-    {
-        await Rooms.UpdateAsync(room);
+        await base.OnDisconnectedAsync(exception);
     }
 }
+

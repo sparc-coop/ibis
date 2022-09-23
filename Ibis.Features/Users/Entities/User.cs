@@ -1,5 +1,8 @@
-﻿namespace Ibis.Features.Users;
+﻿using Ibis.Features.Sparc.Realtime;
 
+namespace Ibis.Features.Users;
+
+public record UserAvatarUpdated(UserAvatar Avatar) : GroupNotification(Avatar.Id); 
 public class User : SparcRoot<string>
 {
     public User()
@@ -81,9 +84,29 @@ public class User : SparcRoot<string>
 
     internal void UpdateAvatar(UserAvatar avatar)
     {
-        avatar.Id = Id;
-        avatar.Voice = Voice?.ShortName;
-        Avatar = avatar;
+        Avatar.Id = Id;
+        Avatar.Voice = Voice?.ShortName;
+        Avatar.Language = avatar.Language;
+        Avatar.ForegroundColor = avatar.ForegroundColor;
+        Avatar.Pronouns = avatar.Pronouns;
+        Avatar.Name = avatar.Name;
+        Avatar.Description = avatar.Description;
+        Avatar.SkinTone = avatar.SkinTone;
+        Avatar.Emoji = avatar.Emoji;
+
+        Broadcast(new UserAvatarUpdated(Avatar));
+    }
+
+    internal void GoOnline(string connectionId)
+    {
+        Avatar.IsOnline = true;
+        Broadcast(new UserAvatarUpdated(Avatar));
+    }
+
+    internal void GoOffline()
+    {
+        Avatar.IsOnline = false;
+        Broadcast(new UserAvatarUpdated(Avatar));
     }
 
     public static User System => new("system");

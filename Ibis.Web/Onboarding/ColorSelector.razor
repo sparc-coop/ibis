@@ -19,7 +19,6 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
     GetEmojisResponse? Emojis { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -30,6 +29,6 @@
     async Task SetColor(string color)
     {
         User.ForegroundColor = color;
-        await OnUpdate.InvokeAsync(User);
+        await Api.UpdateUserAsync(User);
     }
 }

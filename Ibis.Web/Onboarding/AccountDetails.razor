@@ -36,12 +36,11 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
 
     public int descLimit = 275;
     
     async Task Save()
     {
-        await OnUpdate.InvokeAsync(User);
+        await Api.UpdateUserAsync(User);
     }
 }

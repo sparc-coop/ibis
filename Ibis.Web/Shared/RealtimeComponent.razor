@@ -3,23 +3,47 @@
 @code {
     [CascadingParameter] public HubConnection? Hub { get; set; }
     List<IDisposable> Events = new();
+    string? GroupId;
 
     protected void On<T>(Action<T> action)
     {
         if (Hub != null)
-            Events.Add(Hub.On<T>(typeof(T).Name, evt => {
+            Events.Add(Hub.On<T>(typeof(T).Name, evt =>
+            {
                 action(evt);
                 StateHasChanged();
             }));
     }
 
-    public ValueTask DisposeAsync()
+    protected async Task On<T>(string groupId, Action<T> action) where T : SparcNotification
     {
+        if (Hub != null)
+        {
+            if (GroupId != groupId)
+            {
+                GroupId = groupId;
+                await Hub!.InvokeAsync("Watch", GroupId);
+            }
+
+            Events.Add(Hub.On<T>(typeof(T).Name, evt =>
+            {
+                if (evt.Id == groupId)
+                {
+                    action(evt);
+                    StateHasChanged();
+                }
+            }));
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (GroupId != null)
+            await Hub!.InvokeAsync("StopWatching", GroupId);
+
         foreach (var evt in Events)
             evt.Dispose();
 
         Events.Clear();
-
-        return ValueTask.CompletedTask;
     }
 }

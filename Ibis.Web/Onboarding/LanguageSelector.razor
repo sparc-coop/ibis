@@ -22,16 +22,15 @@
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
     ICollection<Language>? Languages { get; set; }
-    [Parameter] public EventCallback<UserAvatar> OnUpdate { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Languages = await Api.GetLanguagesAsync();
     }
 
-    void SetLanguage(Language language)
+    async Task SetLanguage(Language language)
     {
         User.Language = language.Id;
-        OnUpdate.InvokeAsync(User);
+        await Api.UpdateUserAsync(User);
     }
 }

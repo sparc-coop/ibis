@@ -2,15 +2,15 @@
 
 namespace Ibis.Features.Sparc.Realtime;
 
-public record GroupNotification(string GroupId) : INotification;
+public record GroupNotification(string GroupId) : SparcNotification(GroupId);
 public class GroupNotificationForwarder : RealtimeFeature<GroupNotification>
 {
-    public GroupNotificationForwarder(IHubContext<RoomHub> hub)
+    public GroupNotificationForwarder(IHubContext<SparcHub> hub)
     {
         Hub = hub;
     }
 
-    public IHubContext<RoomHub> Hub { get; }
+    public IHubContext<SparcHub> Hub { get; }
 
     public override async Task ExecuteAsync(GroupNotification notification)
     {

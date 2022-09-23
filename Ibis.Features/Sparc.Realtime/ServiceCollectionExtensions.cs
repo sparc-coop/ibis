@@ -1,10 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using INotification = Sparc.Realtime.INotification;
 
 namespace Ibis.Features.Sparc.Realtime;
 
@@ -14,11 +14,15 @@ public static class ServiceCollectionExtensions
     {
         services.AddSwaggerGen(options =>
         {
-            options.DocumentFilter<PolymorphismDocumentFilter<INotification>>();
-            options.SchemaFilter<PolymorphismSchemaFilter<INotification>>();
+            options.DocumentFilter<PolymorphismDocumentFilter<SparcNotification>>();
+            options.SchemaFilter<PolymorphismSchemaFilter<SparcNotification>>();
         });
 
         services.AddSignalR();
+        
+        // Use the User ID as the SignalR user identifier    
+        services.AddSingleton<IUserIdProvider, UserIdProvider>();
+        
         services.AddMediatR(typeof(TStartup));
        
         return services;
