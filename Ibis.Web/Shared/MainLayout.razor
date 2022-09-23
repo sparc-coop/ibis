@@ -28,18 +28,18 @@
 
                         @if (User != null)
                         {
-                            <li class="@(ShowMenu ? "open" : "")" @onclick="@(e => ShowMenu = !ShowMenu)">
+                            <li class="@(ShowMenu ? "open" : "")" @onclick="OpenMenu">
                                 <Avatar User="User" />
                                 <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
                                 <ul>
                                     <li>
-                                        <button @onclick="@EditAvatar">Edit Your Avatar</button>
+                                        <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
                                     </li>
                                     <li>
-                                        <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)">Account Settings</a>
+                                        <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
                                     </li>
                                     <li>
-                                        <button class="logout" @onclick="BeginLogout">
+                                        <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
                                             Log Out
                                         </button>
                                     </li>
@@ -61,7 +61,7 @@
 
 @if (ShowOnboarding)
 {
-    <Ibis.Web.Onboarding.Index />
+    <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
 }
 
 @inject SignOutSessionStateManager SignOutManager
@@ -88,6 +88,10 @@
                 ShowOnboarding = true;
         }
     }
+
+    void OpenMenu() => ShowMenu = !ShowMenu;
+
+    void CloseOnboarding() => ShowOnboarding = false;
 
     void EditAvatar()
     {
