@@ -14,7 +14,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet" />
-
+    <script>
+        if (!("container" in document.documentElement.style)) {
+            import("https://unpkg.com/container-query-polyfill@^0.2.0");
+        }
+    </script>
 </head>
 
 <body>

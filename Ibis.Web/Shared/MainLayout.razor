@@ -29,7 +29,7 @@
 
                             @if (User != null)
                             {
-                                <li class="@(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
                                     <Avatar User="User" />
                                     <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
                                     <ul>

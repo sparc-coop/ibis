@@ -1,16 +1,16 @@
 ﻿@inherits RealtimeComponent
 
-<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "")" style="background: @User.BackgroundColor" @onclick=Edit>
+<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "")" style="background: @LocalUser.BackgroundColor" @onclick=Edit>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" fill="@User.ForegroundColor" />
-        <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @User.ForegroundColor">
+        <circle cx="50" cy="50" r="45" fill="@LocalUser.ForegroundColor" />
+        <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @LocalUser.ForegroundColor">
             @Emoji
         </text>
     </svg>
-    <figcaption style="color: @User.ForegroundColor">
-        @User.Name
+    <figcaption style="color: @LocalUser.ForegroundColor">
+        @LocalUser.Name
         <aside>
-            @User.Language &#8226; @User.Pronouns
+            @LocalUser.Language &#8226; @LocalUser.Pronouns
         </aside>
     </figcaption>
 </figure>
@@ -24,16 +24,18 @@
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public bool CanEdit { get; set; }
     bool ShowEditor;
+    UserAvatar LocalUser = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        await On<UserAvatarUpdated>(User.Id, x => User = x.Avatar);
+        LocalUser = User;
+        await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
     }
 
-    bool HasEmoji => !string.IsNullOrWhiteSpace(User.Emoji);
+    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser.Emoji);
     string Emoji => !HasEmoji
-        ? User.Initials
-        : User.Emoji;
+        ? LocalUser.Initials
+        : LocalUser.Emoji;
 
     void Edit()
     {
