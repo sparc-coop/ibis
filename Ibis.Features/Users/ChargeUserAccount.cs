@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record CostIncurred(Message Message, string Description, decimal Amount) : GroupNotification(Message.RoomId);
+public record CostIncurred(Message Message, string Description, decimal Amount) : SparcNotification(Message.RoomId);
 public class ChargeUserAccount : RealtimeFeature<CostIncurred>
 {
     public ChargeUserAccount(IRepository<UserCharge> charges, IRepository<User> users, IRepository<Room> rooms)

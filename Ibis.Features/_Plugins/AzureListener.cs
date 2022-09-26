@@ -7,8 +7,8 @@ using System.Collections.Concurrent;
 namespace Ibis.Features._Plugins;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
-public record SpeechRecognizing(string SessionId, string Text, long Duration) : GroupNotification(SessionId);
-public record SpeechRecognized(string SessionId, string Text, long Duration) : GroupNotification(SessionId);
+public record SpeechRecognizing(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
+public record SpeechRecognized(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
 public class AzureListener : IListener
 {
     readonly HttpClient Client;

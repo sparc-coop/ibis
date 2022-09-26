@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record LanguageAdded(string RoomId, Language Language) : GroupNotification(RoomId);
+public record LanguageAdded(string RoomId, Language Language) : SparcNotification(RoomId);
 public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>
 {
     public TranslateExistingMessages(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)

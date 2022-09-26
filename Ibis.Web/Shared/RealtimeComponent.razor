@@ -3,7 +3,7 @@
 @code {
     [CascadingParameter] public HubConnection? Hub { get; set; }
     List<IDisposable> Events = new();
-    string? GroupId;
+    protected string? GroupId;
 
     protected void On<T>(Action<T> action)
     {
@@ -27,7 +27,9 @@
 
             Events.Add(Hub.On<T>(typeof(T).Name, evt =>
             {
-                if (evt.Id == groupId)
+                
+                var equals = evt.GroupId == GroupId;
+                if (equals)
                 {
                     action(evt);
                     StateHasChanged();

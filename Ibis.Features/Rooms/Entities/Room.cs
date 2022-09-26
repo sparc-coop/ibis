@@ -3,8 +3,8 @@
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserAvatar User) : GroupNotification(RoomId);
-public record UserLeft(string RoomId, UserAvatar User) : GroupNotification(RoomId);
+public record UserJoined(string RoomId, UserAvatar User) : SparcNotification(RoomId);
+public record UserLeft(string RoomId, UserAvatar User) : SparcNotification(RoomId);
 
 public class Room : SparcRoot<string>
 {

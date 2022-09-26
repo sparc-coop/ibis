@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Features._Plugins;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class IbisHub : SparcHub
@@ -9,7 +9,7 @@ public class IbisHub : SparcHub
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
 
-    public IbisHub(IRepository<User> users, IRepository<Room> rooms)
+    public IbisHub(IRepository<User> users, IRepository<Room> rooms) : base()
     {
         Users = users;
         Rooms = rooms;

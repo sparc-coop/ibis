@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public record UserAvatarUpdated(UserAvatar Avatar) : GroupNotification(Avatar.Id); 
+public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id); 
 public class User : SparcRoot<string>
 {
     public User()
