@@ -1,68 +1,70 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="main-layout @(IsRoom ? "mini" : "" )">
-    <header>
-        <a href="/">
-            <figure class="logo">
-                @if (IsRoom)
-                {
-                    <img src="/images/logo_icon.png" alt="Ibis" />
-                }
-                else
-                {
-                    <img src="/images/logo_2x.png" alt="Ibis" />
-                }
-                <figcaption>Ibis</figcaption>
-            </figure>
-        </a>
+<RealtimeHub Url="@HubUrl">
+    <div class="main-layout @(IsRoom ? "mini" : "" )">
+        <header>
+            <a href="/">
+                <figure class="logo">
+                    @if (IsRoom)
+                    {
+                        <img src="/images/logo_icon.png" alt="Ibis" />
+                    }
+                    else
+                    {
+                        <img src="/images/logo_2x.png" alt="Ibis" />
+                    }
+                    <figcaption>Ibis</figcaption>
+                </figure>
+            </a>
 
-        <nav>
-            <AuthorizeView>
-                <Authorized>
-                    <ul>
-                        <li>
-                            <a href="/">
-                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                            </a>
-                        </li>
-
-                        @if (User != null)
-                        {
-                            <li class="@(ShowMenu ? "open" : "")" @onclick="OpenMenu">
-                                <Avatar User="User" />
-                                <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                <ul>
-                                    <li>
-                                        <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                    </li>
-                                    <li>
-                                        <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                    </li>
-                                    <li>
-                                        <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
-                                            Log Out
-                                        </button>
-                                    </li>
-                                </ul>
+            <nav>
+                <AuthorizeView>
+                    <Authorized>
+                        <ul>
+                            <li>
+                                <a href="/">
+                                    <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                </a>
                             </li>
-                        }
-                    </ul>
-                </Authorized>
-            </AuthorizeView>
-        </nav>
-    </header>
 
-    <main>
-        @Body
-    </main>
-</div>
+                            @if (User != null)
+                            {
+                                <li class="@(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                    <Avatar User="User" />
+                                    <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                                    <ul>
+                                        <li>
+                                            <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                        </li>
+                                        <li>
+                                            <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                        </li>
+                                        <li>
+                                            <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
+                                                Log Out
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </Authorized>
+                </AuthorizeView>
+            </nav>
+        </header>
 
-<CascadingBlazoredModal HideCloseButton=true />
+        <main>
+            @Body
+        </main>
+    </div>
 
-@if (ShowOnboarding)
-{
-    <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
-}
+    <CascadingBlazoredModal HideCloseButton=true />
+
+    @if (ShowOnboarding)
+    {
+        <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
+    }
+</RealtimeHub>
 
 @inject SignOutSessionStateManager SignOutManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -72,6 +74,7 @@
     bool ShowMenu;
     bool IsRoom;
     bool ShowOnboarding;
+    string HubUrl => Config["ApiUrl"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
     {

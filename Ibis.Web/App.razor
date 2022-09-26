@@ -1,10 +1,2 @@
-﻿<RealtimeHub Url="@HubUrl">
-    <Sparc.Platforms.Web.SparcApp MainLayout="typeof(MainLayout)"
+﻿    <Sparc.Platforms.Web.SparcApp MainLayout="typeof(MainLayout)"
                                   Startup="typeof(Program)" />
-</RealtimeHub>
-
-@code {
-    [Parameter] public string Id { get; set; } = null!;
-
-    string HubUrl => Config["ApiUrl"] + "/hub";
-}
