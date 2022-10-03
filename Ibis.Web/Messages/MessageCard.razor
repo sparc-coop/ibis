@@ -3,7 +3,7 @@
 <article class="message-card" @onclick="GoToSubroom">
     <div class="background" style="background: @Message.User.BackgroundColor"></div>
     <Avatar User="Message.User" />
-    @if (Message.Audio != null)
+    @if (Message.Audio?.Url != null)
     {
         <MessageAudio Audio="Message.Audio" />
     }

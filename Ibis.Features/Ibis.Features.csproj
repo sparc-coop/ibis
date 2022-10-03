@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.21.0" />
     <PackageReference Include="NAudio" Version="1.10.0" />
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />

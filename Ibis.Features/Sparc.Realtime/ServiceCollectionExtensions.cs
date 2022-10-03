@@ -26,8 +26,20 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IUserIdProvider, UserIdProvider>();
         services.AddSingleton<IPostConfigureOptions<JwtBearerOptions>>(_ => new SparcHubAuthenticator("hub"));
 
-        services.AddMediatR(typeof(THub));
+        // services.AddMediatR(typeof(THub));
         services.AddTransient<IHubContext<SparcHub>>(s => s.GetRequiredService<IHubContext<THub>>());
+
+        // Manually register event handlers to avoid bug https://github.com/jbogard/MediatR/issues/718
+        //var types = typeof(THub).Assembly.GetTypes();
+        //var notifications = types.Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(SparcNotification)));
+        //foreach (var evt in notifications)
+        //{
+        //    services.AddTransient(typeof(INotificationHandler<>).MakeGenericType(evt), typeof(SparcNotificationForwarder<>).MakeGenericType(evt));
+        //    foreach (var handler in types.Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(RealtimeFeature<>).MakeGenericType(evt))))
+        //    {
+        //        services.AddTransient(typeof(INotificationHandler<>).MakeGenericType(evt), handler);
+        //    }
+        //}
 
         return services;
     }
