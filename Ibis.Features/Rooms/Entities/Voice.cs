@@ -20,4 +20,15 @@ public class Voice
         Gender = gender;
         VoiceType = voiceType;
     }
+
+    public Voice(Voice sourceVoice)
+    {
+        Locale = sourceVoice.Locale;
+        Name = sourceVoice.Name;
+        DisplayName = sourceVoice.DisplayName;
+        LocaleName = sourceVoice.LocaleName;
+        ShortName = sourceVoice.ShortName;
+        Gender = sourceVoice.Gender;
+        VoiceType = sourceVoice.VoiceType;
+    }
 }

@@ -9,10 +9,10 @@
     width: 100%;
     max-height: 220px;
     border-radius: 12px;
-    container: avatar / inline-size;
+    container: avatar / size;
 
     svg {
-        max-height: 200px;
+        max-height: 100%;
 
         text {
             fill: white;
@@ -34,21 +34,34 @@
     }
 
     figcaption {
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
-        color: white !important;
-        font-size: 20px;
+        font-size: 13px;
+        display: none;
         font-weight: 500;
         line-height: 120%;
 
-        @container (max-width: 100px) {
+        aside {
             display: none;
+        }
+
+        @container (min-width: 100px) {
+            display: block;
         }
 
         aside {
             font-weight: 400;
             font-size: 12px;
+        }
+
+        @container (min-height: 100px) {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            font-size: 20px;
+            color: white !important;
+
+            aside {
+                display: block;
+            }
         }
     }
 }

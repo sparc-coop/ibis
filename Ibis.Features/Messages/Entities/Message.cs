@@ -38,8 +38,8 @@ public class Message : SparcRoot<string>
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
-        User = sourceMessage.User;
-        Audio = sourceMessage.Audio == null ? null : new(null, 0, sourceMessage.Audio.Voice);
+        User = new(sourceMessage.User);
+        Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
         Language = toLanguage;
         SetText(text);
     }
@@ -64,7 +64,8 @@ public class Message : SparcRoot<string>
 
     internal bool HasTranslation(string languageId)
     {
-        return Translations != null && Translations.Any(x => x.LanguageId == languageId);
+        return Language == languageId
+            || (Translations != null && Translations.Any(x => x.LanguageId == languageId));
     }
     
     internal void AddTranslation(string languageId, string messageId)

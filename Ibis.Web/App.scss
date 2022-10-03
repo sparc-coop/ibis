@@ -5,7 +5,6 @@
 @import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
-@import "Shared/ChatBox";
 @import "Shared/Tooltip";
 
 @import "Rooms/Index";
@@ -17,12 +16,17 @@
 @import "Rooms/InviteModal";
 @import "Rooms/RoomMenu";
 
+@import "Messages/MessageAudio";
 @import "Messages/MessageCard";
+@import "Messages/MessageList";
+@import "Messages/NewMessage";
+@import "Messages/Speak";
 @import "Messages/Upload";
 
 @import "Users/Account";
 @import "Users/Notifications";
 @import "Users/Avatar";
+@import "Users/AvatarList";
 @import "Users/AccountNav";
 
 @import "Onboarding/Index";

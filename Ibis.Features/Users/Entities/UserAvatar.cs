@@ -22,6 +22,19 @@ public class UserAvatar
     {
     }
 
+    public UserAvatar(UserAvatar sourceAvatar)
+    {
+        Id = sourceAvatar.Id;
+        Name = sourceAvatar.Name;
+        IsOnline = sourceAvatar.IsOnline;
+        ForegroundColor = sourceAvatar.ForegroundColor;
+        Language = sourceAvatar.Language;
+        Emoji = sourceAvatar.Emoji;
+        SkinTone = sourceAvatar.SkinTone;
+        Pronouns = sourceAvatar.Pronouns;
+        Description = sourceAvatar.Description;
+        Voice = sourceAvatar.Voice;
+    }
 
     public UserAvatar(string id, string name)
     {

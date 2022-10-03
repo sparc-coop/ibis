@@ -1,0 +1,44 @@
+﻿@inherits RealtimeComponent
+
+<div class="avatar-list">
+    @if (Me != null)
+    {
+        <div class="presenter">
+            <Avatar User="Me" />
+        </div>
+    }
+    <div class="users">
+        @foreach (var user in Users)
+        {
+            <Avatar User="user" />
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [Parameter] public UserAvatar Me { get; set; } = null!;
+    List<UserAvatar> Users = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Me = await Api.GetUserAsync();
+        Users = Room.Users.Where(x => x.Id != Me.Id).ToList();
+
+        On<UserJoined>(x => AddUser(x.User));
+        On<UserLeft>(x => RemoveUser(x.User));
+    }
+
+    void AddUser(UserAvatar user)
+    {
+        if (!Users.Any(x => x.Id == user.Id))
+            Users.Add(user);
+    }
+
+    void RemoveUser(UserAvatar user)
+    {
+        var existingId = Users.FindIndex(x => x.Id == user.Id);
+        if (existingId > -1)
+            Users.RemoveAt(existingId);
+    }
+}

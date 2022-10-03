@@ -1,7 +1,18 @@
 ﻿@import "../_variables.scss";
 
 .room {
-    position: relative; 
+    display: grid;
+    height: 100%;
+    max-height: calc(100vh - 75px);
+    grid-template-columns: auto 376px;
+    grid-template-rows: 100px auto;
+    gap: 24px;
+
+    .avatar-list {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        margin-bottom: 24px;
+    }
 
     header {
         justify-content: space-between;

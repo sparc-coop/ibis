@@ -1,28 +1,26 @@
-﻿<div class="message-box">
-    <textarea class="message-box-top" type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+﻿<div class="new-message">
+    <textarea type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
     @if (IsSpeak)
     {
-        <button class="button-send" @onclick="ShowSpeakModal" aria-label="Speak">
+        <button @onclick="ShowSpeakModal" aria-label="Speak">
             Speak <img src="icons/Speech.svg" />
         </button>
     }
     else
     {
-        <button class="button-send" @onclick="SendText" aria-label="Send">
+        <button @onclick="SendText" aria-label="Send">
             Send <img src="icons/send.svg" />
         </button>
     }
-</div>
 
-<div class="message-box-bottom">
-    <div class="message-options">
+    <footer>
         <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
             <UploadIcon />
         </button>
         
         <span>Call me</span>
         <span>Text me</span>
-    </div>
+    </footer>
 </div>
 
 @code {

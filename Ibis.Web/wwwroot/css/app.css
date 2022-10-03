@@ -252,7 +252,7 @@
   display: none;
 }
 .main-layout.mini main {
-  padding: 24px;
+  padding: 24px 24px 0;
 }
 
 .page {
@@ -296,103 +296,6 @@ main {
   margin: 0 auto;
   max-width: 1200px;
   padding: 0 20px;
-}
-
-.camera-grid {
-  background: #FFFFFF;
-  max-width: 376px;
-  padding: 16px;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 16px;
-  border: 1px solid #F3F5F6;
-  position: relative;
-  width: 33%;
-  min-width: 263px;
-}
-.camera-grid .presenter {
-  margin-bottom: 8px;
-}
-.camera-grid .users {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.camera-grid .users .image-wrapper {
-  /*max-width: 108.6px;*/
-  max-width: 31%;
-}
-.camera-grid .users .image-wrapper img {
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-}
-.camera-grid .users .image-wrapper .camera-name {
-  bottom: 8px;
-}
-.camera-grid .image-wrapper {
-  position: relative;
-}
-.camera-grid .image-wrapper img {
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-}
-.camera-grid .camera-pin, .camera-grid .camera-voice, .camera-grid .camera-name, .camera-grid .camera-translation {
-  position: absolute;
-}
-.camera-grid .camera-name, .camera-grid .camera-translation {
-  color: #FFFFFF;
-  left: 12px;
-}
-.camera-grid .camera-pin {
-  left: 8px;
-  top: 8px;
-  cursor: pointer;
-}
-.camera-grid .camera-voice {
-  right: 8px;
-  top: 8px;
-}
-.camera-grid .camera-name {
-  bottom: 28px;
-}
-.camera-grid .camera-translation {
-  bottom: 12px;
-  display: flex;
-  align-items: center;
-}
-.camera-grid .camera-translation img {
-  margin: 0 9px;
-}
-.camera-grid .camera-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-}
-.camera-grid .camera-buttons button {
-  padding: 8px 16px;
-  background: #E5E7EA;
-  color: #6A7280;
-  line-height: 120%;
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-}
-.camera-grid .camera-buttons .audio-buttons {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-}
-.camera-grid .camera-buttons .audio-buttons img:first-of-type {
-  margin-right: 12px;
-}
-.camera-grid .camera-buttons .audio-buttons img {
-  cursor: pointer;
 }
 
 .tooltip-wrapper {
@@ -553,10 +456,20 @@ main {
 }
 
 .room {
-  position: relative;
+  display: grid;
+  height: 100%;
+  max-height: calc(100vh - 75px);
+  grid-template-columns: auto 376px;
+  grid-template-rows: 100px auto;
+  gap: 24px;
   /* The switch - the box around the slider */
   /* The slider */
   /* Rounded sliders */
+}
+.room .avatar-list {
+  grid-column: 2;
+  grid-row: 1/span 2;
+  margin-bottom: 24px;
 }
 .room header {
   justify-content: space-between;
@@ -1165,16 +1078,55 @@ main {
   z-index: 2;
 }
 
+.message-card {
+  padding: 16px;
+  margin: 0 8px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.message-card > p {
+  font-size: 18px;
+  font-weight: 400;
+  color: #0A111D;
+}
+.message-card .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  filter: opacity(30%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.message-card .avatar {
+  height: 20px;
+  width: 200px;
+  justify-content: flex-start;
+  background: transparent !important;
+}
+.message-card .message-audio {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.subroom {
+  margin-left: 40px;
+}
+
 .message-grid {
   background: #FFFFFF;
   padding: 0 16px 216px 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
   width: 100%;
   max-width: 940px;
   height: 100%;
   position: relative;
   overflow: hidden;
+  margin: 0 auto;
 }
 .message-grid .message-list {
   overflow-y: auto;
@@ -1197,43 +1149,17 @@ main {
 .message-grid .message-list::-webkit-scrollbar-thumb:hover {
   background: #9BA3AF;
 }
-.message-grid .message-card {
-  padding: 16px;
-  margin: 0 8px;
-  border-radius: 12px;
-  margin-bottom: 16px;
-  position: relative;
-}
-.message-grid .message-card .account-name {
-  margin-bottom: 10px;
-}
-.message-grid .message-card > p {
-  font-size: 18px;
-  font-weight: 400;
-  padding-top: 6px;
-  z-index: 2;
-}
-.message-grid .message-card .background {
+
+.new-message {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  filter: brightness(170%);
-  border-radius: 12px;
-  pointer-events: none;
-  z-index: 1;
-}
-.message-grid .message-box {
-  position: absolute;
-  margin-top: 38px;
   width: calc(100% - 32px);
-  bottom: 77px;
+  bottom: 24px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+  border: 1px solid #e6e6e6;
+  background: #FFFFFF;
 }
-.message-grid .message-box textarea {
-  resize: none;
-}
-.message-grid .message-box .button-send {
+.new-message > button {
   position: absolute;
   right: 24px;
   top: 20px;
@@ -1241,75 +1167,28 @@ main {
   background: #003B5F;
   border-radius: 8px;
   color: #FFFFFF;
-  display: flex;
   align-items: center;
   height: 32px;
-  max-width: 82px;
   line-height: 20px;
 }
-.message-grid .message-box .button-send img {
+.new-message > button img {
   margin-left: 8px;
-  margin-top: 0px;
 }
-.message-grid .message-box-top {
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 16px 16px 0px 0px;
-  border: 1px solid #e6e6e6;
-  background: #FFFFFF;
+.new-message textarea {
   height: 105px;
   padding: 24px 112px 24px 24px;
   width: 100%;
   max-width: 100%;
+  resize: none;
 }
-.message-grid .message-box-top ::placeholder {
+.new-message textarea::placeholder {
   color: #6A7280;
 }
-.message-grid .message-box-bottom {
-  border-radius: 0px 0px 16px 16px;
-  border: 1px solid #e6e6e6;
+.new-message footer {
+  border-top: 1px solid #e6e6e6;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  background: #FFFFFF;
   padding: 16px;
-  position: absolute;
-  bottom: 16px;
-  border-top: none;
-  width: calc(100% - 32px);
-  max-width: 940px;
-  overflow: hidden;
-}
-.message-grid .message-box-bottom .message-options {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-.message-grid .message-box-bottom .message-options .select-upload {
-  margin-right: 30px;
-}
-.message-grid .message-box-bottom .message-options .translate, .message-grid .message-box-bottom .message-options .switch-wrapper {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  line-height: 120%;
-  color: #9BA3AF;
-}
-.message-grid .message-box-bottom .message-options .translate {
-  margin-right: 10px;
-  cursor: pointer;
-}
-.message-grid .message-box-bottom .message-options .translate img {
-  margin-right: 8px;
-}
-.message-grid .message-box-bottom .message-options .switch-wrapper {
-  margin-right: 14px;
-}
-.message-grid .message-box-bottom .message-options .switch-wrapper .switch {
-  margin-right: 10px;
-}
-.message-grid .message-box-bottom .message-options .switch-wrapper:last-child {
-  margin-right: 0px;
-}
-.message-grid .subroom {
-  margin-left: 40px;
+  border-radius: 0 0 16px 16px;
 }
 
 .upload {
@@ -1664,10 +1543,10 @@ main {
   width: 100%;
   max-height: 220px;
   border-radius: 12px;
-  container: avatar/inline-size;
+  container: avatar/size;
 }
 .avatar svg {
-  max-height: 200px;
+  max-height: 100%;
 }
 .avatar svg text {
   fill: white;
@@ -1681,22 +1560,132 @@ main {
   font-family: "Noto Emoji";
 }
 .avatar figcaption {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  color: white !important;
-  font-size: 20px;
+  font-size: 13px;
+  display: none;
   font-weight: 500;
   line-height: 120%;
 }
-@container (max-width: 100px) {
+.avatar figcaption aside {
+  display: none;
+}
+@container (min-width: 100px) {
   .avatar figcaption {
-    display: none;
+    display: block;
   }
 }
 .avatar figcaption aside {
   font-weight: 400;
   font-size: 12px;
+}
+@container (min-height: 100px) {
+  .avatar figcaption {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 20px;
+    color: white !important;
+  }
+  .avatar figcaption aside {
+    display: block;
+  }
+}
+
+.avatar-list {
+  background: #FFFFFF;
+  width: 100%;
+  padding: 16px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+  border: 1px solid #F3F5F6;
+  position: relative;
+}
+.avatar-list .presenter {
+  margin-bottom: 8px;
+}
+.avatar-list .presenter .avatar {
+  height: 218px;
+}
+.avatar-list .users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.avatar-list .users .image-wrapper {
+  /*max-width: 108.6px;*/
+  max-width: 31%;
+}
+.avatar-list .users .image-wrapper img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+.avatar-list .users .image-wrapper .camera-name {
+  bottom: 8px;
+}
+.avatar-list .image-wrapper {
+  position: relative;
+}
+.avatar-list .image-wrapper img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+.avatar-list .camera-pin, .avatar-list .camera-voice, .avatar-list .camera-name, .avatar-list .camera-translation {
+  position: absolute;
+}
+.avatar-list .camera-name, .avatar-list .camera-translation {
+  color: #FFFFFF;
+  left: 12px;
+}
+.avatar-list .camera-pin {
+  left: 8px;
+  top: 8px;
+  cursor: pointer;
+}
+.avatar-list .camera-voice {
+  right: 8px;
+  top: 8px;
+}
+.avatar-list .camera-name {
+  bottom: 28px;
+}
+.avatar-list .camera-translation {
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+.avatar-list .camera-translation img {
+  margin: 0 9px;
+}
+.avatar-list .camera-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+.avatar-list .camera-buttons button {
+  padding: 8px 16px;
+  background: #E5E7EA;
+  color: #6A7280;
+  line-height: 120%;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+}
+.avatar-list .camera-buttons .audio-buttons {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+.avatar-list .camera-buttons .audio-buttons img:first-of-type {
+  margin-right: 12px;
+}
+.avatar-list .camera-buttons .audio-buttons img {
+  cursor: pointer;
 }
 
 .settings-nav-bg {

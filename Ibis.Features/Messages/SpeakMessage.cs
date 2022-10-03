@@ -16,7 +16,10 @@ public class SpeakMessage : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        await notification.Message.SpeakAsync(Synthesizer);
-        await Messages.UpdateAsync(notification.Message);
+        if (notification.Message.Audio?.Url == null)
+        {
+            await notification.Message.SpeakAsync(Synthesizer);
+            await Messages.UpdateAsync(notification.Message);
+        }
     }
 }

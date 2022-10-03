@@ -1,16 +1,20 @@
-﻿.camera-grid {
+﻿@import "../_variables.scss";
+
+.avatar-list {
     background: $white;
-    max-width: 376px;
+    width: 100%;
     padding: 16px;
     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
     border-radius: 16px;
     border: 1px solid $grey-100;
     position: relative;
-    width: 33%;
-    min-width: 263px;
 
     .presenter {
         margin-bottom: 8px;
+
+        .avatar {
+            height: 218px;
+        }
     }
 
     .users {

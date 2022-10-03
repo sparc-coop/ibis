@@ -7,7 +7,7 @@ public class SparcNotificationForwarder<TNotification> : RealtimeFeature<TNotifi
 {
     public SparcNotificationForwarder(IHubContext<IbisHub> hub)
     {
-        Hub = hub;
+        Hub = hub; 
     }
 
     public IHubContext<IbisHub> Hub { get; }

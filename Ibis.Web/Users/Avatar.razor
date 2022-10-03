@@ -32,7 +32,7 @@
         await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
     }
 
-    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser.Emoji);
+    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);
     string Emoji => !HasEmoji
         ? LocalUser.Initials
         : LocalUser.Emoji;
