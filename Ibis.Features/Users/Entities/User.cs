@@ -9,7 +9,6 @@ public class User : SparcRoot<string>
     {
         Id = Guid.NewGuid().ToString();
         UserId = Id;
-        PrimaryLanguageId = string.Empty;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
@@ -44,10 +43,8 @@ public class User : SparcRoot<string>
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
     public string? CustomerId { get; private set; }
-    public Voice? Voice { get; private set; }
     public decimal Balance { get; private set; }
     public UserAvatar Avatar { get; private set; }
-    public string PrimaryLanguageId { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
     public string? PhoneNumber { get; private set; }
@@ -71,11 +68,11 @@ public class User : SparcRoot<string>
         if (!LanguagesSpoken.Any(x => x.Id == language.Id))
             LanguagesSpoken.Add(language);
 
-        PrimaryLanguageId = language.Id;
-        Voice = voice;
+        Avatar.Language = language.Id;
+        Avatar.Voice = voice.ShortName;
     }
 
-    internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == PrimaryLanguageId);
+    internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);
 
     internal void AddCharge(UserCharge userCharge)
     {
@@ -85,7 +82,7 @@ public class User : SparcRoot<string>
     internal void UpdateAvatar(UserAvatar avatar)
     {
         Avatar.Id = Id;
-        Avatar.Voice = Voice?.ShortName;
+        Avatar.Voice = avatar.Voice;
         Avatar.Language = avatar.Language;
         Avatar.ForegroundColor = avatar.ForegroundColor;
         Avatar.Pronouns = avatar.Pronouns;

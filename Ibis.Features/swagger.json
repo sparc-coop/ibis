@@ -1512,11 +1512,7 @@
             "format": "int64"
           },
           "voice": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Voice"
-              }
-            ],
+            "type": "string",
             "nullable": true
           },
           "subtitles": {
@@ -2184,15 +2180,6 @@
             "nullable": true,
             "readOnly": true
           },
-          "voice": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Voice"
-              }
-            ],
-            "nullable": true,
-            "readOnly": true
-          },
           "balance": {
             "type": "number",
             "format": "double",
@@ -2204,11 +2191,6 @@
                 "$ref": "#/components/schemas/UserAvatar"
               }
             ],
-            "nullable": true,
-            "readOnly": true
-          },
-          "primaryLanguageId": {
-            "type": "string",
             "nullable": true,
             "readOnly": true
           },

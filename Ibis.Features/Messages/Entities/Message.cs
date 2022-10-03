@@ -28,8 +28,8 @@ public class Message : SparcRoot<string>
     {
         RoomId = roomId;
         User = user.Avatar;
-        Language = user.PrimaryLanguageId;
-        Audio = new(null, 0, user.Voice);
+        Language = user.Avatar.Language ?? "";
+        Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         SetText(text);
     }

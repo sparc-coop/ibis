@@ -34,7 +34,7 @@ public class AzureSpeaker : ISpeaker
         if (message.Audio?.Voice == null)
             return null;
 
-        var synthesizer = Synthesizer(message.Audio.Voice.ShortName);
+        var synthesizer = Synthesizer(message.Audio.Voice);
         var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {
@@ -50,11 +50,11 @@ public class AzureSpeaker : ISpeaker
         var result = await synthesizer.SpeakTextAsync(message.Text);
 
         using var stream = new MemoryStream(result.AudioData, false);
-        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice.ShortName}.wav", AccessTypes.Public, stream);
+        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.wav", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
         var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
-        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice!.Name}");
+        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice}");
         
         return new(file.Url!, result.AudioDuration.Ticks, message.Audio.Voice, words);
     }
@@ -90,7 +90,7 @@ public class AzureSpeaker : ISpeaker
 
         waveFileWriter?.Dispose();
 
-        File file = new("speak", $"{messages.First().RoomId}/{messages.First().Audio!.Voice!.ShortName}.wav", AccessTypes.Public, combinedAudio);
+        File file = new("speak", $"{messages.First().RoomId}/{messages.First().Audio!.Voice}.wav", AccessTypes.Public, combinedAudio);
         await Files.AddAsync(file);
 
         return new(file.Url, 0, messages.First().Audio!.Voice);

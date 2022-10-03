@@ -15,7 +15,7 @@ public class SendSms : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(notification.GroupId);
+        var room = await Rooms.FindAsync(notification.GroupId!);
 
         if (room == null || string.IsNullOrWhiteSpace(notification.Message.Text))
             return;

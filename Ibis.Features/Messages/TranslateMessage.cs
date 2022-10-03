@@ -17,7 +17,7 @@ public class TranslateMessage : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(notification.GroupId);
+        var room = await Rooms.FindAsync(notification.GroupId!);
 
         if (room == null || notification.Message == null)
             throw new NotFoundException("Not found!");
