@@ -13,21 +13,12 @@
 @code {
     [Parameter] public Message Message { get; set; } = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        On<MessageTextChanged>(x =>
-        {
-            if (Message.Id == x.Message.Id)
-                Message.Text = x.Message.Text;
-        });
-
-        On<MessageAudioChanged>(x =>
-        {
-            if (Message.Id == x.Message.Id)
-                Message.Audio = x.Message.Audio;
-        });
+        await On<MessageTextChanged>(Message.Id, x => Message.Text = x.Message.Text);
+        await On<MessageAudioChanged>(Message.Id, x => Message.Audio = x.Message.Audio);
     }
-   
+
     void GoToSubroom()
     {
         //if (Message != null)
