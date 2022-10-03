@@ -3,9 +3,9 @@
 namespace Ibis.Features.Messages;
 
 public record GetSlackMessageRequest(string RoomId, string Tag, string? Language, string? ContentType = "Text");
-public class GetSlackPosts : PublicFeature<GetSlackMessageRequest, string>
+public class GetSlackMessage : PublicFeature<GetSlackMessageRequest, string>
 {
-    public GetSlackPosts(IRepository<Message> messages)
+    public GetSlackMessage(IRepository<Message> messages)
     {
         Messages = messages;
     }
@@ -13,7 +13,23 @@ public class GetSlackPosts : PublicFeature<GetSlackMessageRequest, string>
 
     public override async Task<string> ExecuteAsync(GetSlackMessageRequest request)
     {
-        Message message = Messages.Query.Where(x => x.Tag == request.id).OrderByDescending(y => y.Timestamp).FirstOrDefault();
-        return message.Text;
+        try
+        {
+            Message message = Messages.Query.Where(x =>
+                x.SiteName == request.RoomId
+                && x.Tag == request.Tag)
+                .OrderByDescending(y => y.Timestamp)
+                .FirstOrDefault();
+
+            if(request.ContentType.ToLower() == "audio")
+            {
+                return message.Audio.Url;
+            }
+
+            return message.Text;
+        } catch
+        {
+            return "Oops! This message does not exist";
+        }
     }
 }

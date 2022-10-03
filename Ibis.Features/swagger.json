@@ -548,17 +548,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllSlackMessagesRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllSlackMessagesRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllSlackMessagesRequest"
+                  }
+                ]
               }
             }
           }
@@ -571,7 +583,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Message"
+                    "type": "string"
                   }
                 }
               },
@@ -579,7 +591,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Message"
+                    "type": "string"
                   }
                 }
               },
@@ -587,7 +599,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Message"
+                    "type": "string"
                   }
                 }
               }
@@ -792,26 +804,38 @@
         }
       }
     },
-    "/api/GetSlackPosts": {
+    "/api/GetSlackMessage": {
       "post": {
         "tags": [
-          "GetSlackPosts"
+          "GetSlackMessage"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetSlackMessageRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetSlackMessageRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetSlackMessageRequest"
+                  }
+                ]
               }
             }
           }
@@ -1145,9 +1169,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "PostId": {
-                    "type": "string"
-                  },
                   "user_name": {
                     "type": "string"
                   },
@@ -1156,32 +1177,10 @@
                   },
                   "command": {
                     "type": "string"
-                  },
-                  "Timestamp": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "SiteName": {
-                    "type": "string"
-                  },
-                  "TagId": {
-                    "type": "string"
-                  },
-                  "PostType": {
-                    "type": "string"
-                  },
-                  "Title": {
-                    "type": "string"
-                  },
-                  "Id": {
-                    "type": "string"
                   }
                 }
               },
               "encoding": {
-                "PostId": {
-                  "style": "form"
-                },
                 "user_name": {
                   "style": "form"
                 },
@@ -1189,24 +1188,6 @@
                   "style": "form"
                 },
                 "command": {
-                  "style": "form"
-                },
-                "Timestamp": {
-                  "style": "form"
-                },
-                "SiteName": {
-                  "style": "form"
-                },
-                "TagId": {
-                  "style": "form"
-                },
-                "PostType": {
-                  "style": "form"
-                },
-                "Title": {
-                  "style": "form"
-                },
-                "Id": {
                   "style": "form"
                 }
               }
@@ -1933,6 +1914,24 @@
         },
         "additionalProperties": false
       },
+      "GetAllSlackMessagesRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetRoomAudioRequest": {
         "type": "object",
         "properties": {
@@ -2011,6 +2010,28 @@
         "type": "object",
         "properties": {
           "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetSlackMessageRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "contentType": {
             "type": "string",
             "nullable": true
           }

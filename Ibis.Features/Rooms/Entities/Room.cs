@@ -48,6 +48,11 @@ public class Room : SparcRoot<string>
         //Translations = room.Translations;
     }
 
+    public Room(string name) : this()
+    {
+        Name = name;
+    }
+
     public void AddLanguage(Language language)
     {
         if (Languages.Any(x => x.Id == language.Id))
