@@ -1,8 +1,6 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿namespace Ibis.Features.Users;
 
-namespace Ibis.Features.Users;
-
-public record CostIncurred(Message Message, string Description, decimal Amount) : SparcNotification(Message.RoomId);
+public record CostIncurred(Message Message, string Description, decimal Amount) : SparcNotification();
 public class ChargeUserAccount : RealtimeFeature<CostIncurred>
 {
     public ChargeUserAccount(IRepository<UserCharge> charges, IRepository<User> users, IRepository<Room> rooms)

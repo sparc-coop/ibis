@@ -17,7 +17,7 @@ public class SparcNotificationForwarder<TNotification> : RealtimeFeature<TNotifi
         if (notification.GroupId != null)
             await Hub.Clients.Group(notification.GroupId).SendAsync(notification.GetType().Name, notification);
         else if (notification.UserId != null)
-            await Hub.Clients.Client(notification.UserId).SendAsync(notification.GetType().Name, notification);
+            await Hub.Clients.User(notification.UserId).SendAsync(notification.GetType().Name, notification);
     }
 }
 

@@ -1,8 +1,7 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿namespace Ibis.Features.Users;
 
-namespace Ibis.Features.Users;
-
-public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id); 
+public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id);
+public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(null, HostUserId);
 public class User : SparcRoot<string>
 {
     public User()
@@ -77,6 +76,7 @@ public class User : SparcRoot<string>
     internal void AddCharge(UserCharge userCharge)
     {
         Balance += userCharge.Amount;
+        Broadcast(new BalanceChanged(Id, Balance));
     }
 
     internal void UpdateAvatar(UserAvatar avatar)

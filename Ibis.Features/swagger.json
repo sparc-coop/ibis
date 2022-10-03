@@ -1585,6 +1585,32 @@
         },
         "additionalProperties": false
       },
+      "BalanceChanged": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SparcNotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "hostUserId": {
+                "type": "string",
+                "nullable": true
+              },
+              "amount": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Users.BalanceChanged, Ibis.Features"
+      },
       "ChangeVoiceRequest": {
         "type": "object",
         "properties": {

@@ -82,11 +82,3 @@ public class Message : SparcRoot<string>
         Broadcast(new CostIncurred(this, description, cost));
     }
 }
-
-public class SystemMessage : Message
-{
-    public SystemMessage(string text) : base("system", Users.User.System, text)
-    {
-        Language = "en";
-    }
-}
