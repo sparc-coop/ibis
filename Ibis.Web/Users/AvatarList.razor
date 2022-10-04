@@ -1,19 +1,19 @@
 ﻿@inherits RealtimeComponent
 
-<div class="avatar-list">
-    @if (Me != null)
-    {
+@if (Me != null)
+{
+    <div class="avatar-list">
         <div class="presenter">
-            <Avatar User="Me" />
+            <Avatar User="Me" AudioLanguage="@Me.Language" />
         </div>
-    }
-    <div class="users">
-        @foreach (var user in Users)
-        {
-            <Avatar User="user" />
-        }
+        <div class="users">
+            @foreach (var user in Users)
+            {
+                <Avatar User="user" AudioLanguage="@Me.Language" />
+            }
+        </div>
     </div>
-</div>
+}
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;

@@ -1,1 +1,10 @@
 ﻿@import "../_variables.scss";
+
+.message-audio {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05, 1.05);
+    }
+}

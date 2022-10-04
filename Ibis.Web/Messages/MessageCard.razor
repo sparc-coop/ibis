@@ -1,27 +1,37 @@
 ﻿@inherits RealtimeComponent
 
-<article class="message-card" @onclick="GoToSubroom">
+<article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
     <div class="background" style="background: @Message.User.BackgroundColor"></div>
     <Avatar User="Message.User" />
-    @if (Message.Audio?.Url != null)
+    @if (Audio?.Url != null)
     {
-        <MessageAudio Audio="Message.Audio" />
+        <div class="message-audio" @onclick=Play>
+            <PlayIcon />
+        </div>
     }
     <p>@Message.Text</p>
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
+    AudioMessage? Audio { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        await On<MessageTextChanged>(Message.Id, x => Message.Text = x.Message.Text);
-        await On<MessageAudioChanged>(Message.Id, x => Message.Audio = x.Message.Audio);
+        Audio = Message.Audio;
+        await On<MessageAudioChanged>(Message.Id, x => Audio = x.Message.Audio);
     }
 
     void GoToSubroom()
     {
         //if (Message != null)
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
+    }
+
+
+    async Task Play()
+    {
+        if (Audio?.Url != null)
+            await JS.InvokeVoidAsync("playAudio", Audio.Url);
     }
 }

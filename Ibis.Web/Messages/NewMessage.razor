@@ -37,7 +37,7 @@
     async Task SendText()
     {
         var text = Text;
-        Text = null;
+        Text = "";
         StateHasChanged();
 
         var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text });

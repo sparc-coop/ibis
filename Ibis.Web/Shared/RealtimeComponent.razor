@@ -3,7 +3,7 @@
 @code {
     [CascadingParameter] public HubConnection? Hub { get; set; }
     List<IDisposable> Events = new();
-    protected string? GroupId;
+    protected List<string> Subscriptions = new();
 
     protected void On<T>(Action<T> action)
     {
@@ -15,20 +15,20 @@
             }));
     }
 
-    protected async Task On<T>(string groupId, Action<T> action) where T : SparcNotification
+    protected async Task On<T>(string subscriptionId, Action<T> action) where T : SparcNotification
     {
         if (Hub != null)
         {
-            if (GroupId != groupId)
+            if (!Subscriptions.Contains(subscriptionId))
             {
-                GroupId = groupId;
-                await Hub!.InvokeAsync("Watch", GroupId);
+                Subscriptions.Add(subscriptionId);
+                await Hub!.InvokeAsync("Watch", subscriptionId);
             }
 
             Events.Add(Hub.On<T>(typeof(T).Name, evt =>
             {
                 
-                var equals = evt.GroupId == GroupId;
+                var equals = evt.GroupId == subscriptionId;
                 if (equals)
                 {
                     action(evt);
@@ -40,8 +40,8 @@
 
     public async ValueTask DisposeAsync()
     {
-        if (GroupId != null)
-            await Hub!.InvokeAsync("StopWatching", GroupId);
+        foreach (var subscription in Subscriptions)
+            await Hub!.InvokeAsync("StopWatching", subscription);
 
         foreach (var evt in Events)
             evt.Dispose();

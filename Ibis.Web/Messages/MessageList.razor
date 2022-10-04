@@ -2,9 +2,10 @@
 
 <div class="message-grid">
     <div class="message-list" id="room-@Room.RoomId">
-        <Virtualize Items="Messages" Context="message">
+        @foreach (var message in Messages)
+        {
             <MessageCard Message="message" />
-        </Virtualize>
+        }
     </div>
     <NewMessage Room="Room" />
 </div>

@@ -1,12 +1,14 @@
 ﻿using Ibis.Features.Sparc.Realtime;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CognitiveServices.Speech;
+using NAudio.Lame;
 using NAudio.Wave;
 using Sparc.Storage.Azure;
 using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins;
 
+public record WordSpoken(string UserId, string Language, byte[] Audio) : SparcNotification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;
@@ -42,15 +44,15 @@ public class AzureSpeaker : ISpeaker
             words.Add(new((long)e.AudioOffset, e.Duration.Ticks, e.Text));
         };
 
-        synthesizer.Synthesizing += (sender, e) =>
+        synthesizer.SynthesisCompleted += (sender, e) =>
         {
-            Hub.Clients.Group(message.User.Id).SendAsync("Speak", message.Id, e.Result.AudioData);
+            Hub.Clients.Group(message.User.Id + "|" + message.Language).SendAsync(typeof(WordSpoken).Name, new WordSpoken(message.User.Id, message.Language, ConvertWavToMp3(e.Result.AudioData)));
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
 
-        using var stream = new MemoryStream(result.AudioData, false);
-        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.wav", AccessTypes.Public, stream);
+        using var stream = new MemoryStream(ConvertWavToMp3(result.AudioData), false);
+        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.mp3", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
         var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
@@ -113,5 +115,16 @@ public class AzureSpeaker : ISpeaker
         config.SpeechSynthesisVoiceName = voice;
 
         return new SpeechSynthesizer(config, null);
+    }
+
+    public static byte[] ConvertWavToMp3(byte[] wavFile)
+    {
+        using var retMs = new MemoryStream();
+        using var ms = new MemoryStream(wavFile);
+        using var rdr = new WaveFileReader(ms);
+        using var wtr = new LameMP3FileWriter(retMs, rdr.WaveFormat, 128);
+        rdr.CopyTo(wtr);
+        wtr.Flush();
+        return retMs.ToArray();
     }
 }
