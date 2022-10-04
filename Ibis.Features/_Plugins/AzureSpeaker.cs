@@ -8,7 +8,7 @@ using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins;
 
-public record WordSpoken(string UserId, string Language, byte[] Audio) : SparcNotification(UserId + "|" + Language);
+public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : SparcNotification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;
@@ -40,13 +40,14 @@ public class AzureSpeaker : ISpeaker
         var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {
-            Hub.Clients.Group(message.User.Id).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
-            words.Add(new((long)e.AudioOffset, e.Duration.Ticks, e.Text));
+            words.Add(new((long)e.AudioOffset / 10000, (long)e.Duration.TotalMilliseconds, e.Text));
         };
 
         synthesizer.SynthesisCompleted += (sender, e) =>
         {
-            Hub.Clients.Group(message.User.Id + "|" + message.Language).SendAsync(typeof(WordSpoken).Name, new WordSpoken(message.User.Id, message.Language, ConvertWavToMp3(e.Result.AudioData)));
+            var word = new WordSpoken(message.User.Id, message.Language, ConvertWavToMp3(e.Result.AudioData), words);
+            Hub.Clients.Group(message.User.Id + "|" + message.Language)
+                .SendAsync(typeof(WordSpoken).Name, word);
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
@@ -58,7 +59,7 @@ public class AzureSpeaker : ISpeaker
         var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
         message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice}");
         
-        return new(file.Url!, result.AudioDuration.Ticks, message.Audio.Voice, words);
+        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio.Voice, words);
     }
 
     public async Task<AudioMessage> SpeakAsync(List<Message> messages)

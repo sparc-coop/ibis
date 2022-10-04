@@ -2534,6 +2534,13 @@
                 "type": "string",
                 "format": "byte",
                 "nullable": true
+              },
+              "words": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Word"
+                },
+                "nullable": true
               }
             }
           }

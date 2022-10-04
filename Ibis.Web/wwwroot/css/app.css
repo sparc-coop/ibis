@@ -460,7 +460,7 @@ main {
   height: 100%;
   max-height: calc(100vh - 75px);
   grid-template-columns: auto 376px;
-  grid-template-rows: 100px auto;
+  grid-template-rows: 60px auto;
   gap: 24px;
   /* The switch - the box around the slider */
   /* The slider */
@@ -1118,6 +1118,20 @@ main {
   position: absolute;
   top: 16px;
   right: 16px;
+}
+.message-card .message-text span {
+  display: inline-block;
+  padding: 4px 2px;
+  border-radius: 4px;
+}
+.message-card .message-text.playing span {
+  opacity: 30%;
+}
+.message-card .message-text.playing span.active {
+  background-color: #0A111D;
+  color: white;
+  opacity: 100%;
+  font-weight: bold;
 }
 
 .subroom {

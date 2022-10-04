@@ -36,6 +36,25 @@
         top: 16px;
         right: 16px;
     }
+
+    .message-text {
+        span {
+            display: inline-block;
+            padding: 4px 2px;
+            border-radius: 4px;
+        }
+        &.playing {
+            span {
+                opacity: 30%;
+                &.active {
+                    background-color: $grey-900;
+                    color: white;
+                    opacity: 100%;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
 }
 
 .subroom {

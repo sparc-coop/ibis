@@ -1,4 +1,5 @@
 ﻿@inherits RealtimeComponent
+@implements IDisposable
 
 <article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
     <div class="background" style="background: @Message.User.BackgroundColor"></div>
@@ -8,13 +9,26 @@
         <div class="message-audio" @onclick=Play>
             <PlayIcon />
         </div>
+        <div class="message-text @(Offset != null ? "playing" : "")">
+            @foreach (var word in Audio.Subtitles)
+            {
+                <span class="@(WordIsActive(word) ? "active" : "")">
+                    @word.Text
+                </span>
+            }
+        </div>
     }
-    <p>@Message.Text</p>
+    else
+    {
+        <p>@Message.Text</p>
+    }
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
     AudioMessage? Audio { get; set; }
+    long? Offset;
+    System.Timers.Timer? AudioTimer;
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,10 +42,34 @@
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
     }
 
+    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
 
     async Task Play()
     {
         if (Audio?.Url != null)
+        {
+            Offset = 0;
+            AudioTimer = new(100);
+            AudioTimer.Elapsed += (source, e) =>
+            {
+                if (Offset > Audio.Duration)
+                {
+                    AudioTimer.Stop();
+                    Offset = null;
+                }
+                else
+                {
+                    Offset += 100;
+                }
+                InvokeAsync(StateHasChanged);
+            };
+            AudioTimer.Start();
             await JS.InvokeVoidAsync("playAudio", Audio.Url);
+        }
+    }
+
+    public void Dispose()
+    {
+        AudioTimer?.Dispose();
     }
 }
