@@ -23,7 +23,6 @@
 @code {
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public bool CanEdit { get; set; }
-    [Parameter] public string? AudioLanguage { get; set; }
     bool ShowEditor;
     UserAvatar LocalUser = null!;
 
@@ -31,9 +30,6 @@
     {
         LocalUser = User;
         await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
-
-        //if (AudioLanguage != null)
-        //    await On<WordSpoken>(User.Id + "|" + AudioLanguage, async x => await SpeakAsync(x.Audio));
     }
 
     bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);

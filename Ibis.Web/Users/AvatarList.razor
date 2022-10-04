@@ -4,12 +4,12 @@
 {
     <div class="avatar-list">
         <div class="presenter">
-            <Avatar User="Me" AudioLanguage="@Me.Language" />
+            <Avatar User="Me" />
         </div>
         <div class="users">
             @foreach (var user in Users)
             {
-                <Avatar User="user" AudioLanguage="@Me.Language" />
+                <Avatar User="user" />
             }
         </div>
     </div>
