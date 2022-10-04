@@ -32,8 +32,8 @@
         LocalUser = User;
         await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
 
-        if (AudioLanguage != null)
-            await On<WordSpoken>(User.Id + "|" + AudioLanguage, async x => await SpeakAsync(x.Audio));
+        //if (AudioLanguage != null)
+        //    await On<WordSpoken>(User.Id + "|" + AudioLanguage, async x => await SpeakAsync(x.Audio));
     }
 
     bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);

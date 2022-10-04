@@ -43,12 +43,12 @@ public class AzureSpeaker : ISpeaker
             words.Add(new((long)e.AudioOffset / 10000, (long)e.Duration.TotalMilliseconds, e.Text));
         };
 
-        synthesizer.SynthesisCompleted += (sender, e) =>
-        {
-            var word = new WordSpoken(message.User.Id, message.Language, ConvertWavToMp3(e.Result.AudioData), words);
-            Hub.Clients.Group(message.User.Id + "|" + message.Language)
-                .SendAsync(typeof(WordSpoken).Name, word);
-        };
+        //synthesizer.SynthesisCompleted += (sender, e) =>
+        //{
+        //    var word = new WordSpoken(message.User.Id, message.Language, ConvertWavToMp3(e.Result.AudioData), words);
+        //    Hub.Clients.Group(message.User.Id + "|" + message.Language)
+        //        .SendAsync(typeof(WordSpoken).Name, word);
+        //};
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
 

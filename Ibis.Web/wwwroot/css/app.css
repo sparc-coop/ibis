@@ -1093,7 +1093,7 @@ main {
   margin-bottom: 16px;
   position: relative;
 }
-.message-card > p {
+.message-card > p, .message-card span {
   font-size: 18px;
   font-weight: 400;
   color: #0A111D;
