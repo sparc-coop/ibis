@@ -13,6 +13,7 @@ public class GetRooms : Feature<List<GetRoomResponse>>
     {
         var rooms = await Rooms.Query
             .Where(x => x.HostUser.Id == User.Id() && x.EndDate == null)
+            .OrderByDescending(x => x.LastActiveDate)
             .ToListAsync();
 
         return rooms.Select(x => new GetRoomResponse(x)).ToList();

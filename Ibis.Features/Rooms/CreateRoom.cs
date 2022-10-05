@@ -14,7 +14,7 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
 
     public async override Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
     {
-        var host = await Users.FindAsync(User.Id());
+        var host = await Users.GetAsync(User);
         if (host == null)
             throw new NotAuthorizedException("User not found!");
 
@@ -23,13 +23,15 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
         //find current users
         foreach (string email in request.Emails)
         {
-            var user = Users.Query.FirstOrDefault(u => u.Id == email);
+            var user = Users.Query.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
-                user = new User(email);
-                await Users.AddAsync(user);
+                room.InviteUser(new UserAvatar(email, email));
             }
-            room.InviteUser(user);
+            else
+            {
+                room.InviteUser(user.Avatar);
+            }
         }
 
         await Rooms.AddAsync(room);

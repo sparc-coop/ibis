@@ -47,6 +47,7 @@
     public async ValueTask DisposeAsync()
     {
         foreach (var subscription in Subscriptions)
+            if (Hub?.State == HubConnectionState.Connected)
             await Hub!.InvokeAsync("StopWatching", subscription);
 
         foreach (var evt in Events)

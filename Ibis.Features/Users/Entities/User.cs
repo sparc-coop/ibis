@@ -15,10 +15,11 @@ public class User : SparcRoot<string>
         Avatar = new(Id, "");
     }
 
-    public User(string email) : this()
+    public User(string id, string email) : this()
     {
-        Id = email;
+        Id = id;
         Email = email;
+
         Avatar = new(Id, email);
     }
 
@@ -47,7 +48,6 @@ public class User : SparcRoot<string>
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
     public string? PhoneNumber { get; private set; }
-
 
     internal void JoinRoom(string roomId)
     {
@@ -105,8 +105,6 @@ public class User : SparcRoot<string>
         Avatar.IsOnline = false;
         Broadcast(new UserAvatarUpdated(Avatar));
     }
-
-    public static User System => new("system");
 }
 
 public record ActiveRoom(string RoomId, DateTime JoinDate);

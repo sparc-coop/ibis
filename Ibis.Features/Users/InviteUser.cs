@@ -26,7 +26,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             string roomLink = "";
 
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
-            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
+            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault()?.Avatar;
 
             if (user != null) //check new or existing
             {
@@ -34,7 +34,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
                 messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {
-                user = new(request.Email);
+                user = new(request.Email, request.Email);
                 messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 

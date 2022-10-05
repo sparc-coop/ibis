@@ -12,10 +12,10 @@ public class GetUser : Feature<UserAvatar>
 
     public override async Task<UserAvatar> ExecuteAsync()
     {
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         if (user == null)
         {
-            user = new(User.Email());
+            user = new(User.Id(), User.Email());
             await Users.UpdateAsync(user);
         }
 

@@ -35,7 +35,7 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
     public async override Task<GetRoomResponse> ExecuteAsync(JoinRoomRequest request)
     {
         var room = await Rooms.FindAsync(request.RoomId);
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         if (room == null || user == null)
             throw new NotFoundException($"Room {request.RoomId} not found!");
 

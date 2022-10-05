@@ -30,7 +30,7 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
         if (voice == null)
             throw new Exception("Voice doesn't match language!");
 
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         user!.ChangeVoice(language, voice);
         await Users.UpdateAsync(user);
 

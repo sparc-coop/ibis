@@ -79,10 +79,10 @@ public class Room : SparcRoot<string>
             Broadcast(new UserLeft(Id, activeUser));
     }
 
-    internal void InviteUser(User user)
+    internal void InviteUser(UserAvatar user)
     {
         if (!Users.Any(x => x.Id == user.Id))
-            Users.Add(user.Avatar);
+            Users.Add(user);
     }
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)

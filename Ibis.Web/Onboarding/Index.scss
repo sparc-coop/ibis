@@ -11,6 +11,10 @@
     display: grid;
     grid-template-rows: 220px 90px auto auto;
 
+    .avatar {
+        height: 220px;
+    }
+
     .tabs {
         display: flex;
         justify-content: space-between;

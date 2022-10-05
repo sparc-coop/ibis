@@ -1778,6 +1778,9 @@ main {
   display: grid;
   grid-template-rows: 220px 90px auto auto;
 }
+.onboarding .avatar {
+  height: 220px;
+}
 .onboarding .tabs {
   display: flex;
   justify-content: space-between;

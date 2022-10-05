@@ -15,7 +15,7 @@ public class GetAllMessages : Feature<GetAllMessagesRequest, GetAllMessagesRespo
 
     public async override Task<GetAllMessagesResponse> ExecuteAsync(GetAllMessagesRequest request)
     {
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         if (user == null || user.Avatar.Language == null)
             throw new NotFoundException($"User {User.Id()} not found!");
 

@@ -18,7 +18,7 @@ public class CreateStripeCustomer : Feature<string>
     {
         StripeConfiguration.ApiKey = Configuration["Stripe:ApiKey"];
 
-        User? user = await Users.FindAsync(User.Id());
+        User? user = await Users.GetAsync(User);
         if (user == null)
             throw new NotAuthorizedException("User not found!");
 

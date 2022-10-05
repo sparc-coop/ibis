@@ -11,7 +11,7 @@ public class UpdateUser : Feature<UserAvatar, UserAvatar>
 
     public override async Task<UserAvatar> ExecuteAsync(UserAvatar avatar)
     {
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         if (user == null)
             throw new NotFoundException("User not found!");
 

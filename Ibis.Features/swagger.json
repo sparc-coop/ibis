@@ -479,66 +479,6 @@
         }
       }
     },
-    "/api/FindUserByEmail": {
-      "post": {
-        "tags": [
-          "FindUserByEmail"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/FindUserRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/FindUserRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/FindUserRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/GetAllMessages": {
       "post": {
         "tags": [
@@ -1546,20 +1486,6 @@
   },
   "components": {
     "schemas": {
-      "ActiveRoom": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "joinDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
       "AudioMessage": {
         "type": "object",
         "properties": {
@@ -1716,16 +1642,6 @@
             },
             "nullable": true,
             "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FindUserRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2244,82 +2160,6 @@
             "type": "string",
             "format": "byte",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SparcNotification"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "dateModified": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "customerId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "balance": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          },
-          "avatar": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserAvatar"
-              }
-            ],
-            "nullable": true,
-            "readOnly": true
-          },
-          "languagesSpoken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Language"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "activeRooms": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActiveRoom"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
           }
         },
         "additionalProperties": false
