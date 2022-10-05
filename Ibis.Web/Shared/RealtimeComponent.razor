@@ -22,7 +22,13 @@
             if (!Subscriptions.Contains(subscriptionId))
             {
                 Subscriptions.Add(subscriptionId);
-                await Hub!.InvokeAsync("Watch", subscriptionId);
+                if (Hub.State == HubConnectionState.Connected)
+                    await Hub!.InvokeAsync("Watch", subscriptionId);
+                else
+                    Hub.On("_UserConnected", async () =>
+                    {
+                        await Hub!.InvokeAsync("Watch", subscriptionId);
+                    });
             }
 
             Events.Add(Hub.On<T>(typeof(T).Name, evt =>
