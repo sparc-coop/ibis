@@ -38,6 +38,7 @@ namespace Ibis.Features._Plugins.Slack
             var returnStr = "";
             data = Json;
 
+            // checks slack verification
             if (_config["Slack:Verify"] == Json.token)
             {
                 if (Json.challenge != null)
@@ -51,10 +52,20 @@ namespace Ibis.Features._Plugins.Slack
                     var user = await Users.FindAsync(usersearch.Id);
                     var command = Json._event.text.Split(" ")[0];
 
+
                     if (command == "post")
                     {
                         var tag = Json._event.text.Split(" ")[1];
                         var existing = await Rooms.FindAsync(tag);
+
+                        //if adding image or other files
+                        if (Json._event.attachments != null)
+                        {
+                            foreach (var attachment in Json._event.attachments)
+                            {
+                                //attachment.image_url
+                            }
+                        }
 
                         if (existing != null)
                         {
@@ -75,12 +86,15 @@ namespace Ibis.Features._Plugins.Slack
                         }
                     }
 
+                    //posts to channel with updated room
+
                     Payload payload = new Payload()
                     {
                         Channel = "C040XKHTEMA",
                         Text = returnStr
                     };
-                   // await new SlackEngine(_config).SlackApiPost(payload);
+
+                   await new SlackEngine(_config).SlackApiPost(payload);
                 }
 
             }
