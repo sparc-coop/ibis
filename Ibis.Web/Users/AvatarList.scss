@@ -22,6 +22,11 @@
         flex-wrap: wrap;
         gap: 8px;
 
+        .avatar {
+            height: 109px;
+            width: 30%;
+        }
+
         .image-wrapper {
             /*max-width: 108.6px;*/
             max-width: 31%;

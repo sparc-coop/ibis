@@ -1,4 +1,5 @@
 ﻿@inherits RealtimeComponent
+@implements IAsyncDisposable
 
 @page "/rooms/{Id}"
 
@@ -65,5 +66,10 @@
     void UpdateName()
     {
         // await Connection!.SendAsync("UpdateRoom", RoomInfo);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = Id });
     }
 }

@@ -1604,8 +1604,12 @@ main {
     position: absolute;
     bottom: 12px;
     left: 12px;
-    font-size: 20px;
     color: white !important;
+  }
+}
+@container (min-height: 150px) {
+  .avatar figcaption {
+    font-size: 20px;
   }
   .avatar figcaption aside {
     display: block;
@@ -1631,6 +1635,10 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+.avatar-list .users .avatar {
+  height: 109px;
+  width: 30%;
 }
 .avatar-list .users .image-wrapper {
   /*max-width: 108.6px;*/
