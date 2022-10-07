@@ -1122,6 +1122,9 @@ main {
   font-weight: 400;
   color: #0A111D;
 }
+.message-card > p + p {
+  margin-top: 12px;
+}
 .message-card .background {
   position: absolute;
   top: 0;

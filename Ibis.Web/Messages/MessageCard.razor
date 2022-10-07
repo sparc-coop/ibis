@@ -24,7 +24,10 @@
     }
     else
     {
-        <p>@MessageHtml</p>
+        foreach (var paragraph in MessageHtml)
+        {
+            <p>@paragraph</p>
+        }
     }
 </article>
 
@@ -37,7 +40,7 @@
     protected override async Task OnInitializedAsync()
     {
         Audio = Message.Audio;
-        await On<MessageAudioChanged>(Message.Id, async x => 
+        await On<MessageAudioChanged>(Message.Id, async x =>
             {
                 Audio = x.Message.Audio;
                 await Play();
@@ -52,9 +55,13 @@
 
     bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
 
-    MarkupString MessageHtml => Message?.Text == null 
-        ? new("")
-        : (MarkupString)System.Text.RegularExpressions.Regex.Replace(System.Web.HttpUtility.HtmlEncode(Message.Text), "\r?\n|\r", "<br />");
+    List<MarkupString> MessageHtml => Message?.Text == null
+        ? new()
+        : Message.Text
+            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => new MarkupString(System.Web.HttpUtility.HtmlEncode(x)))
+            .ToList();
 
     async Task Play()
     {

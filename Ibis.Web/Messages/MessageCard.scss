@@ -13,6 +13,10 @@
         color: $grey-900;
     }
 
+    > p + p {
+        margin-top: 12px;
+    }
+
     .background {
         position: absolute;
         top: 0;
