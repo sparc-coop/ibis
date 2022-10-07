@@ -327,6 +327,30 @@ main {
   border-color: #555 transparent transparent transparent;
 }
 
+.realtime-hub {
+  position: fixed;
+  bottom: 36px;
+  right: 36px;
+  margin: 0 auto;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 12px;
+  border: 1px solid #D1D4DC;
+  padding: 12px;
+  font-size: 12px;
+}
+.realtime-hub-Connected {
+  background: #12B76A;
+  color: white;
+}
+.realtime-hub-Disconnected {
+  background: red;
+}
+.realtime-hub-Connecting {
+  background: #FD9E2E;
+  color: white;
+}
+
 .dashboard {
   margin: 0 auto;
   width: 100%;
