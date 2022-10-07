@@ -1592,6 +1592,7 @@ main {
   width: 100%;
   max-height: 220px;
   border-radius: 12px;
+  border: 1px solid transparent;
   container: avatar/size;
 }
 .avatar svg {
@@ -1639,6 +1640,33 @@ main {
     font-size: 20px;
   }
   .avatar figcaption aside {
+    display: block;
+  }
+}
+.avatar.offline {
+  border: 1px solid #D1D4DC;
+  background-color: transparent !important;
+}
+.avatar.offline svg text {
+  opacity: 30%;
+}
+.avatar.offline figcaption {
+  color: #6A7280 !important;
+}
+.avatar.offline > aside {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 4px 6px;
+  border-radius: 12px;
+  border: 1px solid #D1D4DC;
+  color: #D1D4DC;
+  font-size: 10px;
+  background-color: white;
+  display: none;
+}
+@container (min-height: 100px) {
+  .avatar.offline > aside {
     display: block;
   }
 }
