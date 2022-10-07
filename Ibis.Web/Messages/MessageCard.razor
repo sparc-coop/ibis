@@ -1,4 +1,5 @@
-﻿@inherits RealtimeComponent
+﻿@using System.Web
+@inherits RealtimeComponent
 @implements IDisposable
 
 <article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
@@ -9,7 +10,10 @@
         <div class="message-audio" @onclick=Play>
             <PlayIcon />
         </div>
-        <div class="message-text @(Offset != null ? "playing" : "")">
+    }
+    @if (Audio != null && Offset != null)
+    {
+        <div class="message-text playing">
             @foreach (var word in Audio.Subtitles)
             {
                 <span class="@(WordIsActive(word) ? "active" : "")">
@@ -20,7 +24,7 @@
     }
     else
     {
-        <p>@Message.Text</p>
+        <p>@MessageHtml</p>
     }
 </article>
 
@@ -47,6 +51,10 @@
     }
 
     bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
+
+    MarkupString MessageHtml => Message?.Text == null 
+        ? new("")
+        : (MarkupString)System.Text.RegularExpressions.Regex.Replace(System.Web.HttpUtility.HtmlEncode(Message.Text), "\r?\n|\r", "<br />");
 
     async Task Play()
     {

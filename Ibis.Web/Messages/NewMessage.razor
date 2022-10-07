@@ -1,5 +1,5 @@
-﻿<div class="new-message">
-    <textarea type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText />
+﻿<form class="new-message" @onsubmit=SendText>
+    <textarea type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     @if (IsSpeak)
     {
         <button @onclick="ShowSpeakModal" aria-label="Speak">
@@ -21,22 +21,30 @@
         <span>Call me</span>
         <span>Text me</span>
     </footer>
-</div>
+</form>
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     string? Text;
     bool IsSpeak => string.IsNullOrWhiteSpace(Text);
+    bool preventDefault = false;
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
-        if (args.Code == "Enter")
+        if (args.Code == "Enter" && !args.ShiftKey)
+        {
+            preventDefault = true;
             await SendText();
+        }
+        else
+        {
+            preventDefault = false;
+        }
     }
 
     async Task SendText()
     {
-        var text = Text;
+        var text = Text?.Trim('\r', '\n', ' ');
         Text = "";
         StateHasChanged();
 

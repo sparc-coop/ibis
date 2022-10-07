@@ -41,6 +41,7 @@ public class Message : SparcRoot<string>
         User = new(sourceMessage.User);
         Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
         Language = toLanguage;
+        Timestamp = DateTime.UtcNow;
         SetText(text);
     }
 
