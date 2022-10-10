@@ -20,7 +20,7 @@ public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
 		try
 		{
 			string fileUrl = await UploadPhotoToStorage(User.Id(), request.FileName, request.Bytes);
-			var user = await Users.FindAsync(User.Id());
+			var user = await Users.GetAsync(User);
 			//user!.ProfileImg = fileUrl;
 			await Users.UpdateAsync(user!);
 

@@ -1,0 +1,26 @@
+﻿@import "../_variables.scss";
+
+.skintones, .emojis {
+    font-family: 'Noto Emoji', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    li {
+        padding: 12px;
+        font-size: 36px;
+        cursor: pointer;
+
+        &:hover {
+            background: $primary-300;
+        }
+
+        &.selected {
+            background: $primary-700;
+            color: white;
+        }
+    }
+}
+

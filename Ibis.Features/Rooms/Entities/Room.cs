@@ -3,15 +3,15 @@
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserSummary User) : GroupNotification(RoomId);
-public record UserLeft(string RoomId, UserSummary User) : GroupNotification(RoomId);
+public record UserJoined(string RoomId, UserAvatar User) : SparcNotification(RoomId);
+public record UserLeft(string RoomId, UserAvatar User) : SparcNotification(RoomId);
 
 public class Room : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }
-    public UserSummary HostUser { get; private set; }
-    public List<UserSummary> Users { get; private set; }
+    public UserAvatar HostUser { get; private set; }
+    public List<UserAvatar> Users { get; private set; }
     public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
@@ -24,7 +24,7 @@ public class Room : SparcRoot<string>
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
         Name = "New Room";
-        HostUser = new("");
+        HostUser = new User().Avatar;
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
@@ -34,7 +34,7 @@ public class Room : SparcRoot<string>
     public Room(string name, User hostUser) : this()
     {
         Name = name;
-        HostUser = new(hostUser);
+        HostUser = hostUser.Avatar;
     }
 
     public Room(Room room, Message message) : this()
@@ -46,11 +46,6 @@ public class Room : SparcRoot<string>
         //Languages = room.Languages;
         //ActiveUsers = room.ActiveUsers;
         //Translations = room.Translations;
-    }
-
-    public Room(string name) : this()
-    {
-        Name = name;
     }
 
     public void AddLanguage(Language language)
@@ -67,31 +62,24 @@ public class Room : SparcRoot<string>
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser == null)
         {
-            activeUser = new(user);
+            activeUser = user.Avatar;
             Users.Add(activeUser);
         }
 
         if (user.PrimaryLanguage != null)
             AddLanguage(user.PrimaryLanguage);
         
-        if (!activeUser.IsOnline)
-        {
-            activeUser.IsOnline = true;
-            Broadcast(new UserJoined(Id, activeUser));
-        }
+        Broadcast(new UserJoined(Id, activeUser));
     }
 
     public void RemoveActiveUser(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
-        if (activeUser?.IsOnline == true)
-        {
-            activeUser.IsOnline = false;
+        if (activeUser != null)
             Broadcast(new UserLeft(Id, activeUser));
-        }
     }
 
-    internal void InviteUser(UserSummary user)
+    internal void InviteUser(UserAvatar user)
     {
         if (!Users.Any(x => x.Id == user.Id))
             Users.Add(user);

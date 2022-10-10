@@ -1,20 +1,20 @@
-﻿using Sparc.Realtime;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sparc.Core;
 
 public interface ISparcRoot
 {
-    public List<INotification>? Events { get; }
+    public List<SparcNotification>? Events { get; }
 }
 
 public class SparcRoot<T> : Root<T>, ISparcRoot where T : notnull
 {
-    private List<INotification>? _events;
-    public List<INotification>? Events => _events;
+    private List<SparcNotification>? _events;
+    public List<SparcNotification>? Events => _events;
 
-    public void Broadcast(INotification notification)
+    public void Broadcast(SparcNotification notification)
     {
-        _events ??= new List<INotification>();
+        _events ??= new List<SparcNotification>();
         _events.Add(notification);
     }
 }

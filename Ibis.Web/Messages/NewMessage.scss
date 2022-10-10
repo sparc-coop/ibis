@@ -1,0 +1,48 @@
+﻿@import "../_variables.scss";
+
+.new-message {
+    position: absolute;
+    width: calc(100% - 32px);
+    bottom: 24px;
+    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    border: 1px solid $light-gray;
+    background: #FFFFFF;
+
+    > button {
+        position: absolute;
+        right: 24px;
+        top: 20px;
+        padding: 6px 12px;
+        background: $dark-blue;
+        border-radius: 8px;
+        color: $white;
+        align-items: center;
+        height: 32px;
+        line-height: 20px;
+
+        img {
+            margin-left: 8px;
+        }
+    }
+
+
+    textarea {
+        height: 105px;
+        padding: 24px 112px 24px 24px;
+        width: 100%;
+        max-width: 100%;
+        resize: none;
+
+        &::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    footer {
+        border-top: 1px solid $light-gray;
+        box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+        padding: 16px;
+        border-radius: 0 0 16px 16px;
+    }
+}

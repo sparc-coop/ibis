@@ -14,7 +14,7 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
 
     public override async Task<Message> ExecuteAsync(TypeMessageRequest request)
     {
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         var message = new Message(request.RoomId, user!, request.Text);
         await Messages.AddAsync(message);
 

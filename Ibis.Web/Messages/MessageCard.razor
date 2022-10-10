@@ -1,37 +1,94 @@
-﻿@inherits RealtimeComponent
+﻿@using System.Web
+@inherits RealtimeComponent
+@implements IDisposable
 
-<article class="message-card" @onclick="GoToSubroom">
-    <div class="background" style="background: @Message.User.Color"></div>
+<article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
+    <div class="background" style="background: @Message.User.BackgroundColor"></div>
     <Avatar User="Message.User" />
-    @if (Message.Audio != null)
+    @if (Audio?.Url != null)
     {
-        <MessageAudio Audio="Message.Audio" />
+        <div class="message-audio" @onclick=Play>
+            <PlayIcon />
+        </div>
     }
-    <p>@Message.Text</p>
+    @if (Audio != null && Offset != null)
+    {
+        <div class="message-text playing">
+            @foreach (var word in Audio.Subtitles)
+            {
+                <span class="@(WordIsActive(word) ? "active" : "")">
+                    @word.Text
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        foreach (var paragraph in MessageHtml)
+        {
+            <p>@paragraph</p>
+        }
+    }
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
-    string BackgroundColor = "#FFFFFF";
+    AudioMessage? Audio { get; set; }
+    long? Offset;
+    System.Timers.Timer? AudioTimer;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        On<MessageTextChanged>(x =>
-        {
-            if (Message.Id == x.Message.Id)
-                Message.Text = x.Message.Text;
-        });
-
-        On<MessageAudioChanged>(x =>
-        {
-            if (Message.Id == x.Message.Id)
-                Message.Audio = x.Message.Audio;
-        });
+        Audio = Message.Audio;
+        await On<MessageAudioChanged>(Message.Id, async x =>
+            {
+                Audio = x.Message.Audio;
+                await Play();
+            });
     }
-   
+
     void GoToSubroom()
     {
         //if (Message != null)
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
+    }
+
+    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
+
+    List<MarkupString> MessageHtml => Message?.Text == null
+        ? new()
+        : Message.Text
+            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => new MarkupString(System.Web.HttpUtility.HtmlEncode(x)))
+            .ToList();
+
+    async Task Play()
+    {
+        if (Audio?.Url != null)
+        {
+            Offset = 0;
+            AudioTimer = new(100);
+            AudioTimer.Elapsed += (source, e) =>
+            {
+                if (Offset > Audio.Duration)
+                {
+                    AudioTimer.Stop();
+                    Offset = null;
+                }
+                else
+                {
+                    Offset += 100;
+                }
+                InvokeAsync(StateHasChanged);
+            };
+            AudioTimer.Start();
+            await JS.InvokeVoidAsync("playAudio", Audio.Url);
+        }
+    }
+
+    public void Dispose()
+    {
+        AudioTimer?.Dispose();
     }
 }

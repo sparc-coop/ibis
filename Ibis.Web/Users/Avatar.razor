@@ -1,16 +1,59 @@
-﻿<figure class="avatar">
+﻿@inherits RealtimeComponent
+
+<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "") @(LocalUser.IsOnline ? "" : "offline")" style="background: @LocalUser.BackgroundColor" @onclick=Edit>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" fill="@User.Color" />
-        <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">@User.Initials</text>
+        <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @LocalUser.ForegroundColor">
+            @Emoji
+        </text>
     </svg>
-    <figcaption style="color: @User.Color">
-        @User.Name
+    <figcaption style="color: @LocalUser.ForegroundColor">
+        @LocalUser.Name
+        <aside>
+            @LocalUser.Language &#8226; @LocalUser.Pronouns
+        </aside>
     </figcaption>
+
+    @if (!LocalUser.IsOnline)
+    {
+        <aside>Offline</aside>
+    }
 </figure>
 
+@if (CanEdit && ShowEditor)
+{
+    <Ibis.Web.Onboarding.Index OnDone="CloseEditor" />
+}
+
 @code {
-    [Parameter] public UserSummary User { get; set; } = null!;
-    double ViewBoxSize = 80;
-    double Size = 24;
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public bool CanEdit { get; set; }
+    bool ShowEditor;
+    UserAvatar LocalUser = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalUser = User;
+        await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
+    }
+
+    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);
+    string Emoji => !HasEmoji
+        ? LocalUser.Initials
+        : LocalUser.Emoji;
+
+    void Edit()
+    {
+        if (!CanEdit)
+            return;
+
+        ShowEditor = true;
+    }
+
+    async Task SpeakAsync(byte[] audio)
+    {
+        await JS.InvokeVoidAsync("speak", Convert.ToBase64String(audio));
+    }
+
+    void CloseEditor() => ShowEditor = false;
 }
 

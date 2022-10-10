@@ -8,30 +8,29 @@ public class Message : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
-    public string Language { get; private set; }
+    public string Language { get; protected set; }
     public DateTime Timestamp { get; private set; }
-    public UserSummary User { get; private set; }
+    public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation>? Translations { get; private set; }
     public decimal Charge { get; private set; }
-    public string? SiteName { get; set; }
     public string? Tag { get; set; }
 
     protected Message()
     {
         Id = Guid.NewGuid().ToString();
         RoomId = "";
-        User = new("");
+        User = new User().Avatar;
         Language = "";
     }
 
     public Message(string roomId, User user, string text) : this()
     {
         RoomId = roomId;
-        User = new(user);
-        Language = user.PrimaryLanguageId;
-        Audio = new(null, 0, user.Voice);
+        User = user.Avatar;
+        Language = user.Avatar.Language ?? "";
+        Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         SetText(text);
     }
@@ -40,17 +39,9 @@ public class Message : SparcRoot<string>
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
-        User = sourceMessage.User;
+        User = new(sourceMessage.User);
+        Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
         Language = toLanguage;
-        SetText(text);
-    }
-
-    public Message(string roomId, string text) : this()
-    {
-        RoomId = roomId;
-        //User = new(user);
-        //Language = user.PrimaryLanguageId;
-        //Audio = new(null, 0, user.Voice);
         Timestamp = DateTime.UtcNow;
         SetText(text);
     }
@@ -75,7 +66,8 @@ public class Message : SparcRoot<string>
 
     internal bool HasTranslation(string languageId)
     {
-        return Translations != null && Translations.Any(x => x.LanguageId == languageId);
+        return Language == languageId
+            || (Translations != null && Translations.Any(x => x.LanguageId == languageId));
     }
     
     internal void AddTranslation(string languageId, string messageId)

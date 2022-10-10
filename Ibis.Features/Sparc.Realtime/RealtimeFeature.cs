@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sparc.Realtime;
 
-[RealtimeFuture]
-public abstract class RealtimeFeature<T> : BaseAsyncEndpoint.WithRequest<T>.WithoutResponse, INotificationHandler<T> where T : INotification
+[RealtimeFeature]
+public abstract class RealtimeFeature<T> : BaseAsyncEndpoint.WithRequest<T>.WithoutResponse, INotificationHandler<T> where T : SparcNotification
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     public abstract Task ExecuteAsync(T item);
@@ -27,9 +27,9 @@ public abstract class RealtimeFeature<T> : BaseAsyncEndpoint.WithRequest<T>.With
     }
 }
 
-public class RealtimeFutureAttribute : RouteAttribute
+public class RealtimeFeatureAttribute : RouteAttribute
 {
-    public RealtimeFutureAttribute() : base($"events/[controller]")
+    public RealtimeFeatureAttribute() : base($"events/[controller]")
     {
     }
 }

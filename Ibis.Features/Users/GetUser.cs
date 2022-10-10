@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Users;
 
-public class GetUser : Feature<UserSummary>
+public class GetUser : Feature<UserAvatar>
 {
     public IRepository<User> Users { get; }
     public GetUser(IRepository<User> users)
@@ -10,15 +10,15 @@ public class GetUser : Feature<UserSummary>
         Users = users;
     }
 
-    public override async Task<UserSummary> ExecuteAsync()
+    public override async Task<UserAvatar> ExecuteAsync()
     {
-        var user = await Users.FindAsync(User.Id());
+        var user = await Users.GetAsync(User);
         if (user == null)
         {
-            user = new(User.Id(), User.Email(), User.FirstName(), User.LastName());
+            user = new(User.Id(), User.Email());
             await Users.UpdateAsync(user);
         }
 
-        return new(user);
+        return user.Avatar;
     }
 }

@@ -1,0 +1,28 @@
+﻿@import "../_variables.scss";
+
+.realtime-hub {
+    position: fixed;
+    bottom: 36px;
+    right: 36px;
+    margin: 0 auto;
+    background-color: white;
+    z-index: 1000;
+    border-radius: 12px;
+    border: 1px solid $grey-300;
+    padding: 12px;
+    font-size: 12px;
+
+    &-Connected {
+        background: $success-500;
+        color: white;
+    }
+
+    &-Disconnected {
+        background: red;
+    }
+
+    &-Connecting {
+        background: $amber-500;
+        color: white;
+    }
+}

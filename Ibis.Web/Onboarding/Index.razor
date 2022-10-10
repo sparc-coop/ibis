@@ -1,73 +1,59 @@
 ﻿@layout EmptyLayout
 
 <div class="onboarding">
-    @switch (Step)
+    @if (User != null)
     {
-        case 1:
-            <StepOne User="User" />
-            break;
-        case 2:
-            <StepTwo User="User" />
-            break;
-        case 3:
-            <StepThree />
-            break;
-        case 4:
-            <StepFour />
-            break;
-    }
+        <header>
+            <Avatar User="User" />
+        </header>
 
-    <div class="bottom-nav">
-        <div class="actions">
-            <div class="steps">
-                @for (var i = 1; i <= 4; i++)
+        <CascadingValue Value="User">
+            <ul class="tabs">
+                @foreach (var tab in Tabs)
                 {
-                    <div class="step-circle @(Step >= i ? "step-active" : "")">
-                        <i class="material-icons-outlined">@(Step > i ? "check" : "adjust")</i>
-                    </div>
-                    @if (i < 4)
-                    {
-                        <hr class="step-line" />
-                    }
+                    <li class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
                 }
-            </div>
-            <div class="buttons">
-                @if (Step > 1)
-                {
-                    <button class="skip" @onclick="GoToPrevious">Back</button>
-                }
-                <button class="next" @onclick="GoToNext">Confirm</button>
-            </div>
-        </div>
-    </div>
+            </ul>
+
+            @switch (Tab)
+            {
+                case "Profile":
+                    <AccountDetails />
+                    break;
+                case "Language":
+                    <LanguageSelector />
+                    break;
+                case "Voice":
+                    <VoiceSelector />
+                    break;
+                case "Color":
+                    <ColorSelector />
+                    break;
+                case "Emoji":
+                    <EmojiSelector />
+                    break;
+            }
+
+            <button @onclick="Done">Done</button>
+        </CascadingValue>
+    }
 </div>
 
 @code {
-    int Step = 1;
-    UserSummary? User;
+    string Tab { get; set; } = "Profile";
+    List<string> Tabs = new() { "Profile", "Language", "Voice", "Color", "Emoji" };
+    UserAvatar? User;
+    [Parameter] public EventCallback OnDone { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         User = await Api.GetUserAsync();
     }
 
-    private async Task UpdateUser() => await Api.UpdateUserAsync(User);
+    void SetTab(string tab) => Tab = tab;
 
-    async Task GoToPrevious()
+    async Task Done()
     {
-        await UpdateUser();
-        if (Step > 1)
-        {
-            Step--;
-        }
-    }
-
-    async void GoToNext()
-    {
-        await UpdateUser();
-        if (Step < 4)
-        {
-            Step++;
-        }
+        await OnDone.InvokeAsync();
     }
 }

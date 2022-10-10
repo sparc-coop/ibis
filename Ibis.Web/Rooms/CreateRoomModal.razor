@@ -58,8 +58,8 @@
 
     string? Name;
     string InviteEmail = "";
-    List<string> emails = new List<string>();
-    List<User> invited = new List<User>();
+    List<string> emails = new();
+    List<UserAvatar> invited = new();
 
     async Task CreateRoom()
     {      
