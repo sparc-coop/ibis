@@ -1,5 +1,5 @@
 ﻿namespace Ibis.Features.Messages;
-public record GetAllContentRequest(string RoomId, string? Language, string ContentType = "Text");
+public record GetAllContentRequest(string RoomId, string Language);
 public record GetContentResponse(string Tag, string Text, string? Audio);
 public class GetAllContent : PublicFeature<GetAllContentRequest, List<GetContentResponse>>
 {
@@ -11,7 +11,8 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, List<GetContent
 
     public override async Task<List<GetContentResponse>> ExecuteAsync(GetAllContentRequest request)
     {
-        List<Message> postList = await Messages.Query.Where(x => x.RoomId == request.RoomId && x.Text != null)
+        List<Message> postList = await Messages.Query
+            .Where(x => x.RoomId == request.RoomId && x.Language == request.Language && x.Text != null)
             .OrderByDescending(y => y.Timestamp)
             .ToListAsync();
 

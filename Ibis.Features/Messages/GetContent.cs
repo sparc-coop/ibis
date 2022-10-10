@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record GetContentRequest(string RoomId, string Tag, string? Language, string? ContentType = "Text");
+public record GetContentRequest(string RoomId, string Tag, string Language);
 public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
 {
     public GetContent(IRepository<Message> messages)
@@ -14,7 +14,7 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
     public override async Task<GetContentResponse> ExecuteAsync(GetContentRequest request)
     {
         var message = await Messages.Query
-            .Where(x => x.SiteName == request.RoomId && x.Tag == request.Tag)
+            .Where(x => x.RoomId == request.RoomId && x.Language == request.Language && x.Tag == request.Tag)
             .OrderByDescending(y => y.Timestamp)
             .FirstOrDefaultAsync();
 
