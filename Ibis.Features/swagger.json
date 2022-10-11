@@ -479,6 +479,75 @@
         }
       }
     },
+    "/api/GetAllContent": {
+      "post": {
+        "tags": [
+          "GetAllContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllContentRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllContentRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllContentRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetContentResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetContentResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetContentResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetAllMessages": {
       "post": {
         "tags": [
@@ -532,6 +601,66 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetAllMessagesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetContent": {
+      "post": {
+        "tags": [
+          "GetContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
                 }
               }
             }
@@ -1056,6 +1185,66 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/slack/CreatePost": {
+      "post": {
+        "tags": [
+          "SlackApi"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_name": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "command": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "user_name": {
+                  "style": "form"
+                },
+                "text": {
+                  "style": "form"
+                },
+                "command": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -1706,6 +1895,20 @@
         },
         "additionalProperties": false
       },
+      "GetAllContentRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllMessagesRequest": {
         "type": "object",
         "properties": {
@@ -1728,6 +1931,42 @@
             "items": {
               "$ref": "#/components/schemas/Message"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetContentRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetContentResponse": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "audio": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -1785,6 +2024,10 @@
         "type": "object",
         "properties": {
           "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
             "type": "string",
             "nullable": true
           },
@@ -1854,7 +2097,7 @@
       "JoinRoomRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
+          "roomSlug": {
             "type": "string",
             "nullable": true
           }
@@ -1997,6 +2240,10 @@
             "type": "number",
             "format": "double",
             "readOnly": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2190,6 +2437,10 @@
             "nullable": true
           },
           "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
             "type": "string",
             "nullable": true
           }

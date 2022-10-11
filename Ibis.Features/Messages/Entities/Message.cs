@@ -25,13 +25,14 @@ public class Message : SparcRoot<string>
         Language = "";
     }
 
-    public Message(string roomId, User user, string text) : this()
+    public Message(string roomId, User user, string text, string? tag = null) : this()
     {
         RoomId = roomId;
         User = user.Avatar;
         Language = user.Avatar.Language ?? "";
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
+        Tag = tag;
         SetText(text);
     }
 
@@ -43,6 +44,7 @@ public class Message : SparcRoot<string>
         Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
         Language = toLanguage;
         Timestamp = DateTime.UtcNow;
+        Tag = sourceMessage.Tag;
         SetText(text);
     }
 

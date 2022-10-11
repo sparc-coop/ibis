@@ -36,7 +36,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { Slug = Slug });
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomSlug = Slug });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
     }
 

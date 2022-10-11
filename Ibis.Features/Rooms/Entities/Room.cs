@@ -25,6 +25,8 @@ public class Room : SparcRoot<string>
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
+        Name = "";
+        Slug = "";
         SetName("New Room");
         HostUser = new User().Avatar;
         Languages = new();
