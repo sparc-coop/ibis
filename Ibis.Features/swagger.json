@@ -1898,7 +1898,7 @@
       "GetAllContentRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
+          "roomSlug": {
             "type": "string",
             "nullable": true
           },
@@ -1939,7 +1939,7 @@
       "GetContentRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
+          "roomSlug": {
             "type": "string",
             "nullable": true
           },
