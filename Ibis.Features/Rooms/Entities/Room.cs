@@ -1,4 +1,5 @@
 ﻿using Ibis.Features.Sparc.Realtime;
+using System.Text;
 
 namespace Ibis.Features.Rooms;
 
@@ -10,6 +11,7 @@ public class Room : SparcRoot<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }
+    public string Slug { get; private set; }
     public UserAvatar HostUser { get; private set; }
     public List<UserAvatar> Users { get; private set; }
     public SourceMessage? SourceMessage { get; private set; }
@@ -23,7 +25,7 @@ public class Room : SparcRoot<string>
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
-        Name = "New Room";
+        SetName("New Room");
         HostUser = new User().Avatar;
         Languages = new();
         StartDate = DateTime.UtcNow;
@@ -33,7 +35,7 @@ public class Room : SparcRoot<string>
 
     public Room(string name, User hostUser) : this()
     {
-        Name = name;
+        SetName(name);
         HostUser = hostUser.Avatar;
     }
 
@@ -41,7 +43,7 @@ public class Room : SparcRoot<string>
     {
         // Create a subroom from a message
 
-        Name = room.Name;
+        SetName(room.Name);
         SourceMessage = new(room.Id, message.Id);
         //Languages = room.Languages;
         //ActiveUsers = room.ActiveUsers;
@@ -113,9 +115,139 @@ public class Room : SparcRoot<string>
         EndDate = DateTime.UtcNow;
     }
 
-    internal void Rename(string title)
+    internal void SetName(string title)
     {
         Name = title;
+        Slug = UrlFriendly(Name);
     }
 
+    // Adopted from https://stackoverflow.com/a/25486
+    static string UrlFriendly(string title)
+    {
+        if (title == null) return "";
+
+        const int maxlen = 80;
+        int len = title.Length;
+        bool prevdash = false;
+        var sb = new StringBuilder(len);
+        char c;
+
+        for (int i = 0; i < len; i++)
+        {
+            c = title[i];
+            if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
+            {
+                sb.Append(c);
+                prevdash = false;
+            }
+            else if (c >= 'A' && c <= 'Z')
+            {
+                // tricky way to convert to lowercase
+                sb.Append((char)(c | 32));
+                prevdash = false;
+            }
+            else if (c == ' ' || c == ',' || c == '.' || c == '/' ||
+                c == '\\' || c == '-' || c == '_' || c == '=')
+            {
+                if (!prevdash && sb.Length > 0)
+                {
+                    sb.Append('-');
+                    prevdash = true;
+                }
+            }
+            else if ((int)c >= 128)
+            {
+                int prevlen = sb.Length;
+                sb.Append(RemapInternationalCharToAscii(c));
+                if (prevlen != sb.Length) prevdash = false;
+            }
+            if (i == maxlen) break;
+        }
+
+        if (prevdash)
+            return sb.ToString().Substring(0, sb.Length - 1);
+        else
+            return sb.ToString();
+    }
+
+    public static string RemapInternationalCharToAscii(char c)
+    {
+        string s = c.ToString().ToLowerInvariant();
+        if ("àåáâäãåą".Contains(s))
+        {
+            return "a";
+        }
+        else if ("èéêëę".Contains(s))
+        {
+            return "e";
+        }
+        else if ("ìíîïı".Contains(s))
+        {
+            return "i";
+        }
+        else if ("òóôõöøőð".Contains(s))
+        {
+            return "o";
+        }
+        else if ("ùúûüŭů".Contains(s))
+        {
+            return "u";
+        }
+        else if ("çćčĉ".Contains(s))
+        {
+            return "c";
+        }
+        else if ("żźž".Contains(s))
+        {
+            return "z";
+        }
+        else if ("śşšŝ".Contains(s))
+        {
+            return "s";
+        }
+        else if ("ñń".Contains(s))
+        {
+            return "n";
+        }
+        else if ("ýÿ".Contains(s))
+        {
+            return "y";
+        }
+        else if ("ğĝ".Contains(s))
+        {
+            return "g";
+        }
+        else if (c == 'ř')
+        {
+            return "r";
+        }
+        else if (c == 'ł')
+        {
+            return "l";
+        }
+        else if (c == 'đ')
+        {
+            return "d";
+        }
+        else if (c == 'ß')
+        {
+            return "ss";
+        }
+        else if (c == 'Þ')
+        {
+            return "th";
+        }
+        else if (c == 'ĥ')
+        {
+            return "h";
+        }
+        else if (c == 'ĵ')
+        {
+            return "j";
+        }
+        else
+        {
+            return "";
+        }
+    }
 }

@@ -30,7 +30,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
 
             if (user != null) //check new or existing
             {
-                roomLink = request.RoomId;
+                roomLink = room.Slug;
                 messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {

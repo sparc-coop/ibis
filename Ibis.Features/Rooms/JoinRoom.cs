@@ -1,9 +1,12 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Microsoft.EntityFrameworkCore;
 
-public record JoinRoomRequest(string RoomId);
+namespace Ibis.Features.Rooms;
+
+public record JoinRoomRequest(string RoomSlug);
 public record GetRoomResponse
 {
     public string RoomId { get; set; }
+    public string Slug { get; set; }
     public DateTime? LastActiveDate { get; set; }
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
@@ -15,6 +18,7 @@ public record GetRoomResponse
         LastActiveDate = room.LastActiveDate;
         StartDate = room.StartDate;
         Name = room.Name;
+        Slug = room.Slug;
         Users = room.Users;
     }
 }
@@ -34,13 +38,13 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 
     public async override Task<GetRoomResponse> ExecuteAsync(JoinRoomRequest request)
     {
-        var room = await Rooms.FindAsync(request.RoomId);
+        var room = await Rooms.Query.FirstOrDefaultAsync(x => x.Slug == request.RoomSlug);
         var user = await Users.GetAsync(User);
         if (room == null || user == null)
-            throw new NotFoundException($"Room {request.RoomId} not found!");
+            throw new NotFoundException($"Room {request.RoomSlug} not found!");
 
-        await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(request.RoomId));
-        await Rooms.ExecuteAsync(request.RoomId, room => room.AddActiveUser(user));
+        await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(room.Id));
+        await Rooms.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
         
         return new(room);
     }
