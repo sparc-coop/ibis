@@ -25,6 +25,10 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
     {
         var room = new Room(request.RoomName, host);
 
+        var existingRoom = Rooms.Query.FirstOrDefault(x => x.HostUser.Id == host.Id && x.Slug == room.Slug);
+        if (existingRoom != null)
+            throw new ForbiddenException($"A room already exists in your account with the name '{room.Slug}'. Please choose a different name.");
+
         //find current users
         foreach (string email in request.Emails)
         {
