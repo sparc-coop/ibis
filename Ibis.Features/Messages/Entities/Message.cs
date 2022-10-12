@@ -2,7 +2,20 @@
 
 namespace Ibis.Features.Messages;
 
-public record MessageTranslation(string LanguageId, string MessageId);
+public class MessageTranslation
+{
+    public MessageTranslation(string languageId, string messageId)
+    {
+        Id = Guid.NewGuid().ToString();
+        LanguageId = languageId;
+        MessageId = messageId;
+    }
+
+    public string Id { get; set; }
+    public string LanguageId { get; set; }
+    public string MessageId { get; set; }
+}
+
 public record Word(long Offset, long Duration, string Text);
 public class Message : SparcRoot<string>
 {
@@ -13,7 +26,7 @@ public class Message : SparcRoot<string>
     public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
-    public List<MessageTranslation>? Translations { get; private set; }
+    public List<MessageTranslation> Translations { get; private set; }
     public decimal Charge { get; private set; }
     public string? Tag { get; set; }
 
@@ -23,6 +36,7 @@ public class Message : SparcRoot<string>
         RoomId = "";
         User = new User().Avatar;
         Language = "";
+        Translations = new();
     }
 
     public Message(string roomId, User user, string text, string? tag = null) : this()
@@ -74,8 +88,6 @@ public class Message : SparcRoot<string>
     
     internal void AddTranslation(string languageId, string messageId)
     {
-        Translations ??= new();
-
         if (!HasTranslation(languageId))
             Translations.Add(new(languageId, messageId));
     }

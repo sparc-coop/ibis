@@ -1,4 +1,6 @@
 ﻿using Ibis.Features.Sparc.Realtime;
+using Microsoft.Azure.Cosmos;
+using Microsoft.EntityFrameworkCore;
 using Sparc.Authentication.AzureADB2C;
 using Sparc.Notifications.Twilio;
 using Sparc.Plugins.Database.Cosmos;
@@ -16,11 +18,18 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.Sparcify<Startup>(Configuration["WebClientUrl"])
-            .AddCosmos<IbisContext>(Configuration.GetConnectionString("Database"), "ibis")
             .AddAzureADB2CAuthentication(Configuration)
             .AddAzureStorage(Configuration.GetConnectionString("Storage"))
             .AddTwilio(Configuration)
             .AddSparcRealtime<IbisHub>();
+
+        // Bug fix for Sparc Realtime (events executing in parallel with a scoped context)
+        services.AddDbContext<IbisContext>(options => options.UseCosmos(Configuration.GetConnectionString("Database"), "ibis", options =>
+        {
+            options.ConnectionMode(ConnectionMode.Direct);
+        }), ServiceLifetime.Transient);
+        services.AddScoped(typeof(DbContext), typeof(IbisContext));
+        services.AddScoped(sp => new CosmosDbDatabaseProvider(sp.GetRequiredService<DbContext>(), "ibis"));
 
         services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
             .AddScoped<ITranslator, AzureTranslator>()
