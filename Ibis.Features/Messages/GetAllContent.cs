@@ -1,7 +1,8 @@
 ﻿namespace Ibis.Features.Messages;
 public record GetAllContentRequest(string RoomSlug, string Language);
-public record GetContentResponse(string Tag, string Text, string? Audio);
-public class GetAllContent : PublicFeature<GetAllContentRequest, List<GetContentResponse>>
+public record GetAllContentResponse(string Name, string Slug, string Language, List<GetContentResponse> Content);
+public record GetContentResponse(string Tag, string Text, string? Audio, DateTime Timestamp);
+public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
     public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms)
     {
@@ -11,7 +12,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, List<GetContent
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
 
-    public override async Task<List<GetContentResponse>> ExecuteAsync(GetAllContentRequest request)
+    public override async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)
     {
         var room = Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug);
         if (room == null)
@@ -27,9 +28,9 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, List<GetContent
         List<GetContentResponse> result = new();
         foreach (var item in postList)
         {
-            result.Add(new(item.Tag ?? item.Id, item.Text!, item.Audio?.Url));
+            result.Add(new(item.Tag ?? item.Id, item.Text!, item.Audio?.Url, item.Timestamp));
         }
 
-        return result;
+        return new(room.Name, room.Slug, request.Language, result);
     }
 }

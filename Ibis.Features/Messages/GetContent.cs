@@ -29,6 +29,6 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
         if (message == null)
             throw new NotFoundException($"Message {request.Tag} not found!");
 
-        return new(message.Tag!, message.Text!, message.Audio?.Url);
+        return new(message.Tag!, message.Text!, message.Audio?.Url, message.Timestamp);
     }
 }

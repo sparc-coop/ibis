@@ -521,26 +521,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetContentResponse"
-                  }
+                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetContentResponse"
-                  }
+                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetContentResponse"
-                  }
+                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               }
             }
@@ -1915,6 +1906,31 @@
         },
         "additionalProperties": false
       },
+      "GetAllContentResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetContentResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllMessagesRequest": {
         "type": "object",
         "properties": {
@@ -1974,6 +1990,10 @@
           "audio": {
             "type": "string",
             "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
