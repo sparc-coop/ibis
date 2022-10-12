@@ -14,13 +14,15 @@ public class SlackApi : ControllerBase
     public IRepository<User> Users { get; }
     public TypeMessage TypeMessage { get; }
     public CreateRoom CreateRoom { get; }
+    public GetRooms GetRooms { get; }
 
-    public SlackApi(IRepository<Room> rooms, IRepository<User> users, TypeMessage typeMessage, CreateRoom createRoom)
+    public SlackApi(IRepository<Room> rooms, IRepository<User> users, TypeMessage typeMessage, CreateRoom createRoom, GetRooms getrooms)
     {
         Rooms = rooms;
         Users = users;
         TypeMessage = typeMessage;
         CreateRoom = createRoom;
+        GetRooms = getrooms;
     }
 
     [HttpPost("")]
@@ -35,20 +37,30 @@ public class SlackApi : ControllerBase
                 "login" => await LoginAsync(request, parameters),
                 "post" => await PostAsync(parameters),
                 "createroom" => await CreateRoomAsync(parameters),
+                "listrooms" => await ListRoomsAsync(parameters),
                 _ => $"Unknown command '{parameters.Command}'",
             };
         }
         catch (Exception e)
         {
-            return $"Oops! {e.GetType().Name}: {e.Message}";
+            return $"Oops! {e.GetType().Name}: {e.Message} {e.InnerException?.Message} {e.StackTrace}";
         }
+    }
+
+    private async Task<string> ListRoomsAsync(SlackParameters parameters)
+    {
+        CheckLoggedIn(parameters);
+
+        var rooms = await GetRooms.ExecuteAsUserAsync(parameters.User!);
+        return string.Join("\r\n", rooms.Select(room => $"{room.Name} => {room.Slug} (Last activity: {room.LastActiveDate:d})"));
     }
 
     private async Task<string> CreateRoomAsync(SlackParameters parameters)
     {
         CheckLoggedIn(parameters);
 
-        var room = await CreateRoom.ExecuteAsUserAsync(new(parameters.Slug, new()), parameters.User!);
+        var roomName = parameters.Slug + (string.IsNullOrWhiteSpace(parameters.Text) ? "" : $" {parameters.Text}");
+        var room = await CreateRoom.ExecuteAsUserAsync(new(roomName, new()), parameters.User!);
         return $"Room created! Use '/ibis post {room.Slug} [text]' to post to this room.";
     }
 
@@ -85,7 +97,7 @@ public class SlackApi : ControllerBase
     {
         var parseRequest = request.text.Split(' ');
         var command = parseRequest[0];
-        var slug = parseRequest[1];
+        var slug = parseRequest.Length > 1 ? parseRequest[1] : "";
 
         var channelId = Rooms.Query.FirstOrDefault(x => x.Slug == slug)?.Id;
 
