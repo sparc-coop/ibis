@@ -28,10 +28,10 @@ public class Startup
         {
             options.ConnectionMode(ConnectionMode.Direct);
         }), ServiceLifetime.Transient);
-        services.AddScoped(typeof(DbContext), typeof(IbisContext));
-        services.AddScoped(sp => new CosmosDbDatabaseProvider(sp.GetRequiredService<DbContext>(), "ibis"));
+        services.AddTransient(typeof(DbContext), typeof(IbisContext));
+        services.AddTransient(sp => new CosmosDbDatabaseProvider(sp.GetRequiredService<DbContext>(), "ibis"));
 
-        services.AddScoped(typeof(IRepository<>), typeof(CosmosDbRepository<>))
+        services.AddTransient(typeof(IRepository<>), typeof(CosmosDbRepository<>))
             .AddScoped<ITranslator, AzureTranslator>()
             .AddScoped<ISpeaker, AzureSpeaker>();
 

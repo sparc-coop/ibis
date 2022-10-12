@@ -75,6 +75,8 @@ public class User : SparcRoot<string>
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);
 
+    public static User System => new("system", "system");
+
     internal void AddCharge(UserCharge userCharge)
     {
         Balance += userCharge.Amount;

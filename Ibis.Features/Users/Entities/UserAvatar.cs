@@ -40,6 +40,7 @@ public class UserAvatar
     {
         Id = id;
         Name = name;
+        Language = "en";
         ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
     }
 

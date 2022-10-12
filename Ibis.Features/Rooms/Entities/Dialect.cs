@@ -10,12 +10,15 @@ public class Dialect
     public string NativeName { get; private set; }
     public List<Voice> Voices { get; private set; }
 
-    public Dialect(string locale)
-    {
-        var info = CultureInfo.GetCultureInfo(locale);
+    public Dialect()
+    { }
 
-        Language = locale.Split('-').First();
-        Locale = locale.Split('-').Last();
+    public Dialect(string localeName)
+    {
+        var info = CultureInfo.GetCultureInfo(localeName);
+
+        Language = localeName.Split('-').First();
+        Locale = localeName.Split('-').Last();
         DisplayName = info.DisplayName;
         NativeName = info.NativeName;
         Voices = new();

@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record TypeMessageRequest(string RoomId, string Text, string? Tag);
+public record TypeMessageRequest(string RoomId, string Text, string? Tag = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
 {
     public TypeMessage(IRepository<Message> messages, IRepository<User> users)

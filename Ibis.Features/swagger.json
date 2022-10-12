@@ -1869,7 +1869,8 @@
           },
           "locale": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "displayName": {
             "type": "string",
@@ -1921,10 +1922,6 @@
             "nullable": true
           },
           "slug": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
             "type": "string",
             "nullable": true
           },
@@ -1991,6 +1988,10 @@
             "nullable": true
           },
           "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
             "type": "string",
             "nullable": true
           },
