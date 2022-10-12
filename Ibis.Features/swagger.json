@@ -1189,7 +1189,7 @@
         }
       }
     },
-    "/slack/CreatePost": {
+    "/slack": {
       "post": {
         "tags": [
           "SlackApi"
@@ -1200,7 +1200,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "user_name": {
+                  "team_id": {
+                    "type": "string"
+                  },
+                  "user_id": {
                     "type": "string"
                   },
                   "text": {
@@ -1212,7 +1215,10 @@
                 }
               },
               "encoding": {
-                "user_name": {
+                "team_id": {
+                  "style": "form"
+                },
+                "user_id": {
                   "style": "form"
                 },
                 "text": {

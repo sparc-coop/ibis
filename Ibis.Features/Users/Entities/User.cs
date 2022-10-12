@@ -43,6 +43,8 @@ public class User : SparcRoot<string>
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
     public string? CustomerId { get; private set; }
+    public string? SlackTeamId { get; private set; }
+    public string? SlackUserId { get; private set; }
     public decimal Balance { get; private set; }
     public UserAvatar Avatar { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
@@ -104,6 +106,12 @@ public class User : SparcRoot<string>
     {
         Avatar.IsOnline = false;
         Broadcast(new UserAvatarUpdated(Avatar));
+    }
+
+    internal void RegisterWithSlack(string team_id, string user_id)
+    {
+        SlackTeamId = team_id;
+        SlackUserId = user_id;
     }
 }
 

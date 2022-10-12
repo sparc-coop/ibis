@@ -12,12 +12,17 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
 
-    public async override Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
+    public override async Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
     {
         var host = await Users.GetAsync(User);
         if (host == null)
             throw new NotAuthorizedException("User not found!");
 
+        return await ExecuteAsUserAsync(request, host);
+    }
+
+    internal async Task<GetRoomResponse> ExecuteAsUserAsync(NewRoomRequest request, User host)
+    {
         var room = new Room(request.RoomName, host);
 
         //find current users

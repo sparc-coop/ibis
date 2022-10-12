@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Ibis.Features.Messages;
 
 public record TypeMessageRequest(string RoomId, string Text, string? Tag);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
@@ -15,6 +17,11 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
     public override async Task<Message> ExecuteAsync(TypeMessageRequest request)
     {
         var user = await Users.GetAsync(User);
+        return await ExecuteAsUserAsync(request, user!);
+    }
+
+    internal async Task<Message> ExecuteAsUserAsync(TypeMessageRequest request, User user)
+    {
         if (request.Tag != null)
         {
             // If a tag is passed in, edit the message if it exists
