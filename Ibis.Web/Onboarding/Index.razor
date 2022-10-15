@@ -40,8 +40,8 @@
 </div>
 
 @code {
-    string Tab { get; set; } = "Profile";
-    List<string> Tabs = new() { "Profile", "Language", "Voice", "Color", "Emoji" };
+    string Tab { get; set; } = "Emoji";
+    List<string> Tabs = new() { "Emoji", "Color", "Language", "Voice", "Profile" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
 

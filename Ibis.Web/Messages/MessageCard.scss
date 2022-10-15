@@ -6,6 +6,7 @@
     border-radius: 12px;
     margin-bottom: 16px;
     position: relative;
+    animation: new-message-card-slide-up 0.2s;
 
     > p, span {
         font-size: 18px;
@@ -51,4 +52,9 @@
 
 .subroom {
     margin-left: 40px;
+}
+
+@keyframes new-message-card-slide-up {
+    from { opacity: 0; transform: translateY(50%); }
+    to { opacity: 1; transform: translateY(0); }
 }

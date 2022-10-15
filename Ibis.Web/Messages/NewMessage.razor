@@ -1,6 +1,6 @@
-﻿<form class="new-message" @onsubmit=SendText>
+﻿<form class="new-message @(IsSubmitted ? "submitted" : "")" @onsubmit=SendText>
     <Avatar User="Me" SpillBackground=true CanEdit=true />
-    <textarea type="text" placeholder="Type something..." @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+    <textarea type="text" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     @if (IsSpeak)
     {
         <button @onclick="ShowSpeakModal" aria-label="Speak">
@@ -28,8 +28,10 @@
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
+    ElementReference TextArea;
     bool IsSpeak => string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
+    bool IsSubmitted;
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
@@ -50,7 +52,10 @@
         Text = "";
         StateHasChanged();
 
+        IsSubmitted = true;
         var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text });
+        IsSubmitted = false;
+        await TextArea.FocusAsync();
     }
 
 

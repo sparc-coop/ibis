@@ -8,6 +8,13 @@
     border-radius: 16px;
     border: 1px solid $light-gray;
     background: #FFFFFF;
+    transition: transform 0.15s ease-out;
+
+    &.submitted {
+        transform: translateY(-20%);
+        opacity: 0;
+        transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+    }
 
     > .avatar {
         position: absolute;
