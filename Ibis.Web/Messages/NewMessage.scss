@@ -31,15 +31,20 @@
         right: 24px;
         top: 20px;
         padding: 6px 12px;
-        background: $dark-blue;
+        background: $secondary-900;
         border-radius: 8px;
         color: $white;
         align-items: center;
         height: 32px;
         line-height: 20px;
+        z-index: 2;
 
-        img {
-            margin-left: 8px;
+        &:hover {
+            background: $secondary-800;
+        }
+
+        img, svg {
+            margin-right: 8px;
         }
     }
 
@@ -50,6 +55,7 @@
         width: 100%;
         max-width: 100%;
         resize: none;
+        z-index: 2;
 
         &::placeholder {
             color: $grey-500;
@@ -61,5 +67,35 @@
         box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
         padding: 16px;
         border-radius: 0 0 16px 16px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+
+        button {
+            color: $grey-400;
+            font-weight: 400;
+            font-size: 13px;
+            border: 1px solid $grey-400;
+            padding: 6px 12px;
+            border-radius: 8px;
+            z-index: 3;
+
+            svg {
+                margin-right: 8px;
+
+                path {
+                    fill: $grey-400;
+                }
+            }
+
+            &:hover {
+                background-color: $secondary-900;
+                color: white;
+
+                svg path {
+                    fill: white;
+                }
+            }
+        }
     }
 }

@@ -1234,9 +1234,13 @@ main {
   align-items: center;
   height: 32px;
   line-height: 20px;
+  z-index: 2;
 }
-.new-message > button img {
-  margin-left: 8px;
+.new-message > button:hover {
+  background: #2E7BA5;
+}
+.new-message > button img, .new-message > button svg {
+  margin-right: 8px;
 }
 .new-message textarea {
   height: 105px;
@@ -1244,6 +1248,7 @@ main {
   width: 100%;
   max-width: 100%;
   resize: none;
+  z-index: 2;
 }
 .new-message textarea::placeholder {
   color: #6A7280;
@@ -1253,6 +1258,31 @@ main {
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   padding: 16px;
   border-radius: 0 0 16px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.new-message > footer button {
+  color: #9BA3AF;
+  font-weight: 400;
+  font-size: 13px;
+  border: 1px solid #9BA3AF;
+  padding: 6px 12px;
+  border-radius: 8px;
+  z-index: 3;
+}
+.new-message > footer button svg {
+  margin-right: 8px;
+}
+.new-message > footer button svg path {
+  fill: #9BA3AF;
+}
+.new-message > footer button:hover {
+  background-color: #003B5F;
+  color: white;
+}
+.new-message > footer button:hover svg path {
+  fill: white;
 }
 
 .upload {
@@ -1607,6 +1637,7 @@ main {
   filter: opacity(30%);
   border-radius: 12px;
   pointer-events: none;
+  z-index: 1;
 }
 
 .avatar {
