@@ -507,22 +507,6 @@ main {
   line-height: 46px;
   margin-bottom: 2px;
 }
-.room header .user-invite {
-  border: 1px solid #fe3205;
-  background: inherit;
-  font-size: 16px;
-  line-height: 20px;
-  padding: 6px 12px;
-  color: #fe3205;
-  border-radius: 8px;
-  max-height: 32px;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-.room header .user-invite img {
-  margin-right: 8px;
-}
 .room header .share {
   margin: 0 0 10px 10px;
   cursor: pointer;
@@ -616,11 +600,6 @@ main {
   border-radius: 10px;
   border: 1px solid #e6e6e6;
   margin: 30px;
-}
-.room .user-invite {
-  position: absolute;
-  top: 30px;
-  right: 60px;
 }
 .room-language {
   padding: 0 32px;
@@ -1774,6 +1753,37 @@ main {
 }
 .avatar-list .users .image-wrapper .camera-name {
   bottom: 8px;
+}
+.avatar-list > footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  text-align: center;
+}
+.avatar-list .user-invite {
+  border: 1px solid #003B5F;
+  background: inherit;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 6px 12px;
+  color: #003B5F;
+  border-radius: 8px;
+  max-height: 32px;
+}
+.avatar-list .user-invite svg {
+  margin-right: 8px;
+}
+.avatar-list .user-invite svg path {
+  fill: #003B5F;
+}
+.avatar-list .user-invite:hover {
+  background-color: #003B5F;
+  color: white;
+}
+.avatar-list .user-invite:hover svg path {
+  fill: white;
 }
 .avatar-list .image-wrapper {
   position: relative;

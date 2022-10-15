@@ -44,6 +44,41 @@
         }
     }
 
+    > footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .user-invite {
+        border: 1px solid $secondary-900;
+        background: inherit;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 6px 12px;
+        color: $secondary-900;
+        border-radius: 8px;
+        max-height: 32px;
+
+        svg {
+            margin-right: 8px;
+            path {
+                fill: $secondary-900;
+            }
+        }
+
+        &:hover {
+            background-color: $secondary-900;
+            color: white;
+            svg path {
+                fill: white;
+            }
+        }
+    }
+
     .image-wrapper {
         position: relative;
 
