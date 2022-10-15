@@ -164,10 +164,10 @@
         }
       }
     },
-    "/api/ChangeLanguage": {
+    "/api/ChangeVoice": {
       "post": {
         "tags": [
-          "ChangeLanguage"
+          "ChangeVoice"
         ],
         "requestBody": {
           "content": {
@@ -175,7 +175,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -184,7 +184,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -193,7 +193,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ChangeLanguageRequest"
+                    "$ref": "#/components/schemas/ChangeVoiceRequest"
                   }
                 ]
               }
@@ -206,17 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/ChangeVoiceResponse"
                 }
               }
             }
@@ -235,7 +235,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -249,7 +249,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -263,7 +263,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -479,10 +479,10 @@
         }
       }
     },
-    "/api/FindUserByEmail": {
+    "/api/GetAllContent": {
       "post": {
         "tags": [
-          "FindUserByEmail"
+          "GetAllContent"
         ],
         "requestBody": {
           "content": {
@@ -490,7 +490,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/FindUserRequest"
+                    "$ref": "#/components/schemas/GetAllContentRequest"
                   }
                 ]
               }
@@ -499,7 +499,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/FindUserRequest"
+                    "$ref": "#/components/schemas/GetAllContentRequest"
                   }
                 ]
               }
@@ -508,7 +508,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/FindUserRequest"
+                    "$ref": "#/components/schemas/GetAllContentRequest"
                   }
                 ]
               }
@@ -521,17 +521,166 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/GetAllContentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetAllMessages": {
+      "post": {
+        "tags": [
+          "GetAllMessages"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllMessagesRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllMessagesRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetAllMessagesRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllMessagesResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllMessagesResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllMessagesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetContent": {
+      "post": {
+        "tags": [
+          "GetContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetContentRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetEmojis": {
+      "post": {
+        "tags": [
+          "GetEmojis"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmojisResponse"
                 }
               }
             }
@@ -746,78 +895,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSummary"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/events/GroupNotificationForwarder": {
-      "post": {
-        "tags": [
-          "GroupNotificationForwarder"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
           }
         }
       }
@@ -971,6 +1062,66 @@
         }
       }
     },
+    "/api/LeaveRoom": {
+      "post": {
+        "tags": [
+          "LeaveRoom"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LeaveRoomRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LeaveRoomRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LeaveRoomRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events/SendSms": {
       "post": {
         "tags": [
@@ -982,7 +1133,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -996,7 +1147,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1010,7 +1161,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1029,6 +1180,72 @@
         }
       }
     },
+    "/slack": {
+      "post": {
+        "tags": [
+          "SlackApi"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "team_id": {
+                    "type": "string"
+                  },
+                  "user_id": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "command": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "team_id": {
+                  "style": "form"
+                },
+                "user_id": {
+                  "style": "form"
+                },
+                "text": {
+                  "style": "form"
+                },
+                "command": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events/SpeakMessage": {
       "post": {
         "tags": [
@@ -1040,7 +1257,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1054,7 +1271,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1068,7 +1285,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1098,7 +1315,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1112,7 +1329,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1126,7 +1343,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1156,7 +1373,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1170,7 +1387,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1184,7 +1401,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/INotification"
+                    "$ref": "#/components/schemas/SparcNotification"
                   },
                   { }
                 ],
@@ -1334,7 +1551,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1343,7 +1560,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1352,7 +1569,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ]
               }
@@ -1365,17 +1582,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               }
             }
@@ -1452,64 +1669,6 @@
         }
       }
     },
-    "/events/UserNotificationForwarder": {
-      "post": {
-        "tags": [
-          "UserNotificationForwarder"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/INotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/UserPhotoUpload": {
       "post": {
         "tags": [
@@ -1573,20 +1732,6 @@
   },
   "components": {
     "schemas": {
-      "ActiveRoom": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          },
-          "joinDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
       "AudioMessage": {
         "type": "object",
         "properties": {
@@ -1599,11 +1744,7 @@
             "format": "int64"
           },
           "voice": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Voice"
-              }
-            ],
+            "type": "string",
             "nullable": true
           },
           "subtitles": {
@@ -1616,10 +1757,40 @@
         },
         "additionalProperties": false
       },
-      "ChangeLanguageRequest": {
+      "BalanceChanged": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SparcNotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "hostUserId": {
+                "type": "string",
+                "nullable": true
+              },
+              "amount": {
+                "type": "number",
+                "format": "double"
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Users.BalanceChanged, Ibis.Features"
+      },
+      "ChangeVoiceRequest": {
         "type": "object",
         "properties": {
           "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "voiceName": {
             "type": "string",
             "nullable": true
           },
@@ -1630,19 +1801,25 @@
         },
         "additionalProperties": false
       },
+      "ChangeVoiceResponse": {
+        "type": "object",
+        "properties": {
+          "previewAudioUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CostIncurred": {
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "message": {
                 "allOf": [
                   {
@@ -1692,7 +1869,8 @@
           },
           "locale": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "displayName": {
             "type": "string",
@@ -1715,11 +1893,141 @@
         },
         "additionalProperties": false
       },
-      "FindUserRequest": {
+      "GetAllContentRequest": {
         "type": "object",
         "properties": {
-          "email": {
+          "roomSlug": {
             "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllContentResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetContentResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllMessagesRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllMessagesResponse": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetContentRequest": {
+        "type": "object",
+        "properties": {
+          "roomSlug": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetContentResponse": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "audio": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEmojisResponse": {
+        "type": "object",
+        "properties": {
+          "skintones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -1753,6 +2061,10 @@
             "type": "string",
             "nullable": true
           },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          },
           "lastActiveDate": {
             "type": "string",
             "format": "date-time",
@@ -1771,14 +2083,7 @@
           "users": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UserSummary"
-            },
-            "nullable": true
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
+              "$ref": "#/components/schemas/UserAvatar"
             },
             "nullable": true
           }
@@ -1809,44 +2114,6 @@
         },
         "additionalProperties": false
       },
-      "GroupNotification": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/INotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.GroupNotification, Ibis.Features"
-      },
-      "INotification": {
-        "required": [
-          "$type"
-        ],
-        "type": "object",
-        "properties": {
-          "$type": {
-            "type": "string",
-            "default": "Sparc.Realtime.INotification"
-          }
-        },
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        }
-      },
       "InviteUserRequest": {
         "type": "object",
         "properties": {
@@ -1864,7 +2131,7 @@
       "JoinRoomRequest": {
         "type": "object",
         "properties": {
-          "roomId": {
+          "roomSlug": {
             "type": "string",
             "nullable": true
           }
@@ -1904,7 +2171,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
@@ -1930,6 +2197,16 @@
         },
         "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
       },
+      "LeaveRoomRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Message": {
         "type": "object",
         "properties": {
@@ -1940,7 +2217,7 @@
           "events": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/INotification"
+              "$ref": "#/components/schemas/SparcNotification"
             },
             "nullable": true,
             "readOnly": true
@@ -1967,7 +2244,7 @@
           "user": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/UserSummary"
+                "$ref": "#/components/schemas/UserAvatar"
               }
             ],
             "nullable": true
@@ -1997,6 +2274,10 @@
             "type": "number",
             "format": "double",
             "readOnly": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2005,15 +2286,11 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "message": {
                 "allOf": [
                   {
@@ -2035,15 +2312,11 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "message": {
                 "allOf": [
                   {
@@ -2064,6 +2337,10 @@
       "MessageTranslation": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "languageId": {
             "type": "string",
             "nullable": true
@@ -2106,19 +2383,39 @@
         },
         "additionalProperties": false
       },
+      "SparcNotification": {
+        "required": [
+          "$type"
+        ],
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "$type": {
+            "type": "string",
+            "default": "Sparc.Realtime.SparcNotification"
+          }
+        },
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        }
+      },
       "SpeechRecognized": {
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "sessionId": {
                 "type": "string",
                 "nullable": true
@@ -2144,15 +2441,11 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "sessionId": {
                 "type": "string",
                 "nullable": true
@@ -2182,6 +2475,10 @@
             "nullable": true
           },
           "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
             "type": "string",
             "nullable": true
           }
@@ -2226,130 +2523,96 @@
         },
         "additionalProperties": false
       },
-      "User": {
+      "UserAvatar": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "nullable": true
           },
-          "userId": {
+          "name": {
             "type": "string",
             "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "fullName": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
           },
           "initials": {
             "type": "string",
             "nullable": true,
             "readOnly": true
           },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
+          "isOnline": {
+            "type": "boolean"
           },
-          "firstName": {
+          "foregroundColor": {
             "type": "string",
             "nullable": true
           },
-          "lastName": {
+          "backgroundColor": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "language": {
             "type": "string",
             "nullable": true
           },
-          "displayName": {
+          "emoji": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
-          "dateCreated": {
+          "skinTone": {
             "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "dateModified": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "customerId": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "profileImg": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "pronouns": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "description": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "voice": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Voice"
-              }
-            ],
-            "nullable": true,
-            "readOnly": true
-          },
-          "balance": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          },
-          "primaryLanguageId": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "languagesSpoken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Language"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "activeRooms": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActiveRoom"
-            },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           }
         },
         "additionalProperties": false
+      },
+      "UserAvatarUpdated": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SparcNotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "avatar": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserAvatar"
+                  }
+                ],
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Users.UserAvatarUpdated, Ibis.Features"
       },
       "UserJoined": {
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "roomId": {
                 "type": "string",
                 "nullable": true
@@ -2357,7 +2620,7 @@
               "user": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ],
                 "nullable": true
@@ -2375,15 +2638,11 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/INotification"
+            "$ref": "#/components/schemas/SparcNotification"
           },
           {
             "type": "object",
             "properties": {
-              "groupId": {
-                "type": "string",
-                "nullable": true
-              },
               "roomId": {
                 "type": "string",
                 "nullable": true
@@ -2391,7 +2650,7 @@
               "user": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UserSummary"
+                    "$ref": "#/components/schemas/UserAvatar"
                   }
                 ],
                 "nullable": true
@@ -2404,76 +2663,6 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis.Features.Rooms.UserLeft, Ibis.Features"
-      },
-      "UserNotification": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/INotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "userId": {
-                "type": "string",
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Sparc.Realtime.UserNotification, Ibis.Features"
-      },
-      "UserSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "initials": {
-            "type": "string",
-            "nullable": true
-          },
-          "receivesSms": {
-            "type": "boolean"
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "isOnline": {
-            "type": "boolean"
-          },
-          "pronouns": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "image": {
-            "type": "string",
-            "nullable": true
-          },
-          "color": {
-            "type": "string",
-            "nullable": true
-          },
-          "colorHash": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
       },
       "Voice": {
         "type": "object",
@@ -2526,6 +2715,40 @@
           }
         },
         "additionalProperties": false
+      },
+      "WordSpoken": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SparcNotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "nullable": true
+              },
+              "audio": {
+                "type": "string",
+                "format": "byte",
+                "nullable": true
+              },
+              "words": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Word"
+                },
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features._Plugins.WordSpoken, Ibis.Features"
       }
     }
   }

@@ -26,11 +26,11 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             string roomLink = "";
 
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
-            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
+            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault()?.Avatar;
 
             if (user != null) //check new or existing
             {
-                roomLink = request.RoomId;
+                roomLink = room.Slug;
                 messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {
@@ -41,7 +41,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
 
             //add pending user
-            await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(new(user)));
+            await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(user));
 
             await Rooms.UpdateAsync(room);
 

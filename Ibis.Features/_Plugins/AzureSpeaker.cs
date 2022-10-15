@@ -1,21 +1,22 @@
 ﻿using Ibis.Features.Sparc.Realtime;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CognitiveServices.Speech;
+using NAudio.Lame;
 using NAudio.Wave;
 using Sparc.Storage.Azure;
 using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins;
 
+public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : SparcNotification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;
     readonly string SubscriptionKey;
-    readonly IHubContext<RoomHub> Hub;
 
     public IRepository<File> Files { get; }
 
-    public AzureSpeaker(IConfiguration configuration, IHubContext<RoomHub> hub, IRepository<File> files)
+    public AzureSpeaker(IConfiguration configuration, IHubContext<IbisHub> hub, IRepository<File> files)
     {
         SubscriptionKey = configuration.GetConnectionString("Speech");
 
@@ -25,7 +26,6 @@ public class AzureSpeaker : ISpeaker
         };
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
 
-        Hub = hub;
         Files = files;
     }
 
@@ -34,29 +34,23 @@ public class AzureSpeaker : ISpeaker
         if (message.Audio?.Voice == null)
             return null;
 
-        var synthesizer = Synthesizer(message.Audio.Voice.ShortName);
+        var synthesizer = Synthesizer(message.Audio.Voice);
         var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {
-            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("WordBoundary", message.Id, e.AudioOffset, e.WordLength);
-            words.Add(new((long)e.AudioOffset, e.Duration.Ticks, e.Text));
-        };
-
-        synthesizer.Synthesizing += (sender, e) =>
-        {
-            Hub.Clients.Group(message.Audio.Voice.Locale).SendAsync("Speak", message.Id, e.Result.AudioData);
+            words.Add(new((long)e.AudioOffset / 10000, (long)e.Duration.TotalMilliseconds, e.Text));
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
 
-        using var stream = new MemoryStream(result.AudioData, false);
-        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice.ShortName}.wav", AccessTypes.Public, stream);
+        using var stream = new MemoryStream(ConvertWavToMp3(result.AudioData), false);
+        File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.mp3", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
         var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
-        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice!.Name}");
+        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice}");
         
-        return new(file.Url!, result.AudioDuration.Ticks, message.Audio.Voice, words);
+        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio.Voice, words);
     }
 
     public async Task<AudioMessage> SpeakAsync(List<Message> messages)
@@ -90,7 +84,7 @@ public class AzureSpeaker : ISpeaker
 
         waveFileWriter?.Dispose();
 
-        File file = new("speak", $"{messages.First().RoomId}/{messages.First().Audio!.Voice!.ShortName}.wav", AccessTypes.Public, combinedAudio);
+        File file = new("speak", $"{messages.First().RoomId}/{messages.First().Audio!.Voice}.wav", AccessTypes.Public, combinedAudio);
         await Files.AddAsync(file);
 
         return new(file.Url, 0, messages.First().Audio!.Voice);
@@ -113,5 +107,16 @@ public class AzureSpeaker : ISpeaker
         config.SpeechSynthesisVoiceName = voice;
 
         return new SpeechSynthesizer(config, null);
+    }
+
+    public static byte[] ConvertWavToMp3(byte[] wavFile)
+    {
+        using var retMs = new MemoryStream();
+        using var ms = new MemoryStream(wavFile);
+        using var rdr = new WaveFileReader(ms);
+        using var wtr = new LameMP3FileWriter(retMs, rdr.WaveFormat, 128);
+        rdr.CopyTo(wtr);
+        wtr.Flush();
+        return retMs.ToArray();
     }
 }

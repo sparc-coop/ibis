@@ -16,7 +16,7 @@ public class UpdateRoomOptions : Feature<RoomOptionsRequest, bool>
         if (room == null)
             return false;
 
-        room.Rename(request.Title);
+        room.SetName(request.Title);
         await Rooms.UpdateAsync(room);
         return true;
     }

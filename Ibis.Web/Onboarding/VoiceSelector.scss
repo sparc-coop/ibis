@@ -1,0 +1,48 @@
+﻿@import "../_variables.scss";
+
+.voice-selector {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    padding: 12px;
+
+    h4 {
+        color: $grey-700;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 0;
+    }
+
+    ul {
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        li {
+            display: flex;
+            position: relative;
+            background: $grey-200;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 24px;
+            margin-bottom: 8px;
+
+            aside {
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
+                font-size: 12px;
+            }
+
+            &:hover {
+                background: $primary-300;
+            }
+
+            &.selected {
+                background: $primary-700;
+                color: white;
+            }
+        }
+    }
+}

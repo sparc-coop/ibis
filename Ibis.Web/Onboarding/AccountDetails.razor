@@ -1,0 +1,46 @@
+﻿<div class="account-details">
+    <label>
+        Your name
+        <input @bind="User.Name" @bind:event="oninput" placeholder="Jane Doe" @onblur=Save />
+    </label>
+
+    <label>
+        Pronouns (optional)
+        <input @bind="User.Pronouns" @bind:event="oninput" placeholder="He/him, she/her, they/them, etc." @onblur=Save />
+    </label>
+
+    <label>
+        About You (optional)
+        <textarea @bind="User.Description"
+                  @bind:event="oninput"
+                  maxlength="@descLimit"
+                  @onblur=Save
+                  placeholder="Enter a little about yourself" />
+    </label>
+    @if (User.Description != null)
+    {
+        <aside>
+            @(descLimit - User.Description.Count()) characters left
+         </aside>
+    }
+</div>
+
+<footer>
+    <h3>Welcome to Ibis.</h3>
+
+    <p>
+        Let's get your avatar set up. Ibis will use this avatar to represent
+        you across the entire app, so make sure it represents you!
+    </p>
+</footer>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+
+    public int descLimit = 275;
+    
+    async Task Save()
+    {
+        await Api.UpdateUserAsync(User);
+    }
+}

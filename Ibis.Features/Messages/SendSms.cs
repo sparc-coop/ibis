@@ -15,14 +15,14 @@ public class SendSms : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        var room = await Rooms.FindAsync(notification.GroupId);
+        var room = await Rooms.FindAsync(notification.Message.RoomId);
 
         if (room == null || string.IsNullOrWhiteSpace(notification.Message.Text))
             return;
 
-        var usersToSms = room!.Users
-            .Where(x => x.ReceivesSms && notification.Message.Language == x.Language)
-            .ToList();
+        //var usersToSms = room!.Users
+        //    .Where(x => x.ReceivesSms && notification.Message.Language == x.Language)
+        //    .ToList();
 
         //foreach (var userToSms in usersToSms)
         //    await Twilio.SendSmsAsync(userToSms.PhoneNumber!, notification.Message.Text);

@@ -1,58 +1,54 @@
-﻿@page "/rooms/{Id}"
+﻿@inherits RealtimeComponent
+@implements IAsyncDisposable
 
-<RealtimeHub Url="@HubUrl" OnConnected="AddToRoom">
-    <section class="room">
-        <header>
-            @if (RoomInfo != null)
-            {
-                <h2>
-                    @RoomInfo.Name
-                </h2>
-                <InviteUser RoomId="@RoomInfo.RoomId" />
-                <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
-                    <DownloadIcon />
-                </button>
-                <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
-                    <DownloadIcon />
-                </button>
-                <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
-                    <DownloadIcon />
-                </button>
-            }
-        </header>
+@page "/rooms/{Slug}"
+
+<section class="room">
+    <header>
         @if (RoomInfo != null)
         {
-            <MessageList Room="RoomInfo" />
+            <h2>
+                @RoomInfo.Name
+            </h2>
+            <InviteUser RoomId="@RoomInfo.RoomId" />
+            <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                <DownloadIcon />
+            </button>
+            <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                <DownloadIcon />
+            </button>
+            <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                <DownloadIcon />
+            </button>
         }
-    </section>
-</RealtimeHub>
+    </header>
+    @if (RoomInfo != null)
+    {
+        <MessageList Room="RoomInfo" />
+        <AvatarList Room="RoomInfo" />
+    }
+</section>
 
 @code {
-    [Parameter] public string Id { get; set; } = null!;
+    [Parameter] public string Slug { get; set; } = null!;
 
     GetRoomResponse? RoomInfo;
-    string HubUrl = "";
 
     protected override async Task OnInitializedAsync()
     {
-        HubUrl = Config["ApiUrl"] + "/rooms";
-        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
-    }
-
-    async Task AddToRoom(HubConnection connection)
-    {
-        await connection.InvokeAsync("AddToRoom", Id);
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomSlug = Slug });
+        await On<UserJoined>(RoomInfo.RoomId, x => { });
     }
 
     async Task DownloadAudio()
     {
-        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = Id });
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
     async Task DownloadText(string format)
     {
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = Id, Format = format });
+        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
 
         byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
         Stream fileStream = new MemoryStream(bytes);
@@ -70,5 +66,10 @@
     void UpdateName()
     {
         // await Connection!.SendAsync("UpdateRoom", RoomInfo);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
     }
 }

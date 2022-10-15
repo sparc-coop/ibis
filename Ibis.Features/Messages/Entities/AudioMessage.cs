@@ -3,9 +3,11 @@
 public class AudioMessage
 {
     public AudioMessage()
-    { }
+    {
+        Voice = "";
+    }
     
-    public AudioMessage(string? url, long duration, Voice? voice = null, List<Word>? subtitles = null)
+    public AudioMessage(string? url, long duration, string voice, List<Word>? subtitles = null)
     {
         Url = url;
         Duration = duration;
@@ -15,6 +17,6 @@ public class AudioMessage
 
     public string? Url { get; private set; }
     public long Duration { get; private set; }
-    public Voice? Voice { get; private set; }
+    public string Voice { get; private set; }
     public List<Word>? Subtitles { get; private set; }
 }

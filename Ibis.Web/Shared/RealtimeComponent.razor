@@ -3,23 +3,56 @@
 @code {
     [CascadingParameter] public HubConnection? Hub { get; set; }
     List<IDisposable> Events = new();
+    protected List<string> Subscriptions = new();
 
     protected void On<T>(Action<T> action)
     {
         if (Hub != null)
-            Events.Add(Hub.On<T>(typeof(T).Name, evt => {
+            Events.Add(Hub.On<T>(typeof(T).Name, evt =>
+            {
                 action(evt);
                 StateHasChanged();
             }));
     }
 
-    public ValueTask DisposeAsync()
+    protected async Task On<T>(string subscriptionId, Action<T> action) where T : SparcNotification
     {
+        if (Hub != null)
+        {
+            if (!Subscriptions.Contains(subscriptionId))
+            {
+                Subscriptions.Add(subscriptionId);
+                if (Hub.State == HubConnectionState.Connected)
+                    await Hub!.InvokeAsync("Watch", subscriptionId);
+                else
+                    Hub.On("_UserConnected", async () =>
+                    {
+                        await Hub!.InvokeAsync("Watch", subscriptionId);
+                    });
+            }
+
+            Events.Add(Hub.On<T>(typeof(T).Name, evt =>
+            {
+                
+                var equals = evt.GroupId == subscriptionId;
+                if (equals)
+                {
+                    action(evt);
+                    StateHasChanged();
+                }
+            }));
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        foreach (var subscription in Subscriptions)
+            if (Hub?.State == HubConnectionState.Connected)
+            await Hub!.InvokeAsync("StopWatching", subscription);
+
         foreach (var evt in Events)
             evt.Dispose();
 
         Events.Clear();
-
-        return ValueTask.CompletedTask;
     }
 }

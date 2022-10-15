@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record MessageTextChanged(Message Message) : GroupNotification(Message.RoomId);
+public record MessageTextChanged(Message Message) : SparcNotification(Message.RoomId + "|" + Message.Language);
 public class SpeakMessage : RealtimeFeature<MessageTextChanged>
 {
     public SpeakMessage(ISpeaker synthesizer, IRepository<Message> messages)
@@ -16,7 +16,10 @@ public class SpeakMessage : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        await notification.Message.SpeakAsync(Synthesizer);
-        await Messages.UpdateAsync(notification.Message);
+        if (notification.Message.Audio?.Url == null)
+        {
+            await notification.Message.SpeakAsync(Synthesizer);
+            await Messages.UpdateAsync(notification.Message);
+        }
     }
 }

@@ -1,25 +1,25 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Ibis.Features.Rooms;
 
-public record JoinRoomRequest(string RoomId);
+public record JoinRoomRequest(string RoomSlug);
 public record GetRoomResponse
 {
     public string RoomId { get; set; }
+    public string Slug { get; set; }
     public DateTime? LastActiveDate { get; set; }
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
-    public List<UserSummary>? Users { get; set; }
-    public List<Message>? Messages { get; set; }
+    public List<UserAvatar>? Users { get; set; }
 
-    public GetRoomResponse(Room room, List<Message>? messages = null)
+    public GetRoomResponse(Room room)
     {
         RoomId = room.Id;
         LastActiveDate = room.LastActiveDate;
         StartDate = room.StartDate;
         Name = room.Name;
+        Slug = room.Slug;
         Users = room.Users;
-        Messages = messages;
     }
 }
 
@@ -38,20 +38,14 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 
     public async override Task<GetRoomResponse> ExecuteAsync(JoinRoomRequest request)
     {
-        var room = await Rooms.FindAsync(request.RoomId);
-        var user = await Users.FindAsync(User.Id());
+        var room = await Rooms.Query.FirstOrDefaultAsync(x => x.Slug == request.RoomSlug);
+        var user = await Users.GetAsync(User);
         if (room == null || user == null)
-            throw new NotFoundException($"Room {request.RoomId} not found!");
+            throw new NotFoundException($"Room {request.RoomSlug} not found!");
 
-        await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(request.RoomId));
-        await Rooms.ExecuteAsync(request.RoomId, room => room.AddActiveUser(user));
-
-        var messages = await Messages
-                .Query
-                .Where(message => message.RoomId == request.RoomId && message.Language == user.PrimaryLanguageId)
-                .OrderBy(x => x.Timestamp)
-                .ToListAsync();
-
-        return new(room, messages);
+        await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(room.Id));
+        await Rooms.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
+        
+        return new(room);
     }
 }

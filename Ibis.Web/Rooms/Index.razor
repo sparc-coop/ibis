@@ -14,12 +14,12 @@
                 <input placeholder="Search rooms" @onchange="@SearchRooms" />
                 <a class="search"><img src="/icons/Search.svg" /></a>
             </div>
-            <div class="grid-wrapper">
+            <div class="grid-wrapper" @onclick="ToggleListView">
                 <div class="selected @(listView != "" ? "selected-left" : null)"></div>
-                <div class="grid" @onclick="ToggleListView">
+                <div class="grid">
                     Grid
                 </div>
-                <div class="list" @onclick="ToggleListView">
+                <div class="list">
                     List
                 </div>
             </div>
@@ -45,15 +45,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var user = await Api.GetUserAsync();
-        if (user != null && string.IsNullOrWhiteSpace(user.Language))
-            Nav.NavigateTo("/Onboarding");
-
         Rooms = await Api.GetRoomsAsync();
         OriginalList = Rooms;
     }
-
-    public record LanguageItem(string name, string nativeName, string dir);
 
     void CreateRoom()
     {

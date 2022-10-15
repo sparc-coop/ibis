@@ -1,0 +1,36 @@
+﻿@if (Languages != null)
+{
+    <ul class="language-selector">
+        @foreach (var language in Languages)
+        {
+            <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
+                @language.Id
+                <aside>@language.NativeName</aside>
+            </li>
+        }
+    </ul>
+}
+
+<footer>
+    <h3>Set your default language</h3>
+    <p>
+        Ibis will automatically translate all communications in the room
+        (both text and audio) into your preferred language.
+    </p>
+</footer>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    ICollection<Language>? Languages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Languages = await Api.GetLanguagesAsync();
+    }
+
+    async Task SetLanguage(Language language)
+    {
+        User.Language = language.Id;
+        await Api.UpdateUserAsync(User);
+    }
+}

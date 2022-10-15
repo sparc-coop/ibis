@@ -2,9 +2,10 @@
 
 <div class="message-grid">
     <div class="message-list" id="room-@Room.RoomId">
-        <Virtualize Items="Messages" Context="message">
+        @foreach (var message in Messages)
+        {
             <MessageCard Message="message" />
-        </Virtualize>
+        }
     </div>
     <NewMessage Room="Room" />
 </div>
@@ -12,15 +13,17 @@
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     List<Message> Messages = new();
+    string? Language;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Messages = Room.Messages.ToList();
+        var response = await Api.GetAllMessagesAsync(new GetAllMessagesRequest { RoomId = Room.RoomId });
+        Messages = response.Messages.ToList();
+        Language = response.Language;
 
-        On<MessageTextChanged>(async x =>
+        await On<MessageTextChanged>(Room.RoomId + "|" + Language, async x =>
         {
-            if (x.Message.RoomId == Room.RoomId)
-                await AddMessage(x.Message);
+            await AddMessage(x.Message);
         });
     }
 
