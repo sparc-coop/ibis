@@ -1,5 +1,16 @@
 ﻿@import "../_variables.scss";
 
+.avatar-background-spill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    filter: opacity(30%);
+    border-radius: 12px;
+    pointer-events: none;
+}
+
 .avatar {
     position: relative;
     display: inline-flex;
@@ -32,6 +43,10 @@
                 font-family: 'Noto Emoji';
             }
         }
+    }
+
+    &.no-background {
+        background: transparent !important;
     }
 
     figcaption {

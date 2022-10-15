@@ -3,8 +3,7 @@
 @implements IDisposable
 
 <article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
-    <div class="background" style="background: @Message.User.BackgroundColor"></div>
-    <Avatar User="Message.User" />
+    <Avatar User="Message.User" SpillBackground="true" />
     @if (Audio?.Url != null)
     {
         <div class="message-audio" @onclick=Play>

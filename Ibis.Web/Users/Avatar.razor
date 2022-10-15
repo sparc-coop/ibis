@@ -1,6 +1,11 @@
 ﻿@inherits RealtimeComponent
 
-<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "") @(LocalUser.IsOnline ? "" : "offline")" style="background: @LocalUser.BackgroundColor" @onclick=Edit>
+@if (SpillBackground)
+{
+    <div class="avatar-background-spill" style="background: @LocalUser.BackgroundColor"></div>
+}
+
+<figure class="avatar @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "") @(LocalUser.IsOnline ? "" : "offline") @(SpillBackground ? "no-background" : "")" style="background: @LocalUser.BackgroundColor" @onclick=Edit>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @LocalUser.ForegroundColor">
             @Emoji
@@ -27,6 +32,7 @@
 @code {
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public bool CanEdit { get; set; }
+    [Parameter] public bool SpillBackground { get; set; }
     bool ShowEditor;
     UserAvatar LocalUser = null!;
 

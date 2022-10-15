@@ -70,6 +70,7 @@
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+        if (RoomInfo != null)
+            await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
     }
 }

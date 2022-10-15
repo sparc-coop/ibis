@@ -42,13 +42,8 @@
 @code {
     string Tab { get; set; } = "Profile";
     List<string> Tabs = new() { "Profile", "Language", "Voice", "Color", "Emoji" };
-    UserAvatar? User;
+    [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        User = await Api.GetUserAsync();
-    }
 
     void SetTab(string tab) => Tab = tab;
 

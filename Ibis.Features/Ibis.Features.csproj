@@ -20,15 +20,14 @@
 
   <ItemGroup>
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.21.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.24.0" />
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
     <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="6.0.0" />
     <PackageReference Include="Sparc.Database.Cosmos" Version="6.0.8" />
     <PackageReference Include="Sparc.Features" Version="6.1.4" />
     <PackageReference Include="Sparc.Notifications.Twilio" Version="6.1.0" />
     <PackageReference Include="Sparc.Storage.Azure" Version="6.0.1" />
-    <PackageReference Include="Stripe.net" Version="39.110.0" />
-    <PackageReference Include="Twilio.AspNet.Core" Version="5.73.0" />
+    <PackageReference Include="Stripe.net" Version="40.13.0" />
   </ItemGroup>
 
 </Project>

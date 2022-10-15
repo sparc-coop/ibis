@@ -42,6 +42,8 @@ public class AzureSpeaker : ISpeaker
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
+        if (result.AudioDuration == TimeSpan.Zero)
+            return null;
 
         using var stream = new MemoryStream(ConvertWavToMp3(result.AudioData), false);
         File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.mp3", AccessTypes.Public, stream);
@@ -105,6 +107,7 @@ public class AzureSpeaker : ISpeaker
     {
         var config = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
         config.SpeechSynthesisVoiceName = voice;
+        //config.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
 
         return new SpeechSynthesizer(config, null);
     }

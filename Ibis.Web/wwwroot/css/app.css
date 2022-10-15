@@ -1125,21 +1125,10 @@ main {
 .message-card > p + p {
   margin-top: 12px;
 }
-.message-card .background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  filter: opacity(30%);
-  border-radius: 12px;
-  pointer-events: none;
-}
 .message-card .avatar {
   height: 20px;
   width: 200px;
   justify-content: flex-start;
-  background: transparent !important;
 }
 .message-card .message-audio {
   position: absolute;
@@ -1208,6 +1197,15 @@ main {
   border: 1px solid #e6e6e6;
   background: #FFFFFF;
 }
+.new-message > .avatar {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  height: 20px;
+  width: 20px;
+  justify-content: flex-start;
+  background: transparent !important;
+}
 .new-message > button {
   position: absolute;
   right: 24px;
@@ -1225,7 +1223,7 @@ main {
 }
 .new-message textarea {
   height: 105px;
-  padding: 24px 112px 24px 24px;
+  padding: 24px 112px 24px 56px;
   width: 100%;
   max-width: 100%;
   resize: none;
@@ -1233,7 +1231,7 @@ main {
 .new-message textarea::placeholder {
   color: #6A7280;
 }
-.new-message footer {
+.new-message > footer {
   border-top: 1px solid #e6e6e6;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   padding: 16px;
@@ -1583,6 +1581,17 @@ main {
   line-height: 125%;
 }
 
+.avatar-background-spill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  filter: opacity(30%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
 .avatar {
   position: relative;
   display: inline-flex;
@@ -1608,6 +1617,9 @@ main {
 }
 .avatar.emoji svg text {
   font-family: "Noto Emoji";
+}
+.avatar.no-background {
+  background: transparent !important;
 }
 .avatar figcaption {
   font-size: 13px;

@@ -17,22 +17,10 @@
         margin-top: 12px;
     }
 
-    .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        filter: opacity(30%);
-        border-radius: 12px;
-        pointer-events: none;
-    }
-
     .avatar {
         height: 20px;
         width: 200px;
         justify-content: flex-start;
-        background: transparent !important;
     }
 
     .message-audio {
