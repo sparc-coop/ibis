@@ -12,7 +12,7 @@ namespace Ibis.Features.Sparc.Realtime;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddSparcRealtime<THub>(this IServiceCollection services) where THub : SparcHub
+    public static IServiceCollection AddSparcRealtime<THub>(this IServiceCollection services, string? azureSignalRConnectionString = null) where THub : SparcHub
     {
         services.AddSwaggerGen(options =>
         {
@@ -20,7 +20,11 @@ public static class ServiceCollectionExtensions
             options.SchemaFilter<PolymorphismSchemaFilter<SparcNotification>>();
         });
 
-        services.AddSignalR();
+        var signalR = services.AddSignalR();
+
+        if (azureSignalRConnectionString != null)
+            signalR.AddAzureSignalR(azureSignalRConnectionString);
+
         services.AddSingleton<Publisher>();
 
         // Use the User ID as the SignalR user identifier    

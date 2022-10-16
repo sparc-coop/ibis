@@ -21,7 +21,7 @@ public class Startup
             .AddAzureADB2CAuthentication(Configuration)
             .AddAzureStorage(Configuration.GetConnectionString("Storage"))
             .AddTwilio(Configuration)
-            .AddSparcRealtime<IbisHub>();
+            .AddSparcRealtime<IbisHub>(Configuration.GetConnectionString("SignalR"));
 
         // Bug fix for Sparc Realtime (events executing in parallel with a scoped context)
         services.AddDbContext<IbisContext>(options => options.UseCosmos(Configuration.GetConnectionString("Database"), "ibis", options =>
