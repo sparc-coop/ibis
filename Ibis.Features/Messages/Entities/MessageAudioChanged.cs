@@ -2,4 +2,4 @@
 
 namespace Ibis.Features.Messages;
 
-public record MessageAudioChanged(Message Message) : SparcNotification(Message.Id);
+public record MessageAudioChanged(Message Message) : SparcNotification(Message.RoomId);

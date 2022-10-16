@@ -3,7 +3,8 @@
 @code {
     [CascadingParameter] public HubConnection? Hub { get; set; }
     List<IDisposable> Events = new();
-    protected List<string> Subscriptions = new();
+    protected static Dictionary<string, int> Subscriptions = new();
+    protected List<string> LocalSubscriptions = new();
 
     protected void On<T>(Action<T> action)
     {
@@ -19,9 +20,9 @@
     {
         if (Hub != null)
         {
-            if (!Subscriptions.Contains(subscriptionId))
+            if (!Subscriptions.ContainsKey(subscriptionId))
             {
-                Subscriptions.Add(subscriptionId);
+                Subscriptions.Add(subscriptionId, 1);
                 if (Hub.State == HubConnectionState.Connected)
                     await Hub!.InvokeAsync("Watch", subscriptionId);
                 else
@@ -30,10 +31,16 @@
                         await Hub!.InvokeAsync("Watch", subscriptionId);
                     });
             }
+            else
+            {
+                Subscriptions[subscriptionId]++;
+            }
+
+            LocalSubscriptions.Add(subscriptionId);
 
             Events.Add(Hub.On<T>(typeof(T).Name, evt =>
             {
-                
+
                 var equals = evt.GroupId == subscriptionId;
                 if (equals)
                 {
@@ -46,13 +53,24 @@
 
     public async ValueTask DisposeAsync()
     {
-        foreach (var subscription in Subscriptions)
-            if (Hub?.State == HubConnectionState.Connected)
-            await Hub!.InvokeAsync("StopWatching", subscription);
+        foreach (var subscription in LocalSubscriptions)
+        {
+            if (Subscriptions.ContainsKey(subscription))
+            {
+                Subscriptions[subscription]--;
+                if (Subscriptions[subscription] <= 0)
+                {
+                    Subscriptions.Remove(subscription);
+                    if (Hub?.State == HubConnectionState.Connected)
+                        await Hub!.InvokeAsync("StopWatching", subscription);
+                }
+            }
 
-        foreach (var evt in Events)
-            evt.Dispose();
+            foreach (var evt in Events)
+                evt.Dispose();
 
-        Events.Clear();
+            Events.Clear();
+            LocalSubscriptions.Clear();
+        }
     }
 }

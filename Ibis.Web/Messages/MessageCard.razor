@@ -39,10 +39,13 @@
     protected override async Task OnInitializedAsync()
     {
         Audio = Message.Audio;
-        await On<MessageAudioChanged>(Message.Id, async x =>
+        await On<MessageAudioChanged>(Message.RoomId, async x =>
             {
-                Audio = x.Message.Audio;
-                await Play();
+                if (x.Message.Id == Message.Id)
+                {
+                    Audio = x.Message.Audio;
+                    await Play();
+                }
             });
     }
 
