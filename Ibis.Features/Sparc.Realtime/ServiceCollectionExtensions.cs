@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddSignalR();
+        services.AddSingleton<Publisher>();
 
         // Use the User ID as the SignalR user identifier    
         services.AddSingleton<IUserIdProvider, UserIdProvider>();

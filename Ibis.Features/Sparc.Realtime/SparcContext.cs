@@ -5,12 +5,11 @@ namespace Sparc.Core;
 
 public class SparcContext : DbContext
 {
-    public SparcContext(DbContextOptions options, IMediator mediator) : base(options)
+    public SparcContext(DbContextOptions options, Publisher publisher) : base(options)
     {
-        Mediator = mediator;
+        Publisher = publisher;
     }
-
-    public IMediator Mediator { get; }
+    public Publisher Publisher { get; }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -27,7 +26,7 @@ public class SparcContext : DbContext
 
         var tasks = domainEvents
             .Select(async (domainEvent) => {
-                await Mediator.Publish(domainEvent);
+                await Publisher.Publish(domainEvent, PublishStrategy.ParallelNoWait);
             });
 
         await Task.WhenAll(tasks);

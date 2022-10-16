@@ -1,5 +1,5 @@
 ﻿namespace Ibis.Features.Sparc.Realtime;
 
-public record GroupNotification(string GroupId) : INotification;
+public record GroupNotification(string GroupId) : MediatR.INotification;
 
 

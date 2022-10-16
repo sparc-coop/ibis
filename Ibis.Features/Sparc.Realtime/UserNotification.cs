@@ -1,3 +1,3 @@
 ﻿namespace Ibis.Features.Sparc.Realtime;
 
-public record UserNotification(string UserId) : INotification;
+public record UserNotification(string UserId) : MediatR.INotification;

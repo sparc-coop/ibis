@@ -9,7 +9,7 @@ public class IbisContext : SparcContext
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<User> Users => Set<User>();
 
-    public IbisContext(DbContextOptions options, IMediator mediator) : base(options, mediator)
+    public IbisContext(DbContextOptions options, Publisher publisher) : base(options, publisher)
     {
     }
 
