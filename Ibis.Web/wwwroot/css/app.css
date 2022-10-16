@@ -199,6 +199,11 @@
 .main-layout > header a {
   color: #013b60;
 }
+.main-layout > header nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
 .main-layout > header nav > ul {
   display: flex;
   gap: 24px;
@@ -235,6 +240,21 @@
   height: 32px;
   padding: 4px;
 }
+.main-layout > header .balance {
+  padding: 6px 12px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  font-size: 12px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  color: #6A7280;
+}
+.main-layout > header .balance:hover {
+  transform: scale(1.05, 1.05);
+}
+.main-layout > header .balance.negative {
+  color: #FD9E2E;
+}
 .main-layout main {
   background: #fafbfc;
   padding: 32px 6vw;
@@ -247,9 +267,6 @@
 }
 .main-layout.mini > header .logo img {
   height: 28px;
-}
-.main-layout.mini nav {
-  display: none;
 }
 .main-layout.mini main {
   padding: 24px 24px 0;

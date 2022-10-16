@@ -913,6 +913,38 @@
         }
       }
     },
+    "/api/GetUserBalance": {
+      "post": {
+        "tags": [
+          "GetUserBalance"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/HearMessage": {
       "post": {
         "tags": [

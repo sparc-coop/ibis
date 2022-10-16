@@ -1,0 +1,20 @@
+@inherits RealtimeComponent
+
+@if (Balance.HasValue)
+{
+    <aside class="balance @(Balance < 0 ? "negative" : "")" title="@Balance.Value.ToString("C4")">
+        @Balance.Value.ToString("C")
+    </aside>
+}
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    double? Balance;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Balance = await Api.GetUserBalanceAsync();
+
+        await On<BalanceChanged>(User.Id, x => Balance = x.Amount);
+    }
+}

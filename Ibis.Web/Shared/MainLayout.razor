@@ -21,15 +21,16 @@
                 <nav>
                     <AuthorizeView>
                         <Authorized>
-                            <ul>
-                                <li>
-                                    <a href="/">
-                                        <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                    </a>
-                                </li>
+                            @if (User != null)
+                            {
+                                <UserBalance User="User" />
+                                <ul>
+                                    <li>
+                                        <a href="/">
+                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                        </a>
+                                    </li>
 
-                                @if (User != null)
-                                {
                                     <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
                                         <Avatar User="User" />
                                         <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
@@ -47,8 +48,8 @@
                                             </li>
                                         </ul>
                                     </li>
-                                }
-                            </ul>
+                                </ul>
+                            }
                         </Authorized>
                     </AuthorizeView>
                 </nav>
@@ -76,6 +77,7 @@
     bool ShowMenu;
     bool IsRoom;
     bool ShowOnboarding;
+    decimal? Balance;
     string HubUrl => Config["ApiUrl"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
@@ -92,6 +94,8 @@
             if (User != null && User.Language == null)
                 ShowOnboarding = true;
         }
+
+
     }
 
     void OpenMenu() => ShowMenu = !ShowMenu;

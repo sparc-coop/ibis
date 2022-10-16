@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Features.Users;
 
 public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id);
-public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(null, HostUserId);
+public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(HostUserId);
 public class User : SparcRoot<string>
 {
     public User()
@@ -102,6 +102,8 @@ public class User : SparcRoot<string>
     {
         Avatar.IsOnline = true;
         Broadcast(new UserAvatarUpdated(Avatar));
+        if (Balance != 0)
+            Broadcast(new BalanceChanged(Id, Balance));
     }
 
     internal void GoOffline()
