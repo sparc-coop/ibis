@@ -1,4 +1,7 @@
 ﻿using Ibis.Features.Sparc.Realtime;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using Sparc.Authentication.AzureADB2C;
@@ -36,6 +39,24 @@ public class Startup
             .AddScoped<ISpeaker, AzureSpeaker>();
 
         services.AddRazorPages();
+
+        services.AddSingleton<HttpClient>(sp =>
+        {
+            // Get the address that the app is currently running at
+            var server = sp.GetRequiredService<IServer>();
+            var addressFeature = server.Features.Get<IServerAddressesFeature>();
+            string baseAddress = addressFeature.Addresses.First();
+            return new HttpClient { BaseAddress = new Uri(baseAddress) };
+        });
+
+        services.AddScoped<HttpClient>(s =>
+        {
+            var navigationManager = s.GetRequiredService<NavigationManager>();
+            return new HttpClient
+            {
+                BaseAddress = new Uri(navigationManager.BaseUri)
+            };
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +66,8 @@ public class Startup
         app.UseEndpoints(endpoints => {
             endpoints.MapControllers();
             endpoints.MapHub<IbisHub>("/hub");
-            });
+            endpoints.MapFallbackToPage("/_Host");
+        });
         app.UseDeveloperExceptionPage();
     }
 }
