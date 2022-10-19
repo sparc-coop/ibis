@@ -20,7 +20,8 @@ public static class ServiceCollectionExtensions
             options.SchemaFilter<PolymorphismSchemaFilter<SparcNotification>>();
         });
 
-        var signalR = services.AddSignalR();
+        var signalR = services.AddSignalR()
+            .AddMessagePackProtocol();
 
         if (azureSignalRConnectionString != null)
             signalR.AddAzureSignalR(azureSignalRConnectionString);
