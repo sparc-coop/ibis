@@ -2,7 +2,8 @@
 
 namespace Ibis.Features.Messages;
 
-public class HearMessage : Feature<string>
+public record HearMessageResponse(string SessionId);
+public class HearMessage : Feature<HearMessageResponse>
 {
     public IRepository<Message> Messages { get; }
     public IRepository<User> Users { get; }
@@ -15,9 +16,10 @@ public class HearMessage : Feature<string>
         Listener = listener;
     }
 
-    public async override Task<string> ExecuteAsync()
+    public async override Task<HearMessageResponse> ExecuteAsync()
     {
-        return await Listener.BeginListeningAsync();
+        var result = await Listener.BeginListeningAsync();
+        return new(result);
         
     }
 }

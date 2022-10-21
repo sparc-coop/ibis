@@ -3,5 +3,5 @@
 public interface IListener
 {
     Task<string> BeginListeningAsync();
-    Task ListenAsync(string sessionId, byte[] audioChunk);
+    static Task ListenAsync(string sessionId, byte[] audioChunk) => Task.CompletedTask;
 }

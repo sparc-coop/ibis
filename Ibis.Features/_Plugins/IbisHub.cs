@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using EllipticCurve.Utils;
+using Ibis.Features.Sparc.Realtime;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using System.Threading.Channels;
 
 namespace Ibis.Features._Plugins;
 
@@ -30,5 +34,13 @@ public class IbisHub : SparcHub
 
         await base.OnDisconnectedAsync(exception);
     }
-}
 
+    public async Task ReceiveAudio(string sessionId, byte[] audio)
+    {
+        using (var stream = new FileStream($"{sessionId}.wav", FileMode.Append))
+        {
+            stream.Write(audio, 0, audio.Length);
+        }
+        await AzureListener.ListenAsync(sessionId, audio);
+    }
+}

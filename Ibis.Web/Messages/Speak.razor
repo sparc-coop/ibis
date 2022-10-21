@@ -36,7 +36,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var sessionId = await Api.HearMessageAsync();
+        var sessionId = (await Api.HearMessageAsync()).SessionId;
         if (sessionId != null)
             IsRecording = true;
 

@@ -5,20 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>f18a01d0-8141-4bca-94fd-e2085a4406fd</UserSecretsId>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Audio\**" />
-    <Content Remove="Audio\**" />
-    <EmbeddedResource Remove="Audio\**" />
-    <None Remove="Audio\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include=".config\dotnet-tools.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Concentus.OggFile" Version="1.0.4" />
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="6.0.10" />
     <PackageReference Include="Microsoft.Azure.SignalR" Version="1.18.3" />

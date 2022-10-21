@@ -33,7 +33,8 @@ public class Startup
 
         services.AddTransient(typeof(IRepository<>), typeof(CosmosDbRepository<>))
             .AddScoped<ITranslator, AzureTranslator>()
-            .AddScoped<ISpeaker, AzureSpeaker>();
+            .AddScoped<ISpeaker, AzureSpeaker>()
+            .AddScoped<IListener, AzureListener>();
 
         services.AddRazorPages();
     }

@@ -956,17 +956,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/HearMessageResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/HearMessageResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/HearMessageResponse"
                 }
               }
             }
@@ -2140,6 +2140,16 @@
         "type": "object",
         "properties": {
           "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HearMessageResponse": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
             "type": "string",
             "nullable": true
           }
