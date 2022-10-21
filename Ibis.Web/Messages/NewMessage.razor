@@ -1,8 +1,9 @@
-﻿@inherits RealtimeComponent
+﻿@using System.Threading.Channels
+@inherits RealtimeComponent
 
-<form class="new-message @(IsSubmitted ? "submitted" : "")" @onsubmit=SendText>
+<form class="new-message" @onsubmit=SendText>
     <Avatar User="Me" SpillBackground=true CanEdit=true />
-    <textarea type="text" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+    <textarea type="text" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     @if (IsSpeak)
     {
         <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">
@@ -17,7 +18,7 @@
                 </defs>
             </svg>
 
-            Speak
+            @(IsListening ? "Listening..." : "Speak")
         </button>
     }
     else
@@ -33,8 +34,8 @@
             <UploadIcon />
             Upload a file
         </button>
-        
-        <button> 
+
+        <button>
             <SmsIcon />
             Connect via SMS
         </button>
@@ -50,9 +51,10 @@
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     ElementReference TextArea;
-    bool IsSpeak => string.IsNullOrWhiteSpace(Text);
+    bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
     bool IsSubmitted;
+    bool LiveMode = true;
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
@@ -88,11 +90,13 @@
     }
 
     DateTime? AudioStartTime;
-    string? sessionId;
+    Channel<byte[]>? AudioChannel;
     DotNetObjectReference<NewMessage>? objRef;
+    bool IsListening;
 
     async Task BeginListeningAsync()
     {
+        IsListening = true;
         if (AudioStartTime != null)
         {
             await StopListeningAsync();
@@ -101,28 +105,47 @@
 
         objRef = DotNetObjectReference.Create(this);
         AudioStartTime = DateTime.UtcNow;
-        sessionId = (await Api.HearMessageAsync()).SessionId;
+        AudioChannel = Channel.CreateUnbounded<byte[]>();;
         await JS.InvokeVoidAsync("beginListening", objRef);
+
+        On<SpeechRecognizing>(x =>
+        {
+            Text = x.Text;
+        });
+        On<SpeechRecognized>(async x =>
+        {
+            Text = x.Text;
+            if (LiveMode)
+                await SendText();
+            else
+                await StopListeningAsync();
+        });
+
+        if (Hub?.State == HubConnectionState.Connected)
+            await Hub.SendAsync("ReceiveAudio", AudioChannel.Reader);
     }
 
     async Task StopListeningAsync()
     {
         await JS.InvokeVoidAsync("stopListening");
         AudioStartTime = null;
+        AudioChannel?.Writer.Complete();
         objRef = null;
+        IsListening = false;
+        StateHasChanged();
     }
 
     [JSInvokable]
     public async Task AudioReceived(byte[] audio)
     {
-        if (DateTime.UtcNow - AudioStartTime > TimeSpan.FromSeconds(10))
+        if (!LiveMode && DateTime.UtcNow - AudioStartTime > TimeSpan.FromSeconds(30))
         {
             await StopListeningAsync();
             return;
         }
 
-        if (Hub?.State == HubConnectionState.Connected)
-            await Hub.SendAsync("ReceiveAudio", sessionId, audio);
+        if (AudioChannel != null)
+            await AudioChannel!.Writer.WriteAsync(audio);
     }
 
     async Task ShowSpeakModal()

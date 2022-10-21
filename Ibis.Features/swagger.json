@@ -2509,6 +2509,28 @@
         },
         "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognizing, Ibis.Features"
       },
+      "SpeechSessionStarted": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SparcNotification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sessionId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechSessionStarted, Ibis.Features"
+      },
       "TypeMessageRequest": {
         "type": "object",
         "properties": {

@@ -38,7 +38,7 @@ var context;
 var recorder;
 async function beginListening(dotNet) {
     try {
-        dotNet.invokeMethodAsync('AudioReceived', createStreamRiffHeader());
+        //dotNet.invokeMethodAsync('AudioReceived', createStreamRiffHeader());
         context = new AudioContext();
         recorder = await navigator.mediaDevices.getUserMedia({ audio: true });
         const source = context.createMediaStreamSource(recorder);

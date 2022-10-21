@@ -50,7 +50,6 @@
     }
 
     encode(data) {
-        //console.log('encoding', data, sampleRate);
         const audioFrame = this.downSampleAudioFrame(data, sampleRate, 16000);
 
         if (!audioFrame) {
@@ -62,7 +61,6 @@
         const buffer = new ArrayBuffer(audioLength);
         const view = new DataView(buffer);
         this.floatTo16BitPCM(view, 0, audioFrame);
-        console.log(audioFrame, buffer);
         return buffer;
     }
 

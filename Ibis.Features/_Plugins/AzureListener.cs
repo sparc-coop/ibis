@@ -1,7 +1,6 @@
 ﻿using Concentus.Oggfile;
 using Concentus.Structs;
 using Ibis.Features.Sparc.Realtime;
-using MediatR;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using System.Collections.Concurrent;
@@ -9,6 +8,7 @@ using System.Collections.Concurrent;
 namespace Ibis.Features._Plugins;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
+public record SpeechSessionStarted(string SessionId) : SparcNotification(SessionId);
 public record SpeechRecognizing(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
 public record SpeechRecognized(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
 public class AzureListener : IListener
@@ -17,9 +17,9 @@ public class AzureListener : IListener
     readonly string SubscriptionKey;
     static readonly List<AudioConnection> _audioConnections = new();
 
-    public IMediator Mediator { get; }
+    public Publisher Publisher { get; }
 
-    public AzureListener(IConfiguration configuration, IMediator mediator)
+    public AzureListener(IConfiguration configuration, Publisher publisher)
     {
         SubscriptionKey = configuration.GetConnectionString("Speech");
 
@@ -28,7 +28,7 @@ public class AzureListener : IListener
             BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
         };
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
-        Mediator = mediator;
+        Publisher = publisher;
     }
 
     public async Task<string> BeginListeningAsync()
@@ -40,14 +40,9 @@ public class AzureListener : IListener
         speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
         var speechClient = new SpeechRecognizer(speechConfig, audioConfig);
 
-        speechClient.Recognized += (sender, e) =>
-        {
-            Mediator.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
-        };
-        speechClient.Recognizing += (sender, e) =>
-        {
-            Mediator.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
-        };
+        speechClient.SessionStarted += SpeechClient_SessionStarted;
+        speechClient.Recognized += SpeechClient_Recognized;
+        speechClient.Recognizing += SpeechClient_Recognizing;
         speechClient.Canceled += SpeechClient_Canceled;
 
         string sessionId = speechClient.Properties.GetProperty(PropertyId.Speech_SessionId);
@@ -59,7 +54,7 @@ public class AzureListener : IListener
         return sessionId;
     }
 
-    public static Task ListenAsync(string sessionId, byte[] audioChunk)
+    public Task ListenAsync(string sessionId, byte[] audioChunk)
     {
         var connection = _audioConnections.FirstOrDefault(x => x.SessionId == sessionId);
         connection?.AudioStream.Write(audioChunk, 0, audioChunk.Length);
@@ -79,14 +74,19 @@ public class AzureListener : IListener
         _audioConnections.Remove(audioConnection);
     }
 
+    public void SpeechClient_SessionStarted(object? sender, SessionEventArgs e)
+    {
+        Publisher.Publish(new SpeechSessionStarted(e.SessionId));
+    }
+
     public void SpeechClient_Recognizing(object? sender, SpeechRecognitionEventArgs e)
     {
-        Mediator.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+        Publisher.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 
     public void SpeechClient_Recognized(object? sender, SpeechRecognitionEventArgs e)
     {
-        Mediator.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+        Publisher.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 
     private static byte[] ConvertOggToWav(byte[] oggBytes)

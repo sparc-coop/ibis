@@ -19,7 +19,7 @@ public class Publisher
     }
 
     public IDictionary<PublishStrategy, IMediator> PublishStrategies = new Dictionary<PublishStrategy, IMediator>();
-    public PublishStrategy DefaultStrategy { get; set; } = PublishStrategy.SyncContinueOnException;
+    public PublishStrategy DefaultStrategy { get; set; } = PublishStrategy.ParallelNoWait;
 
     public Task Publish<TNotification>(TNotification notification)
     {

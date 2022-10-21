@@ -12,11 +12,13 @@ public class IbisHub : SparcHub
 {
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
+    public IListener Listener { get; }
 
-    public IbisHub(IRepository<User> users, IRepository<Room> rooms) : base()
+    public IbisHub(IRepository<User> users, IRepository<Room> rooms, IListener listener) : base()
     {
         Users = users;
         Rooms = rooms;
+        Listener = listener;
     }
 
     public override async Task OnConnectedAsync()
@@ -35,12 +37,13 @@ public class IbisHub : SparcHub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task ReceiveAudio(string sessionId, byte[] audio)
+    public async Task ReceiveAudio(IAsyncEnumerable<byte[]> audio)
     {
-        using (var stream = new FileStream($"{sessionId}.wav", FileMode.Append))
-        {
-            stream.Write(audio, 0, audio.Length);
-        }
-        await AzureListener.ListenAsync(sessionId, audio);
+        var sessionId = await Listener.BeginListeningAsync();
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
+
+        await foreach (var chunk in audio)
+            await Listener.ListenAsync(sessionId, chunk);
     }
 }
