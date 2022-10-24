@@ -88,33 +88,6 @@ public class AzureListener : IListener
     {
         Publisher.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
-
-    private static byte[] ConvertOggToWav(byte[] oggBytes)
-    {
-        using MemoryStream pcmStream = new();
-        using MemoryStream oggStream = new(oggBytes);
-        var now = DateTime.UtcNow.Ticks;
-        //File.WriteAllBytes($"{now}.opus", oggBytes);
-
-        OpusDecoder decoder = new(16000, 1);
-        OpusOggReadStream oggIn = new(decoder, oggStream);
-        while (oggIn.HasNextPacket)
-        {
-            short[] packet = oggIn.DecodeNextPacket();
-            if (packet != null)
-            {
-                for (int i = 0; i < packet.Length; i++)
-                {
-                    var bytes = BitConverter.GetBytes(packet[i]);
-                    pcmStream.Write(bytes, 0, bytes.Length);
-                }
-            }
-        }
-
-        var wav = pcmStream.ToArray();
-        //File.WriteAllBytes($"{now}.wav", wav);
-        return wav;
-    }
 }
 
 public class VoiceAudioStream : PullAudioInputStreamCallback
