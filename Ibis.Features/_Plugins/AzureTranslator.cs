@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features._Plugins;
+﻿namespace Ibis.Features._Plugins;
 
 public class AzureTranslator : ITranslator
 {

@@ -1,5 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
@@ -16,9 +15,9 @@ public class AzureSpeaker : ISpeaker
 
     public IRepository<File> Files { get; }
 
-    public AzureSpeaker(IConfiguration configuration, IHubContext<IbisHub> hub, IRepository<File> files)
+    public AzureSpeaker(IConfiguration configuration, IRepository<File> files)
     {
-        SubscriptionKey = configuration.GetConnectionString("Speech");
+        SubscriptionKey = configuration.GetConnectionString("Speech")!;
 
         Client = new HttpClient
         {

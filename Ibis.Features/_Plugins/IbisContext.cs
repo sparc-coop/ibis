@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Sparc.Kernel.Database;
 
 namespace Ibis.Features._Plugins;
 

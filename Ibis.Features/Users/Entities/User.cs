@@ -2,6 +2,7 @@
 
 public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id);
 public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(HostUserId);
+public class Role { }
 public class User : SparcRoot<string>
 {
     public User()

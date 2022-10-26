@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 
 public class TranslateMessage : RealtimeFeature<MessageTextChanged>
 {

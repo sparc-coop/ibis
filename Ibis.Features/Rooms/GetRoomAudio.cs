@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Features.Rooms;
 
 public record GetRoomAudioRequest(IEnumerable<string> Files, string RoomId, string Language);
 public class GetRoomAudio : Feature<GetRoomAudioRequest, AudioMessage?>

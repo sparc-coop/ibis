@@ -1,4 +1,6 @@
-﻿using Sparc.Notifications.Twilio;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Users;
 
@@ -7,12 +9,14 @@ public class InviteUser : Feature<InviteUserRequest, bool>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
+    public UserManager<User> UserManager { get; }
 
-    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users)
+    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, UserManager<User> userManager)
     {
         Twilio = twilio;
         Rooms = rooms;
         Users = users;
+        UserManager = userManager;
     }
     TwilioService Twilio { get; set; }
 
@@ -23,7 +27,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
         {
             string subject = "Ibis Invitation";
             string messageBody = "";
-            string roomLink = "";
+            string roomLink = await CreateMagicSignInLinkAsync(request.Email, $"https://ibis.chat/rooms/{request.RoomId}");
 
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
             var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault()?.Avatar;
@@ -53,5 +57,25 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             return false;
         }
 
+    }
+
+    public async Task<string> CreateMagicSignInLinkAsync(string email, string roomUrl)
+    {
+        var user = Users.Query.FirstOrDefault(x => x.Email == email);
+        if (user == null)
+        {
+            user = new(Guid.NewGuid().ToString(), email);
+            await Users.UpdateAsync(user);
+        }
+
+        var token = UserManager.GenerateUserTokenAsync(user, "Default", "passwordless-auth");
+        var link = Url.ActionLink("", "ValidateMagicSignIn", values: new
+        {
+            Token = token.Result,
+            Email = email,
+            ReturnUrl = roomUrl
+        }, protocol: Request.Scheme);
+
+        return link ?? "";
     }
 }

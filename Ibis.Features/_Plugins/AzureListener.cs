@@ -1,7 +1,4 @@
-﻿using Concentus.Oggfile;
-using Concentus.Structs;
-using Ibis.Features.Sparc.Realtime;
-using Microsoft.CognitiveServices.Speech;
+﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using System.Collections.Concurrent;
 
@@ -21,7 +18,7 @@ public class AzureListener : IListener
 
     public AzureListener(IConfiguration configuration, Publisher publisher)
     {
-        SubscriptionKey = configuration.GetConnectionString("Speech");
+        SubscriptionKey = configuration.GetConnectionString("Speech")!;
 
         Client = new HttpClient
         {

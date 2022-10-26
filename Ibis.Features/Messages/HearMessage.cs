@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 
 public record HearMessageResponse(string SessionId);
 public class HearMessage : Feature<HearMessageResponse>

@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
 public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp);

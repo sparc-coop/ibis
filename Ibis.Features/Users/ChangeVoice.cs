@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Users;
+﻿namespace Ibis.Features.Users;
 
 public record ChangeVoiceRequest(string Language, string VoiceName, string? RoomId);
 public record ChangeVoiceResponse(string? PreviewAudioUrl);
