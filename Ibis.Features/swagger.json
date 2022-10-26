@@ -2187,7 +2187,7 @@
       "JoinRoomRequest": {
         "type": "object",
         "properties": {
-          "roomSlug": {
+          "roomId": {
             "type": "string",
             "nullable": true
           }

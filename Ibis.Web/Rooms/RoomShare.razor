@@ -18,7 +18,7 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
-    string RoomLink => $"{Nav.BaseUri}rooms/{Room.Slug}";
+    string RoomLink => $"{Nav.BaseUri}rooms/{Room.RoomId}";
     bool IsCopied;
 
     async Task CopyLink()

@@ -1,7 +1,7 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
 
-@page "/rooms/{Slug}"
+@page "/rooms/{Id}"
 
 <section class="room">
     <header>
@@ -32,13 +32,13 @@
 </section>
 
 @code {
-    [Parameter] public string Slug { get; set; } = null!;
+    [Parameter] public string Id { get; set; } = null!;
 
     GetRoomResponse? RoomInfo;
 
     protected override async Task OnInitializedAsync()
     {
-        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomSlug = Slug });
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
     }
 
