@@ -59,7 +59,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
 
     }
 
-    public async Task<string> CreateMagicSignInLinkAsync(string email, string roomUrl)
+    async Task<string> CreateMagicSignInLinkAsync(string email, string roomUrl)
     {
         var user = Users.Query.FirstOrDefault(x => x.Email == email);
         if (user == null)

@@ -1,169 +1,10 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Ibis.Features",
+    "title": "Ibis.Features, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "version": "v1"
   },
   "paths": {
-    "/MicrosoftIdentity/Account/SignIn/{scheme}": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "parameters": [
-          {
-            "name": "scheme",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "redirectUri",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/MicrosoftIdentity/Account/Challenge/{scheme}": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "parameters": [
-          {
-            "name": "redirectUri",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "scope",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "loginHint",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "domainHint",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "claims",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "policy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "scheme",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/MicrosoftIdentity/Account/SignOut/{scheme}": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "parameters": [
-          {
-            "name": "scheme",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/MicrosoftIdentity/Account/ResetPassword/{scheme}": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "parameters": [
-          {
-            "name": "scheme",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/MicrosoftIdentity/Account/EditProfile/{scheme}": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "parameters": [
-          {
-            "name": "scheme",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/ChangeVoice": {
       "post": {
         "tags": [
@@ -221,7 +62,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/events/ChargeUserAccount": {
@@ -235,42 +85,27 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
+                    "$ref": "#/components/schemas/CostIncurred"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
+                    "$ref": "#/components/schemas/CostIncurred"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
+                    "$ref": "#/components/schemas/CostIncurred"
+                  }
+                ]
               }
             }
           }
@@ -279,7 +114,16 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/CreateRoom": {
@@ -339,7 +183,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/CreateStripeCustomer": {
@@ -368,7 +221,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/DeleteMessage": {
@@ -428,7 +290,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/DeleteRoom": {
@@ -476,10 +347,19 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
-    "/api/GetAllContent": {
+    "/publicapi/GetAllContent": {
       "post": {
         "tags": [
           "GetAllContent"
@@ -596,10 +476,19 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
-    "/api/GetContent": {
+    "/publicapi/GetContent": {
       "post": {
         "tags": [
           "GetContent"
@@ -685,7 +574,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetLanguages": {
@@ -723,7 +621,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetRoomAudio": {
@@ -783,7 +690,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetRooms": {
@@ -821,7 +737,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetRoomText": {
@@ -881,7 +806,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetUser": {
@@ -910,7 +844,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/GetUserBalance": {
@@ -942,7 +885,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/HearMessage": {
@@ -971,7 +923,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/InviteUser": {
@@ -1031,7 +992,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/JoinRoom": {
@@ -1091,7 +1061,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/LeaveRoom": {
@@ -1151,7 +1130,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/events/SendSms": {
@@ -1165,42 +1153,27 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             }
           }
@@ -1209,7 +1182,16 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/slack": {
@@ -1289,42 +1271,27 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             }
           }
@@ -1333,7 +1300,16 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/events/TranslateExistingMessages": {
@@ -1347,42 +1323,27 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
+                    "$ref": "#/components/schemas/LanguageAdded"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
+                    "$ref": "#/components/schemas/LanguageAdded"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
+                    "$ref": "#/components/schemas/LanguageAdded"
+                  }
+                ]
               }
             }
           }
@@ -1391,7 +1352,16 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/events/TranslateMessage": {
@@ -1405,42 +1375,27 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+                    "$ref": "#/components/schemas/MessageTextChanged"
+                  }
+                ]
               }
             }
           }
@@ -1449,7 +1404,16 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/TypeMessage": {
@@ -1509,7 +1473,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/UpdateRoomOptions": {
@@ -1569,7 +1542,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/UpdateUser": {
@@ -1629,7 +1611,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/UploadFile": {
@@ -1698,7 +1689,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/UserPhotoUpload": {
@@ -1758,6 +1758,75 @@
               }
             }
           }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
+      }
+    },
+    "/publicapi/ValidateMagicSignIn": {
+      "post": {
+        "tags": [
+          "ValidateMagicSignIn"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MagicSignInRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MagicSignInRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MagicSignInRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -1769,51 +1838,29 @@
         "properties": {
           "url": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "duration": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "readOnly": true
           },
           "voice": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "subtitles": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Word"
             },
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
-      },
-      "BalanceChanged": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "hostUserId": {
-                "type": "string",
-                "nullable": true
-              },
-              "amount": {
-                "type": "number",
-                "format": "double"
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Users.BalanceChanged, Ibis.Features"
       },
       "ChangeVoiceRequest": {
         "type": "object",
@@ -1845,37 +1892,33 @@
       },
       "CostIncurred": {
         "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "nullable": true
           },
-          {
-            "type": "object",
-            "properties": {
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Message"
-                  }
-                ],
-                "nullable": true
-              },
-              "description": {
-                "type": "string",
-                "nullable": true
-              },
-              "amount": {
-                "type": "number",
-                "format": "double"
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Message"
               }
-            }
+            ],
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
+        "additionalProperties": false
       },
       "DeleteMessageRequest": {
         "type": "object",
@@ -2225,38 +2268,52 @@
       },
       "LanguageAdded": {
         "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "nullable": true
           },
-          {
-            "type": "object",
-            "properties": {
-              "roomId": {
-                "type": "string",
-                "nullable": true
-              },
-              "language": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Language"
-                  }
-                ],
-                "nullable": true
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Language"
               }
-            }
+            ],
+            "nullable": true
           }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
+        "additionalProperties": false
       },
       "LeaveRoomRequest": {
         "type": "object",
         "properties": {
           "roomId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MagicSignInRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "returnUrl": {
             "type": "string",
             "nullable": true
           }
@@ -2352,57 +2409,27 @@
         },
         "additionalProperties": false
       },
-      "MessageAudioChanged": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Message"
-                  }
-                ],
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageAudioChanged, Ibis.Features"
-      },
       "MessageTextChanged": {
         "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "nullable": true
           },
-          {
-            "type": "object",
-            "properties": {
-              "message": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Message"
-                  }
-                ],
-                "nullable": true
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Message"
               }
-            }
+            ],
+            "nullable": true
           }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+        "additionalProperties": false
       },
       "MessageTranslation": {
         "type": "object",
@@ -2476,88 +2503,6 @@
         "discriminator": {
           "propertyName": "$type"
         }
-      },
-      "SpeechRecognized": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "sessionId": {
-                "type": "string",
-                "nullable": true
-              },
-              "text": {
-                "type": "string",
-                "nullable": true
-              },
-              "duration": {
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognized, Ibis.Features"
-      },
-      "SpeechRecognizing": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "sessionId": {
-                "type": "string",
-                "nullable": true
-              },
-              "text": {
-                "type": "string",
-                "nullable": true
-              },
-              "duration": {
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognizing, Ibis.Features"
-      },
-      "SpeechSessionStarted": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "sessionId": {
-                "type": "string",
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechSessionStarted, Ibis.Features"
       },
       "TypeMessageRequest": {
         "type": "object",
@@ -2674,92 +2619,6 @@
         },
         "additionalProperties": false
       },
-      "UserAvatarUpdated": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "avatar": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UserAvatar"
-                  }
-                ],
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Users.UserAvatarUpdated, Ibis.Features"
-      },
-      "UserJoined": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "roomId": {
-                "type": "string",
-                "nullable": true
-              },
-              "user": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UserAvatar"
-                  }
-                ],
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserJoined, Ibis.Features"
-      },
-      "UserLeft": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "roomId": {
-                "type": "string",
-                "nullable": true
-              },
-              "user": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UserAvatar"
-                  }
-                ],
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserLeft, Ibis.Features"
-      },
       "Voice": {
         "type": "object",
         "properties": {
@@ -2811,40 +2670,14 @@
           }
         },
         "additionalProperties": false
-      },
-      "WordSpoken": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparcNotification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "language": {
-                "type": "string",
-                "nullable": true
-              },
-              "audio": {
-                "type": "string",
-                "format": "byte",
-                "nullable": true
-              },
-              "words": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Word"
-                },
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.WordSpoken, Ibis.Features"
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "description": "Enter JWT Bearer token **_only_**",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

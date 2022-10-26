@@ -47,3 +47,5 @@ app.UseSparcKernel();
 app.MapControllers();
 app.MapHub<IbisHub>("/hub");
 app.UseDeveloperExceptionPage();
+
+await app.RunAsync();
