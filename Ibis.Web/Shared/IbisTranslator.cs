@@ -29,7 +29,7 @@ public class IbisTranslator : ComponentBase
         }
     }
 
-    string Translate(string text)
+    static string Translate(string text)
     {
         return text;
     }

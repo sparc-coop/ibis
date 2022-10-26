@@ -5,7 +5,7 @@ using Sparc.Notifications.Twilio;
 namespace Ibis.Features.Users;
 
 public record InviteUserRequest(string Email, string RoomId);
-public class InviteUser : Feature<InviteUserRequest, bool>
+public class InviteUser : PublicFeature<InviteUserRequest, string>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
@@ -21,7 +21,7 @@ public class InviteUser : Feature<InviteUserRequest, bool>
     TwilioService Twilio { get; set; }
 
 
-    public override async Task<bool> ExecuteAsync(InviteUserRequest request)
+    public override async Task<string> ExecuteAsync(InviteUserRequest request)
     {
         try
         {
@@ -30,11 +30,10 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             string roomLink = await CreateMagicSignInLinkAsync(request.Email, $"https://ibis.chat/rooms/{request.RoomId}");
 
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
-            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault()?.Avatar;
+            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
 
             if (user != null) //check new or existing
             {
-                roomLink = room.Slug;
                 messageBody = "You have been added to new room on Ibis! Click the link to join.";
             } else
             {
@@ -42,19 +41,19 @@ public class InviteUser : Feature<InviteUserRequest, bool>
                 messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 
-            await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
+            //await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
 
             //add pending user
-            await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(user));
+            //await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(user));
 
-            await Rooms.UpdateAsync(room);
+            //await Rooms.UpdateAsync(room);
 
-            return true;
+            return roomLink;
 
         } catch (Exception ex)
         {
             var test = ex.Message;
-            return false;
+            return test;
         }
 
     }
@@ -68,14 +67,10 @@ public class InviteUser : Feature<InviteUserRequest, bool>
             await Users.UpdateAsync(user);
         }
 
-        var token = UserManager.GenerateUserTokenAsync(user, "Default", "passwordless-auth");
-        var link = Url.ActionLink("", "ValidateMagicSignIn", values: new
-        {
-            Token = token.Result,
-            Email = email,
-            ReturnUrl = roomUrl
-        }, protocol: Request.Scheme);
+        if (user.SecurityStamp == null)
+            await UserManager.UpdateSecurityStampAsync(user);
 
-        return link ?? "";
+        var token = await UserManager.GenerateUserTokenAsync(user, "Default", "passwordless-auth");
+        return token ?? "";
     }
 }

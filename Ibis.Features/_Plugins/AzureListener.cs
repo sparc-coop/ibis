@@ -133,7 +133,7 @@ public class EchoStream : Stream
 
     public bool CopyBufferOnWrite { get; set; } = false;
 
-    private readonly object _lock = new object();
+    private readonly object _lock = new();
 
     // Default underlying mechanism for BlockingCollection is ConcurrentQueue<T>, which is what we want
     private readonly BlockingCollection<byte[]> _Buffers;

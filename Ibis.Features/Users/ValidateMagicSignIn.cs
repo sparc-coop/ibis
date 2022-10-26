@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +23,7 @@ public class ValidateMagicSignIn : PublicFeature<MagicSignInRequest, string>
     public UserManager<User> UserManager { get; }
     public IConfiguration Configuration { get; }
 
+    [HttpGet("/api/Validate")]
     public override async Task<string> ExecuteAsync(MagicSignInRequest request)
     {
         var user = Users.Query.FirstOrDefault(x => x.Email == request.Email);

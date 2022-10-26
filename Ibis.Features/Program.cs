@@ -20,26 +20,28 @@ builder.Services
         .AddSparcRealtime<IbisHub>()
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
-        .AddScoped<IListener, AzureListener>();
+        .AddScoped<IListener, AzureListener>()
+        .AddScoped<IUserStore<User>, SparcUserStore<User>>()
+        .AddScoped<IRoleStore<Role>, SparcRoleStore>();
 
 var auth = builder.Services.AddAzureADB2CAuthentication(builder.Configuration);
-//auth.AddJwtBearer("Passwordless", o =>
-//{
-//    var Key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]);
-//    o.SaveToken = true;
-//    o.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = false,
-//        ValidateAudience = false,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = builder.Configuration["JWT:Issuer"],
-//        ValidAudience = builder.Configuration["JWT:Audience"],
-//        IssuerSigningKey = new SymmetricSecurityKey(Key)
-//    };
-//});
-//builder.Services.AddIdentity<User, Role>()
-//    .AddDefaultTokenProviders();
+auth.AddJwtBearer("Passwordless", o =>
+{
+    var Key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!);
+    o.SaveToken = true;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Key)
+    };
+});
+builder.Services.AddIdentity<User, Role>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
