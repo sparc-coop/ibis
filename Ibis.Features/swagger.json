@@ -1925,6 +1925,20 @@
         },
         "additionalProperties": false
       },
+      "EditHistory": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetAllContentRequest": {
         "type": "object",
         "properties": {
@@ -2283,6 +2297,12 @@
             "format": "date-time",
             "readOnly": true
           },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "readOnly": true
+          },
           "user": {
             "allOf": [
               {
@@ -2320,6 +2340,14 @@
           "tag": {
             "type": "string",
             "nullable": true
+          },
+          "editHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EditHistory"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -2539,6 +2567,10 @@
             "nullable": true
           },
           "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "messageId": {
             "type": "string",
             "nullable": true
           },

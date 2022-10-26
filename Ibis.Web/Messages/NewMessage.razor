@@ -1,7 +1,7 @@
 ﻿@using System.Threading.Channels
 @inherits RealtimeComponent
 
-<form class="new-message" @onsubmit=SendText>
+<form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
     <Avatar User="Me" SpillBackground=true CanEdit=true />
     <textarea type="text" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     @if (IsSpeak)
@@ -23,9 +23,15 @@
     }
     else
     {
+        if (SelectedMessage != null)
+        {
+            <button type="button" class="cancel" @onclick=CancelEdit>
+                Cancel
+            </button>
+        }
         <button type="submit" @onclick="SendText" aria-label="Send">
             <SendIcon />
-            Send
+            @(SelectedMessage == null ? "Send" : "Save")
         </button>
     }
 
@@ -48,6 +54,8 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [Parameter] public Message? SelectedMessage { get; set; }
+    [Parameter] public EventCallback OnDoneEditing { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     ElementReference TextArea;
@@ -55,6 +63,15 @@
     bool preventDefault = false;
     bool IsSubmitted;
     bool LiveMode = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (SelectedMessage != null)
+        {
+            Text = SelectedMessage.Text;
+            await TextArea.FocusAsync();
+        }
+    }
 
     async Task MaybeSendText(KeyboardEventArgs args)
     {
@@ -76,11 +93,19 @@
         StateHasChanged();
 
         IsSubmitted = true;
-        var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text });
+        var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text, MessageId = SelectedMessage?.Id });
         IsSubmitted = false;
         await TextArea.FocusAsync();
+
+        if (SelectedMessage != null && OnDoneEditing.HasDelegate)
+            await OnDoneEditing.InvokeAsync();
     }
 
+    async Task CancelEdit() 
+    {
+        Text = "";
+        await OnDoneEditing.InvokeAsync();
+    }
 
     void ShowUploadModal()
     {
@@ -105,7 +130,7 @@
 
         objRef = DotNetObjectReference.Create(this);
         AudioStartTime = DateTime.UtcNow;
-        AudioChannel = Channel.CreateUnbounded<byte[]>();;
+        AudioChannel = Channel.CreateUnbounded<byte[]>(); ;
         await JS.InvokeVoidAsync("beginListening", objRef);
 
         On<SpeechRecognizing>(x =>

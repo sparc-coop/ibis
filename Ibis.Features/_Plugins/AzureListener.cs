@@ -140,9 +140,9 @@ public class EchoStream : Stream
 
     // Default underlying mechanism for BlockingCollection is ConcurrentQueue<T>, which is what we want
     private readonly BlockingCollection<byte[]> _Buffers;
-    private int _maxQueueDepth = 10;
+    private readonly int _maxQueueDepth = 10;
 
-    private byte[] m_buffer = null;
+    private byte[]? m_buffer = null;
     private int m_offset = 0;
     private int m_count = 0;
 
@@ -292,7 +292,7 @@ public class EchoStream : Stream
                 }
 
                 var bytesToCopy = (count < m_count) ? count : m_count;
-                System.Buffer.BlockCopy(m_buffer, m_offset, buffer, offset, bytesToCopy);
+                Buffer.BlockCopy(m_buffer!, m_offset, buffer, offset, bytesToCopy);
                 m_offset += bytesToCopy;
                 m_count -= bytesToCopy;
                 offset += bytesToCopy;

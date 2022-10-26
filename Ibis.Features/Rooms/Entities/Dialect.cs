@@ -11,7 +11,13 @@ public class Dialect
     public List<Voice> Voices { get; private set; }
 
     public Dialect()
-    { }
+    {
+        Language = string.Empty;
+        Locale = string.Empty;
+        DisplayName = string.Empty;
+        NativeName = string.Empty;
+        Voices = new();
+    }
 
     public Dialect(string localeName)
     {

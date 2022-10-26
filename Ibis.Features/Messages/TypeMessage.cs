@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace Ibis.Features.Messages;
 
-namespace Ibis.Features.Messages;
-
-public record TypeMessageRequest(string RoomId, string Text, string? Tag = null);
+public record TypeMessageRequest(string RoomId, string Text, string? MessageId = null, string? Tag = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
 {
     public TypeMessage(IRepository<Message> messages, IRepository<User> users)
@@ -22,12 +20,19 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
 
     internal async Task<Message> ExecuteAsUserAsync(TypeMessageRequest request, User user)
     {
-        if (request.Tag != null)
+        if (request.Tag != null || request.MessageId != null)
         {
             // If a tag is passed in, edit the message if it exists
-            var existingMessage = Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Tag == request.Tag);
+            var existingMessage =
+                request.MessageId != null
+                ? Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Id == request.MessageId)
+                : Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Tag == request.Tag);
+            
             if (existingMessage != null)
             {
+                if (existingMessage.User.Id != User.Id())
+                    throw new NotAuthorizedException("You are not permitted to edit another user's message.");
+
                 existingMessage.SetText(request.Text);
                 await Messages.UpdateAsync(existingMessage);
                 return existingMessage;

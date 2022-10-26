@@ -46,6 +46,13 @@
         img, svg {
             margin-right: 8px;
         }
+
+        &.cancel {
+            right: 120px;
+            background: transparent;
+            color: $secondary-900;
+            border: 1px solid $secondary-900;
+        }
     }
 
 
@@ -63,6 +70,12 @@
 
         &[disabled] {
             opacity: 0.5;
+        }
+    }
+
+    &.editing {
+        textarea {
+            padding-right: 200px;
         }
     }
 

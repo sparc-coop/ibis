@@ -4,21 +4,24 @@
     <div class="message-list" id="room-@Room.RoomId">
         @foreach (var message in Messages)
         {
-            <MessageCard Message="message" />
+            <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
         }
     </div>
-    <NewMessage Room="Room" />
+    <NewMessage Room="Room" SelectedMessage="SelectedMessage" OnDoneEditing=DoneEditing />
 </div>
 
 @code {
-    [Parameter] public GetRoomResponse Room { get; set; } = null!;
-    List<Message> Messages = new();
-    string? Language;
+        [Parameter] public GetRoomResponse Room { get; set; } = null!;
+        List<Message> Messages = new();
+        Message? SelectedMessage;
+        string? Language;
+        bool HasNewMessage;
 
     protected override async Task OnInitializedAsync()
     {
         var response = await Api.GetAllMessagesAsync(new GetAllMessagesRequest { RoomId = Room.RoomId });
         Messages = response.Messages.ToList();
+        HasNewMessage = true;
         Language = response.Language;
 
         await On<MessageTextChanged>(Room.RoomId + "|" + Language, async x =>
@@ -29,9 +32,15 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Messages.Any())
+        if (HasNewMessage)
+        {
             await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
+            HasNewMessage = false;
+        }
     }
+
+    void SelectMessage(Message message) => SelectedMessage = message;
+    void DoneEditing() => SelectedMessage = null;
 
     async Task AddMessage(Message message)
     {
@@ -43,8 +52,16 @@
         else
         {
             Messages.Add(message);
-            await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
+            HasNewMessage = true;
         }
+
+        SelectedMessage = null;
     }
 
+    async Task DeleteMessage(Message message)
+    {
+        var result = await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
+        if (result)
+            Messages.Remove(message);
+    }
 }

@@ -1146,6 +1146,32 @@ main {
   opacity: 100%;
   font-weight: bold;
 }
+.message-card .actions {
+  position: absolute;
+  top: -12px;
+  right: 60px;
+  padding: 2px 4px;
+  border: 1px solid #7EB0D1;
+  border-radius: 30px;
+  background-color: white;
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  z-index: 100;
+  display: none;
+}
+.message-card .actions li {
+  padding: 4px 10px;
+  border-radius: 30px;
+}
+.message-card .actions li:hover {
+  background-color: #2E7BA5;
+  cursor: pointer;
+  color: white;
+}
+.message-card:hover .actions {
+  display: flex;
+}
 
 .subroom {
   margin-left: 40px;
@@ -1238,6 +1264,12 @@ main {
 .new-message > button img, .new-message > button svg {
   margin-right: 8px;
 }
+.new-message > button.cancel {
+  right: 120px;
+  background: transparent;
+  color: #003B5F;
+  border: 1px solid #003B5F;
+}
 .new-message textarea {
   height: 105px;
   padding: 24px 112px 24px 56px;
@@ -1251,6 +1283,9 @@ main {
 }
 .new-message textarea[disabled] {
   opacity: 0.5;
+}
+.new-message.editing textarea {
+  padding-right: 200px;
 }
 .new-message > footer {
   border-top: 1px solid #e6e6e6;
