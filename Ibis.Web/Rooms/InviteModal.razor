@@ -32,7 +32,7 @@
         {
             NewEmails.Add(InviteEmail);
             InviteEmail = "";
-            Sent = await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
+            await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
         }
     }
 

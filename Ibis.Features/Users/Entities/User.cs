@@ -43,7 +43,7 @@ public class User : SparcUser
 
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
-    public string? CustomerId { get; private set; }
+    public string? CustomerId { get; set; }
     public string? SlackTeamId { get; private set; }
     public string? SlackUserId { get; private set; }
     public decimal Balance { get; private set; }

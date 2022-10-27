@@ -1,0 +1,54 @@
+﻿<div class="add-funds-modal modal">
+    <h4>Add Funds</h4>
+    <button class="close" @onclick="Close">
+        <img src="/icons/Close.svg" />
+    </button>
+
+    <ul>
+        @foreach (var amount in Amounts)
+        {
+            <li class="@(SelectedAmount == amount ? "selected" : "")">
+                <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
+            </li>
+        }
+        <li>
+            Custom
+        </li>
+    </ul>
+
+    <form>
+        <div id="payment-element"></div>
+        @if (PaymentIntent != null)
+        {
+            <button type="button" @onclick=Pay>
+                Add Funds
+            </button>
+        }
+    </form>
+</div>
+
+
+@code {
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+    [Parameter] public string? PaymentIntentClientSecret { get; set; }
+
+    List<double> Amounts = new() { 1, 5, 10, 20 };
+    double? SelectedAmount;
+    PaymentIntentResponse? PaymentIntent;
+
+    async Task ChooseAmount(double amount)
+    {
+        SelectedAmount = amount;
+        PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = amount, Currency = "usd" });
+        await JS.InvokeVoidAsync("initStripe", PaymentIntent.ClientSecret, "#payment-element");
+    }
+
+    async Task Pay()
+    {
+        // Loading indicator
+        var result = await JS.InvokeAsync<string>("confirmStripe", Nav.Uri);
+        await ModalInstance.CloseAsync();
+    }
+
+    void Close() => ModalInstance.CancelAsync();
+}
