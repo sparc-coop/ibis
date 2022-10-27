@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Microsoft.AspNetCore.Components;
+
+namespace Ibis.Features.Messages;
 
 public class MessageTranslation
 {
@@ -103,5 +105,17 @@ public class Message : SparcRoot<string>
     {
         Charge += cost;
         Broadcast(new CostIncurred(this, description, cost));
+    }
+
+    internal string Html()
+    {
+        if (string.IsNullOrWhiteSpace(Text))
+            return string.Empty;
+
+        var paragraphs = Text
+            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(x => !string.IsNullOrWhiteSpace(x));
+
+        return string.Join("\r\n", paragraphs.Select(x => $"<p>{x}</p>"));
     }
 }

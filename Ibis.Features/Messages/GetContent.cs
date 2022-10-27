@@ -2,7 +2,7 @@
 
 namespace Ibis.Features.Messages;
 
-public record GetContentRequest(string RoomSlug, string Tag, string Language);
+public record GetContentRequest(string RoomSlug, string Tag, string Language, bool AsHtml = false);
 public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
 {
     public GetContent(IRepository<Message> messages, IRepository<Room> rooms)
@@ -29,6 +29,6 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
         if (message == null)
             throw new NotFoundException($"Message {request.Tag} not found!");
 
-        return new(message.Tag!, message.Text!, message.Language, message.Audio?.Url, message.Timestamp);
+        return new(message.Tag!, request.AsHtml ? message.Html() : message.Text!, message.Language, message.Audio?.Url, message.Timestamp);
     }
 }

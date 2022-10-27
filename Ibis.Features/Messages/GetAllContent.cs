@@ -1,5 +1,5 @@
 ﻿namespace Ibis.Features.Messages;
-public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null);
+public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null, bool AsHtml = false);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
 public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
@@ -46,9 +46,9 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
                     .ToListAsync();
 
         List<GetContentResponse> result = new();
-        foreach (var item in postList)
+        foreach (var message in postList)
         {
-            result.Add(new(item.Tag ?? item.Id, item.Text!, item.Language, item.Audio?.Url, item.Timestamp));
+            result.Add(new(message.Tag ?? message.Id, request.AsHtml ? message.Html() : message.Text!, message.Language, message.Audio?.Url, message.Timestamp));
         }
 
         return result;
