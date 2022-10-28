@@ -1,17 +1,44 @@
-﻿
-.add-funds-modal {
-    button {
+﻿@import "../_variables.scss";
 
-        &.primary {
-            position: absolute;
-            right: 24px;
-            bottom: 24px;
+.add-funds-modal {
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        button, input {
+            height: 50px;
+            width: 100px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid $secondary-700;
+            text-align: center;
         }
 
-        &.secondary {
-            margin-top: 30px;
-            padding: 8px;
-            border-radius: 6px;
+        li {
+            &:hover, &.selected {
+                button, input {
+                    background-color: $secondary-700;
+                    color: white;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        button {
+            margin-top: 20px;
+            align-self: flex-end;
+            padding: 8px 16px;
+            color: $white;
+            background: $secondary-900;
         }
     }
 }

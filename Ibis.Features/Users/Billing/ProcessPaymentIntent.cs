@@ -6,15 +6,17 @@ namespace Ibis.Features.Users
     {
         readonly string EndpointKey;
         
-        public ProcessPaymentIntent(IConfiguration configuration, IRepository<User> users, IRepository<UserCharge> userCharges)
+        public ProcessPaymentIntent(IConfiguration configuration, IRepository<User> users, IRepository<UserCharge> userCharges, ExchangeRates exchangeRates)
         {
-            EndpointKey = "whsec_5e3430a88cd1384aa9573526e353ffc1948b79f19c37c5a4227f70659eb41770";//configuration["Stripe:EndpointKey"]!;
+            EndpointKey = configuration["Stripe:EndpointKey"]!;
             Users = users;
             UserCharges = userCharges;
+            ExchangeRates = exchangeRates;
         }
 
         public IRepository<User> Users { get; }
         public IRepository<UserCharge> UserCharges { get; }
+        public ExchangeRates ExchangeRates { get; }
 
         public override async Task<bool> ExecuteAsync()
         {
@@ -49,7 +51,8 @@ namespace Ibis.Features.Users
         private async Task FailPaymentAsync(Event stripeEvent)
         {
             var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-            var user = Users.Query.FirstOrDefault(x => x.CustomerId == paymentIntent!.CustomerId);
+            var customer = new CustomerService().Get(paymentIntent!.CustomerId);
+            var user = await Users.FindAsync(customer.Metadata["IbisUserId"]);
             if (user != null)
             {
                 UserCharge userCharge = new(user.Id, paymentIntent!);
@@ -60,7 +63,8 @@ namespace Ibis.Features.Users
         private async Task ProcessPaymentAsync(Event stripeEvent)
         {
             var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-            var user = Users.Query.FirstOrDefault(x => x.CustomerId == paymentIntent!.CustomerId);
+            var customer = new CustomerService().Get(paymentIntent!.CustomerId);
+            var user = await Users.FindAsync(customer.Metadata["IbisUserId"]);
             if (user != null)
             {
                 UserCharge userCharge = new(user.Id, paymentIntent!);

@@ -43,10 +43,9 @@ public class User : SparcUser
 
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
-    public string? CustomerId { get; set; }
     public string? SlackTeamId { get; private set; }
     public string? SlackUserId { get; private set; }
-    public decimal Balance { get; private set; }
+    public UserBilling? BillingInfo { get; private set; }
     public UserAvatar Avatar { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
@@ -80,8 +79,10 @@ public class User : SparcUser
 
     internal void AddCharge(UserCharge userCharge)
     {
-        Balance += userCharge.Amount;
-        Broadcast(new BalanceChanged(Id, Balance));
+        if (BillingInfo == null)
+            throw new Exception("Can't add charge to user without billing info!");
+        BillingInfo.Balance += userCharge.Amount;
+        Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
     }
 
     internal void UpdateAvatar(UserAvatar avatar)
@@ -99,12 +100,20 @@ public class User : SparcUser
         Broadcast(new UserAvatarUpdated(Avatar));
     }
 
+    internal void SetUpBilling(string customerId, string currency)
+    {
+        if (BillingInfo != null)
+            throw new Exception("Billing info can only be set up once");
+
+        BillingInfo = new(customerId, currency);
+    }
+
     internal void GoOnline(string connectionId)
     {
         Avatar.IsOnline = true;
         Broadcast(new UserAvatarUpdated(Avatar));
-        if (Balance != 0)
-            Broadcast(new BalanceChanged(Id, Balance));
+        if (BillingInfo != null)
+            Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
     }
 
     internal void GoOffline()

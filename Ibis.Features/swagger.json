@@ -2672,6 +2672,10 @@
           "currency": {
             "type": "string",
             "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2681,6 +2685,26 @@
         "properties": {
           "clientSecret": {
             "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "amounts": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
             "nullable": true
           }
         },

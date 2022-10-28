@@ -11,6 +11,6 @@ public class GetUserBalance : Feature<decimal>
     public override async Task<decimal> ExecuteAsync()
     {
         var user = await Users.GetAsync(User);
-        return user?.Balance ?? 0M;
+        return user?.BillingInfo?.Balance ?? 0M;
     }
 }

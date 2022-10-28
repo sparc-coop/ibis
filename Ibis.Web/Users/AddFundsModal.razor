@@ -1,30 +1,34 @@
-﻿<div class="add-funds-modal modal">
+﻿@using System.Globalization;
+<div class="add-funds-modal modal">
     <h4>Add Funds</h4>
     <button class="close" @onclick="Close">
         <img src="/icons/Close.svg" />
     </button>
 
-    <ul>
-        @foreach (var amount in Amounts)
-        {
-            <li class="@(SelectedAmount == amount ? "selected" : "")">
-                <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
+    @if (PaymentIntent != null)
+    {
+        <ul>
+            @foreach (var amount in PaymentIntent.Amounts)
+            {
+                <li class="@(SelectedAmount == amount ? "selected" : "")">
+                    <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
+                </li>
+            }
+            <li class="@(IsCustomAmount ? "selected" : "")">
+                <input type="number" step=".01" @bind=CustomAmount placeholder="0.00" />
             </li>
-        }
-        <li>
-            Custom
-        </li>
-    </ul>
+        </ul>
 
-    <form>
-        <div id="payment-element"></div>
-        @if (PaymentIntent != null)
-        {
-            <button type="button" @onclick=Pay>
-                Add Funds
-            </button>
-        }
-    </form>
+        <form>
+            <div id="payment-element"></div>
+            @if (SelectedAmount > 0)
+            {
+                <button type="button" @onclick=Pay>
+                    Add @PaymentIntent.Amount
+                </button>
+            }
+        </form>
+    }
 </div>
 
 
@@ -32,14 +36,61 @@
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
     [Parameter] public string? PaymentIntentClientSecret { get; set; }
 
-    List<double> Amounts = new() { 1, 5, 10, 20 };
-    double? SelectedAmount;
+    List<double> Amounts = new();
+    double SelectedAmount;
+    string _customAmount = "";
+    string CustomAmount
+    {
+        get
+        {
+            return _customAmount;
+        }
+        set
+        {
+            _customAmount = value;
+            if (double.TryParse(value, out SelectedAmount))
+            {
+                IsCustomAmount = true;
+                InvokeAsync(UpdateAmountAsync);
+            }
+        }
+    }
+    bool IsCustomAmount;
     PaymentIntentResponse? PaymentIntent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ri = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
+        PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = SelectedAmount, Currency = ri.ISOCurrencySymbol });
+    }
 
     async Task ChooseAmount(double amount)
     {
         SelectedAmount = amount;
-        PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = amount, Currency = "usd" });
+        IsCustomAmount = false;
+        await UpdateAmountAsync();
+    }
+
+    async Task ChooseCustomAmount()
+    {
+        if (double.TryParse(CustomAmount, out SelectedAmount))
+            IsCustomAmount = true;
+        await UpdateAmountAsync();
+    }
+
+    async Task UpdateAmountAsync()
+    {
+        if (SelectedAmount == 0)
+            return;
+
+        var request = new PaymentIntentRequest
+            {
+                Id = PaymentIntent?.Id,
+                Amount = SelectedAmount,
+                Currency = PaymentIntent?.Currency
+            };
+
+        PaymentIntent = await Api.CreatePaymentIntentAsync(request);
         await JS.InvokeVoidAsync("initStripe", PaymentIntent.ClientSecret, "#payment-element");
     }
 

@@ -23,7 +23,8 @@ builder.Services
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
         .AddScoped<IUserStore<User>, SparcUserStore<User>>()
-        .AddScoped<IRoleStore<Role>, SparcRoleStore>();
+        .AddScoped<IRoleStore<Role>, SparcRoleStore>()
+        .AddSingleton<ExchangeRates>();
 
 var auth = builder.Services.AddAzureADB2CAuthentication(builder.Configuration);
 //auth.AddJwtBearer("Passwordless", o =>

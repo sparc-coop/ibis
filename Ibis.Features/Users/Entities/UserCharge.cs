@@ -10,7 +10,15 @@ public class UserCharge : Root<string>
     public string Description { get; set; }
     public DateTime Timestamp { get; set; }
     public decimal Amount { get; set; }
+    public string Currency { get; set; }
     public string? PaymentIntent { get; set; }
+
+    public UserCharge()
+    {
+        UserId = "";
+        Currency = "";
+        Description = "";
+    }
     
     public UserCharge(string userId, PaymentIntent paymentIntent)
     {
@@ -18,23 +26,20 @@ public class UserCharge : Root<string>
         UserId = userId;
         Description = "Funds Added";
         Timestamp = DateTime.UtcNow;
-        Amount = paymentIntent.Amount / 100M;
+        Currency = paymentIntent.Currency.ToUpper();
+        Amount = paymentIntent.LocalAmount();
         PaymentIntent = paymentIntent.ToJson();
     }
 
-    public UserCharge(string userId, string roomId, string description, decimal amount)
+    public UserCharge(Room room, CostIncurred cost, User user, decimal amountInUsersCurrency)
     {
         Id = Guid.NewGuid().ToString();
-        UserId = userId;
-        RoomId = roomId;
-        Description = description;
-        Amount = amount;
+        UserId = user.Id;
+        RoomId = room.Id;
+        MessageId = cost.Message?.Id;
+        Description = cost.Description;
+        Amount = amountInUsersCurrency;
         Timestamp = DateTime.UtcNow;
-    }
-
-    public UserCharge(string userId, string roomId, string? messageId, string description, decimal amount)
-        : this(userId, roomId, description, amount)
-    {
-        MessageId = messageId;
+        Currency = user.BillingInfo!.Currency;
     }
 }

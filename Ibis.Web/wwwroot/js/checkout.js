@@ -1,9 +1,14 @@
 ﻿
 
 const stripe = Stripe('pk_test_51LxZjWAtmjNehy1iYH6vbqIS9bucufNTvQWCyzQD9do9Wy2TyFv834Xj2LZurDEwcx37eZ8twMzh6scj3TMlNsb200WsSIYYcc');
-let elements;
+let elements, clientsecret;
 
 function initStripe(secret, id) {
+    if (elements && clientsecret == secret)
+        return;
+
+    clientsecret = secret;
+
     const options = {
         clientSecret: secret,
         appearance: {/*...*/ },
