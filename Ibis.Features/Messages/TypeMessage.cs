@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Messages;
 
-public record TypeMessageRequest(string RoomId, string Text, string? MessageId = null, string? Tag = null);
+public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
 {
     public TypeMessage(IRepository<Message> messages, IRepository<User> users)
@@ -30,7 +30,7 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
             
             if (existingMessage != null)
             {
-                if (existingMessage.User.Id != User.Id())
+                if (request.MessageId != null && existingMessage.User.Id != user.Id)
                     throw new NotAuthorizedException("You are not permitted to edit another user's message.");
 
                 existingMessage.SetText(request.Text);

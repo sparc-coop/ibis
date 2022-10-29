@@ -1179,6 +1179,66 @@
         ]
       }
     },
+    "/publicapi/PostContent": {
+      "post": {
+        "tags": [
+          "PostContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostContentRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostContentRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PostContentRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllContentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllContentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllContentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/publicapi/ProcessPaymentIntent": {
       "post": {
         "tags": [
@@ -2149,13 +2209,6 @@
             "type": "string",
             "nullable": true
           },
-          "additionalMessages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
           "asHtml": {
             "type": "boolean"
           }
@@ -2710,6 +2763,30 @@
         },
         "additionalProperties": false
       },
+      "PostContentRequest": {
+        "type": "object",
+        "properties": {
+          "roomSlug": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "asHtml": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "RoomOptionsRequest": {
         "type": "object",
         "properties": {
@@ -2841,11 +2918,11 @@
             "type": "string",
             "nullable": true
           },
-          "messageId": {
+          "tag": {
             "type": "string",
             "nullable": true
           },
-          "tag": {
+          "messageId": {
             "type": "string",
             "nullable": true
           }

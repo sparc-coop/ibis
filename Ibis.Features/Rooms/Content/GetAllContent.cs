@@ -1,41 +1,33 @@
-﻿namespace Ibis.Features.Messages;
-public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null, bool AsHtml = false);
+﻿namespace Ibis.Features.Rooms;
+public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
 public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
-    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, ITranslator translator, TypeMessage typeMessage)
+    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
     {
         Messages = messages;
         Rooms = rooms;
+        Users = users;
         Translator = translator;
         TypeMessage = typeMessage;
     }
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
+    public IRepository<User> Users { get; }
     public ITranslator Translator { get; }
     public TypeMessage TypeMessage { get; }
 
     public override async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)
     {
-        var room = GetRoom(request.RoomSlug);
+        var user = await Users.FindAsync(User.Id());
+        var room = await GetRoomAsync(request.RoomSlug, user);
+
         await AddLanguageIfNeeded(room, request.Language);
 
         var result = await GetAllMessagesAsync(request, room);
 
-        if (request.AdditionalMessages?.Any() == true)
-        {
-            request.AdditionalMessages.RemoveAll(x => result.Any(y => y.Tag == x));
-            await AddAdditionalMessages(room.Id, request.AdditionalMessages);
-        }
-
         return new(room.Name, room.Slug, result);
-    }
-
-    private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages)
-    {
-        foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new(roomId, message, message), Users.User.System);
     }
 
     private async Task<List<GetContentResponse>> GetAllMessagesAsync(GetAllContentRequest request, Room room)
@@ -67,12 +59,20 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         }
     }
 
-    private Room GetRoom(string slug)
+    private async Task<Room> GetRoomAsync(string slug, User? user)
     {
         var room = Rooms.Query.FirstOrDefault(x => x.Slug == slug);
         if (room == null)
         {
-            throw new NotFoundException($"Room {slug} not found");
+            if (user != null)
+            {
+                room = new Room(slug, user);
+                await Rooms.AddAsync(room);
+            }
+            else
+            {
+                throw new NotFoundException($"Room {slug} not found");
+            }
         }
 
         return room;

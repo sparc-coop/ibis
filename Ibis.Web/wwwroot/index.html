@@ -32,6 +32,117 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/site.js"></script>
     <script src="js/checkout.js"></script>
+    <script>
+
+
+        window.ibis = {
+            textNodes: [],
+            textContent: {},
+            dotNet: {},
+
+            textNodesUnder: function (el) {
+                var n, a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+                while (n = walk.nextNode()) a.push(n);
+                var f = a.filter(x => x.parentNode.nodeName != 'SCRIPT' && x.textContent.trim().length);
+                //console.log('filter', a, f);
+                return f;
+            },
+
+            getTextNodes: function () {
+                //document.body.classList.add('ibis-translating');
+                textNodes = this.textNodesUnder(document.body);
+                return textNodes.map(n => n.textContent.trim());
+            },
+
+            translateAllTextNodes: function (translatedNodes) {
+                this.translateTextNodes(textNodes, translatedNodes);
+            },
+
+            translateTextNodes: function () {
+                for (let key in window.ibis.textContent) {
+                    var translation = window.ibis.textContent[key];
+                    console.log('processing', translation);
+                    if (!translation.translation)
+                        continue;
+
+                    for (let node of translation.nodes) {
+                        console.log('processnode', node);
+                        
+                        if (node.textContent != translation.translation) {
+                            node.textContent = translation.translation;
+                            node.translated = true;
+                        }
+                    }
+                }
+            },
+
+            translateSingleNode: function (node) {
+                var textContent = node.textContent.trim();
+                if (!textContent || node.translated)
+                    return;
+
+                if (textContent in window.ibis.textContent && window.ibis.textContent[textContent].nodes.indexOf(node) < 0) {
+                    window.ibis.textContent[textContent].nodes.push(node);
+                } else {
+                    window.ibis.textContent[textContent] = { 
+                        nodes: [ node ],
+                        translation: null
+                    };
+                }
+                //console.log(window.ibis.textContent);
+            },
+
+            translateNode: function (node) {
+                var mutationTextNodes = window.ibis.textNodesUnder(node);
+                mutationTextNodes.forEach(n => window.ibis.translateSingleNode(n));
+            },
+
+            observeCallback: function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.type == 'characterData') {
+                        window.ibis.translateSingleNode(mutation.target);
+                    }
+                    else
+                        mutation.addedNodes.forEach(window.ibis.translateNode);
+                });
+
+                var contentToTranslate = [];
+                for (let key in window.ibis.textContent) {
+                    //console.log(key, window.ibis.textContent[key].translation);
+                    if (!window.ibis.textContent[key].submitted && !window.ibis.textContent[key].translation)
+                    {
+                        window.ibis.textContent[key].submitted = true;
+                        contentToTranslate.push(key);
+                    }
+                }
+
+                window.ibis.dotNet.invokeMethodAsync("TranslateAsync", contentToTranslate).then(translations => {
+                    
+                    console.log('translations', contentToTranslate, translations);
+                    for (var i = 0; i < translations.length; i++) {
+                        window.ibis.textContent[contentToTranslate[i]].translation = translations[i];
+                    }
+
+                    window.ibis.translateTextNodes();
+                });
+
+            },
+
+            observe: function (target, dotNet) {
+                this.dotNet = dotNet;
+                var observer = new MutationObserver(this.observeCallback);
+                var app = document.getElementById(target);
+
+                window.ibis.translateNode(app);
+
+                window.addEventListener('DOMContentLoaded', () => {
+                    window.ibis.translateNode(app);
+                });
+
+                observer.observe(app, { childList: true, characterData: true, subtree: true });
+            }
+        }
+    </script>
 </body>
 
 </html>

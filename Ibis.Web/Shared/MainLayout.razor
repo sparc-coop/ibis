@@ -94,8 +94,20 @@
             if (User != null && User.Language == null)
                 ShowOnboarding = true;
         }
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("ibis.observe", "app", DotNetObjectReference.Create(this));
+        }
+    }
 
+    [JSInvokable]
+    public async Task<List<string>> TranslateAsync(List<string> text)
+    {
+        return await Ibis.TranslatePageAsync("ibis-meta-app", text);
     }
 
     void OpenMenu() => ShowMenu = !ShowMenu;

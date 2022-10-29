@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Ibis.Features.Messages;
+namespace Ibis.Features.Rooms;
 
 public record GetContentRequest(string RoomSlug, string Tag, string Language, bool AsHtml = false);
 public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
