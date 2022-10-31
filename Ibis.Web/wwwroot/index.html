@@ -61,12 +61,12 @@
             translateTextNodes: function () {
                 for (let key in window.ibis.textContent) {
                     var translation = window.ibis.textContent[key];
-                    console.log('processing', translation);
+                    //console.log('processing', translation);
                     if (!translation.translation)
                         continue;
 
                     for (let node of translation.nodes) {
-                        console.log('processnode', node);
+                       // console.log('processnode', node);
                         
                         if (node.textContent != translation.translation) {
                             node.textContent = translation.translation;
