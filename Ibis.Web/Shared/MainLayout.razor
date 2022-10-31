@@ -1,71 +1,74 @@
 ﻿@inherits LayoutComponentBase
+@using Sparc.Ibis;
 
 <RealtimeHub Url="@HubUrl">
     <CascadingValue Value="User">
-        <div class="main-layout @(IsRoom ? "mini" : "" )">
-            <header>
-                <a href="/">
-                    <figure class="logo">
-                        @if (IsRoom)
-                        {
-                            <img src="/images/logo_icon.png" alt="Ibis" />
-                        }
-                        else
-                        {
-                            <img src="/images/logo_2x.png" alt="Ibis" />
-                        }
-                        <figcaption>Ibis</figcaption>
-                    </figure>
-                </a>
-
-                <nav>
-                    <AuthorizeView>
-                        <Authorized>
-                            @if (User != null)
+        <IbisTranslate ChannelId="ibis-meta-app" Language="de">
+            <div class="main-layout @(IsRoom ? "mini" : "" )">
+                <header>
+                    <a href="/">
+                        <figure class="logo">
+                            @if (IsRoom)
                             {
-                                <UserBalance User="User" />
-                                <ul>
-                                    <li>
-                                        <a href="/">
-                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                        </a>
-                                    </li>
-
-                                    <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
-                                        <Avatar User="User" />
-                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                        <ul>
-                                            <li>
-                                                <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                            </li>
-                                            <li>
-                                                <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                            </li>
-                                            <li>
-                                                <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
-                                                    Log Out
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                <img src="/images/logo_icon.png" alt="Ibis" />
                             }
-                        </Authorized>
-                    </AuthorizeView>
-                </nav>
-            </header>
+                            else
+                            {
+                                <img src="/images/logo_2x.png" alt="Ibis" />
+                            }
+                            <figcaption>Ibis</figcaption>
+                        </figure>
+                    </a>
 
-            <main>
-                @Body
-            </main>
-        </div>
+                    <nav>
+                        <AuthorizeView>
+                            <Authorized>
+                                @if (User != null)
+                                {
+                                    <UserBalance User="User" />
+                                    <ul>
+                                        <li>
+                                            <a href="/">
+                                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                            </a>
+                                        </li>
 
-        <CascadingBlazoredModal HideCloseButton=true />
+                                        <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                            <Avatar User="User" />
+                                            <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                                            <ul>
+                                                <li>
+                                                    <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                                </li>
+                                                <li>
+                                                    <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                                </li>
+                                                <li>
+                                                    <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
+                                                        Log Out
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                }
+                            </Authorized>
+                        </AuthorizeView>
+                    </nav>
+                </header>
 
-        @if (ShowOnboarding)
-        {
-            <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
-        }
+                <main>
+                    @Body
+                </main>
+            </div>
+
+            <CascadingBlazoredModal HideCloseButton=true />
+
+            @if (ShowOnboarding)
+            {
+                <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
+            }
+        </IbisTranslate>
     </CascadingValue>
 </RealtimeHub>
 
@@ -94,20 +97,6 @@
             if (User != null && User.Language == null)
                 ShowOnboarding = true;
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JS.InvokeVoidAsync("ibis.observe", "app", DotNetObjectReference.Create(this));
-        }
-    }
-
-    [JSInvokable]
-    public async Task<List<string>> TranslateAsync(List<string> text)
-    {
-        return await Ibis.TranslatePageAsync("ibis-meta-app", text);
     }
 
     void OpenMenu() => ShowMenu = !ShowMenu;

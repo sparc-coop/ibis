@@ -1,0 +1,29 @@
+﻿@using Microsoft.JSInterop;
+
+<section id="@_id" lang="@_language">
+    @ChildContent
+</section>
+
+@inject IbisTranslator Ibis
+@code {
+    [Parameter] public string ChannelId { get; set; } = null!;
+    [Parameter] public string Language { get; set; } = null!;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    
+    string? _language;
+    string? _id = $"ibis-{Guid.NewGuid()}";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _language = await Ibis.InitAsync(this, _id, Language);
+        }
+    }
+
+    [JSInvokable]
+    public async Task<List<string>> TranslateAsync(List<string> text)
+    {
+        return await Ibis.TranslateAsync(text, ChannelId);
+    }
+}
