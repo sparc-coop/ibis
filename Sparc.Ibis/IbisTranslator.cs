@@ -30,14 +30,30 @@ public class IbisTranslator : IAsyncDisposable
         Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
     }
 
-    public async Task<string> InitAsync(ComponentBase component, string elementId, string? language = null)
+    public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<IbisContent>? restoredIbisContent = null)
     {
-        var ibis = await IbisJs.Value;
-        await ibis.InvokeVoidAsync("observe", elementId, DotNetObjectReference.Create(component));
         if (language != null)
             Language = language;
 
+        if (restoredIbisContent?.Any() == true)
+            Content = restoredIbisContent;
+        else
+            await GetAllAsync(channelId, asHtml: asHtml);
+
         return Language;
+    }
+
+    public async Task InitClientAsync(ComponentBase component, string elementId)
+    {
+        var ibis = await IbisJs.Value;
+        var content = Content.Where(x => x.Language == Language).ToDictionary(x => x.Tag, x => new
+        {
+            translation = x.Text,
+            submitted = true,
+            nodes = new List<object>(),
+            
+        });
+        await ibis.InvokeVoidAsync("init", elementId, DotNetObjectReference.Create(component), content);
     }
 
     public async Task<IbisContent?> GetAsync(string channelId, string tag)

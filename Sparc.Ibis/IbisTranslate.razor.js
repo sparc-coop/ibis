@@ -72,18 +72,25 @@ function observeCallback(mutations) {
     });
 }
 
-function observe(targetElementId, dotNetObjectReference) {
-    dotNet = dotNetObjectReference;
-    var observer = new MutationObserver(observeCallback);
+function observe(targetElementId) {
     var app = document.getElementById(targetElementId);
-
     registerDocumentNode(app);
+    replaceWithTranslatedText();
 
-    window.addEventListener('DOMContentLoaded', () => {
-        registerDocumentNode(app);
-    });
-
+    var observer = new MutationObserver(observeCallback);
     observer.observe(app, { childList: true, characterData: true, subtree: true });
 }
 
-export { observe, replaceWithTranslatedText };
+function init(targetElementId, dotNetObjectReference, serverTranslationCache) {
+    dotNet = dotNetObjectReference;
+    if (serverTranslationCache)
+        translationCache = serverTranslationCache;
+
+    if (/complete|interactive|loaded/.test(document.readyState)) {
+        observe(targetElementId);
+    } else {
+        window.addEventListener('DOMContentLoaded', () => observe(targetElementId));
+    }
+}
+
+export { init, replaceWithTranslatedText };
