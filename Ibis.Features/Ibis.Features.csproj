@@ -9,17 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Concentus.OggFile" Version="1.0.4" />
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="6.0.10" />
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.18.3" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.24.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.24.1" />
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
-    <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="7.0.0-pre.4" />
-    <PackageReference Include="Sparc.Database.Cosmos" Version="7.0.0-pre.3" />
-    <PackageReference Include="Sparc.Kernel" Version="7.0.0-pre.10" />
+    <PackageReference Include="Sparc.Authentication.AzureADB2C" Version="7.0.0-pre.5" />
+    <PackageReference Include="Sparc.Database.Cosmos" Version="7.0.0-pre.4" />
+    <PackageReference Include="Sparc.Kernel" Version="7.0.0-pre.16" />
     <PackageReference Include="Sparc.Notifications.Twilio" Version="7.0.0-pre.2" />
-    <PackageReference Include="Sparc.Storage.Azure" Version="7.0.0-pre.2" />
+    <PackageReference Include="Sparc.Storage.Azure" Version="7.0.0-pre.3" />
     <PackageReference Include="Stripe.net" Version="40.14.0" />
   </ItemGroup>
 

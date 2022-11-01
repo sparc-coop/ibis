@@ -74,73 +74,6 @@
         ]
       }
     },
-    "/events/ChargeUserAccount": {
-      "post": {
-        "tags": [
-          "ChargeUserAccount"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
     "/api/CreatePaymentIntent": {
       "post": {
         "tags": [
@@ -1268,73 +1201,6 @@
         }
       }
     },
-    "/events/SendSms": {
-      "post": {
-        "tags": [
-          "SendSms"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
     "/slack": {
       "post": {
         "tags": [
@@ -1399,207 +1265,6 @@
             }
           }
         }
-      }
-    },
-    "/events/SpeakMessage": {
-      "post": {
-        "tags": [
-          "SpeakMessage"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
-    "/events/TranslateExistingMessages": {
-      "post": {
-        "tags": [
-          "TranslateExistingMessages"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
-    "/events/TranslateMessage": {
-      "post": {
-        "tags": [
-          "TranslateMessage"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SparcNotification"
-                  },
-                  { }
-                ],
-                "discriminator": {
-                  "propertyName": "$type"
-                },
-                "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
       }
     },
     "/api/TypeMessage": {
@@ -2052,7 +1717,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2106,7 +1771,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2485,7 +2150,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2545,14 +2210,6 @@
           "id": {
             "type": "string",
             "nullable": true
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SparcNotification"
-            },
-            "nullable": true,
-            "readOnly": true
           },
           "roomId": {
             "type": "string",
@@ -2632,7 +2289,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2658,7 +2315,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2710,6 +2367,16 @@
             "items": {
               "type": "string"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -2801,35 +2468,11 @@
         },
         "additionalProperties": false
       },
-      "SparcNotification": {
-        "required": [
-          "$type"
-        ],
-        "type": "object",
-        "properties": {
-          "groupId": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          },
-          "$type": {
-            "type": "string",
-            "default": "Sparc.Realtime.SparcNotification"
-          }
-        },
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        }
-      },
       "SpeechRecognized": {
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2859,7 +2502,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -2889,7 +2532,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -3026,7 +2669,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -3052,7 +2695,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -3082,7 +2725,7 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
@@ -3164,11 +2807,15 @@
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/SparcNotification"
+            "$ref": "#/components/schemas/Notification"
           },
           {
             "type": "object",
             "properties": {
+              "userId": {
+                "type": "string",
+                "nullable": true
+              },
               "language": {
                 "type": "string",
                 "nullable": true

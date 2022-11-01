@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json" />
+	  <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json">
+		  <Options>/UseBaseUrl:false</Options>
+	  </OpenApiReference>
   </ItemGroup>
   
   <ItemGroup>
@@ -28,8 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Sparc.Platforms.Web" Version="6.3.6" />
-    <PackageReference Include="Sparc.UI" Version="6.3.0" />
+    <PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.6" />
     <PackageReference Include="Stripe.net" Version="39.110.0" />
   </ItemGroup>
   

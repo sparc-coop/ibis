@@ -56,7 +56,7 @@ public class ValidateMagicSignIn : PublicFeature<MagicSignInRequest, string>
     }
 
     record Tokens(string? Token, string? RefreshToken);
-    string CreateJwt(MagicSignInRequest request)
+    string? CreateJwt(MagicSignInRequest request)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenKey = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]!);

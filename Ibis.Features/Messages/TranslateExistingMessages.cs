@@ -1,6 +1,9 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Sparc.Blossom;
+using Sparc.Data;
 
-public record LanguageAdded(string RoomId, Language Language) : SparcNotification(RoomId);
+namespace Ibis.Features.Messages;
+
+public record LanguageAdded(string RoomId, Language Language) : Notification(RoomId);
 public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>
 {
     public TranslateExistingMessages(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)

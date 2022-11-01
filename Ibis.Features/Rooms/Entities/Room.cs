@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using Sparc.Blossom;
+using System.Text;
 
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserAvatar User) : SparcNotification(RoomId);
-public record UserLeft(string RoomId, UserAvatar User) : SparcNotification(RoomId);
+public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
+public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
 
-public class Room : SparcRoot<string>
+public class Room : Root<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }

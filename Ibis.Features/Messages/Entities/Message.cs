@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 
 public class MessageTranslation
 {
@@ -18,7 +16,7 @@ public class MessageTranslation
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
-public class Message : SparcRoot<string>
+public class Message : Root<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }

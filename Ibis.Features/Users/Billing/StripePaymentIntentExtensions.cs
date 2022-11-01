@@ -45,7 +45,7 @@ public static class StripePaymentIntentExtensions
                 }
             })
             .Where(ri => ri != null && ri.ISOCurrencySymbol == ISOCurrencySymbol)
-            .Select(ri => ri.CurrencySymbol)
+            .Select(ri => ri!.CurrencySymbol)
             .FirstOrDefault();
         return symbol != null;
     }

@@ -16,7 +16,7 @@
             }));
     }
 
-    protected async Task On<T>(string subscriptionId, Action<T> action) where T : SparcNotification
+    protected async Task On<T>(string subscriptionId, Action<T> action) where T : Notification
     {
         if (Hub != null)
         {
@@ -41,7 +41,7 @@
             Events.Add(Hub.On<T>(typeof(T).Name, evt =>
             {
 
-                var equals = evt.GroupId == subscriptionId;
+                var equals = evt.SubscriptionId == subscriptionId;
                 if (equals)
                 {
                     action(evt);

@@ -2,12 +2,13 @@
 using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
+using Sparc.Blossom;
 using Sparc.Storage.Azure;
 using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins;
 
-public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : SparcNotification(UserId + "|" + Language);
+public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : Notification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;

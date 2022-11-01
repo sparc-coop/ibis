@@ -51,7 +51,7 @@ public class ExchangeRates
         var file = await Files.FindAsync($"exchangerates/{today}.json");
         if (file != null)
         {
-            file.Stream.Position = 0;
+            file.Stream!.Position = 0;
             var response = await JsonSerializer.DeserializeAsync<ExchangeRatesResponse>(file.Stream!);
             Rates = response!.Rates;
             AsOfDate = response!.Date;

@@ -1,7 +1,9 @@
-﻿namespace Ibis.Features.Users;
+﻿using Sparc.Blossom;
 
-public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id);
-public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(HostUserId);
+namespace Ibis.Features.Users;
+
+public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
+public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);
 public class Role { }
 public class User : SparcUser
 {

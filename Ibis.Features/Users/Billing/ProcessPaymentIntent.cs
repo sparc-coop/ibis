@@ -21,7 +21,6 @@ namespace Ibis.Features.Users
         public override async Task<bool> ExecuteAsync()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            
             try
             {
                 var signatureHeader = Request.Headers["Stripe-Signature"];
@@ -38,11 +37,11 @@ namespace Ibis.Features.Users
 
                 return true;
             }
-            catch (StripeException e)
+            catch (StripeException)
             {
                 return false;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }

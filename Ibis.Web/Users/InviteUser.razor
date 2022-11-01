@@ -4,7 +4,7 @@
 </button>
 
 @code {
-    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string RoomId { get; set; } = null!;
 
     void OpenModal()
     {

@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public class SparcUser : SparcRoot<string>
+public class SparcUser : Root<string>
 {
     public string? SecurityStamp
     {

@@ -1,13 +1,14 @@
 ﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using Sparc.Blossom;
 using System.Collections.Concurrent;
 
 namespace Ibis.Features._Plugins;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
-public record SpeechSessionStarted(string SessionId) : SparcNotification(SessionId);
-public record SpeechRecognizing(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
-public record SpeechRecognized(string SessionId, string Text, long Duration) : SparcNotification(SessionId);
+public record SpeechSessionStarted(string SessionId) : Notification(SessionId);
+public record SpeechRecognizing(string SessionId, string Text, long Duration) : Notification(SessionId);
+public record SpeechRecognized(string SessionId, string Text, long Duration) : Notification(SessionId);
 public class AzureListener : IListener
 {
     readonly HttpClient Client;

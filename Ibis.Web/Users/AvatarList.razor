@@ -23,7 +23,7 @@
     [CascadingParameter] public UserAvatar? Me { get; set; }
     List<UserAvatar> ActiveUsers = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         ActiveUsers = Room.Users.Where(x => x.Id != Me!.Id).ToList();
 

@@ -24,9 +24,9 @@
         HasNewMessage = true;
         Language = response.Language;
 
-        await On<MessageTextChanged>(Room.RoomId + "|" + Language, async x =>
+        await On<MessageTextChanged>(Room.RoomId + "|" + Language, x =>
         {
-            await AddMessage(x.Message);
+            AddMessage(x.Message);
         });
     }
 
@@ -42,7 +42,7 @@
     void SelectMessage(Message message) => SelectedMessage = message;
     void DoneEditing() => SelectedMessage = null;
 
-    async Task AddMessage(Message message)
+    void AddMessage(Message message)
     {
         var existingId = Messages.FindIndex(x => x.Id == message.Id);
         if (existingId > -1)

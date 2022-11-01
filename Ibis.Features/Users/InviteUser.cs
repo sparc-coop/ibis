@@ -25,7 +25,6 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
     {
         try
         {
-            string subject = "Ibis Invitation";
             string messageBody = "";
             string roomLink = await CreateMagicSignInLinkAsync(request.Email, $"https://ibis.chat/rooms/{request.RoomId}");
 

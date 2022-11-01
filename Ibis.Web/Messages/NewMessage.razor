@@ -61,7 +61,6 @@
     ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
-    bool IsSubmitted;
     bool LiveMode = true;
 
     protected override async Task OnParametersSetAsync()
@@ -92,9 +91,7 @@
         Text = "";
         StateHasChanged();
 
-        IsSubmitted = true;
         var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text, MessageId = SelectedMessage?.Id });
-        IsSubmitted = false;
         await TextArea.FocusAsync();
 
         if (SelectedMessage != null && OnDoneEditing.HasDelegate)
@@ -171,16 +168,5 @@
 
         if (AudioChannel != null)
             await AudioChannel!.Writer.WriteAsync(audio);
-    }
-
-    async Task ShowSpeakModal()
-    {
-        var modal = Modal.Show<Speak>("Send a voice message...");
-        var result = await modal.Result;
-        if (!result.Cancelled)
-        {
-            Text = (string)result.Data;
-            await SendText();
-        }
     }
 }

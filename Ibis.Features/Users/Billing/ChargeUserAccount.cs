@@ -1,6 +1,8 @@
-﻿namespace Ibis.Features.Users;
+﻿using Sparc.Blossom;
 
-public record CostIncurred(Message Message, string Description, decimal Amount) : SparcNotification();
+namespace Ibis.Features.Users;
+
+public record CostIncurred(Message Message, string Description, decimal Amount) : Notification();
 public class ChargeUserAccount : RealtimeFeature<CostIncurred>
 {
     public ChargeUserAccount(IRepository<UserCharge> charges, IRepository<User> users, IRepository<Room> rooms, ExchangeRates exchangeRates)
