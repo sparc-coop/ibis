@@ -22,6 +22,7 @@ function replaceWithTranslatedText() {
                 node.textContent = translation.translation;
                 node.translated = true;
             }
+            node.parentElement?.classList.remove('ibis-translating');
         }
     }
 }
@@ -31,6 +32,7 @@ function registerTextNode(node) {
     if (!nodeText || node.translated)
         return;
 
+    node.parentElement?.classList.add('ibis-translating');
     if (nodeText in translationCache && translationCache[nodeText].nodes.indexOf(node) < 0) {
         translationCache[nodeText].nodes.push(node);
     } else {

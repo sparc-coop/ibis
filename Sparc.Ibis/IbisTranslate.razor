@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
 @using Microsoft.JSInterop;
 
-<section id="@_id" lang="@_language" class="ibis-translate @isTranslatingClass">
+<section id="@_id" lang="@_language" class="ibis-translate @(isTranslating ? "ibis-translating" : "")">
     @ChildContent
 </section>
 
@@ -17,11 +17,8 @@
     string? _language;
     string? _id = $"ibis-{Guid.NewGuid()}";
     bool firstRenderAfterIbisInit;
-    bool? isTranslating;
-    string isTranslatingClass => isTranslating == true
-        ? "ibis-translating"
-        : isTranslating == false ? "ibis-translated"
-        : "";
+    bool isTranslating;
+   
     PersistingComponentStateSubscription PersistedStateSubscription;
 
     protected override async Task OnInitializedAsync()
