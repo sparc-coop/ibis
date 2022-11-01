@@ -57,6 +57,10 @@ function observeCallback(mutations) {
             mutation.addedNodes.forEach(registerDocumentNode);
     });
 
+    callIbis();
+}
+
+function callIbis() {
     var contentToTranslate = [];
     for (let key in translationCache) {
         if (!translationCache[key].submitted && !translationCache[key].translation) {
@@ -77,7 +81,7 @@ function observeCallback(mutations) {
 function observe(targetElementId) {
     var app = document.getElementById(targetElementId);
     registerDocumentNode(app);
-    replaceWithTranslatedText();
+    callIbis();
 
     var observer = new MutationObserver(observeCallback);
     observer.observe(app, { childList: true, characterData: true, subtree: true });

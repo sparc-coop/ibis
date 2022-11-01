@@ -27,13 +27,15 @@ public class IbisTranslator : IAsyncDisposable
         
         Content = new();
         IbisJs = new(() => js.InvokeAsync<IJSObjectReference>("import", "./_content/Sparc.Ibis/IbisTranslate.razor.js").AsTask());
-        Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        Language = "";
     }
 
     public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<IbisContent>? restoredIbisContent = null)
     {
         if (language != null)
             Language = language;
+        else
+            Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
         if (restoredIbisContent?.Any() == true)
             Content = restoredIbisContent;
@@ -108,7 +110,7 @@ public class IbisTranslator : IAsyncDisposable
         
         var ibis = await IbisJs.Value;
         
-        var nodesToTranslate = nodes.Where(x => !Content.Any(y => (y.Tag == x && y.Language == Language) || y.Text == x)).Distinct().ToList();
+        var nodesToTranslate = nodes.Where(x => !Content.Any(y => y.Language == Language && (y.Tag == x || y.Text == x))).Distinct().ToList();
 
         await PostAsync(channelId, nodesToTranslate);
 

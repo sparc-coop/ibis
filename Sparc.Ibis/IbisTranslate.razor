@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
 @using Microsoft.JSInterop;
 
-<section id="@_id" lang="@_language" class="ibis-translate @(isTranslating ? "ibis-translating" : "")">
+<section id="@_id" lang="@_language" class="ibis-translate">
     @ChildContent
 </section>
 
@@ -10,12 +10,12 @@
 
 @code {
     [Parameter] public string ChannelId { get; set; } = null!;
-    [Parameter] public string Language { get; set; } = null!;
+    [Parameter] public string? Language { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public bool AsHtml { get; set; }
 
     string? _language;
-    string? _id = $"ibis-{Guid.NewGuid()}";
+    string _id = $"ibis-{Guid.NewGuid()}";
     bool firstRenderAfterIbisInit;
     bool isTranslating;
    
@@ -26,6 +26,7 @@
         PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
 
         isTranslating = true;
+
         if (PersistedState.TryTakeFromJson<List<IbisContent>>(ChannelId, out var restoredIbisContent))
         {
             _language = await Ibis.InitAsync(ChannelId, Language, AsHtml, restoredIbisContent);
