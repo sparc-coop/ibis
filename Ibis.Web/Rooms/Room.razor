@@ -1,6 +1,6 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
-
+@attribute [Authorize(Policy = "Passwordless")]
 @page "/rooms/{Id}"
 
 <section class="room">

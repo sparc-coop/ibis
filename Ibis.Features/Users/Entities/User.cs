@@ -1,4 +1,6 @@
-﻿using Sparc.Authentication;
+﻿using Microsoft.AspNetCore.Identity;
+using Sparc.Authentication;
+using System.Security.Claims;
 
 namespace Ibis.Features.Users;
 
@@ -17,12 +19,15 @@ public class User : SparcUser
         Avatar = new(Id, "");
     }
 
-    public User(string id, string email) : this()
+    public User(string email) : this()
     {
-        Id = id;
         Email = email;
-
         Avatar = new(Id, email);
+    }
+
+    public User(string azureId, string email) : this(email)
+    {
+        AzureB2CId = azureId;
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -46,6 +51,7 @@ public class User : SparcUser
     public DateTime DateModified { get; private set; }
     public string? SlackTeamId { get; private set; }
     public string? SlackUserId { get; private set; }
+    public string? AzureB2CId { get; private set; }
     public UserBilling? BillingInfo { get; private set; }
     public UserAvatar Avatar { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
@@ -127,6 +133,28 @@ public class User : SparcUser
     {
         SlackTeamId = team_id;
         SlackUserId = user_id;
+    }
+
+    internal ClaimsPrincipal CreatePrincipal()
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, Id),
+            new(ClaimTypes.Email, Email),
+            new("iss", "https://ibis.chat")
+        };
+        if (AzureB2CId != null)
+            claims.Add(new("sub", AzureB2CId));
+
+        if (Avatar.Name != null)
+            claims.Add(new(ClaimTypes.Name, Avatar.Name));
+
+        if (Avatar.Language != null)
+            claims.Add(new("language", Avatar.Language));
+
+        return new ClaimsPrincipal(
+            new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme)
+                );
     }
 }
 

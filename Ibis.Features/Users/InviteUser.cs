@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Sparc.Authentication;
 using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Users;
@@ -10,13 +11,15 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
     public UserManager<User> UserManager { get; }
+    public IConfiguration Configuration { get; }
 
-    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, UserManager<User> userManager)
+    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, UserManager<User> userManager, IConfiguration configuration)
     {
         Twilio = twilio;
         Rooms = rooms;
         Users = users;
         UserManager = userManager;
+        Configuration = configuration;
     }
     TwilioService Twilio { get; set; }
 
@@ -26,7 +29,6 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
         try
         {
             string messageBody = "";
-            string roomLink = await CreateMagicSignInLinkAsync(request.Email, $"https://ibis.chat/rooms/{request.RoomId}");
 
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
             var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
@@ -37,9 +39,11 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
             } else
             {
                 user = new(request.Email, request.Email);
+                await UserManager.CreateAsync(user);
                 messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 
+            string roomLink = await UserManager.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
             //await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
 
             //add pending user
@@ -55,21 +59,5 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
             return test;
         }
 
-    }
-
-    async Task<string> CreateMagicSignInLinkAsync(string email, string roomUrl)
-    {
-        var user = Users.Query.FirstOrDefault(x => x.Email == email);
-        if (user == null)
-        {
-            user = new(Guid.NewGuid().ToString(), email);
-            await Users.UpdateAsync(user);
-        }
-
-        if (user.SecurityStamp == null)
-            await UserManager.UpdateSecurityStampAsync(user);
-
-        var token = await UserManager.GenerateUserTokenAsync(user, "Default", "passwordless-auth");
-        return token ?? "";
     }
 }
