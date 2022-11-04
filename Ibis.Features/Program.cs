@@ -34,6 +34,9 @@ app.MapHub<IbisHub>("/hub");
 app.UseDeveloperExceptionPage();
 //app.UsePasswordlessAuthentication<User>();
 
+// Warm up the entity framework model
+_ = app.Services.GetRequiredService<IbisContext>().Model;
+
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 await app.RunAsync();
