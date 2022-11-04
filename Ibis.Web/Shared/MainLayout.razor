@@ -77,7 +77,6 @@
     bool ShowMenu;
     bool IsRoom;
     bool ShowOnboarding;
-    System.Security.Claims.ClaimsPrincipal? Principal;
     string HubUrl => Config["ApiUrl"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
@@ -111,7 +110,6 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            Principal = user;
             if (User != null && User.Language == null)
                 ShowOnboarding = true;
             StateHasChanged();
