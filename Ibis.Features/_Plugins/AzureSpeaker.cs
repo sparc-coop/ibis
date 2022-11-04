@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.CognitiveServices.Speech;
+﻿using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
-using Sparc.Blossom;
 using Sparc.Storage.Azure;
 using File = Sparc.Storage.Azure.File;
 
@@ -14,9 +12,9 @@ public class AzureSpeaker : ISpeaker
     readonly HttpClient Client;
     readonly string SubscriptionKey;
 
-    public IRepository<File> Files { get; }
+    public IFileRepository<File> Files { get; }
 
-    public AzureSpeaker(IConfiguration configuration, IRepository<File> files)
+    public AzureSpeaker(IConfiguration configuration, IFileRepository<File> files)
     {
         SubscriptionKey = configuration.GetConnectionString("Speech")!;
 

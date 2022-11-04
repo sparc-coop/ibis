@@ -6,7 +6,7 @@ using Sparc.Storage.Azure;
 using Sparc.Notifications.Twilio;
 using Stripe;
 using Sparc.Authentication;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -21,19 +21,18 @@ builder.Services
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>()
-        .AddTransient<IClaimsTransformation, AzureAdB2CClaimsTransformation>();
+        .AddSingleton<ExchangeRates>();
 
-var auth = builder.Services.AddAzureADB2CAuthentication(builder.Configuration);
+var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
+IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
-
 app.UseSparcKernel();
 app.MapControllers();
 app.MapHub<IbisHub>("/hub");
 app.UseDeveloperExceptionPage();
-app.UsePasswordlessAuthentication<User>();
+//app.UsePasswordlessAuthentication<User>();
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 

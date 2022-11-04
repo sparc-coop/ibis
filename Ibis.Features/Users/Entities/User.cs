@@ -135,26 +135,12 @@ public class User : SparcUser
         SlackUserId = user_id;
     }
 
-    internal ClaimsPrincipal CreatePrincipal()
+    protected override void RegisterClaims()
     {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, Id),
-            new(ClaimTypes.Email, Email),
-            new("iss", "https://ibis.chat")
-        };
-        if (AzureB2CId != null)
-            claims.Add(new("sub", AzureB2CId));
-
-        if (Avatar.Name != null)
-            claims.Add(new(ClaimTypes.Name, Avatar.Name));
-
-        if (Avatar.Language != null)
-            claims.Add(new("language", Avatar.Language));
-
-        return new ClaimsPrincipal(
-            new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme)
-                );
+        AddClaim(ClaimTypes.Email, Email);
+        AddClaim(ClaimTypes.GivenName, Avatar.Name);
+        AddClaim("sub", AzureB2CId);
+        AddClaim("Language", Avatar.Language);
     }
 }
 
