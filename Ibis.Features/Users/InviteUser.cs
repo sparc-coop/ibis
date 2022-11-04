@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Sparc.Authentication;
 using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Users;
 
 public record InviteUserRequest(string Email, string RoomId);
-public class InviteUser : PublicFeature<InviteUserRequest, string>
+public class InviteUser : PublicFeature<InviteUserRequest, bool>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
@@ -24,39 +23,38 @@ public class InviteUser : PublicFeature<InviteUserRequest, string>
     TwilioService Twilio { get; set; }
 
 
-    public override async Task<string> ExecuteAsync(InviteUserRequest request)
+    public override async Task<bool> ExecuteAsync(InviteUserRequest request)
     {
         try
         {
-            string messageBody = "";
-
             var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
+            var invitingUser = await Users.GetAsync(User);
             var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
 
-            if (user != null) //check new or existing
-            {
-                messageBody = "You have been added to new room on Ibis! Click the link to join.";
-            } else
+            if (user == null)
             {
                 user = new(request.Email, request.Email);
                 await UserManager.CreateAsync(user);
-                messageBody = "You have been invited to join Ibis! Sign up here.";
             }
 
             string roomLink = await UserManager.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
-            //await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
+            roomLink = $"{Request.Scheme}://{Request.Host.Value}{roomLink}";
 
-            //add pending user
-            //await Rooms.ExecuteAsync(request.RoomId, r => r.InviteUser(user));
+            var templateData = new
+            {
+                RoomName = room.Name,
+                InvitingUser = invitingUser?.Avatar.Name ?? "your friend",
+                RoomLink =  roomLink
+            };
 
-            //await Rooms.UpdateAsync(room);
+            await Twilio.SendEmailTemplateAsync(request.Email, "d-f6bdbef00daf4780adb9ec3816193237", templateData);
 
-            return roomLink;
+            return true;
 
         } catch (Exception ex)
         {
             var test = ex.Message;
-            return test;
+            return false;
         }
 
     }
