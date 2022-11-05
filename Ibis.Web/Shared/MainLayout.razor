@@ -110,7 +110,7 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Language == null)
+            if (User != null&& User.Voice == null)
                 ShowOnboarding = true;
             StateHasChanged();
             isUserBeingGot = false;

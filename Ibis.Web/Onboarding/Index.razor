@@ -21,7 +21,7 @@
                     <AccountDetails />
                     break;
                 case "Language":
-                    <LanguageSelector />
+                    <LanguageSelector OnSelected="GoToVoice" />
                     break;
                 case "Voice":
                     <VoiceSelector />
@@ -40,12 +40,22 @@
 </div>
 
 @code {
-    string Tab { get; set; } = "Emoji";
-    List<string> Tabs = new() { "Emoji", "Color", "Language", "Voice", "Profile" };
+    string Tab { get; set; } = "Language";
+    List<string> Tabs = new() { "Language", "Voice", "Emoji", "Color", "Profile" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
 
     void SetTab(string tab) => Tab = tab;
+    void GoToVoice() => Tab = "Voice";
+
+    protected override void OnInitialized()
+    {
+        if (User == null)
+            return;
+
+        if (User.Voice == null)
+            Tab = "Language";
+    }
 
     async Task Done()
     {
