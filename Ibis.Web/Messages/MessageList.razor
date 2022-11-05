@@ -28,6 +28,11 @@
         {
             AddMessage(x.Message);
         });
+
+        await On<MessageAudioChanged>(Room.RoomId + "|" + Language, x =>
+        {
+            AddMessage(x.Message);
+        });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
