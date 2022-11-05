@@ -10,6 +10,7 @@
     left: 0;
     display: grid;
     grid-template-rows: 220px 90px auto auto;
+    z-index: 10000;
 
     .avatar {
         height: 220px;
