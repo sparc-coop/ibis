@@ -84,7 +84,8 @@ public class Message : Root<string>
             return;
 
         Audio = await engine.SpeakAsync(this);
-        Broadcast(new MessageAudioChanged(this));
+        if (Audio != null)
+            Broadcast(new MessageAudioChanged(this));
     }
 
     internal bool HasTranslation(string languageId)
