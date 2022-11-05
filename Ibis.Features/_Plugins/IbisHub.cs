@@ -19,10 +19,10 @@ public class IbisHub : SparcHub
 
     public override async Task OnConnectedAsync()
     {
+        await base.OnConnectedAsync();
+        
         if (Context.UserIdentifier != null)
             await Users.ExecuteAsync(Context.UserIdentifier, u => u.GoOnline(Context.ConnectionId));
-        
-        await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)

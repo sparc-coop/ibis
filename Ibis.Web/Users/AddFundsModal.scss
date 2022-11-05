@@ -14,14 +14,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid $secondary-700;
+            border: 1px solid $secondary-900;
             text-align: center;
         }
 
         li {
             &:hover, &.selected {
                 button, input {
-                    background-color: $secondary-700;
+                    background-color: $secondary-900;
                     color: white;
                     cursor: pointer;
                 }

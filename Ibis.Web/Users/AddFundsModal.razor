@@ -1,10 +1,7 @@
-﻿@using System.Globalization;
-<div class="add-funds-modal modal">
-    <h4>Add Funds</h4>
-    <button class="close" @onclick="Close">
-        <img src="/icons/Close.svg" />
-    </button>
+﻿@inherits SparcModal
+@using System.Globalization;
 
+<div class="add-funds-modal">
     @if (PaymentIntent != null)
     {
         <ul>
@@ -33,7 +30,6 @@
 
 
 @code {
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
     [Parameter] public string? PaymentIntentClientSecret { get; set; }
 
     List<double> Amounts = new();
@@ -98,8 +94,6 @@
     {
         // Loading indicator
         var result = await JS.InvokeAsync<string>("confirmStripe", Nav.Uri);
-        await ModalInstance.CloseAsync();
+        await Ok();
     }
-
-    void Close() => ModalInstance.CancelAsync();
 }

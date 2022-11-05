@@ -1,8 +1,6 @@
-﻿<div class="invite-block modal">
-    <h4>Invite People</h4>
-    <button class="close" @onclick="Close">
-        <img src="/icons/Close.svg" />
-    </button>
+﻿@inherits SparcModal
+
+<div class="invite-block">
     <div class="invite-search">
         <input placeholder="Email" @bind="InviteEmail" />
         <button @onclick="SendInvite" class="primary">Send Invite</button>
@@ -20,7 +18,6 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     string? InviteEmail;
     List<string> NewEmails = new List<string>();
@@ -32,8 +29,7 @@
             NewEmails.Add(InviteEmail);
             InviteEmail = "";
             await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
+            await Ok();
         }
     }
-
-    void Close() => ModalInstance.CancelAsync();
 }

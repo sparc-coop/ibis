@@ -1,5 +1,6 @@
 ﻿@layout EmptyLayout
 
+<div class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
 <div class="onboarding">
     @if (User != null)
     {
@@ -40,7 +41,7 @@
 </div>
 
 @code {
-    string Tab { get; set; } = "Language";
+    string Tab { get; set; } = "Emoji";
     List<string> Tabs = new() { "Language", "Voice", "Emoji", "Color", "Profile" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }

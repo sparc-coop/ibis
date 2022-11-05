@@ -1,6 +1,5 @@
 ﻿using Sparc.Storage.Azure;
 using System.Text.Json;
-using Twilio.TwiML.Messaging;
 
 namespace Ibis.Features.Users;
 
@@ -10,9 +9,9 @@ public class ExchangeRates
     static Dictionary<string, decimal> Rates = new();
     public DateTime? LastUpdated { get; private set; }
     public DateTime? AsOfDate { get; private set; }
-    public IRepository<Sparc.Storage.Azure.File> Files { get; }
+    public IFileRepository<Sparc.Storage.Azure.File> Files { get; }
 
-    public ExchangeRates(IConfiguration configuration, IRepository<Sparc.Storage.Azure.File> files)
+    public ExchangeRates(IConfiguration configuration, IFileRepository<Sparc.Storage.Azure.File> files)
     {
         ApiKey = configuration["ExchangeRatesApi"]!;
         Files = files;

@@ -26,8 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.16" />
-    <PackageReference Include="Stripe.net" Version="39.110.0" />
+    <PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.19" />
   </ItemGroup>
   
   <ItemGroup>

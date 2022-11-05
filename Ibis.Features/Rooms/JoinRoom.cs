@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Features.Rooms;
 
 public record JoinRoomRequest(string RoomId);
 public record GetRoomResponse

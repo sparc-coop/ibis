@@ -823,46 +823,22 @@ main {
 }
 
 .blazored-modal {
-  padding: 0;
-  border-radius: 16px;
-}
-.blazored-modal-overlay {
-  background: rgba(10, 17, 29, 0.75);
-}
-.blazored-modal-header {
-  display: none;
-}
-
-.modal {
-  position: relative;
-  background: #FFFFFF;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 16px;
-  min-width: 600px;
-  z-index: 1;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 16px !important;
   padding: 24px;
 }
-.modal h4 {
-  margin-bottom: 24px;
-  font-size: 31px;
-}
-.modal .close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-.modal button.primary {
+.blazored-modal button.primary {
   padding: 8px 16px;
   color: #FFFFFF;
   background: #003B5F;
 }
-.modal .invite-search {
+.blazored-modal .invite-search {
   display: flex;
   justify-content: space-between;
   column-gap: 26px;
   margin: 6px 0 24px;
 }
-.modal .invite-search input {
+.blazored-modal .invite-search input {
   border: 1px solid #D1D4DC;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
@@ -872,40 +848,40 @@ main {
   max-width: 72%;
   width: 72%;
 }
-.modal .invite-search ::placeholder {
+.blazored-modal .invite-search ::placeholder {
   color: #6A7280;
 }
-.modal .invite-search .search-member {
+.blazored-modal .invite-search .search-member {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.modal .invite-users {
+.blazored-modal .invite-users {
   margin-bottom: 40px;
 }
-.modal .invite-users p.medium {
+.blazored-modal .invite-users p.medium {
   margin-bottom: 12px;
 }
-.modal .invite-users .user-wrapper {
+.blazored-modal .invite-users .user-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
-.modal .invite-users .user-wrapper .large {
+.blazored-modal .invite-users .user-wrapper .large {
   font-size: 16px;
 }
-.modal .invite-users .user-wrapper .user-left {
+.blazored-modal .invite-users .user-wrapper .user-left {
   display: flex;
   align-items: center;
 }
-.modal .invite-users .user-wrapper .user-left img {
+.blazored-modal .invite-users .user-wrapper .user-left img {
   margin-right: 8px;
 }
-.modal .invite-users .user-wrapper .user-left p.large {
+.blazored-modal .invite-users .user-wrapper .user-left p.large {
   line-height: 19px;
 }
-.modal .invite-users .user-wrapper .user-right .host {
+.blazored-modal .invite-users .user-wrapper .user-right .host {
   color: #CA1E14;
   background: #FFCDAA;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -913,26 +889,26 @@ main {
   border: 1px solid #CA1E14;
   padding: 4px 6px;
 }
-.modal .invite-users .user-wrapper .user-right .success {
+.blazored-modal .invite-users .user-wrapper .user-right .success {
   background: #EEF4FA;
   color: #12B76A;
   border: 1px solid #12B76A;
   border-radius: 16px;
   padding: 4px 6px;
 }
-.modal .invite-users .user-wrapper .user-right .invited {
+.blazored-modal .invite-users .user-wrapper .user-right .invited {
   background: #F3F5F6;
   color: #6A7280;
   border: 1px solid #6A7280;
   border-radius: 16px;
   padding: 4px 6px;
 }
-.modal .invite-users h5 {
+.blazored-modal .invite-users h5 {
   font-size: 13px;
   font-weight: 400;
   padding-bottom: 14px;
 }
-.modal .invite-users .avatar {
+.blazored-modal .invite-users .avatar {
   color: #364150;
   font-weight: 500;
   font-size: 11px;
@@ -944,21 +920,21 @@ main {
   background: #E5E7EA;
   margin-right: 8px;
 }
-.modal button.secondary {
+.blazored-modal button.secondary {
   color: #013b60;
   border: 1px solid #013b60;
   background: #FFFFFF;
   padding: 0 12px;
   border-radius: 8px;
 }
-.modal.confirm-text button.primary {
+.blazored-modal.confirm-text button.primary {
   margin-top: 20px;
 }
-.modal.confirm-text button.primary i {
+.blazored-modal.confirm-text button.primary i {
   vertical-align: middle;
   padding: 0 0 1px 10px;
 }
-.modal.confirm-text textarea {
+.blazored-modal.confirm-text textarea {
   display: block;
   padding: 8px;
   margin: 12px 0;
@@ -966,18 +942,18 @@ main {
   border: 1px solid #9BA3AF;
   border-radius: 6px;
 }
-.modal.room-modal {
+.blazored-modal.room-modal {
   padding-bottom: 70px;
 }
 
 .overlay {
   background: rgba(10, 17, 29, 0.75);
-  height: 100%;
+  height: 100vh;
   width: 100vw;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
-  display: none;
+  z-index: 9;
 }
 
 .invite-block {
@@ -1981,11 +1957,11 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #2E7BA5;
+  border: 1px solid #003B5F;
   text-align: center;
 }
 .add-funds-modal ul li:hover button, .add-funds-modal ul li:hover input, .add-funds-modal ul li.selected button, .add-funds-modal ul li.selected input {
-  background-color: #2E7BA5;
+  background-color: #003B5F;
   color: white;
   cursor: pointer;
 }
@@ -2005,12 +1981,12 @@ main {
   background: #F3F5F6;
   height: 100vh;
   width: 40vw;
-  padding: 4vw;
+  padding: 20px 4vw;
   position: fixed;
   top: 0;
   left: 0;
   display: grid;
-  grid-template-rows: 220px 90px auto auto;
+  grid-template-rows: 240px 90px auto auto;
   z-index: 10000;
 }
 .onboarding .avatar {
@@ -2216,7 +2192,7 @@ ul.colors li span {
   src: url(../fonts/CircularStd-Black.ttf) format("truetype");
 }
 body {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   font-family: "CircularStd", sans-serif;
 }
 
@@ -2231,22 +2207,33 @@ button {
   color: #013b60;
 }
 
-#app .loader {
-  border: 12px solid #f3f3f3;
-  border-top: 12px solid #013b60;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  animation: spin 3s linear infinite;
-  margin: 20% auto;
+#app .loading-progress {
+  position: relative;
+  display: block;
+  width: 8rem;
+  height: 8rem;
+  margin: 20vh auto 1rem auto;
 }
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+#app .loading-progress circle {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 0.6rem;
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+}
+#app .loading-progress circle:last-child {
+  stroke: #FF3520;
+  stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+  transition: stroke-dasharray 0.05s ease-in-out;
+}
+#app .loading-progress-text {
+  position: absolute;
+  text-align: center;
+  inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+  color: #FF3520;
+}
+#app .loading-progress-text:after {
+  content: var(--blazor-load-percentage-text, "Loading");
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -21,7 +21,6 @@
 @import "Messages/MessageCard";
 @import "Messages/MessageList";
 @import "Messages/NewMessage";
-@import "Messages/Speak";
 @import "Messages/Upload";
 
 @import "Users/Account";
@@ -64,7 +63,7 @@
 }
 
 body {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     font-family: 'CircularStd', sans-serif;
 }
 
@@ -80,24 +79,37 @@ button {
 }
 
 #app {
+    .loading-progress {
+        position: relative;
+        display: block;
+        width: 8rem;
+        height: 8rem;
+        margin: 20vh auto 1rem auto;
 
-    .loader {
-        border: 12px solid #f3f3f3;
-        border-top: 12px solid $primary;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        animation: spin 3s linear infinite;
-        margin: 20% auto;
+
+        circle {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 0.6rem;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+
+            &:last-child {
+                stroke: $primary-500;
+                stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+                transition: stroke-dasharray 0.05s ease-in-out;
+            }
+        }
     }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
+    .loading-progress-text {
+        position: absolute;
+        text-align: center;
+        inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+        color: $primary-500;
 
-        100% {
-            transform: rotate(360deg);
+        &:after {
+            content: var(--blazor-load-percentage-text, "Loading");
         }
     }
 }
