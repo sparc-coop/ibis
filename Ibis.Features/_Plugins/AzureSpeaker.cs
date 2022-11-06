@@ -103,7 +103,7 @@ public class AzureSpeaker : ISpeaker
 
     SpeechSynthesizer Synthesizer(string voice)
     {
-        var config = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
+        var config = SpeechConfig.FromSubscription(SubscriptionKey, "southcentralus");
         config.SpeechSynthesisVoiceName = voice;
         //config.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
 
