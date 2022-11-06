@@ -4,7 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<PublishTrimmed>false</PublishTrimmed>
+		<PublishIISAssets>true</PublishIISAssets>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,11 +28,13 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.23" />
+		<PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.24" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
+		<TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
 	</ItemGroup>
 
 </Project>
