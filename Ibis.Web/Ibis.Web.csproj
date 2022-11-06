@@ -1,37 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PublishTrimmed>false</PublishTrimmed>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json">
-		  <Options>/UseBaseUrl:false</Options>
-	  </OpenApiReference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Blazored.Modal" Version="7.1.0" />
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rc.2.22476.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rc.2.22476.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.0-rc.2.22476.2" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0-rc.2.22476.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.17.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.19" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Features" ClassName="IbisApi" Link="OpenAPIs\swagger.json">
+			<Options>/UseBaseUrl:false</Options>
+		</OpenApiReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.Modal" Version="7.1.0" />
+		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rtm.22512.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rtm.22512.1" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.0-rtm.22512.14" />
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0-rtm.22512.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.17.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.23" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
+	</ItemGroup>
 
 </Project>
