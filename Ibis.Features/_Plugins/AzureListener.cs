@@ -1,6 +1,5 @@
 ﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-using Sparc.Blossom;
 using System.Collections.Concurrent;
 
 namespace Ibis.Features._Plugins;
@@ -11,7 +10,6 @@ public record SpeechRecognizing(string SessionId, string Text, long Duration) : 
 public record SpeechRecognized(string SessionId, string Text, long Duration) : Notification(SessionId);
 public class AzureListener : IListener
 {
-    readonly HttpClient Client;
     readonly string SubscriptionKey;
     static readonly List<AudioConnection> _audioConnections = new();
 
@@ -19,13 +17,7 @@ public class AzureListener : IListener
 
     public AzureListener(IConfiguration configuration, Publisher publisher)
     {
-        SubscriptionKey = configuration.GetConnectionString("Speech")!;
-
-        Client = new HttpClient
-        {
-            BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
-        };
-        Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
+        SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
         Publisher = publisher;
     }
 
@@ -34,7 +26,7 @@ public class AzureListener : IListener
         var audioStream = new VoiceAudioStream();
         var audioFormat = AudioStreamFormat.GetWaveFormatPCM(16000, 16, 1);
         var audioConfig = AudioConfig.FromStreamInput(audioStream);
-        var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
+        var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "southcentralus");
         speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
         var speechClient = new SpeechRecognizer(speechConfig, audioConfig);
 

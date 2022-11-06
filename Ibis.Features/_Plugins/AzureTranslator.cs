@@ -10,7 +10,7 @@ public class AzureTranslator : ITranslator
         {
             BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com"),
         };
-        Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Translator"));
+        Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration.GetConnectionString("Cognitive"));
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
     }
 

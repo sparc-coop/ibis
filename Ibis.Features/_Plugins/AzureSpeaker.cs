@@ -16,11 +16,11 @@ public class AzureSpeaker : ISpeaker
 
     public AzureSpeaker(IConfiguration configuration, IFileRepository<File> files)
     {
-        SubscriptionKey = configuration.GetConnectionString("Speech")!;
+        SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
 
         Client = new HttpClient
         {
-            BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
+            BaseAddress = new Uri("	https://southcentralus.tts.speech.microsoft.com")
         };
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
 
