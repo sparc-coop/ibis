@@ -2,9 +2,19 @@
 @inherits RealtimeComponent
 @implements IDisposable
 
-<article class="message-card" @onclick="GoToSubroom" title="@Message.Id">
-    <div class="background" style="background: @Message.User.BackgroundColor"></div>
-    <Avatar User="Message.User" />
+<article class="message-card" @onclick="GoToSubroom">
+    <Avatar User="Message.User" SpillBackground="true" />
+    @if (Me?.Id == Message.User.Id)
+    {
+        <ul class="actions">
+            <li @onclick=Edit>
+                Edit
+            </li>
+            <li @onclick=Delete>
+                Delete
+            </li>
+        </ul>
+    }
     @if (Audio?.Url != null)
     {
         <div class="message-audio" @onclick=Play>
@@ -33,6 +43,9 @@
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
+    [Parameter] public EventCallback<Message> OnEdit { get; set; }
+    [Parameter] public EventCallback<Message> OnDelete { get; set; }
+    [CascadingParameter] public UserAvatar? Me { get; set; }
     AudioMessage? Audio { get; set; }
     long? Offset;
     System.Timers.Timer? AudioTimer;
@@ -40,10 +53,13 @@
     protected override async Task OnInitializedAsync()
     {
         Audio = Message.Audio;
-        await On<MessageAudioChanged>(Message.Id, async x =>
+        await On<MessageAudioChanged>(Message.RoomId + "|" + Message.Language, async x =>
             {
-                Audio = x.Message.Audio;
-                await Play();
+                if (x.Message.Id == Message.Id)
+                {
+                    Audio = x.Message.Audio;
+                    await Play();
+                }
             });
     }
 
@@ -85,6 +101,23 @@
             AudioTimer.Start();
             await JS.InvokeVoidAsync("playAudio", Audio.Url);
         }
+    }
+
+    async Task Edit()
+    {
+        if (OnEdit.HasDelegate)
+            await OnEdit.InvokeAsync(Message);
+    }
+
+    async Task Delete()
+    {
+        var truncatedMessage = new String(Message.Text.Take(20).ToArray()) + (Message.Text.Length > 20 ? "..." : "");
+
+        if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
+            return;
+        
+        if (OnDelete.HasDelegate)
+            await OnDelete.InvokeAsync(Message);
     }
 
     public void Dispose()

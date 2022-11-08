@@ -10,9 +10,9 @@ public class UploadFile : Feature<UploadFileRequest, List<Message>>
     public IRepository<Message> Messages { get; }
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
-    public IRepository<File> Files { get; }
+    public IFileRepository<File> Files { get; }
 
-    public UploadFile(IRepository<User> users, IRepository<Message> messages, IRepository<Room> rooms, IRepository<File> files)
+    public UploadFile(IRepository<User> users, IRepository<Message> messages, IRepository<Room> rooms, IFileRepository<File> files)
     {
         Users = users;
         Messages = messages;

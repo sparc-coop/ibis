@@ -1,8 +1,5 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿namespace Ibis.Features.Messages;
 
-namespace Ibis.Features.Messages;
-
-public record MessageTextChanged(Message Message) : SparcNotification(Message.RoomId + "|" + Message.Language);
 public class SpeakMessage : RealtimeFeature<MessageTextChanged>
 {
     public SpeakMessage(ISpeaker synthesizer, IRepository<Message> messages)

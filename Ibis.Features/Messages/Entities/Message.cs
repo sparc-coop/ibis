@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 
 public class MessageTranslation
 {
@@ -17,18 +15,21 @@ public class MessageTranslation
 }
 
 public record Word(long Offset, long Duration, string Text);
-public class Message : SparcRoot<string>
+public record EditHistory(DateTime Timestamp, string Text);
+public class Message : Root<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
     public string Language { get; protected set; }
     public DateTime Timestamp { get; private set; }
+    public DateTime? LastModified { get; private set; }
     public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation> Translations { get; private set; }
     public decimal Charge { get; private set; }
     public string? Tag { get; set; }
+    public List<EditHistory> EditHistory { get; private set; }
 
     protected Message()
     {
@@ -37,6 +38,7 @@ public class Message : SparcRoot<string>
         User = new User().Avatar;
         Language = "";
         Translations = new();
+        EditHistory = new();
     }
 
     public Message(string roomId, User user, string text, string? tag = null) : this()
@@ -66,8 +68,13 @@ public class Message : SparcRoot<string>
     {
         if (Text == text)
             return;
-        
+
+        if (Text != null)
+            EditHistory.Add(new(LastModified ?? Timestamp, Text));
+
         Text = text;
+        LastModified = DateTime.UtcNow;
+        
         Broadcast(new MessageTextChanged(this));
     }
 
@@ -77,7 +84,8 @@ public class Message : SparcRoot<string>
             return;
 
         Audio = await engine.SpeakAsync(this);
-        Broadcast(new MessageAudioChanged(this));
+        if (Audio != null)
+            Broadcast(new MessageAudioChanged(this));
     }
 
     internal bool HasTranslation(string languageId)
@@ -96,5 +104,17 @@ public class Message : SparcRoot<string>
     {
         Charge += cost;
         Broadcast(new CostIncurred(this, description, cost));
+    }
+
+    internal string Html()
+    {
+        if (string.IsNullOrWhiteSpace(Text))
+            return string.Empty;
+
+        var paragraphs = Text
+            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(x => !string.IsNullOrWhiteSpace(x));
+
+        return string.Join("\r\n", paragraphs.Select(x => $"<p>{x}</p>"));
     }
 }

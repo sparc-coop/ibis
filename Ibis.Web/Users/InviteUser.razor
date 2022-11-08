@@ -1,10 +1,10 @@
 ﻿<button @onclick="OpenModal" class="user-invite">
-    <img src="icons/person-Icon.svg" />
+    <InviteIcon />
     Invite People
 </button>
 
 @code {
-    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string RoomId { get; set; } = null!;
 
     void OpenModal()
     {

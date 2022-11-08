@@ -1,27 +1,45 @@
-﻿namespace Ibis.Features.Users;
+﻿using Stripe;
+
+namespace Ibis.Features.Users;
 
 public class UserCharge : Root<string>
 {
     public string UserId { get; set; }
-    public string RoomId { get; set; }
+    public string? RoomId { get; set; }
     public string? MessageId { get; set; }
     public string Description { get; set; }
     public DateTime Timestamp { get; set; }
     public decimal Amount { get; set; }
-    
-    public UserCharge(string userId, string roomId, string description, decimal amount)
+    public string Currency { get; set; }
+    public string? PaymentIntent { get; set; }
+
+    public UserCharge()
     {
-        Id = Guid.NewGuid().ToString();
+        UserId = "";
+        Currency = "";
+        Description = "";
+    }
+    
+    public UserCharge(string userId, PaymentIntent paymentIntent)
+    {
+        Id = paymentIntent.Id;
         UserId = userId;
-        RoomId = roomId;
-        Description = description;
-        Amount = amount;
+        Description = "Funds Added";
         Timestamp = DateTime.UtcNow;
+        Currency = paymentIntent.Currency.ToUpper();
+        Amount = paymentIntent.LocalAmount();
+        PaymentIntent = paymentIntent.ToJson();
     }
 
-    public UserCharge(string userId, string roomId, string? messageId, string description, decimal amount)
-        : this(userId, roomId, description, amount)
+    public UserCharge(Room room, CostIncurred cost, User user, decimal amountInUsersCurrency)
     {
-        MessageId = messageId;
+        Id = Guid.NewGuid().ToString();
+        UserId = user.Id;
+        RoomId = room.Id;
+        MessageId = cost.Message?.Id;
+        Description = cost.Description;
+        Amount = amountInUsersCurrency;
+        Timestamp = DateTime.UtcNow;
+        Currency = user.BillingInfo!.Currency;
     }
 }

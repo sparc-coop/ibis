@@ -1,72 +1,73 @@
 ﻿@inherits LayoutComponentBase
+@using Sparc.Ibis;
 
 <RealtimeHub Url="@HubUrl">
-    <div class="main-layout @(IsRoom ? "mini" : "" )">
-        <header>
-            <a href="/">
-                <figure class="logo">
-                    @if (IsRoom)
-                    {
-                        <img src="/images/logo_icon.png" alt="Ibis" />
-                    }
-                    else
-                    {
-                        <img src="/images/logo_2x.png" alt="Ibis" />
-                    }
-                    <figcaption>Ibis</figcaption>
-                </figure>
-            </a>
+    <CascadingValue Value="User">
+        <div class="main-layout @(IsRoom ? "mini" : "" )">
+            <header>
+                <a href="/">
+                    <figure class="logo">
+                        @if (IsRoom)
+                        {
+                            <img src="/images/logo_icon.png" alt="Ibis" />
+                        }
+                        else
+                        {
+                            <img src="/images/logo_2x.png" alt="Ibis" />
+                        }
+                        <figcaption>Ibis</figcaption>
+                    </figure>
+                </a>
 
-            <nav>
-                <AuthorizeView>
-                    <Authorized>
-                        <ul>
-                            <li>
-                                <a href="/">
-                                    <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                </a>
-                            </li>
-
+                <nav>
+                    <AuthorizeView>
+                        <Authorized>
                             @if (User != null)
                             {
-                                <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
-                                    <Avatar User="User" />
-                                    <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                    <ul>
-                                        <li>
-                                            <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                        </li>
-                                        <li>
-                                            <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                        </li>
-                                        <li>
-                                            <button class="logout" @onclick="BeginLogout" @onclick:stopPropagation="true">
-                                                Log Out
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <UserBalance User="User" />
+                                <ul>
+                                    <li>
+                                        <a href="/">
+                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                        </a>
+                                    </li>
+
+                                    <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                        <Avatar User="User" />
+                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                                        <ul>
+                                            <li>
+                                                <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                            </li>
+                                            <li>
+                                                <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                            </li>
+                                            <li>
+                                                <button class="logout" @onclick="Logout" @onclick:stopPropagation="true">
+                                                    Log Out
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             }
-                        </ul>
-                    </Authorized>
-                </AuthorizeView>
-            </nav>
-        </header>
+                        </Authorized>
+                    </AuthorizeView>
+                </nav>
+            </header>
 
-        <main>
-            @Body
-        </main>
-    </div>
+            <main>
+                @Body
+            </main>
+        </div>
 
-    <CascadingBlazoredModal HideCloseButton=true />
-
-    @if (ShowOnboarding)
-    {
-        <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
-    }
+        @if (ShowOnboarding)
+        {
+            <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
+        }
+    </CascadingValue>
 </RealtimeHub>
 
-@inject SignOutSessionStateManager SignOutManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @code {
@@ -83,13 +84,9 @@
         if (User != null)
             return;
 
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        if (authState.User.Identity?.IsAuthenticated == true)
-        {
-            User = await Api.GetUserAsync();
-            if (User != null && User.Language == null)
-                ShowOnboarding = true;
-        }
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
     }
 
     void OpenMenu() => ShowMenu = !ShowMenu;
@@ -102,9 +99,24 @@
         ShowOnboarding = true;
     }
 
-    private async Task BeginLogout(MouseEventArgs args)
+    bool isUserBeingGot;
+    async Task UpdateUser(Task<AuthenticationState> state)
     {
-        await SignOutManager.SetSignOutState();
-        Nav.NavigateTo("authentication/logout");
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null&& User.Voice == null)
+                ShowOnboarding = true;
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    private void Logout()
+    {
+        Nav.NavigateToLogout("authentication/logout");
     }
 }

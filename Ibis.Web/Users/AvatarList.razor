@@ -7,26 +7,29 @@
             <Avatar User="Me" />
         </div>
         <div class="users">
-            @foreach (var user in ActiveUsers)
+            @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
             {
                 <Avatar User="user" />
             }
         </div>
+        <footer>
+            <InviteUser RoomId="@Room.RoomId" />
+        </footer>
     </div>
 }
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
-    [Parameter] public UserAvatar Me { get; set; } = null!;
+    [CascadingParameter] public UserAvatar? Me { get; set; }
     List<UserAvatar> ActiveUsers = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Me = await Api.GetUserAsync();
-        ActiveUsers = Room.Users.Where(x => x.Id != Me.Id).ToList();
+        ActiveUsers = Room.Users.Where(x => x.Id != Me!.Id)
+            .ToList();
 
-        On<UserJoined>(x => AddUser(x.User));
-        On<UserLeft>(x => RemoveUser(x.User));
+        await On<UserJoined>(Room.RoomId, x => AddUser(x.User));
+        await On<UserLeft>(Room.RoomId, x => RemoveUser(x.User));
     }
 
     void AddUser(UserAvatar user)

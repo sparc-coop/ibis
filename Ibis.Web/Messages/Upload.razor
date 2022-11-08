@@ -1,7 +1,6 @@
-﻿<section class="upload modal">
-    <button class="close" @onclick="Cancel">
-        <img src="/icons/Close.svg"/>
-    </button>
+﻿@inherits SparcModal
+
+<section class="upload">
     <div class="input">
         <h4>Upload a file</h4>
         <div class="photo-upload">
@@ -28,8 +27,6 @@
     bool FileInputEmptyOnSubmit = false;
     MarkupString ErrorMessageHTML = new();
     bool loading = false;
-
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     void ErrorMessage()
     {
@@ -59,19 +56,13 @@
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
             var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
-            
-            // ShowConfirmOrEditTextModal(RoomId!, Language!, messages.ToList(), bytes);
-            await ModalInstance.CloseAsync(ModalResult.Ok(messages));
+
+            await Ok(messages);
         } else
         {
             FileInputEmptyOnSubmit = true;
             ErrorMessage();
         }
         loading = false;
-    }
-
-    void Cancel()
-    {
-        ModalInstance.CancelAsync();
     }
 }

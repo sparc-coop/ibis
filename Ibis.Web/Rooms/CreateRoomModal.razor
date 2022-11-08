@@ -1,5 +1,6 @@
-﻿<div class="invite-block modal room-modal">
-    <h4>Create Room</h4>
+﻿@inherits SparcModal
+
+<div class="invite-block room-modal">
     <div class="room-icons">
         <p class="medium">Room Icon</p>
         <div class="room-icon-wrapper">
@@ -47,15 +48,9 @@
     </div>
 
     <button class="create-room" @onclick="CreateRoom">Create Room</button>
-
-    <button class="close" @onclick="Close">
-        <img src="/icons/Close.svg"/>
-    </button>
 </div>
 
 @code {
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
-
     string? Name;
     string InviteEmail = "";
     List<string> emails = new();
@@ -71,6 +66,4 @@
         emails.Add(InviteEmail);
         InviteEmail = "";
     }
-
-    void Close() => ModalInstance?.CancelAsync();
 }

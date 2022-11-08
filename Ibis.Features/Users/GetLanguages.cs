@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-
-namespace Ibis.Features.Users;
+﻿namespace Ibis.Features.Users;
 
 public class GetLanguages : Feature<List<Language>>
 {

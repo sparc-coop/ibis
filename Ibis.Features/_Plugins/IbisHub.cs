@@ -8,19 +8,21 @@ public class IbisHub : SparcHub
 {
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
+    public IListener Listener { get; }
 
-    public IbisHub(IRepository<User> users, IRepository<Room> rooms) : base()
+    public IbisHub(IRepository<User> users, IRepository<Room> rooms, IListener listener) : base()
     {
         Users = users;
         Rooms = rooms;
+        Listener = listener;
     }
 
     public override async Task OnConnectedAsync()
     {
+        await base.OnConnectedAsync();
+        
         if (Context.UserIdentifier != null)
             await Users.ExecuteAsync(Context.UserIdentifier, u => u.GoOnline(Context.ConnectionId));
-        
-        await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
@@ -30,5 +32,14 @@ public class IbisHub : SparcHub
 
         await base.OnDisconnectedAsync(exception);
     }
-}
 
+    public async Task ReceiveAudio(IAsyncEnumerable<byte[]> audio)
+    {
+        var sessionId = await Listener.BeginListeningAsync();
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
+
+        await foreach (var chunk in audio)
+            await Listener.ListenAsync(sessionId, chunk);
+    }
+}

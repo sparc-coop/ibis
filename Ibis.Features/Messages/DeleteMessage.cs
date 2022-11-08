@@ -15,7 +15,7 @@ public class DeleteMessage : Feature<DeleteMessageRequest, bool>
     public override async Task<bool> ExecuteAsync(DeleteMessageRequest request)
     {
         var message = await Messages.FindAsync(request.MessageId);
-        if (message == null) 
+        if (message == null || message.User.Id != User.Id()) 
             return false;
 
         await Messages.DeleteAsync(message);

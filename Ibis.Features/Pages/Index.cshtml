@@ -1,0 +1,10 @@
+﻿@page
+@model Ibis.Features.Pages.IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    <component type="typeof(Landing)" render-mode="Server" />
+    <persist-component-state />
+</div>

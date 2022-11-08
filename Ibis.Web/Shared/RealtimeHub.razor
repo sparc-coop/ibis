@@ -54,6 +54,7 @@
                 {
                     options.AccessTokenProvider = () => Task.FromResult(AccessToken);
                 })
+            //.AddMessagePackProtocol()
             .WithAutomaticReconnect()
             .Build();
 

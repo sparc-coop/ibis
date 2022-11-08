@@ -7,13 +7,13 @@ namespace Ibis.Features.Users;
 public record UploadUserPhotoRequest(string FileName, byte[] Bytes);
 public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>
 { 
-	public UserPhotoUpload(IRepository<User> users, IRepository<File> files)
+	public UserPhotoUpload(IRepository<User> users, IFileRepository<File> files)
 	{
 		Users = users;
 		Files = files;
 	}
     public IRepository<User> Users { get; }
-	public IRepository<File> Files { get; }
+	public IFileRepository<File> Files { get; }
 
 	public override async Task<string> ExecuteAsync(UploadUserPhotoRequest request)
     {

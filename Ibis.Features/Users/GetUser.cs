@@ -15,7 +15,7 @@ public class GetUser : Feature<UserAvatar>
         var user = await Users.GetAsync(User);
         if (user == null)
         {
-            user = new(User.Id(), User.Email());
+            user = new(User.Id(), User.Email()!);
             await Users.UpdateAsync(user);
         }
 

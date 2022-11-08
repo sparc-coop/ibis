@@ -1,13 +1,13 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿using Sparc.Blossom;
 using System.Text;
 
 namespace Ibis.Features.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserAvatar User) : SparcNotification(RoomId);
-public record UserLeft(string RoomId, UserAvatar User) : SparcNotification(RoomId);
+public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
+public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
 
-public class Room : SparcRoot<string>
+public class Room : Root<string>
 {
     public string RoomId { get; private set; }
     public string Name { get; private set; }
@@ -167,7 +167,7 @@ public class Room : SparcRoot<string>
         }
 
         if (prevdash)
-            return sb.ToString().Substring(0, sb.Length - 1);
+            return sb.ToString()[..(sb.Length - 1)];
         else
             return sb.ToString();
     }

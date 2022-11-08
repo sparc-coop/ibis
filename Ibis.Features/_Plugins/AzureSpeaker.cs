@@ -1,6 +1,4 @@
-﻿using Ibis.Features.Sparc.Realtime;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.CognitiveServices.Speech;
+﻿using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
 using Sparc.Storage.Azure;
@@ -8,21 +6,21 @@ using File = Sparc.Storage.Azure.File;
 
 namespace Ibis.Features._Plugins;
 
-public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : SparcNotification(UserId + "|" + Language);
+public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : Notification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
 {
     readonly HttpClient Client;
     readonly string SubscriptionKey;
 
-    public IRepository<File> Files { get; }
+    public IFileRepository<File> Files { get; }
 
-    public AzureSpeaker(IConfiguration configuration, IHubContext<IbisHub> hub, IRepository<File> files)
+    public AzureSpeaker(IConfiguration configuration, IFileRepository<File> files)
     {
-        SubscriptionKey = configuration.GetConnectionString("Speech");
+        SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
 
         Client = new HttpClient
         {
-            BaseAddress = new Uri("	https://eastus.tts.speech.microsoft.com")
+            BaseAddress = new Uri("	https://southcentralus.tts.speech.microsoft.com")
         };
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
 
@@ -42,6 +40,8 @@ public class AzureSpeaker : ISpeaker
         };
 
         var result = await synthesizer.SpeakTextAsync(message.Text);
+        if (result.AudioDuration == TimeSpan.Zero)
+            return null;
 
         using var stream = new MemoryStream(ConvertWavToMp3(result.AudioData), false);
         File file = new("speak", $"{message.RoomId}/{message.Id}/{message.Audio.Voice}.mp3", AccessTypes.Public, stream);
@@ -103,8 +103,9 @@ public class AzureSpeaker : ISpeaker
 
     SpeechSynthesizer Synthesizer(string voice)
     {
-        var config = SpeechConfig.FromSubscription(SubscriptionKey, "eastus");
+        var config = SpeechConfig.FromSubscription(SubscriptionKey, "southcentralus");
         config.SpeechSynthesisVoiceName = voice;
+        //config.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
 
         return new SpeechSynthesizer(config, null);
     }

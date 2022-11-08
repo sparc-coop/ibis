@@ -1,5 +1,6 @@
 ﻿@layout EmptyLayout
 
+<div class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
 <div class="onboarding">
     @if (User != null)
     {
@@ -21,7 +22,7 @@
                     <AccountDetails />
                     break;
                 case "Language":
-                    <LanguageSelector />
+                    <LanguageSelector OnSelected="GoToVoice" />
                     break;
                 case "Voice":
                     <VoiceSelector />
@@ -40,17 +41,22 @@
 </div>
 
 @code {
-    string Tab { get; set; } = "Profile";
-    List<string> Tabs = new() { "Profile", "Language", "Voice", "Color", "Emoji" };
-    UserAvatar? User;
+    string Tab { get; set; } = "Emoji";
+    List<string> Tabs = new() { "Language", "Voice", "Emoji", "Color", "Profile" };
+    [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        User = await Api.GetUserAsync();
-    }
-
     void SetTab(string tab) => Tab = tab;
+    void GoToVoice() => Tab = "Voice";
+
+    protected override void OnInitialized()
+    {
+        if (User == null)
+            return;
+
+        if (User.Voice == null)
+            Tab = "Language";
+    }
 
     async Task Done()
     {

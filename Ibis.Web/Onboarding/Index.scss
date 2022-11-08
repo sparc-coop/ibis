@@ -4,12 +4,13 @@
     background: $grey-100;
     height: 100vh;
     width: 40vw;
-    padding: 4vw;
+    padding: 20px 4vw;
     position: fixed;
     top: 0;
     left: 0;
     display: grid;
-    grid-template-rows: 220px 90px auto auto;
+    grid-template-rows: 240px 90px auto auto;
+    z-index: 10000;
 
     .avatar {
         height: 220px;

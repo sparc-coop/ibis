@@ -1,8 +1,12 @@
-﻿namespace Ibis.Features.Users;
+﻿using Microsoft.AspNetCore.Identity;
+using Sparc.Authentication;
+using System.Security.Claims;
 
-public record UserAvatarUpdated(UserAvatar Avatar) : SparcNotification(Avatar.Id);
-public record BalanceChanged(string HostUserId, decimal Amount) : SparcNotification(null, HostUserId);
-public class User : SparcRoot<string>
+namespace Ibis.Features.Users;
+
+public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
+public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);
+public class User : SparcUser
 {
     public User()
     {
@@ -15,12 +19,15 @@ public class User : SparcRoot<string>
         Avatar = new(Id, "");
     }
 
-    public User(string id, string email) : this()
+    public User(string email) : this()
     {
-        Id = id;
         Email = email;
-
         Avatar = new(Id, email);
+    }
+
+    public User(string azureId, string email) : this(email)
+    {
+        AzureB2CId = azureId;
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -42,10 +49,10 @@ public class User : SparcRoot<string>
 
     public DateTime DateCreated { get; private set; }
     public DateTime DateModified { get; private set; }
-    public string? CustomerId { get; private set; }
     public string? SlackTeamId { get; private set; }
     public string? SlackUserId { get; private set; }
-    public decimal Balance { get; private set; }
+    public string? AzureB2CId { get; private set; }
+    public UserBilling? BillingInfo { get; private set; }
     public UserAvatar Avatar { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
@@ -79,8 +86,10 @@ public class User : SparcRoot<string>
 
     internal void AddCharge(UserCharge userCharge)
     {
-        Balance += userCharge.Amount;
-        Broadcast(new BalanceChanged(Id, Balance));
+        if (BillingInfo == null)
+            throw new Exception("Can't add charge to user without billing info!");
+        BillingInfo.Balance += userCharge.Amount;
+        Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
     }
 
     internal void UpdateAvatar(UserAvatar avatar)
@@ -98,10 +107,20 @@ public class User : SparcRoot<string>
         Broadcast(new UserAvatarUpdated(Avatar));
     }
 
+    internal void SetUpBilling(string customerId, string currency)
+    {
+        if (BillingInfo != null)
+            throw new Exception("Billing info can only be set up once");
+
+        BillingInfo = new(customerId, currency);
+    }
+
     internal void GoOnline(string connectionId)
     {
         Avatar.IsOnline = true;
         Broadcast(new UserAvatarUpdated(Avatar));
+        if (BillingInfo != null)
+            Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
     }
 
     internal void GoOffline()
@@ -114,6 +133,14 @@ public class User : SparcRoot<string>
     {
         SlackTeamId = team_id;
         SlackUserId = user_id;
+    }
+
+    protected override void RegisterClaims()
+    {
+        AddClaim(ClaimTypes.Email, Email);
+        AddClaim(ClaimTypes.GivenName, Avatar.Name);
+        AddClaim("sub", AzureB2CId);
+        AddClaim("Language", Avatar.Language);
     }
 }
 

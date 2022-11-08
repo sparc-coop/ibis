@@ -1,8 +1,10 @@
-﻿using Ibis.Features.Sparc.Realtime;
+﻿using Sparc.Blossom;
+using Sparc.Data;
+using System.Collections.Concurrent;
 
 namespace Ibis.Features.Messages;
 
-public record LanguageAdded(string RoomId, Language Language) : SparcNotification(RoomId);
+public record LanguageAdded(string RoomId, Language Language) : Notification(RoomId);
 public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>
 {
     public TranslateExistingMessages(IRepository<Room> rooms, IRepository<Message> messages, ITranslator translator)
@@ -26,18 +28,14 @@ public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>
             .Where(x => x.RoomId == notification.RoomId && x.SourceMessageId == null)
             .ToListAsync();
 
-        foreach (var message in messages)
+        var translatedMessages = new ConcurrentBag<Message>();
+        await Parallel.ForEachAsync(messages, async (message, token) =>
         {
-            var translatedMessages = await room.TranslateAsync(message, Translator);
+            var result = await room.TranslateAsync(message, Translator);
+            result.ForEach(x => translatedMessages.Add(x));
+        });
 
-            foreach (var translatedMessage in translatedMessages)
-                await Messages.AddAsync(translatedMessage);
-
-            if (translatedMessages.Any())
-            {
-                message.AddTranslation(notification.Language.Id, translatedMessages.First().Id);
-                await Messages.UpdateAsync(message);
-            }
-        }
+        await Messages.AddAsync(translatedMessages);
+        await Messages.UpdateAsync(messages);
     }
 }

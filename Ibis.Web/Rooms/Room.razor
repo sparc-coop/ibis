@@ -1,7 +1,7 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
-
-@page "/rooms/{Slug}"
+@attribute [Authorize(Policy = "Passwordless")]
+@page "/rooms/{Id}"
 
 <section class="room">
     <header>
@@ -10,15 +10,17 @@
             <h2>
                 @RoomInfo.Name
             </h2>
-            <InviteUser RoomId="@RoomInfo.RoomId" />
             <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
                 <DownloadIcon />
+                Transcript
             </button>
             <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
                 <DownloadIcon />
+                Subtitles
             </button>
             <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
                 <DownloadIcon />
+                Audio
             </button>
         }
     </header>
@@ -30,13 +32,13 @@
 </section>
 
 @code {
-    [Parameter] public string Slug { get; set; } = null!;
+    [Parameter] public string Id { get; set; } = null!;
 
     GetRoomResponse? RoomInfo;
 
     protected override async Task OnInitializedAsync()
     {
-        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomSlug = Slug });
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
     }
 
@@ -70,6 +72,7 @@
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+        if (RoomInfo != null)
+            await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
     }
 }
