@@ -13,7 +13,6 @@
   background: #FF3520;
   color: #FFFFFF;
   font-size: 20px;
-  font-family: "CircularStd-Book";
   transition: 200ms ease-in-out;
   display: inline-block;
 }
@@ -29,7 +28,6 @@
   background: #FAF1E8;
   color: #FF3520;
   font-size: 20px;
-  font-family: "CircularStd-Book";
   transition: 200ms ease-in-out;
   display: inline-block;
 }
@@ -51,7 +49,6 @@
 .landing--nav .menu a.log-in {
   margin-right: 35px;
   color: #858a8f;
-  font-family: "CircularStd-Book";
   font-size: 20px;
   line-height: 25px;
   text-decoration: none;
@@ -69,7 +66,6 @@
   border-radius: 5px;
   background: transparent;
   color: #FF3520;
-  font-family: "CircularStd-Book";
   font-size: 20px;
   line-height: 25px;
   transition: 200ms ease-in-out;
@@ -95,7 +91,7 @@
 .landing .hero .description h1 {
   margin: 0px;
   color: #003B5F;
-  font-family: "CircularStd-Bold";
+  font-weight: 600;
   font-size: 80px;
   line-height: 97px;
 }
@@ -104,7 +100,7 @@
   margin-top: 8px;
   padding: 0px;
   color: #858a8f;
-  font-family: "CircularStd-Bold";
+  font-weight: 600;
   font-size: 20px;
   line-height: 35px;
 }
@@ -159,7 +155,6 @@
 }
 .landing .section-1 .left-container .card-container .card .content h3 {
   color: #003B5F;
-  font-family: "CircularStd-Book";
   font-size: 26px;
   line-height: 31px;
 }
@@ -179,7 +174,7 @@
 .landing .section-1 .right-container h2 {
   margin: 0px;
   color: #003B5F;
-  font-family: "CircularStd-Bold";
+  font-weight: 600;
   font-size: 50px;
   line-height: 73px;
 }
@@ -218,7 +213,7 @@
 .landing .section-2 .row--content h2 {
   margin: 0;
   color: #003B5F;
-  font-family: "CircularStd-Bold";
+  font-weight: 600;
   font-size: 50px;
   line-height: 73px;
 }
@@ -288,7 +283,7 @@
   top: 40px;
   left: 100px;
   color: white;
-  font-family: "CircularStd-Bold";
+  font-weight: 600;
   font-size: 40px;
   line-height: 48px;
 }
@@ -425,7 +420,7 @@
     top: 25px;
     left: 70px;
     color: white;
-    font-family: "CircularStd-Bold";
+    font-weight: 600;
     font-size: 28px;
     line-height: 35px;
   }
@@ -575,7 +570,7 @@
     width: 400px;
   }
   .landing .hero .description h1 {
-    font-family: "CircularStd-Black";
+    font-weight: 900;
     font-size: 48px;
     line-height: 50px;
   }
@@ -719,7 +714,7 @@
   }
   .landing .banner .banner-content.mobile h3 {
     color: white;
-    font-family: "CircularStd-Bold";
+    font-weight: 600;
     font-size: 24px;
     line-height: 31px;
     margin-bottom: 45px;
@@ -751,7 +746,7 @@
   }
   .landing .hero .description h1 {
     padding: 0px 36px;
-    font-family: "CircularStd-Black";
+    font-weight: 900;
     font-size: 45px;
     line-height: 55px;
   }
@@ -888,7 +883,7 @@
   }
   .landing .banner .banner-content.mobile h3 {
     color: white;
-    font-family: "CircularStd-Bold";
+    font-weight: 600;
     font-size: 19px;
     line-height: 31px;
     margin-bottom: 25px;
@@ -922,7 +917,7 @@
   }
   .landing .banner .banner-content.mobile h3 {
     color: white;
-    font-family: "CircularStd-Bold";
+    font-weight: 600;
     font-size: 15px;
     line-height: 20px;
     margin-bottom: 25px;

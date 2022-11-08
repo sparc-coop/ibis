@@ -15,7 +15,6 @@ body {
         background: $primary-500;
         color: $white;
         font-size: 20px;
-        font-family: 'CircularStd-Book';
         transition: 200ms ease-in-out;
         display: inline-block;
 
@@ -33,7 +32,6 @@ body {
         background: $primary-100;
         color: $primary-500;
         font-size: 20px;
-        font-family: 'CircularStd-Book';
         transition: 200ms ease-in-out;
         display: inline-block;
 
@@ -58,7 +56,6 @@ body {
             a.log-in {
                 margin-right: 35px;
                 color: $gray;
-                font-family: 'CircularStd-Book';
                 font-size: 20px;
                 line-height: 25px;
                 text-decoration: none;
@@ -78,7 +75,6 @@ body {
                 border-radius: 5px;
                 background: transparent;
                 color: $primary-500;
-                font-family: 'CircularStd-Book';
                 font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
@@ -110,7 +106,7 @@ body {
             h1 {
                 margin: 0px;
                 color: $secondary-900;
-                font-family: 'CircularStd-Bold';
+                font-weight: 600;
                 font-size: 80px;
                 line-height: 97px;
             }
@@ -120,7 +116,7 @@ body {
                 margin-top: 8px;
                 padding: 0px;
                 color: $gray;
-                font-family: 'CircularStd-Bold';
+                font-weight: 600;
                 font-size: 20px;
                 line-height: 35px;
             }
@@ -184,7 +180,6 @@ body {
 
                         h3 {
                             color: $secondary-900;
-                            font-family: 'CircularStd-Book';
                             font-size: 26px;
                             line-height: 31px;
                         }
@@ -210,7 +205,7 @@ body {
             h2 {
                 margin: 0px;
                 color: $secondary-900;
-                font-family: 'CircularStd-Bold';
+                font-weight: 600;
                 font-size: 50px;
                 line-height: 73px;
             }
@@ -254,7 +249,7 @@ body {
                 h2 {
                     margin: 0;
                     color: $secondary-900;
-                    font-family: 'CircularStd-Bold';
+                    font-weight: 600;
                     font-size: 50px;
                     line-height: 73px;
                 }
@@ -338,7 +333,7 @@ body {
                     top: 40px;
                     left: 100px;
                     color: white;
-                    font-family: 'CircularStd-Bold';
+                    font-weight: 600;
                     font-size: 40px;
                     line-height: 48px;
                 }
@@ -525,7 +520,7 @@ body {
                         top: 25px;
                         left: 70px;
                         color: white;
-                        font-family: 'CircularStd-Bold';
+                        font-weight: 600;
                         font-size: 28px;
                         line-height: 35px;
                     }
@@ -711,7 +706,7 @@ body {
                 width: 400px;
 
                 h1 {
-                    font-family: 'CircularStd-Black';
+                    font-weight: 900;
                     font-size: 48px;
                     line-height: 50px;
                 }
@@ -892,7 +887,7 @@ body {
 
                     h3 {
                         color: white;
-                        font-family: 'CircularStd-Bold';
+                        font-weight: 600;
                         font-size: 24px;
                         line-height: 31px;
                         margin-bottom: 45px;
@@ -932,7 +927,7 @@ body {
 
                 h1 {
                     padding: 0px 36px;
-                    font-family: 'CircularStd-Black';
+                    font-weight: 900;
                     font-size: 45px;
                     line-height: 55px;
                 }
@@ -1105,7 +1100,7 @@ body {
 
                     h3 {
                         color: white;
-                        font-family: 'CircularStd-Bold';
+                        font-weight: 600;
                         font-size: 19px;
                         line-height: 31px;
                         margin-bottom: 25px;
@@ -1151,7 +1146,7 @@ body {
 
                     h3 {
                         color: white;
-                        font-family: 'CircularStd-Bold';
+                        font-weight: 600;
                         font-size: 15px;
                         line-height: 20px;
                         margin-bottom: 25px;
