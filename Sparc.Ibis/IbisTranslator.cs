@@ -19,7 +19,7 @@ public class IbisTranslator : IAsyncDisposable
 
     public IbisTranslator(IJSRuntime js, IConfiguration configuration)
     {
-        var apiUrl = configuration["IbisApi"] ?? "https://api.ibis.chat";
+        var apiUrl = configuration["IbisApi"] ?? "https://ibis.chat";
         IbisClient = new HttpClient
         {
             BaseAddress = new Uri(apiUrl)
