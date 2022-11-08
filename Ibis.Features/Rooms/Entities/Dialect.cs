@@ -1,28 +1,38 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using System.Globalization;
+
+namespace Ibis.Features.Rooms;
 
 public class Dialect
 {
     public string Language { get; private set; }
     public string Locale { get; private set; }
-    public string LocaleName { get; private set; }
+    public string DisplayName { get; private set; }
+    public string NativeName { get; private set; }
     public List<Voice> Voices { get; private set; }
 
-    private Dialect()
-    { }
-
-    public Dialect(string language, string locale, string localeName, List<Voice>? voices = null)
+    public Dialect()
     {
-        Language = language;
-        Locale = locale;
-        LocaleName = localeName;
-        Voices = voices ?? new();
+        Language = string.Empty;
+        Locale = string.Empty;
+        DisplayName = string.Empty;
+        NativeName = string.Empty;
+        Voices = new();
     }
 
-    public void AddVoice(string locale, string name, string displayName, string localName, string shortName, string gender, string voiceType)
+    public Dialect(string localeName)
     {
-        Voice voice = new(locale, name, displayName, localName, shortName, gender, voiceType);
+        var info = CultureInfo.GetCultureInfo(localeName);
 
-        var existing = Voices.FindIndex(x => x.Name == name);
+        Language = localeName.Split('-').First();
+        Locale = localeName.Split('-').Last();
+        DisplayName = info.DisplayName;
+        NativeName = info.NativeName;
+        Voices = new();
+    }
+
+    public void AddVoice(Voice voice)
+    {
+        var existing = Voices.FindIndex(x => x.ShortName == voice.ShortName);
 
         if (existing == -1)
             Voices.Add(voice);

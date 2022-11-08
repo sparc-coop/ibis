@@ -1,70 +1,127 @@
-﻿<article class="message-card @(Message.SubroomId != null ? "subroom" : "")" 
-    style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191");filter: brightness(170%)"
-    @onclick="GoToSubroom">
-    <div class="message-card-content">
-        <div class="user">
-            <div class="avatar" style="background:@(!string.IsNullOrEmpty(Message.Color) ? Message.Color : "#919191"); filter: brightness(75%)">
-                @(Message.UserInitials != null ? Message.UserInitials : "")
-            </div>
-            <div class="account-name" style="color:#000000">
-                @(Message.UserName != null ? Message.UserName : "")
-                <span>@Message.Timestamp.LocalDateTime.ToString("hh:mm tt")</span>
-            </div>
-            @if(MessageAudio != null)
+﻿@using System.Web
+@inherits RealtimeComponent
+@implements IDisposable
+
+<article class="message-card" @onclick="GoToSubroom">
+    <Avatar User="Message.User" SpillBackground="true" />
+    @if (Me?.Id == Message.User.Id)
+    {
+        <ul class="actions">
+            <li @onclick=Edit>
+                Edit
+            </li>
+            <li @onclick=Delete>
+                Delete
+            </li>
+        </ul>
+    }
+    @if (Audio?.Url != null)
+    {
+        <div class="message-audio" @onclick=Play>
+            <PlayIcon />
+        </div>
+    }
+    @if (Audio != null && Offset != null)
+    {
+        <div class="message-text playing">
+            @foreach (var word in Audio.Subtitles)
             {
-                <audio id="play-@Message.Id" class="message-audio" src="@MessageAudio" />  
-                <i class="material-icons" @onclick:stopPropagation="true" @onclick="@(() => PlayAudio(Message.Id))">volume_up</i>
+                <span class="@(WordIsActive(word) ? "active" : "")">
+                    @word.Text
+                </span>
             }
         </div>
-    </div>
-    <div class="message-content">
-        @MessageText
-    </div>
+    }
+    else
+    {
+        foreach (var paragraph in MessageHtml)
+        {
+            <p>@paragraph</p>
+        }
+    }
 </article>
 
-@inject IJSRuntime JS
-
 @code {
-    [Parameter] public Message Message { get; set; }
-    [Parameter] public string Language { get; set; }
-    [Parameter] public string Type { get; set; }
-    string? MessageText;
-    string? MessageAudio;
+    [Parameter] public Message Message { get; set; } = new();
+    [Parameter] public EventCallback<Message> OnEdit { get; set; }
+    [Parameter] public EventCallback<Message> OnDelete { get; set; }
+    [CascadingParameter] public UserAvatar? Me { get; set; }
+    AudioMessage? Audio { get; set; }
+    long? Offset;
+    System.Timers.Timer? AudioTimer;
 
-    protected override void OnParametersSet()
+    protected override async Task OnInitializedAsync()
     {
-        var translation = Message.Translations.FirstOrDefault(x => x.Language == Language);
-        if (Message.ModifiedText == null)
-        {
-            MessageText = translation?.Text ?? Message.Text;
-        } else
-        {
-            MessageText = translation?.Text ?? Message.ModifiedText;
-            MessageText = Message.ModifiedText;
-        }
+        Audio = Message.Audio;
+        await On<MessageAudioChanged>(Message.RoomId + "|" + Message.Language, async x =>
+            {
+                if (x.Message.Id == Message.Id)
+                {
+                    Audio = x.Message.Audio;
+                    await Play();
+                }
+            });
+    }
 
-        if (translation?.AudioId != null)
-        {
-            MessageAudio = translation.AudioId;
-            MessageAudio = Message.ModifiedAudioId;
+    void GoToSubroom()
+    {
+        //if (Message != null)
+        //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
+    }
 
-        } else if (Message.ModifiedAudioId != null)
+    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
+
+    List<MarkupString> MessageHtml => Message?.Text == null
+        ? new()
+        : Message.Text
+            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => new MarkupString(System.Web.HttpUtility.HtmlEncode(x)))
+            .ToList();
+
+    async Task Play()
+    {
+        if (Audio?.Url != null)
         {
-            MessageAudio = Message.ModifiedAudioId;
-        } else
-        {
-            MessageAudio = Message.AudioId;
+            Offset = 0;
+            AudioTimer = new(100);
+            AudioTimer.Elapsed += (source, e) =>
+            {
+                if (Offset > Audio.Duration)
+                {
+                    AudioTimer.Stop();
+                    Offset = null;
+                }
+                else
+                {
+                    Offset += 100;
+                }
+                InvokeAsync(StateHasChanged);
+            };
+            AudioTimer.Start();
+            await JS.InvokeVoidAsync("playAudio", Audio.Url);
         }
     }
 
-    async Task PlayAudio(string id)
+    async Task Edit()
     {
-        await JS.InvokeVoidAsync("playAudio", id);
+        if (OnEdit.HasDelegate)
+            await OnEdit.InvokeAsync(Message);
     }
 
-    async Task GoToSubroom()
+    async Task Delete()
     {
-        if(Message.SubroomId != null)
-            Nav.NavigateTo($"/rooms/{Message.SubroomId}", true);    
+        var truncatedMessage = new String(Message.Text.Take(20).ToArray()) + (Message.Text.Length > 20 ? "..." : "");
+
+        if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
+            return;
+        
+        if (OnDelete.HasDelegate)
+            await OnDelete.InvokeAsync(Message);
+    }
+
+    public void Dispose()
+    {
+        AudioTimer?.Dispose();
     }
 }

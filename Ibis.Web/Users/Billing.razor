@@ -1,5 +1,4 @@
 ﻿@page "/billing"
-@layout DashLayout
 
 <AccountNav/>
 <div class="account">
@@ -29,35 +28,35 @@
 </div>
 
 @code {
-	private GetUserResponse User;
+	UserAvatar? User;
 	public string FirstName = "First Name";
 	public string LastName = "Last Name";
-	private string Email = "Email";
+	// private string? Email;
 	bool userPayment = false;
 
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
+		if(user.Identity!.IsAuthenticated)
 		{
 			User = await Api.GetUserAsync();
 
-			if(User.FullName != null)
+			if(User.Name != null)
 			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
+				FirstName = User.Name.Split(' ')[0];
+				LastName = User.Name.Split(' ')[1];
 			}
 		}
 	}
 
 	
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
+	//protected override Task OnAfterRenderAsync(bool firstRender)
+	//{
 		//string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
 		//if (clientSecret != "current-customer") {
 		//    userPayment = true;
 		//    await JS.InvokeAsync<string>("setPayment", clientSecret);
 		//}
-	}
+	//}
 }

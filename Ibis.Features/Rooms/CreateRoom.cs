@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public record NewRoomRequest(string RoomName, List<string>? Emails);
+public record NewRoomRequest(string RoomName, List<string> Emails);
 public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
 {
     public CreateRoom(IRepository<Room> rooms, IRepository<User> users)
@@ -12,22 +12,34 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
 
-    public async override Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
+    public override async Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
     {
-        var room = new Room(request.RoomName, User.Id());
+        var host = await Users.GetAsync(User);
+        if (host == null)
+            throw new NotAuthorizedException("User not found!");
+
+        return await ExecuteAsUserAsync(request, host);
+    }
+
+    internal async Task<GetRoomResponse> ExecuteAsUserAsync(NewRoomRequest request, User host)
+    {
+        var room = new Room(request.RoomName, host);
+
+        var existingRoom = Rooms.Query.FirstOrDefault(x => x.HostUser.Id == host.Id && x.Slug == room.Slug);
+        if (existingRoom != null)
+            throw new ForbiddenException($"A room already exists in your account with the name '{room.Slug}'. Please choose a different name.");
 
         //find current users
-        foreach(string email in request.Emails!)
+        foreach (string email in request.Emails)
         {
-            var user = Users.Query.Where(u => u.Email == email).FirstOrDefault();
-            if(user != null)
+            var user = Users.Query.FirstOrDefault(u => u.Email == email);
+            if (user == null)
             {
-                ActiveUser newMember = new ActiveUser(user.Id, DateTime.Now, user.PrimaryLanguageId, user.ProfileImg, user.PhoneNumber);
-                room.ActiveUsers.Add(newMember);
-            } else
+                room.InviteUser(new UserAvatar(email, email));
+            }
+            else
             {
-                if(!room.PendingUsers.Any(x => x == email))
-                    room.PendingUsers.Add(email);
+                room.InviteUser(user.Avatar);
             }
         }
 

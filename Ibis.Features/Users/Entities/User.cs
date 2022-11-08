@@ -1,18 +1,33 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Identity;
+using Sparc.Authentication;
+using System.Security.Claims;
 
 namespace Ibis.Features.Users;
-public class User : Root<string>
+
+public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
+public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);
+public class User : SparcUser
 {
     public User()
     {
-        Id = string.Empty;
+        Id = Guid.NewGuid().ToString();
         UserId = Id;
-        PrimaryLanguageId = string.Empty;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
         LanguagesSpoken = new();
         ActiveRooms = new();
-        Color = SetColor();
+        Avatar = new(Id, "");
+    }
+
+    public User(string email) : this()
+    {
+        Email = email;
+        Avatar = new(Id, email);
+    }
+
+    public User(string azureId, string email) : this(email)
+    {
+        AzureB2CId = azureId;
     }
 
     public string UserId { get { return Id; } set { Id = value; } }
@@ -20,9 +35,9 @@ public class User : Root<string>
     public string? Email
     {
         get { return _email; }
-        set
+        private set
         {
-            if (String.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 _email = null;
                 return;
@@ -32,57 +47,101 @@ public class User : Root<string>
         }
     }
 
-    public string? PhoneNumber { get; set; }
-    public string? FirstName { get; set; }
+    public DateTime DateCreated { get; private set; }
+    public DateTime DateModified { get; private set; }
+    public string? SlackTeamId { get; private set; }
+    public string? SlackUserId { get; private set; }
+    public string? AzureB2CId { get; private set; }
+    public UserBilling? BillingInfo { get; private set; }
+    public UserAvatar Avatar { get; private set; }
+    public List<Language> LanguagesSpoken { get; private set; }
+    public List<ActiveRoom> ActiveRooms { get; private set; }
+    public string? PhoneNumber { get; private set; }
 
-    internal void JoinRoom(string roomId, string connectionId)
+    internal void JoinRoom(string roomId)
     {
         if (!ActiveRooms.Any(x => x.RoomId == roomId))
-            ActiveRooms.Add(new(roomId, connectionId, DateTime.UtcNow));
+            ActiveRooms.Add(new(roomId, DateTime.UtcNow));
     }
 
-    public string? LastName { get; set; }
-    public string? DisplayName { get; set; }
-    [JsonIgnore]
-    public string FullName => $"{FirstName} {LastName}";
-    [JsonIgnore]
-    public string Initials => $"{FirstName?[0]}{LastName?[0]}";
-    public DateTime DateCreated { get; set; }
-    public DateTime DateModified { get; set; }
-    public string CustomerId { get; set; }
-    public string? Pronouns { get; set; }
-    public string? Description { get; set; }
-    public string ProfileImg { get; set; }
-
-    internal string? LeaveRoom(string roomOrConnectionId)
+    internal string? LeaveRoom(string roomId)
     {
-        var roomId = ActiveRooms.FirstOrDefault(x => x.RoomId == roomOrConnectionId || x.ConnectionId == roomOrConnectionId)?.RoomId;
         if (roomId == null) return null;
-
         ActiveRooms.RemoveAll(x => x.RoomId == roomId);
         return roomId;
     }
 
-    public string PrimaryLanguageId { get; set; }
-    public List<Language> LanguagesSpoken { get; set; }
-    public List<ActiveRoom> ActiveRooms { get; set; }
-    public string? Color { get; set; }
-    public string SetColor()
+    internal void ChangeVoice(Language language, Voice voice)
     {
-        var hash = 0;
-        int s = 50;
-        int l = 65;
+        if (!LanguagesSpoken.Any(x => x.Id == language.Id))
+            LanguagesSpoken.Add(language);
 
-        if (Initials != null)
-            for (var i = 0; i < Initials.Length; i++)
-            {
-                hash = Initials.ToCharArray().Sum(x => x) % 100 + ((hash << 5) - hash);
-            }
-
-        var h = hash % 360;
-        return "hsl(" + h + ", " + s + "%, " + l + "%)";
+        Avatar.Language = language.Id;
+        Avatar.Voice = voice.ShortName;
     }
-    public bool? Onboarded { get; set; }
+
+    internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);
+
+    public static User System => new("system", "system");
+
+    internal void AddCharge(UserCharge userCharge)
+    {
+        if (BillingInfo == null)
+            throw new Exception("Can't add charge to user without billing info!");
+        BillingInfo.Balance += userCharge.Amount;
+        Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
+    }
+
+    internal void UpdateAvatar(UserAvatar avatar)
+    {
+        Avatar.Id = Id;
+        Avatar.Voice = avatar.Voice;
+        Avatar.Language = avatar.Language;
+        Avatar.ForegroundColor = avatar.ForegroundColor;
+        Avatar.Pronouns = avatar.Pronouns;
+        Avatar.Name = avatar.Name;
+        Avatar.Description = avatar.Description;
+        Avatar.SkinTone = avatar.SkinTone;
+        Avatar.Emoji = avatar.Emoji;
+
+        Broadcast(new UserAvatarUpdated(Avatar));
+    }
+
+    internal void SetUpBilling(string customerId, string currency)
+    {
+        if (BillingInfo != null)
+            throw new Exception("Billing info can only be set up once");
+
+        BillingInfo = new(customerId, currency);
+    }
+
+    internal void GoOnline(string connectionId)
+    {
+        Avatar.IsOnline = true;
+        Broadcast(new UserAvatarUpdated(Avatar));
+        if (BillingInfo != null)
+            Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
+    }
+
+    internal void GoOffline()
+    {
+        Avatar.IsOnline = false;
+        Broadcast(new UserAvatarUpdated(Avatar));
+    }
+
+    internal void RegisterWithSlack(string team_id, string user_id)
+    {
+        SlackTeamId = team_id;
+        SlackUserId = user_id;
+    }
+
+    protected override void RegisterClaims()
+    {
+        AddClaim(ClaimTypes.Email, Email);
+        AddClaim(ClaimTypes.GivenName, Avatar.Name);
+        AddClaim("sub", AzureB2CId);
+        AddClaim("Language", Avatar.Language);
+    }
 }
 
-public record ActiveRoom(string RoomId, string ConnectionId, DateTime JoinDate);
+public record ActiveRoom(string RoomId, DateTime JoinDate);

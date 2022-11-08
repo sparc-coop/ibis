@@ -1,13 +1,126 @@
-.page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
+@import "../_variables.scss";
 
-main {
-    flex: 1;
-}
+.main-layout {
+    height: 100vh;
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 96px auto;
 
-.sidebar {
-    background-image: linear-gradient(180deg, rgba(5, 39, 103, 0), #3a0647 70%);
+    > header {
+        background: $white;
+        padding: 28px 6vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $grey-200;
+
+        .logo {
+            img {
+                height: 40px;
+                width: auto;
+            }
+
+            figcaption {
+                display: none;
+            }
+        }
+
+        a {
+            color: $primary;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+
+            > ul {
+                display: flex;
+                gap: 24px;
+            }
+
+            li {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                position: relative;
+                white-space: nowrap;
+
+                > ul {
+                    position: absolute;
+                    top: 170%;
+                    pointer-events: none;
+                    transition: top 0.2s ease-in, opacity 0.2s;
+                    opacity: 0;
+                    background-color: white;
+                    padding: 16px;
+
+                    li {
+                        padding: 8px;
+                    }
+                }
+
+                &:hover {
+                }
+
+                &.open > ul {
+                    opacity: 1;
+                    top: 130%;
+                    right: 0;
+                    z-index: 100;
+                    pointer-events: initial;
+                }
+
+                .avatar {
+                    width: 32px;
+                    height: 32px;
+                    padding: 4px;
+                }
+            }
+        }
+
+        .balance {
+            padding: 6px 12px;
+            box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+            font-size: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease-in-out;
+            color: $grey-500;
+
+            &:hover {
+                transform: scale(1.05, 1.05); 
+            }
+
+            &.negative {
+                color: $amber-500;
+            }
+        }
+    }
+
+    main {
+        background: $background;
+        padding: 32px 6vw;
+    }
+
+    &.mini {
+        grid-template-rows: 49px auto;
+
+        > header {
+            padding: 10px 6vw;
+
+            .logo img {
+                height: 28px;
+            }
+        }
+
+        nav ul {
+            // display: none;
+        }
+
+        main {
+            padding: 24px 24px 0;
+        }
+    }
 }

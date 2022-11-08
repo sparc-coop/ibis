@@ -1,5 +1,4 @@
 ﻿@page "/account"
-@layout DashLayout
 
 <AccountNav/>
 <div class="account">
@@ -23,33 +22,9 @@
 				</div>
 				<div class="inline">
 					<div>
-						<label>First name</label>
-						<input @bind="FirstName"/>
+						<label>Name</label>
+						<input @bind="User.Name" />
 					</div>
-					<div>
-						<label>Last name</label>
-						<input @bind="LastName"/>
-					</div>
-				</div>
-				<div class="email">
-					<img src="/icons/email.png"/>
-					<label>Email address</label>
-					<input @bind="User.Email"/>
-				</div>
-				<div class="photo-upload">
-					@if(User.ProfileImg != null)
-					{
-						<img src="@User.ProfileImg" />
-					} else {
-						<i class="material-icons">account_circle</i>  
-					}
-					<InputFile OnChange="OnInputFileChange" />
-					<img class="upload-icon" src="/icons/upload.png" />
-					<p>
-						<span>Click to upload</span> or drag and drop
-						<br/>
-						SVG, PNG, or JPG (max. 800x400px)
-					</p>
 				</div>
 			</div>
 			<div class="divider"></div>
@@ -90,40 +65,14 @@
 @inject IJSRuntime JS
 
 @code {
-	private GetUserResponse User;
-	public string FirstName = "First Name";
-	public string LastName = "Last Name";
-	public string Email = "Email";
-	//public string Description = "";
-	//public string Pronouns = "";
-	//public string Username 
-	public string Website = "";
-
+	private UserAvatar? User;
 
 	protected override async Task OnInitializedAsync()
 	{
-		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		var user = authState.User;
-		if(user.Identity.IsAuthenticated)
-		{
-			User = await Api.GetUserAsync();
-
-			if(User.FullName != null)
-			{
-				FirstName = User.FullName.Split(' ')[0];
-				LastName = User.FullName.Split(' ')[1];
-			}
-		}
+		User = await Api.GetUserAsync();
 	}
 
-	private async void UpdateUser() => await Api.UpdateUserAsync(new UpdateUserRequest { 
-		UserId = User.Id, 
-		FullName = FirstName + " " + LastName , 
-		LanguageId = User.Language,
-		Description = User.Description,
-		Pronouns = User.Pronouns
-
-	});
+	private async void UpdateUser() => await Api.UpdateUserAsync(User);
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
 	{
@@ -133,7 +82,5 @@
 		await stream.CopyToAsync(ms);
 		var bytes = ms.ToArray();
 		stream.Close();
-
-		User.ProfileImg = await Api.UserPhotoUploadAsync(new UploadUserPhotoRequest { UserId = User.Id, FileName = path, Bytes = bytes });
 	}
 }

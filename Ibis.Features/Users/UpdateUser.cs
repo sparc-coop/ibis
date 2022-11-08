@@ -1,7 +1,6 @@
 ﻿namespace Ibis.Features.Users;
 
-public record UpdateUserRequest(string UserId, string FullName, string LanguageId, string Pronouns, string Description);
-public class UpdateUser : Feature<UpdateUserRequest, bool>
+public class UpdateUser : Feature<UserAvatar, UserAvatar>
 {
     public UpdateUser(IRepository<User> users)
     {
@@ -10,15 +9,17 @@ public class UpdateUser : Feature<UpdateUserRequest, bool>
 
     public IRepository<User> Users { get; }
 
-    public override async Task<bool> ExecuteAsync(UpdateUserRequest request)
+    public override async Task<UserAvatar> ExecuteAsync(UserAvatar avatar)
     {
-        User user = await Users.FindAsync(request.UserId);
-        user.FirstName = request.FullName.Split(' ')[0];
-        user.LastName = request.FullName.Split(' ')[1];
-        user.PrimaryLanguageId = request.LanguageId;
-        user.Pronouns = request.Pronouns;
-        user.Description = request.Description;
+        var user = await Users.GetAsync(User);
+        if (user == null)
+            throw new NotFoundException("User not found!");
+
+        user.UpdateAvatar(avatar);
+
+        
         await Users.UpdateAsync(user);
-        return true;
+       
+        return user.Avatar;
     }
 }

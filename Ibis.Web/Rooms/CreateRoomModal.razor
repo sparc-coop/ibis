@@ -1,0 +1,69 @@
+﻿@inherits SparcModal
+
+<div class="invite-block room-modal">
+    <div class="room-icons">
+        <p class="medium">Room Icon</p>
+        <div class="room-icon-wrapper">
+            <a class="room-icon">
+                <img src="/icons/User-Voice__Outline.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Circle.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Speech.svg" />
+            </a>
+            <a class="room-icon">
+                <img src="/icons/Send-Arrow.svg" />
+            </a>
+        </div>
+    </div>
+    <div class="room-name-wrapper">
+        <p class="medium">Room Name</p>
+        <input type="email" placeholder="Enter Room Name" @bind="Name" />
+    </div>
+    <p class="medium">Invite Room Members</p>
+    <div class="invite-search">
+        <input type="email" placeholder="Email" @bind="InviteEmail" />
+        <button class="secondary" @onclick="InviteUser">Add Member</button>
+    </div>
+                
+    <div class="invite-users">
+        @if(emails.Count > 0)
+        {
+            <p class="medium">Participants</p>            
+        }
+        @foreach (var inv in emails)
+        {
+            <div class="user-wrapper">
+                <div class="user-left">
+                    <div class="avatar"></div>
+                    <p class="large">@inv</p>
+                </div>
+                <div class="user-right">
+                    <p class="small invited">Pending</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button class="create-room" @onclick="CreateRoom">Create Room</button>
+</div>
+
+@code {
+    string? Name;
+    string InviteEmail = "";
+    List<string> emails = new();
+    List<UserAvatar> invited = new();
+
+    async Task CreateRoom()
+    {      
+        var response = await Api.CreateRoomAsync(new NewRoomRequest { RoomName = Name, Emails = emails });
+        Nav.NavigateTo($"/rooms/{response.RoomId}");
+    }
+
+    void InviteUser() {
+        emails.Add(InviteEmail);
+        InviteEmail = "";
+    }
+}

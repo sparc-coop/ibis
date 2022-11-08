@@ -1,59 +1,53 @@
-﻿using Sparc.Notifications.Twilio;
+﻿using Microsoft.AspNetCore.Identity;
+using Sparc.Authentication;
+using Sparc.Notifications.Twilio;
 
 namespace Ibis.Features.Users;
 
 public record InviteUserRequest(string Email, string RoomId);
-public class InviteUser : Feature<InviteUserRequest, bool>
+public class InviteUser : PublicFeature<InviteUserRequest, bool>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
+    public UserManager<User> UserManager { get; }
+    public IConfiguration Configuration { get; }
 
-    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users)
+    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, UserManager<User> userManager, IConfiguration configuration)
     {
         Twilio = twilio;
         Rooms = rooms;
         Users = users;
+        UserManager = userManager;
+        Configuration = configuration;
     }
     TwilioService Twilio { get; set; }
 
 
     public override async Task<bool> ExecuteAsync(InviteUserRequest request)
     {
-
         try
         {
-            string subject = "Ibis Invitation";
-            string messageBody = "";
-            string roomLink = "";
-
-            var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).FirstOrDefault();
+            var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
+            var invitingUser = await Users.GetAsync(User);
             var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
 
-            if (user != null) //check new or existing
+            if (user == null)
             {
-                roomLink = request.RoomId;
-                messageBody = "You have been added to new room on Ibis! Click the link to join.";
-            } else
-            {
-                messageBody = "You have been invited to join Ibis! Sign up here.";
+                user = new(request.Email, request.Email);
+                await UserManager.CreateAsync(user);
             }
 
-            await Twilio.SendEmailAsync(request.Email, subject, messageBody, "margaret@kuviocreative.com");
+            string roomLink = await UserManager.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
+            roomLink = $"{Request.Scheme}://{Request.Host.Value}{roomLink}";
 
-            //save user to room
-            if (room != null && user != null)
+            var templateData = new
             {
-                room.AddUser(user.UserId, user.PrimaryLanguageId, user.ProfileImg);
-                user.ActiveRooms.Add(new ActiveRoom(room.RoomId, "", DateTime.Now));
-            }
+                RoomName = room.Name,
+                InvitingUser = invitingUser?.Avatar.Name ?? "your friend",
+                RoomLink =  roomLink
+            };
 
-            //add pending user if not yet signed up
-            if (room != null && user == null && !room.PendingUsers.Contains(request.Email))
-            {
-                room.PendingUsers.Add(request.Email);
-            }
-
-            await Rooms.UpdateAsync(room);
+            await Twilio.SendEmailTemplateAsync(request.Email, "d-f6bdbef00daf4780adb9ec3816193237", templateData);
 
             return true;
 

@@ -15,14 +15,13 @@
         color: $grey-900;
         font-size: 20px;
         padding-bottom: 30px;
-        font-family: 'CircularStd-Medium';
+        font-weight: 500;
         font-size: 25px;
         line-height: 120%;
         padding-bottom: 4px;
     }
 
     p {
-        font-family: 'CircularStd-Book';
         font-size: 16px;
         line-height: 120%;
         color: $grey-500;
@@ -100,7 +99,7 @@
         label {
             display: block;
             padding-bottom: 6px;
-            font-family: 'CircularStd-Medium';
+            font-weight: 500;
             font-size: 14px;
             line-height: 20px;
             color: $grey-700;
@@ -212,7 +211,7 @@
                 left: 39%;
                 bottom: 20px;
                 font-size: 13px;
-                font-family: 'CircularStd-Medium';
+                font-weight: 500;
 
                 span {
                     color: $primary-500;

@@ -15,6 +15,7 @@
 @using Sparc.Core
 
 @using Ibis.Web.Shared
+@using Ibis.Web.Shared.Icons
 @using Ibis.Features
 @using Ibis.Web.Rooms
 @using Ibis.Web.Messages
@@ -25,10 +26,7 @@
 @inject IModalService Modal
 
 @inject IbisApi Api
-@inject Public<IbisApi> PublicApi
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Nav
 @inject IConfiguration Config
 @inject IJSRuntime JS
-
-@attribute [Authorize]

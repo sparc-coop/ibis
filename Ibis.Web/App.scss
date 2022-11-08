@@ -2,28 +2,40 @@
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
-@import "Shared/DashLayout";
+@import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
-@import "Shared/InviteModal";
-@import "Shared/ProjectsList";
-@import "Shared/LoginDisplay";
-@import "Shared/ChatBox";
-@import "Shared/DeleteModal";
-@import "Shared/EditModal";
 @import "Shared/Tooltip";
-@import "Shared/AccountNav";
+@import "Shared/RealtimeHub";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
+@import "Rooms/RoomCard";
+@import "Rooms/RoomShare";
+@import "Rooms/DeleteModal";
+@import "Rooms/EditModal";
+@import "Rooms/InviteModal";
+@import "Rooms/RoomMenu";
 
+@import "Messages/MessageAudio";
 @import "Messages/MessageCard";
+@import "Messages/MessageList";
+@import "Messages/NewMessage";
 @import "Messages/Upload";
 
 @import "Users/Account";
 @import "Users/Notifications";
+@import "Users/Avatar";
+@import "Users/AvatarList";
+@import "Users/AccountNav";
+@import "Users/AddFundsModal";
 
-@import "Onboarding/StepOne";
+@import "Onboarding/Index";
+@import "Onboarding/AccountDetails";
+@import "Onboarding/LanguageSelector";
+@import "Onboarding/VoiceSelector";
+@import "Onboarding/EmojiSelector";
+@import "Onboarding/ColorSelector";
 
 /*@import "Landing/Landing";*/
 
@@ -31,117 +43,32 @@
 //Regular fonts
 
 @font-face {
-    font-family: 'CircularStd-Book'; //400
+    font-family: 'CircularStd';
+    font-weight: 400;
     src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'CircularStd-Medium'; //500
+    font-family: 'CircularStd';
+    font-weight: 500;
     src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
-    font-weight: normal;
 }
 
 @font-face {
-    font-family: 'CircularStd-Bold'; //700
+    font-family: 'CircularStd';
+    font-weight: 600;
     src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
-    font-weight: bold;
 }
 
 @font-face {
-    font-family: 'CircularStd-Black'; //800
+    font-family: 'CircularStd';
+    font-weight: 900;
     src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
 }
 
-
-//Italic Fonts
-@font-face {
-    font-family: 'CircularStd-BookItalic';
-    src: url(wwwroot/fonts/CircularStd-BookItalic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'CircularStd-MediumItalic';
-    src: url(wwwroot/fonts/CircularStd-MediumItalic.ttf) format('truetype');
-    font-weight: normal;
-}
-
-@font-face {
-    font-family: 'CircularStd-BoldItalic';
-    src: url(wwwroot/fonts/CircularStd-BoldItalic.ttf) format('truetype');
-    font-weight: bold;
-}
-
-@font-face {
-    font-family: 'CircularStd-BlackItalic';
-    src: url(wwwroot/fonts/CircularStd-BlackItalic.ttf) format('truetype');
-}
-
-//Serif Fonts
-//Regular
-@font-face {
-    font-family: 'FreightDispProLight-Regular'; //300
-    src: url(wwwroot/fonts/FreightDispProLight-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBook-Regular'; //400
-    src: url(wwwroot/fonts/FreightDispProBook-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProMedium-Regular'; //500
-    src: url(wwwroot/fonts/FreightDispProMedium-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProSemibold-Regular'; //600
-    src: url(wwwroot/fonts/FreightDispProSemibold-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBold-Regular'; //700
-    src: url(wwwroot/fonts/FreightDispProBold-Regular.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBlack-Regular'; //800
-    src: url(wwwroot/fonts/FreightDispProBlack-Regular.ttf) format('truetype');
-}
-
-//Italic
-@font-face {
-    font-family: 'FreightDispProLight-Italic';
-    src: url(wwwroot/fonts/FreightDispProLight-Italic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBook-Italic';
-    src: url(wwwroot/fonts/FreightDispProBook-Italic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProMedium-Italic';
-    src: url(wwwroot/fonts/FreightDispProMedium-Italic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProSemibold-Italic';
-    src: url(wwwroot/fonts/FreightDispProSemibold-Italic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBold-Italic';
-    src: url(wwwroot/fonts/FreightDispProBold-Italic.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'FreightDispProBlack-Italic';
-    src: url(wwwroot/fonts/FreightDispProBlack-Italic.ttf) format('truetype');
-}
-
 body {
-    overflow-x: hidden;
-    font-family: sans-serif;
+    overflow-x: hidden !important;
+    font-family: 'CircularStd', sans-serif;
 }
 
 .container {
@@ -156,31 +83,45 @@ button {
 }
 
 #app {
+    .loading-progress {
+        position: relative;
+        display: block;
+        width: 8rem;
+        height: 8rem;
+        margin: 20vh auto 1rem auto;
 
-    .loader {
-        border: 12px solid #f3f3f3;
-        border-top: 12px solid $primary;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        animation: spin 3s linear infinite;
-        margin: 20% auto;
+
+        circle {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 0.6rem;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+
+            &:last-child {
+                stroke: $primary-500;
+                stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+                transition: stroke-dasharray 0.05s ease-in-out;
+            }
+        }
     }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
+    .loading-progress-text {
+        position: absolute;
+        text-align: center;
+        inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+        color: $primary-500;
 
-        100% {
-            transform: rotate(360deg);
+        &:after {
+            content: var(--blazor-load-percentage-text, "Loading");
         }
     }
 }
 
 h1, h2, h3, h4, h5, h6 {
     line-height: 120%;
-    font-family: 'CircularStd-Medium', sans-serif;
+    font-family: 'CircularStd', sans-serif;
+    font-weight: 500;
 }
 
 h1 {

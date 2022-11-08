@@ -1,0 +1,62 @@
+﻿@if (string.IsNullOrWhiteSpace(User.Language))
+{
+    <p>
+        You haven't selected a language yet. Please select a language first.
+    </p>
+}
+else if (Dialects != null)
+{
+    <div class="voice-selector">
+        @foreach (var dialect in Dialects)
+        {
+            <h4>@dialect.NativeName</h4>
+            <ul>
+                @foreach (var voice in dialect.Voices)
+                {
+                    <li @onclick="(() => SetVoice(voice))" class="@(User.Voice == voice.ShortName ? "selected" : "")">
+                        @voice.DisplayName
+                        <aside>@voice.Gender</aside>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    @if (AudioPreviewUrl != null)
+    {
+        <audio autoplay src="@AudioPreviewUrl" />
+    }
+}
+
+<footer>
+    <h3>Choose Your Voice</h3>
+    <p>
+        Ibis will use this voice to speak for you.
+        So make sure the voice you choose represents you! If you're not sure, you can always change it later.
+    </p>
+</footer>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    IEnumerable<Dialect>? Dialects { get; set; }
+    Voice? SelectedVoice { get; set; }
+    string? AudioPreviewUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var languages = await Api.GetLanguagesAsync();
+        Dialects = languages.Where(x => x.Id == User.Language).SelectMany(x => x.Dialects).ToList();
+    }
+
+    async Task SetVoice(Voice voice)
+    {
+        User.Voice = voice.ShortName;
+        SelectedVoice = voice;
+        var result = await Api.ChangeVoiceAsync(new ChangeVoiceRequest { Language = User.Language, VoiceName = SelectedVoice.ShortName });
+
+        AudioPreviewUrl = null;
+        StateHasChanged();
+        
+        AudioPreviewUrl = result.PreviewAudioUrl;
+    }
+ 
+}

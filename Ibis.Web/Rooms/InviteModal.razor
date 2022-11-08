@@ -1,0 +1,35 @@
+﻿@inherits SparcModal
+
+<div class="invite-block">
+    <div class="invite-search">
+        <input placeholder="Email" @bind="InviteEmail" />
+        <button @onclick="SendInvite" class="primary">Send Invite</button>
+    </div>
+    <div class="invite-users">
+        <h5>Participants</h5>
+        @foreach (var user in Room.Users.OrderByDescending(x => x.IsOnline))
+        {
+            <Avatar User="user" />
+        }
+    </div>
+    <RoomShare Room="Room" />
+</div>
+
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+
+    string? InviteEmail;
+    List<string> NewEmails = new List<string>();
+
+    async Task SendInvite()
+    {
+        if (!string.IsNullOrWhiteSpace(InviteEmail))
+        {
+            NewEmails.Add(InviteEmail);
+            InviteEmail = "";
+            await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
+            await Ok();
+        }
+    }
+}
