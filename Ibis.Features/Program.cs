@@ -6,6 +6,16 @@ using Sparc.Storage.Azure;
 using Sparc.Notifications.Twilio;
 using Stripe;
 using Sparc.Authentication;
+using Blazored.Modal;
+using Sparc.Blossom.Web;
+using Ibis.Api;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -25,10 +35,24 @@ builder.Services
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
 
+// **** Prerendering dependencies for Ibis.Web
+builder.Services.AddBlazoredModal();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<Device, WebDevice>();
+builder.Services.AddScoped(_ => builder.Configuration);
+builder.Services.TryAddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+
+builder.Services.AddBlossomHttpClient<IbisApi>(builder.Configuration["ApiUrl"]);
+
+// **** End prerendering dependencies for Ibis.Web
+
 var app = builder.Build();
+
+app.UseBlazorFrameworkFiles();
 app.UseSparcKernel();
 app.MapControllers();
 app.MapHub<IbisHub>("/hub");
+app.MapFallbackToPage("/_Host");
 app.UseDeveloperExceptionPage();
 app.UsePasswordlessAuthentication<User>();
 

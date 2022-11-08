@@ -1,4 +1,5 @@
-﻿@*@page "/"*@
+﻿@page "/"
+@attribute [AllowAnonymous]
 @layout LandingLayout
 
 <div class="landing">
@@ -9,8 +10,7 @@
             <a href="/Features">Features</a>
             <a href="/Pricing">Pricing</a>
 *@            
-            <a href="/authentication/login" class="log-in">Log In</a>
-            <a href="/step-one" class="get-started">Get Started</a>
+            <button class="get-started" @onclick="Login">Get Started</button>
         </div>
     </div>
     <div class="landing--nav mobile">
@@ -22,8 +22,7 @@
         </label>
         <div class="menu">
             <ul>
-                <li><a href="/authentication/login" class="log-in">Log In</a></li>
-                <li><a href="/step-one" class="get-started">Get Started</a></li>
+                <li><button class="get-started" @onclick="Login">Get Started</button></li>
 @*                <li><a href="/About">About</a></li>
                 <li><a href="/Features">Features</a></li>
                 <li><a href="/Pricing">Pricing</a></li>
@@ -165,3 +164,16 @@
         </div>
     </div>
 </div>
+
+@code {
+    void Login()
+    {
+        var options = new InteractiveRequestOptions()
+            {
+                Interaction = InteractionType.SignIn,
+                ReturnUrl = Nav.BaseUri + "/rooms"
+            };
+
+        Nav.NavigateToLogin($"authentication/login", options);        
+    }
+}

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.24.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
@@ -19,6 +20,10 @@
     <PackageReference Include="Sparc.Notifications.Twilio" Version="7.0.0" />
     <PackageReference Include="Sparc.Storage.Azure" Version="7.0.0" />
     <PackageReference Include="Stripe.net" Version="40.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ibis.Web\Ibis.Web.csproj" />
   </ItemGroup>
 
 </Project>
