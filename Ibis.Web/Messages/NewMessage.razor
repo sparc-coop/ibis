@@ -119,6 +119,8 @@
     async Task BeginListeningAsync()
     {
         IsListening = true;
+        StateHasChanged();
+
         if (AudioStartTime != null)
         {
             await StopListeningAsync();

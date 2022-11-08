@@ -5,7 +5,7 @@ using Sparc.Notifications.Twilio;
 namespace Ibis.Features.Users;
 
 public record InviteUserRequest(string Email, string RoomId);
-public class InviteUser : PublicFeature<InviteUserRequest, bool>
+public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
@@ -23,7 +23,7 @@ public class InviteUser : PublicFeature<InviteUserRequest, bool>
     TwilioService Twilio { get; set; }
 
 
-    public override async Task<bool> ExecuteAsync(InviteUserRequest request)
+    public override async Task<UserAvatar?> ExecuteAsync(InviteUserRequest request)
     {
         try
         {
@@ -49,12 +49,12 @@ public class InviteUser : PublicFeature<InviteUserRequest, bool>
 
             await Twilio.SendEmailTemplateAsync(request.Email, "d-f6bdbef00daf4780adb9ec3816193237", templateData);
 
-            return true;
+            return user.Avatar;
 
         } catch (Exception ex)
         {
             var test = ex.Message;
-            return false;
+            return null;
         }
 
     }

@@ -4,7 +4,7 @@
 {
     <div class="avatar-list">
         <div class="presenter">
-            <Avatar User="Me" />
+            <Avatar User="Me" CanEdit=true />
         </div>
         <div class="users">
             @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
@@ -13,7 +13,7 @@
             }
         </div>
         <footer>
-            <InviteUser RoomId="@Room.RoomId" />
+            <InviteUser Room="@Room" />
         </footer>
     </div>
 }

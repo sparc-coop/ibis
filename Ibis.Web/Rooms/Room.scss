@@ -5,7 +5,7 @@
     height: 100%;
     max-height: calc(100vh - 75px);
     grid-template-columns: auto 376px;
-    grid-template-rows: 60px auto;
+    grid-template-rows: 40px auto;
     gap: 24px;
 
     .avatar-list {
@@ -15,10 +15,11 @@
     }
 
     header {
+        display: flex;
         justify-content: space-between;
         max-width: 940px;
         width: 100%;
-        margin: 20px auto;
+        margin: 0px auto;
         position: relative;
 
         h2 {
@@ -38,6 +39,35 @@
             position: absolute;
             margin-left: 12px;
             top: 3px;
+        }
+
+        .actions {
+            align-self: flex-end;
+
+            button {
+                color: $grey-500;
+                font-size: 13px;
+                border: 1px solid $grey-500;
+                border-radius: 8px;
+                padding: 6px 12px;
+
+                svg {
+                    margin-right: 8px;
+
+                    path {
+                        fill: $grey-500;
+                    }
+                }
+
+                &:hover {
+                    background: $secondary-900;
+                    color: white;
+
+                    svg path {
+                        fill: white;
+                    }
+                }
+            }
         }
     }
 

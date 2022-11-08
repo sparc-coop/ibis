@@ -1,16 +1,10 @@
 let translationCache = {};
 let dotNet = {};
-let simpleIgnoreFilter = function (node) {
-    if (node.parentNode.nodeName == 'SCRIPT' || !node.textContent.trim() || node.translated)
-        return NodeFilter.FILTER_SKIP;
-    if (node.nodeType == Node.ELEMENT_NODE && node.closest('.ibis-ignore'))
-        return NodeFilter.FILTER_REJECT;
-
-    return node.nodeType == Node.ELEMENT_NODE ? NodeFilter.FILTER_SKIP : NodeFilter.FILTER_ACCEPT;
-};
+let app = {};
+let observer = {};
 
 let ibisIgnoreFilter = function (node) {
-    if (node.parentNode.nodeName == 'SCRIPT' || node.translated)
+    if (node.parentNode.nodeName == 'SCRIPT' || node.ibisTranslated)
         return NodeFilter.FILTER_SKIP;
 
     if (!node.textContent.trim())
@@ -23,7 +17,6 @@ let ibisIgnoreFilter = function (node) {
     return NodeFilter.FILTER_ACCEPT;
 }
 
-
 function registerTextNodesUnder(el) {
     var n, walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, ibisIgnoreFilter);
     while (n = walk.nextNode())
@@ -31,6 +24,8 @@ function registerTextNodesUnder(el) {
 }
 
 function replaceWithTranslatedText() {
+    observer.disconnect();
+    
     for (let key in translationCache) {
         var translation = translationCache[key];
 
@@ -40,18 +35,21 @@ function replaceWithTranslatedText() {
         for (let node of translation.nodes) {
             if (node.textContent != translation.translation) {
                 node.textContent = translation.translation;
-                node.translated = true;
+                node.ibisTranslated = true;
             }
             node.parentElement?.classList.remove('ibis-translating');
         }
     }
+
+    observer.observe(app, { childList: true, characterData: true, subtree: true });
 }
 
 function registerTextNode(node) {
     var nodeText = node.textContent.trim();
-    if (!nodeText || node.translated)
+    if (!nodeText || node.ibisRegistered || node.ibisTranslated)
         return;
 
+    node.ibisRegistered = true;
     node.parentElement?.classList.add('ibis-translating');
     if (nodeText in translationCache && translationCache[nodeText].nodes.indexOf(node) < 0) {
         translationCache[nodeText].nodes.push(node);
@@ -65,6 +63,9 @@ function registerTextNode(node) {
 
 function observeCallback(mutations) {
     mutations.forEach(function (mutation) {
+        if (mutation.target.classList?.contains('ibis-ignore') || mutation.parentElement?.closest('ibis-ignore'))
+            return;
+
         if (mutation.type == 'characterData') {
             registerTextNode(mutation.target);
         }
@@ -94,11 +95,11 @@ function callIbis() {
 }
 
 function observe(targetElementId) {
-    var app = document.getElementById(targetElementId);
+    app = document.getElementById(targetElementId);
     registerTextNodesUnder(app);
     callIbis();
 
-    var observer = new MutationObserver(observeCallback);
+    observer = new MutationObserver(observeCallback);
     observer.observe(app, { childList: true, characterData: true, subtree: true });
 }
 

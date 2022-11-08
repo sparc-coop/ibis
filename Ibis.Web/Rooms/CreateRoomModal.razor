@@ -22,30 +22,6 @@
         <p class="medium">Room Name</p>
         <input type="email" placeholder="Enter Room Name" @bind="Name" />
     </div>
-    <p class="medium">Invite Room Members</p>
-    <div class="invite-search">
-        <input type="email" placeholder="Email" @bind="InviteEmail" />
-        <button class="secondary" @onclick="InviteUser">Add Member</button>
-    </div>
-                
-    <div class="invite-users">
-        @if(emails.Count > 0)
-        {
-            <p class="medium">Participants</p>            
-        }
-        @foreach (var inv in emails)
-        {
-            <div class="user-wrapper">
-                <div class="user-left">
-                    <div class="avatar"></div>
-                    <p class="large">@inv</p>
-                </div>
-                <div class="user-right">
-                    <p class="small invited">Pending</p>
-                </div>
-            </div>
-        }
-    </div>
 
     <button class="create-room" @onclick="CreateRoom">Create Room</button>
 </div>

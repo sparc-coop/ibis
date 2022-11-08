@@ -3,70 +3,68 @@
 
 <RealtimeHub Url="@HubUrl">
     <CascadingValue Value="User">
-        <IbisTranslate ChannelId="ibis-meta-app">
-            <div class="main-layout @(IsRoom ? "mini" : "" )">
-                <header>
-                    <a href="/">
-                        <figure class="logo">
-                            @if (IsRoom)
+        <div class="main-layout @(IsRoom ? "mini" : "" )">
+            <header>
+                <a href="/">
+                    <figure class="logo">
+                        @if (IsRoom)
+                        {
+                            <img src="/images/logo_icon.png" alt="Ibis" />
+                        }
+                        else
+                        {
+                            <img src="/images/logo_2x.png" alt="Ibis" />
+                        }
+                        <figcaption>Ibis</figcaption>
+                    </figure>
+                </a>
+
+                <nav>
+                    <AuthorizeView>
+                        <Authorized>
+                            @if (User != null)
                             {
-                                <img src="/images/logo_icon.png" alt="Ibis" />
+                                <UserBalance User="User" />
+                                <ul>
+                                    <li>
+                                        <a href="/">
+                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                        </a>
+                                    </li>
+
+                                    <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                        <Avatar User="User" />
+                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                                        <ul>
+                                            <li>
+                                                <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                            </li>
+                                            <li>
+                                                <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                            </li>
+                                            <li>
+                                                <button class="logout" @onclick="Logout" @onclick:stopPropagation="true">
+                                                    Log Out
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             }
-                            else
-                            {
-                                <img src="/images/logo_2x.png" alt="Ibis" />
-                            }
-                            <figcaption>Ibis</figcaption>
-                        </figure>
-                    </a>
+                        </Authorized>
+                    </AuthorizeView>
+                </nav>
+            </header>
 
-                    <nav>
-                        <AuthorizeView>
-                            <Authorized>
-                                @if (User != null)
-                                {
-                                    <UserBalance User="User" />
-                                    <ul>
-                                        <li>
-                                            <a href="/">
-                                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                            </a>
-                                        </li>
+            <main>
+                @Body
+            </main>
+        </div>
 
-                                        <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
-                                            <Avatar User="User" />
-                                            <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                            <ul>
-                                                <li>
-                                                    <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                                </li>
-                                                <li>
-                                                    <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                                </li>
-                                                <li>
-                                                    <button class="logout" @onclick="Logout" @onclick:stopPropagation="true">
-                                                        Log Out
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                }
-                            </Authorized>
-                        </AuthorizeView>
-                    </nav>
-                </header>
-
-                <main>
-                    @Body
-                </main>
-            </div>
-
-            @if (ShowOnboarding)
-            {
-                <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
-            }
-        </IbisTranslate>
+        @if (ShowOnboarding)
+        {
+            <Ibis.Web.Onboarding.Index OnDone="CloseOnboarding" />
+        }
     </CascadingValue>
 </RealtimeHub>
 
