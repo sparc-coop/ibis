@@ -1,13 +1,19 @@
 let translationCache = {};
 let dotNet = {};
+let ibisIgnoreFilter = function (node) {
+    if (node.parentNode.nodeName == 'SCRIPT' || !node.textContent.trim() || node.translated)
+        return NodeFilter.FILTER_SKIP;
+    if (node.nodeType == Node.ELEMENT_NODE && node.closest('.ibis-ignore'))
+        return NodeFilter.FILTER_REJECT;
 
-function textNodesUnder(el) {
-    var n, a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    return node.nodeType == Node.ELEMENT_NODE ? NodeFilter.FILTER_SKIP : NodeFilter.FILTER_ACCEPT;
+}
+
+
+function registerTextNodesUnder(el) {
+    var n, walk = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, ibisIgnoreFilter, false);
     while (n = walk.nextNode())
-        a.push(n);
-
-    var f = a.filter(x => x.parentNode.nodeName != 'SCRIPT' && x.textContent.trim().length);
-    return f;
+        registerTextNode(n);
 }
 
 function replaceWithTranslatedText() {
@@ -43,18 +49,13 @@ function registerTextNode(node) {
     }
 }
 
-function registerDocumentNode(node) {
-    var mutationTextNodes = textNodesUnder(node);
-    mutationTextNodes.forEach(n => registerTextNode(n));
-}
-
 function observeCallback(mutations) {
     mutations.forEach(function (mutation) {
         if (mutation.type == 'characterData') {
             registerTextNode(mutation.target);
         }
         else
-            mutation.addedNodes.forEach(registerDocumentNode);
+            mutation.addedNodes.forEach(registerTextNodesUnder);
     });
 
     callIbis();
@@ -80,7 +81,7 @@ function callIbis() {
 
 function observe(targetElementId) {
     var app = document.getElementById(targetElementId);
-    registerDocumentNode(app);
+    registerTextNodesUnder(app);
     callIbis();
 
     var observer = new MutationObserver(observeCallback);
