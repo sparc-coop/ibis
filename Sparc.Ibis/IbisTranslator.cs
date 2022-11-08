@@ -35,7 +35,11 @@ public class IbisTranslator : IAsyncDisposable
         if (language != null)
             Language = language;
         else
-            Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        {
+            var ibis = await IbisJs.Value;
+            Language = await ibis.InvokeAsync<string>("getBrowserLanguage")
+                    ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        }
 
         if (restoredIbisContent?.Any() == true)
             Content = restoredIbisContent;

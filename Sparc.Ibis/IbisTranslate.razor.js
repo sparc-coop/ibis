@@ -88,6 +88,12 @@ function observe(targetElementId) {
     observer.observe(app, { childList: true, characterData: true, subtree: true });
 }
 
+function getBrowserLanguage() {
+    var lang = (navigator.languages && navigator.languages.length) ? navigator.languages[0] :
+        navigator.userLanguage || navigator.language || navigator.browserLanguage || 'en';
+    return lang.substring(0, 2);
+}  
+
 function init(targetElementId, dotNetObjectReference, serverTranslationCache) {
     dotNet = dotNetObjectReference;
     if (serverTranslationCache)
@@ -100,4 +106,4 @@ function init(targetElementId, dotNetObjectReference, serverTranslationCache) {
     }
 }
 
-export { init, replaceWithTranslatedText };
+export { init, replaceWithTranslatedText, getBrowserLanguage };
