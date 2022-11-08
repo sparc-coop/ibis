@@ -7,7 +7,9 @@
     justify-content: space-between;
     background: $tertiary;
     color: $gray;
-    font-family: 'FreightDispProMedium-Italic';
+    font-family: freight-display-pro, serif;
+    font-weight: 500;
+    font-style: italic;
     font-size: 14px;
     line-height: 60px;
 
@@ -18,7 +20,7 @@
     &--right {
         padding-right: 20px;
     }
-    
+
     a {
         color: $gray;
         text-decoration: underline;

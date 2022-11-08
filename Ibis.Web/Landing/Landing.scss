@@ -129,11 +129,11 @@ body {
         .landing--button-container {
             margin-top: 72px;
             margin-bottom: 150px;
-
-/*            .btn-primary {
+            /*            .btn-primary {
                 margin-right: 30px;
             }
-*/        }
+*/
+        }
 
         img.hero-image--room {
             width: 85%;
@@ -192,7 +192,9 @@ body {
                         p {
                             margin-top: 11px;
                             color: $gray;
-                            font-family: 'FreightDispProSemibold-Regular';
+                            font-family: freight-display-pro, serif;
+                            font-weight: 600;
+                            font-style: normal;
                             font-size: 18px;
                             line-height: 25px;
                         }
@@ -217,7 +219,9 @@ body {
                 margin: 0;
                 margin-top: 16px;
                 color: $gray;
-                font-family: 'FreightDispProSemibold-Regular';
+                font-family: freight-display-pro, serif;
+                font-weight: 600;
+                font-style: normal;
                 font-size: 20px;
                 line-height: 33px;
             }
@@ -261,7 +265,9 @@ body {
                     margin-top: 16px;
                     margin-bottom: 55px;
                     color: $gray;
-                    font-family: 'FreightDispProSemibold-Regular';
+                    font-family: freight-display-pro, serif;
+                    font-weight: 600;
+                    font-style: normal;
                     font-size: 20px;
                     line-height: 33px;
                 }
@@ -941,11 +947,11 @@ body {
             .landing--button-container {
                 margin-bottom: 80px;
                 padding: 0px 20px;
-
-/*                .btn-primary {
+                /*                .btn-primary {
                     margin-right: 10px;
                 }
-*/            }
+*/
+            }
         }
 
         .section-1 {
