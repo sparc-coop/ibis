@@ -16,10 +16,10 @@
 	<ItemGroup>
 		<PackageReference Include="Blazored.Modal" Version="7.1.0" />
 		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rtm.22512.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rtm.22512.1" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.0-rtm.22512.14" />
-		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0-rtm.22512.1">
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -28,7 +28,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Sparc.Blossom" Version="7.0.0-pre.24" />
+		<PackageReference Include="Sparc.Blossom" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
