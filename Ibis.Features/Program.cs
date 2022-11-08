@@ -24,12 +24,15 @@ builder.Services
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
 
+builder.Services.AddServerSideBlazor();
+
 var app = builder.Build();
 
 app.UseBlazorFrameworkFiles();
 app.UseSparcKernel();
 app.MapControllers();
 app.MapHub<IbisHub>("/hub");
+app.MapBlazorHub();
 app.MapFallbackToFile("index.html");
 app.UseDeveloperExceptionPage();
 app.UsePasswordlessAuthentication<User>();
