@@ -2,7 +2,7 @@
 @inherits RealtimeComponent
 @implements IDisposable
 
-<article class="message-card" @onclick="GoToSubroom">
+<article class="message-card ibis-ignore" @onclick="GoToSubroom">
     <Avatar User="Message.User" SpillBackground="true" />
     @if (Me?.Id == Message.User.Id)
     {

@@ -1,17 +1,31 @@
 let translationCache = {};
 let dotNet = {};
-let ibisIgnoreFilter = function (node) {
+let simpleIgnoreFilter = function (node) {
     if (node.parentNode.nodeName == 'SCRIPT' || !node.textContent.trim() || node.translated)
         return NodeFilter.FILTER_SKIP;
     if (node.nodeType == Node.ELEMENT_NODE && node.closest('.ibis-ignore'))
         return NodeFilter.FILTER_REJECT;
 
     return node.nodeType == Node.ELEMENT_NODE ? NodeFilter.FILTER_SKIP : NodeFilter.FILTER_ACCEPT;
+};
+
+let ibisIgnoreFilter = function (node) {
+    if (node.parentNode.nodeName == 'SCRIPT' || node.translated)
+        return NodeFilter.FILTER_SKIP;
+
+    if (!node.textContent.trim())
+        return NodeFilter.FILTER_SKIP;
+
+    var closest = node.parentElement.closest('.ibis-ignore');
+    if (closest)
+        return NodeFilter.FILTER_SKIP;
+
+    return NodeFilter.FILTER_ACCEPT;
 }
 
 
 function registerTextNodesUnder(el) {
-    var n, walk = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, ibisIgnoreFilter, false);
+    var n, walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, ibisIgnoreFilter);
     while (n = walk.nextNode())
         registerTextNode(n);
 }
@@ -92,7 +106,7 @@ function getBrowserLanguage() {
     var lang = (navigator.languages && navigator.languages.length) ? navigator.languages[0] :
         navigator.userLanguage || navigator.language || navigator.browserLanguage || 'en';
     return lang.substring(0, 2);
-}  
+}
 
 function init(targetElementId, dotNetObjectReference, serverTranslationCache) {
     dotNet = dotNetObjectReference;
