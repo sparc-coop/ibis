@@ -16,24 +16,30 @@ public class AzureTranslator : ITranslator
 
     public async Task<List<Message>> TranslateAsync(Message message, string fromLanguageId, List<Language> toLanguages)
     {
-        object[] body = new object[] { new { message.Text } };
-        var from = $"&from={fromLanguageId.Split('-').First()}";
-        var to = "&to=" + string.Join("&to=", toLanguages.Select(x => x.Id.Split('-').First()));
-
-        var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
         var translatedMessages = new List<Message>();
 
-        if (result != null && result.Length > 0)
+        // Split the translations into 10 max per call
+        var batches = Batch(toLanguages, 10);
+        foreach (var batch in batches)
         {
-            foreach (TranslationResult o in result)
-                foreach (Translation t in o.Translations)
-                {
-                    var translatedMessage = new Message(message, t.To, t.Text);
-                    translatedMessages.Add(translatedMessage);
+            object[] body = new object[] { new { message.Text } };
+            var from = $"&from={fromLanguageId.Split('-').First()}";
+            var to = "&to=" + string.Join("&to=", batch.Select(x => x.Id.Split('-').First()));
 
-                    var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
-                    message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
-                }
+            var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
+
+            if (result != null && result.Length > 0)
+            {
+                foreach (TranslationResult o in result)
+                    foreach (Translation t in o.Translations)
+                    {
+                        var translatedMessage = new Message(message, t.To, t.Text);
+                        translatedMessages.Add(translatedMessage);
+
+                        var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
+                        message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
+                    }
+            }
         }
 
         return translatedMessages;
@@ -57,6 +63,15 @@ public class AzureTranslator : ITranslator
     {
         var languages = await GetLanguagesAsync();
         return languages.FirstOrDefault(x => x.Id == language);
+    }
+
+    // from https://stackoverflow.com/a/13731854
+    public static IEnumerable<IEnumerable<T>> Batch<T>(IEnumerable<T> items,
+                                                       int maxItems)
+    {
+        return items.Select((item, inx) => new { item, inx })
+                    .GroupBy(x => x.inx / maxItems)
+                    .Select(g => g.Select(x => x.item));
     }
 }
 
