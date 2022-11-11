@@ -26,7 +26,7 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
             var existingMessage =
                 request.MessageId != null
                 ? Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Id == request.MessageId)
-                : Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Tag == request.Tag);
+                : Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Tag == request.Tag && x.User.Id == user.Id);
             
             if (existingMessage != null)
             {
