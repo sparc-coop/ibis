@@ -23,14 +23,17 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         var user = await Users.FindAsync(User.Id());
         var room = await GetRoomAsync(request.RoomSlug, user);
 
+        // Change the publish strategy so this call doesn't return until EVERYTHING is done
+        ((Rooms as Sparc.Database.Cosmos.CosmosDbRepository<Room>)?.Context as SparcContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
+
         await AddLanguageIfNeeded(room, request.Language);
 
-        var result = await GetAllMessagesAsync(request, room);
+        var result = await GetAllMessagesInUserLanguageAsync(request, room);
 
         return new(room.Name, room.Slug, result);
     }
 
-    private async Task<List<GetContentResponse>> GetAllMessagesAsync(GetAllContentRequest request, Room room)
+    private async Task<List<GetContentResponse>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room)
     {
         List<Message> postList = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)

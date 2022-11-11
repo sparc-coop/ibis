@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Microsoft.Azure.Cosmos.Serialization.HybridRow;
+
+namespace Ibis.Features.Rooms;
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
 public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
 {
@@ -21,18 +23,16 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         var user = await Users.FindAsync(User.Id());
         var room = await GetRoomAsync(request.RoomSlug, user);
 
+        ((Rooms as Sparc.Database.Cosmos.CosmosDbRepository<Room>)?.Context as SparcContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
         await AddLanguageIfNeeded(room, request.Language);
 
-        var result = await GetAllMessagesAsync(request, room);
-
-        var untranslatedMessages = request.Messages.Where(x => !result.Any(y => y.Tag == x)).ToList();
+        var untranslatedMessages = await GetUntranslatedMessagesAsync(request, room);
         if (untranslatedMessages.Any())
         {
             await AddAdditionalMessages(room.Id, untranslatedMessages, user);
-            result = await GetAllMessagesAsync(request, room);
         }
 
-        result = result.Where(x => request.Messages.Contains(x.Tag)).ToList();
+        var result = await GetAllMessagesAsync(request, room);
 
         return new(room.Name, room.Slug, result);
     }
@@ -43,12 +43,25 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
             await TypeMessage.ExecuteAsUserAsync(new(roomId, message, message), user ?? Features.Users.User.System);
     }
 
+    private async Task<List<string>> GetUntranslatedMessagesAsync(PostContentRequest request, Room room)
+    {
+        var messages = await Messages.Query
+                    .Where(x => x.RoomId == room.Id && x.Text != null)
+                    .OrderByDescending(y => y.Timestamp)
+        .ToListAsync();
+
+        var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
+        return untranslatedMessages;
+    }
+
     private async Task<List<GetContentResponse>> GetAllMessagesAsync(PostContentRequest request, Room room)
     {
         List<Message> postList = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
                     .ToListAsync();
+
+        postList = postList.Where(x => request.Messages.Contains(x!.Tag)).ToList();
 
         List<GetContentResponse> result = new();
         foreach (var message in postList)
