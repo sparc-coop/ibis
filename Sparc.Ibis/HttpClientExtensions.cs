@@ -13,7 +13,7 @@ public static class HttpClientExtensions
             var result = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<TResponse>(result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
-        catch (Exception e)
+        catch
         {
             return default;
         }

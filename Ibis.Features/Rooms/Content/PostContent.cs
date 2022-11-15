@@ -61,7 +61,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
                     .OrderByDescending(y => y.Timestamp)
                     .ToListAsync();
 
-        postList = postList.Where(x => request.Messages.Contains(x!.Tag)).ToList();
+        postList = postList.Where(x => request.Messages.Contains(x.Tag!)).ToList();
 
         List<GetContentResponse> result = new();
         foreach (var message in postList)
