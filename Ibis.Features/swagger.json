@@ -914,7 +914,7 @@
         ]
       }
     },
-    "/publicapi/InviteUser": {
+    "/api/InviteUser": {
       "post": {
         "tags": [
           "InviteUser"
@@ -956,22 +956,31 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/UserAvatar"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
       }
     },
     "/api/JoinRoom": {

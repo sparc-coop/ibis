@@ -1,6 +1,6 @@
 ﻿@if (Languages != null)
 {
-    <ul class="language-selector">
+    <ul class="language-selector ibis-ignore">
         @foreach (var language in Languages)
         {
             <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">

@@ -1281,7 +1281,7 @@ main {
   height: 100%;
   max-height: calc(100vh - 75px);
   grid-template-columns: auto 376px;
-  grid-template-rows: 60px auto;
+  grid-template-rows: 40px auto;
   gap: 24px;
   /* The switch - the box around the slider */
   /* The slider */
@@ -1293,10 +1293,11 @@ main {
   margin-bottom: 24px;
 }
 .room header {
+  display: flex;
   justify-content: space-between;
   max-width: 940px;
   width: 100%;
-  margin: 20px auto;
+  margin: 0px auto;
   position: relative;
 }
 .room header h2 {
@@ -1314,6 +1315,29 @@ main {
   position: absolute;
   margin-left: 12px;
   top: 3px;
+}
+.room header .actions {
+  align-self: flex-end;
+}
+.room header .actions button {
+  color: #6A7280;
+  font-size: 13px;
+  border: 1px solid #6A7280;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+.room header .actions button svg {
+  margin-right: 8px;
+}
+.room header .actions button svg path {
+  fill: #6A7280;
+}
+.room header .actions button:hover {
+  background: #003B5F;
+  color: white;
+}
+.room header .actions button:hover svg path {
+  fill: white;
 }
 .room .time-stamp {
   position: absolute;
@@ -1736,13 +1760,6 @@ main {
   z-index: 9;
 }
 
-.invite-block {
-  background: #FFFFFF;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  border-radius: 16px;
-  min-width: 600px;
-  z-index: 1;
-}
 .invite-block h4 {
   margin-bottom: 24px;
 }
@@ -1759,10 +1776,9 @@ main {
   color: #FFFFFF;
   font-size: 16px;
   line-height: 20px;
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
   cursor: pointer;
+  float: right;
+  margin-top: 24px;
 }
 .invite-block .room-icons .room-icon-wrapper {
   display: flex;
@@ -2872,6 +2888,7 @@ main {
   font-size: 14px;
   font-weight: 500;
   padding: 12px 0;
+  height: auto;
 }
 .voice-selector ul {
   margin-bottom: 20px;

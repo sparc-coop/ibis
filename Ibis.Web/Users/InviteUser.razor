@@ -4,12 +4,12 @@
 </button>
 
 @code {
-    [Parameter] public string RoomId { get; set; } = null!;
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
 
     void OpenModal()
     {
         var parameters = new ModalParameters();
-        parameters.Add(nameof(RoomId), RoomId);
-        Modal.Show<InviteModal>("InviteModal", parameters);
+        parameters.Add("Room", Room);
+        Modal.Show<InviteModal>("Invite People", parameters);
     }
 }

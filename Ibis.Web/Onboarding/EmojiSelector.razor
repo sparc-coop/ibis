@@ -10,7 +10,7 @@
         }
     </ul>
 *@
-    <ul class="emojis">
+    <ul class="emojis ibis-ignore">
         @foreach (var emoji in Emojis.Emojis)
         {
             <li @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">

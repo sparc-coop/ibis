@@ -1,6 +1,6 @@
 @if (Emojis != null)
 {
-    <ul class="colors">
+    <ul class="colors ibis-ignore">
         @foreach (var color in Emojis.Colors)
         {
             <li @onclick="(() => SetColor(color))" class="@(User.ForegroundColor == color ? "selected" : "")">
