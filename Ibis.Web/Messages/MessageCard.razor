@@ -7,6 +7,9 @@
     @if (Me?.Id == Message.User.Id)
     {
         <ul class="actions">
+            <li @onclick=EditTags>
+                Tags
+            </li>
             <li @onclick=Edit>
                 Edit
             </li>
@@ -107,6 +110,13 @@
     {
         if (OnEdit.HasDelegate)
             await OnEdit.InvokeAsync(Message);
+    }
+
+    async Task EditTags()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add("Message", Message);
+        Modal.Show<MessageTags>("Message Tags", parameters);
     }
 
     async Task Delete()
