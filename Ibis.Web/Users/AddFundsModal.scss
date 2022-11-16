@@ -14,15 +14,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid $secondary-900;
             text-align: center;
+            background: white;
+            color: var(--primary-500);
+            border: 1px solid var(--primary-500);
         }
 
         li {
             &:hover, &.selected {
-                button, input {
-                    background-color: $secondary-900;
+                button {
+                    background-color: var(--primary-500);
                     color: white;
+                }
+                button, input {
                     cursor: pointer;
                 }
             }
@@ -36,9 +40,6 @@
         button {
             margin-top: 20px;
             align-self: flex-end;
-            padding: 8px 16px;
-            color: $white;
-            background: $secondary-900;
         }
     }
 }
