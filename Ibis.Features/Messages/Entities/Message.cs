@@ -9,6 +9,7 @@ public class Message : Root<string>
     public string Language { get; protected set; }
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
+    public DateTime? DeletedDate { get; private set; }
     public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
@@ -40,7 +41,7 @@ public class Message : Root<string>
         SetText(text);
     }
 
-    public Message(Message sourceMessage, string toLanguage, string text) : this()
+    public Message(Message sourceMessage, string toLanguage, string text, List<MessageTag> translatedTags) : this()
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
@@ -50,6 +51,8 @@ public class Message : Root<string>
         Timestamp = DateTime.UtcNow;
         Tag = sourceMessage.Tag;
         SetText(text);
+        SetTags(sourceMessage.Tags);
+        SetTags(translatedTags);
     }
 
     public void SetText(string text)
@@ -82,10 +85,18 @@ public class Message : Root<string>
             || (Translations != null && Translations.Any(x => x.LanguageId == languageId));
     }
     
-    internal void AddTranslation(string languageId, string messageId)
+    internal void AddTranslation(Message translatedMessage)
     {
-        if (!HasTranslation(languageId))
-            Translations.Add(new(languageId, messageId));
+        if (HasTranslation(translatedMessage.Language))
+        {
+            // Set the newly translated message's ID to the existing translation so that it is updated in the repository
+            var translation = Translations.First(x => x.LanguageId == translatedMessage.Language);
+            translatedMessage.Id = translation.MessageId;
+        }
+        else
+        {
+            Translations.Add(new(translatedMessage.Language, translatedMessage.Id));
+        }
     }
 
     internal void SetTags(List<MessageTag> tags)
@@ -100,12 +111,20 @@ public class Message : Root<string>
             else
                 Tags.Add(tag);
         }
+
+        if (tags.Any(x => x.Translate))
+            Broadcast(new MessageTextChanged(this));
     }
 
     internal void AddCharge(decimal cost, string description)
     {
         Charge += cost;
         Broadcast(new CostIncurred(this, description, cost));
+    }
+
+    internal void Delete()
+    {
+        DeletedDate = DateTime.UtcNow;
     }
 
     internal string Html()
