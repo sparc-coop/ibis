@@ -23,10 +23,10 @@ public class TranslateMessage : RealtimeFeature<MessageTextChanged>
         if (room == null || notification.Message == null)
             throw new NotFoundException("Not found!");
 
-        var translatedMessages = await room.TranslateAsync(notification.Message, Translator);
+        var translatedMessages = await room.TranslateAsync(notification.Message, Translator, true);
 
         foreach (var translatedMessage in translatedMessages)
-            await Messages.AddAsync(translatedMessage);
+            await Messages.UpdateAsync(translatedMessage);
         
         await Messages.UpdateAsync(notification.Message);
     }

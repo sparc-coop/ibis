@@ -6,10 +6,10 @@ public class MessageTranslation
     {
         Id = Guid.NewGuid().ToString();
         LanguageId = languageId;
-        MessageId = messageId;
+        SourceMessageId = messageId;
     }
 
     public string Id { get; set; }
     public string LanguageId { get; set; }
-    public string MessageId { get; set; }
+    public string SourceMessageId { get; set; }
 }

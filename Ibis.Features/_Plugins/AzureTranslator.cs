@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features._Plugins;
+﻿using System.Security.Policy;
+
+namespace Ibis.Features._Plugins;
 
 public class AzureTranslator : ITranslator
 {
@@ -23,6 +25,13 @@ public class AzureTranslator : ITranslator
         foreach (var batch in batches)
         {
             object[] body = new object[] { new { message.Text } };
+            List<string> translatedTagKeys = new();
+            foreach (var tag in message.Tags.Where(x => x.Translate))
+            {
+                translatedTagKeys.Add(tag.Key);
+                body = body.Append(new { Text = tag.Value }).ToArray();
+            }
+            
             var from = $"&from={fromLanguageId.Split('-').First()}";
             var to = "&to=" + string.Join("&to=", batch.Select(x => x.Id.Split('-').First()));
 
@@ -30,15 +39,24 @@ public class AzureTranslator : ITranslator
 
             if (result != null && result.Length > 0)
             {
-                foreach (TranslationResult o in result)
-                    foreach (Translation t in o.Translations)
-                    {
-                        var translatedMessage = new Message(message, t.To, t.Text);
-                        translatedMessages.Add(translatedMessage);
+                var translatedText = result.First();
+                var translatedTags = result.Skip(1).ToList();
+                
+                foreach (Translation t in translatedText.Translations)
+                {
+                    // Zip up the message tag translations
+                    var translatedMessageTags = translatedTagKeys
+                        .Where(key => translatedTags[translatedTagKeys.IndexOf(key)].Translations.Any(x => x.To == t.To))
+                        .Select(key => new MessageTag(key, translatedTags[translatedTagKeys.IndexOf(key)].Translations.First(x => x.To == t.To).Text, false))
+                        .ToList();
 
-                        var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
-                        message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
-                    }
+                    var translatedMessage = new Message(message, t.To, t.Text, translatedMessageTags);
+                    
+                    translatedMessages.Add(translatedMessage);
+
+                    var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
+                    message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
+                }
             }
         }
 

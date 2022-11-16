@@ -52,7 +52,7 @@ public class Message : Root<string>
         Tag = sourceMessage.Tag;
         SetText(text);
         SetTags(sourceMessage.Tags);
-        SetTags(translatedTags);
+        SetTags(translatedTags, false);
     }
 
     public void SetText(string text)
@@ -90,8 +90,9 @@ public class Message : Root<string>
         if (HasTranslation(translatedMessage.Language))
         {
             // Set the newly translated message's ID to the existing translation so that it is updated in the repository
-            var translation = Translations.First(x => x.LanguageId == translatedMessage.Language);
-            translatedMessage.Id = translation.MessageId;
+            var translation = Translations.FirstOrDefault(x => x.LanguageId == translatedMessage.Language);
+            if (translation != null)
+                translatedMessage.Id = translation.SourceMessageId;
         }
         else
         {
@@ -99,17 +100,19 @@ public class Message : Root<string>
         }
     }
 
-    internal void SetTags(List<MessageTag> tags)
+    internal void SetTags(List<MessageTag> tags, bool fullReplace = true)
     {
         var keys = tags.Select(x => x.Key).ToList();
-        Tags.RemoveAll(x => !keys.Contains(x.Key));
+        if (fullReplace)
+            Tags.RemoveAll(x => !keys.Contains(x.Key));
+        
         foreach (var tag in tags)
         {
             var existing = Tags.FirstOrDefault(x => x.Key == tag.Key);
             if (existing != null)
                 existing.Value = tag.Value;
             else
-                Tags.Add(tag);
+                Tags.Add(new(tag.Key, tag.Value, SourceMessageId == null && tag.Translate));
         }
 
         if (tags.Any(x => x.Translate))

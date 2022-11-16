@@ -21,7 +21,7 @@ public class DeleteMessage : Feature<DeleteMessageRequest, bool>
         // Delete all translations
         foreach (var translation in message.Translations)
         {
-            var translatedMessage = await Messages.FindAsync(translation.MessageId);
+            var translatedMessage = await Messages.FindAsync(translation.SourceMessageId);
             if (translatedMessage != null)
                 await Messages.ExecuteAsync(translatedMessage, x => x.Delete());
         }

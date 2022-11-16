@@ -1924,6 +1924,13 @@
           },
           "asHtml": {
             "type": "boolean"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2266,6 +2273,12 @@
             "nullable": true,
             "readOnly": true
           },
+          "deletedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "readOnly": true
+          },
           "user": {
             "allOf": [
               {
@@ -2348,6 +2361,32 @@
         },
         "x-ms-discriminator-value": "Ibis.Features.Messages.MessageAudioChanged, Ibis.Features"
       },
+      "MessageDeleted": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Notification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ],
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageDeleted, Ibis.Features"
+      },
       "MessageTag": {
         "type": "object",
         "properties": {
@@ -2402,7 +2441,7 @@
             "type": "string",
             "nullable": true
           },
-          "messageId": {
+          "sourceMessageId": {
             "type": "string",
             "nullable": true
           }
