@@ -1,0 +1,54 @@
+﻿@import "../_variables.scss";
+
+.message-tags {
+    p {
+        margin-bottom: 16px;
+    }
+
+    dl {
+        margin: 20px 0 40px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 8px;
+        align-items: center;
+    }
+
+    dd {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+    }
+
+    dt {
+        &.translating {
+            font-style: italic;
+        }
+    }
+
+    input {
+        border: 1px solid $grey-300;
+        padding: 6px;
+    }
+
+    button.delete {
+        background: none;
+        color: $primary-500;
+        padding: 0;
+    }
+
+    .add-tag {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        button {
+            align-self: flex-end;
+        }
+    }
+
+    label {
+        display: flex;
+        gap: 8px;
+    }
+}

@@ -1,19 +1,5 @@
 ﻿namespace Ibis.Features.Messages;
 
-public class MessageTranslation
-{
-    public MessageTranslation(string languageId, string messageId)
-    {
-        Id = Guid.NewGuid().ToString();
-        LanguageId = languageId;
-        MessageId = messageId;
-    }
-
-    public string Id { get; set; }
-    public string LanguageId { get; set; }
-    public string MessageId { get; set; }
-}
-
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
 public class Message : Root<string>
@@ -23,12 +9,14 @@ public class Message : Root<string>
     public string Language { get; protected set; }
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
+    public DateTime? DeletedDate { get; private set; }
     public UserAvatar User { get; private set; }
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation> Translations { get; private set; }
     public decimal Charge { get; private set; }
     public string? Tag { get; set; }
+    public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
 
     protected Message()
@@ -39,6 +27,7 @@ public class Message : Root<string>
         Language = "";
         Translations = new();
         EditHistory = new();
+        Tags = new();
     }
 
     public Message(string roomId, User user, string text, string? tag = null) : this()
@@ -52,7 +41,7 @@ public class Message : Root<string>
         SetText(text);
     }
 
-    public Message(Message sourceMessage, string toLanguage, string text) : this()
+    public Message(Message sourceMessage, string toLanguage, string text, List<MessageTag> translatedTags) : this()
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
@@ -62,6 +51,8 @@ public class Message : Root<string>
         Timestamp = DateTime.UtcNow;
         Tag = sourceMessage.Tag;
         SetText(text);
+        SetTags(sourceMessage.Tags);
+        SetTags(translatedTags, false);
     }
 
     public void SetText(string text)
@@ -94,16 +85,50 @@ public class Message : Root<string>
             || (Translations != null && Translations.Any(x => x.LanguageId == languageId));
     }
     
-    internal void AddTranslation(string languageId, string messageId)
+    internal void AddTranslation(Message translatedMessage)
     {
-        if (!HasTranslation(languageId))
-            Translations.Add(new(languageId, messageId));
+        if (HasTranslation(translatedMessage.Language))
+        {
+            // Set the newly translated message's ID to the existing translation so that it is updated in the repository
+            var translation = Translations.FirstOrDefault(x => x.LanguageId == translatedMessage.Language);
+            if (translation != null)
+                translatedMessage.Id = translation.SourceMessageId;
+        }
+        else
+        {
+            Translations.Add(new(translatedMessage.Language, translatedMessage.Id));
+        }
+    }
+
+    internal void SetTags(List<MessageTag> tags, bool fullReplace = true)
+    {
+        var keys = tags.Select(x => x.Key).ToList();
+        if (fullReplace)
+            Tags.RemoveAll(x => !keys.Contains(x.Key));
+        
+        foreach (var tag in tags)
+        {
+            var existing = Tags.FirstOrDefault(x => x.Key == tag.Key);
+            if (existing != null)
+                existing.Value = tag.Value;
+            else
+                Tags.Add(new(tag.Key, tag.Value, SourceMessageId == null && tag.Translate));
+        }
+
+        if (tags.Any(x => x.Translate))
+            Broadcast(new MessageTextChanged(this));
     }
 
     internal void AddCharge(decimal cost, string description)
     {
         Charge += cost;
         Broadcast(new CostIncurred(this, description, cost));
+    }
+
+    internal void Delete()
+    {
+        DeletedDate = DateTime.UtcNow;
+        Broadcast(new MessageDeleted(this));
     }
 
     internal string Html()

@@ -3,14 +3,20 @@
 .room-menu {
     position: relative;
     overflow: visible;
+    background: none;
+    padding: 0;
 
     svg {
         height: 17px;
         width: auto;
     }
 
-    &:hover svg path {
-        stroke: $grey-500;
+    &:hover {
+        background: none;
+
+        svg path {
+            stroke: $grey-500;
+        }
     }
 
     .dropdown {

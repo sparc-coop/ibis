@@ -18,7 +18,15 @@ public class DeleteMessage : Feature<DeleteMessageRequest, bool>
         if (message == null || message.User.Id != User.Id()) 
             return false;
 
-        await Messages.DeleteAsync(message);
+        // Delete all translations
+        foreach (var translation in message.Translations)
+        {
+            var translatedMessage = await Messages.FindAsync(translation.SourceMessageId);
+            if (translatedMessage != null)
+                await Messages.ExecuteAsync(translatedMessage, x => x.Delete());
+        }
+
+        await Messages.ExecuteAsync(message, x => x.Delete());
         return true;
     }
 }

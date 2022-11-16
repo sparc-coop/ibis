@@ -63,6 +63,7 @@
         max-width: 100%;
         resize: none;
         z-index: 2;
+        border: 0;
 
         &::placeholder {
             color: $grey-500;
@@ -96,6 +97,7 @@
             padding: 6px 12px;
             border-radius: 8px;
             z-index: 3;
+            background: white;
 
             svg {
                 margin-right: 8px;

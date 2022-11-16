@@ -1,5 +1,5 @@
 ﻿namespace Ibis.Features.Rooms;
-public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false);
+public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
 public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
@@ -39,6 +39,17 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
                     .ToListAsync();
+
+        // Optionally filter the content by tag
+        if (request.Tags != null)
+        {
+            foreach (var tag in request.Tags.Keys)
+            {
+                postList = postList
+                    .Where(x => x.Tags.Any(y => y.Key == tag && y.Value == request.Tags[tag]))
+                    .ToList();
+            }
+        }
 
         List<GetContentResponse> result = new();
         foreach (var message in postList)

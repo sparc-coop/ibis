@@ -11,11 +11,11 @@
 </div>
 
 @code {
-        [Parameter] public GetRoomResponse Room { get; set; } = null!;
-        List<Message> Messages = new();
-        Message? SelectedMessage;
-        string? Language;
-        bool HasNewMessage;
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    List<Message> Messages = new();
+    Message? SelectedMessage;
+    string? Language;
+    bool HasNewMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,15 +24,17 @@
         HasNewMessage = true;
         Language = response.Language;
 
-        await On<MessageTextChanged>(Room.RoomId + "|" + Language, x =>
+        var subscriptionId = Room.RoomId + "|" + Language;
+        await On<MessageTextChanged>(subscriptionId, x =>
         {
             AddMessage(x.Message);
         });
 
-        await On<MessageAudioChanged>(Room.RoomId + "|" + Language, x =>
+        await On<MessageAudioChanged>(subscriptionId, x =>
         {
             AddMessage(x.Message);
         });
+        await On<MessageDeleted>(subscriptionId, x => RemoveMessage(x.Message));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -63,10 +65,19 @@
         SelectedMessage = null;
     }
 
+    void RemoveMessage(Message message)
+    {
+        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        if (existingId > -1)
+        {
+            Messages.RemoveAt(existingId);
+        }
+    }
+
     async Task DeleteMessage(Message message)
     {
         var result = await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
         if (result)
-            Messages.Remove(message);
+            RemoveMessage(message);
     }
 }

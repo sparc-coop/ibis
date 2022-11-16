@@ -1,0 +1,67 @@
+﻿@inherits SparcModal
+
+<div class="message-tags">
+    <p>
+        Add tags to this message to categorize your content and ease lookups when using Ibis to search for messages.
+    </p>
+    <p>
+        Note: Tag names in <i>italic</i> automatically translate to the user's language.
+    </p>
+    <dl>
+        @foreach (var tag in Message.Tags)
+        {
+            <dt class="@(tag.Translate ? "translating" : "")">
+                @tag.Key
+            </dt>
+            <dd>
+                @tag.Value
+                <button class="delete" @onclick="() => DeleteTag(tag)">
+                    Delete
+                </button>
+            </dd>
+        }
+    </dl>
+
+    <div class="add-tag">
+        <h5>Add a Tag</h5>
+        <input type="text" placeholder="Tag Name" @bind=NewTag.Key />
+        <input type="text" placeholder="Value for this tag" @bind=NewTag.Value />
+        <label class="switch">
+            <input type="checkbox" @bind=NewTag.Translate />
+            Translate this tag
+            <span class="slider">
+            </span>
+        </label>
+        <button @onclick="AddTag">Add this Tag</button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Message Message { get; set; } = null!;
+    MessageTag NewTag = new();
+
+    async Task AddTag()
+    {
+        Message.Tags.Add(NewTag);
+        await Save();
+        NewTag = new();
+    }
+
+    async Task DeleteTag(MessageTag tag)
+    {
+        Message.Tags.Remove(tag);
+        await Save();
+    }
+
+    async Task Save()
+    {
+        Message.Tags = await Api.EditMessageTagsAsync(new EditMessageTagsRequest
+            {
+                RoomId = Message.RoomId,
+                MessageId = Message.Id,
+                Tags = Message.Tags
+            });
+    }
+
+    async Task Close() => await Ok();
+}

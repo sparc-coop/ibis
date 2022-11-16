@@ -1,4 +1,4 @@
-﻿using Sparc.Blossom;
+﻿using System.Diagnostics;
 using System.Text;
 
 namespace Ibis.Features.Rooms;
@@ -92,19 +92,28 @@ public class Room : Root<string>
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
     {
         var languagesToTranslate = forceRetranslation
-            ? Languages
+            ? Languages.Where(x => x.Id != message.Language).ToList()
             : Languages.Where(x => !message.HasTranslation(x.Id)).ToList();
 
         if (!languagesToTranslate.Any())
             return new();
 
-        var translatedMessages = await translator.TranslateAsync(message, languagesToTranslate);
-
+        try
+        {
+            var translatedMessages = await translator.TranslateAsync(message, languagesToTranslate);
+        
+        
         // Add reference to all the new translated messages
         foreach (var translatedMessage in translatedMessages)
-            message.AddTranslation(translatedMessage.Language, translatedMessage.Id);
+            message.AddTranslation(translatedMessage);
 
         return translatedMessages;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.Message);
+            throw;
+        }
     }
 
     internal async Task SpeakAsync(ISpeaker speaker, List<Message> messages)

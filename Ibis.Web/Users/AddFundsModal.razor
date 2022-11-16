@@ -11,9 +11,9 @@
                     <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
                 </li>
             }
-            <li class="@(IsCustomAmount ? "selected" : "")">
+            @*<li class="@(IsCustomAmount ? "selected" : "")">
                 <input type="number" step=".01" @bind=CustomAmount placeholder="0.00" />
-            </li>
+            </li>*@
         </ul>
 
         <form>

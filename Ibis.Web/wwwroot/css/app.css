@@ -1325,6 +1325,7 @@ main {
   border: 1px solid #6A7280;
   border-radius: 8px;
   padding: 6px 12px;
+  background: white;
 }
 .room header .actions button svg {
   margin-right: 8px;
@@ -1560,10 +1561,15 @@ main {
 .share-link {
   cursor: pointer;
   position: relative;
+  background: none;
+  padding: 0;
 }
 .share-link svg {
   height: 17px;
   width: auto;
+}
+.share-link:hover {
+  background: none;
 }
 .share-link:hover svg path {
   stroke: #6A7280;
@@ -1577,6 +1583,7 @@ main {
   color: #6A7280;
   display: inline-block;
   white-space: nowrap;
+  z-index: 100;
 }
 .share-link .tooltip aside {
   font-size: 12px;
@@ -1829,10 +1836,15 @@ main {
 .room-menu {
   position: relative;
   overflow: visible;
+  background: none;
+  padding: 0;
 }
 .room-menu svg {
   height: 17px;
   width: auto;
+}
+.room-menu:hover {
+  background: none;
 }
 .room-menu:hover svg path {
   stroke: #6A7280;
@@ -2049,6 +2061,7 @@ main {
   max-width: 100%;
   resize: none;
   z-index: 2;
+  border: 0;
 }
 .new-message textarea::placeholder {
   color: #6A7280;
@@ -2076,6 +2089,7 @@ main {
   padding: 6px 12px;
   border-radius: 8px;
   z-index: 3;
+  background: white;
 }
 .new-message > footer button svg {
   margin-right: 8px;
@@ -2156,6 +2170,47 @@ main {
   border-top: 9px solid #013b60;
   border-radius: 50%;
   animation: spin 3s linear infinite;
+}
+
+.message-tags p {
+  margin-bottom: 16px;
+}
+.message-tags dl {
+  margin: 20px 0 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.message-tags dd {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+}
+.message-tags dt.translating {
+  font-style: italic;
+}
+.message-tags input {
+  border: 1px solid #D1D4DC;
+  padding: 6px;
+}
+.message-tags button.delete {
+  background: none;
+  color: #FF3520;
+  padding: 0;
+}
+.message-tags .add-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.message-tags .add-tag button {
+  align-self: flex-end;
+}
+.message-tags label {
+  display: flex;
+  gap: 8px;
 }
 
 .account {
@@ -2753,12 +2808,16 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #003B5F;
   text-align: center;
+  background: white;
+  color: var(--primary-500);
+  border: 1px solid var(--primary-500);
+}
+.add-funds-modal ul li:hover button, .add-funds-modal ul li.selected button {
+  background-color: var(--primary-500);
+  color: white;
 }
 .add-funds-modal ul li:hover button, .add-funds-modal ul li:hover input, .add-funds-modal ul li.selected button, .add-funds-modal ul li.selected input {
-  background-color: #003B5F;
-  color: white;
   cursor: pointer;
 }
 .add-funds-modal form {
@@ -2768,9 +2827,6 @@ main {
 .add-funds-modal form button {
   margin-top: 20px;
   align-self: flex-end;
-  padding: 8px 16px;
-  color: #FFFFFF;
-  background: #003B5F;
 }
 
 .onboarding {
@@ -2998,10 +3054,6 @@ body {
   margin: 0 auto;
   display: flex;
   position: relative;
-}
-
-button {
-  color: #013b60;
 }
 
 #app .loading-progress {

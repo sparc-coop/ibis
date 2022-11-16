@@ -22,6 +22,7 @@
 @import "Messages/MessageList";
 @import "Messages/NewMessage";
 @import "Messages/Upload";
+@import "Messages/MessageTags";
 
 @import "Users/Account";
 @import "Users/Notifications";
@@ -74,10 +75,6 @@ body {
     margin: 0 auto;
     display: flex;
     position: relative;
-}
-
-button {
-    color: $primary;
 }
 
 #app {

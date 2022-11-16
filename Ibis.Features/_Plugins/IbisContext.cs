@@ -16,7 +16,7 @@ public class IbisContext : SparcContext
     {
         builder.Entity<User>().ToContainer("Users").HasPartitionKey(x => x.UserId);
         builder.Entity<Room>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
-        builder.Entity<Message>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
+        builder.Entity<Message>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId).HasQueryFilter(x => x.DeletedDate == null);
         builder.Entity<UserCharge>().ToContainer("Users").HasPartitionKey(x => x.UserId);
     }
 }

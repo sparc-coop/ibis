@@ -3,14 +3,20 @@
 .share-link {
     cursor: pointer;
     position: relative;
+    background: none;
+    padding: 0;
 
     svg {
         height: 17px;
         width: auto;
     }
 
-    &:hover svg path {
-        stroke: $grey-500;
+    &:hover {
+        background: none;
+
+        svg path {
+            stroke: $grey-500;
+        }
     }
 
     .tooltip {
@@ -22,6 +28,7 @@
         color: $grey-500;
         display: inline-block;
         white-space: nowrap;
+        z-index: 100;
 
         aside {
             font-size: 12px;
