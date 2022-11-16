@@ -125,6 +125,7 @@ public class Message : Root<string>
     internal void Delete()
     {
         DeletedDate = DateTime.UtcNow;
+        Broadcast(new MessageDeleted(this));
     }
 
     internal string Html()
