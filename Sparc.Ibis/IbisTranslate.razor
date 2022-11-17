@@ -18,7 +18,7 @@
     string _id = $"ibis-{Guid.NewGuid()}";
     bool firstRenderAfterIbisInit;
     bool isTranslating;
-   
+
     PersistingComponentStateSubscription PersistedStateSubscription;
 
     protected override async Task OnInitializedAsync()
@@ -40,6 +40,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender)
+        {
+            return;
+        }
+
         if (firstRenderAfterIbisInit)
         {
             await Ibis.InitClientAsync(this, _id);
