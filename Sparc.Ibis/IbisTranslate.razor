@@ -16,13 +16,22 @@
 
     string? _language;
     string _id = $"ibis-{Guid.NewGuid()}";
-    bool firstRenderAfterIbisInit;
     bool isTranslating;
 
     PersistingComponentStateSubscription PersistedStateSubscription;
 
     protected override async Task OnInitializedAsync()
     {
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
         PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
 
         isTranslating = true;
@@ -35,26 +44,9 @@
         {
             _language = await Ibis.InitAsync(ChannelId, Language, AsHtml);
         }
-        firstRenderAfterIbisInit = true;
-    }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender)
-        {
-            return;
-        }
-
-        if (firstRenderAfterIbisInit)
-        {
-            await Ibis.InitClientAsync(this, _id);
-            firstRenderAfterIbisInit = false;
-        }
-
-        if (!firstRenderAfterIbisInit)
-        {
-            isTranslating = false;
-        }
+        await Ibis.InitClientAsync(this, _id);
+        isTranslating = false;
     }
 
     [JSInvokable]
