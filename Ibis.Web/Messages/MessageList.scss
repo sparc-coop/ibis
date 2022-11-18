@@ -12,6 +12,13 @@
     overflow: hidden;
     margin: 0 auto;
 
+    &.by-tag {
+        .message-list {
+            display: grid;
+            grid-template-columns: 100px auto;
+        }
+    }
+
     .message-list {
         overflow-y: auto;
         height: 100%;

@@ -1,9 +1,17 @@
 ﻿@inherits RealtimeComponent
 
-<div class="message-grid">
+<div class="message-grid @(ShowByTag ? "by-tag" : "")">
+    <ul class="message-grid-options">
+        <li @onclick="ToggleByTime" class="@(!ShowByTag ? "selected" : "")">By Time</li>
+        <li @onclick="ToggleByTag" class="@(ShowByTag ? "selected" : "")">By Tag</li>
+    </ul>
     <div class="message-list ibis-ignore" id="room-@Room.RoomId">
         @foreach (var message in Messages)
         {
+            @if (ShowByTag)
+            {
+                <span>@message.Tag</span>
+            }
             <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
         }
     </div>
@@ -16,6 +24,7 @@
     Message? SelectedMessage;
     string? Language;
     bool HasNewMessage;
+    bool ShowByTag;
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,6 +57,17 @@
 
     void SelectMessage(Message message) => SelectedMessage = message;
     void DoneEditing() => SelectedMessage = null;
+    void ToggleByTag() 
+    { 
+        ShowByTag = true;
+        Messages = Messages.OrderBy(x => x.Tag).ToList();
+    }
+
+    void ToggleByTime()
+    { 
+        ShowByTag = false;
+        Messages = Messages.OrderBy(x => x.Timestamp).ToList();
+    }
 
     void AddMessage(Message message)
     {
