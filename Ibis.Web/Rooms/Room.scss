@@ -26,6 +26,14 @@
             font-size: 40px;
             line-height: 46px;
             margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+
+            .room-icon {
+                figcaption {
+                    display: none;
+                }
+            }
         }
 
         .share {
@@ -249,5 +257,20 @@
                 }
             }
         }
+    }
+
+    &-Chat {
+
+    }
+
+    &-Content {
+        grid-template-columns: auto;
+        .avatar-list {
+            display: none;
+        }
+    }
+
+    &-loading {
+        // opacity: 0.3;
     }
 }

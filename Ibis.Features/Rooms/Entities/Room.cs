@@ -10,6 +10,7 @@ public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
 public class Room : Root<string>
 {
     public string RoomId { get; private set; }
+    public string RoomType { get; private set; }
     public string Name { get; private set; }
     public string Slug { get; private set; }
     public UserAvatar HostUser { get; private set; }
@@ -25,6 +26,7 @@ public class Room : Root<string>
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
+        RoomType = "Chat";
         Name = "";
         Slug = "";
         SetName("New Room");
@@ -35,9 +37,10 @@ public class Room : Root<string>
         Users = new();
     }
 
-    public Room(string name, User hostUser) : this()
+    public Room(string name, string type, User hostUser) : this()
     {
         SetName(name);
+        RoomType = type;
         HostUser = hostUser.Avatar;
     }
 
@@ -46,6 +49,7 @@ public class Room : Root<string>
         // Create a subroom from a message
 
         SetName(room.Name);
+        RoomType = room.RoomType;
         SourceMessage = new(room.Id, message.Id);
         //Languages = room.Languages;
         //ActiveUsers = room.ActiveUsers;

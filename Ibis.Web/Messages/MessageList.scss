@@ -11,14 +11,7 @@
     position: relative;
     overflow: hidden;
     margin: 0 auto;
-
-    &.by-tag {
-        .message-list {
-            display: grid;
-            grid-template-columns: 100px auto;
-        }
-    }
-
+   
     .message-list {
         overflow-y: auto;
         height: 100%;
@@ -40,5 +33,12 @@
         &::-webkit-scrollbar-thumb:hover {
             background: $grey-400;
         }
+    }
+}
+
+.room-Content {
+    .message-list {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
     }
 }

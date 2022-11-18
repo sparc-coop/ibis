@@ -1263,9 +1263,9 @@ main {
 .dashboard .rooms.show-list .room-details {
   margin-left: 65px;
 }
-.dashboard .rooms.show-list .room-members {
+.dashboard .rooms.show-list footer {
   position: absolute;
-  right: 140px;
+  right: 40px;
 }
 .dashboard .rooms.show-list .top-bar {
   position: absolute;
@@ -1304,6 +1304,11 @@ main {
   font-size: 40px;
   line-height: 46px;
   margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+.room header h2 .room-icon figcaption {
+  display: none;
 }
 .room header .share {
   margin: 0 0 10px 10px;
@@ -1491,7 +1496,12 @@ main {
   cursor: pointer;
   color: red;
 }
-
+.room-Content {
+  grid-template-columns: auto;
+}
+.room-Content .avatar-list {
+  display: none;
+}
 .room-card {
   background: #FFFFFF;
   padding: 24px;
@@ -1510,10 +1520,8 @@ main {
   justify-content: space-between;
   position: relative;
 }
-.room-card header figure {
-  padding: 8px;
-  border-radius: 8px;
-  background: #FAF1E8;
+.room-card header .room-icon figcaption {
+  display: none;
 }
 .room-card header .option-icons {
   display: flex;
@@ -1787,36 +1795,21 @@ main {
   float: right;
   margin-top: 24px;
 }
-.invite-block .room-icons .room-icon-wrapper {
-  display: flex;
-  align-items: center;
+.invite-block .room-icons .room-icon-wrapper > div {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 24px;
+  margin: 0 0 24px 0;
+  align-items: start;
+  opacity: 0.4;
 }
-.invite-block .room-icons .room-icon-wrapper .room-icon {
-  border-radius: 8px;
-  padding: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 40px;
-  margin-right: 9px;
+.invite-block .room-icons .room-icon-wrapper > div:hover, .invite-block .room-icons .room-icon-wrapper > div.selected {
+  opacity: 1;
   cursor: pointer;
 }
-.invite-block .room-icons .room-icon-wrapper .room-icon:nth-child(1) {
-  border: 1px solid #FF9E70;
-  background: #FAF1E8;
-}
-.invite-block .room-icons .room-icon-wrapper .room-icon:nth-child(2) {
-  border: 1px solid #AACAE1;
-  background: #EEF4FA;
-}
-.invite-block .room-icons .room-icon-wrapper .room-icon:nth-child(3) {
-  border: 1px solid #D6BBFB;
-  background: #F9F5FF;
-}
-.invite-block .room-icons .room-icon-wrapper .room-icon:nth-child(4) {
-  border: 1px solid #A6F4C5;
-  background: #ECFDF3;
-  margin-right: 0px;
+.invite-block .room-icons .room-icon {
+  width: 120px;
+  max-width: 120px;
 }
 .invite-block .room-name-wrapper label {
   margin-bottom: 6px;
@@ -1880,6 +1873,32 @@ main {
   width: 100%;
   height: 100%;
   z-index: 2;
+}
+
+.room-icon {
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 40px;
+  margin-right: 9px;
+}
+.room-icon-Chat {
+  border: 1px solid #FF9E70;
+  background: #FAF1E8;
+}
+.room-icon-Blog {
+  border: 1px solid #AACAE1;
+  background: #EEF4FA;
+}
+.room-icon-Other {
+  border: 1px solid #D6BBFB;
+  background: #F9F5FF;
+}
+.room-icon-Content {
+  border: 1px solid #A6F4C5;
+  background: #ECFDF3;
 }
 
 .message-audio {
@@ -1983,10 +2002,6 @@ main {
   overflow: hidden;
   margin: 0 auto;
 }
-.message-grid.by-tag .message-list {
-  display: grid;
-  grid-template-columns: 100px auto;
-}
 .message-grid .message-list {
   overflow-y: auto;
   height: 100%;
@@ -2007,6 +2022,11 @@ main {
 }
 .message-grid .message-list::-webkit-scrollbar-thumb:hover {
   background: #9BA3AF;
+}
+
+.room-Content .message-list {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 }
 
 .new-message {

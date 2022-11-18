@@ -3,27 +3,31 @@
 @attribute [Authorize(Policy = "Passwordless")]
 @page "/rooms/{Id}"
 
-<section class="room">
+<section class="room room-@(RoomInfo?.RoomType ?? "loading")">
     <header>
         @if (RoomInfo != null)
         {
             <h2>
+                <RoomIcon RoomType="@RoomInfo.RoomType" />
                 @RoomInfo.Name
             </h2>
-            <div class="actions">
-                <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
-                    <DownloadIcon />
-                    Transcript
-                </button>
-                <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
-                    <DownloadIcon />
-                    Subtitles
-                </button>
-                <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
-                    <DownloadIcon />
-                    Audio
-                </button>
-            </div>
+            @if (RoomInfo.RoomType == "Chat")
+            {
+                <div class="actions">
+                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                        <DownloadIcon />
+                        Transcript
+                    </button>
+                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                        <DownloadIcon />
+                        Subtitles
+                    </button>
+                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                        <DownloadIcon />
+                        Audio
+                    </button>
+                </div>
+            }
         }
     </header>
     @if (RoomInfo != null)

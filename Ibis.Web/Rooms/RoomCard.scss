@@ -18,10 +18,10 @@
         justify-content: space-between;
         position: relative;
 
-        figure {
-            padding: 8px;
-            border-radius: 8px;
-            background: $primary-100;
+        .room-icon {
+            figcaption {
+                display: none;
+            }
         }
 
         .option-icons {

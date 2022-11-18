@@ -91,7 +91,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         {
             if (user != null)
             {
-                room = new Room(slug, user);
+                room = new Room(slug, "Content", user);
                 await Rooms.AddAsync(room);
             }
             else
