@@ -66,7 +66,13 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         List<GetContentResponse> result = new();
         foreach (var message in postList)
         {
-            result.Add(new(message.Tag ?? message.Id, request.AsHtml ? message.Html() : message.Text!, message.Language, message.Audio?.Url, message.Timestamp));
+            result.Add(new(
+                message.Tag ?? message.Id, 
+                request.AsHtml ? message.Html() : message.Text!, 
+                message.Language, 
+                message.Audio?.Url, 
+                message.Timestamp,
+                message.Tags.ToDictionary(x => x.Key, x => x.Value)));
         }
 
         return result;

@@ -1931,6 +1931,11 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "take": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2026,6 +2031,13 @@
           "timestamp": {
             "type": "string",
             "format": "date-time"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

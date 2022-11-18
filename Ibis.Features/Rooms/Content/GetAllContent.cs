@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Features.Rooms;
-public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null);
+public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
-public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp);
+public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string> Tags);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
     public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
@@ -35,10 +35,14 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
 
     private async Task<List<GetContentResponse>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room)
     {
-        List<Message> postList = await Messages.Query
+        IQueryable<Message> query = Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
-                    .OrderByDescending(y => y.Timestamp)
-                    .ToListAsync();
+                    .OrderByDescending(y => y.Timestamp);
+
+        if (request.Take != null)
+            query = query.Take(request.Take.Value);
+
+        List<Message> postList = await query.ToListAsync();
 
         // Optionally filter the content by tag
         if (request.Tags != null)
@@ -54,7 +58,13 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         List<GetContentResponse> result = new();
         foreach (var message in postList)
         {
-            result.Add(new(message.Tag ?? message.Id, request.AsHtml ? message.Html() : message.Text!, message.Language, message.Audio?.Url, message.Timestamp));
+            result.Add(new(
+                message.Tag ?? message.Id, 
+                request.AsHtml ? message.Html() : message.Text!, 
+                message.Language, 
+                message.Audio?.Url, 
+                message.Timestamp,
+                message.Tags.ToDictionary(x => x.Key, x => x.Value)));
         }
 
         return result;
