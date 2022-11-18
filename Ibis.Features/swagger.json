@@ -2012,6 +2012,10 @@
       "GetContentResponse": {
         "type": "object",
         "properties": {
+          "roomSlug": {
+            "type": "string",
+            "nullable": true
+          },
           "tag": {
             "type": "string",
             "nullable": true

@@ -2,7 +2,7 @@
 
 namespace Sparc.Ibis;
 
-public record IbisContent(string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string>? Tags)
+public record IbisContent(string RoomSlug, string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string>? Tags)
 {
     public override string ToString() => Text;
 

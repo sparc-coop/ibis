@@ -67,6 +67,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         foreach (var message in postList)
         {
             result.Add(new(
+                room.Slug,
                 message.Tag ?? message.Id, 
                 request.AsHtml ? message.Html() : message.Text!, 
                 message.Language, 

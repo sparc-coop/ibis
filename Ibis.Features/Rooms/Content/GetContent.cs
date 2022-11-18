@@ -30,6 +30,7 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
             throw new NotFoundException($"Message {request.Tag} not found!");
 
         return new(
+            room.Slug,
             message.Tag!, 
             request.AsHtml ? message.Html() : message.Text!, 
             message.Language, 

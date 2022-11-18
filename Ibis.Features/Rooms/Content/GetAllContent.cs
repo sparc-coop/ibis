@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Features.Rooms;
 public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
-public record GetContentResponse(string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string> Tags);
+public record GetContentResponse(string RoomSlug, string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string> Tags);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
     public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
@@ -59,6 +59,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         foreach (var message in postList)
         {
             result.Add(new(
+                room.Slug,
                 message.Tag ?? message.Id, 
                 request.AsHtml ? message.Html() : message.Text!, 
                 message.Language, 
