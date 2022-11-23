@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public record NewRoomRequest(string RoomName, List<string> Emails);
+public record NewRoomRequest(string RoomName, string RoomType, List<string> Emails);
 public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
 {
     public CreateRoom(IRepository<Room> rooms, IRepository<User> users)
@@ -23,7 +23,7 @@ public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
 
     internal async Task<GetRoomResponse> ExecuteAsUserAsync(NewRoomRequest request, User host)
     {
-        var room = new Room(request.RoomName, host);
+        var room = new Room(request.RoomName, request.RoomType, host);
 
         var existingRoom = Rooms.Query.FirstOrDefault(x => x.HostUser.Id == host.Id && x.Slug == room.Slug);
         if (existingRoom != null)

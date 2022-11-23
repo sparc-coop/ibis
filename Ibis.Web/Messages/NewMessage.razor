@@ -41,14 +41,17 @@
             Upload a file
         </button>
 
-        <button>
-            <SmsIcon />
-            Connect via SMS
-        </button>
-        <button>
-            <PhoneIcon />
-            Connect via Phone
-        </button>
+        @if (Room.RoomType == "Chat")
+        {
+            <button>
+                <SmsIcon />
+                Connect via SMS
+            </button>
+            <button>
+                <PhoneIcon />
+                Connect via Phone
+            </button>
+        }
     </footer>
 </form>
 
@@ -98,7 +101,7 @@
             await OnDoneEditing.InvokeAsync();
     }
 
-    async Task CancelEdit() 
+    async Task CancelEdit()
     {
         Text = "";
         await OnDoneEditing.InvokeAsync();

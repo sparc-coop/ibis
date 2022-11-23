@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace Sparc.Ibis;
 
-public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null, bool AsHtml = false);
+public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetContentRequest(string RoomSlug, string Tag, string Language, bool AsHtml = false);
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
 
@@ -38,7 +38,7 @@ public class IbisTranslator : IAsyncDisposable
         if (restoredIbisContent?.Any() == true)
             Content = restoredIbisContent;
         else
-            await GetAllAsync(channelId, asHtml);
+            await GetAllAsync(channelId, null, asHtml);
 
         return Language;
     }
@@ -67,9 +67,9 @@ public class IbisTranslator : IAsyncDisposable
         return await IbisClient.PostAsJsonAsync<GetContentRequest, IbisContent>("/publicapi/GetContent", request);
     }
 
-    public async Task<IbisChannel?> GetAllAsync(string channelId, bool asHtml = false)
+    public async Task<IbisChannel?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, bool asHtml = false, int? take = null)
     {
-        var request = new GetAllContentRequest(channelId.ToLower(), Language, null, asHtml);
+        var request = new GetAllContentRequest(channelId.ToLower(), Language, null, asHtml, tags, take);
         var response = await IbisClient.PostAsJsonAsync<GetAllContentRequest, IbisChannel>("/publicapi/GetAllContent", request);
 
         if (response != null)

@@ -66,7 +66,14 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         List<GetContentResponse> result = new();
         foreach (var message in postList)
         {
-            result.Add(new(message.Tag ?? message.Id, request.AsHtml ? message.Html() : message.Text!, message.Language, message.Audio?.Url, message.Timestamp));
+            result.Add(new(
+                room.Slug,
+                message.Tag ?? message.Id, 
+                request.AsHtml ? message.Html() : message.Text!, 
+                message.Language, 
+                message.Audio?.Url, 
+                message.Timestamp,
+                message.Tags.ToDictionary(x => x.Key, x => x.Value)));
         }
 
         return result;
@@ -92,7 +99,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         {
             if (user != null)
             {
-                room = new Room(slug, user);
+                room = new Room(slug, "Content", user);
                 await Rooms.AddAsync(room);
             }
             else

@@ -1,8 +1,6 @@
 ﻿<article class="room-card" @onclick="GoToRoom">
     <header>
-        <figure>
-            <img src="/icons/Room-Icon.svg" />
-        </figure>
+        <RoomIcon RoomType="@(Room.RoomType ?? "Chat")" />
         <div class="option-icons" @onclick:stopPropagation="true">
             <RoomShare Room="Room" />
             <RoomMenu Room="Room" />

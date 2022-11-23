@@ -1931,6 +1931,11 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "take": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2007,6 +2012,10 @@
       "GetContentResponse": {
         "type": "object",
         "properties": {
+          "roomSlug": {
+            "type": "string",
+            "nullable": true
+          },
           "tag": {
             "type": "string",
             "nullable": true
@@ -2026,6 +2035,13 @@
           "timestamp": {
             "type": "string",
             "format": "date-time"
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2082,6 +2098,10 @@
         "type": "object",
         "properties": {
           "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomType": {
             "type": "string",
             "nullable": true
           },
@@ -2452,6 +2472,10 @@
         "type": "object",
         "properties": {
           "roomName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomType": {
             "type": "string",
             "nullable": true
           },
