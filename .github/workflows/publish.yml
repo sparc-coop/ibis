@@ -23,11 +23,10 @@ jobs:
           # Filepath of the project to be packaged, relative to root of repository
           PROJECT_FILE_PATH: Sparc.Ibis/Sparc.Ibis.csproj
 
-          # Configuration to build and package
-          BUILD_CONFIGURATION: Release
-
           # NuGet package id, used for version detection & defaults to project name
           PACKAGE_NAME: Sparc.Ibis
 
           # API key to authenticate with NuGet server
           NUGET_KEY: ${{secrets.NUGETAPIKEY}}
+
+          INCLUDE_SYMBOLS: true
