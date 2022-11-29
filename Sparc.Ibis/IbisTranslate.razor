@@ -11,19 +11,13 @@
 @code {
     [Parameter] public string ChannelId { get; set; } = null!;
     [Parameter] public string? Language { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; } = null!;
     [Parameter] public bool AsHtml { get; set; }
 
     string? _language;
     string _id = $"ibis-{Guid.NewGuid()}";
-    bool isTranslating;
 
     PersistingComponentStateSubscription PersistedStateSubscription;
-
-    protected override async Task OnInitializedAsync()
-    {
-        
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -33,8 +27,6 @@
         }
 
         PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
-
-        isTranslating = true;
 
         if (PersistedState.TryTakeFromJson<List<IbisContent>>(ChannelId, out var restoredIbisContent))
         {
@@ -46,7 +38,6 @@
         }
 
         await Ibis.InitClientAsync(this, _id);
-        isTranslating = false;
     }
 
     [JSInvokable]
