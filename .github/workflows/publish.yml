@@ -18,7 +18,7 @@ jobs:
       # Publish
       - name: publish on version change
         id: publish_nuget
-        uses: brandedoutcast/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3.0.0
         with:
           # Filepath of the project to be packaged, relative to root of repository
           PROJECT_FILE_PATH: Sparc.Ibis/Sparc.Ibis.csproj
@@ -29,4 +29,4 @@ jobs:
           # API key to authenticate with NuGet server
           NUGET_KEY: ${{secrets.NUGETAPIKEY}}
 
-          INCLUDE_SYMBOLS: true
+          INCLUDE_SYMBOLS: false
