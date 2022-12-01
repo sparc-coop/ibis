@@ -1,4 +1,3 @@
-using Ibis.Api;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.Modal;
 using Sparc.Ibis;
@@ -13,6 +12,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredModal();
 builder.Services.AddIbis();
 
-builder.AddBlossom<IbisApi>(builder.Configuration["ApiUrl"]);
+builder.AddBlossom<swaggerClient>(builder.Configuration["ApiUrl"]);
 
 await builder.Build().RunAsync();
