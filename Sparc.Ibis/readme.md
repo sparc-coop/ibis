@@ -7,17 +7,26 @@ With a one-line component Sparc.Ibis auto-translates everything inside the compo
 Usage is as follows:
 
 1. Inside your platform project install the `Sparc.Ibis` Nuget package [![Nuget](https://img.shields.io/nuget/v/Sparc.Ibis?label=Sparc.Ibis)](https://www.nuget.org/packages/Sparc.Ibis/)
-2. Add the following to your `Program.cs`
+
+2. Add this line to your platform `wwwroot/appsettings.json`:
+```json
+{ "IbisApi":  "https://ibis.chat" }
+```
+> [Ibis.chat](https://ibis.chat/) is live, you can create your account now or you can use your own API
+
+3. Add the following to your `Program.cs`
 ```csharp
 using Sparc.Ibis;
 //...
 builder.Services.AddIbis();
 ```
-3. Wrap whatever you want to translate in 
+
+4. Wrap whatever you want to translate in 
 ```razor
 <IbisTranslate ChannelId="[the Ibis channel/room ID to post translations to]"></IbisTranslate>
 ```
- 4. (optional) If you want to test a specific language, just pass it into the component: 
+
+ 5. (optional) If you want to test a specific language, just pass it into the component: 
  ```razor
  <IbisTranslate ChannelId="ibis-app" Language="de">
  ```
