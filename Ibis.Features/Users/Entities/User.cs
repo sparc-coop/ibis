@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Sparc.Authentication;
+﻿using Sparc.Blossom.Authentication;
 using System.Security.Claims;
 
 namespace Ibis.Features.Users;
 
 public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
 public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);
-public class User : SparcUser
+public class User : BlossomUser
 {
     public User()
     {

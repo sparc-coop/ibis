@@ -1,4 +1,4 @@
-﻿using Sparc.Storage.Azure;
+﻿using Sparc.Blossom.Data;
 using System.Text.Json;
 
 namespace Ibis.Features.Users;
@@ -9,9 +9,9 @@ public class ExchangeRates
     static Dictionary<string, decimal> Rates = new();
     public DateTime? LastUpdated { get; private set; }
     public DateTime? AsOfDate { get; private set; }
-    public IFileRepository<Sparc.Storage.Azure.File> Files { get; }
+    public IFileRepository<Sparc.Blossom.Data.File> Files { get; }
 
-    public ExchangeRates(IConfiguration configuration, IFileRepository<Sparc.Storage.Azure.File> files)
+    public ExchangeRates(IConfiguration configuration, IFileRepository<Sparc.Blossom.Data.File> files)
     {
         ApiKey = configuration["ExchangeRatesApi"]!;
         Files = files;
@@ -74,7 +74,7 @@ public class ExchangeRates
                 using MemoryStream stream = new();
                 await JsonSerializer.SerializeAsync(stream, response);
                 stream.Position = 0;
-                await Files.AddAsync(new Sparc.Storage.Azure.File("exchangerates", $"{today}.json", AccessTypes.Public, stream));
+                await Files.AddAsync(new Sparc.Blossom.Data.File("exchangerates", $"{today}.json", AccessTypes.Public, stream));
             }
         }
     }

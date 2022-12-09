@@ -1,5 +1,4 @@
-﻿using Sparc.Storage.Azure;
-using File = Sparc.Storage.Azure.File;
+﻿using File = Sparc.Blossom.Data.File;
 
 namespace Ibis.Features.Messages;
 

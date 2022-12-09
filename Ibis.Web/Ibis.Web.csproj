@@ -27,7 +27,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Sparc.Blossom" Version="7.0.12" />
+		<PackageReference Include="Sparc.Blossom.Client" Version="7.1.0-pre.6" />
 	</ItemGroup>
 
 	<ItemGroup>

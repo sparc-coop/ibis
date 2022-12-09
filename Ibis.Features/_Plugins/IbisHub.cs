@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Ibis.Features._Plugins;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class IbisHub : SparcHub
+public class IbisHub : BlossomHub
 {
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
-using Sparc.Storage.Azure;
-using File = Sparc.Storage.Azure.File;
+using File = Sparc.Blossom.Data.File;
+using Sparc.Blossom.Realtime;
+using Sparc.Blossom.Data;
 
 namespace Ibis.Features._Plugins;
 
