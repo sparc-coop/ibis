@@ -1,7 +1,7 @@
 using Ibis.Features;
 using Lamar.Microsoft.DependencyInjection;
-using Sparc.Blossom.Authentication;
 using Stripe;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
 
@@ -20,18 +20,11 @@ builder.Services
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
 
-builder.Services.AddServerSideBlazor();
+var app = builder.BuildBlossom();
 
-var app = builder.Build();
-
-app.UseBlazorFrameworkFiles();
-app.UseBlossom();
-app.MapControllers();
 app.MapHub<IbisHub>("/hub");
-app.MapBlazorHub();
-app.MapFallbackToFile("index.html");
-app.UseDeveloperExceptionPage();
 app.UsePasswordlessAuthentication<User>();
+app.UseAllCultures();
 
 // Warm up the entity framework model
 _ = app.Services.GetRequiredService<IbisContext>().Model;
