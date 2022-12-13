@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App ibis-web
 on:
   push:
     branches:
-    - feature/genericize-swagger
+    - main
 env:
   AZURE_WEBAPP_NAME: ibis-web
   AZURE_WEBAPP_PACKAGE_PATH: Ibis.Features\published
