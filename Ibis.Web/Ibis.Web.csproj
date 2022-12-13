@@ -8,16 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Landing\**" />
-	  <Content Remove="Landing\**" />
-	  <EmbeddedResource Remove="Landing\**" />
-	  <None Remove="Landing\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<OpenApiReference Include="..\Ibis.Features\swagger.json" CodeGenerator="NSwagCSharp" Namespace="Ibis.Api" ClassName="IbisApi" Link="OpenAPIs\swagger.json">
-			<Options>/UseBaseUrl:false</Options>
-		</OpenApiReference>
+		<OpenApiReference Include="..\Ibis.Features\swagger.json" Link="OpenAPIs\swagger.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,7 +26,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Sparc.Blossom" Version="7.0.0" />
+		<PackageReference Include="Sparc.Blossom.Client" Version="7.1.0-pre.6" />
 	</ItemGroup>
 
 	<ItemGroup>

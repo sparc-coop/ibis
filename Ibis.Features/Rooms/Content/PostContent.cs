@@ -23,7 +23,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         var user = await Users.FindAsync(User.Id());
         var room = await GetRoomAsync(request.RoomSlug, user);
 
-        ((Rooms as Sparc.Database.Cosmos.CosmosDbRepository<Room>)?.Context as SparcContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
+        ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
         await AddLanguageIfNeeded(room, request.Language);
 
         var untranslatedMessages = await GetUntranslatedMessagesAsync(request, room);

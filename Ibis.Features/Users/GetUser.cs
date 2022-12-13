@@ -1,4 +1,4 @@
-﻿using Sparc.Authentication.AzureADB2C;
+﻿using Sparc.Blossom.Authentication;
 
 namespace Ibis.Features.Users;
 

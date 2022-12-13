@@ -1,6 +1,4 @@
-﻿using Sparc.Notifications.Twilio;
-
-namespace Ibis.Features.Messages;
+﻿namespace Ibis.Features.Messages;
 
 public class SendSms : RealtimeFeature<MessageTextChanged>
 {

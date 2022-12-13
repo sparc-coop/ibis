@@ -1,8 +1,7 @@
-﻿global using Sparc.Core;
-global using Sparc.Kernel;
-global using Sparc.Realtime;
-global using Sparc.Data;
-global using Sparc.Blossom;
+﻿global using Sparc.Blossom;
+global using Sparc.Blossom.Realtime;
+global using Sparc.Blossom.Data;
+global using Sparc.Blossom.Authentication;
 
 global using Ibis.Features.Rooms;
 global using Ibis.Features.Messages;

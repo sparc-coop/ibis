@@ -24,7 +24,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         var room = await GetRoomAsync(request.RoomSlug, user);
 
         // Change the publish strategy so this call doesn't return until EVERYTHING is done
-        ((Rooms as Sparc.Database.Cosmos.CosmosDbRepository<Room>)?.Context as SparcContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
+        ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
 
         await AddLanguageIfNeeded(room, request.Language);
 

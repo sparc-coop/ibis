@@ -2,13 +2,13 @@
 
 namespace Ibis.Features._Plugins;
 
-public class IbisContext : SparcContext
+public class IbisContext : BlossomContext
 {
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<User> Users => Set<User>();
 
-    public IbisContext(DbContextOptions options, Publisher publisher) : base(options, publisher)
+    public IbisContext(DbContextOptions options, Publisher publisher, IHttpContextAccessor http) : base(options, publisher, http)
     {
     }
 

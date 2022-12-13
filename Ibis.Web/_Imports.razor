@@ -12,11 +12,11 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.JSInterop
 
-@using Sparc.Core
+@using Sparc.Blossom
+@using Sparc.Blossom.Realtime
 
 @using Ibis.Web.Shared
 @using Ibis.Web.Shared.Icons
-@using Ibis.Api
 @using Ibis.Web.Rooms
 @using Ibis.Web.Messages
 @using Ibis.Web.Users
@@ -25,7 +25,7 @@
 @using Blazored.Modal.Services
 @inject IModalService Modal
 
-@inject IbisApi Api
+@inject swaggerClient Api
 @inject NavigationManager Nav
 @inject IConfiguration Config
 @inject IJSRuntime JS
