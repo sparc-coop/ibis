@@ -9,6 +9,11 @@
             <h2>
                 <RoomIcon RoomType="@RoomInfo.RoomType" />
                 @RoomInfo.Name
+
+                @if(RoomInfo.RoomType == "Blog")
+                {
+                    <img @onclick="CopyLink" class="copy" src="/icons/copy.svg" title="Copy Channel Name:  @RoomInfo.Slug" />
+                }
             </h2>
             @if (RoomInfo.RoomType == "Chat")
             {
@@ -79,5 +84,10 @@
     {
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+    }
+
+    async Task CopyLink()
+    {
+        await JS.InvokeVoidAsync("copyToClipboard", RoomInfo!.Slug);
     }
 }

@@ -22,7 +22,7 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
         }
 
         var message = await Messages.Query
-            .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Tag == request.Tag)
+            .Where(x => x.RoomId == room.Id && x.Language == request.Language && (x.Tag == request.Tag || x.Id == request.Tag))
             .OrderByDescending(y => y.Timestamp)
             .FirstOrDefaultAsync();
 
@@ -31,7 +31,7 @@ public class GetContent : PublicFeature<GetContentRequest, GetContentResponse>
 
         return new(
             room.Slug,
-            message.Tag!, 
+            message.Tag! ?? message.Id,
             request.AsHtml ? message.Html() : message.Text!, 
             message.Language, 
             message.Audio?.Url, 

@@ -8,6 +8,16 @@
             {
                 <span>@message.Tag</span>
             }
+            
+            @if (Room.RoomType == "Blog")
+            {
+                if (message.Tags.Count > 0)
+                {
+                    <span class="blog-title">
+                        @(message.Tags.Where(x => x.Key == "title") != null ? message.Tags.Where(x => x.Key == "title").First().Value : "")                      
+                    </span>
+                }
+            }
             <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
         }
     </div>
