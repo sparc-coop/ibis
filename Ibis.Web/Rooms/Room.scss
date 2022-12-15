@@ -260,13 +260,21 @@
     }
 
     &-Chat {
-
     }
 
     &-Content {
         grid-template-columns: auto;
+
         .avatar-list {
             display: none;
+        }
+    }
+
+    &-Blog {
+        .copy {
+            cursor: pointer;
+            margin: 9px 0 4px 13px;
+            width: 20px;
         }
     }
 

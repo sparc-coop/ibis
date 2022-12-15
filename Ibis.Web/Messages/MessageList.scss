@@ -11,7 +11,7 @@
     position: relative;
     overflow: hidden;
     margin: 0 auto;
-   
+
     .message-list {
         overflow-y: auto;
         height: 100%;
@@ -33,12 +33,17 @@
         &::-webkit-scrollbar-thumb:hover {
             background: $grey-400;
         }
+
+        .blog-title {
+            margin: 16px 400px 0 0;
+            float: right;
+            font-weight: 600;
+        }
     }
 }
 
 .room-Content {
     .message-list {
-        display: grid;
         grid-template-columns: 1fr 3fr;
     }
 }

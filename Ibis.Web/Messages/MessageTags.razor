@@ -24,10 +24,10 @@
 
     <div class="add-tag">
         <h5>Add a Tag</h5>
-        <input type="text" placeholder="Tag Name" @bind=NewTag.Key />
-        <input type="text" placeholder="Value for this tag" @bind=NewTag.Value />
+        <input type="text" placeholder="Tag Name" @bind="NewTag.Key" />
+        <input type="text" placeholder="Value for this tag" @bind="NewTag.Value" />
         <label class="switch">
-            <input type="checkbox" @bind=NewTag.Translate />
+            <input type="checkbox" @bind="NewTag.Translate" />
             Translate this tag
             <span class="slider">
             </span>
@@ -42,6 +42,7 @@
 
     async Task AddTag()
     {
+        NewTag.Key = NewTag.Key.ToLower();
         Message.Tags.Add(NewTag);
         await Save();
         NewTag = new();
