@@ -1,0 +1,68 @@
+﻿@using System.Web
+@using Microsoft.JSInterop;
+@implements IDisposable
+
+<article class="ibis-content" @onclick="Play">
+    @if (Message.Audio?.Url != null)
+    {
+        <div class="message-audio">
+            <PlayIcon />
+        </div>
+    }
+    @if (Message.Audio != null && Offset != null)
+    {
+        <div class="message-text playing">
+            @foreach (var word in Message.Audio.Subtitles)
+            {
+                <span class="@(WordIsActive(word) ? "active" : "")">
+                    @word.Text
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        foreach (var paragraph in Message.Html)
+        {
+            <p>@paragraph</p>
+        }
+    }
+</article>
+
+@inject IbisTranslator Ibis
+@code {
+    [Parameter] public Message Message { get; set; } = new();
+    long? Offset;
+    System.Timers.Timer? AudioTimer;
+
+    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
+
+    async Task Play()
+    {
+        if (Message.Audio?.Url != null)
+        {
+            Offset = 0;
+            AudioTimer = new(100);
+            AudioTimer.Elapsed += (source, e) =>
+            {
+                if (Offset > Message.Audio.Duration)
+                {
+                    AudioTimer.Stop();
+                    Offset = null;
+                }
+                else
+                {
+                    Offset += 100;
+                }
+                InvokeAsync(StateHasChanged);
+            };
+            AudioTimer.Start();
+            await Ibis.PlayAsync(Message.Audio.Url);
+        }
+    }
+
+    public void Dispose()
+    {
+        AudioTimer?.Dispose();
+    }
+}

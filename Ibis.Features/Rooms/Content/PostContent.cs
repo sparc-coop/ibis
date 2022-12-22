@@ -1,6 +1,5 @@
-﻿using Microsoft.Azure.Cosmos.Serialization.HybridRow;
+﻿namespace Ibis.Features.Rooms;
 
-namespace Ibis.Features.Rooms;
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
 public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
 {
@@ -54,7 +53,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         return untranslatedMessages;
     }
 
-    private async Task<List<GetContentResponse>> GetAllMessagesAsync(PostContentRequest request, Room room)
+    private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
     {
         List<Message> postList = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
@@ -63,20 +62,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
 
         postList = postList.Where(x => request.Messages.Contains(x.Tag!)).ToList();
 
-        List<GetContentResponse> result = new();
-        foreach (var message in postList)
-        {
-            result.Add(new(
-                room.Slug,
-                message.Tag ?? message.Id, 
-                request.AsHtml ? message.Html() : message.Text!, 
-                message.Language, 
-                message.Audio?.Url, 
-                message.Timestamp,
-                message.Tags.ToDictionary(x => x.Key, x => x.Value)));
-        }
-
-        return result;
+        return postList;
     }
 
     private async Task AddLanguageIfNeeded(Room room, string languageId)

@@ -14,6 +14,7 @@
 
 @using Sparc.Blossom
 @using Sparc.Blossom.Realtime
+@using Sparc.Ibis
 
 @using Ibis.Web.Shared
 @using Ibis.Web.Shared.Icons
@@ -25,7 +26,7 @@
 @using Blazored.Modal.Services
 @inject IModalService Modal
 
-@inject swaggerClient Api
+@inject IbisClient Api
 @inject NavigationManager Nav
 @inject IConfiguration Config
 @inject IJSRuntime JS

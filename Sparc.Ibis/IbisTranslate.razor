@@ -3,6 +3,10 @@
 
 <section id="@_id" lang="@_language" class="ibis-translate">
     @ChildContent
+
+    <aside class="ibis-widget">
+        
+    </aside>
 </section>
 
 @inject IbisTranslator Ibis
@@ -28,7 +32,7 @@
 
         PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
 
-        if (PersistedState.TryTakeFromJson<List<IbisContent>>(ChannelId, out var restoredIbisContent))
+        if (PersistedState.TryTakeFromJson<List<Message>>(ChannelId, out var restoredIbisContent))
         {
             _language = await Ibis.InitAsync(ChannelId, Language, AsHtml, restoredIbisContent);
         }

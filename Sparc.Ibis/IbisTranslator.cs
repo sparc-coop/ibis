@@ -1,36 +1,27 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace Sparc.Ibis;
 
-public record GetAllContentRequest(string RoomSlug, string Language, List<string>? AdditionalMessages = null, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
-public record GetContentRequest(string RoomSlug, string Tag, string Language, bool AsHtml = false);
-public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
-
 public class IbisTranslator : IAsyncDisposable
 {
     internal string Language { get; set; }
-    internal List<IbisContent> Content { get; set; }
+    internal List<Message> Content { get; set; }
     private readonly Lazy<Task<IJSObjectReference>> IbisJs;
 
-    internal HttpClient IbisClient;
+    internal IbisClient IbisClient;
 
-    public IbisTranslator(IJSRuntime js, IConfiguration configuration)
+    public IbisTranslator(IJSRuntime js, IbisClient client)
     {
-        var apiUrl = configuration["IbisApi"] ?? "https://ibis.chat";
-        IbisClient = new HttpClient
-        {
-            BaseAddress = new Uri(apiUrl)
-        };
-
+        IbisClient = client;
         Content = new();
         IbisJs = new(() => js.InvokeAsync<IJSObjectReference>("import", "./_content/Sparc.Ibis/IbisTranslate.razor.js").AsTask());
         Language = "";
     }
 
-    public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<IbisContent>? restoredIbisContent = null)
+    public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<Message>? restoredIbisContent = null)
     {
         language ??= CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         Language = language;
@@ -56,21 +47,18 @@ public class IbisTranslator : IAsyncDisposable
         await ibis.InvokeVoidAsync("init", elementId, DotNetObjectReference.Create(component), content);
     }
 
-    public async Task<IbisContent?> GetAsync(string channelId, string tag)
+    public async Task<GetAllContentResponse?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, bool asHtml = false, int? take = null)
     {
-        // some small caching
-        var existing = Get(tag);
-        if (existing != null)
-            return existing;
+        var request = new GetAllContentRequest
+        {
+            RoomSlug = channelId,
+            Language = Language,
+            Tags = tags,
+            AsHtml = asHtml,
+            Take = take
+        };
 
-        var request = new GetContentRequest(channelId, tag, Language);
-        return await IbisClient.PostAsJsonAsync<GetContentRequest, IbisContent>("/publicapi/GetContent", request);
-    }
-
-    public async Task<IbisChannel?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, bool asHtml = false, int? take = null)
-    {
-        var request = new GetAllContentRequest(channelId.ToLower(), Language, null, asHtml, tags, take);
-        var response = await IbisClient.PostAsJsonAsync<GetAllContentRequest, IbisChannel>("/publicapi/GetAllContent", request);
+        var response = await IbisClient.GetAllContentAsync(request);
 
         if (response != null)
         {
@@ -82,11 +70,18 @@ public class IbisTranslator : IAsyncDisposable
         return response;
     }
 
-    public async Task<List<IbisContent>> PostAsync(string channelId, List<string> messages, bool asHtml = false)
+    public async Task<List<Message>> PostAsync(string channelId, List<string> messages, bool asHtml = false)
     {
         var untranslatedMessages = messages.Where(x => Get(x) == null).ToList();
-        var request = new PostContentRequest(channelId.ToLower(), Language, untranslatedMessages, asHtml);
-        var response = await IbisClient.PostAsJsonAsync<PostContentRequest, IbisChannel>("/publicapi/PostContent", request);
+        var request = new PostContentRequest
+        {
+            RoomSlug = channelId,
+            Language = Language,
+            Messages = untranslatedMessages,
+            AsHtml = asHtml
+        };
+
+        var response = await IbisClient.PostContentAsync(request);
 
         if (response != null)
         {
@@ -118,6 +113,15 @@ public class IbisTranslator : IAsyncDisposable
         return nodes;
     }
 
+    public async Task PlayAsync(Message message)
+    {
+        if (message?.Audio?.Url == null)
+            return;
+        
+        var ibis = await IbisJs.Value;
+        await ibis.InvokeVoidAsync("playAudio", message.Audio.Url);
+    }
+
     // This + IbisContent.ToString() enables use of @Ibis[tag] in Razor templates
     public MarkupString this[string tag]
     {
@@ -128,8 +132,8 @@ public class IbisTranslator : IAsyncDisposable
         }
     }
 
-    public IbisContent? Get(string tag) => Content.FirstOrDefault(x => x.Language == Language && x.Tag == tag);
-    public void Set(string tag, IbisContent value)
+    public Message? Get(string tag) => Content.FirstOrDefault(x => x.Language == Language && x.Tag == tag);
+    public void Set(string tag, Message value)
     {
         if (value != null)
         {

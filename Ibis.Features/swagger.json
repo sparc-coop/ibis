@@ -587,17 +587,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetContentResponse"
+                  "$ref": "#/components/schemas/Message"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetContentResponse"
+                  "$ref": "#/components/schemas/Message"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetContentResponse"
+                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -1954,7 +1954,7 @@
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GetContentResponse"
+              "$ref": "#/components/schemas/Message"
             },
             "nullable": true
           }
@@ -2005,43 +2005,6 @@
           },
           "asHtml": {
             "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetContentResponse": {
-        "type": "object",
-        "properties": {
-          "roomSlug": {
-            "type": "string",
-            "nullable": true
-          },
-          "tag": {
-            "type": "string",
-            "nullable": true
-          },
-          "text": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "audio": {
-            "type": "string",
-            "nullable": true
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "tags": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2349,6 +2312,11 @@
             "items": {
               "$ref": "#/components/schemas/EditHistory"
             },
+            "nullable": true,
+            "readOnly": true
+          },
+          "html": {
+            "type": "string",
             "nullable": true,
             "readOnly": true
           }

@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Messages;
+﻿using Markdig;
+
+namespace Ibis.Features.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
@@ -18,6 +20,7 @@ public class Message : Root<string>
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
+    public string Html => Markdown.ToHtml(Text ?? string.Empty);
 
     protected Message()
     {
@@ -129,17 +132,5 @@ public class Message : Root<string>
     {
         DeletedDate = DateTime.UtcNow;
         Broadcast(new MessageDeleted(this));
-    }
-
-    internal string Html()
-    {
-        if (string.IsNullOrWhiteSpace(Text))
-            return string.Empty;
-
-        var paragraphs = Text
-            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
-            .Where(x => !string.IsNullOrWhiteSpace(x));
-
-        return string.Join("\r\n", paragraphs.Select(x => $"<p>{x}</p>"));
     }
 }

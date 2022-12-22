@@ -18,30 +18,7 @@
             </li>
         </ul>
     }
-    @if (Audio?.Url != null)
-    {
-        <div class="message-audio" @onclick=Play>
-            <PlayIcon />
-        </div>
-    }
-    @if (Audio != null && Offset != null)
-    {
-        <div class="message-text playing">
-            @foreach (var word in Audio.Subtitles)
-            {
-                <span class="@(WordIsActive(word) ? "active" : "")">
-                    @word.Text
-                </span>
-            }
-        </div>
-    }
-    else
-    {
-        foreach (var paragraph in MessageHtml)
-        {
-            <p>@paragraph</p>
-        }
-    }
+    <Sparc.Ibis.IbisContent Message="Message" />
 </article>
 
 @code {

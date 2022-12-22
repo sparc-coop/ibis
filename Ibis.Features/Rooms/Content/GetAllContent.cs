@@ -1,7 +1,6 @@
 ﻿namespace Ibis.Features.Rooms;
 public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
-public record GetAllContentResponse(string Name, string Slug, List<GetContentResponse> Content);
-public record GetContentResponse(string RoomSlug, string Tag, string Text, string Language, string? Audio, DateTime Timestamp, Dictionary<string, string> Tags);
+public record GetAllContentResponse(string Name, string Slug, List<Message> Content);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
     public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
@@ -33,7 +32,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         return new(room.Name, room.Slug, result);
     }
 
-    private async Task<List<GetContentResponse>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room)
+    private async Task<List<Message>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room)
     {
         IQueryable<Message> query = Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
@@ -55,30 +54,16 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
             }
         }
 
-        List<GetContentResponse> result = new();
-        foreach (var message in postList)
-        {
-            result.Add(new(
-                room.Slug,
-                message.Tag ?? message.Id, 
-                request.AsHtml ? message.Html() : message.Text!, 
-                message.Language, 
-                message.Audio?.Url, 
-                message.Timestamp,
-                message.Tags.ToDictionary(x => x.Key, x => x.Value)));
-        }
-
-        return result;
+        return postList;
     }
 
     private async Task AddLanguageIfNeeded(Room room, string languageId)
     {
         if (!room.Languages.Any(x => x.Id == languageId))
         {
-            var language = await Translator.GetLanguageAsync(languageId);
-            if (language == null)
-                throw new Exception("Language not found!");
-
+            var language = await Translator.GetLanguageAsync(languageId) 
+                ?? throw new Exception("Language not found!");
+            
             room.AddLanguage(language);
             await Rooms.UpdateAsync(room);
         }

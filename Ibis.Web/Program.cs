@@ -12,6 +12,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredModal();
 builder.Services.AddIbis();
 
-builder.AddBlossom<swaggerClient>(builder.Configuration["ApiUrl"]);
+builder.AddBlossom<IbisClient>(builder.Configuration["ApiUrl"]);
 
 await builder.Build().RunAsync();

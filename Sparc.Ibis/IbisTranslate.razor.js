@@ -3,6 +3,15 @@ let dotNet = {};
 let app = {};
 let observer = {};
 
+//Play message audio
+let playAudio = function (url) {
+    console.log('playing ' + url);
+    const sound = new Howl({
+        src: [url]
+    });
+    sound.play();
+}
+
 let ibisIgnoreFilter = function (node) {
     if (node.parentNode.nodeName == 'SCRIPT' || node.ibisTranslated)
         return NodeFilter.FILTER_SKIP;
@@ -121,4 +130,4 @@ function init(targetElementId, dotNetObjectReference, serverTranslationCache) {
     }
 }
 
-export { init, replaceWithTranslatedText, getBrowserLanguage };
+export { init, replaceWithTranslatedText, getBrowserLanguage, playAudio };

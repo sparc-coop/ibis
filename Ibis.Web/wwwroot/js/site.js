@@ -17,15 +17,6 @@ function triggerFileDownload(url, fileName) {
     anchorElement.remove();
 }
 
-//Play message audio
-function playAudio(url) {
-    console.log('playing ' + url);
-    const sound = new Howl({
-        src: [url]
-    });
-    sound.play();
-}
-
 function speak(audio) {
     const contentType = "audio/mp3";
     const sound = new Howl({
