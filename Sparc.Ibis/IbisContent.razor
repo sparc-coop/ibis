@@ -2,17 +2,17 @@
 @using Microsoft.JSInterop;
 @implements IDisposable
 
-<article class="ibis-content" @onclick="Play">
+<article class="ibis-content @(Offset != null ? "playing" : "")" @onclick="Play">
     @if (Message.Audio?.Url != null)
     {
         <div class="message-audio">
             <PlayIcon />
         </div>
     }
-    @if (Message.Audio != null && Offset != null)
+    @if (Offset != null)
     {
-        <div class="message-text playing">
-            @foreach (var word in Message.Audio.Subtitles)
+        <div class="message-subtitles">
+            @foreach (var word in Message.Audio!.Subtitles)
             {
                 <span class="@(WordIsActive(word) ? "active" : "")">
                     @word.Text
@@ -20,13 +20,13 @@
             }
         </div>
     }
-    else
-    {
-        foreach (var paragraph in Message.Html)
+    
+    <div class="message-text">
+        @foreach (var paragraph in Message.Html)
         {
             <p>@paragraph</p>
         }
-    }
+    </div>
 </article>
 
 @inject IbisTranslator Ibis
@@ -57,7 +57,7 @@
                 InvokeAsync(StateHasChanged);
             };
             AudioTimer.Start();
-            await Ibis.PlayAsync(Message.Audio.Url);
+            await Ibis.PlayAsync(Message);
         }
     }
 

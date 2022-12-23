@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
-		<Version>7.1.0-pre.2</Version>
+		<Version>7.1.0-pre.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<Authors>Sparc Cooperative</Authors>
@@ -16,7 +16,6 @@
 		<PackageProjectUrl>https://github.com/sparc-coop/ibis</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<ServicesPath>OpenAPIs\IbisClient.cs</ServicesPath>
-		<OpenApiGenerateCodeOptions>/UseBaseUrl:false</OpenApiGenerateCodeOptions>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -41,6 +40,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Sparc.Blossom.Core" Version="7.1.0-pre.6" />
 		<OpenApiReference Include="..\Ibis.Features\swagger.json" Link="OpenAPIs\swagger.json" OutputPath="$([System.IO.Path]::Combine($(MSBuildProjectDirectory),$(ServicesPath)))" />
 	</ItemGroup>
 </Project>

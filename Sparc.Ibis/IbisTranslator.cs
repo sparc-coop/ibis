@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.ComponentModel;
 using System.Globalization;
 
 namespace Sparc.Ibis;

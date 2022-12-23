@@ -1,6 +1,9 @@
-﻿namespace Ibis.Features.Users;
+﻿using Microsoft.AspNetCore.OutputCaching;
 
-public class GetLanguages : Feature<List<Language>>
+namespace Ibis.Features.Users;
+
+[OutputCache(Duration = 3600)]
+public class GetLanguages : PublicFeature<List<Language>>
 {
     public GetLanguages(ITranslator translator, ISpeaker synthesizer)
     {

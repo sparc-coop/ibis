@@ -1,6 +1,9 @@
-﻿namespace Ibis.Features.Users;
+﻿using Microsoft.AspNetCore.OutputCaching;
+
+namespace Ibis.Features.Users;
 
 public record GetEmojisResponse(List<string> Skintones, List<string> Emojis, List<string> Colors);
+[OutputCache(Duration = 3600)]
 public class GetEmojis : Feature<GetEmojisResponse>
 {
     public override Task<GetEmojisResponse> ExecuteAsync()
