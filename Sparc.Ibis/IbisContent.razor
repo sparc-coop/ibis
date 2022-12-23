@@ -2,17 +2,19 @@
 @using Microsoft.JSInterop;
 @implements IDisposable
 
-<article class="ibis-content @(Offset != null ? "playing" : "")" @onclick="Play">
-    @if (Message.Audio?.Url != null)
-    {
-        <div class="message-audio">
-            <PlayIcon />
-        </div>
-    }
-    @if (Offset != null)
+<article class="ibis-content @(AudioOffset != null ? "playing" : "")">
+    <aside class="ibis-widget">
+        <IbisLanguageSelector SelectedLanguage="LocalMessage.Language" OnLanguageSelected="ChangeMessageLanguage" />
+
+        @if (LocalMessage.Audio?.Url != null)
+        {
+            <PlayIcon @onclick="Play" />
+        }
+    </aside>
+    @if (AudioOffset != null)
     {
         <div class="message-subtitles">
-            @foreach (var word in Message.Audio!.Subtitles)
+            @foreach (var word in LocalMessage.Audio!.Subtitles)
             {
                 <span class="@(WordIsActive(word) ? "active" : "")">
                     @word.Text
@@ -20,9 +22,9 @@
             }
         </div>
     }
-    
+
     <div class="message-text">
-        @foreach (var paragraph in Message.Html)
+        @foreach (var paragraph in LocalMessage.Html)
         {
             <p>@paragraph</p>
         }
@@ -30,29 +32,48 @@
 </article>
 
 @inject IbisTranslator Ibis
+@inject IbisClient Api
 @code {
-    [Parameter] public Message Message { get; set; } = new();
-    long? Offset;
-    System.Timers.Timer? AudioTimer;
+        [Parameter] public Message? Message { get; set; }
+        [Parameter] public string? ChannelId { get; set; }
+        [Parameter] public string? Tag { get; set; }
+        Message LocalMessage = new();
 
-    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
+        long? AudioOffset;
+        System.Timers.Timer? AudioTimer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Message != null)
+            LocalMessage = Message;
+        else if (ChannelId != null && Tag != null)
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+    }
+
+    bool WordIsActive(Word word) => AudioOffset != null && word.Offset < AudioOffset && AudioOffset < (word.Offset + word.Duration);
+
+    async Task ChangeMessageLanguage(Language language)
+    {
+        if (Message != null && language.Id != Message.Language)
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag, Language = language.Id });
+    }
 
     async Task Play()
     {
-        if (Message.Audio?.Url != null)
+        if (Message?.Audio?.Url != null)
         {
-            Offset = 0;
+            AudioOffset = 0;
             AudioTimer = new(100);
             AudioTimer.Elapsed += (source, e) =>
             {
-                if (Offset > Message.Audio.Duration)
+                if (AudioOffset > Message.Audio.Duration)
                 {
                     AudioTimer.Stop();
-                    Offset = null;
+                    AudioOffset = null;
                 }
                 else
                 {
-                    Offset += 100;
+                    AudioOffset += 100;
                 }
                 InvokeAsync(StateHasChanged);
             };

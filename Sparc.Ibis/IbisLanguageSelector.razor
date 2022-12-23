@@ -1,0 +1,46 @@
+<div class="ibis-languages">
+    <button @onclick="GetLanguages">@SelectedLanguage</button>
+    @if (IsSelecting)
+    {
+        @*<select aria-labelledby="languageLabel">
+                @foreach (var language in Languages)
+                {
+                <option value="@language.Id" @(Message.Language == language.Id ? "selected" : "" )>
+                @language.Id
+                </option>
+                }
+           </select>*@
+        <ul aria-hidden="true">
+            @foreach (var language in Languages!)
+            {
+                <li @onclick="(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")">
+                    @language.Id
+                    <aside>@language.NativeName</aside>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@inject IbisClient Api
+@code {
+    [Parameter] public string SelectedLanguage { get; set; } = null!;
+    [Parameter] public EventCallback<Language> OnLanguageSelected { get; set; }
+    bool IsSelecting;
+    ICollection<Language>? Languages;
+
+    async Task GetLanguages()
+    {
+        if (Languages == null)
+            Languages = await Api.GetLanguagesAsync();
+
+        IsSelecting = true;
+    }
+
+    async Task SetLanguage(Language language)
+    {
+        SelectedLanguage = language.Id;
+        IsSelecting = false;
+        await OnLanguageSelected.InvokeAsync(language);
+    }
+}
