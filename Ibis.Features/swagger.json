@@ -643,7 +643,7 @@
         ]
       }
     },
-    "/api/GetLanguages": {
+    "/publicapi/GetLanguages": {
       "post": {
         "tags": [
           "GetLanguages"
@@ -678,16 +678,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetRoomAudio": {

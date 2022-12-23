@@ -25,6 +25,7 @@ var app = builder.BuildBlossom();
 app.MapHub<IbisHub>("/hub");
 app.UsePasswordlessAuthentication<User>();
 app.UseAllCultures();
+app.UseBlazorFrameworkFiles();
 
 // Warm up the entity framework model
 _ = app.Services.GetRequiredService<IbisContext>().Model;

@@ -836,7 +836,7 @@ namespace Sparc.Ibis
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Language>> GetLanguagesAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/GetLanguages");
+            urlBuilder_.Append("publicapi/GetLanguages");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
