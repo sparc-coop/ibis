@@ -12,11 +12,14 @@ public abstract class BlossomAggregate<T> where T : Root<string>
         Repository = repository;
         Http = http;
         Name = baseUrl?.Trim('/') ?? (typeof(T).Name + "s");
+        
+        GetAllAsync = () => new BlossomGetAllSpecification<T>(100);
     }
 
     public IRepository<T> Repository { get; }
     public ClaimsPrincipal User => Http?.HttpContext?.User ?? new ClaimsPrincipal(new ClaimsIdentity());
-    protected RouteGroupBuilder Endpoints = null!;
+    protected RouteGroupBuilder AggregateEndpoints = null!;
+    protected RouteGroupBuilder RootEndpoints = null!;
     protected string BaseUrl => $"/{Name.ToLower()}";
     IHttpContextAccessor Http { get; }
     public string Name { get; set; }
@@ -28,105 +31,98 @@ public abstract class BlossomAggregate<T> where T : Root<string>
 
     protected void MapBaseEndpoints(IEndpointRouteBuilder endpoints)
     {
-        Endpoints = endpoints.MapGroup(BaseUrl)
+        AggregateEndpoints = endpoints.MapGroup(BaseUrl)
             .WithGroupName(Name)
             .WithOpenApi();
 
-        MapGet("", InternalGetAllAsync);
-        MapGet("/{id}", InternalGetAsync);
-        MapPost("", InternalCreateAsync);
-        MapPut("/{id}", InternalUpdateAsync);
-        MapDelete("/{id}", InternalDeleteAsync);
+        RootEndpoints = AggregateEndpoints.MapGroup("{id}");
+
+        AggregateEndpoints.MapGet("", DefaultGetAllAsync);
+        AggregateEndpoints.MapPost("", CreateAsync ?? DefaultCreateAsync);
+        RootEndpoints.MapGet("", DefaultGetAsync);
+        RootEndpoints.MapPut("", UpdateAsync ?? DefaultUpdateAsync);
+        RootEndpoints.MapDelete("", DeleteAsync ?? DefaultDeleteAsync);
 
         foreach (var method in typeof(T).GetMethods())
-            MapPost("/{id}/" + method.Name, CreateDelegate(method));
+            MapCommand(method.Name, method);
     }
 
-    protected async Task<Ok<List<T>>> InternalGetAllAsync()
+    protected async Task<Ok<List<T>>> DefaultGetAllAsync()
     {
         var results = await Repository.GetAllAsync(GetAllAsync());
         return TypedResults.Ok(results);
     }
 
-    protected async Task<Results<NotFound, Ok<T>>> InternalGetAsync(string id)
+    protected async Task<Results<NotFound, Ok<T>>> DefaultGetAsync(string id)
     {
-        var result = await GetAsync(id);
+        var result = await Repository.FindAsync(id);
         return result == null
             ? TypedResults.NotFound()
             : TypedResults.Ok(result);
     }
 
-    protected async Task<Created<T>> InternalCreateAsync(T entity)
+    protected async Task<Created<T>> DefaultCreateAsync(T entity)
     {
         await Repository.AddAsync(entity);
         return TypedResults.Created($"{BaseUrl}/{entity.Id}", entity);
     }
 
-    protected async Task<Results<NotFound, Ok<T>>> InternalUpdateAsync(string id, T entity)
+    protected async Task<Results<NotFound, Ok<T>>> DefaultUpdateAsync(string id, T entity)
     {
         entity.Id = id;
         await Repository.UpdateAsync(entity);
         return TypedResults.Ok(entity);
     }
 
-    protected async Task<Results<NotFound, NoContent>> InternalDeleteAsync(string id)
+    protected async Task<Results<NotFound, NoContent>> DefaultDeleteAsync(string id)
     {
         var result = await Repository.FindAsync(id);
         if (result == null)
             return TypedResults.NotFound();
 
-        await DeleteAsync(result);
+        if (DeleteAsync != null)
+            await DeleteAsync.InvokeAsync<T>(result);
+        else
+            await Repository.DeleteAsync(result);
+
         return TypedResults.NoContent();
     }
 
-    protected virtual async Task<T> CreateAsync(T entity)
-    {
-        await Repository.AddAsync(entity);
-        return entity;
-    }
+    protected Delegate? GetAsync;
+    protected Func<ISpecification<T>> GetAllAsync;
+    protected Delegate? CreateAsync;
+    protected Delegate? UpdateAsync;
+    protected Delegate? DeleteAsync;
 
-    protected virtual async Task<T?> GetAsync(object id) => await Repository.FindAsync(id);
-    protected abstract ISpecification<T> GetAllAsync();
-    
-    protected virtual async Task DeleteAsync(T result) => await Repository.DeleteAsync(result);
-
-    protected void MapGet(string path, Delegate action) => Endpoints.MapGet(path, action);
-    protected void MapPost(string path, Delegate action) => Endpoints.MapPost(path, action);
-    protected void MapPut(string path, Delegate action) => Endpoints.MapPut(path, action);
-    protected void MapDelete(string path, Delegate action) => Endpoints.MapDelete(path, action);
-    protected void MapPost(string path, Action<T> action)
+    protected void MapCommand(MethodInfo method)
     {
-        Endpoints.MapPost("/{id}/" + path, async (string id) =>
+        RootEndpoints.MapPost(method.Name, async (string id) =>
         {
-            var room = await GetAsync(id);
-            if (room == null)
+            var entity = await Repository.FindAsync(id);
+            if (entity == null)
                 return Results.NotFound();
 
-            await Repository.ExecuteAsync(room, action);
+            
+            await Repository.ExecuteAsync(entity, action);
             return Results.Ok();
         });
     }
 
     static Delegate CreateDelegate(MethodInfo method)
     {
-        if (method == null)
-        {
-            throw new ArgumentNullException("method");
-        }
-
-        if (!method.IsStatic)
-        {
-            throw new ArgumentException("The provided method must be static.", "method");
-        }
-
-        if (method.IsGenericMethod)
-        {
-            throw new ArgumentException("The provided method must not be generic.", "method");
-        }
-
         return method.CreateDelegate(Expression.GetDelegateType(
             (from parameter in method.GetParameters() select parameter.ParameterType)
             .Concat(new[] { method.ReturnType })
             .ToArray()));
+    }
+}
+
+public static class BlossomAggregateExtensions
+{
+    public static async Task<T> InvokeAsync<T>(this Delegate method, params object?[]? args) where T : class
+    {
+        var result = method.DynamicInvoke(args);
+        if (result is Task<T> task) return await task;
+        return result as T ?? throw new InvalidOperationException("Invalid return type");
     }
 }

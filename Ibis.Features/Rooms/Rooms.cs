@@ -1,6 +1,4 @@
-﻿using Ardalis.Specification;
-
-namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Features.Rooms;
 
 public partial class Rooms : BlossomAggregate<Room>
 {
@@ -9,22 +7,46 @@ public partial class Rooms : BlossomAggregate<Room>
     public Rooms(IRepository<Room> rooms, IRepository<Message> messages, IHttpContextAccessor http) : base(rooms, http)
     {
         Messages = messages;
+
+        GetAllAsync = () => new GetRooms(User);
+        CreateAsync = CreateRoomAsync;
+        DeleteAsync = async (string id) => await Repository.ExecuteAsync(id, room => room.Close());
+        UpdateAsync = UpdateRoomAsync;
     }
 
-    protected override void OnModelCreating(IEndpointRouteBuilder endpoints)
+    async Task<Room?> JoinRoomAsync(string id, IRepository<User> Users)
     {
-        base.OnModelCreating(endpoints);
+        var room = await Repository.FindAsync(id);
+        var user = await Users.GetAsync(User);
+        if (room == null || user == null)
+            return null;
 
-        MapPost("", CreateRoomAsync);
-        MapGet("/{id}/Text", GetTextAsync);
+        await Repository.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
 
+        return room;
     }
 
-    protected override ISpecification<Room> GetAllAsync() => new GetRooms(User);
-
-    protected override Task DeleteAsync(Room result)
+    public async Task<bool> LeaveRoomAsync(string id, IRepository<User> Users)
     {
-        result.Close();
-        return Task.CompletedTask;
+        var room = await Repository.FindAsync(id);
+        var user = await Users.GetAsync(User);
+        if (room == null || user == null)
+            throw new NotFoundException($"Room {id} not found!");
+
+        await Users.ExecuteAsync(User.Id(), user => user.LeaveRoom(id));
+        await Repository.ExecuteAsync(id, room => room.RemoveActiveUser(user));
+
+        return true;
+    }
+
+    async Task<bool> UpdateRoomAsync(string roomId, string title)
+    {
+        var room = await Repository.FindAsync(roomId);
+        if (room == null)
+            return false;
+
+        room.SetName(title);
+        await Repository.UpdateAsync(room);
+        return true;
     }
 }

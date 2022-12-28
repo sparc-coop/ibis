@@ -1,4 +1,5 @@
 ﻿using Sparc.Blossom.Authentication;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace Ibis.Features.Users;
@@ -141,6 +142,15 @@ public class User : BlossomUser
         AddClaim(ClaimTypes.NameIdentifier, Id);
         AddClaim("sub", AzureB2CId);
         AddClaim("Language", Avatar.Language);
+    }
+
+    public static async ValueTask<User?> BindAsync(HttpContext context)
+    {
+        var userId = context.User?.Id();
+        if (userId != null)
+            return await context.RequestServices.GetRequiredService<IRepository<User>>().FindAsync(userId);
+
+        return null;
     }
 }
 
