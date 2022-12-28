@@ -17,6 +17,8 @@ builder.Services
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>();
 
+builder.Services.RegisterAggregates();
+
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
 
@@ -25,9 +27,10 @@ var app = builder.BuildBlossom();
 app.MapHub<IbisHub>("/hub");
 app.UsePasswordlessAuthentication<User>();
 app.UseAllCultures();
+app.MapAggregates();
 
 // Warm up the entity framework model
-_ = app.Services.GetRequiredService<IbisContext>().Model;
+//_ = app.Services.GetRequiredService<IbisContext>().Model;
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 

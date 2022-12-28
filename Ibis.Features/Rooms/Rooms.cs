@@ -14,6 +14,14 @@ public partial class Rooms : BlossomAggregate<Room>
         UpdateAsync = UpdateRoomAsync;
     }
 
+    public override void MapEndpoints(IEndpointRouteBuilder endpoints)
+    {
+        base.MapEndpoints(endpoints);
+
+        RootEndpoints.MapPost("Join", JoinRoomAsync);
+        RootEndpoints.MapPost("Leave", LeaveRoomAsync);
+    }
+
     async Task<Room?> JoinRoomAsync(string id, IRepository<User> Users)
     {
         var room = await Repository.FindAsync(id);
@@ -39,9 +47,9 @@ public partial class Rooms : BlossomAggregate<Room>
         return true;
     }
 
-    async Task<bool> UpdateRoomAsync(string roomId, string title)
+    async Task<bool> UpdateRoomAsync(string id, string title)
     {
-        var room = await Repository.FindAsync(roomId);
+        var room = await Repository.FindAsync(id);
         if (room == null)
             return false;
 

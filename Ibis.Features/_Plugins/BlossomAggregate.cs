@@ -1,18 +1,19 @@
 ﻿using Ardalis.Specification;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Security.Claims;
 
 namespace Sparc.Blossom;
 
-public abstract class BlossomAggregate<T> where T : Root<string>
+public interface IBlossomAggregate
 {
-    public BlossomAggregate(IRepository<T> repository, IHttpContextAccessor http, string? baseUrl = null)
+    public void MapEndpoints(IEndpointRouteBuilder endpoints);
+}
+
+public abstract class BlossomAggregate<T> : IBlossomAggregate where T : Root<string>
+{
+    public BlossomAggregate(IRepository<T> repository, IHttpContextAccessor http)
     {
         Repository = repository;
         Http = http;
-        Name = baseUrl?.Trim('/') ?? (typeof(T).Name + "s");
-        
         GetAllAsync = () => new BlossomGetAllSpecification<T>(100);
     }
 
@@ -22,9 +23,9 @@ public abstract class BlossomAggregate<T> where T : Root<string>
     protected RouteGroupBuilder RootEndpoints = null!;
     protected string BaseUrl => $"/{Name.ToLower()}";
     IHttpContextAccessor Http { get; }
-    public string Name { get; set; }
+    public virtual string Name => typeof(T).Name + "s";
 
-    protected virtual void OnModelCreating(IEndpointRouteBuilder endpoints)
+    public virtual void MapEndpoints(IEndpointRouteBuilder endpoints)
     {
         MapBaseEndpoints(endpoints);
     }
@@ -42,9 +43,6 @@ public abstract class BlossomAggregate<T> where T : Root<string>
         RootEndpoints.MapGet("", DefaultGetAsync);
         RootEndpoints.MapPut("", UpdateAsync ?? DefaultUpdateAsync);
         RootEndpoints.MapDelete("", DeleteAsync ?? DefaultDeleteAsync);
-
-        foreach (var method in typeof(T).GetMethods())
-            MapCommand(method.Name, method);
     }
 
     protected async Task<Ok<List<T>>> DefaultGetAllAsync()
@@ -93,28 +91,6 @@ public abstract class BlossomAggregate<T> where T : Root<string>
     protected Delegate? CreateAsync;
     protected Delegate? UpdateAsync;
     protected Delegate? DeleteAsync;
-
-    protected void MapCommand(MethodInfo method)
-    {
-        RootEndpoints.MapPost(method.Name, async (string id, HttpContext ) =>
-        {
-            var entity = await Repository.FindAsync(id);
-            if (entity == null)
-                return Results.NotFound();
-
-            method.Invoke(entity, );
-            await Repository.ExecuteAsync(entity, action);
-            return Results.Ok();
-        });
-    }
-
-    static Delegate CreateDelegate(MethodInfo method)
-    {
-        return method.CreateDelegate(Expression.GetDelegateType(
-            (from parameter in method.GetParameters() select parameter.ParameterType)
-            .Concat(new[] { method.ReturnType })
-            .ToArray()));
-    }
 }
 
 public static class BlossomAggregateExtensions
@@ -124,5 +100,33 @@ public static class BlossomAggregateExtensions
         var result = method.DynamicInvoke(args);
         if (result is Task<T> task) return await task;
         return result as T ?? throw new InvalidOperationException("Invalid return type");
+    }
+
+    public static IServiceCollection RegisterAggregates(this IServiceCollection services)
+    {
+        var modules = DiscoverAggregates();
+        foreach (var module in modules)
+            services.AddScoped(module);
+
+        return services;
+    }
+
+    private static IEnumerable<Type> DiscoverAggregates()
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var aggregates = assemblies.Distinct().SelectMany(x => x.GetTypes())
+            .Where(x => typeof(IBlossomAggregate).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+
+        return aggregates;
+    }
+
+    public static void MapAggregates(this WebApplication app)
+    {
+        var aggregates = DiscoverAggregates();
+        foreach (var aggregate in aggregates)
+        {
+            var instance = app.Services.GetRequiredService(aggregate) as IBlossomAggregate;
+            instance?.MapEndpoints(app);
+        }
     }
 }
