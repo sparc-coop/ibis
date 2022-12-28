@@ -13,13 +13,13 @@ public class Room : Root<string>
     public string RoomType { get; private set; }
     public string Name { get; private set; }
     public string Slug { get; private set; }
-    public string HostUserId { get; private set; }
+    internal string HostUserId { get; private set; }
     public List<InvitedUser> Users { get; private set; }
-    public SourceMessage? SourceMessage { get; private set; }
-    public List<Language> Languages { get; private set; }
+    internal SourceMessage? SourceMessage { get; private set; }
+    internal List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? LastActiveDate { get; private set; }
-    public DateTime? EndDate { get; private set; }
+    internal DateTime? EndDate { get; private set; }
     public AudioMessage? Audio { get; private set; }
 
     private Room() 
