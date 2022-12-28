@@ -21,14 +21,14 @@ public class ChargeUserAccount : RealtimeFeature<CostIncurred>
     public override async Task ExecuteAsync(CostIncurred notification)
     {
         var room = await Rooms.FindAsync(notification.Message.RoomId);
-        var user = await Users.FindAsync(room!.HostUser.Id);
+        var user = await Users.FindAsync(room!.HostUserId);
         if (room == null || user == null)
             return;
 
         var amountInUsersCurrency = await ExchangeRates.ConvertAsync(notification.Amount, "USD", user.BillingInfo!.Currency);
         UserCharge userCharge = new(room, notification, user, amountInUsersCurrency);
 
-        await Users.ExecuteAsync(room.HostUser.Id, x => x.AddCharge(userCharge));
+        await Users.ExecuteAsync(room.HostUserId, x => x.AddCharge(userCharge));
         await Charges.AddAsync(userCharge);
     }
 }

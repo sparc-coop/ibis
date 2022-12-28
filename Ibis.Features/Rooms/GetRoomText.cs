@@ -2,21 +2,12 @@
 
 namespace Ibis.Features.Rooms;
 
-public record GetRoomTextRequest(string RoomId, string Format);
-public record GetRoomTextResponse(string Text);
-public class GetRoomText : Feature<GetRoomTextRequest, GetRoomTextResponse>
+public partial class Rooms 
 {
-    public GetRoomText(IRepository<Message> messages)
-    {
-        Messages = messages;
-    }
-
-    public IRepository<Message> Messages { get; }
-
-    public override async Task<GetRoomTextResponse> ExecuteAsync(GetRoomTextRequest request)
+    public async Task<string> GetTextAsync(string id, string format)
     {
         var messages = await Messages.Query
-            .Where(x => x.RoomId == request.RoomId && x.SourceMessageId == null && x.Text != null)
+            .Where(x => x.RoomId == id && x.SourceMessageId == null && x.Text != null)
             .OrderBy(x => x.Timestamp)
             .ToListAsync();
 
@@ -24,27 +15,27 @@ public class GetRoomText : Feature<GetRoomTextRequest, GetRoomTextResponse>
         var num = 1;
         foreach (var message in messages)
         {
-            if (request.Format.ToUpper() == "TXT")
+            switch (format.ToUpper())
             {
-                builder.AppendLine(message.Timestamp.ToString("MM/dd/yyyy hh:mm tt") +
-                    $": {message.Text}");
-            }
-            else if (request.Format.ToUpper() == "BRF")
-            {
-                builder.AppendLine(ToBrailleAscii(message.Text!));
-            }
-            else if (request.Format.ToUpper() == "SRT" && message.Audio != null)
-            {
-                builder.AppendLine(num++.ToString());
-                builder.AppendLine(
-                      message.Timestamp.ToString("hh:mm:ss,ms") + " --> "
-                    + message.Timestamp.AddTicks(message.Audio!.Duration).ToString("hh:mm:ss,ms"));
-                builder.AppendLine(message.Text);
-                builder.Append(Environment.NewLine);
+                case "TXT":
+                    builder.AppendLine(message.Timestamp.ToString("MM/dd/yyyy hh:mm tt") +
+                                    $": {message.Text}");
+                    break;
+                case "BRF":
+                    builder.AppendLine(ToBrailleAscii(message.Text!));
+                    break;
+                case "SRT" when message.Audio != null:
+                    builder.AppendLine(num++.ToString());
+                    builder.AppendLine(
+                          message.Timestamp.ToString("hh:mm:ss,ms") + " --> "
+                        + message.Timestamp.AddTicks(message.Audio!.Duration).ToString("hh:mm:ss,ms"));
+                    builder.AppendLine(message.Text);
+                    builder.Append(Environment.NewLine);
+                    break;
             }
         }
 
-        return new(builder.ToString());
+        return builder.ToString();
     }
 
     protected string ToBrailleAscii(string txt) => BrailleAscii.Aggregate(txt, (result, s) => result.Replace(s.Key, s.Value));

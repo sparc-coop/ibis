@@ -1,49 +1,23 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using System.Security.Claims;
 
-public record NewRoomRequest(string RoomName, string RoomType, List<string> Emails);
-public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>
+namespace Ibis.Features.Rooms;
+
+public partial class Rooms
 {
-    public CreateRoom(IRepository<Room> rooms, IRepository<User> users)
+    public async Task<GetRoomResponse> CreateRoomAsync(string roomName, string roomType, List<string> emails, ClaimsPrincipal user, InviteUser inviteUser)
     {
-        Rooms = rooms;
-        Users = users;
-    }
+        Room room = new(roomName, roomType, user.Id());
 
-    public IRepository<Room> Rooms { get; }
-    public IRepository<User> Users { get; }
-
-    public override async Task<GetRoomResponse> ExecuteAsync(NewRoomRequest request)
-    {
-        var host = await Users.GetAsync(User);
-        if (host == null)
-            throw new NotAuthorizedException("User not found!");
-
-        return await ExecuteAsUserAsync(request, host);
-    }
-
-    internal async Task<GetRoomResponse> ExecuteAsUserAsync(NewRoomRequest request, User host)
-    {
-        var room = new Room(request.RoomName, request.RoomType, host);
-
-        var existingRoom = Rooms.Query.FirstOrDefault(x => x.HostUser.Id == host.Id && x.Slug == room.Slug);
+        var existingRoom = Repository.Query.FirstOrDefault(x => x.HostUserId == room.HostUserId && x.Slug == room.Slug);
         if (existingRoom != null)
             throw new ForbiddenException($"A room already exists in your account with the name '{room.Slug}'. Please choose a different name.");
 
+        await Repository.AddAsync(room);
+        
         //find current users
-        foreach (string email in request.Emails)
-        {
-            var user = Users.Query.FirstOrDefault(u => u.Email == email);
-            if (user == null)
-            {
-                room.InviteUser(new UserAvatar(email, email));
-            }
-            else
-            {
-                room.InviteUser(user.Avatar);
-            }
-        }
+        foreach (string email in emails)
+            await inviteUser.ExecuteAsync(new(email, room.Id));
 
-        await Rooms.AddAsync(room);
         return new(room);
     }
 }

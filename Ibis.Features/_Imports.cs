@@ -7,3 +7,5 @@ global using Ibis.Features.Rooms;
 global using Ibis.Features.Messages;
 global using Ibis.Features.Users;
 global using Ibis.Features._Plugins;
+
+global using Microsoft.AspNetCore.Http.HttpResults;

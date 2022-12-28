@@ -6,15 +6,15 @@ namespace Ibis.Features.Rooms;
 public record SourceMessage(string RoomId, string MessageId);
 public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
 public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
-
+public record InvitedUser(string Id, DateTime InvitedDate, DateTime? JoinDate = null);
 public class Room : Root<string>
 {
     public string RoomId { get; private set; }
     public string RoomType { get; private set; }
     public string Name { get; private set; }
     public string Slug { get; private set; }
-    public UserAvatar HostUser { get; private set; }
-    public List<UserAvatar> Users { get; private set; }
+    public string HostUserId { get; private set; }
+    public List<InvitedUser> Users { get; private set; }
     public SourceMessage? SourceMessage { get; private set; }
     public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
@@ -30,21 +30,21 @@ public class Room : Root<string>
         Name = "";
         Slug = "";
         SetName("New Room");
-        HostUser = new User().Avatar;
+        HostUserId = string.Empty;
         Languages = new();
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
         Users = new();
     }
 
-    public Room(string name, string type, User hostUser) : this()
+    public Room(string name, string type, string hostUserId) : this()
     {
         SetName(name);
         RoomType = type;
-        HostUser = hostUser.Avatar;
+        HostUserId = hostUserId;
     }
 
-    public Room(Room room, Message message) : this()
+    internal Room(Room room, Message message) : this()
     {
         // Create a subroom from a message
 
@@ -56,7 +56,7 @@ public class Room : Root<string>
         //Translations = room.Translations;
     }
 
-    public void AddLanguage(Language language)
+    internal void AddLanguage(Language language)
     {
         if (Languages.Any(x => x.Id == language.Id))
             return;
@@ -70,27 +70,32 @@ public class Room : Root<string>
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser == null)
         {
-            activeUser = user.Avatar;
+            Users.Add(new(user.Id, DateTime.UtcNow, DateTime.UtcNow));
+        }
+        else
+        {
+            Users.Remove(activeUser);
+            activeUser = activeUser with { JoinDate = DateTime.UtcNow };
             Users.Add(activeUser);
         }
 
         if (user.PrimaryLanguage != null)
             AddLanguage(user.PrimaryLanguage);
         
-        Broadcast(new UserJoined(Id, activeUser));
+        Broadcast(new UserJoined(Id, user.Avatar));
     }
 
     public void RemoveActiveUser(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser != null)
-            Broadcast(new UserLeft(Id, activeUser));
+            Broadcast(new UserLeft(Id, user.Avatar));
     }
 
     internal void InviteUser(UserAvatar user)
     {
         if (!Users.Any(x => x.Id == user.Id))
-            Users.Add(user);
+            Users.Add(new(user.Id, DateTime.UtcNow));
     }
 
     internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)

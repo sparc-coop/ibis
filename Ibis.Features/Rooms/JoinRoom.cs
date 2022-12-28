@@ -1,51 +1,16 @@
 ﻿namespace Ibis.Features.Rooms;
 
-public record JoinRoomRequest(string RoomId);
-public record GetRoomResponse
+public partial class Rooms
 {
-    public string RoomId { get; set; }
-    public string RoomType { get; set; }
-    public string Slug { get; set; }
-    public DateTime? LastActiveDate { get; set; }
-    public DateTime StartDate { get; private set; }
-    public string Name { get; private set; }
-    public List<UserAvatar>? Users { get; set; }
-
-    public GetRoomResponse(Room room)
+    public async Task<Room?> JoinAsync(string id, IRepository<User> Users)
     {
-        RoomId = room.Id;
-        RoomType = room.RoomType;
-        LastActiveDate = room.LastActiveDate;
-        StartDate = room.StartDate;
-        Name = room.Name;
-        Slug = room.Slug;
-        Users = room.Users;
-    }
-}
-
-public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
-{
-    public JoinRoom(IRepository<Room> rooms, IRepository<User> users, IRepository<Message> messages)
-    {
-        Rooms = rooms;
-        Users = users;
-        Messages = messages;
-    }
-
-    public IRepository<Room> Rooms { get; }
-    public IRepository<User> Users { get; }
-    public IRepository<Message> Messages { get; }
-
-    public async override Task<GetRoomResponse> ExecuteAsync(JoinRoomRequest request)
-    {
-        var room = await Rooms.FindAsync(request.RoomId);
+        var room = await GetAsync(id);
         var user = await Users.GetAsync(User);
         if (room == null || user == null)
-            throw new NotFoundException($"Room {request.RoomId} not found!");
+            return null;
 
-        await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(room.Id));
-        await Rooms.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
+        await Repository.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
         
-        return new(room);
+        return room;
     }
 }

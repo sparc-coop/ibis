@@ -99,7 +99,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         {
             if (user != null)
             {
-                room = new Room(slug, "Content", user);
+                room = new Room(slug, "Content", user.Id);
                 await Rooms.AddAsync(room);
             }
             else

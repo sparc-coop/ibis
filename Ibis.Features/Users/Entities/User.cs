@@ -138,6 +138,7 @@ public class User : BlossomUser
     {
         AddClaim(ClaimTypes.Email, Email);
         AddClaim(ClaimTypes.GivenName, Avatar.Name);
+        AddClaim(ClaimTypes.NameIdentifier, Id);
         AddClaim("sub", AzureB2CId);
         AddClaim("Language", Avatar.Language);
     }
