@@ -96,13 +96,13 @@ public abstract class BlossomAggregate<T> where T : Root<string>
 
     protected void MapCommand(MethodInfo method)
     {
-        RootEndpoints.MapPost(method.Name, async (string id) =>
+        RootEndpoints.MapPost(method.Name, async (string id, HttpContext ) =>
         {
             var entity = await Repository.FindAsync(id);
             if (entity == null)
                 return Results.NotFound();
 
-            
+            method.Invoke(entity, );
             await Repository.ExecuteAsync(entity, action);
             return Results.Ok();
         });
