@@ -22,5 +22,9 @@ public partial class Rooms : BlossomAggregate<Room>
 
     protected override ISpecification<Room> GetAllAsync() => new GetRooms(User);
 
-    protected override async Task DeleteAsync(Room result) => result.Close();
+    protected override Task DeleteAsync(Room result)
+    {
+        result.Close();
+        return Task.CompletedTask;
+    }
 }

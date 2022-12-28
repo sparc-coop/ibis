@@ -12,13 +12,13 @@ public class IbisContext : BlossomContext
     {
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Conventions.Add(_ => new BlossomPropertyDiscoveryConvention());
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        var internalProps = from e in builder.Model.GetEntityTypes()
-                            from p in e.GetProperties()
-                            where p.PropertyInfo.GetGetMethod(true)?.IsAssembly == true
-                            select p;
-
         builder.Entity<User>().ToContainer("Users").HasPartitionKey(x => x.UserId);
         builder.Entity<Room>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
         builder.Entity<Message>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId).HasQueryFilter(x => x.DeletedDate == null);
