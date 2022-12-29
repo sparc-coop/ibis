@@ -6,7 +6,9 @@ namespace Sparc.Ibis;
 
 public class IbisTranslator : IAsyncDisposable
 {
-    internal string Language { get; set; }
+    string? _language;
+    internal string Language => _language ?? CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
     internal List<Message> Content { get; set; }
     private readonly Lazy<Task<IJSObjectReference>> IbisJs;
 
@@ -17,13 +19,11 @@ public class IbisTranslator : IAsyncDisposable
         IbisClient = client;
         Content = new();
         IbisJs = new(() => js.InvokeAsync<IJSObjectReference>("import", "./_content/Sparc.Ibis/IbisTranslate.razor.js").AsTask());
-        Language = "";
     }
 
     public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<Message>? restoredIbisContent = null)
     {
-        language ??= CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-        Language = language;
+        _language = language;
 
         if (restoredIbisContent?.Any() == true)
             Content = restoredIbisContent;
