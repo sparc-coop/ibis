@@ -11,6 +11,8 @@
     .ibis-widget {
         top: 0;
         right: 10px;
+        opacity: 0.1;
+        transition: opacity 0.2s ease-in-out;
 
         button, .ibis-audio {
             background: transparent;
@@ -19,6 +21,10 @@
         figure {
             display: none;
         }
+    }
+
+    &:hover .ibis-widget {
+        opacity: 1;
     }
 
     > p, span {
@@ -82,7 +88,10 @@
         gap: 4px;
         font-size: 12px;
         z-index: 100;
-        display: none;
+        display: flex;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        transition-delay: 0s;
 
         li {
             padding: 4px 10px;
@@ -98,6 +107,8 @@
 
     &:hover .actions {
         display: flex;
+        opacity: 1;
+        transition-delay: 1s;
     }
 }
 
