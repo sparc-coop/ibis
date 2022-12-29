@@ -20,7 +20,7 @@ public class IbisContext : BlossomContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<User>().ToContainer("Users").HasPartitionKey(x => x.UserId);
-        builder.Entity<Room>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId);
+        builder.Entity<Room>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId).HasQueryFilter(x => x.UserIds.Contains(User!.Id()));
         builder.Entity<Message>().ToContainer("Rooms").HasPartitionKey(x => x.RoomId).HasQueryFilter(x => x.DeletedDate == null);
         builder.Entity<UserCharge>().ToContainer("Users").HasPartitionKey(x => x.UserId);
     }

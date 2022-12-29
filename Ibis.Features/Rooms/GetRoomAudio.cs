@@ -1,18 +1,13 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Ibis.Features.Messages.Queries;
+
+namespace Ibis.Features.Rooms;
 
 public partial class Rooms
 {
-    public async Task<AudioMessage?> GetAudioAsync(string roomId, string language, ISpeaker speaker)
+    public async Task<AudioMessage?> GetAudioAsync(Room room, string language, ISpeaker speaker)
     {
-        var room = await Repository.FindAsync(roomId);
-
-        var roomMessages = await Messages.Query
-            .Where(x => x.RoomId == roomId && x.Language == language && x.Audio != null)
-            .OrderBy(x => x.Timestamp)
-            .ToListAsync();
-
+        var roomMessages = await Messages.GetAllAsync(new MessagesForRoom(room.Id, language, true));
         await room!.SpeakAsync(speaker, roomMessages);
-
         return room.Audio;
     }
 }

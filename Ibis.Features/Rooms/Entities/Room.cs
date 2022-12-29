@@ -15,6 +15,7 @@ public class Room : Root<string>
     public string Slug { get; private set; }
     internal string HostUserId { get; private set; }
     public List<InvitedUser> Users { get; private set; }
+    internal IList<string> UserIds => Users.Select(x => x.Id).Union(new List<string> { HostUserId }).ToList();
     internal SourceMessage? SourceMessage { get; private set; }
     internal List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
