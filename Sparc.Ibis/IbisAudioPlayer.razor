@@ -1,20 +1,23 @@
 @implements IDisposable
 
-<div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play">
-    <PlayIcon />
+@if (Message != null)
+{
+    <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="  Play">
+        <PlayIcon />
 
-    @if (MessagePlaying != null)
-    {
-        <div class="message-subtitles">
-            @foreach (var word in MessagePlaying!.Audio!.Subtitles)
-            {
-                <span class="@(WordIsActive(word) ? "active" : "")">
-                    @word.Text
-                </span>
-            }
-        </div>
-    }
-</div>
+        @if (MessagePlaying != null)
+        {
+            <div class="message-subtitles">
+                @foreach (var word in MessagePlaying!.Audio!.Subtitles)
+                {
+                    <span class="@(WordIsActive(word) ? "active" : "")">
+                        @word.Text
+                    </span>
+                }
+            </div>
+        }
+    </div>
+}
 
 @code {
     [Parameter] public Message? Message { get; set; }
