@@ -15,10 +15,7 @@
     @if (ChildContent == null)
     {
         <div class="message-text">
-            @foreach (var paragraph in LocalMessage.Html)
-            {
-                <p>@paragraph</p>
-            }
+            @((MarkupString)LocalMessage.Html)
         </div>
     }
     else

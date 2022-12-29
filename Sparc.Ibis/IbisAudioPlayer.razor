@@ -3,10 +3,10 @@
 <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play">
     <PlayIcon />
 
-    @if (AudioOffset != null)
+    @if (MessagePlaying != null)
     {
         <div class="message-subtitles">
-            @foreach (var word in Message!.Audio!.Subtitles)
+            @foreach (var word in MessagePlaying!.Audio!.Subtitles)
             {
                 <span class="@(WordIsActive(word) ? "active" : "")">
                     @word.Text
@@ -18,32 +18,57 @@
 
 @code {
     [Parameter] public Message? Message { get; set; }
+    [Parameter] public IList<Message>? Messages { get; set; }
+    Message? MessagePlaying;
 
     long? AudioOffset;
     System.Timers.Timer? AudioTimer;
 
+    protected override void OnParametersSet()
+    {
+        if (Message != null)
+            Messages = new List<Message> { Message };
+    }
+
     async Task Play()
     {
-        if (Message?.Audio?.Url != null)
+        if (Messages?.Any() != true)
+            return;
+
+        foreach (var message in Messages)
         {
-            AudioOffset = 0;
-            AudioTimer = new(100);
-            AudioTimer.Elapsed += (source, e) =>
-            {
-                if (AudioOffset > Message.Audio.Duration)
-                {
-                    AudioTimer.Stop();
-                    AudioOffset = null;
-                }
-                else
-                {
-                    AudioOffset += 100;
-                }
-                InvokeAsync(StateHasChanged);
-            };
-            AudioTimer.Start();
-            await Ibis.PlayAsync(Message);
+            if (message.Audio?.Url == null)
+                message.Audio = await Api.GetMessageAudioAsync(new GetMessageAudioRequest { MessageId = message.Id });
+            
+            await Ibis.PlayAsync(message);
+            StartSubtitles(message);
         }
+    }
+
+    void StartSubtitles(Message message)
+    {
+        if (message?.Audio?.Url == null)
+            return;
+
+        MessagePlaying = message;
+        StateHasChanged();
+
+        AudioOffset = 0;
+        AudioTimer = new(100);
+        AudioTimer.Elapsed += (source, e) =>
+        {
+            if (AudioOffset > message.Audio.Duration)
+            {
+                AudioTimer.Stop();
+                AudioOffset = null;
+            }
+            else
+            {
+                AudioOffset += 100;
+            }
+            InvokeAsync(StateHasChanged);
+        };
+        AudioTimer.Start();
     }
 
     bool WordIsActive(Word word) => AudioOffset != null && word.Offset < AudioOffset && AudioOffset < (word.Offset + word.Duration);

@@ -28,12 +28,12 @@ public class AzureSpeaker : ISpeaker
         Files = files;
     }
 
-    public async Task<AudioMessage?> SpeakAsync(Message message)
+    public async Task<AudioMessage?> SpeakAsync(Message message, string? voiceId = null)
     {
-        if (message.Audio?.Voice == null)
+        if (voiceId == null && message.Audio?.Voice == null)
             return null;
 
-        var synthesizer = Synthesizer(message.Audio.Voice);
+        var synthesizer = Synthesizer(voiceId ?? message.Audio!.Voice);
         var words = new List<Word>();
         synthesizer.WordBoundary += (sender, e) =>
         {

@@ -72,14 +72,20 @@ public class Message : Root<string>
         Broadcast(new MessageTextChanged(this));
     }
 
-    internal async Task SpeakAsync(ISpeaker engine)
+    internal async Task<AudioMessage?> SpeakAsync(ISpeaker engine, string? voiceId = null)
     {
-        if (Audio?.Voice == null)
-            return;
+        if (voiceId == null && Audio?.Voice == null)
+            return null;
 
-        Audio = await engine.SpeakAsync(this);
-        if (Audio != null)
+        var audio = await engine.SpeakAsync(this, voiceId);
+
+        if (Audio == null)
+        {
+            Audio = audio;
             Broadcast(new MessageAudioChanged(this));
+        }
+
+        return audio;
     }
 
     internal bool HasTranslation(string languageId)
