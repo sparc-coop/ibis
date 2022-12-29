@@ -2,45 +2,48 @@
 @using Microsoft.JSInterop;
 @implements IDisposable
 
-<article class="ibis-content @(AudioOffset != null ? "playing" : "")">
+<article lang="@_language" class="ibis-content @ChannelId">
     <aside class="ibis-widget">
-        <IbisLanguageSelector SelectedLanguage="LocalMessage.Language" OnLanguageSelected="ChangeMessageLanguage" />
-
-        @if (LocalMessage.Audio?.Url != null)
-        {
-            <PlayIcon @onclick="Play" />
-        }
+        <IbisLanguageSelector SelectedLanguage="@_language" OnLanguageSelected="ChangeMessageLanguage" />
+        <IbisAudioPlayer Message="LocalMessage" />
+        <figure>
+            <img src="https://ibis.chat/images/logo_icon.png" />
+            <figcaption>Ibis</figcaption>
+        </figure>
     </aside>
-    @if (AudioOffset != null)
+
+    @if (ChildContent == null)
     {
-        <div class="message-subtitles">
-            @foreach (var word in LocalMessage.Audio!.Subtitles)
+        <div class="message-text">
+            @foreach (var paragraph in LocalMessage.Html)
             {
-                <span class="@(WordIsActive(word) ? "active" : "")">
-                    @word.Text
-                </span>
+                <p>@paragraph</p>
             }
         </div>
     }
-
-    <div class="message-text">
-        @foreach (var paragraph in LocalMessage.Html)
-        {
-            <p>@paragraph</p>
-        }
-    </div>
+    else
+    {
+        <section id="@_id" class="ibis-translate">
+            @ChildContent
+        </section>
+    }
 </article>
 
-@inject IbisTranslator Ibis
-@inject IbisClient Api
-@code {
-        [Parameter] public Message? Message { get; set; }
-        [Parameter] public string? ChannelId { get; set; }
-        [Parameter] public string? Tag { get; set; }
-        Message LocalMessage = new();
 
-        long? AudioOffset;
-        System.Timers.Timer? AudioTimer;
+@inject PersistentComponentState PersistedState
+
+@code {
+    [Parameter] public Message? Message { get; set; }
+    [Parameter] public string? ChannelId { get; set; }
+    [Parameter] public string? Tag { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    Message LocalMessage = new();
+
+    string? _language;
+    string _id = $"ibis-{Guid.NewGuid()}";
+
+    PersistingComponentStateSubscription PersistedStateSubscription;
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,40 +53,65 @@
             LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
     }
 
-    bool WordIsActive(Word word) => AudioOffset != null && word.Offset < AudioOffset && AudioOffset < (word.Offset + word.Duration);
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
+        await InitFromClientAsync(_language);
+    }
+
+    async Task InitFromClientAsync(string? language, bool forceLoad = false)
+    {
+        if (ChildContent == null || ChannelId == null)
+            return;
+
+        if (!forceLoad && PersistedState.TryTakeFromJson<List<Message>>(ChannelId, out var restoredIbisContent))
+        {
+            _language = await Ibis.InitAsync(ChannelId, language, restoredIbisContent);
+        }
+        else
+        {
+            _language = await Ibis.InitAsync(ChannelId, language);
+        }
+
+        await Ibis.InitClientAsync(this, _id);
+        StateHasChanged();
+    }
 
     async Task ChangeMessageLanguage(Language language)
     {
-        if (Message != null && language.Id != Message.Language)
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag, Language = language.Id });
+        if (ChildContent != null && language.Id != _language)
+        {
+            await InitFromClientAsync(language.Id, true);
+        }
+        else if (LocalMessage.Id != null && language.Id != LocalMessage.Language)
+        {
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = LocalMessage.RoomId, Tag = LocalMessage.Id, Language = language.Id });
+        }
     }
 
-    async Task Play()
+    
+
+    [JSInvokable]
+    public async Task<List<string>> TranslateAsync(List<string> text)
     {
-        if (Message?.Audio?.Url != null)
-        {
-            AudioOffset = 0;
-            AudioTimer = new(100);
-            AudioTimer.Elapsed += (source, e) =>
-            {
-                if (AudioOffset > Message.Audio.Duration)
-                {
-                    AudioTimer.Stop();
-                    AudioOffset = null;
-                }
-                else
-                {
-                    AudioOffset += 100;
-                }
-                InvokeAsync(StateHasChanged);
-            };
-            AudioTimer.Start();
-            await Ibis.PlayAsync(Message);
-        }
+        return await Ibis.TranslateAsync(text, ChannelId!);
+    }
+
+    Task PersistData()
+    {
+        if (ChannelId != null)
+            PersistedState.PersistAsJson(ChannelId, Ibis.Content);
+        
+        return Task.CompletedTask;
     }
 
     public void Dispose()
     {
-        AudioTimer?.Dispose();
+        PersistedStateSubscription.Dispose();
     }
 }

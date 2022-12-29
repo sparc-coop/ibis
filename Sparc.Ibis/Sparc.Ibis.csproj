@@ -19,10 +19,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="IbisTranslate.razor.js" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 

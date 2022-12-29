@@ -1,6 +1,7 @@
 using Ibis.Features;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
+using Sparc.Ibis;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -19,6 +20,8 @@ builder.Services
 
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 builder.AddPasswordlessAuthentication<User>(auth);
+
+builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
 
 var app = builder.BuildBlossom();
 

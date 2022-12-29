@@ -4,6 +4,20 @@ body {
     margin: 0px;
 }
 
+.ibis-meta-app {
+    .ibis-widget {
+        position: fixed;
+        top: 30px;
+        right: 270px;
+        z-index: 101;
+
+        @media only screen and (max-width: 760px) {
+            top: 5px;
+            right: 60px;
+        }
+    }
+}
+
 .landing {
     margin: 0px;
     background: $background;
@@ -45,6 +59,13 @@ body {
         display: flex;
         justify-content: space-between;
         padding: 30px 60px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: $background;
+        z-index: 100;
+
 
         .logo {
             width: 146px;
@@ -94,7 +115,7 @@ body {
     }
 
     .hero {
-        margin: 100px 0px;
+        margin: 200px 0px 100px;
         position: relative;
         text-align: center;
 

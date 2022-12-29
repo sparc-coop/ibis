@@ -1,0 +1,55 @@
+@implements IDisposable
+
+<div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play">
+    <PlayIcon />
+
+    @if (AudioOffset != null)
+    {
+        <div class="message-subtitles">
+            @foreach (var word in Message!.Audio!.Subtitles)
+            {
+                <span class="@(WordIsActive(word) ? "active" : "")">
+                    @word.Text
+                </span>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public Message? Message { get; set; }
+
+    long? AudioOffset;
+    System.Timers.Timer? AudioTimer;
+
+    async Task Play()
+    {
+        if (Message?.Audio?.Url != null)
+        {
+            AudioOffset = 0;
+            AudioTimer = new(100);
+            AudioTimer.Elapsed += (source, e) =>
+            {
+                if (AudioOffset > Message.Audio.Duration)
+                {
+                    AudioTimer.Stop();
+                    AudioOffset = null;
+                }
+                else
+                {
+                    AudioOffset += 100;
+                }
+                InvokeAsync(StateHasChanged);
+            };
+            AudioTimer.Start();
+            await Ibis.PlayAsync(Message);
+        }
+    }
+
+    bool WordIsActive(Word word) => AudioOffset != null && word.Offset < AudioOffset && AudioOffset < (word.Offset + word.Duration);
+
+    public void Dispose()
+    {
+        AudioTimer?.Dispose();
+    }
+}

@@ -1,0 +1,10 @@
+﻿.ibis-audio {
+	background: #f9f1e8;
+	height: 38px;
+	padding: 8px 16px 8px 8px;
+	margin-top: 10px;
+}
+
+.ibis-audio ::deep svg path {
+	fill: #003b5f;
+}

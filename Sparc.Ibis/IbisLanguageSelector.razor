@@ -1,4 +1,4 @@
-<div class="ibis-languages">
+<div class="ibis-languages ibis-ignore">
     <button @onclick="GetLanguages">@SelectedLanguage</button>
     @if (IsSelecting)
     {
@@ -13,7 +13,7 @@
         <ul aria-hidden="true">
             @foreach (var language in Languages!)
             {
-                <li @onclick="(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")">
+                <li @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")">
                     @language.Id
                     <aside>@language.NativeName</aside>
                 </li>
@@ -22,7 +22,6 @@
     }
 </div>
 
-@inject IbisClient Api
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
     [Parameter] public EventCallback<Language> OnLanguageSelected { get; set; }
@@ -34,7 +33,7 @@
         if (Languages == null)
             Languages = await Api.GetLanguagesAsync();
 
-        IsSelecting = true;
+        IsSelecting = !IsSelecting;
     }
 
     async Task SetLanguage(Language language)

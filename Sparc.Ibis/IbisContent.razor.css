@@ -1,0 +1,15 @@
+﻿.ibis-widget {
+	background-color: transparent;
+	display: inline-flex;
+	align-items: flex-start;
+	position: absolute;
+}
+
+.ibis-widget figure {
+	position: relative;
+	left: -7px;
+}
+
+.ibis-widget figcaption {
+	display: none;
+}

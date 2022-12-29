@@ -23,13 +23,9 @@ builder.Services.AddIbis();
 
 4. Wrap whatever you want to translate in 
 ```razor
-<IbisTranslate ChannelId="[the Ibis channel/room ID to post translations to]"></IbisTranslate>
+<IbisContent ChannelId="[the Ibis channel/room ID to post translations to]"></IbisContent>
 ```
 
- 5. (optional) If you want to test a specific language, just pass it into the component: 
- ```razor
- <IbisTranslate ChannelId="ibis-app" Language="de">
- ```
 That's it! No necessary JS to add either, because .NET 7 has introduced a new way to auto-embed JS modules from a Razor Class Library, which we're taking advantage of.
 
 > Check here an [example of use in Ibis Project](https://github.com/sparc-coop/ibis/blob/168b94ce97f232815ce270fcd49cef0f2311c028/Ibis.Web/Shared/MainLayout.razor#L6)

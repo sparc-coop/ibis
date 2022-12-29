@@ -18,17 +18,17 @@ public class IbisTranslator : IAsyncDisposable
     {
         IbisClient = client;
         Content = new();
-        IbisJs = new(() => js.InvokeAsync<IJSObjectReference>("import", "./_content/Sparc.Ibis/IbisTranslate.razor.js").AsTask());
+        IbisJs = new(() => js.InvokeAsync<IJSObjectReference>("import", "./_content/Sparc.Ibis/IbisContent.razor.js").AsTask());
     }
 
-    public async Task<string> InitAsync(string channelId, string? language = null, bool asHtml = false, List<Message>? restoredIbisContent = null)
+    public async Task<string> InitAsync(string channelId, string? language = null, List<Message>? restoredIbisContent = null)
     {
         _language = language;
 
         if (restoredIbisContent?.Any() == true)
             Content = restoredIbisContent;
         else
-            await GetAllAsync(channelId, null, asHtml);
+            await GetAllAsync(channelId, null);
 
         return Language;
     }
@@ -43,7 +43,7 @@ public class IbisTranslator : IAsyncDisposable
             nodes = new List<object>(),
 
         });
-        await ibis.InvokeVoidAsync("init", elementId, DotNetObjectReference.Create(component), content);
+        await ibis.InvokeVoidAsync("init", elementId, Language, DotNetObjectReference.Create(component), content);
     }
 
     public async Task<GetAllContentResponse?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, bool asHtml = false, int? take = null)
