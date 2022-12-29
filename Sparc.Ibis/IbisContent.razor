@@ -35,6 +35,7 @@
     [Parameter] public string? Tag { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
+    string? _originalMessageId;
     Message LocalMessage = new();
 
     string? _language;
@@ -45,9 +46,16 @@
     protected override async Task OnInitializedAsync()
     {
         if (Message != null)
+        {
             LocalMessage = Message;
+        }
         else if (ChannelId != null && Tag != null)
+        {
             LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+        }
+
+        _originalMessageId = LocalMessage?.Id;
+        _language = LocalMessage?.Language;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -85,9 +93,10 @@
         {
             await InitFromClientAsync(language.Id, true);
         }
-        else if (LocalMessage.Id != null && language.Id != LocalMessage.Language)
+        else if (_originalMessageId != null && language.Id != LocalMessage.Language)
         {
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = LocalMessage.RoomId, Tag = LocalMessage.Id, Language = language.Id });
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = LocalMessage.RoomId, Tag = _originalMessageId, Language = language.Id });
+            _language = LocalMessage?.Language;
         }
     }
 

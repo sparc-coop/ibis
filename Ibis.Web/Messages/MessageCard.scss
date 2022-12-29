@@ -8,6 +8,19 @@
     position: relative;
     animation: new-message-card-slide-up 0.2s;
 
+    .ibis-widget {
+        top: 0;
+        right: 10px;
+
+        button, .ibis-audio {
+            background: transparent;
+        }
+
+        figure {
+            display: none;
+        }
+    }
+
     > p, span {
         font-size: 18px;
         font-weight: 400;

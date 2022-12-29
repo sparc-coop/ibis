@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using System.Diagnostics;
 
 namespace Ibis.Features.Messages;
 
@@ -70,6 +71,20 @@ public class Message : Root<string>
         LastModified = DateTime.UtcNow;
         
         Broadcast(new MessageTextChanged(this));
+    }
+
+    internal async Task<(string?, Message?)> TranslateAsync(ITranslator translator, string languageId)
+    {
+        if (HasTranslation(languageId))
+            return (Translations.First(x => x.LanguageId == languageId).SourceMessageId, null);
+
+        var language = await translator.GetLanguageAsync(languageId);
+        var translatedMessage = (await translator.TranslateAsync(this, new List<Language> { language! })).FirstOrDefault();
+
+        if (translatedMessage != null)
+            AddTranslation(translatedMessage);
+
+        return (translatedMessage?.Id, translatedMessage);
     }
 
     internal async Task<AudioMessage?> SpeakAsync(ISpeaker engine, string? voiceId = null)

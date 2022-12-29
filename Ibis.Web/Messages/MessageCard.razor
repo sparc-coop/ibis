@@ -1,6 +1,5 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
-@implements IDisposable
 
 <article class="message-card ibis-ignore" @onclick="GoToSubroom">
     <Avatar User="Message.User" SpillBackground="true" />
@@ -26,61 +25,11 @@
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
-    AudioMessage? Audio { get; set; }
-    long? Offset;
-    System.Timers.Timer? AudioTimer;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Audio = Message.Audio;
-        await On<MessageAudioChanged>(Message.RoomId + "|" + Message.Language, async x =>
-            {
-                if (x.Message.Id == Message.Id)
-                {
-                    Audio = x.Message.Audio;
-                    await Play();
-                }
-            });
-    }
 
     void GoToSubroom()
     {
         //if (Message != null)
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
-    }
-
-    bool WordIsActive(Word word) => Offset != null && word.Offset < Offset && Offset < (word.Offset + word.Duration);
-
-    List<MarkupString> MessageHtml => Message?.Text == null
-        ? new()
-        : Message.Text
-            .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .Select(x => new MarkupString(System.Web.HttpUtility.HtmlEncode(x)))
-            .ToList();
-
-    async Task Play()
-    {
-        if (Audio?.Url != null)
-        {
-            Offset = 0;
-            AudioTimer = new(100);
-            AudioTimer.Elapsed += (source, e) =>
-            {
-                if (Offset > Audio.Duration)
-                {
-                    AudioTimer.Stop();
-                    Offset = null;
-                }
-                else
-                {
-                    Offset += 100;
-                }
-                InvokeAsync(StateHasChanged);
-            };
-            AudioTimer.Start();
-            await JS.InvokeVoidAsync("playAudio", Audio.Url);
-        }
     }
 
     async Task Edit()
@@ -89,7 +38,7 @@
             await OnEdit.InvokeAsync(Message);
     }
 
-    async Task EditTags()
+    void EditTags()
     {
         var parameters = new ModalParameters();
         parameters.Add("Message", Message);
@@ -105,10 +54,5 @@
         
         if (OnDelete.HasDelegate)
             await OnDelete.InvokeAsync(Message);
-    }
-
-    public void Dispose()
-    {
-        AudioTimer?.Dispose();
     }
 }

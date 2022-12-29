@@ -22,16 +22,31 @@ var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configurat
 builder.AddPasswordlessAuthentication<User>(auth);
 
 builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
+builder.Services.AddServerSideBlazor();
+builder.Services.AddOutputCache();
 
-var app = builder.BuildBlossom();
+var app = builder.Build();
+
+app.UseBlazorFrameworkFiles();
+app.UseBlossom();
+app.MapControllers();
+app.MapBlazorHub();
+app.MapFallbackToFile("index.html");
+
+if (builder.Environment.IsDevelopment())
+    app.UseDeveloperExceptionPage();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+}
 
 app.MapHub<IbisHub>("/hub");
 app.UsePasswordlessAuthentication<User>();
 app.UseAllCultures();
-app.UseBlazorFrameworkFiles();
 
 // Warm up the entity framework model
-_ = app.Services.GetRequiredService<IbisContext>().Model;
+//_ = app.Services.GetRequiredService<IbisContext>().Model;
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 

@@ -1896,14 +1896,6 @@ main {
   background: #ECFDF3;
 }
 
-.message-audio {
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-.message-audio:hover {
-  transform: scale(1.05, 1.05);
-}
-
 .message-card {
   padding: 16px;
   margin: 0 8px;
@@ -1911,6 +1903,16 @@ main {
   margin-bottom: 16px;
   position: relative;
   animation: new-message-card-slide-up 0.2s;
+}
+.message-card .ibis-widget {
+  top: 0;
+  right: 10px;
+}
+.message-card .ibis-widget button, .message-card .ibis-widget .ibis-audio {
+  background: transparent;
+}
+.message-card .ibis-widget figure {
+  display: none;
 }
 .message-card > p, .message-card span {
   font-size: 18px;
