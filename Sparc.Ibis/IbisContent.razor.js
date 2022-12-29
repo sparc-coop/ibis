@@ -109,7 +109,6 @@ function callIbis() {
 
 function replaceWithTranslatedText() {
     observer.disconnect();
-    console.log('replacing with translated text', translationCache);
 
     for (let key in translationCache) {
         var translation = translationCache[key];
