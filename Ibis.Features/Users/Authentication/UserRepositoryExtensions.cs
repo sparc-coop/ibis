@@ -10,6 +10,6 @@ public static class UserRepositoryExtensions
         if (azureId == null)
             return null;
         
-        return await repository.FindAsync(azureId);
+        return repository.Query.FirstOrDefault(x => x.AzureB2CId == azureId);
     }
 }
