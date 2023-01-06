@@ -4,10 +4,6 @@
     <div class="message-list ibis-ignore" id="room-@Room.RoomId">
         @foreach (var message in Messages)
         {
-            @if (Room.RoomType == "Content")
-            {
-                <span>@message.Tag</span>
-            }
             <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
         }
     </div>
@@ -24,10 +20,7 @@
     protected override async Task OnInitializedAsync()
     {
         var response = await Api.GetAllMessagesAsync(new GetAllMessagesRequest { RoomId = Room.RoomId });
-        if (Room.RoomId == "Content")
-            Messages = response.Messages.OrderBy(x => x.Tag).ToList();
-        else
-            Messages = response.Messages.OrderBy(x => x.Timestamp).ToList();
+        Messages = response.Messages.OrderBy(x => x.Timestamp).ToList();
             
         HasNewMessage = true;
         Language = response.Language;

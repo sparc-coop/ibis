@@ -1,37 +1,8 @@
 ﻿@inherits SparcModal
 
 <div class="invite-block room-modal">
-    <div class="room-icons">
-        <p class="medium">Room Type</p>
-        <dl class="room-icon-wrapper">
-            <div @onclick="@(() => SelectRoomType("Chat"))" class="@(Request.RoomType == "Chat" ? "selected" : "")">
-                <dt>
-                    <RoomIcon RoomType="Chat" />
-                </dt>
-                <dd>
-                    Have a conversation in your native language with anyone.
-                </dd>
-            </div>
-            <div @onclick="@(() => SelectRoomType("Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
-                <dt class="blog">
-                    <RoomIcon RoomType="Blog" />
-                </dt>
-                <dd>
-                    Host your own weblog or diary.
-                </dd>
-            </div>
-            <div @onclick="@(() => SelectRoomType("Content"))" class="@(Request.RoomType == "Content" ? "selected" : "")">
-                <dt class="content">
-                    <RoomIcon RoomType="Content" />
-                </dt>
-                <dd>
-                    Add any kind of content to Ibis and have it translated.
-                </dd>
-            </div>
-        </dl>
-    </div>
     <div class="room-name-wrapper">
-        <p class="medium">Room Name</p>
+        <p class="medium">Name Your Room</p>
         <input type="email" placeholder="Enter Room Name" @bind="Request.RoomName" />
     </div>
 
@@ -39,23 +10,11 @@
 </div>
 
 @code {
-    string? Name;
-    string InviteEmail = "";
-    List<string> emails = new();
-    List<UserAvatar> invited = new();
     NewRoomRequest Request = new() { RoomType = "Chat", Emails = new List<string>() };
 
     async Task CreateRoom()
     {
         var response = await Api.CreateRoomAsync(Request);
         Nav.NavigateTo($"/rooms/{response.RoomId}");
-    }
-
-    void SelectRoomType(string type) => Request.RoomType = type;
-
-    void InviteUser()
-    {
-        Request.Emails.Add(InviteEmail);
-        InviteEmail = "";
     }
 }
