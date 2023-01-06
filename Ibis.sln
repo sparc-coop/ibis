@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Web", "Ibis.Web\Ibis.Web.csproj", "{0213E4A9-F287-4259-B95D-B628D61ABF1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Chat", "Ibis.Chat\Ibis.Chat.csproj", "{0213E4A9-F287-4259-B95D-B628D61ABF1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Features", "Ibis.Features\Ibis.Features.csproj", "{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}"
 EndProject
