@@ -1005,7 +1005,26 @@
   padding: 16px;
 }
 .main-layout > header nav li > ul li {
-  padding: 8px;
+  padding: 8px 0;
+}
+.main-layout > header nav li .navmenu-button {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border-width: 0;
+  background: none;
+  color: #013b60;
+  font-weight: normal;
+  transition: 300ms ease-in-out;
+}
+.main-layout > header nav li .navmenu-button:hover {
+  background: #EEF4FA;
+}
+.main-layout > header nav li .logout {
+  color: #FF3520;
+}
+.main-layout > header nav li .logout:hover {
+  background: #FAF1E8;
 }
 .main-layout > header nav li.open > ul {
   opacity: 1;

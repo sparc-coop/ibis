@@ -37,13 +37,13 @@
                                         <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
                                         <ul>
                                             <li>
-                                                <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                                <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
                                             </li>
                                             <li>
-                                                <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                                <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
                                             </li>
                                             <li>
-                                                <button class="logout" @onclick="Logout" @onclick:stopPropagation="true">
+                                                <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
                                                     Log Out
                                                 </button>
                                             </li>
