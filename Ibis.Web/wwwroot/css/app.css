@@ -23,7 +23,7 @@
   padding: 21px 53px;
   border: none;
   border-radius: 5px;
-  background: #FF3520;
+  background: #CA1E14;
   color: #FFFFFF;
   font-size: 20px;
   transition: 200ms ease-in-out;
@@ -39,7 +39,7 @@
   border: none;
   border-radius: 5px;
   background: #FAF1E8;
-  color: #FF3520;
+  color: #CA1E14;
   font-size: 20px;
   transition: 200ms ease-in-out;
   display: inline-block;
@@ -67,7 +67,7 @@
 }
 .landing--nav .menu a.log-in {
   margin-right: 35px;
-  color: #858a8f;
+  color: #4A5563;
   font-size: 20px;
   line-height: 25px;
   text-decoration: none;
@@ -76,15 +76,15 @@
 }
 .landing--nav .menu a.log-in:hover {
   cursor: pointer;
-  color: #FF3520;
+  color: #CA1E14;
   transform: scale(103%);
 }
 .landing--nav .menu a.get-started {
   padding: 13px 37px;
-  border: 1px solid #FF3520;
+  border: 1px solid #CA1E14;
   border-radius: 5px;
   background: transparent;
-  color: #FF3520;
+  color: #CA1E14;
   font-size: 20px;
   line-height: 25px;
   transition: 200ms ease-in-out;
@@ -118,7 +118,7 @@
   margin: 0px;
   margin-top: 8px;
   padding: 0px;
-  color: #858a8f;
+  color: #4A5563;
   font-weight: 600;
   font-size: 20px;
   line-height: 35px;
@@ -179,7 +179,7 @@
 }
 .landing .section-1 .left-container .card-container .card .content p {
   margin-top: 11px;
-  color: #858a8f;
+  color: #4A5563;
   font-family: freight-display-pro, serif;
   font-weight: 600;
   font-style: normal;
@@ -200,7 +200,7 @@
 .landing .section-1 .right-container p {
   margin: 0;
   margin-top: 16px;
-  color: #858a8f;
+  color: #4A5563;
   font-family: freight-display-pro, serif;
   font-weight: 600;
   font-style: normal;
@@ -241,7 +241,7 @@
   margin: 0;
   margin-top: 16px;
   margin-bottom: 55px;
-  color: #858a8f;
+  color: #4A5563;
   font-family: freight-display-pro, serif;
   font-weight: 600;
   font-style: normal;
@@ -312,7 +312,7 @@
   position: absolute;
   top: 60px;
   right: 80px;
-  background: #FF3520;
+  background: #CA1E14;
   font-size: 20px;
   line-height: 24px;
 }
@@ -449,7 +449,7 @@
     position: absolute;
     top: 35px;
     right: 70px;
-    background: #FF3520;
+    background: #CA1E14;
     font-size: 20px;
     line-height: 24px;
   }
@@ -553,7 +553,7 @@
     min-width: 200px;
     margin: 0px 0px 6px 45px;
     padding: 5px 20px;
-    border: 1px solid #858a8f;
+    border: 1px solid #4A5563;
     border-radius: 5px;
     font-size: 16px;
     line-height: 24px;
@@ -562,7 +562,7 @@
     transition: color 0ms, background 300ms ease-in-out;
   }
   .landing .landing--nav.mobile .menu ul li a.log-in:hover {
-    color: #858a8f;
+    color: #4A5563;
     cursor: pointer;
     transform: scale(103%);
   }
@@ -571,7 +571,7 @@
     min-width: 200px;
     margin: 6px 0px 0px 45px;
     padding: 5px 20px;
-    border: 1px solid #FF3520;
+    border: 1px solid #CA1E14;
     font-size: 16px;
     line-height: 20px;
     text-align: center;
@@ -741,7 +741,7 @@
   .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 12px 71px;
-    background: #FF3520;
+    background: #CA1E14;
     font-size: 18px;
     line-height: 24px;
     display: inline-block;
@@ -910,7 +910,7 @@
   .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 6px 71px;
-    background: #FF3520;
+    background: #CA1E14;
     font-size: 16px;
     line-height: 24px;
   }
@@ -944,7 +944,7 @@
   .landing .banner .banner-content.mobile a.btn-primary {
     width: 100%;
     padding: 8px 25px;
-    background: #FF3520;
+    background: #CA1E14;
     font-size: 13px;
     line-height: 15px;
   }
@@ -1026,7 +1026,7 @@
   border-radius: 50px;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
-  color: #6A7280;
+  color: #4A5563;
 }
 .main-layout > header .balance:hover {
   transform: scale(1.05, 1.05);
@@ -1164,7 +1164,7 @@ main {
   display: flex;
   align-items: center;
   color: #FFFFFF;
-  background: #FF3520;
+  background: #CA1E14;
   border-radius: 8px;
   padding: 8px 16px;
   line-height: 20px;
@@ -1208,7 +1208,7 @@ main {
   justify-content: space-between;
   align-items: center;
   background: #E5E7EA;
-  color: #6A7280;
+  color: #364150;
   border: 1px soild #F3F5F6;
   border-radius: 8px;
   padding: 4px;
@@ -1224,7 +1224,7 @@ main {
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected {
   background: #FFFFFF;
-  color: #364150;
+  color: #1D2937;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
   border-radius: 6px;
   transition: 0.4s;
@@ -1320,7 +1320,7 @@ main {
   align-self: flex-end;
 }
 .room header .actions button {
-  color: #6A7280;
+  color: #4A5563;
   font-size: 13px;
   border: 1px solid #6A7280;
   border-radius: 8px;
@@ -1523,15 +1523,16 @@ main {
   align-items: start;
   gap: 13px;
 }
-.room-card h6 {
+.room-card h3 {
   color: #0A111D;
   font-weight: 500;
+  font-size: 20px;
   margin-bottom: 2px;
 }
 .room-card time {
   font-weight: 400;
   font-size: 13px;
-  color: #9BA3AF;
+  color: #4A5563;
 }
 .room-card footer {
   display: flex;
@@ -1903,11 +1904,12 @@ main {
   margin-bottom: 16px;
   position: relative;
   animation: new-message-card-slide-up 0.2s;
+  color: #0A111D;
 }
 .message-card .ibis-widget {
   top: 0;
   right: 10px;
-  opacity: 0.1;
+  opacity: 0.8;
   transition: opacity 0.2s ease-in-out;
 }
 .message-card .ibis-widget button, .message-card .ibis-widget .ibis-audio {
@@ -1953,6 +1955,9 @@ main {
 }
 .message-card.playing .message-text {
   display: none;
+}
+.message-card.playing .message-text p {
+  color: #0A111D;
 }
 .message-card .actions {
   position: absolute;
@@ -2116,7 +2121,7 @@ main {
   gap: 10px;
 }
 .new-message > footer button {
-  color: #9BA3AF;
+  color: #4A5563;
   font-weight: 400;
   font-size: 13px;
   border: 1px solid #9BA3AF;
@@ -2285,12 +2290,12 @@ main {
   border-radius: 8px;
 }
 .account button.save {
-  background: #FF3520;
+  background: #CA1E14;
   color: #FFFFFF;
 }
 .account button.cancel {
   background: #E5E7EA;
-  color: #6A7280;
+  color: #1D2937;
   margin-right: 16px;
 }
 .account--left {
@@ -2474,7 +2479,7 @@ main {
   color: #364150;
 }
 .notifcations-section .content-block p.medium {
-  color: #6A7280;
+  color: #4A5563;
 }
 .notifcations-section .content-block .section-header {
   margin-bottom: 20px;
@@ -2509,12 +2514,12 @@ main {
   border-top: 1px solid #E5E7EA;
 }
 .notifcations-section .btn-primary {
-  background: #FF3520;
+  background: #CA1E14;
   color: #FFFFFF;
 }
 .notifcations-section .btn-secondary {
   background: #E5E7EA;
-  color: #6A7280;
+  color: #1D2937;
 }
 .notifcations-section .btn-medium {
   padding: 8px 16px;
@@ -2779,7 +2784,7 @@ main {
 }
 .settings-nav-bg .settings-nav-wrapper {
   padding: 16px 0px;
-  color: #6A7280;
+  color: #4A5563;
 }
 .settings-nav-bg .settings-nav {
   display: flex;
@@ -2885,7 +2890,7 @@ main {
 }
 .onboarding .tabs li {
   padding-bottom: 4px;
-  color: #D1D4DC;
+  color: #4A5563;
   border-bottom: 2px solid transparent;
   cursor: pointer;
 }
@@ -2906,12 +2911,13 @@ main {
   font-size: 16px;
   font-weight: 400;
   line-height: 140%;
-  color: #6A7280;
+  color: #4A5563;
 }
 .onboarding > button {
   position: absolute;
   bottom: 24px;
   right: 24px;
+  background-color: #CA1E14;
 }
 
 .account-details label {

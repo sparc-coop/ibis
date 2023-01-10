@@ -8,7 +8,7 @@
     </header>
 
     <section>
-        <h6>@Room.Name</h6>
+        <h3>@Room.Name</h3>
         <time datetime="@Room.LastActiveDate?.ToString("u")">
             Last Used: @(Room.LastActiveDate != null
                 ? Room.LastActiveDate.Value.LocalDateTime.ToString("D")

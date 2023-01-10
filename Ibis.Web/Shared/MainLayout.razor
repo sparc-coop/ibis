@@ -5,6 +5,7 @@
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
             <header>
+                <h1>
                 <a href="/rooms">
                     <figure class="logo">
                         @if (IsRoom)
@@ -18,7 +19,7 @@
                         <figcaption>Ibis</figcaption>
                     </figure>
                 </a>
-
+                </h1>
                 <nav>
                     <AuthorizeView>
                         <Authorized>

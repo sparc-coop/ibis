@@ -7,11 +7,12 @@
     margin-bottom: 16px;
     position: relative;
     animation: new-message-card-slide-up 0.2s;
+    color: $grey-900;
 
     .ibis-widget {
         top: 0;
         right: 10px;
-        opacity: 0.1;
+        opacity: 0.8;
         transition: opacity 0.2s ease-in-out;
 
         button, .ibis-audio {
@@ -73,6 +74,10 @@
 
         .message-text {
             display: none;
+
+            p {
+                color: $grey-900;
+            }
         }
     }
 
