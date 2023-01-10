@@ -1951,6 +1951,9 @@ main {
   width: 200px;
   justify-content: flex-start;
 }
+.message-card .message-text {
+  padding: 8px 10px 8px 26px;
+}
 .message-card .message-audio {
   position: absolute;
   top: 16px;
@@ -2086,7 +2089,8 @@ main {
   position: absolute;
   right: 24px;
   top: 20px;
-  padding: 6px 12px;
+  width: 100px;
+  padding: 7px 12px 6px 12px;
   background: #003B5F;
   border-radius: 8px;
   color: #FFFFFF;
@@ -2109,7 +2113,7 @@ main {
 }
 .new-message textarea {
   height: 105px;
-  padding: 24px 112px 24px 56px;
+  padding: 24px 150px 24px 60px;
   width: 100%;
   max-width: 100%;
   resize: none;

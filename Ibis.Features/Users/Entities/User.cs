@@ -76,6 +76,7 @@ public class User : BlossomUser
             LanguagesSpoken.Add(language);
 
         Avatar.Language = language.Id;
+        Avatar.LanguageIsRTL = language.IsRightToLeft;
         Avatar.Voice = voice.ShortName;
     }
 
@@ -96,6 +97,7 @@ public class User : BlossomUser
         Avatar.Id = Id;
         Avatar.Voice = avatar.Voice;
         Avatar.Language = avatar.Language;
+        Avatar.LanguageIsRTL = avatar.LanguageIsRTL;
         Avatar.ForegroundColor = avatar.ForegroundColor;
         Avatar.Pronouns = avatar.Pronouns;
         Avatar.Name = avatar.Name;

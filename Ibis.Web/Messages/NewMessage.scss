@@ -30,7 +30,8 @@
         position: absolute;
         right: 24px;
         top: 20px;
-        padding: 6px 12px;
+        width: 100px;
+        padding: 7px 12px 6px 12px;
         background: $secondary-900;
         border-radius: 8px;
         color: $white;
@@ -58,7 +59,7 @@
 
     textarea {
         height: 105px;
-        padding: 24px 112px 24px 56px;
+        padding: 24px 150px 24px 60px;
         width: 100%;
         max-width: 100%;
         resize: none;

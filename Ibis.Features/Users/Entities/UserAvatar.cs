@@ -12,6 +12,7 @@ public class UserAvatar
     public string ForegroundColor { get; set; }
     public string BackgroundColor => CalculateBackgroundColor(ForegroundColor);
     public string? Language { get; set; }
+    public bool? LanguageIsRTL { get; set; }
     public string? Emoji { get; set; }
     public string? SkinTone { get; set; }
     public string? Pronouns { get; set; }
@@ -29,6 +30,7 @@ public class UserAvatar
         IsOnline = sourceAvatar.IsOnline;
         ForegroundColor = sourceAvatar.ForegroundColor;
         Language = sourceAvatar.Language;
+        LanguageIsRTL = sourceAvatar.LanguageIsRTL;
         Emoji = sourceAvatar.Emoji;
         SkinTone = sourceAvatar.SkinTone;
         Pronouns = sourceAvatar.Pronouns;
@@ -41,6 +43,7 @@ public class UserAvatar
         Id = id;
         Name = name;
         Language = "en";
+        LanguageIsRTL = false;
         ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
     }
 
