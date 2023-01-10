@@ -1572,11 +1572,14 @@ main {
   height: 17px;
   width: auto;
 }
+.share-link path {
+  stroke: #4A5563;
+}
 .share-link:hover {
   background: none;
 }
 .share-link:hover svg path {
-  stroke: #6A7280;
+  stroke: #0A111D;
 }
 .share-link .tooltip {
   border: 1px solid #D1D4DC;
@@ -1584,14 +1587,14 @@ main {
   border-radius: 8px;
   padding: 10px 14px;
   background: white;
-  color: #6A7280;
+  color: #4A5563;
   display: inline-block;
   white-space: nowrap;
   z-index: 100;
 }
 .share-link .tooltip aside {
   font-size: 12px;
-  color: #D1D4DC;
+  color: #4A5563;
 }
 .share-link.share-link-copied svg path {
   stroke: #12B76A;
@@ -1797,11 +1800,14 @@ main {
   gap: 24px;
   margin: 0 0 24px 0;
   align-items: start;
-  opacity: 0.4;
+  opacity: 0.8;
+  padding: 4px;
 }
 .invite-block .room-icons .room-icon-wrapper > div:hover, .invite-block .room-icons .room-icon-wrapper > div.selected {
   opacity: 1;
   cursor: pointer;
+  border: 1px solid #CA1E14;
+  border-radius: 8px;
 }
 .invite-block .room-icons .room-icon {
   width: 120px;
@@ -1832,11 +1838,14 @@ main {
   height: 17px;
   width: auto;
 }
+.room-menu path {
+  stroke: #4A5563;
+}
 .room-menu:hover {
   background: none;
 }
 .room-menu:hover svg path {
-  stroke: #6A7280;
+  stroke: #0A111D;
 }
 .room-menu .dropdown {
   position: absolute;
@@ -1852,6 +1861,7 @@ main {
   padding: 6px;
   white-space: nowrap;
   font-size: 14px;
+  color: #0A111D;
 }
 .room-menu .dropdown li:hover {
   text-decoration: underline;
@@ -1895,6 +1905,10 @@ main {
 .room-icon-Content {
   border: 1px solid #A6F4C5;
   background: #ECFDF3;
+}
+
+.room-modal dd {
+  color: #4A5563;
 }
 
 .message-card {
@@ -2935,11 +2949,14 @@ main {
   width: 100%;
   padding: 10px 14px !important;
 }
+.account-details input ::placeholder, .account-details textarea ::placeholder {
+  color: #4A5563;
+}
 .account-details textarea {
   min-height: 128px;
 }
 .account-details aside {
-  color: #6A7280;
+  color: #4A5563;
 }
 
 .language-selector {

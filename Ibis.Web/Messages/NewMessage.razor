@@ -3,7 +3,7 @@
 
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
     <Avatar User="Me" SpillBackground=true CanEdit=true />
-    <textarea type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+    <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     @if (IsSpeak)
     {
         <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">

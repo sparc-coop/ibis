@@ -11,11 +11,15 @@
         width: auto;
     }
 
+    path {
+        stroke: $grey-600;
+    }
+
     &:hover {
         background: none;
 
         svg path {
-            stroke: $grey-500;
+            stroke: $grey-900;
         }
     }
 
@@ -33,6 +37,7 @@
             padding: 6px;
             white-space: nowrap;
             font-size: 14px;
+            color: $grey-900;
 
             &:hover {
                 text-decoration: underline;

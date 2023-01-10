@@ -12,8 +12,8 @@
         </div>
         <div class="search-wrapper">
             <div class="searchbar">
-                <input placeholder="Search rooms" @onchange="@SearchRooms" />
-                <a class="search"><img src="/icons/Search.svg" /></a>
+                <input aria-label="Search" placeholder="Search rooms" @onchange="@SearchRooms" />
+                <span class="search"><img alt="" src="/icons/Search.svg" /></span>
             </div>
             <div class="grid-wrapper" @onclick="ToggleListView">
                 <div class="selected @(listView != "" ? "selected-left" : null)"></div>

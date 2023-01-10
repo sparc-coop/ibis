@@ -11,11 +11,15 @@
         width: auto;
     }
 
+    path {
+        stroke: $grey-600;
+    }
+
     &:hover {
         background: none;
 
         svg path {
-            stroke: $grey-500;
+            stroke: $grey-900;
         }
     }
 
@@ -25,14 +29,14 @@
         border-radius: 8px;
         padding: 10px 14px;
         background: white;
-        color: $grey-500;
+        color: $grey-600;
         display: inline-block;
         white-space: nowrap;
         z-index: 100;
 
         aside {
             font-size: 12px;
-            color: $grey-300;
+            color: $grey-600;
         }
     }
 
