@@ -1,9 +1,9 @@
 ﻿@inherits SparcModal
 
 <div class="delete-modal">
-    <p>Are you sure you want to delete this room?</p>
-    <button @onclick="Cancel" class="secondary">Cancel</button>
-    <button @onclick="DeleteRoom" class="primary">Delete</button>
+    <p>Are you sure you want to delete this room? <br> You can't undo this action.</p>
+    <button @onclick="Cancel" class="cancel">Cancel</button>
+    <button @onclick="DeleteRoom" class="delete">Delete</button>
 </div>
 
 

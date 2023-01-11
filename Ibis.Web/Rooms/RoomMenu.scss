@@ -26,6 +26,7 @@
         right: -10px;
         padding: 10px;
         background: $white;
+        color: $black;
         border-radius: 6px;
         box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
 
@@ -42,6 +43,7 @@
         ul {
             position: relative;
             z-index: 12;
+            padding: 0;
         }
 
         &--overlay {

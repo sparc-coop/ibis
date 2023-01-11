@@ -1,12 +1,11 @@
 ﻿@inherits SparcModal
 
 <div class="edit-modal">
-    <h4>Edit Room</h4>
     <label>Name</label>
     <input @bind="@Title"/>
 
-    <button @onclick="Cancel" class="secondary">Cancel</button>
-    <button @onclick="UpdateRoom" class="primary">Save</button>
+    <button @onclick="Cancel" class="cancel">Cancel</button>
+    <button @onclick="UpdateRoom" class="save">Save</button>
 </div>
 
 @code {

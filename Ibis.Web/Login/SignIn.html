@@ -9,30 +9,68 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo"/>
+            <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
         </div>
         <h2>Welcome back</h2>
         <p>Welcome back! Please enter your details.</p>
         <div id="api"></div>
+        <img class="togglePassword show" id="show-pass" src="https://ibistranscriber.blob.core.windows.net/custom-login/eye-line.png" alt="Show Password" />
+        <img class="togglePassword hide" id="hide-pass" src="https://ibistranscriber.blob.core.windows.net/custom-login/Eye-close.png" alt="Hide Password" />
     </div>
 </body>
 </html>
 
+<script>
+    const toggle = document.querySelector("#show-pass");
+    //const password = document.querySelector("#password");
+
+    const elem = document.getElementById('password');
+    const showIcon = document.getElementById('show-pass');
+    const hideIcon = document.getElementById('hide-pass');
+
+    elem.after(showIcon);
+
+
+    toggle.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+
+        // toggle the icon
+        this.classList.toggle("show");
+        elem.after(hideIcon);
+    });
+
+    document.getElementById("email").tabIndex = 1;
+    document.getElementById("password").tabIndex = 2;
+</script>
+
 <style>
+
+    @font-face {
+        font-family: 'CircularStd';
+        font-weight: 400;
+        src: url(https://ibistranscriber.blob.core.windows.net/custom-login/CircularStd-Book.ttf) format('truetype');
+    }
+
     body {
         background: #F3F5F6;
         text-align: center;
-        font-family: sans-serif;  
+        font-family: 'CircularStd', sans-serif;
+        outline-color: #161E29;
+        outline-width: 1.5px;
     }
 
     h2 {
         font-size: 31px;
         color: #0A111D;
+        margin-bottom: 10px;
     }
 
     p {
         color: #6A7280;
         font-size: 16px;
+        margin: 12px 0 35px 0;
     }
 
     .container {
@@ -65,8 +103,31 @@
         box-sizing: border-box;
     }
 
+    input:focus {
+        border: 1px solid #2E7BA5;
+        box-shadow: 0px 0px 5px #38ADED;
+    }
+
     .entry-item {
         position: relative;
+    }
+
+    .error.itemLevel p {
+        color: #2E7BA5;
+        text-align: left;
+        font-size: 13px;
+        line-height: 120%;
+        padding-bottom: 4px;
+        margin: 0;
+    }
+
+    .error.pageLevel p {
+        border: 1px solid #2E7BA5;
+        background: #D3E4F1;
+        border-radius: 5px;
+        padding: 14px 16px;
+        color: #2E7BA5;
+        margin: 0;
     }
 
     #forgotPassword {
@@ -100,4 +161,20 @@
     .create p{
         font-size: 13px;
     }
+
+    .togglePassword {
+        float: right;
+        margin: -27px 10px 0px 0;
+        z-index: 100;
+        display: block;
+        position: relative;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .hide {
+        display: none;
+    }
+
 </style>

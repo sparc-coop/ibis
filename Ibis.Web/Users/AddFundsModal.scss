@@ -1,6 +1,8 @@
 ﻿@import "../_variables.scss";
 
 .add-funds-modal {
+    font-family: 'CircularStd', sans-serif;
+
     ul {
         display: flex;
         flex-wrap: wrap;
@@ -26,6 +28,7 @@
                     background-color: var(--primary-500);
                     color: white;
                 }
+
                 button, input {
                     cursor: pointer;
                 }

@@ -10,6 +10,7 @@ public record GetRoomResponse
     public DateTime StartDate { get; private set; }
     public string Name { get; private set; }
     public List<UserAvatar>? Users { get; set; }
+    public string HostUserId { get; set; }
 
     public GetRoomResponse(Room room)
     {
@@ -20,6 +21,7 @@ public record GetRoomResponse
         Name = room.Name;
         Slug = room.Slug;
         Users = room.Users;
+        HostUserId = room.HostUser.Id;
     }
 }
 
