@@ -36,7 +36,18 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
             await Rooms.ExecuteAsync(request.RoomId, x => x.AddLanguage(language));
 
         var name = string.IsNullOrWhiteSpace(user.Avatar.Name) ? voice.DisplayName : user.Avatar.Name;
-        var testMessage = new Message("", user, $"Hi, nice to meet you!");
+        //var testMessage = new Message("", user, $"Hi, nice to meet you!");
+
+        // test messages for voice model preview
+        // chooses a random testMessage from this list every time user clicks voice model
+        var testMessages = new List<Message>();
+        testMessages.Add(new Message("", user, $"Hi, nice to meet you!"));
+        testMessages.Add(new Message("", user, $"Hey, how are things going today?"));
+        testMessages.Add(new Message("", user, $"What time do you want to meet?"));
+        testMessages.Add(new Message("", user, $"Thanks, talk to you later!"));
+
+        int index = new Random().Next(testMessages.Count);
+        var testMessage = testMessages[index];
 
         var translation = await Translator.TranslateAsync(testMessage, "en", new() { language });
         var speech = await Speaker.SpeakAsync(translation.First());
