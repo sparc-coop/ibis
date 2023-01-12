@@ -71,13 +71,17 @@
                 justify-content: space-between;
                 align-items: center;
                 background: $grey-200;
-                color: $grey-500;
+                color: #28303B;
                 border: 1px solid $grey-100;
                 border-radius: 8px;
                 padding: 4px;
                 font-size: 14px;
                 line-height: 20px;
+                font-weight: 500;
                 position: relative;
+                width: 118px;
+                height: 44px;
+                box-sizing: border-box;
 
                 .grid {
                     padding: 8px 11px;
@@ -100,13 +104,13 @@
                     border-radius: 6px;
                     transition: .4s;
                     height: 36px;
-                    width: 50px;
+                    width: 53px;
                     z-index: 1;
                     position: absolute;
                     transition: transform 300ms cubic-bezier(0.5, 0.01, 0.47, 0.99);
 
                     &-left {
-                        transform: translateX(50px);
+                        transform: translateX(55px);
                     }
                 }
             }

@@ -22,12 +22,19 @@
         margin: 0px auto;
         position: relative;
 
-        h2 {
-            font-size: 40px;
-            line-height: 46px;
-            margin-bottom: 2px;
+        .title-container {
             display: flex;
+        }
+
+        h2 {
+            font-size: 39px;
             align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: -4px;
+            white-space: nowrap;
+            width: 100%;
+            max-width: 890px;
 
             .room-icon {
                 figcaption {
@@ -51,6 +58,7 @@
 
         .actions {
             align-self: flex-end;
+            width: 318px;
 
             button {
                 color: $grey-500;
@@ -260,11 +268,11 @@
     }
 
     &-Chat {
-
     }
 
     &-Content {
         grid-template-columns: auto;
+
         .avatar-list {
             display: none;
         }

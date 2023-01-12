@@ -6,10 +6,12 @@
     <header>
         @if (RoomInfo != null)
         {
-            <h2>
+            <div class="title-container">
                 <RoomIcon RoomType="@RoomInfo.RoomType" />
-                @RoomInfo.Name
-            </h2>
+                <h2 title="@RoomInfo.Name" style="@(RoomInfo.RoomType == "Chat" ? "max-width:555px;" : "")">
+                    @RoomInfo.Name
+                </h2>
+            </div>
             @if (RoomInfo.RoomType == "Chat")
             {
                 <div class="actions">

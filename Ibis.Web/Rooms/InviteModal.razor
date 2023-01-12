@@ -1,9 +1,10 @@
 ﻿@inherits SparcModal
 
 <div class="invite-block">
+    <label>Invite Room Members</label>
     <div class="invite-search">
         <input placeholder="Email" @bind="InviteEmail" @ref=EmailInput />
-        <button @onclick="SendInvite" class="primary">Send Invite</button>
+        <button @onclick="SendInvite" class="primary">Add Member</button>
     </div>
     <div class="invite-users">
         <h5>Participants</h5>
@@ -13,7 +14,7 @@
         }
     </div>
     
-    <button @onclick=Done>Done</button>
+    <button @onclick=Done class="done">Done</button>
 </div>
 
 

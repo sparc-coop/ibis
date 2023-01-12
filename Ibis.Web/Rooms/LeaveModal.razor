@@ -12,7 +12,7 @@
 
     async void LeaveRoom()
     {
-        //await Api.DeleteRoomAsync(RoomId!);
+        await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomId });
         await Ok();
     }
 }

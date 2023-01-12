@@ -8,25 +8,16 @@
                 <dt>
                     <RoomIcon RoomType="Chat" />
                 </dt>
-                <dd>
-                    Have a conversation in your native language with anyone.
-                </dd>
             </div>
             <div @onclick="@(() => SelectRoomType("Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
                 <dt class="blog">
                     <RoomIcon RoomType="Blog" />
                 </dt>
-                <dd>
-                    Host your own weblog or diary.
-                </dd>
             </div>
             <div @onclick="@(() => SelectRoomType("Content"))" class="@(Request.RoomType == "Content" ? "selected" : "")">
                 <dt class="content">
                     <RoomIcon RoomType="Content" />
                 </dt>
-                <dd>
-                    Add any kind of content to Ibis and have it translated.
-                </dd>
             </div>
         </dl>
     </div>

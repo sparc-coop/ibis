@@ -11,10 +11,18 @@
         background: $secondary-900;
     }
 
+    .bm-title {
+        font-size: 31px;
+    }
+
+    .bm-close {
+        color: $grey-400;
+    }
+
     .invite-search {
         display: flex;
         justify-content: space-between;
-        column-gap: 26px;
+        column-gap: 16px;
         margin: 6px 0 24px;
 
         input {
@@ -24,8 +32,7 @@
             padding: 10px 14px;
             font-size: 16px;
             line-height: 120%;
-            max-width: 72%;
-            width: 72%;
+            width: 67%;
         }
 
         ::placeholder {
@@ -37,10 +44,17 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        button {
+            color: $dark-blue;
+            background: $white;
+            border: 1px solid $dark-blue;
+            font-weight: 400;
+        }
     }
 
     .invite-users {
-        margin-bottom: 40px;
+        margin-bottom: 45px;
 
         p.medium {
             margin-bottom: 12px;
@@ -117,8 +131,6 @@
         }
     }
 
-
-
     button.secondary {
         color: $primary;
         border: 1px solid $primary;
@@ -164,11 +176,13 @@
 }
 
 .invite-block {
+    position: relative;
+
     h4 {
         margin-bottom: 24px;
     }
 
-    .room-icons, .room-name-wrapper, .invite-search, .invite-users {
+    .room-icons, .room-name-wrapper, .invite-search {
         margin-bottom: 24px;
 
         p.medium {
@@ -179,39 +193,42 @@
     .create-room {
         background: $primary-500;
         border-radius: 8px;
-        padding: 8px 16px;
+        padding: 9px 16px;
         color: $white;
         font-size: 16px;
         line-height: 20px;
+        font-weight: 400;
         cursor: pointer;
         float: right;
         margin-top: 24px;
     }
 
     .room-icons {
-        .room-icon-wrapper > div {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            gap: 24px;
-            margin: 0 0 24px 0;
-            align-items: start;
-            opacity: 0.4;
+        .room-icon-wrapper {
+            display: flex;
+            gap: 9px;
 
-            &:hover, &.selected {
-                opacity: 1;
-                cursor: pointer;
+            > div {
+                opacity: 0.4;
+
+                &:hover, &.selected {
+                    opacity: 1;
+                    cursor: pointer;
+                }
             }
         }
 
         .room-icon {
-            width: 120px;
-            max-width: 120px;
+            width: 40px;
+            height: 40px;
+            margin: 0;
         }
     }
 
     .room-name-wrapper {
         label {
             margin-bottom: 6px;
+            color: #28303B;
         }
 
         input {
@@ -226,5 +243,11 @@
         ::placeholder {
             color: $grey-500;
         }
+    }
+
+    .done {
+        position: absolute;
+        right: 0;
+        bottom: -44px;
     }
 }

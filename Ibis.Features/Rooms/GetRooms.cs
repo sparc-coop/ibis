@@ -22,9 +22,9 @@ public class GetRooms : Feature<List<GetRoomResponse>>
     internal async Task<List<GetRoomResponse>> ExecuteAsUserAsync(User user)
     {
         var rooms = await Rooms.Query
-            .Where(x => x.Users.Any(y => y.Id == user.Id)).ToListAsync();// && x.EndDate == null) //(x.HostUser.Id == user.Id || x.Users.Any(y => y.Id == user.Id))
-            //.OrderByDescending(x => x.LastActiveDate)
-            //.ToListAsync();
+            .Where(x => x.HostUser.Id == user.Id && x.EndDate == null)
+            .OrderByDescending(x => x.LastActiveDate)
+            .ToListAsync();
 
         return rooms.Select(x => new GetRoomResponse(x)).ToList();
     }
