@@ -1,23 +1,43 @@
-﻿@if (Languages != null)
+﻿@if (User.Language == null)
 {
-    <ul class="language-selector ibis-ignore">
-        @foreach (var language in Languages)
-        {
-            <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
-                @language.Id
-                <aside>@language.NativeName</aside>
-            </li>
-        }
-    </ul>
+    <div class="language-FTUX">
+        <p>Ibis will automatically translate all communications in the room (both text and audio) into your preferred language.</p>
+    </div>
 }
 
-<footer>
+@if (Languages != null)
+{
+    <div class="language-selector">
+        <ul class="ibis-ignore">
+            @foreach (var language in Languages)
+            {
+                <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
+                    @language.DisplayName
+
+                    @if (language.DisplayName != language.NativeName)
+                    {
+                        <aside>@language.NativeName</aside>
+                    }
+
+                    @if (User.Language == language.Id)
+                    {
+                        <div class="right">
+                            <img src="icons/Check.svg" />
+                        </div>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@*<footer>
     <h3>Set your default language</h3>
     <p>
         Ibis will automatically translate all communications in the room
         (both text and audio) into your preferred language.
     </p>
-</footer>
+</footer>*@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;

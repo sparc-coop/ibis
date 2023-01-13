@@ -1,37 +1,65 @@
 ﻿@import "../_variables.scss";
 
+.language-FTUX {
+    padding: 16px 0;
+}
+
 .language-selector {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    height: 70%;
+    margin-bottom: 60px;
+
+    ul {
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-right: 10px;
+    }
 
     li {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        flex-direction: row;
+        gap: 8px;
         position: relative;
-        width: 80px;
-        height: 60px;
-        background: $grey-200;
-        padding: 12px;
+        margin: 8px 0;
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid $grey-300;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
         cursor: pointer;
         font-size: 20px;
+        transition: 300ms ease-in-out;
 
         aside {
-            font-size: 12px;
+            vertical-align: middle;
         }
 
         &:hover {
-            background: $primary-300;
+            background: $grey-100;
         }
 
         &.selected {
-            background: $primary-700;
-            color: white;
+            border: 1.5px solid #30C07D;
+            color: #30C07D;
+
+            .right {
+                height: 100%;
+                padding-top: 6px;
+                position: absolute;
+                top: 0;
+                right: 14px;
+
+                img {
+                    width: 16px;
+                    height: 16px;
+                    margin: auto 0;
+
+                    svg {
+                        fill: #30C07D;
+                        color: #30C07D;
+                    }
+                }
+            }
         }
     }
-
 }

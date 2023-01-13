@@ -1,8 +1,18 @@
 ﻿@import "../_variables.scss";
 
 .account-details {
+    margin-bottom: 120px;
+
+    .account-FTUX {
+        padding-top: 16px;
+
+        p {
+            line-height: 19px;
+        }
+    }
+
     label {
-        margin: 16px 0;
+        margin: 32px 0;
         display: block;
         color: $grey-700;
     }

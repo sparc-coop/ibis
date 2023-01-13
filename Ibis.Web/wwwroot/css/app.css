@@ -2864,49 +2864,41 @@ main {
 }
 
 .onboarding {
-  background: #F3F5F6;
-  height: 100vh;
-  width: 40vw;
+  background: #FFFFFF;
+  height: 80vh;
+  width: 50%;
+  max-width: 736px;
   padding: 20px 4vw;
+  border-radius: 16px;
   position: fixed;
-  top: 0;
-  left: 0;
-  display: grid;
-  grid-template-rows: 240px 90px auto auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 10000;
 }
-.onboarding .avatar {
-  height: 220px;
+.onboarding header {
+  padding: 12px 0;
+  text-align: center;
+}
+.onboarding header img {
+  width: 61px;
+  height: auto;
 }
 .onboarding .tabs {
   display: flex;
   justify-content: space-between;
-  margin: 40px 4vw 20px 4vw;
+  margin-top: 10px;
+  border-bottom: 1.5px solid #9BA3AF;
 }
 .onboarding .tabs li {
-  padding-bottom: 4px;
-  color: #D1D4DC;
-  border-bottom: 2px solid transparent;
+  padding-bottom: 16px;
+  color: #9BA3AF;
+  font-size: 20px;
   cursor: pointer;
 }
 .onboarding .tabs li.selected {
-  border-bottom-color: #0A111D;
+  border-bottom: 1.5px solid #0A111D;
   color: #0A111D;
-}
-.onboarding > footer {
-  border-top: 1px solid #D1D4DC;
-  margin: 40px 4vw 0 0;
-  padding: 40px 0;
-}
-.onboarding > footer h3 {
-  font-size: 24px;
-  margin-bottom: 12px;
-}
-.onboarding > footer p {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 140%;
-  color: #6A7280;
 }
 .onboarding > button {
   position: absolute;
@@ -2914,8 +2906,17 @@ main {
   right: 24px;
 }
 
+.account-details {
+  margin-bottom: 120px;
+}
+.account-details .account-FTUX {
+  padding-top: 16px;
+}
+.account-details .account-FTUX p {
+  line-height: 19px;
+}
 .account-details label {
-  margin: 16px 0;
+  margin: 32px 0;
   display: block;
   color: #364150;
 }
@@ -2936,77 +2937,123 @@ main {
   color: #6A7280;
 }
 
+.language-FTUX {
+  padding: 16px 0;
+}
+
 .language-selector {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  height: 70%;
+  margin-bottom: 60px;
+}
+.language-selector ul {
+  height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-right: 10px;
 }
 .language-selector li {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 8px;
   position: relative;
-  width: 80px;
-  height: 60px;
-  background: #E5E7EA;
-  padding: 12px;
+  margin: 8px 0;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #D1D4DC;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   cursor: pointer;
   font-size: 20px;
+  transition: 300ms ease-in-out;
 }
 .language-selector li aside {
-  font-size: 12px;
+  vertical-align: middle;
 }
 .language-selector li:hover {
-  background: #FF9E70;
+  background: #F3F5F6;
 }
 .language-selector li.selected {
-  background: #CA1E14;
-  color: white;
+  border: 1.5px solid #30C07D;
+  color: #30C07D;
+}
+.language-selector li.selected .right {
+  height: 100%;
+  padding-top: 6px;
+  position: absolute;
+  top: 0;
+  right: 14px;
+}
+.language-selector li.selected .right img {
+  width: 16px;
+  height: 16px;
+  margin: auto 0;
+}
+.language-selector li.selected .right img svg {
+  fill: #30C07D;
+  color: #30C07D;
+}
+
+.voice-FTUX {
+  padding: 16px 0;
 }
 
 .voice-selector {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 100%;
+  height: 70%;
+  margin-bottom: 120px;
   padding: 12px;
 }
 .voice-selector h4 {
+  padding-top: 8px;
   color: #364150;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  padding: 12px 0;
-  height: auto;
-}
-.voice-selector ul {
-  margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
 }
 .voice-selector ul li {
   display: flex;
   position: relative;
-  background: #E5E7EA;
-  padding: 12px;
+  margin: 8px 0;
+  padding: 10px 14px;
+  border: 1px solid #D1D4DC;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   cursor: pointer;
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 16px;
+  transition: 300ms ease-in-out;
 }
 .voice-selector ul li aside {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  top: 0;
+  right: 14px;
+}
+.voice-selector ul li aside span {
+  margin: auto 0;
   font-size: 12px;
+  color: #9BA3AF;
+}
+.voice-selector ul li aside svg {
+  width: 20px;
+  height: 20px;
+  margin: auto 0;
+  opacity: 0.4;
 }
 .voice-selector ul li:hover {
-  background: #FF9E70;
+  background: #F3F5F6;
 }
 .voice-selector ul li.selected {
-  background: #CA1E14;
-  color: white;
+  border: 1.5px solid #30C07D;
+  color: #30C07D;
+}
+.voice-selector ul li.selected aside span {
+  color: #30C07D;
+}
+.voice-selector ul li.selected aside svg {
+  fill: #30C07D;
 }
 
 .skintones, .emojis {

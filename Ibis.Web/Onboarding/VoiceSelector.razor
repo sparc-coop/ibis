@@ -1,8 +1,9 @@
 ﻿@if (string.IsNullOrWhiteSpace(User.Language))
 {
-    <p>
-        You haven't selected a language yet. Please select a language first.
-    </p>
+    <div class="voice-FTUX">
+        <p>You haven't selected a language yet. Please select a language first.</p>
+        <p>Ibis will use this voice to speak for you. So make sure the voice you choose represents you! If you're not sure, you can always change it.</p>
+    </div>
 }
 else if (Dialects != null)
 {
@@ -15,7 +16,11 @@ else if (Dialects != null)
                 {
                     <li @onclick="(() => SetVoice(voice))" class="@(User.Voice == voice.ShortName ? "selected" : "")">
                         @voice.DisplayName
-                        <aside>@voice.Gender</aside>
+                        <aside class="right">
+                            <span>@voice.Gender</span>
+                            @*<img src="/icons/Play.svg" alt="Play" />*@
+                            <PlayIcon />
+                        </aside>
                     </li>
                 }
             </ul>
@@ -27,13 +32,13 @@ else if (Dialects != null)
     }
 }
 
-<footer>
+@*<footer>
     <h3>Choose Your Voice</h3>
     <p>
         Ibis will use this voice to speak for you.
         So make sure the voice you choose represents you! If you're not sure, you can always change it later.
     </p>
-</footer>
+</footer>*@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
