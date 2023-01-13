@@ -1,4 +1,4 @@
-﻿<article class="room-card" @onclick="GoToRoom">
+﻿<article tabindex="0" class="room-card" @onclick="GoToRoom">
     <header>
         <RoomIcon RoomType="@(Room.RoomType ?? "Chat")" />
         <div class="option-icons" @onclick:stopPropagation="true">

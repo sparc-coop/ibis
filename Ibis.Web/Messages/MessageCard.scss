@@ -28,6 +28,10 @@
         opacity: 1;
     }
 
+    &:focus-within .ibis-widget {
+        opacity: 1;
+    }
+
     > p, span {
         font-size: 18px;
         font-weight: 400;
@@ -111,6 +115,12 @@
     }
 
     &:hover .actions {
+        display: flex;
+        opacity: 1;
+        transition-delay: 1s;
+    }
+
+    &:focus .actions, &:focus-within .actions {
         display: flex;
         opacity: 1;
         transition-delay: 1s;

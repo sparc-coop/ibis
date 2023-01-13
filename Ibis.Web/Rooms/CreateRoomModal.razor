@@ -4,7 +4,7 @@
     <div class="room-icons">
         <p class="medium">Room Type</p>
         <dl class="room-icon-wrapper">
-            <div @onclick="@(() => SelectRoomType("Chat"))" class="@(Request.RoomType == "Chat" ? "selected" : "")">
+            <div tabindex="0" @onclick="@(() => SelectRoomType("Chat"))" @onkeydown="@((e) => KeyboardSelect(e, "Chat"))" class="@(Request.RoomType == "Chat" ? "selected" : "")">
                 <dt>
                     <RoomIcon RoomType="Chat" />
                 </dt>
@@ -12,7 +12,7 @@
                     Have a conversation in your native language with anyone.
                 </dd>
             </div>
-            <div @onclick="@(() => SelectRoomType("Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
+            <div tabindex="0" @onclick="@(() => SelectRoomType("Blog"))" @onkeydown="@((e) => KeyboardSelect(e, "Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
                 <dt class="blog">
                     <RoomIcon RoomType="Blog" />
                 </dt>
@@ -20,7 +20,7 @@
                     Host your own weblog or diary.
                 </dd>
             </div>
-            <div @onclick="@(() => SelectRoomType("Content"))" class="@(Request.RoomType == "Content" ? "selected" : "")">
+            <div tabindex="0" @onclick="@(() => SelectRoomType("Content"))" @onkeydown="@((e) => KeyboardSelect(e, "Content"))" class="@(Request.RoomType == "Content" ? "selected" : "")">
                 <dt class="content">
                     <RoomIcon RoomType="Content" />
                 </dt>
@@ -57,5 +57,21 @@
     {
         Request.Emails.Add(InviteEmail);
         InviteEmail = "";
+    }
+
+    void KeyboardSelect(KeyboardEventArgs e, string type)
+    {
+        if (e.Key == "Enter" & type == "Chat")
+        {
+            SelectRoomType("Chat");
+        }
+        else if (e.Key == "Enter" & type == "Blog")
+        {
+            SelectRoomType("Blog");
+        }
+        else if (e.Key == "Enter" & type == "Content")
+        {
+            SelectRoomType("Content");
+        }
     }
 }

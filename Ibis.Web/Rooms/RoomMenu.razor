@@ -1,4 +1,4 @@
-﻿<button aria-label="Menu" class="room-menu" @onclick:stopPropagation="true" @onclick="ToggleDropdown">
+﻿<button aria-label="Menu" class="room-menu" @onclick:stopPropagation="true" @onclick="ToggleDropdown" @onfocus="ToggleDropdown">
     <MoreVertical />
 
     @if (ShowDropdown)
@@ -6,8 +6,8 @@
         <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
         <div class="dropdown" @onclick:stopPropagation="true">
             <ul>
-                <li @onclick="ShowEditModal">Edit Name</li>
-                <li @onclick="ShowDeleteModal">Delete Room</li>
+                <li tabindex="0" @onclick="ShowEditModal" @onkeydown="KeyboardEdit">Edit Name</li>
+                <li @onfocusout="ToggleDropdown" tabindex="0" @onclick="ShowDeleteModal" @onkeydown="KeyboardDelete">Delete Room</li>
             </ul>
         </div>
     }
@@ -47,5 +47,29 @@
     void ToggleDropdown()
     {
         ShowDropdown = !ShowDropdown;
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            ToggleDropdown();
+        }
+    }
+
+    async Task KeyboardEdit(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await ShowEditModal();
+        }
+    }
+
+    async Task KeyboardDelete(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await ShowDeleteModal();
+        }
     }
 }

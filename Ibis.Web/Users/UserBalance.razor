@@ -2,7 +2,7 @@
 
 @if (Balance.HasValue)
 {
-    <aside class="balance @(Balance < 0 ? "negative" : "")" title="@Balance.Value.ToString("C4")" @onclick=AddFunds>
+    <aside tabindex="0" class="balance @(Balance < 0 ? "negative" : "")" title="@Balance.Value.ToString("C4")" @onclick=AddFunds>
         @Balance.Value.ToString("C")
     </aside>
 }

@@ -62,4 +62,11 @@
         left: 0;
         display: block;
     }
+
+    &:focus .tooltip {
+        position: absolute;
+        top: 24px;
+        left: 0;
+        display: block;
+    }
 }

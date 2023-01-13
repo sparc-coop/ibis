@@ -1,18 +1,18 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
 
-<article class="message-card ibis-ignore" @onclick="GoToSubroom">
+<article tabindex="0" class="message-card ibis-ignore" @onclick="GoToSubroom">
     <Avatar User="Message.User" SpillBackground="true" />
     @if (Me?.Id == Message.User.Id)
     {
         <ul class="actions">
-            <li class="actions-tags" @onclick=EditTags>
+            <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
                 Tags
             </li>
-            <li @onclick=Edit>
+            <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
                 Edit
             </li>
-            <li @onclick=Delete>
+            <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
                 Delete
             </li>
         </ul>
@@ -51,8 +51,33 @@
 
         if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
             return;
-        
+
         if (OnDelete.HasDelegate)
             await OnDelete.InvokeAsync(Message);
+    }
+
+    void TagsAction(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            EditTags();
+        }
+    }
+
+    async Task EditAction(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Edit();
+        }
+    }
+
+
+    async Task DeleteAction(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Delete();
+        }
     }
 }

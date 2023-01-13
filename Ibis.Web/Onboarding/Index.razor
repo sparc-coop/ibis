@@ -1,6 +1,6 @@
 ﻿@layout EmptyLayout
 
-<div class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
+<div tabindex="0" class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
 <div class="onboarding">
     @if (User != null)
     {
@@ -9,10 +9,10 @@
         </header>
 
         <CascadingValue Value="User">
-            <ul class="tabs">
+            <ul @onkeydown="Close" class="tabs" @ref="userOverlay">
                 @foreach (var tab in Tabs)
                 {
-                    <li class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                    <li @onfocus="(() => SetTab(tab))" tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
                 }
             </ul>
 
@@ -40,26 +40,49 @@
     }
 </div>
 
+@inject IJSRuntime jsRuntime
 @code {
     string Tab { get; set; } = "Emoji";
     List<string> Tabs = new() { "Language", "Voice", "Emoji", "Color", "Profile" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
+    private ElementReference userOverlay;
 
     void SetTab(string tab) => Tab = tab;
     void GoToVoice() => Tab = "Voice";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+
         if (User == null)
             return;
 
         if (User.Voice == null)
             Tab = "Language";
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await jsRuntime.InvokeVoidAsync("SetFocusToElement", userOverlay);
+            //await userOverlay.FocusAsync();
+            
+        }
     }
 
     async Task Done()
     {
         await OnDone.InvokeAsync();
+    }
+
+    public async Task Close(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await Done();
+        }
     }
 }
