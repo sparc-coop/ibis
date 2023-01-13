@@ -2900,20 +2900,40 @@ main {
   border-bottom: 1.5px solid #0A111D;
   color: #0A111D;
 }
+.onboarding h2 {
+  padding-top: 16px;
+  padding-bottom: 32px;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: normal;
+  text-align: left;
+}
 .onboarding > button {
   position: absolute;
   bottom: 24px;
   right: 24px;
 }
+.onboarding ::-webkit-scrollbar {
+  width: 5px;
+}
+.onboarding ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.onboarding ::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: #FF3520;
+  border-radius: 35px;
+  transition: 300ms ease-in-out;
+}
+.onboarding ::-webkit-scrollbar-thumb:hover {
+  background: #003B5F;
+}
 
 .account-details {
-  margin-bottom: 120px;
+  height: 70%;
 }
-.account-details .account-FTUX {
-  padding-top: 16px;
-}
-.account-details .account-FTUX p {
-  line-height: 19px;
+.account-details h2 {
+  padding-bottom: 0;
 }
 .account-details label {
   margin: 32px 0;
@@ -2937,16 +2957,11 @@ main {
   color: #6A7280;
 }
 
-.language-FTUX {
-  padding: 16px 0;
-}
-
 .language-selector {
-  height: 70%;
-  margin-bottom: 60px;
+  height: 100%;
 }
 .language-selector ul {
-  height: 100%;
+  height: 58%;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 10px;
@@ -2993,16 +3008,8 @@ main {
   color: #30C07D;
 }
 
-.voice-FTUX {
-  padding: 16px 0;
-}
-
 .voice-selector {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 70%;
-  margin-bottom: 120px;
-  padding: 12px;
+  height: 100%;
 }
 .voice-selector h4 {
   padding-top: 8px;
@@ -3010,7 +3017,13 @@ main {
   font-size: 16px;
   font-weight: 500;
 }
-.voice-selector ul li {
+.voice-selector .voice-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 58%;
+  padding-right: 10px;
+}
+.voice-selector .voice-list ul li {
   display: flex;
   position: relative;
   margin: 8px 0;
@@ -3022,7 +3035,7 @@ main {
   font-size: 16px;
   transition: 300ms ease-in-out;
 }
-.voice-selector ul li aside {
+.voice-selector .voice-list ul li aside {
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -3031,53 +3044,114 @@ main {
   top: 0;
   right: 14px;
 }
-.voice-selector ul li aside span {
+.voice-selector .voice-list ul li aside span {
   margin: auto 0;
   font-size: 12px;
   color: #9BA3AF;
 }
-.voice-selector ul li aside svg {
+.voice-selector .voice-list ul li aside svg {
   width: 20px;
   height: 20px;
   margin: auto 0;
   opacity: 0.4;
 }
-.voice-selector ul li:hover {
+.voice-selector .voice-list ul li:hover {
   background: #F3F5F6;
 }
-.voice-selector ul li.selected {
+.voice-selector .voice-list ul li.selected {
   border: 1.5px solid #30C07D;
   color: #30C07D;
 }
-.voice-selector ul li.selected aside span {
+.voice-selector .voice-list ul li.selected aside span {
   color: #30C07D;
 }
-.voice-selector ul li.selected aside svg {
+.voice-selector .voice-list ul li.selected aside svg {
   fill: #30C07D;
+}
+
+.avatar-editor {
+  height: 100%;
+}
+.avatar-editor--container {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 24px;
+}
+.avatar-editor--container .emoji-selector {
+  height: 250px;
+  margin-top: 16px;
+}
+.avatar-editor--container .avatar-preview {
+  width: 123px;
+}
+.avatar-editor--container .avatar-preview .avatar {
+  width: 123px;
+  height: 123px;
+  padding: 15%;
+}
+.avatar-editor--container .avatar-preview .upload-image {
+  width: 123px;
+  padding: 8px;
+  border: 1px solid #FF3520;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #FF3520;
+}
+.avatar-editor--container .avatar-preview .remove-image {
+  width: 123px;
+  padding: 8px;
+  border: 1px solid #0A111D;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #0A111D;
+}
+.avatar-editor h3 {
+  font-size: 13px;
+  line-height: 15px;
+  margin-bottom: 8px;
+}
+
+.emoji-selector {
+  width: 359px;
+  height: 100%;
+}
+
+.emoji-container {
+  height: 100%;
+  border: 1px solid #D1D4DC;
+  border-radius: 8px;
+  padding: 16px 0;
 }
 
 .skintones, .emojis {
   font-family: "Noto Emoji", sans-serif;
   display: flex;
   flex-wrap: wrap;
-  max-height: 400px;
+  gap: 6px;
   overflow-y: scroll;
   overflow-x: hidden;
+  height: 100%;
+  padding: 0 6px;
 }
 .skintones li, .emojis li {
-  padding: 12px;
-  font-size: 36px;
+  padding: 6px;
+  font-size: 18px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: 300ms ease-in-out;
 }
 .skintones li:hover, .emojis li:hover {
-  background: #FF9E70;
+  background: #F3F5F6;
 }
 .skintones li.selected, .emojis li.selected {
-  background: #CA1E14;
+  background: #FF3520;
   color: white;
 }
 
 ul.colors {
+  width: 264px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -3085,18 +3159,16 @@ ul.colors {
   overflow-x: hidden;
 }
 ul.colors li {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid transparent;
-  padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-ul.colors li:hover, ul.colors li.selected {
-  border-color: #FF3520;
+  /*&:hover, &.selected {
+      border-color: $primary-500;
+  }*/
 }
 ul.colors li span {
   display: block;

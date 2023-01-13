@@ -1,26 +1,41 @@
 ﻿@import "../_variables.scss";
 
+.emoji-selector {
+    width: 359px;
+    height: 100%;
+}
+
+.emoji-container {
+    height: 100%;
+    border: 1px solid $grey-300;
+    border-radius: 8px;
+    padding: 16px 0;
+}
+
 .skintones, .emojis {
     font-family: 'Noto Emoji', sans-serif;
     display: flex;
     flex-wrap: wrap;
-    max-height: 400px;
+    gap: 6px;
     overflow-y: scroll;
     overflow-x: hidden;
+    height: 100%;
+    padding: 0 6px;
 
     li {
-        padding: 12px;
-        font-size: 36px;
+        padding: 6px;
+        font-size: 18px;
+        border-radius: 8px;
         cursor: pointer;
+        transition: 300ms ease-in-out;
 
         &:hover {
-            background: $primary-300;
+            background: $grey-100;
         }
 
         &.selected {
-            background: $primary-700;
+            background: $primary-500;
             color: white;
         }
     }
 }
-

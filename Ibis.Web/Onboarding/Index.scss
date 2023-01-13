@@ -42,9 +42,37 @@
         }
     }
 
+    h2 {
+        padding-top: 16px;
+        padding-bottom: 32px;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: normal;
+        text-align: left;
+    }
+
     > button {
         position: absolute;
         bottom: 24px;
         right: 24px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+
+        &-track {
+            background: transparent;
+        }
+
+        &-thumb {
+            height: 30%;
+            background: $primary-500;
+            border-radius: 35px;
+            transition: 300ms ease-in-out;
+
+            &:hover {
+                background: $secondary-900;
+            }
+        }
     }
 }

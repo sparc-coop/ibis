@@ -1,43 +1,31 @@
-﻿@if (User.Language == null)
-{
-    <div class="language-FTUX">
-        <p>Ibis will automatically translate all communications in the room (both text and audio) into your preferred language.</p>
-    </div>
-}
-
+﻿<div class="language-selector">
+    <h2>
+        Ibis will automatically translate all communications in the room (both text and audio) into your preferred language.
+    </h2>
 @if (Languages != null)
 {
-    <div class="language-selector">
-        <ul class="ibis-ignore">
-            @foreach (var language in Languages)
-            {
-                <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
-                    @language.DisplayName
+    <ul class="ibis-ignore">
+        @foreach (var language in Languages)
+        {
+            <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
+                @language.DisplayName
 
-                    @if (language.DisplayName != language.NativeName)
-                    {
-                        <aside>@language.NativeName</aside>
-                    }
+                @if (language.DisplayName != language.NativeName)
+                {
+                    <aside>@language.NativeName</aside>
+                }
 
-                    @if (User.Language == language.Id)
-                    {
-                        <div class="right">
-                            <img src="icons/Check.svg" />
-                        </div>
-                    }
-                </li>
-            }
-        </ul>
-    </div>
+                @if (User.Language == language.Id)
+                {
+                    <div class="right">
+                        <img src="icons/Check.svg" />
+                    </div>
+                }
+            </li>
+        }
+    </ul>
 }
-
-@*<footer>
-    <h3>Set your default language</h3>
-    <p>
-        Ibis will automatically translate all communications in the room
-        (both text and audio) into your preferred language.
-    </p>
-</footer>*@
+</div>
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;

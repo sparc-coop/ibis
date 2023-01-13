@@ -1,14 +1,10 @@
 ﻿@import "../_variables.scss";
 
 .account-details {
-    margin-bottom: 120px;
+    height: 70%;
 
-    .account-FTUX {
-        padding-top: 16px;
-
-        p {
-            line-height: 19px;
-        }
+    h2 {
+        padding-bottom: 0;
     }
 
     label {

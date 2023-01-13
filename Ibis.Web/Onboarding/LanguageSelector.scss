@@ -1,15 +1,10 @@
 ﻿@import "../_variables.scss";
 
-.language-FTUX {
-    padding: 16px 0;
-}
-
 .language-selector {
-    height: 70%;
-    margin-bottom: 60px;
+    height: 100%;
 
     ul {
-        height: 100%;
+        height: 58%;
         overflow-y: scroll;
         overflow-x: hidden;
         padding-right: 10px;

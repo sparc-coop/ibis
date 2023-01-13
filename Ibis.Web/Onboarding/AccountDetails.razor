@@ -1,10 +1,8 @@
 ﻿<div class="account-details">
-    @if(string.IsNullOrWhiteSpace(User.Name))
-    {
-        <div class="account-FTUX">
-            <p>If you have a few minutes, we would love to show you where the magic happens and get you setup with the basics, so you know how to use ibis to it’s full potential.</p>
-        </div>
-    }
+    <h2>
+        If you have a few minutes, we would love to show you where the magic happens and get you setup with the basics, so you know how to use ibis to it’s full potential.
+    </h2>
+  
     <label>
         Name
         <input @bind="User.Name" @bind:event="oninput" placeholder="Jane Doe" @onblur=Save />

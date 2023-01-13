@@ -28,11 +28,8 @@
                 case "Voice":
                     <VoiceSelector />
                     break;
-                case "Emoji":
-                    <EmojiSelector />
-                    break;
-                case "Color":
-                    <ColorSelector />
+                case "Avatar":
+                    <AvatarEditor User=User SpillBackground="true"/>
                     break;
             }   
 
@@ -43,7 +40,7 @@
 
 @code {
     string Tab { get; set; } = "Profile";
-    List<string> Tabs = new() { "Profile", "Language", "Voice", "Emoji", "Color" };
+    List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
 
