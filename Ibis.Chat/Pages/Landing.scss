@@ -26,7 +26,7 @@ body {
         padding: 21px 53px;
         border: none;
         border-radius: 5px;
-        background: $primary-500;
+        background: $primary-700;
         color: $white;
         font-size: 20px;
         transition: 200ms ease-in-out;
@@ -44,7 +44,7 @@ body {
         border: none;
         border-radius: 5px;
         background: $primary-100;
-        color: $primary-500;
+        color: $primary-700;
         font-size: 20px;
         transition: 200ms ease-in-out;
         display: inline-block;
@@ -77,7 +77,8 @@ body {
 
             a.log-in {
                 margin-right: 35px;
-                color: $gray;
+                color: $grey-600;
+                font-size: 20px;
                 line-height: 25px;
                 text-decoration: none;
                 transition: 300ms ease-in-out;
@@ -85,17 +86,18 @@ body {
 
                 &:hover {
                     cursor: pointer;
-                    color: $primary-500;
+                    color: $primary-700;
                     transform: scale(103%);
                 }
             }
 
             a.get-started {
                 padding: 13px 37px;
-                border: 1px solid $primary-500;
+                border: 1px solid $primary-700;
                 border-radius: 5px;
                 background: transparent;
-                color: $primary-500;
+                color: $primary-700;
+                font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
                 display: inline-block;
@@ -135,7 +137,8 @@ body {
                 margin: 0px;
                 margin-top: 8px;
                 padding: 0px;
-                color: $gray;
+                color: $grey-600;
+                font-weight: 600;
                 font-size: 20px;
                 line-height: 35px;
             }
@@ -201,7 +204,7 @@ body {
 
                         p {
                             margin-top: 11px;
-                            color: $gray;
+                            color: $grey-600;
                             font-family: freight-display-pro, serif;
                             font-weight: 600;
                             font-style: normal;
@@ -228,7 +231,7 @@ body {
             p {
                 margin: 0;
                 margin-top: 16px;
-                color: $gray;
+                color: $grey-600;
                 font-family: freight-display-pro, serif;
                 font-weight: 600;
                 font-style: normal;
@@ -274,7 +277,7 @@ body {
                     margin: 0;
                     margin-top: 16px;
                     margin-bottom: 55px;
-                    color: $gray;
+                    color: $grey-600;
                     font-family: freight-display-pro, serif;
                     font-weight: 600;
                     font-style: normal;
@@ -359,7 +362,7 @@ body {
                     position: absolute;
                     top: 60px;
                     right: 80px;
-                    background: $primary-500;
+                    background: $primary-700;
                     font-size: 20px;
                     line-height: 24px;
                 }
@@ -546,7 +549,7 @@ body {
                         position: absolute;
                         top: 35px;
                         right: 70px;
-                        background: $primary-500;
+                        background: $primary-700;
                         font-size: 20px;
                         line-height: 24px;
                     }
@@ -676,7 +679,7 @@ body {
                                 min-width: 200px;
                                 margin: 0px 0px 6px 45px;
                                 padding: 5px 20px;
-                                border: 1px solid $gray;
+                                border: 1px solid $grey-600;
                                 border-radius: 5px;
                                 font-size: 16px;
                                 line-height: 24px;
@@ -685,7 +688,7 @@ body {
                                 transition: color 0ms, background 300ms ease-in-out;
 
                                 &:hover {
-                                    color: $gray;
+                                    color: $grey-600;
                                     cursor: pointer;
                                     transform: scale(103%);
                                 }
@@ -696,7 +699,7 @@ body {
                                 min-width: 200px;
                                 margin: 6px 0px 0px 45px;
                                 padding: 5px 20px;
-                                border: 1px solid $primary-500;
+                                border: 1px solid $primary-700;
                                 font-size: 16px;
                                 line-height: 20px;
                                 text-align: center;
@@ -911,7 +914,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 12px 71px;
-                        background: $primary-500;
+                        background: $primary-700;
                         font-size: 18px;
                         line-height: 24px;
                         display: inline-block;
@@ -1124,7 +1127,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 6px 71px;
-                        background: $primary-500;
+                        background: $primary-700;
                         font-size: 16px;
                         line-height: 24px;
                     }
@@ -1170,7 +1173,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 8px 25px;
-                        background: $primary-500;
+                        background: $primary-700;
                         font-size: 13px;
                         line-height: 15px;
                     }

@@ -204,17 +204,20 @@
     }
 
     .room-icons {
-        .room-icon-wrapper {
-            display: flex;
-            gap: 9px;
+        .room-icon-wrapper > div {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 24px;
+            margin: 0 0 24px 0;
+            align-items: start;
+            opacity: 0.8;
+            padding: 4px;
 
-            > div {
-                opacity: 0.4;
-
-                &:hover, &.selected {
-                    opacity: 1;
-                    cursor: pointer;
-                }
+            &:hover, &.selected {
+                opacity: 1;
+                cursor: pointer;
+                border: 1px solid $primary-700;
+                border-radius: 8px;
             }
         }
 

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ibis</title>
     <base href="/" />
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
@@ -17,6 +17,11 @@
         if (!("container" in document.documentElement.style)) {
             import("https://unpkg.com/container-query-polyfill@^0.2.0");
         }
+
+        window.SetFocusToElement = (element) => {
+            if (element?.firstChild)
+                element.firstChild.focus();
+        };
     </script>
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {

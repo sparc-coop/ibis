@@ -61,7 +61,7 @@
             width: 318px;
 
             button {
-                color: $grey-500;
+                color: $grey-600;
                 font-size: 13px;
                 border: 1px solid $grey-500;
                 border-radius: 8px;
@@ -176,6 +176,11 @@
 
     .slider.round:before {
         border-radius: 50%;
+    }
+
+    input[type="checkbox"]:focus {
+        box-shadow: 2px 2px 6px red;
+        outline: 1px solid red;
     }
 
     .messages {

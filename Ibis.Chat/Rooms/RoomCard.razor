@@ -1,4 +1,4 @@
-﻿<article class="room-card" @onclick="GoToRoom">
+﻿<article tabindex="0" class="room-card" @onclick="GoToRoom">
     <header>
         <RoomIcon RoomType="Chat" />
         <div class="option-icons" @onclick:stopPropagation="true">
@@ -8,7 +8,7 @@
     </header>
 
     <section>
-        <h6>@Room.Name</h6>
+        <h3>@Room.Name</h3>
         <time datetime="@Room.LastActiveDate?.ToString("u")">
             Last Used: @(Room.LastActiveDate != null
                 ? Room.LastActiveDate.Value.LocalDateTime.ToString("D")
