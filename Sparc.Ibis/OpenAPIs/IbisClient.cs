@@ -2750,8 +2750,8 @@ namespace Sparc.Ibis
         [Newtonsoft.Json.JsonProperty("nativeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string NativeName { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("isRightToLeft", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsRightToLeft { get; set; }
+        [Newtonsoft.Json.JsonProperty("isRightToLeft", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsRightToLeft { get; set; }
 
         [Newtonsoft.Json.JsonProperty("dialects", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Dialect> Dialects { get; set; }
@@ -3125,6 +3125,9 @@ namespace Sparc.Ibis
 
         [Newtonsoft.Json.JsonProperty("language", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Language { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("languageIsRTL", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? LanguageIsRTL { get; set; }
 
         [Newtonsoft.Json.JsonProperty("emoji", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Emoji { get; set; }

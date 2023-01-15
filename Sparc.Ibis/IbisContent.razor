@@ -14,15 +14,31 @@
 
     @if (ChildContent == null)
     {
-        <div class="message-text">
-            @((MarkupString)LocalMessage.Html)
-        </div>
+        @if(Me.LanguageIsRTL == false)
+        {
+            <div class="message-text">
+                @((MarkupString)LocalMessage.Html)
+            </div>
+        } else
+        {
+            <div class="message-text" dir="rtl">
+                @((MarkupString)LocalMessage.Html)
+            </div>
+        }
     }
     else
     {
-        <section id="@_id" class="ibis-translate">
-            @ChildContent
-        </section>
+        @if (Me.LanguageIsRTL == false)
+        {
+            <section id="@_id" class="ibis-translate">
+                @ChildContent
+            </section>
+        } else
+        {
+            <section id="@_id" class="ibis-translate" dir="rtl">
+                @ChildContent
+            </section>
+        }
     }
 </article>
 
@@ -34,6 +50,7 @@
     [Parameter] public string? ChannelId { get; set; }
     [Parameter] public string? Tag { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [CascadingParameter] public UserAvatar? Me { get; set; }
 
     string? _originalMessageId;
     Message LocalMessage = new();

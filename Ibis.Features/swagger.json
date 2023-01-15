@@ -2245,7 +2245,8 @@
             "nullable": true
           },
           "isRightToLeft": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "dialects": {
             "type": "array",
@@ -2799,6 +2800,10 @@
           },
           "language": {
             "type": "string",
+            "nullable": true
+          },
+          "languageIsRTL": {
+            "type": "boolean",
             "nullable": true
           },
           "emoji": {

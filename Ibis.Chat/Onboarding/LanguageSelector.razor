@@ -40,6 +40,7 @@
     async Task SetLanguage(Language language)
     {
         User.Language = language.Id;
+        User.LanguageIsRTL = language.IsRightToLeft;
         await Api.UpdateUserAsync(User);
 
         if (OnSelected.HasDelegate)

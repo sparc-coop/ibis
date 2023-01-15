@@ -57,11 +57,31 @@
                     padding: 16px;
 
                     li {
-                        padding: 8px;
+                        padding: 8px 0;
                     }
                 }
 
-                &:hover {
+                .navmenu-button {
+                    width: 100%;
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border-width: 0;
+                    background: none;
+                    color: #013b60;
+                    font-weight: normal;
+                    transition: 300ms ease-in-out;
+
+                    &:hover {
+                        background: $secondary-200;
+                    }
+                }
+
+                .logout {
+                    color: $primary-500;
+
+                    &:hover {
+                        background: $primary-100;
+                    }
                 }
 
                 &.open > ul {
@@ -90,7 +110,7 @@
             color: $grey-500;
 
             &:hover {
-                transform: scale(1.05, 1.05); 
+                transform: scale(1.05, 1.05);
             }
 
             &.negative {

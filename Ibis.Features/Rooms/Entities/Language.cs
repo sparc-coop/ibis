@@ -7,10 +7,10 @@ public class Language
     public string Id { get; private set; }
     public string DisplayName { get; private set; }
     public string NativeName { get; private set; }
-    public bool IsRightToLeft { get; private set; }
+    public bool? IsRightToLeft { get; private set; }
     public List<Dialect> Dialects { get; private set; }
 
-    public Language(string id, string displayName, string nativeName, bool isRightToLeft)
+    public Language(string id, string displayName, string nativeName, bool? isRightToLeft)
     {
         Id = id.Split("-").First();
         DisplayName = displayName;
