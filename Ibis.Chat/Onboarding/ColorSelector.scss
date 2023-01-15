@@ -1,6 +1,7 @@
 ﻿@import "../_variables.scss";
 
 ul.colors {
+    width: 264px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -8,19 +9,17 @@ ul.colors {
     overflow-x: hidden;
 
     li {
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         cursor: pointer;
-        border: 2px solid transparent;
-        padding: 2px;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        &:hover, &.selected {
+        /*&:hover, &.selected {
             border-color: $primary-500;
-        }
+        }*/
 
         span {
             display: block;

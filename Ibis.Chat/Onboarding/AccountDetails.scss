@@ -1,8 +1,14 @@
 ﻿@import "../_variables.scss";
 
 .account-details {
+    height: 70%;
+
+    h2 {
+        padding-bottom: 0;
+    }
+
     label {
-        margin: 16px 0;
+        margin: 32px 0;
         display: block;
         color: $grey-700;
     }

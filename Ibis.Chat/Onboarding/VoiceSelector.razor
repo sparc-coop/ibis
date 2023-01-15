@@ -1,39 +1,34 @@
-﻿@if (string.IsNullOrWhiteSpace(User.Language))
-{
-    <p>
-        You haven't selected a language yet. Please select a language first.
-    </p>
-}
-else if (Dialects != null)
-{
-    <div class="voice-selector ibis-ignore">
-        @foreach (var dialect in Dialects)
-        {
-            <h4>@dialect.NativeName</h4>
-            <ul>
-                @foreach (var voice in dialect.Voices)
-                {
-                    <li @onclick="(() => SetVoice(voice))" class="@(User.Voice == voice.ShortName ? "selected" : "")">
-                        @voice.DisplayName
-                        <aside>@voice.Gender</aside>
-                    </li>
-                }
-            </ul>
-        }
-    </div>
-    @if (AudioPreviewUrl != null)
+﻿<div class="voice-selector">
+    <h2>
+        Ibis will use this voice to speak for you. So make sure the voice you choose represents you! If you're not sure, you can always change it.
+    </h2>
+    @if (Dialects != null)
     {
-        <audio autoplay src="@AudioPreviewUrl" />
+        <div class="voice-list ibis-ignore">
+            @foreach (var dialect in Dialects)
+            {
+                <h4>@dialect.NativeName</h4>
+                <ul>
+                    @foreach (var voice in dialect.Voices)
+                    {
+                        <li @onclick="(() => SetVoice(voice))" class="@(User.Voice == voice.ShortName ? "selected" : "")">
+                            @voice.DisplayName
+                            <aside class="right">
+                                <span>@voice.Gender</span>
+                                @*<img src="/icons/Play.svg" alt="Play" />*@
+                                <PlayIcon />
+                            </aside>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        @if (AudioPreviewUrl != null)
+        {
+            <audio autoplay src="@AudioPreviewUrl" />
+        }
     }
-}
-
-<footer>
-    <h3>Choose Your Voice</h3>
-    <p>
-        Ibis will use this voice to speak for you.
-        So make sure the voice you choose represents you! If you're not sure, you can always change it later.
-    </p>
-</footer>
+</div>
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;

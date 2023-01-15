@@ -5,7 +5,8 @@
     @if (User != null)
     {
         <header>
-            <Avatar User="User" />
+            @*<Avatar User="User" />*@
+            <img class="header-logo" src="images/logo_icon.png" />
         </header>
 
         <CascadingValue Value="User">
@@ -27,13 +28,10 @@
                 case "Voice":
                     <VoiceSelector />
                     break;
-                case "Color":
-                    <ColorSelector />
+                case "Avatar":
+                    <AvatarEditor User=User SpillBackground="true"/>
                     break;
-                case "Emoji":
-                    <EmojiSelector />
-                    break;
-            }
+            }   
 
             <button @onclick="Done">Done</button>
         </CascadingValue>
@@ -41,8 +39,8 @@
 </div>
 
 @code {
-    string Tab { get; set; } = "Emoji";
-    List<string> Tabs = new() { "Language", "Voice", "Emoji", "Color", "Profile" };
+    string Tab { get; set; } = "Profile";
+    List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
 
