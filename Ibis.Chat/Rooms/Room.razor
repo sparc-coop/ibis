@@ -2,12 +2,12 @@
 @implements IAsyncDisposable
 @page "/rooms/{Id}"
 
-<section class="room room-@(RoomInfo?.RoomType ?? "loading")">
+<section class="room room-@(RoomInfo == null ? "loading" : "chat")">
     <header>
         @if (RoomInfo != null)
         {
             <h2>
-                <RoomIcon RoomType="@RoomInfo.RoomType" />
+                <RoomIcon RoomType="Chat" />
                 @RoomInfo.Name
             </h2>
             <div class="actions">
