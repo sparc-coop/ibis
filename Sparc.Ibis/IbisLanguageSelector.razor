@@ -2,14 +2,6 @@
     <button @onclick="GetLanguages">@SelectedLanguage</button>
     @if (IsSelecting)
     {
-        @*<select aria-labelledby="languageLabel">
-                @foreach (var language in Languages)
-                {
-                <option value="@language.Id" @(Message.Language == language.Id ? "selected" : "" )>
-                @language.Id
-                </option>
-                }
-           </select>*@
         <ul aria-hidden="true">
             @foreach (var language in Languages!)
             {

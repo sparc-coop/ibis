@@ -6,7 +6,6 @@
         <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
         <div class="dropdown" @onclick:stopPropagation="true">
             <ul>
-@*                <li @onclick="ShowEditModal">Edit Name</li>*@
                 @if(User?.Id == Room.HostUserId)
                 {
                     <li @onclick="ShowDeleteModal">Delete Room</li>
