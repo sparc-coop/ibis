@@ -4,7 +4,7 @@
 <div class="dashboard">
     <div class="actions">
         <div class="header">
-            <h3>Your Rooms</h3>
+            <h2>Your Rooms</h2>
             <button class="add" @onclick="CreateRoom">
                 &plus;  Create New Room
             </button>
@@ -12,10 +12,10 @@
         </div>
         <div class="search-wrapper">
             <div class="searchbar">
-                <input placeholder="Search rooms" @onchange="@SearchRooms" />
-                <a class="search"><img src="/icons/Search.svg" /></a>
+                <input aria-label="Search" placeholder="Search rooms" @onchange="@SearchRooms" />
+                <span class="search"><img alt="" src="/icons/Search.svg" /></span>
             </div>
-            <div class="grid-wrapper" @onclick="ToggleListView">
+            <div tabindex="0" class="grid-wrapper" @onclick="ToggleListView" @onkeypress="@Enter">
                 <div class="selected @(listView != "" ? "selected-left" : null)"></div>
                 <div class="grid">
                     Grid
@@ -78,6 +78,14 @@
         else if (string.IsNullOrEmpty(searchTerm))
         {
             Rooms = OriginalList!;
+        }
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == "ArrowRight" || e.Key == "ArrowLeft")
+        {
+            ToggleListView();
         }
     }
 }

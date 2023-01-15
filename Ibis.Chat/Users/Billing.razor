@@ -2,26 +2,29 @@
 
 <AccountNav />
 <div class="account">
-    <div class="account--header">
-        <h3>Billing info</h3>
-        <p>Update your billing information here.</p>
-    </div>
-    <div class="account--card">
-        @if (userPayment == true)
-        {
-            <h3>Save credit card for future billing</h3>
-            <form id="payment-form">
-                <div id="payment-element">
-                    <!-- Elements will create form elements here -->
-                </div>
-                <button id="submit">Submit</button>
-                <div id="error-message">
-                    <!-- Display error message to your customers here -->
-                </div>
-            </form>
-        }
-        
-    </div>
+	<div class="account--header">
+		<h2>Billing info</h2>
+		<p>Update your billing information here.</p>
+	</div>
+	<div class="account--card">
+		@if(userPayment == true)
+		{
+			<h3>Save credit card for future billing</h3>
+		<form id="payment-form">
+			<div id="payment-element">
+			<!-- Elements will create form elements here -->
+			</div>
+			<button id="submit">Submit</button>
+			<div id="error-message">
+			<!-- Display error message to your customers here -->
+			</div>
+		</form>
+		} 
+	@*
+		@if(userPayment == false) {
+			<button class="edit-payment">Update Saved Payment Information</button>
+		}*@
+	</div>
 </div>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider

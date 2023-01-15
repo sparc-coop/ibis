@@ -29,7 +29,7 @@
         <label class="switch">
             <input type="checkbox" @bind=NewTag.Translate />
             Translate this tag
-            <span class="slider">
+            <span @onkeydown="KeyboardSlider" tabindex="0" class="slider">
             </span>
         </label>
         <button @onclick="AddTag">Add this Tag</button>
@@ -64,4 +64,12 @@
     }
 
     async Task Close() => await Ok();
+
+    void KeyboardSlider(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            NewTag.Translate = !NewTag.Translate;
+        }
+    }
 }

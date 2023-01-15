@@ -1,4 +1,4 @@
-﻿<button class="room-menu" @onclick:stopPropagation="true" @onclick="ToggleDropdown">
+﻿<button aria-label="Menu" class="room-menu" @onclick:stopPropagation="true" @onclick="ToggleDropdown" @onfocus="ToggleDropdown">
     <MoreVertical />
 
     @if (ShowDropdown)
@@ -8,10 +8,10 @@
             <ul>
                 @if(User?.Id == Room.HostUserId)
                 {
-                    <li @onclick="ShowDeleteModal">Delete Room</li>
+                    <li @onfocusout="ToggleDropdown" tabindex="0" @onclick="ShowDeleteModal" @onkeydown="KeyboardDelete">Delete Room</li>
                 } else
                 {
-                    <li @onclick="ShowDeleteModal">Leave Room</li>
+                    <li @onfocusout="ToggleDropdown" tabindex="0" @onclick="ShowDeleteModal" @onkeydown="KeyboardDelete">Leave Room</li>
                 }
             </ul>
         </div>
@@ -67,5 +67,13 @@
     void ToggleDropdown()
     {
         ShowDropdown = !ShowDropdown;
+    }
+
+    async Task KeyboardDelete(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await ShowDeleteModal();
+        }
     }
 }

@@ -5,6 +5,7 @@
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
             <header>
+                <h1>
                 <a href="/rooms">
                     <figure class="logo">
                         @if (IsRoom)
@@ -18,7 +19,7 @@
                         <figcaption>Ibis</figcaption>
                     </figure>
                 </a>
-
+                </h1>
                 <nav>
                     <AuthorizeView>
                         <Authorized>
@@ -32,7 +33,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                    <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
                                         <Avatar User="User" />
                                         <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
                                         <ul>
@@ -118,5 +119,13 @@
     private void Logout()
     {
         Nav.NavigateToLogout("authentication/logout");
+    }
+
+    void KeyboardMenu(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            OpenMenu();
+        }
     }
 }

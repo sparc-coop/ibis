@@ -42,13 +42,13 @@
         border-radius: 8px;
 
         &.save {
-            background: $primary-500;
+            background: $primary-700;
             color: $white;
         }
 
         &.cancel {
             background: $grey-200;
-            color: $grey-500;
+            color: $grey-800;
             margin-right: 16px;
         }
     }
