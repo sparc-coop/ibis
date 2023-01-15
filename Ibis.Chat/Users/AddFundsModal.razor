@@ -11,9 +11,6 @@
                     <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
                 </li>
             }
-            @*<li class="@(IsCustomAmount ? "selected" : "")">
-                <input type="number" step=".01" @bind=CustomAmount placeholder="0.00" />
-            </li>*@
         </ul>
 
         <form>
@@ -34,24 +31,6 @@
 
     List<double> Amounts = new();
     double SelectedAmount;
-    string _customAmount = "";
-    string CustomAmount
-    {
-        get
-        {
-            return _customAmount;
-        }
-        set
-        {
-            _customAmount = value;
-            if (double.TryParse(value, out SelectedAmount))
-            {
-                IsCustomAmount = true;
-                InvokeAsync(UpdateAmountAsync);
-            }
-        }
-    }
-    bool IsCustomAmount;
     PaymentIntentResponse? PaymentIntent;
 
     protected override async Task OnInitializedAsync()
@@ -63,14 +42,6 @@
     async Task ChooseAmount(double amount)
     {
         SelectedAmount = amount;
-        IsCustomAmount = false;
-        await UpdateAmountAsync();
-    }
-
-    async Task ChooseCustomAmount()
-    {
-        if (double.TryParse(CustomAmount, out SelectedAmount))
-            IsCustomAmount = true;
         await UpdateAmountAsync();
     }
 
