@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Ibis.Features;
+﻿namespace Ibis.Features;
 
 public class Language
 {

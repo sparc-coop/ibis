@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Sparc.Blossom.Authentication;
 using File = Sparc.Blossom.Data.File;
 
 namespace Ibis.Features.Users;

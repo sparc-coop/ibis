@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Sparc.Blossom.Authentication;
-using Sparc.Blossom.Realtime;
 
 namespace Ibis.Features.Users;
 

@@ -1,6 +1,4 @@
-﻿using Sparc.Blossom.Authentication;
-
-namespace Ibis.Features.Users;
+﻿namespace Ibis.Features.Users;
 
 public class GetUser : Feature<UserAvatar>
 {
