@@ -19,8 +19,8 @@
         }
 
         window.SetFocusToElement = (element) => {
-            console.log("???", element.firstChild);
-            element.firstChild.focus();
+            if (element?.firstChild)
+                element.firstChild.focus();
         };
     </script>
     <script type="text/javascript">

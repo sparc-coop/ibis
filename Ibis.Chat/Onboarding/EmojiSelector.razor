@@ -11,12 +11,13 @@
             }
         </ul>
     *@
-        <h3>Emoji</h3>
+        <h3 @ref="EmojiList">Emoji</h3>
         <div class="emoji-container">
-            <ul class="emojis ibis-ignore">
+            <ul onkeypress="Leave" class="emojis ibis-ignore">
+                @{ int tabIndex = 0; }
                 @foreach (var emoji in Emojis.Emojis)
                 {
-                    <li @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">
+                    <li tabindex="@tabIndex++" @onclick="(() => SetEmoji(emoji))" class="@(User.Emoji == emoji ? "selected" : "")">
                         @emoji
                     </li>
                 }
@@ -28,6 +29,7 @@
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
     GetEmojisResponse? Emojis { get; set; }
+    private ElementReference EmojiList;
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,5 +46,13 @@
     {
         User.Emoji = emoji;
         await Api.UpdateUserAsync(User);
+    }
+
+    async Task Leave(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await EmojiList.FocusAsync();
+        }
     }
 }
