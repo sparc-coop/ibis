@@ -1,0 +1,54 @@
+﻿@inherits RealtimeComponent
+
+<div class="avatar-editor">
+    <h2>
+        Ibis will use this avatar to represent you across the entire app, so make sure it represents you!
+    </h2>
+    <div class="avatar-editor--container">
+        <div class="selector-wrapper">
+            <ColorSelector />
+            <EmojiSelector />
+        </div>
+        <div class="avatar-preview">
+            <h3>Preview</h3>
+            <figure class="avatar ibis-ignore @(HasEmoji ? "emoji" : "")" style="background-color: @LocalUser.BackgroundColor">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @LocalUser.ForegroundColor">
+                        @Emoji
+                    </text>
+                </svg>
+                <figcaption style="color: @LocalUser.ForegroundColor">
+                    @LocalUser.Name
+                    <aside>
+                        @LocalUser.Language &#8226; @LocalUser.Pronouns
+                    </aside>
+                </figcaption>
+
+                @*    @if (!LocalUser.IsOnline)
+                {
+                <aside>Offline</aside>
+                }
+                *@
+            </figure>
+            @*<button class="upload-image">Upload</button>
+            <button class="remove-image">Remove Image</button>*@
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public bool SpillBackground { get; set; }
+    UserAvatar LocalUser = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalUser = User;
+        await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
+    }
+
+    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);
+    string Emoji => !HasEmoji
+        ? LocalUser.Initials
+        : LocalUser.Emoji;
+}

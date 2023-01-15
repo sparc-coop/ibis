@@ -4,12 +4,13 @@ namespace Ibis.Features.Users;
 
 public static class UserRepositoryExtensions
 {
-    public static async Task<User?> GetAsync(this IRepository<User> repository, ClaimsPrincipal user)
+    public static Task<User?> GetAsync(this IRepository<User> repository, ClaimsPrincipal user)
     {
         var azureId = user.Id();
         if (azureId == null)
-            return null;
+            return Task.FromResult<User?>(null);
         
-        return repository.Query.FirstOrDefault(x => x.AzureB2CId == azureId);
+        var result = repository.Query.FirstOrDefault(x => x.AzureB2CId == azureId);
+        return Task.FromResult(result);
     }
 }

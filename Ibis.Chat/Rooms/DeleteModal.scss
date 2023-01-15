@@ -1,0 +1,27 @@
+﻿@import "../_variables.scss";
+
+.delete-modal {
+    position: relative;
+    box-sizing: border-box;
+    height: 134px;
+
+
+    button {
+        &.delete {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background: $secondary;
+        }
+
+        &.cancel {
+            padding: 8px 16px;
+            border-radius: 6px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: $dark-blue;
+            color: $white;
+        }
+    }
+}

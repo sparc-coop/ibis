@@ -1,0 +1,270 @@
+﻿@import "../_variables";
+
+.pricing-page {
+    background: $background;
+
+    button {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .hero {
+        position: relative;
+        text-align: center;
+        background: $tertiary;
+        height: 661px;
+        text-align: center;
+        padding: 20px;
+
+        @media only screen and (max-width: 480px) {
+            height: 474px;
+        }
+
+        h2 {
+            margin: 0px;
+            color: $secondary-900;
+            font-weight: 600;
+            font-size: 80px;
+            line-height: 97px;
+            padding: 150px 0 10px 0;
+
+            @media only screen and (max-width: 480px) {
+                padding: 34px 0 10px 0;
+            }
+        }
+
+        p {
+            color: $gray;
+            font-size: 20px;
+            line-height: 35px;
+            max-width: 731px;
+            margin: 0 auto;
+        }
+
+        button {
+            margin-top: 80px;
+            padding: 21px 40px;
+
+            @media only screen and (max-width: 480px) {
+                margin-top: 30px;
+                padding: 10px 40px;
+            }
+        }
+    }
+
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: -60px;
+        padding-bottom: 100px;
+        justify-content: center;
+
+        @media only screen and (max-width: 480px) {
+            padding: 0 36px;
+        }
+    }
+
+    .pricing-card {
+        background: $white;
+        color: $gray;
+        padding: 24px;
+        height: 443px;
+        max-width: 420px;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 1;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(67, 67, 68, 0.0705882);
+
+        h4 {
+            color: $secondary-800;
+            padding-bottom: 24px;
+        }
+
+        .price {
+            color: $secondary-800;
+            font-size: 31px;
+            line-height: 120%;
+        }
+
+        span {
+            color: $gray;
+            font-size: 16px;
+        }
+
+        p {
+            margin-top: 16px;
+        }
+
+        ul {
+            margin-top: 32px;
+        }
+
+        li {
+            padding: 4px 0;
+
+            img {
+                margin-right: 16px;
+                vertical-align: middle;
+                margin-top: -3px;
+            }
+        }
+
+        button {
+            padding: 6px 70px;
+            margin: 0 auto;
+            position: absolute;
+            bottom: 24px;
+            left: 16%;
+            right: 16%;
+            text-align: center;
+
+            @media only screen and (max-width: 480px) {
+                padding: 6px 36px;
+            }
+        }
+    }
+
+    .faq {
+        width: 100%;
+        max-width: 1292px;
+        box-sizing: border-box;
+        padding: 40px 20px;
+        margin: 0 auto;
+
+        .question {
+            padding: 0 20px;
+
+            &:hover {
+                background: #EEF4FA;
+                border-radius: 16px;
+            }
+        }
+
+        h3 {
+            color: $dark-blue;
+            padding-bottom: 64px;
+            font-weight: 500;
+            font-size: 39px;
+            line-height: 120%;
+        }
+
+        h4 {
+            color: #525963;
+            font-weight: 400;
+            font-size: 25px;
+            line-height: 120%;
+            cursor: pointer;
+            padding: 20px 0;
+        }
+
+        p {
+            color: #525963;
+            font-size: 16px;
+            margin: 0 52px;
+            padding-bottom: 20px;
+        }
+
+        .selected {
+            background: #EEF4FA;
+            border-radius: 16px;
+        }
+
+
+
+        img {
+            width: 24px;
+            vertical-align: middle;
+            margin: -3px 20px 0 0;
+        }
+    }
+
+    .banner {
+        width: 100%;
+        max-width: 1143px;
+        margin: 50px auto 0 auto;
+        position: relative;
+        z-index: 10;
+
+        img {
+            width: 100%;
+
+            &.mobile {
+                display: none;
+            }
+        }
+
+        .banner-content {
+            text-align: left;
+
+            @media only screen and (max-width: 900px) {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            h3 {
+                position: absolute;
+                margin: 0;
+                padding: 0;
+                top: 40px;
+                left: 100px;
+                color: white;
+                font-weight: 600;
+                font-size: 40px;
+                line-height: 48px;
+
+                @media only screen and (max-width: 680px) {
+                    font-size: 20px;
+                    line-height: 28px;
+                }
+
+                @media only screen and (max-width: 530px) {
+                    left: 70px;
+                }
+            }
+
+            a.btn-primary {
+                padding: 21px 61px;
+                border-radius: 5px;
+                position: absolute;
+                top: 58px;
+                right: 80px;
+                background: $primary-500;
+                font-size: 20px;
+                line-height: 24px;
+                color: $white;
+
+                @media only screen and (max-width: 900px) {
+                    bottom: 128px;
+                    right: 120px;
+                    top: unset;
+                }
+
+                @media only screen and (max-width: 680px) {
+                    font-size: 19px;
+                    bottom: 90px;
+                    left: 14%;
+                    right: 14%;
+                    text-align: center;
+                }
+            }
+
+            &.mobile {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 900px) {
+            .desktop {
+                display: none;
+            }
+
+            img.mobile {
+                display: block;
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+﻿<article class="room-card" @onclick="GoToRoom">
+    <header>
+        <RoomIcon RoomType="Chat" />
+        <div class="option-icons" @onclick:stopPropagation="true">
+            <RoomShare Room="Room" />
+            <RoomMenu Room="Room" />
+        </div>
+    </header>
+
+    <section>
+        <h6>@Room.Name</h6>
+        <time datetime="@Room.LastActiveDate?.ToString("u")">
+            Last Used: @(Room.LastActiveDate != null
+                ? Room.LastActiveDate.Value.LocalDateTime.ToString("D")
+                : Room.StartDate.LocalDateTime.ToString("D"))
+        </time>
+    </section>
+
+    <footer>
+        @foreach (var member in Room.Users.Take(10))
+        {
+            <Avatar User="member" />
+        }
+    </footer>
+</article>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+
+    void GoToRoom()
+    {
+        Nav.NavigateTo($"/rooms/{Room.RoomId}");
+    }
+
+    
+}

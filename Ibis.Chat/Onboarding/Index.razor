@@ -1,0 +1,63 @@
+﻿@layout EmptyLayout
+
+<div class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
+<div class="onboarding">
+    @if (User != null)
+    {
+        <header>
+            @*<Avatar User="User" />*@
+            <img class="header-logo" src="images/logo_icon.png" />
+        </header>
+
+        <CascadingValue Value="User">
+            <ul class="tabs">
+                @foreach (var tab in Tabs)
+                {
+                    <li class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                }
+            </ul>
+
+            @switch (Tab)
+            {
+                case "Profile":
+                    <AccountDetails />
+                    break;
+                case "Language":
+                    <LanguageSelector OnSelected="GoToVoice" />
+                    break;
+                case "Voice":
+                    <VoiceSelector />
+                    break;
+                case "Avatar":
+                    <AvatarEditor User=User SpillBackground="true"/>
+                    break;
+            }   
+
+            <button @onclick="Done">Done</button>
+        </CascadingValue>
+    }
+</div>
+
+@code {
+    string Tab { get; set; } = "Profile";
+    List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
+    [CascadingParameter] public UserAvatar? User { get; set; }
+    [Parameter] public EventCallback OnDone { get; set; }
+
+    void SetTab(string tab) => Tab = tab;
+    void GoToVoice() => Tab = "Voice";
+
+    protected override void OnInitialized()
+    {
+        if (User == null)
+            return;
+
+        if (User.Voice == null)
+            Tab = "Language";
+    }
+
+    async Task Done()
+    {
+        await OnDone.InvokeAsync();
+    }
+}

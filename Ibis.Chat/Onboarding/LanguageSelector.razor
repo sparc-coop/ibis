@@ -1,0 +1,49 @@
+﻿<div class="language-selector">
+    <h2>
+        Ibis will automatically translate all communications in the room (both text and audio) into your preferred language.
+    </h2>
+@if (Languages != null)
+{
+    <ul class="ibis-ignore">
+        @foreach (var language in Languages)
+        {
+            <li @onclick="(() => SetLanguage(language))" class="@(User.Language == language.Id ? "selected" : "")">
+                @language.DisplayName
+
+                @if (language.DisplayName != language.NativeName)
+                {
+                    <aside>@language.NativeName</aside>
+                }
+
+                @if (User.Language == language.Id)
+                {
+                    <div class="right">
+                        <img src="icons/Check.svg" />
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+}
+</div>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public EventCallback OnSelected { get; set; }
+    ICollection<Language>? Languages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Languages = await Api.GetLanguagesAsync();
+    }
+
+    async Task SetLanguage(Language language)
+    {
+        User.Language = language.Id;
+        User.LanguageIsRTL = language.IsRightToLeft;
+        await Api.UpdateUserAsync(User);
+
+        if (OnSelected.HasDelegate)
+            await OnSelected.InvokeAsync();
+    }
+}

@@ -1,0 +1,72 @@
+﻿<button class="room-menu" @onclick:stopPropagation="true" @onclick="ToggleDropdown">
+    <MoreVertical />
+
+    @if (ShowDropdown)
+    {
+        <div class="dropdown--overlay" @onclick:stopPropagation="true" @onclick="ToggleDropdown"></div>
+        <div class="dropdown" @onclick:stopPropagation="true">
+            <ul>
+@*                <li @onclick="ShowEditModal">Edit Name</li>*@
+                @if(User?.Id == Room.HostUserId)
+                {
+                    <li @onclick="ShowDeleteModal">Delete Room</li>
+                } else
+                {
+                    <li @onclick="ShowDeleteModal">Leave Room</li>
+                }
+            </ul>
+        </div>
+    }
+</button>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    bool ShowDropdown;
+    private UserAvatar? User;
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = await Api.GetUserAsync();
+    }
+
+    async Task ShowDeleteModal()
+    {
+        var parameters = new ModalParameters();
+
+        if(User?.Id == Room.HostUserId)
+        {
+            parameters.Add(nameof(DeleteModal.RoomId), Room.RoomId);
+            var deleteModal = Modal.Show<DeleteModal>("Confirm", parameters);
+            var result = await deleteModal.Result;
+            if (result.Cancelled)          
+                ToggleDropdown();           
+        } else
+        {
+            parameters.Add(nameof(DeleteModal.RoomId), Room.RoomId);
+            var leaveModal = Modal.Show<LeaveModal>("Confirm", parameters);
+            var result = await leaveModal.Result;
+            if (result.Cancelled)
+                ToggleDropdown();
+        }
+
+    }
+
+    async Task ShowEditModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(EditModal.RoomId), Room.RoomId);
+        parameters.Add(nameof(EditModal.Title), Room.Name);
+        var editModal = Modal.Show<EditModal>("Edit Room", parameters);
+
+        var result = await editModal.Result;
+        if (result.Cancelled)
+        {
+            ToggleDropdown();
+        }
+    }
+
+    void ToggleDropdown()
+    {
+        ShowDropdown = !ShowDropdown;
+    }
+}
