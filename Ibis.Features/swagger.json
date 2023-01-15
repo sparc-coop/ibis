@@ -2163,6 +2163,10 @@
               "$ref": "#/components/schemas/UserAvatar"
             },
             "nullable": true
+          },
+          "hostUserId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

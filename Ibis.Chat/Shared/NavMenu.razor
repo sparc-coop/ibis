@@ -1,19 +1,21 @@
 ﻿<div class="nav-menu">
     <a href="/"><img class="logo" src="/images/logo_2x.png" /></a>
-    @*<a href="/pricing">Pricing</a>*@
-    <AuthorizeView>
-        <Authorized>
-            <a href="rooms" class="nav-link">
-                <img class="dash-icon" src="../icons/dashboard.svg"/>
-            </a>
-            <button class="logout" @onclick="Logout">
-                Log Out
-            </button>
-        </Authorized>
-        <NotAuthorized>
-            <a href="authentication/login" class="login">Get Started</a>
-        </NotAuthorized>
-    </AuthorizeView>
+    <nav>
+        <a href="/pricing">Pricing</a>
+        <AuthorizeView>
+            <Authorized>
+                <a href="rooms" class="nav-link">
+                    <img class="dash-icon" src="../icons/dashboard.svg"/>
+                </a>
+                <button class="logout" @onclick="Logout">
+                    Log Out
+                </button>
+            </Authorized>
+            <NotAuthorized>
+                <a href="authentication/login" class="login">Get Started</a>
+            </NotAuthorized>
+        </AuthorizeView>
+    </nav>
 </div>
 
 @code {

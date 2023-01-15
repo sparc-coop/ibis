@@ -5,7 +5,7 @@
 .ibis-meta-app .ibis-widget {
   position: fixed;
   top: 30px;
-  right: 270px;
+  right: 370px;
   z-index: 101;
 }
 @media only screen and (max-width: 760px) {
@@ -64,11 +64,11 @@
 }
 .landing--nav .menu {
   padding-top: 10px;
+  font-size: 20px;
 }
 .landing--nav .menu a.log-in {
   margin-right: 35px;
   color: #858a8f;
-  font-size: 20px;
   line-height: 25px;
   text-decoration: none;
   transition: 300ms ease-in-out;
@@ -85,10 +85,10 @@
   border-radius: 5px;
   background: transparent;
   color: #FF3520;
-  font-size: 20px;
   line-height: 25px;
   transition: 200ms ease-in-out;
   display: inline-block;
+  margin-left: 15px;
 }
 .landing--nav .menu a.get-started:hover {
   cursor: pointer;
@@ -119,17 +119,12 @@
   margin-top: 8px;
   padding: 0px;
   color: #858a8f;
-  font-weight: 600;
   font-size: 20px;
   line-height: 35px;
 }
 .landing .hero .landing--button-container {
   margin-top: 72px;
   margin-bottom: 150px;
-  /*            .btn-primary {
-                  margin-right: 30px;
-              }
-  */
 }
 .landing .hero img.hero-image--room {
   width: 85%;
@@ -951,7 +946,248 @@
 }
 
 .pricing-page {
-  padding: 50px 0;
+  background: #fafbfc;
+}
+.pricing-page button {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+.pricing-page .hero {
+  position: relative;
+  text-align: center;
+  background: #f9f1e8;
+  height: 661px;
+  text-align: center;
+  padding: 20px;
+}
+@media only screen and (max-width: 480px) {
+  .pricing-page .hero {
+    height: 474px;
+  }
+}
+.pricing-page .hero h2 {
+  margin: 0px;
+  color: #003B5F;
+  font-weight: 600;
+  font-size: 80px;
+  line-height: 97px;
+  padding: 150px 0 10px 0;
+}
+@media only screen and (max-width: 480px) {
+  .pricing-page .hero h2 {
+    padding: 34px 0 10px 0;
+  }
+}
+.pricing-page .hero p {
+  color: #858a8f;
+  font-size: 20px;
+  line-height: 35px;
+  max-width: 731px;
+  margin: 0 auto;
+}
+.pricing-page .hero button {
+  margin-top: 80px;
+  padding: 21px 40px;
+}
+@media only screen and (max-width: 480px) {
+  .pricing-page .hero button {
+    margin-top: 30px;
+    padding: 10px 40px;
+  }
+}
+.pricing-page .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: -60px;
+  padding-bottom: 100px;
+  justify-content: center;
+}
+@media only screen and (max-width: 480px) {
+  .pricing-page .options {
+    padding: 0 36px;
+  }
+}
+.pricing-page .pricing-card {
+  background: #FFFFFF;
+  color: #858a8f;
+  padding: 24px;
+  height: 443px;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(67, 67, 68, 0.0705882);
+}
+.pricing-page .pricing-card h4 {
+  color: #00608B;
+  padding-bottom: 24px;
+}
+.pricing-page .pricing-card .price {
+  color: #00608B;
+  font-size: 31px;
+  line-height: 120%;
+}
+.pricing-page .pricing-card span {
+  color: #858a8f;
+  font-size: 16px;
+}
+.pricing-page .pricing-card p {
+  margin-top: 16px;
+}
+.pricing-page .pricing-card ul {
+  margin-top: 32px;
+}
+.pricing-page .pricing-card li {
+  padding: 4px 0;
+}
+.pricing-page .pricing-card li img {
+  margin-right: 16px;
+  vertical-align: middle;
+  margin-top: -3px;
+}
+.pricing-page .pricing-card button {
+  padding: 6px 70px;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 24px;
+  left: 16%;
+  right: 16%;
+  text-align: center;
+}
+@media only screen and (max-width: 480px) {
+  .pricing-page .pricing-card button {
+    padding: 6px 36px;
+  }
+}
+.pricing-page .faq {
+  width: 100%;
+  max-width: 1292px;
+  box-sizing: border-box;
+  padding: 40px 20px;
+  margin: 0 auto;
+}
+.pricing-page .faq .question {
+  padding: 0 20px;
+}
+.pricing-page .faq .question:hover {
+  background: #EEF4FA;
+  border-radius: 16px;
+}
+.pricing-page .faq h3 {
+  color: #003B5F;
+  padding-bottom: 64px;
+  font-weight: 500;
+  font-size: 39px;
+  line-height: 120%;
+}
+.pricing-page .faq h4 {
+  color: #525963;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 120%;
+  cursor: pointer;
+  padding: 20px 0;
+}
+.pricing-page .faq p {
+  color: #525963;
+  font-size: 16px;
+  margin: 0 52px;
+  padding-bottom: 20px;
+}
+.pricing-page .faq .selected {
+  background: #EEF4FA;
+  border-radius: 16px;
+}
+.pricing-page .faq img {
+  width: 24px;
+  vertical-align: middle;
+  margin: -3px 20px 0 0;
+}
+.pricing-page .banner {
+  width: 100%;
+  max-width: 1143px;
+  margin: 50px auto 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.pricing-page .banner img {
+  width: 100%;
+}
+.pricing-page .banner img.mobile {
+  display: none;
+}
+.pricing-page .banner .banner-content {
+  text-align: left;
+}
+@media only screen and (max-width: 900px) {
+  .pricing-page .banner .banner-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+.pricing-page .banner .banner-content h3 {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 40px;
+  left: 100px;
+  color: white;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 48px;
+}
+@media only screen and (max-width: 680px) {
+  .pricing-page .banner .banner-content h3 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+@media only screen and (max-width: 530px) {
+  .pricing-page .banner .banner-content h3 {
+    left: 70px;
+  }
+}
+.pricing-page .banner .banner-content a.btn-primary {
+  padding: 21px 61px;
+  border-radius: 5px;
+  position: absolute;
+  top: 58px;
+  right: 80px;
+  background: #FF3520;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+@media only screen and (max-width: 900px) {
+  .pricing-page .banner .banner-content a.btn-primary {
+    bottom: 128px;
+    right: 120px;
+    top: unset;
+  }
+}
+@media only screen and (max-width: 680px) {
+  .pricing-page .banner .banner-content a.btn-primary {
+    font-size: 19px;
+    bottom: 90px;
+    left: 14%;
+    right: 14%;
+    text-align: center;
+  }
+}
+.pricing-page .banner .banner-content.mobile {
+  display: none;
+}
+@media only screen and (max-width: 900px) {
+  .pricing-page .banner .desktop {
+    display: none;
+  }
+  .pricing-page .banner img.mobile {
+    display: block;
+  }
 }
 
 .main-layout {
@@ -1070,18 +1306,35 @@ main {
   margin: 0 auto;
   padding: 20px;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .nav-menu .nav-link {
   color: #013b60;
   font-size: 16px;
   font-weight: bold;
-  margin: 5px 25px;
+  margin: 5px 38px;
   position: absolute;
-  right: 150px;
-  top: 52px;
+  right: 260px;
+  top: 34px;
 }
 .nav-menu .logo {
   width: 146px;
+}
+.nav-menu nav {
+  font-size: 20px;
+  font-weight: 400;
+}
+.nav-menu .logout, .nav-menu .login {
+  color: #fe3205;
+  background: none;
+  border: 1px solid #fe3205;
+  font-size: 20px;
+  font-weight: 400;
+  border-radius: 4px;
+  margin-left: 30px;
+  padding: 13px 37px;
 }
 
 .footer {
@@ -1163,12 +1416,10 @@ main {
 .dashboard .actions .header .add {
   display: flex;
   align-items: center;
-  color: #FFFFFF;
-  background: #FF3520;
   border-radius: 8px;
   padding: 8px 16px;
   line-height: 20px;
-  font-weight: bold;
+  font-weight: 400;
   font-size: 16px;
 }
 .dashboard .actions .header .add i {
@@ -1208,19 +1459,29 @@ main {
   justify-content: space-between;
   align-items: center;
   background: #E5E7EA;
-  color: #6A7280;
-  border: 1px soild #F3F5F6;
+  color: #28303B;
+  border: 1px solid #F3F5F6;
   border-radius: 8px;
   padding: 4px;
   font-size: 14px;
   line-height: 20px;
-  column-gap: 4px;
+  font-weight: 500;
   position: relative;
+  width: 118px;
+  height: 44px;
+  box-sizing: border-box;
 }
-.dashboard .actions .search-wrapper .grid-wrapper .grid, .dashboard .actions .search-wrapper .grid-wrapper .list {
+.dashboard .actions .search-wrapper .grid-wrapper .grid {
+  padding: 8px 11px;
+  cursor: pointer;
+  z-index: 2;
+  width: 50px;
+}
+.dashboard .actions .search-wrapper .grid-wrapper .list {
   padding: 8px 12px;
   cursor: pointer;
   z-index: 2;
+  width: 50px;
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected {
   background: #FFFFFF;
@@ -1229,13 +1490,13 @@ main {
   border-radius: 6px;
   transition: 0.4s;
   height: 36px;
-  width: 50px;
+  width: 53px;
   z-index: 1;
   position: absolute;
   transition: transform 300ms cubic-bezier(0.5, 0.01, 0.47, 0.99);
 }
 .dashboard .actions .search-wrapper .grid-wrapper .selected-left {
-  transform: translateX(50px);
+  transform: translateX(55px);
 }
 .dashboard .rooms {
   display: flex;
@@ -1247,28 +1508,47 @@ main {
   margin-top: -10px;
 }
 .dashboard .rooms.show-list .room-card {
-  margin: 10px 20px;
-  width: calc(100% - 40px);
+  margin: 10px 0;
+  width: 100%;
   max-width: 100%;
   height: 70px;
   display: flex;
   position: relative;
   padding: 15px;
+  box-sizing: border-box;
+}
+.dashboard .rooms.show-list .room-card section {
+  width: auto;
+  max-width: 70%;
+}
+.dashboard .rooms.show-list h6 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dashboard .rooms.show-list .room-details {
   margin-left: 65px;
 }
 .dashboard .rooms.show-list footer {
   position: absolute;
-  right: 40px;
+  right: 80px;
+  top: 10px;
 }
 .dashboard .rooms.show-list .top-bar {
   position: absolute;
   width: 100%;
 }
+.dashboard .rooms.show-list header {
+  position: unset;
+}
 .dashboard .rooms.show-list .option-icons {
   position: absolute;
-  right: 40px;
+  left: 94%;
+}
+@media only screen and (max-width: 950px) {
+  .dashboard .rooms.show-list .option-icons {
+    left: 92%;
+  }
 }
 
 .room {
@@ -1295,12 +1575,18 @@ main {
   margin: 0px auto;
   position: relative;
 }
-.room header h2 {
-  font-size: 40px;
-  line-height: 46px;
-  margin-bottom: 2px;
+.room header .title-container {
   display: flex;
+}
+.room header h2 {
+  font-size: 39px;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: -4px;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 890px;
 }
 .room header h2 .room-icon figcaption {
   display: none;
@@ -1318,6 +1604,7 @@ main {
 }
 .room header .actions {
   align-self: flex-end;
+  width: 318px;
 }
 .room header .actions button {
   color: #6A7280;
@@ -1497,6 +1784,7 @@ main {
 .room-Content .avatar-list {
   display: none;
 }
+
 .room-card {
   background: #FFFFFF;
   padding: 24px;
@@ -1522,6 +1810,9 @@ main {
   display: flex;
   align-items: start;
   gap: 13px;
+}
+.room-card header .option-icons button {
+  padding: 3px;
 }
 .room-card h6 {
   color: #0A111D;
@@ -1609,31 +1900,50 @@ main {
   display: block;
 }
 
-.delete-modal button.primary {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
+.delete-modal {
+  position: relative;
+  box-sizing: border-box;
+  height: 134px;
 }
-.delete-modal button.secondary {
-  margin-top: 30px;
-  padding: 8px;
+.delete-modal button.delete {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #fe3205;
+}
+.delete-modal button.cancel {
+  padding: 8px 16px;
   border-radius: 6px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: #003B5F;
+  color: #FFFFFF;
 }
 
+.edit-modal {
+  position: relative;
+}
 .edit-modal input {
   border: 1px solid #364150;
   padding: 6px 16px;
   display: block;
+  margin-top: 10px;
+  width: 100%;
 }
-.edit-modal button.primary {
+.edit-modal button.cancel {
   position: absolute;
-  right: 24px;
-  bottom: 24px;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  border: 1px solid #003B5F;
+  color: #003B5F;
 }
-.edit-modal button.secondary {
+.edit-modal button.save {
   margin-top: 30px;
-  padding: 8px;
+  border: 1px solid #003B5F;
   border-radius: 6px;
+  background: #003B5F;
 }
 
 .blazored-modal {
@@ -1646,10 +1956,16 @@ main {
   color: #FFFFFF;
   background: #003B5F;
 }
+.blazored-modal .bm-title {
+  font-size: 31px;
+}
+.blazored-modal .bm-close {
+  color: #9BA3AF;
+}
 .blazored-modal .invite-search {
   display: flex;
   justify-content: space-between;
-  column-gap: 26px;
+  column-gap: 16px;
   margin: 6px 0 24px;
 }
 .blazored-modal .invite-search input {
@@ -1659,8 +1975,7 @@ main {
   padding: 10px 14px;
   font-size: 16px;
   line-height: 120%;
-  max-width: 72%;
-  width: 72%;
+  width: 67%;
 }
 .blazored-modal .invite-search ::placeholder {
   color: #6A7280;
@@ -1670,8 +1985,14 @@ main {
   justify-content: space-between;
   align-items: center;
 }
+.blazored-modal .invite-search button {
+  color: #003B5F;
+  background: #FFFFFF;
+  border: 1px solid #003B5F;
+  font-weight: 400;
+}
 .blazored-modal .invite-users {
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 .blazored-modal .invite-users p.medium {
   margin-bottom: 12px;
@@ -1770,32 +2091,35 @@ main {
   z-index: 9;
 }
 
+.invite-block {
+  position: relative;
+}
 .invite-block h4 {
   margin-bottom: 24px;
 }
-.invite-block .room-icons, .invite-block .room-name-wrapper, .invite-block .invite-search, .invite-block .invite-users {
+.invite-block .room-icons, .invite-block .room-name-wrapper, .invite-block .invite-search {
   margin-bottom: 24px;
 }
-.invite-block .room-icons p.medium, .invite-block .room-name-wrapper p.medium, .invite-block .invite-search p.medium, .invite-block .invite-users p.medium {
+.invite-block .room-icons p.medium, .invite-block .room-name-wrapper p.medium, .invite-block .invite-search p.medium {
   margin-bottom: 6px;
 }
 .invite-block .create-room {
   background: #FF3520;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 9px 16px;
   color: #FFFFFF;
   font-size: 16px;
   line-height: 20px;
+  font-weight: 400;
   cursor: pointer;
   float: right;
   margin-top: 24px;
 }
+.invite-block .room-icons .room-icon-wrapper {
+  display: flex;
+  gap: 9px;
+}
 .invite-block .room-icons .room-icon-wrapper > div {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 24px;
-  margin: 0 0 24px 0;
-  align-items: start;
   opacity: 0.4;
 }
 .invite-block .room-icons .room-icon-wrapper > div:hover, .invite-block .room-icons .room-icon-wrapper > div.selected {
@@ -1803,11 +2127,13 @@ main {
   cursor: pointer;
 }
 .invite-block .room-icons .room-icon {
-  width: 120px;
-  max-width: 120px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
 }
 .invite-block .room-name-wrapper label {
   margin-bottom: 6px;
+  color: #28303B;
 }
 .invite-block .room-name-wrapper input {
   border: 1px solid #D1D4DC;
@@ -1819,6 +2145,11 @@ main {
 }
 .invite-block .room-name-wrapper ::placeholder {
   color: #6A7280;
+}
+.invite-block .done {
+  position: absolute;
+  right: 0;
+  bottom: -44px;
 }
 
 .room-menu {
@@ -1844,6 +2175,7 @@ main {
   right: -10px;
   padding: 10px;
   background: #FFFFFF;
+  color: #000000;
   border-radius: 6px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
 }
@@ -1851,13 +2183,12 @@ main {
   padding: 6px;
   white-space: nowrap;
   font-size: 14px;
-}
-.room-menu .dropdown li:hover {
-  text-decoration: underline;
+  color: #FF3520;
 }
 .room-menu .dropdown ul {
   position: relative;
   z-index: 12;
+  padding: 0;
 }
 .room-menu .dropdown--overlay {
   position: fixed;
@@ -2014,7 +2345,6 @@ main {
 }
 .message-grid .message-list {
   overflow-y: auto;
-  height: 100%;
   padding: 24px 0 38px 0;
   /* Track */
   /* Handle */
@@ -2032,11 +2362,6 @@ main {
 }
 .message-grid .message-list::-webkit-scrollbar-thumb:hover {
   background: #9BA3AF;
-}
-
-.room-Content .message-list {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
 }
 
 .new-message {
@@ -2077,7 +2402,7 @@ main {
   z-index: 2;
 }
 .new-message > button:hover {
-  background: #2E7BA5;
+  background: #00608B;
 }
 .new-message > button img, .new-message > button svg {
   margin-right: 8px;
@@ -2829,6 +3154,9 @@ main {
   height: 100%;
 }
 
+.add-funds-modal {
+  font-family: "CircularStd", sans-serif;
+}
 .add-funds-modal ul {
   display: flex;
   flex-wrap: wrap;
@@ -2874,6 +3202,11 @@ main {
   display: grid;
   grid-template-rows: 240px 90px auto auto;
   z-index: 10000;
+}
+@media only screen and (max-width: 480px) {
+  .onboarding {
+    width: 100vw;
+  }
 }
 .onboarding .avatar {
   height: 220px;
