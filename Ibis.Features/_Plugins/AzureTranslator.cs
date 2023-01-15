@@ -31,9 +31,11 @@ public class AzureTranslator : ITranslator
                 translatedTagKeys.Add(tag.Key);
                 body = body.Append(new { Text = tag.Value }).ToArray();
             }
-            
+
+            var languageDictionary = batch.ToDictionary(x => x.Id.Split('-').First(), x => x);
+
             var from = $"&from={fromLanguageId.Split('-').First()}";
-            var to = "&to=" + string.Join("&to=", batch.Select(x => x.Id.Split('-').First()));
+            var to = "&to=" + string.Join("&to=", languageDictionary.Keys);
 
             var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
 
@@ -50,7 +52,7 @@ public class AzureTranslator : ITranslator
                         .Select(key => new MessageTag(key, translatedTags[translatedTagKeys.IndexOf(key)].Translations.First(x => x.To == t.To).Text, false))
                         .ToList();
 
-                    var translatedMessage = new Message(message, t.To, t.Text, translatedMessageTags);
+                    var translatedMessage = new Message(message, languageDictionary[t.To], t.Text, translatedMessageTags);
                     
                     translatedMessages.Add(translatedMessage);
 

@@ -1,5 +1,4 @@
 ﻿using Markdig;
-using System.Diagnostics;
 
 namespace Ibis.Features.Messages;
 
@@ -10,6 +9,7 @@ public class Message : Root<string>
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
     public string Language { get; protected set; }
+    public bool? LanguageIsRTL { get; protected set; }  
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
     public DateTime? DeletedDate { get; private set; }
@@ -39,19 +39,21 @@ public class Message : Root<string>
         RoomId = roomId;
         User = user.Avatar;
         Language = user.Avatar.Language ?? "";
+        LanguageIsRTL = user.Avatar.LanguageIsRTL;
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
         SetText(text);
     }
 
-    public Message(Message sourceMessage, string toLanguage, string text, List<MessageTag> translatedTags) : this()
+    public Message(Message sourceMessage, Language toLanguage, string text, List<MessageTag> translatedTags) : this()
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
         User = new(sourceMessage.User);
         Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
-        Language = toLanguage;
+        Language = toLanguage.Id;
+        LanguageIsRTL = toLanguage.IsRightToLeft;
         Timestamp = DateTime.UtcNow;
         Tag = sourceMessage.Tag;
         SetText(text);

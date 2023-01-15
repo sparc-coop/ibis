@@ -2320,6 +2320,11 @@
             "nullable": true,
             "readOnly": true
           },
+          "languageIsRTL": {
+            "type": "boolean",
+            "nullable": true,
+            "readOnly": true
+          },
           "timestamp": {
             "type": "string",
             "format": "date-time",

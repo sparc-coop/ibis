@@ -1,5 +1,4 @@
-﻿using Sparc.Blossom.Authentication;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace Ibis.Features.Users;
 

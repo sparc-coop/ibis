@@ -48,15 +48,13 @@
     void SetTab(string tab) => Tab = tab;
     void GoToVoice() => Tab = "Voice";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-
         if (User == null)
             return;
 
         if (User.Voice == null)
             Tab = "Language";
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -65,8 +63,6 @@
         {
 
             await jsRuntime.InvokeVoidAsync("SetFocusToElement", userOverlay);
-            //await userOverlay.FocusAsync();
-            
         }
     }
 

@@ -14,31 +14,15 @@
 
     @if (ChildContent == null)
     {
-        @if(Me.LanguageIsRTL == false)
-        {
-            <div class="message-text">
-                @((MarkupString)LocalMessage.Html)
-            </div>
-        } else
-        {
-            <div class="message-text" dir="rtl">
-                @((MarkupString)LocalMessage.Html)
-            </div>
-        }
+        <div class="message-text" dir="@_languageDirection">
+            @((MarkupString)LocalMessage.Html)
+        </div>
     }
     else
     {
-        @if (Me.LanguageIsRTL == false)
-        {
-            <section id="@_id" class="ibis-translate">
-                @ChildContent
-            </section>
-        } else
-        {
-            <section id="@_id" class="ibis-translate" dir="rtl">
-                @ChildContent
-            </section>
-        }
+        <section id="@_id" class="ibis-translate" dir="@_languageDirection">
+            @ChildContent
+        </section>
     }
 </article>
 
@@ -50,12 +34,11 @@
     [Parameter] public string? ChannelId { get; set; }
     [Parameter] public string? Tag { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [CascadingParameter] public UserAvatar? Me { get; set; }
-
     string? _originalMessageId;
     Message LocalMessage = new();
 
     string? _language;
+    string _languageDirection => Message?.LanguageIsRTL == true ? "rtl" : "ltr";
     string _id = $"ibis-{Guid.NewGuid()}";
 
     PersistingComponentStateSubscription PersistedStateSubscription;
@@ -117,7 +100,7 @@
         }
     }
 
-    
+
 
     [JSInvokable]
     public async Task<List<string>> TranslateAsync(List<string> text)
@@ -129,7 +112,7 @@
     {
         if (ChannelId != null)
             PersistedState.PersistAsJson(ChannelId, Ibis.Content);
-        
+
         return Task.CompletedTask;
     }
 
