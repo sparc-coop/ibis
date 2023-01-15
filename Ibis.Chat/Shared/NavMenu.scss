@@ -1,0 +1,41 @@
+@import "../_variables.scss";
+
+.nav-menu {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .nav-link {
+        color: $primary;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 38px;
+        position: absolute;
+        right: 260px;
+        top: 34px;
+    }
+
+    .logo {
+        width: 146px;
+    }
+
+    nav {
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    .logout, .login {
+        color: $secondary;
+        background: none;
+        border: 1px solid $secondary;
+        font-size: 20px;
+        font-weight: 400;
+        border-radius: 4px;
+        margin-left: 30px;
+        padding: 13px 37px;
+    }
+}

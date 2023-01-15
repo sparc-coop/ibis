@@ -1,0 +1,83 @@
+﻿@import "../_variables.scss";
+
+.room-card {
+    background: $white;
+    padding: 24px;
+    border: 1px solid $grey-200;
+    border-radius: 8px;
+    height: auto;
+    width: 352px;
+    cursor: pointer;
+    position: relative;
+    display: grid;
+    grid-template-rows: 40px auto 24px;
+    gap: 20px;
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+
+        .room-icon {
+            figcaption {
+                display: none;
+            }
+        }
+
+        .option-icons {
+            display: flex;
+            align-items: start;
+            gap: 13px;
+
+            button {
+                padding: 3px;
+            }
+        }
+    }
+
+    h3 {
+        color: $grey-900;
+        font-weight: 500;
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    time {
+        font-weight: 400;
+        font-size: 13px;
+        color: $grey-600;
+    }
+
+    footer {
+        display: flex;
+        align-items: center;
+        .avatar {
+            height: 28px;
+            width: 28px;
+            padding: 2px;
+            margin-left: -5px;
+            border: 2px solid white;
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 1142px) {
+    .room-card {
+        width: 30%;
+        max-width: none;
+    }
+}
+
+@media only screen and (max-width: 660px) {
+    .room-card {
+        width: 46%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .room-card {
+        width: 100%;
+    }
+}

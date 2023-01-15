@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ibis Sign Up</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
+        </div>
+        <h2>Sign Up</h2>
+        <p>Create your account to start your trial</p>
+        <div id="api"></div>
+        <button class="togglePassword" id="toggle-pass">
+            <img src="https://ibistranscriber.blob.core.windows.net/custom-login/eye-line.png" alt="Show Password" />
+        </button>
+        <button class="togglePassword" id="toggle-pass2">
+            <img src="https://ibistranscriber.blob.core.windows.net/custom-login/eye-line.png" alt="Show Password" />
+        </button>
+        <div class="sign-in">
+            Already have an account?
+            <a href="https://ibis.chat/authentication/login">Log in</a>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    const toggle = document.querySelector("#toggle-pass");
+    const toggleImg = toggle.querySelector("img");
+    const toggle2 = document.querySelector("#toggle-pass2");
+    const toggleImg2 = toggle2.querySelector("img");
+    const elem = document.getElementById('newPassword');
+    const confirmPass = document.getElementById('reenterPassword');
+
+    elem.after(toggle);
+    confirmPass.after(toggle2);
+
+    toggle.addEventListener("click", function () {
+        // toggle the type attribute
+        const initialType = elem.getAttribute("type");
+        const type = initialType === "password" ? "text" : "password";
+
+        if (type === "text") {
+            //Change input type
+            elem.setAttribute("type", type);
+            toggleImg.alt = "Hide Password";
+            toggleImg.src = "https://ibistranscriber.blob.core.windows.net/custom-login/Eye-close.png";
+        }
+
+        if (type === "password") {
+            //Change input type
+            elem.setAttribute("type", type);
+            toggleImg.alt = "Show Password";
+            toggleImg.src = "https://ibistranscriber.blob.core.windows.net/custom-login/eye-line.png";
+        }
+    });
+
+    toggle2.addEventListener("click", function () {
+        // toggle the type attribute
+        const initialType = confirmPass.getAttribute("type");
+        const type = initialType === "password" ? "text" : "password";
+
+        if (type === "text") {
+            //Change input type
+            confirmPass.setAttribute("type", type);
+            toggleImg2.alt = "Hide Password";
+            toggleImg2.src = "https://ibistranscriber.blob.core.windows.net/custom-login/Eye-close.png";
+        }
+
+        if (type === "password") {
+            //Change input type
+            confirmPass.setAttribute("type", type);
+            toggleImg2.alt = "Show Password";
+            toggleImg2.src = "https://ibistranscriber.blob.core.windows.net/custom-login/eye-line.png";
+        }
+    });
+</script>
+<style>
+    @font-face {
+        font-family: 'CircularStd';
+        font-weight: 400;
+        src: url(https://ibistranscriber.blob.core.windows.net/custom-login/CircularStd-Book.ttf) format('truetype');
+    }
+
+    body {
+        background: #F3F5F6;
+        text-align: center;
+        font-family: sans-serif;
+        font-family: 'CircularStd', sans-serif;
+        outline-color: #161E29;
+        outline-width: 1.5px;
+    }
+
+    h2 {
+        font-size: 31px;
+        color: #0A111D;
+        margin-bottom: 6px;
+    }
+
+    p {
+        color: #6A7280;
+        font-size: 16px;
+        margin: 12px 0 35px 0;
+    }
+
+    .container {
+        padding-top: 10%;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 360px;
+        position: relative;
+    }
+
+    .heading, .intro, .divider, .helpLink, #cancel, #emailVerificationControl_label {
+        display: none;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        padding: 20px 0 6px 0;
+        color: #364150;
+        font-size: 13px;
+    }
+
+    input {
+        padding: 10px 14px;
+        background: #FFFFFF;
+        border: 1px solid #D1D4DC;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 360px;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        border: 1px solid #2E7BA5;
+        box-shadow: 0px 0px 5px #38ADED;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    li {
+        padding-bottom: 10px;
+    }
+
+    .sendCode, .verifyCode, .sendNewCode, .changeClaims {
+        margin-top: 15px;
+        border: 1px solid #FF3520;
+        background: unset;
+        border-radius: 8px;
+        color: #FF3520;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+    .sign-in {
+        display: block;
+        font-size: 15px;
+        border: none;
+        margin: 32px 0 40px 0;
+    }
+
+    .sign-in a {
+        text-decoration: none;
+        color: #FF3520;
+        margin-left: 6px;
+        cursor: pointer;
+    }
+
+    #passwordEntryMismatch, #requiredFieldMissing, #fieldIncorrect {
+        border: 1px solid #2E7BA5;
+        background: #D3E4F1;
+        border-radius: 5px;
+        padding: 14px 16px;
+        color: #2E7BA5;
+    }
+
+    .error.itemLevel {
+        color: #2E7BA5;
+        text-align: left;
+        font-size: 13px;
+        line-height: 120%;
+        padding-bottom: 4px;
+    }
+
+    #forgotPassword {
+        color: #FF3520;
+        text-decoration: none;
+        position: absolute;
+        right: 0;
+        top: 105px;
+        font-size: 13px;
+    }
+
+    #emailVerificationControl_success_message {
+        border: 1px solid #46A52E;
+        background: #D9F1D3;
+        border-radius: 5px;
+        padding: 14px 16px;
+        color: #46A52E;
+        display: block; 
+    }
+
+    .buttons {
+        display: flex;
+        gap: 16px;
+    }
+
+    .verifyCode, .sendNewCode {
+        width: 50%;
+        font-size: 16px;
+    }
+
+    .sendCode {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    #continue {
+        width: 100%;
+        background: #FF3520;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 20px;
+        color: #FFFFFF;
+        font-size: 20px;
+    }
+
+    .create p {
+        font-size: 13px;
+    }
+
+    .togglePassword {
+        border: 0;
+        display: block;
+        float: right;
+        height: 40px;
+        padding: 10px;
+        width: 40px;
+        position: relative;
+        top: -39px;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .togglePassword img {
+        z-index: 100;
+        position: relative;
+        max-width: 100%;
+        display: block;
+    }
+</style>

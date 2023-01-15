@@ -1,0 +1,32 @@
+﻿@import "../_variables.scss";
+
+.edit-modal {
+    position: relative;
+
+    input {
+        border: 1px solid $grey-700;
+        padding: 6px 16px;
+        display: block;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    button {
+
+        &.cancel {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            border: 1px solid $dark-blue;
+            color: $dark-blue;
+        }
+
+        &.save {
+            margin-top: 30px;
+            border: 1px solid $dark-blue;
+            border-radius: 6px;
+            background: $dark-blue;
+        }
+    }
+}

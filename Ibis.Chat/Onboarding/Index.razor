@@ -1,0 +1,86 @@
+﻿@layout EmptyLayout
+
+<div tabindex="0" class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
+<div class="onboarding">
+    @if (User != null)
+    {
+        <header>
+            @*<Avatar User="User" />*@
+            <img class="header-logo" src="images/logo_icon.png" />
+        </header>
+
+        <CascadingValue Value="User">
+            <ul @onkeydown="Close" class="tabs" @ref="userOverlay">
+                @foreach (var tab in Tabs)
+                {
+                    <li @onfocus="(() => SetTab(tab))" tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                }
+            </ul>
+
+            @switch (Tab)
+            {
+                case "Profile":
+                    <AccountDetails />
+                    break;
+                case "Language":
+                    <LanguageSelector OnSelected="GoToVoice" />
+                    break;
+                case "Voice":
+                    <VoiceSelector />
+                    break;
+                case "Avatar":
+                    <AvatarEditor User=User SpillBackground="true"/>
+                    break;
+            }   
+
+            <button @onclick="Done">Done</button>
+        </CascadingValue>
+    }
+</div>
+
+@inject IJSRuntime jsRuntime
+@code {
+    string Tab { get; set; } = "Profile";
+    List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
+    [CascadingParameter] public UserAvatar? User { get; set; }
+    [Parameter] public EventCallback OnDone { get; set; }
+    private ElementReference userOverlay;
+
+    void SetTab(string tab) => Tab = tab;
+    void GoToVoice() => Tab = "Voice";
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (User == null)
+            return;
+
+        if (User.Voice == null)
+            Tab = "Language";
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await jsRuntime.InvokeVoidAsync("SetFocusToElement", userOverlay);
+            //await userOverlay.FocusAsync();
+            
+        }
+    }
+
+    async Task Done()
+    {
+        await OnDone.InvokeAsync();
+    }
+
+    public async Task Close(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await Done();
+        }
+    }
+}

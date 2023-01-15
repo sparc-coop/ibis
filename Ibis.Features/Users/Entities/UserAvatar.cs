@@ -12,6 +12,7 @@ public class UserAvatar
     public string ForegroundColor { get; set; }
     public string BackgroundColor => CalculateBackgroundColor(ForegroundColor);
     public string? Language { get; set; }
+    public bool? LanguageIsRTL { get; set; }
     public string? Emoji { get; set; }
     public string? SkinTone { get; set; }
     public string? Pronouns { get; set; }
@@ -29,6 +30,7 @@ public class UserAvatar
         IsOnline = sourceAvatar.IsOnline;
         ForegroundColor = sourceAvatar.ForegroundColor;
         Language = sourceAvatar.Language;
+        LanguageIsRTL = sourceAvatar.LanguageIsRTL;
         Emoji = sourceAvatar.Emoji;
         SkinTone = sourceAvatar.SkinTone;
         Pronouns = sourceAvatar.Pronouns;
@@ -41,6 +43,7 @@ public class UserAvatar
         Id = id;
         Name = name;
         Language = "en";
+        LanguageIsRTL = false;
         ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
     }
 
@@ -89,14 +92,17 @@ public class UserAvatar
     {
         // generated from http://phrogz.net/css/distinct-colors.html 
         // hue 29-330, sat 100-23, value 70-20, 50 colors
-        
-        "#b25600", "#a69c53", "#435954", "#5976b3", "#a62993", "#331f0d", "#414d00",
-        "#00b39e", "#434a59", "#594356", "#b28459", "#2c331a", "#004b4d", "#000e4d",
-        "#990059", "#b26e00", "#61a600", "#53a4a6", "#1d2173", "#33001e", "#593700",
-        "#7e8c69", "#0080b3", "#5a53a6", "#59163d", "#403a30", "#347300", "#00374d",
-        "#2f264d", "#a67c94", "#735600", "#53a665", "#396273", "#857ca6", "#332600",
-        "#004016", "#001733", "#5529a6", "#665933", "#86b39b", "#1a3c66", "#380040",
-        "#a69200", "#1a6653", "#869ab3", "#5d1a66"
+
+        //"#b25600", "#a69c53", "#435954", "#5976b3", "#a62993", "#331f0d", "#414d00",
+        //"#00b39e", "#434a59", "#594356", "#b28459", "#2c331a", "#004b4d", "#000e4d",
+        //"#990059", "#b26e00", "#61a600", "#53a4a6", "#1d2173", "#33001e", "#593700",
+        //"#7e8c69", "#0080b3", "#5a53a6", "#59163d", "#403a30", "#347300", "#00374d",
+        //"#2f264d", "#a67c94", "#735600", "#53a665", "#396273", "#857ca6", "#332600",
+        //"#004016", "#001733", "#5529a6", "#665933", "#86b39b", "#1a3c66", "#380040",
+        //"#a69200", "#1a6653", "#869ab3", "#5d1a66"
+
+        "#F0DE38", "#47CE6D", "#5696BE", "#7361E6", "#EF5DA8", "#EA281B", "#E17723",
+        "#F9EF9B", "#9DE2B1", "#A3C5DA", "#BBB1F5", "#F4A6CE", "#FFB8B4", "#FFBE71"
     };
 
     public static List<string> SkinTones()

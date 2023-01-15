@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PublishIISAssets>true</PublishIISAssets>
+		<UserSecretsId>5e4b95a7-1ce6-4e22-b9bd-b26c96a982e3</UserSecretsId>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.Modal" Version="7.1.0" />
+		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.1" />
+		<PackageReference Include="Sparc.Blossom.Client" Version="7.1.0-pre.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
+		<TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
+	</ItemGroup>
+
+</Project>
