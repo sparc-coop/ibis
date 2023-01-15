@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Ibis.Features.Rooms;
 
 public class GetRooms : Feature<List<GetRoomResponse>>
 {

@@ -2138,10 +2138,6 @@
             "type": "string",
             "nullable": true
           },
-          "roomType": {
-            "type": "string",
-            "nullable": true
-          },
           "slug": {
             "type": "string",
             "nullable": true
@@ -2166,6 +2162,10 @@
             "items": {
               "$ref": "#/components/schemas/UserAvatar"
             },
+            "nullable": true
+          },
+          "hostUserId": {
+            "type": "string",
             "nullable": true
           }
         },

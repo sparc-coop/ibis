@@ -1,0 +1,82 @@
+﻿@inherits RealtimeComponent
+@implements IAsyncDisposable
+@page "/rooms/{Id}"
+
+<section class="room room-@(RoomInfo == null ? "loading" : "chat")">
+    <header>
+        @if (RoomInfo != null)
+        {
+            <div class="title-container">
+                <RoomIcon RoomType="Chat" />
+                <h2 title="@RoomInfo.Name" style="max-width:555px">
+                    @RoomInfo.Name
+                </h2>
+            </div>
+                <div class="actions">
+                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                        <DownloadIcon />
+                        Transcript
+                    </button>
+                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                        <DownloadIcon />
+                        Subtitles
+                    </button>
+                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                        <DownloadIcon />
+                        Audio
+                    </button>
+                </div>
+        }
+    </header>
+    @if (RoomInfo != null)
+    {
+        <MessageList Room="RoomInfo" />
+        <AvatarList Room="RoomInfo" />
+    }
+</section>
+
+@code {
+    [Parameter] public string Id { get; set; } = null!;
+
+    GetRoomResponse? RoomInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
+        await On<UserJoined>(RoomInfo.RoomId, x => { });
+    }
+
+    async Task DownloadAudio()
+    {
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId });
+        await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
+    }
+
+    async Task DownloadText(string format)
+    {
+        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
+
+        byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
+        Stream fileStream = new MemoryStream(bytes);
+
+        var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
+        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    void UpdateName()
+    {
+        // await Connection!.SendAsync("UpdateRoom", RoomInfo);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (RoomInfo != null)
+            await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+    }
+}

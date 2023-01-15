@@ -1,0 +1,173 @@
+﻿@using System.Threading.Channels
+@inherits RealtimeComponent
+
+<form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
+    <Avatar User="Me" SpillBackground=true CanEdit=true />
+    <textarea type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+    @if (IsSpeak)
+    {
+        <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1473_31872)">
+                    <path d="M6 12C2.6862 12 0 9.3138 0 6C0 2.6862 2.6862 0 6 0C9.3138 0 12 2.6862 12 6C12 9.3138 9.3138 12 6 12ZM6 10.8C7.27304 10.8 8.49394 10.2943 9.39411 9.39411C10.2943 8.49394 10.8 7.27304 10.8 6C10.8 4.72696 10.2943 3.50606 9.39411 2.60589C8.49394 1.70571 7.27304 1.2 6 1.2C4.72696 1.2 3.50606 1.70571 2.60589 2.60589C1.70571 3.50606 1.2 4.72696 1.2 6C1.2 7.27304 1.70571 8.49394 2.60589 9.39411C3.50606 10.2943 4.72696 10.8 6 10.8ZM6 7.8C5.52261 7.8 5.06477 7.61036 4.72721 7.27279C4.38964 6.93523 4.2 6.47739 4.2 6C4.2 5.52261 4.38964 5.06477 4.72721 4.72721C5.06477 4.38964 5.52261 4.2 6 4.2C6.47739 4.2 6.93523 4.38964 7.27279 4.72721C7.61036 5.06477 7.8 5.52261 7.8 6C7.8 6.47739 7.61036 6.93523 7.27279 7.27279C6.93523 7.61036 6.47739 7.8 6 7.8Z" fill="white" />
+                </g>
+                <defs>
+                    <clipPath id="clip0_1473_31872">
+                        <rect width="12" height="12" fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
+
+            @(IsListening ? "Listening..." : "Speak")
+        </button>
+    }
+    else
+    {
+        if (SelectedMessage != null)
+        {
+            <button type="button" class="cancel" @onclick=CancelEdit>
+                Cancel
+            </button>
+        }
+        <button type="submit" @onclick="SendText" aria-label="Send">
+            <SendIcon />
+            @(SelectedMessage == null ? "Send" : "Save")
+        </button>
+    }
+
+    <footer>
+        <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
+            <UploadIcon />
+            Upload a file
+        </button>
+        <button>
+            <SmsIcon />
+            Connect via SMS
+        </button>
+        <button>
+            <PhoneIcon />
+            Connect via Phone
+        </button>
+    </footer>
+</form>
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [Parameter] public Message? SelectedMessage { get; set; }
+    [Parameter] public EventCallback OnDoneEditing { get; set; }
+    [CascadingParameter] public UserAvatar? Me { get; set; }
+    string? Text;
+    ElementReference TextArea;
+    bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
+    bool preventDefault = false;
+    bool LiveMode = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (SelectedMessage != null)
+        {
+            Text = SelectedMessage.Text;
+            await TextArea.FocusAsync();
+        }
+    }
+
+    async Task MaybeSendText(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter" && !args.ShiftKey)
+        {
+            preventDefault = true;
+            await SendText();
+        }
+        else
+        {
+            preventDefault = false;
+        }
+    }
+
+    async Task SendText()
+    {
+        var text = Text?.Trim('\r', '\n', ' ');
+        Text = "";
+        StateHasChanged();
+
+        var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text, MessageId = SelectedMessage?.Id });
+        await TextArea.FocusAsync();
+
+        if (SelectedMessage != null && OnDoneEditing.HasDelegate)
+            await OnDoneEditing.InvokeAsync();
+    }
+
+    async Task CancelEdit()
+    {
+        Text = "";
+        await OnDoneEditing.InvokeAsync();
+    }
+
+    void ShowUploadModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.RoomId), Room.RoomId);
+        Modal.Show<Upload>("Upload", parameters);
+    }
+
+    DateTime? AudioStartTime;
+    Channel<byte[]>? AudioChannel;
+    DotNetObjectReference<NewMessage>? objRef;
+    bool IsListening;
+
+    async Task BeginListeningAsync()
+    {
+        IsListening = true;
+        StateHasChanged();
+
+        if (AudioStartTime != null)
+        {
+            await StopListeningAsync();
+            return;
+        }
+
+        objRef = DotNetObjectReference.Create(this);
+        AudioStartTime = DateTime.UtcNow;
+        AudioChannel = Channel.CreateUnbounded<byte[]>(); ;
+        await JS.InvokeVoidAsync("beginListening", objRef);
+
+        On<SpeechRecognizing>(x =>
+        {
+            Text = x.Text;
+        });
+        On<SpeechRecognized>(async x =>
+        {
+            Text = x.Text;
+            if (LiveMode)
+                await SendText();
+            else
+                await StopListeningAsync();
+        });
+
+        if (Hub?.State == HubConnectionState.Connected)
+            await Hub.SendAsync("ReceiveAudio", AudioChannel.Reader);
+    }
+
+    async Task StopListeningAsync()
+    {
+        await JS.InvokeVoidAsync("stopListening");
+        AudioStartTime = null;
+        AudioChannel?.Writer.Complete();
+        objRef = null;
+        IsListening = false;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public async Task AudioReceived(byte[] audio)
+    {
+        if (!LiveMode && DateTime.UtcNow - AudioStartTime > TimeSpan.FromSeconds(30))
+        {
+            await StopListeningAsync();
+            return;
+        }
+
+        if (AudioChannel != null)
+            await AudioChannel!.Writer.WriteAsync(audio);
+    }
+}

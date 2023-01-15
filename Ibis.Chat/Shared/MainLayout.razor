@@ -1,0 +1,122 @@
+﻿@inherits LayoutComponentBase
+@using Sparc.Ibis;
+
+<RealtimeHub Url="@HubUrl">
+    <CascadingValue Value="User">
+        <div class="main-layout @(IsRoom ? "mini" : "" )">
+            <header>
+                <a href="/rooms">
+                    <figure class="logo">
+                        @if (IsRoom)
+                        {
+                            <img src="/images/logo_icon.png" alt="Ibis" />
+                        }
+                        else
+                        {
+                            <img src="/images/logo_2x.png" alt="Ibis" />
+                        }
+                        <figcaption>Ibis</figcaption>
+                    </figure>
+                </a>
+
+                <nav>
+                    <AuthorizeView>
+                        <Authorized>
+                            @if (User != null)
+                            {
+                                <UserBalance User="User" />
+                                <ul>
+                                    <li>
+                                        <a href="/rooms">
+                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                                        </a>
+                                    </li>
+
+                                    <li class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu">
+                                        <Avatar User="User" />
+                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                                        <ul>
+                                            <li>
+                                                <button @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                            </li>
+                                            <li>
+                                                <a href="account" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                            </li>
+                                            <li>
+                                                <button class="logout" @onclick="Logout" @onclick:stopPropagation="true">
+                                                    Log Out
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                        </Authorized>
+                    </AuthorizeView>
+                </nav>
+            </header>
+
+            <main>
+                @Body
+            </main>
+        </div>
+
+        @if (ShowOnboarding)
+        {
+            <Ibis.Chat.Onboarding.Index OnDone="CloseOnboarding" />
+        }
+    </CascadingValue>
+</RealtimeHub>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    UserAvatar? User;
+    bool ShowMenu;
+    bool IsRoom;
+    bool ShowOnboarding;
+    string HubUrl => Config["ApiUrl"] + "/hub";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsRoom = Nav.Uri.Contains("rooms/");
+
+        if (User != null)
+            return;
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    void OpenMenu() => ShowMenu = !ShowMenu;
+
+    void CloseOnboarding() => ShowOnboarding = false;
+
+    void EditAvatar()
+    {
+        ShowMenu = false;
+        ShowOnboarding = true;
+    }
+
+    bool isUserBeingGot;
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null && User.Voice == null)
+                ShowOnboarding = true;
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    private void Logout()
+    {
+        Nav.NavigateToLogout("authentication/logout");
+    }
+}
