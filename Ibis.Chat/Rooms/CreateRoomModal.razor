@@ -1,0 +1,20 @@
+﻿@inherits SparcModal
+
+<div class="invite-block room-modal">
+    <div class="room-name-wrapper">
+        <p class="medium">Name Your Room</p>
+        <input type="email" placeholder="Enter Room Name" @bind="Request.RoomName" />
+    </div>
+
+    <button class="create-room" @onclick="CreateRoom">Create Room</button>
+</div>
+
+@code {
+    NewRoomRequest Request = new() { RoomType = "Chat", Emails = new List<string>() };
+
+    async Task CreateRoom()
+    {
+        var response = await Api.CreateRoomAsync(Request);
+        Nav.NavigateTo($"/rooms/{response.RoomId}");
+    }
+}
