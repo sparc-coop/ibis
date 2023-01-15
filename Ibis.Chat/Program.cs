@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.Modal;
 using Sparc.Ibis;
-using Ibis.Web;
+using Ibis.Chat;
 using Microsoft.AspNetCore.Components.Web;
 using Sparc.Blossom;
 

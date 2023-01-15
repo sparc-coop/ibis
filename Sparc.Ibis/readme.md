@@ -28,4 +28,4 @@ builder.Services.AddIbis();
 
 That's it! No necessary JS to add either, because .NET 7 has introduced a new way to auto-embed JS modules from a Razor Class Library, which we're taking advantage of.
 
-> Check here an [example of use in Ibis Project](https://github.com/sparc-coop/ibis/blob/168b94ce97f232815ce270fcd49cef0f2311c028/Ibis.Web/Shared/MainLayout.razor#L6)
+> Check here an [example of use in Ibis Project](https://github.com/sparc-coop/ibis/blob/168b94ce97f232815ce270fcd49cef0f2311c028/Ibis.Chat/Shared/MainLayout.razor#L6)

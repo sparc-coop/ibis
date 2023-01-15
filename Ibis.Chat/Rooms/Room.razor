@@ -2,18 +2,16 @@
 @implements IAsyncDisposable
 @page "/rooms/{Id}"
 
-<section class="room room-@(RoomInfo?.RoomType ?? "loading")">
+<section class="room room-@(RoomInfo == null ? "loading" : "chat")">
     <header>
         @if (RoomInfo != null)
         {
             <div class="title-container">
-                <RoomIcon RoomType="@RoomInfo.RoomType" />
-                <h2 title="@RoomInfo.Name" style="@(RoomInfo.RoomType == "Chat" ? "max-width:555px;" : "")">
+                <RoomIcon RoomType="Chat" />
+                <h2 title="@RoomInfo.Name" style="max-width:555px">
                     @RoomInfo.Name
                 </h2>
             </div>
-            @if (RoomInfo.RoomType == "Chat")
-            {
                 <div class="actions">
                     <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
                         <DownloadIcon />
@@ -28,7 +26,6 @@
                         Audio
                     </button>
                 </div>
-            }
         }
     </header>
     @if (RoomInfo != null)
