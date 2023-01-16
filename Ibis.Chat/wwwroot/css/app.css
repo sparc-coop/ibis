@@ -1305,6 +1305,9 @@
 .main-layout.mini > header {
   padding: 10px 6vw;
 }
+.main-layout.mini > header h1 {
+  font-size: 0;
+}
 .main-layout.mini > header .logo img {
   height: 28px;
 }
