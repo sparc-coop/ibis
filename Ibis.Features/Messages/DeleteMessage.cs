@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record DeleteMessageRequest(string RoomId, string MessageId);
 public class DeleteMessage : Feature<DeleteMessageRequest, bool>

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public class ExchangeRates
 {

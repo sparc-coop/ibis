@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Rooms;
 
 public record GetRoomTextRequest(string RoomId, string Format);
 public record GetRoomTextResponse(string Text);

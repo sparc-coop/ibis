@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
 public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);

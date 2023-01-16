@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public record JoinRoomRequest(string RoomId);
 public record GetRoomResponse

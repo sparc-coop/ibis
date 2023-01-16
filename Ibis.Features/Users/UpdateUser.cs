@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Users;
+﻿namespace Ibis.Users;
 
 public class UpdateUser : Feature<UserAvatar, UserAvatar>
 {

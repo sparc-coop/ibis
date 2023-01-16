@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public static class UserRepositoryExtensions
 {

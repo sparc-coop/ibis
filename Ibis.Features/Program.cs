@@ -1,4 +1,4 @@
-using Ibis.Features;
+using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
 using Sparc.Ibis;

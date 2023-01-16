@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features;
+﻿namespace Ibis;
 
 public record RoomOptionsRequest(string roomId, string Title);
 public class UpdateRoomOptions : Feature<RoomOptionsRequest, bool>

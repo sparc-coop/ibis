@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Users;
+﻿namespace Ibis.Users;
 
 public record ChangeVoiceRequest(string Language, string VoiceName, string? RoomId);
 public record ChangeVoiceResponse(string? PreviewAudioUrl);

@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 public record GetAllContentRequest(string RoomSlug, string Language, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, List<Message> Content);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>

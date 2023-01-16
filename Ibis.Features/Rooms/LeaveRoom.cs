@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public record LeaveRoomRequest(string RoomId);
 public class LeaveRoom : Feature<LeaveRoomRequest, bool>

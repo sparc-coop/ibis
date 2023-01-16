@@ -1,7 +1,7 @@
 ﻿using Stripe;
 using System.Globalization;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public static class StripePaymentIntentExtensions
 {

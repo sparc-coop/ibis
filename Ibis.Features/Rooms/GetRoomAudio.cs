@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public record GetRoomAudioRequest(IEnumerable<string> Files, string RoomId, string Language);
 public class GetRoomAudio : Feature<GetRoomAudioRequest, AudioMessage?>

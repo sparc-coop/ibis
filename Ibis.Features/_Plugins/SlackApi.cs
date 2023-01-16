@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public record SlackPost(string team_id, string user_id, string text, string? command);

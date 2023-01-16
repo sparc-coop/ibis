@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Rooms;
 
 public class GetRooms : Feature<List<GetRoomResponse>>
 {

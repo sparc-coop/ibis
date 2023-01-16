@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record GetMessageAudioRequest(string MessageId, string? VoiceId);
 public class GetMessageAudio : Feature<GetMessageAudioRequest, AudioMessage?>

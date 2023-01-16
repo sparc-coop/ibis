@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Ibis.Features.Messages;
+namespace Ibis.Messages;
 
 public record LanguageAdded(string RoomId, Language Language) : Notification(RoomId);
 public class TranslateExistingMessages : RealtimeFeature<LanguageAdded>

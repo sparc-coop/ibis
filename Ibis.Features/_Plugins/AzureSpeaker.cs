@@ -3,7 +3,7 @@ using NAudio.Lame;
 using NAudio.Wave;
 using File = Sparc.Blossom.Data.File;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : Notification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker

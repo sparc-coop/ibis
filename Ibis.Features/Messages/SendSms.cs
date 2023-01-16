@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public class SendSms : RealtimeFeature<MessageTextChanged>
 {

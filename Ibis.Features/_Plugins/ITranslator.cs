@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features;
+﻿namespace Ibis;
 
 public interface ITranslator
 {

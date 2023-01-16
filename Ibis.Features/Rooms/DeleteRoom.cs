@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public class DeleteRoom : Feature<string, bool>
 {

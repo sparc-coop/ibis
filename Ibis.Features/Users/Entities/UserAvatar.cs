@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Globalization;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public class UserAvatar
 {

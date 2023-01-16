@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.OutputCaching;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public record GetEmojisResponse(List<string> Skintones, List<string> Emojis, List<string> Colors);
 [OutputCache(Duration = 3600)]

@@ -1,6 +1,6 @@
 ﻿using Markdig;
 
-namespace Ibis.Features.Messages;
+namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);

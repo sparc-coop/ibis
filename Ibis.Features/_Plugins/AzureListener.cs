@@ -2,7 +2,7 @@
 using Microsoft.CognitiveServices.Speech.Audio;
 using System.Collections.Concurrent;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
 public record SpeechSessionStarted(string SessionId) : Notification(SessionId);

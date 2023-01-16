@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record GetMessageRequest(string RoomSlug, string Tag, string? Language = null, bool AsHtml = false);
 public class GetMessage : PublicFeature<GetMessageRequest, Message>

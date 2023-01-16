@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>

@@ -1,6 +1,6 @@
 ﻿using Stripe;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public class UserCharge : Root<string>
 {

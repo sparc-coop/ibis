@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features._Plugins;
+﻿namespace Ibis._Plugins;
 
 public class AzureTranslator : ITranslator
 {

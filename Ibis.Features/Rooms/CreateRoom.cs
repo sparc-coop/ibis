@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public record NewRoomRequest(string RoomName, string RoomType, List<string> Emails);
 public class CreateRoom : Feature<NewRoomRequest, GetRoomResponse>

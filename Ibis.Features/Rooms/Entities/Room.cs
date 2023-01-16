@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Rooms;
 
 public record SourceMessage(string RoomId, string MessageId);
 public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);

@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Ibis.Features, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "title": "Ibis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "version": "v1"
   },
   "paths": {
@@ -1824,7 +1824,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Users.BalanceChanged, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Users.BalanceChanged, Ibis"
       },
       "ChangeVoiceRequest": {
         "type": "object",
@@ -1886,7 +1886,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Users.CostIncurred, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Users.CostIncurred, Ibis"
       },
       "DeleteMessageRequest": {
         "type": "object",
@@ -2287,7 +2287,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.LanguageAdded, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Messages.LanguageAdded, Ibis"
       },
       "LeaveRoomRequest": {
         "type": "object",
@@ -2427,7 +2427,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageAudioChanged, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Messages.MessageAudioChanged, Ibis"
       },
       "MessageDeleted": {
         "type": "object",
@@ -2453,7 +2453,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageDeleted, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Messages.MessageDeleted, Ibis"
       },
       "MessageTag": {
         "type": "object",
@@ -2496,7 +2496,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Messages.MessageTextChanged, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Messages.MessageTextChanged, Ibis"
       },
       "MessageTranslation": {
         "type": "object",
@@ -2661,7 +2661,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognized, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis._Plugins.SpeechRecognized, Ibis"
       },
       "SpeechRecognizing": {
         "type": "object",
@@ -2691,7 +2691,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechRecognizing, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis._Plugins.SpeechRecognizing, Ibis"
       },
       "SpeechSessionStarted": {
         "type": "object",
@@ -2713,7 +2713,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.SpeechSessionStarted, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis._Plugins.SpeechSessionStarted, Ibis"
       },
       "TypeMessageRequest": {
         "type": "object",
@@ -2858,7 +2858,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Users.UserAvatarUpdated, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Users.UserAvatarUpdated, Ibis"
       },
       "UserJoined": {
         "type": "object",
@@ -2888,7 +2888,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserJoined, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Rooms.UserJoined, Ibis"
       },
       "UserLeft": {
         "type": "object",
@@ -2918,7 +2918,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features.Rooms.UserLeft, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis.Rooms.UserLeft, Ibis"
       },
       "Voice": {
         "type": "object",
@@ -3008,7 +3008,7 @@
         "discriminator": {
           "propertyName": "$type"
         },
-        "x-ms-discriminator-value": "Ibis.Features._Plugins.WordSpoken, Ibis.Features"
+        "x-ms-discriminator-value": "Ibis._Plugins.WordSpoken, Ibis"
       }
     },
     "securitySchemes": {

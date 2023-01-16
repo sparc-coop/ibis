@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using File = Sparc.Blossom.Data.File;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public record UploadUserPhotoRequest(string FileName, byte[] Bytes);
 public class UserPhotoUpload : Feature<UploadUserPhotoRequest, string>

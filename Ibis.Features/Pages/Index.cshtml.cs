@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Ibis.Features.Pages
+namespace Ibis.Pages
 {
     public class IndexModel : PageModel
     {

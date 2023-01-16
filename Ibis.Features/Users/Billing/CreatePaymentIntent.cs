@@ -1,6 +1,6 @@
 ﻿using Stripe;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public record PaymentIntentRequest(decimal Amount, string Currency, string? Id = null);
 public record PaymentIntentResponse(string ClientSecret, string Amount, string Id, string Currency, List<decimal> Amounts);

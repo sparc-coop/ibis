@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Users;
+﻿namespace Ibis.Users;
 
 public record CostIncurred(Message Message, string Description, decimal Amount) : Notification();
 public class ChargeUserAccount : RealtimeFeature<CostIncurred>

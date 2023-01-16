@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record GetAllMessagesRequest(string RoomId);
 public record GetAllMessagesResponse(string Language, List<Message> Messages);

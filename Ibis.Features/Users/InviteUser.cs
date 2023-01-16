@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public record InviteUserRequest(string Email, string RoomId);
 public class InviteUser : Feature<InviteUserRequest, UserAvatar?>

@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record HearMessageResponse(string SessionId);
 public class HearMessage : Feature<HearMessageResponse>
