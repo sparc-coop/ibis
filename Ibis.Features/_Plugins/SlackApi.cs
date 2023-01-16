@@ -52,7 +52,7 @@ public class SlackApi : ControllerBase
         CheckLoggedIn(parameters);
 
         var rooms = await GetRooms.ExecuteAsUserAsync(parameters.User!);
-        return string.Join("\r\n", rooms.Select(room => $"{room.Name} => {room.Slug} (Last activity: {room.LastActiveDate:d})"));
+        return string.Join("\r\n", rooms.HostedRooms.Select(room => $"{room.Name} => {room.Slug} (Last activity: {room.LastActiveDate:d})"));
     }
 
     private async Task<string> CreateRoomAsync(SlackParameters parameters)

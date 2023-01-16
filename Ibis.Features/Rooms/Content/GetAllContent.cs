@@ -34,8 +34,8 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
 
     private async Task<List<Message>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room)
     {
-        IQueryable<Message> query = Messages.Query
-                    .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
+        IQueryable<Message> query = Messages.Query(room.Id)
+                    .Where(x => x.Language == request.Language && x.Text != null)
                     .OrderByDescending(y => y.Timestamp);
 
         if (request.Take != null)

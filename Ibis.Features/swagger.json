@@ -830,26 +830,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
+                  "$ref": "#/components/schemas/GetRoomsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
+                  "$ref": "#/components/schemas/GetRoomsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetRoomResponse"
-                  }
+                  "$ref": "#/components/schemas/GetRoomsResponse"
                 }
               }
             }
@@ -2190,6 +2181,26 @@
         "properties": {
           "text": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRoomsResponse": {
+        "type": "object",
+        "properties": {
+          "hostedRooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetRoomResponse"
+            },
+            "nullable": true
+          },
+          "invitedRooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetRoomResponse"
+            },
             "nullable": true
           }
         },

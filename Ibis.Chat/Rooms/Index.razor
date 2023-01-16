@@ -46,7 +46,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Rooms = await Api.GetRoomsAsync();
+        var rooms = await Api.GetRoomsAsync();
+        Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         OriginalList = Rooms;
     }
 
