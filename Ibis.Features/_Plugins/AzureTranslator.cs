@@ -55,7 +55,7 @@ public class AzureTranslator : ITranslator
                     translatedMessages.Add(translatedMessage);
 
                     var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
-                    message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
+                    message.AddCharge(0, cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
                 }
             }
         }

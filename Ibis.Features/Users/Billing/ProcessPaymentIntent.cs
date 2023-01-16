@@ -24,7 +24,7 @@ namespace Ibis.Users
             try
             {
                 var signatureHeader = Request.Headers["Stripe-Signature"];
-                var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, EndpointKey);
+                var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, EndpointKey, throwOnApiVersionMismatch: false);
 
                 if (stripeEvent.Type == Events.PaymentIntentSucceeded)
                 {
@@ -67,7 +67,7 @@ namespace Ibis.Users
             if (user != null)
             {
                 UserCharge userCharge = new(user.Id, paymentIntent!);
-                await Users.ExecuteAsync(user, x => x.AddCharge(userCharge));
+                await Users.ExecuteAsync(user, x => x.Refill(userCharge.Ticks));
                 await UserCharges.AddAsync(userCharge);
             }
         }

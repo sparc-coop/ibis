@@ -2,8 +2,8 @@
 
 @if (Balance.HasValue)
 {
-    <aside tabindex="0" class="balance @(Balance < 0 ? "negative" : "")" title="@Balance.Value.ToString("C4")" @onclick=AddFunds>
-        @Balance.Value.ToString("C")
+    <aside tabindex="0" class="balance @(Balance.Value.Ticks < 0 ? "negative" : "")" title="@Balance.Value.ToString("g") Remaining (Click to add minutes)" @onclick=AddFunds>
+        @Math.Floor(Balance.Value.TotalMinutes).ToString("N0")m @(Balance.Value.Seconds)s remaining
     </aside>
 }
 
@@ -11,13 +11,14 @@
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter]
     [SupplyParameterFromQuery(Name = "payment_intent_client_secret")] public string? PaymentIntentClientSecret { get; set; }
-    double? Balance;
+    TimeSpan? Balance;
 
     protected override async Task OnInitializedAsync()
     {
-        Balance = await Api.GetUserBalanceAsync();
-
-        await On<BalanceChanged>(User.Id, x => Balance = x.Amount);
+        var ticks = await Api.GetUserBalanceAsync();
+        Balance = TimeSpan.FromTicks(ticks);
+        
+        await On<BalanceChanged>(User.Id, x => Balance = TimeSpan.FromTicks(x.Ticks));
     }
 
     async Task AddFunds()

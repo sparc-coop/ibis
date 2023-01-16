@@ -975,20 +975,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "number",
-                  "format": "double"
+                  "type": "integer",
+                  "format": "int64"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "number",
-                  "format": "double"
+                  "type": "integer",
+                  "format": "int64"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "number",
-                  "format": "double"
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             }
@@ -1804,9 +1804,9 @@
                 "type": "string",
                 "nullable": true
               },
-              "amount": {
-                "type": "number",
-                "format": "double"
+              "ticks": {
+                "type": "integer",
+                "format": "int64"
               }
             }
           }
@@ -1866,9 +1866,9 @@
                 "type": "string",
                 "nullable": true
               },
-              "amount": {
-                "type": "number",
-                "format": "double"
+              "ticks": {
+                "type": "integer",
+                "format": "int64"
               }
             }
           }
@@ -2383,6 +2383,11 @@
             "readOnly": true
           },
           "charge": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "cost": {
             "type": "number",
             "format": "double",
             "readOnly": true
@@ -2598,8 +2603,7 @@
           "amounts": {
             "type": "array",
             "items": {
-              "type": "number",
-              "format": "double"
+              "$ref": "#/components/schemas/TicksPackage"
             },
             "nullable": true
           }
@@ -2725,6 +2729,20 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis._Plugins.SpeechSessionStarted, Ibis"
+      },
+      "TicksPackage": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "ticks": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
       },
       "TypeMessageRequest": {
         "type": "object",

@@ -7,18 +7,19 @@
         <ul>
             @foreach (var amount in PaymentIntent.Amounts)
             {
-                <li class="@(SelectedAmount == amount ? "selected" : "")">
-                    <button @onclick="(() => ChooseAmount(amount))">@amount.ToString("C0")</button>
+                <li class="@(SelectedPackage == amount ? "selected" : "")" @onclick="(() => ChoosePackage(amount))">
+                    <header>@amount.Amount.ToString("C0")</header>
+                    <aside>@TimeSpan.FromTicks(amount.Ticks).TotalMinutes minutes</aside>
                 </li>
             }
         </ul>
 
         <form>
             <div id="payment-element"></div>
-            @if (SelectedAmount > 0)
+            @if (SelectedPackage != null)
             {
                 <button type="button" @onclick=Pay>
-                    Add @PaymentIntent.Amount
+                    Add @TimeSpan.FromTicks(SelectedPackage.Ticks).TotalMinutes minutes
                 </button>
             }
         </form>
@@ -30,30 +31,30 @@
     [Parameter] public string? PaymentIntentClientSecret { get; set; }
 
     List<double> Amounts = new();
-    double SelectedAmount;
+    TicksPackage? SelectedPackage;
     PaymentIntentResponse? PaymentIntent;
 
     protected override async Task OnInitializedAsync()
     {
         var ri = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
-        PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = SelectedAmount, Currency = ri.ISOCurrencySymbol });
+        PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = 0, Currency = ri.ISOCurrencySymbol });
     }
 
-    async Task ChooseAmount(double amount)
+    async Task ChoosePackage(TicksPackage package)
     {
-        SelectedAmount = amount;
-        await UpdateAmountAsync();
+        SelectedPackage = package;
+        await UpdatePaymentAsync();
     }
 
-    async Task UpdateAmountAsync()
+    async Task UpdatePaymentAsync()
     {
-        if (SelectedAmount == 0)
+        if (SelectedPackage == null)
             return;
 
         var request = new PaymentIntentRequest
             {
                 Id = PaymentIntent?.Id,
-                Amount = SelectedAmount,
+                Amount = SelectedPackage.Amount,
                 Currency = PaymentIntent?.Currency
             };
 

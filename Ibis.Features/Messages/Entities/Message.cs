@@ -17,7 +17,8 @@ public class Message : Root<string>
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation> Translations { get; private set; }
-    public decimal Charge { get; private set; }
+    public long Charge { get; private set; }
+    public decimal Cost { get; private set; }
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
@@ -145,10 +146,12 @@ public class Message : Root<string>
             Broadcast(new MessageTextChanged(this));
     }
 
-    internal void AddCharge(decimal cost, string description)
+    internal void AddCharge(long ticks, decimal cost, string description)
     {
-        Charge += cost;
-        Broadcast(new CostIncurred(this, description, cost));
+        Charge += ticks;
+        Cost -= cost;
+        if (ticks > 0)
+            Broadcast(new CostIncurred(this, description, ticks));
     }
 
     internal void Delete()

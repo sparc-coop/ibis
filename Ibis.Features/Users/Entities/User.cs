@@ -3,7 +3,7 @@
 namespace Ibis.Users;
 
 public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
-public record BalanceChanged(string HostUserId, decimal Amount) : Notification(HostUserId);
+public record BalanceChanged(string HostUserId, long Ticks) : Notification(HostUserId);
 public class User : BlossomUser
 {
     public User()
@@ -15,11 +15,13 @@ public class User : BlossomUser
         LanguagesSpoken = new();
         ActiveRooms = new();
         Avatar = new(Id, "");
+        BillingInfo = new();
     }
 
     public User(string email) : this()
     {
         Email = email;
+        UserName = email.ToUpper();
         Avatar = new(Id, email);
     }
 
@@ -50,7 +52,7 @@ public class User : BlossomUser
     public string? SlackTeamId { get; private set; }
     public string? SlackUserId { get; private set; }
     public string? AzureB2CId { get; private set; }
-    public UserBilling? BillingInfo { get; private set; }
+    public UserBilling BillingInfo { get; private set; }
     public UserAvatar Avatar { get; private set; }
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
@@ -83,12 +85,16 @@ public class User : BlossomUser
 
     public static User System => new("system");
 
-    internal void AddCharge(UserCharge userCharge)
+    internal void Refill(long ticksToAdd)
     {
-        if (BillingInfo == null)
-            throw new Exception("Can't add charge to user without billing info!");
-        BillingInfo.Balance += userCharge.Amount;
-        Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
+        BillingInfo.TicksBalance += ticksToAdd;
+        Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
+    }
+
+    internal void AddCharge(CostIncurred costIncurred)
+    {
+        BillingInfo.TicksBalance -= costIncurred.Ticks;
+        Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
     }
 
     internal void UpdateAvatar(UserAvatar avatar)
@@ -109,9 +115,6 @@ public class User : BlossomUser
 
     internal void SetUpBilling(string customerId, string currency)
     {
-        if (BillingInfo != null)
-            throw new Exception("Billing info can only be set up once");
-
         BillingInfo = new(customerId, currency);
     }
 
@@ -120,7 +123,7 @@ public class User : BlossomUser
         Avatar.IsOnline = true;
         Broadcast(new UserAvatarUpdated(Avatar));
         if (BillingInfo != null)
-            Broadcast(new BalanceChanged(Id, BillingInfo.Balance));
+            Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
     }
 
     internal void GoOffline()
