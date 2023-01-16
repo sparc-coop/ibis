@@ -9,7 +9,7 @@ builder.Host.UseLamar();
 builder.AddBlossom(builder.Configuration["WebClientUrl"]);
 
 builder.Services
-        .AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis", ServiceLifetime.Transient)
+        .AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis-prod", ServiceLifetime.Transient)
         .AddAzureStorage(builder.Configuration.GetConnectionString("Storage")!)
         .AddTwilio(builder.Configuration)
         .AddBlossomRealtime<IbisHub>()
@@ -19,6 +19,7 @@ builder.Services
         .AddSingleton<ExchangeRates>();
 
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
+auth.AddCookie();
 builder.AddPasswordlessAuthentication<User>(auth);
 
 builder.Services.AddIbis(builder.Configuration["IbisApi"]!);

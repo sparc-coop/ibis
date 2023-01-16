@@ -76,7 +76,7 @@
     bool ShowMenu;
     bool IsRoom;
     bool ShowOnboarding;
-    string HubUrl => Config["ApiUrl"] + "/hub";
+    string HubUrl => Config["Blossom:Authority"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
     {

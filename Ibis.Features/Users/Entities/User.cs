@@ -81,7 +81,7 @@ public class User : BlossomUser
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);
 
-    public static User System => new("system", "system");
+    public static User System => new("system");
 
     internal void AddCharge(UserCharge userCharge)
     {

@@ -6,6 +6,8 @@
     height: 100vh;
     grid-template-rows: 96px auto;
 
+
+
     > header {
         background: $white;
         padding: 28px 6vw;
@@ -13,6 +15,10 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid $grey-200;
+
+        h1 {
+            font-size: 0;
+        }
 
         .logo {
             img {

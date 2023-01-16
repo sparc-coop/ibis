@@ -16,7 +16,7 @@
             </label>
             <div class="menu">
                 <ul>
-                    <li><a href="/rooms" class="get-started">Launch Ibis</a></li>
+                    <li><button @onclick="SignIn" class="get-started">Launch Ibis</button></li>
                     <li><a href="/pricing">Pricing</a></li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@
                     </p>
                 </div>
                 <div class="landing--button-container">
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
+                    <button @onclick="SignIn" class="get-started">Launch Ibis</button>
                 </div>
                 <img class="hero-image--room" src="/images/landing/hero-image_room.png" alt="Example of an Ibis room, displaying messages between multiple users." />
                 <img class="hero-background" src="/images/landing/hero-background.png" alt="" />
@@ -136,12 +136,12 @@
                 <img class="banner-image desktop" src="/images/landing/banner.png" alt="" />
                 <div class="banner-content desktop">
                     <h3>What are you waiting for? <br />Give Ibis a go!</h3>
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
+                    <button @onclick="SignIn" class="get-started">Launch Ibis</button>
                 </div>
                 <img class="banner-image mobile" src="/images/landing/banner-mobile.png" alt="" />
                 <div class="banner-content mobile">
                     <h3>What are you waiting for? <br />Give Ibis a go!</h3>
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
+                    <button @onclick="SignIn" class="get-started">Launch Ibis</button>
                 </div>
             </section>
             <div class="footer">
@@ -149,3 +149,11 @@
         </div>
     </div>
 </Sparc.Ibis.IbisContent>
+
+@inject NavigationManager Nav
+@code {
+    private void SignIn()
+    {
+        Nav.NavigateTo("/_authorize");
+    }
+}

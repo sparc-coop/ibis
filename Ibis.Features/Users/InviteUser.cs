@@ -7,19 +7,18 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
-    public UserManager<User> UserManager { get; }
+    public PasswordlessAuthenticator<User> Authenticator { get; }
     public IConfiguration Configuration { get; }
+    TwilioService Twilio { get; set; }
 
-    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, UserManager<User> userManager, IConfiguration configuration)
+    public InviteUser(TwilioService twilio, IRepository<Room> rooms, IRepository<User> users, PasswordlessAuthenticator<User> authenticator, IConfiguration configuration)
     {
         Twilio = twilio;
         Rooms = rooms;
         Users = users;
-        UserManager = userManager;
+        Authenticator = authenticator;
         Configuration = configuration;
     }
-    TwilioService Twilio { get; set; }
-
 
     public override async Task<UserAvatar?> ExecuteAsync(InviteUserRequest request)
     {
@@ -31,11 +30,11 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
 
             if (user == null)
             {
-                user = new(request.Email, request.Email);
-                await UserManager.CreateAsync(user);
+                user = new(request.Email);
+                await Users.AddAsync(user);
             }
 
-            string roomLink = await UserManager.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
+            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
             roomLink = $"{Request.Scheme}://{Request.Host.Value}{roomLink}";
 
             var templateData = new

@@ -6,11 +6,11 @@ public static class UserRepositoryExtensions
 {
     public static Task<User?> GetAsync(this IRepository<User> repository, ClaimsPrincipal user)
     {
-        var azureId = user.Id();
-        if (azureId == null)
+        var id = user.Id();
+        if (id == null)
             return Task.FromResult<User?>(null);
         
-        var result = repository.Query.FirstOrDefault(x => x.AzureB2CId == azureId);
+        var result = repository.Query.FirstOrDefault(x => x.Id == id);
         return Task.FromResult(result);
     }
 }
