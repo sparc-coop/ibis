@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using Sparc.Ibis;
 
-@*<RealtimeHub Url="@HubUrl">*@
+<RealtimeHub Url="@HubUrl">
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
             <header>
@@ -67,7 +67,7 @@
             <Ibis.Ink.Onboarding.Index OnDone="CloseOnboarding" />
         }
     </CascadingValue>
-@*</RealtimeHub>*@
+</RealtimeHub>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
