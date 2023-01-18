@@ -1,0 +1,154 @@
+﻿@page "/notifications"
+
+<AccountNav/>
+<div class="notifcations-section">
+	<div class="notification-header">
+		<h2>Notifications page</h2>
+		<p class="large">Edit your notifications from ibis and team members</p>
+	</div>
+
+	<div class="content-block">
+		<div class="notifications-from-ibis content-background">
+			<div class="section-header">
+				<h6>Notifications from ibis</h6>
+				<p class="medium">Receive the latest news, updates and industry tutorials from us.</p>
+			</div>
+			<div class="section-content">
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="checkbox" checked />
+					</div>
+					<label>
+						<p class="large">News and Updates</p>
+						<p class="medium">News about product and feature updates.</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="checkbox" checked />
+					</div>
+					<label>
+						<p class="large">Tips and tutorials</p>
+						<p class="medium">Tips on getting more out of Untitled.</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="checkbox"/>
+					</div>
+					<label>
+						<p class="large">User research</p>
+						<p class="medium">Get involved in our beta testing program or participate in paid product user research.</p>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="comments content-background">
+			<div class="section-header">
+				<h6>Comments</h6>
+				<p class="medium">These are notifications for comments on your posts and replies to your comments.</p>
+			</div>
+			<div class="section-content">
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="comments"  />
+					</div>
+					<label>
+						<p class="large">Do not notifiy me</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="comments" />
+					</div>
+					<label>
+						<p class="large">Mentions only</p>
+						<p class="medium">Only notify me if I’m mentioned in a comment.</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="comments" checked/>
+					</div>
+					<label>
+						<p class="large">All comments</p>
+						<p class="medium">Notify me for all comments on my posts.</p>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="reminders content-background">
+			<div class="section-header">
+				<h6>Reminders</h6>
+				<p class="medium">These are notifications to remind you of updates you might have missed.</p>
+			</div>
+			<div class="section-content">
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="reminders"  />
+					</div>
+					<label>
+						<p class="large">Do not notifiy me</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="reminders" />
+					</div>
+					<label>
+						<p class="large">Important reminders only</p>
+						<p class="medium">Only notify me if the reminder is tagged as important.</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="reminders" checked/>
+					</div>
+					<label>
+						<p class="large">All reminders</p>
+						<p class="medium">Notify me for all reminders.</p>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="activity">
+			<div class="section-header">
+				<h6>More activity about you</h6>
+				<p class="medium">These are notifications for posts on your profile, likes and other reactions to your posts, and more.</p>
+			</div>
+			<div class="section-content">
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="activity"  />
+					</div>
+					<label>
+						<p class="large">Do not notifiy me</p>
+					</label>
+				</div>
+				<div class="checkbox-wrapper">
+					<div class="input-type">
+						<input type="radio" name="activity" checked />
+					</div>
+					<label>
+						<p class="large">All reminders</p>
+						<p class="medium">Notify me for all other activity.</p>
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="button-wrapper">
+		<button class="btn-secondary btn-medium">Cancel</button>
+		<button class="btn-primary btn-medium">Save Changes</button>
+	</div>
+    
+</div>
+
+@inject IJSRuntime JS
+@code {
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    await JS.InvokeVoidAsync("textDisplay");
+    //}
+}

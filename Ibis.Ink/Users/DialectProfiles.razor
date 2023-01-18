@@ -1,0 +1,27 @@
+﻿@page "/dialects"
+
+<AccountNav/>
+<div class="account">
+	<div class="account--header">
+		<h2>Dialect Profiles</h2>
+		<p>Create & Edit your dialect presets.</p>
+	</div>
+	<div class="account--card">
+
+	</div>
+</div>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@code {
+	private UserAvatar? User;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if(user.Identity!.IsAuthenticated)
+		{
+			User = await Api.GetUserAsync();
+		}
+	}
+}

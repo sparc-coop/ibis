@@ -1,0 +1,32 @@
+@inherits RealtimeComponent
+
+@if (Balance.HasValue)
+{
+    <aside tabindex="0" class="balance @(Balance < 0 ? "negative" : "")" title="@Balance.Value.ToString("C4")" @onclick=AddFunds>
+        @Balance.Value.ToString("C")
+    </aside>
+}
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "payment_intent_client_secret")] public string? PaymentIntentClientSecret { get; set; }
+    double? Balance;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Balance = await Api.GetUserBalanceAsync();
+
+        await On<BalanceChanged>(User.Id, x => Balance = x.Amount);
+    }
+
+    async Task AddFunds()
+    {
+        var parameters = new ModalParameters();
+        if (PaymentIntentClientSecret != null)
+            parameters.Add("PaymentIntentClientSecret", PaymentIntentClientSecret);
+
+        var modal = Modal.Show<AddFundsModal>("Add Funds", parameters);
+        var result = await modal.Result;        
+    }
+}

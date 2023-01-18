@@ -1,0 +1,47 @@
+﻿@inherits RealtimeComponent
+
+@if (Me != null)
+{
+    <div class="avatar-list">
+        <div class="presenter">
+            <Avatar User="Me" CanEdit=true />
+        </div>
+        <div class="users">
+            @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
+            {
+                <Avatar User="user" />
+            }
+        </div>
+        <footer>
+            <InviteUser Room="@Room" />
+        </footer>
+    </div>
+}
+
+@code {
+    [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [CascadingParameter] public UserAvatar? Me { get; set; }
+    List<UserAvatar> ActiveUsers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ActiveUsers = Room.Users.Where(x => x.Id != Me!.Id)
+            .ToList();
+
+        await On<UserJoined>(Room.RoomId, x => AddUser(x.User));
+        await On<UserLeft>(Room.RoomId, x => RemoveUser(x.User));
+    }
+
+    void AddUser(UserAvatar user)
+    {
+        if (!ActiveUsers.Any(x => x.Id == user.Id))
+            ActiveUsers.Add(user);
+    }
+
+    void RemoveUser(UserAvatar user)
+    {
+        var existingId = ActiveUsers.FindIndex(x => x.Id == user.Id);
+        if (existingId > -1)
+            ActiveUsers.RemoveAt(existingId);
+    }
+}

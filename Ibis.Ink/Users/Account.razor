@@ -1,0 +1,86 @@
+﻿@page "/account"
+
+<AccountNav/>
+<div class="account">
+	<div class="account--header">
+		<h2>Personal info</h2>
+		<p>Update your photo and personal details here.</p>
+	</div>
+
+	<div class="account--card">
+		@if(User != null)
+		{
+			<div class="section">
+				<div>
+					<label>Pronouns</label>
+					<select @bind="User.Pronouns">
+						<option disabled selected>Select Pronoun</option>
+						<option value="She/Her">She/Her</option>
+						<option value="He/Him">He/Him</option>
+						<option value="They/Them">They/Them</option>
+					</select>
+				</div>
+				<div class="inline">
+					<div>
+						<label>Name</label>
+						<input @bind="User.Name" />
+					</div>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="section">
+				<button class="cancel">Cancel</button>
+				<button @onclick="UpdateUser" class="save">Save Changes</button>
+			</div>
+		}
+	</div>
+	<div class="account--header">
+	<h2>Additional info</h2>
+	<p>Update your additional details here.</p>
+	</div>
+	<div class="account--card last">
+		@if(User != null)
+		{
+			<div class="section">
+				<label>Username</label>
+				<input placeholder="Username"/>
+				<label>Website</label>
+				<input placeholder="www.website.com"/>
+				<label>Description</label>
+				<textarea @bind="User.Description" maxlength="1000"></textarea>
+				<label>Country</label>
+				<input placeholder="Country"/>
+				<label>Timezone</label>
+				<input placeholder="EST"/>
+			</div>
+			<div class="divider"></div>
+			<div class="section">
+				<button class="cancel">Cancel</button>
+				<button @onclick="UpdateUser" class="save">Save Changes</button>
+			</div>
+		}
+	</div>
+</div>
+
+@inject IJSRuntime JS
+
+@code {
+	private UserAvatar? User;
+
+	protected override async Task OnInitializedAsync()
+	{
+		User = await Api.GetUserAsync();
+	}
+
+	private async void UpdateUser() => await Api.UpdateUserAsync(User);
+
+	private async Task OnInputFileChange(InputFileChangeEventArgs e)
+	{
+		Stream stream = e.File.OpenReadStream(maxAllowedSize: 2000000);
+		var path = e.File.Name;
+		MemoryStream ms = new MemoryStream();
+		await stream.CopyToAsync(ms);
+		var bytes = ms.ToArray();
+		stream.Close();
+	}
+}

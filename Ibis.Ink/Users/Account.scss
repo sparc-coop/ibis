@@ -1,0 +1,222 @@
+﻿@import "../_variables.scss";
+
+.account {
+    padding: 15px 20px 100px 20px;
+
+    &--header {
+        margin: 0 auto;
+        max-width: 736px;
+        width: 100%;
+        text-align: left;
+        padding-top: 40px;
+    }
+
+    h3 {
+        color: $grey-900;
+        font-size: 20px;
+        padding-bottom: 30px;
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 120%;
+        padding-bottom: 4px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 120%;
+        color: $grey-500;
+        padding-bottom: 16px;
+    }
+
+    .divider {
+        border-top: 1px solid $grey-200;
+        width: 100%;
+        position: absolute;
+        bottom: 68px;
+    }
+
+    button {
+        color: $primary;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+
+        &.save {
+            background: $primary-700;
+            color: $white;
+        }
+
+        &.cancel {
+            background: $grey-200;
+            color: $grey-800;
+            margin-right: 16px;
+        }
+    }
+
+    &--left {
+        width: 50%;
+        padding: 0 40px;
+
+        input {
+            margin-bottom: 20px;
+            display: block;
+        }
+    }
+
+    input {
+        padding: 12px 20px;
+        background: $white;
+        border: 1px solid $light-gray;
+    }
+
+    &--card {
+        width: 100%;
+        max-width: 736px;
+        height: 506px;
+        box-sizing: border-box;
+        background: $white;
+        border: 1px solid $grey-200;
+        box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+        border-radius: 8px;
+        margin: 0 auto;
+        position: relative;
+
+        select {
+            width: 191px;
+            height: 40px;
+            cursor: pointer;
+            border: 1px solid $grey-300;
+            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+            border-radius: 8px;
+            padding: 10px 14px;
+            background-position: 90% center;
+        }
+
+        option {
+            padding: 4px 8px;
+        }
+
+        label {
+            display: block;
+            padding-bottom: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            color: $grey-700;
+        }
+
+        input, textarea {
+            max-width: 332px;
+            width: 100%;
+            height: 40px;
+            background: $white;
+            border: 1px solid $grey-300;
+            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        textarea {
+            min-height: 128px;
+        }
+
+        &.last {
+            input, textarea {
+                width: 100%;
+                max-width: 688px;
+                margin-bottom: 24px;
+            }
+
+            height: auto;
+            padding-bottom: 50px;
+        }
+
+        .inline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            > div {
+                max-width: 332px;
+                width: 100%;
+            }
+        }
+
+        .email {
+            position: relative;
+
+            input {
+                max-width: 688px;
+                padding-left: 42px;
+            }
+
+            img {
+                position: absolute;
+                left: 14px;
+                bottom: 35px;
+            }
+        }
+
+        .section {
+            padding: 24px;
+
+            &:last-child {
+                position: absolute;
+                bottom: 16px;
+                right: 24px;
+                padding: 0;
+            }
+
+            > div {
+                padding-bottom: 24px;
+            }
+        }
+
+        .photo-upload {
+            position: relative;
+            text-align: center;
+
+            img, i {
+                height: 64px;
+                width: 64px;
+                border-radius: 64px;
+                margin-right: 20px;
+                vertical-align: top;
+            }
+
+            input {
+                width: 100%;
+                max-width: 602px;
+                height: 120px;
+                position: relative;
+                z-index: 10;
+                background: transparent;
+                cursor: pointer;
+
+                &::file-selector-button {
+                    display: none;
+                }
+            }
+
+            .upload-icon {
+                position: absolute;
+                left: 50%;
+                top: 10%;
+                width: 40px;
+                height: 40px;
+            }
+
+            p {
+                position: absolute;
+                left: 39%;
+                bottom: 20px;
+                font-size: 13px;
+                font-weight: 500;
+
+                span {
+                    color: $primary-500;
+                }
+            }
+        }
+    }
+}

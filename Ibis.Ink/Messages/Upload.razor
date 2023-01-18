@@ -1,0 +1,68 @@
+﻿@inherits SparcModal
+
+<section class="upload">
+    <div class="input">
+        <h4>Upload a file</h4>
+        <div class="photo-upload">
+			<InputFile type="file" accept="audio/wav, video/*" name="UploadFileInput" OnChange="@OnInputFileChange"/>
+			<img class="upload-icon" src="/icons/upload.png" />
+			<p>
+				<span>Click to upload</span> or drag and drop
+			</p>
+		</div>
+    </div>
+    @ErrorMessageHTML
+    <button @onclick="Submit" class="primary">Upload</button>
+    @if(loading == true)
+    {
+         <div class="loading"></div>   
+    }
+</section>
+
+@code {
+    [Parameter] public string? RoomId { get; set; }
+    [Parameter] public string? Language { get; set; }
+    MemoryStream? ms;
+    string? fileName;
+    bool FileInputEmptyOnSubmit = false;
+    MarkupString ErrorMessageHTML = new();
+    bool loading = false;
+
+    void ErrorMessage()
+    {
+        if (FileInputEmptyOnSubmit)
+        {
+            ErrorMessageHTML = new("<div class='error' style='color: red;'>**File cannot be empty</div>");
+        } else {
+            ErrorMessageHTML = new();
+        }
+    }
+
+    async Task OnInputFileChange (InputFileChangeEventArgs e)
+    {
+        ms = new MemoryStream();
+        fileName = e.File.Name;
+        await e.File.OpenReadStream(maxAllowedSize: 50000000).CopyToAsync(ms);
+
+        FileInputEmptyOnSubmit = !FileInputEmptyOnSubmit;
+        ErrorMessage();
+    }
+
+    async Task Submit()
+    {
+        loading = true;
+        if(ms != null)
+        {
+            FileInputEmptyOnSubmit = false;
+            var bytes = ms.ToArray();
+            var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+
+            await Ok(messages);
+        } else
+        {
+            FileInputEmptyOnSubmit = true;
+            ErrorMessage();
+        }
+        loading = false;
+    }
+}

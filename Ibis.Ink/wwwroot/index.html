@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ibis Ink</title>
+    <base href="/" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet" />
+    <script>
+        if (!("container" in document.documentElement.style)) {
+            import("https://unpkg.com/container-query-polyfill@^0.2.0");
+        }
+
+        window.SetFocusToElement = (element) => {
+            if (element?.firstChild)
+                element.firstChild.focus();
+        };
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="js/site.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+﻿@inherits RealtimeComponent
+
+@if (SpillBackground)
+{
+    <div class="avatar-background-spill" style="background: @LocalUser.BackgroundColor"></div>
+}
+
+<figure class="avatar ibis-ignore @(HasEmoji ? "emoji" : "") @(CanEdit ? "editable" : "") @(SpillBackground ? "no-background" : "")" style="background: @LocalUser.BackgroundColor" @onclick=Edit>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="50%" y="60%" font-size="80" text-anchor="middle" dominant-baseline="middle" style="fill: @LocalUser.ForegroundColor">
+            @Emoji
+        </text>
+    </svg>
+    <figcaption style="color: @LocalUser.ForegroundColor">
+        @LocalUser.Name
+        <aside>
+            @LocalUser.Language &#8226; @LocalUser.Pronouns
+        </aside>
+    </figcaption>
+
+@*    @if (!LocalUser.IsOnline)
+    {
+        <aside>Offline</aside>
+    }
+*@</figure>
+
+@if (CanEdit && ShowEditor)
+{
+    <Ibis.Ink.Onboarding.Index OnDone="CloseEditor" />
+}
+
+@code {
+    [Parameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public bool CanEdit { get; set; }
+    [Parameter] public bool SpillBackground { get; set; }
+    bool ShowEditor;
+    UserAvatar LocalUser = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LocalUser = User;
+        await On<UserAvatarUpdated>(User.Id, x => LocalUser = x.Avatar);
+    }
+
+    bool HasEmoji => !string.IsNullOrWhiteSpace(LocalUser?.Emoji);
+    string Emoji => !HasEmoji
+        ? LocalUser.Initials
+        : LocalUser.Emoji;
+
+    void Edit()
+    {
+        if (!CanEdit)
+            return;
+
+        ShowEditor = true;
+    }
+
+    async Task SpeakAsync(byte[] audio)
+    {
+        await JS.InvokeVoidAsync("speak", Convert.ToBase64String(audio));
+    }
+
+    void CloseEditor() => ShowEditor = false;
+}
+
