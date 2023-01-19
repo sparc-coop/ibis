@@ -12,6 +12,7 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [Parameter] public UserAvatar? User { get; set; }
     [Parameter] public string? Language { get; set; }
     List<Message> Messages = new();
     Message? SelectedMessage;
@@ -19,8 +20,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetMessagesAsync();
-        On<UserLanguageChanged>(async x => await GetMessagesAsync());
+        await GetMessagesAsync(new());
+        On<UserLanguageChanged>(GetMessagesAsync);
+        HasNewMessage = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,13 +34,14 @@
         }
     }
 
-    async Task GetMessagesAsync()
+    async Task GetMessagesAsync(UserLanguageChanged evt)
     {
+        Messages.Clear();
+        await InvokeAsync(StateHasChanged);
+
         var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
         Messages = response.Content.ToList();
-
         Language = response.Language;
-        HasNewMessage = true;
         
         var subscriptionId = Room.RoomId + "|" + Language;
         await On<MessageTextChanged>(subscriptionId, x =>
@@ -88,5 +91,17 @@
         var result = await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
         if (result)
             RemoveMessage(message);
+    }
+
+    protected void On<T>(Func<T, Task> action)
+    {
+        if (Hub != null)
+        {
+            Hub.On(typeof(T)!.Name, async delegate (T evt)
+            {
+                await action(evt);
+                await InvokeAsync(StateHasChanged);
+            });
+        }
     }
 }
