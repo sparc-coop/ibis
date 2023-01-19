@@ -124,7 +124,7 @@
 		<img class="banner-image mobile" src="/images/landing/banner-mobile.png" />
 		<div class="banner-content">
 			<h3>What are you waiting for? <br />Give Ibis a go!</h3>
-			<a href="/rooms" class="btn-primary">Launch Ibis</a>
+			<button @onclick="SignIn" class="get-started">Launch Ibis</button>
 		</div>
 	</section>
 </div>
@@ -135,6 +135,11 @@
 	void GoTo()
 	{
 		Nav.NavigateTo($"/billing");
+	}
+
+	private void SignIn()
+	{
+		Nav.NavigateTo("/_authorize");
 	}
 
 	async Task ToggleQuestion(int number)

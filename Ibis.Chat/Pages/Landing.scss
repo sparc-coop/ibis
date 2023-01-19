@@ -147,6 +147,10 @@ body {
         .landing--button-container {
             margin-top: 72px;
             margin-bottom: 150px;
+
+            .get-started {
+                padding: 21px 53px;
+            }
         }
 
         img.hero-image--room {
@@ -356,7 +360,7 @@ body {
                     line-height: 48px;
                 }
 
-                a.btn-primary {
+                .get-started {
                     padding: 21px 61px;
                     border-radius: 5px;
                     position: absolute;
