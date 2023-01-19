@@ -29,5 +29,29 @@
                 }
             }
         }
+
+        ol {
+            padding-left: 40px;
+
+            ol {
+                list-style: upper-alpha;
+
+                ol {
+                    list-style: upper-roman;
+
+                    ol {
+                        list-style: lower-alpha;
+
+                        ol {
+                            list-style: lower-roman;
+
+                            ol {
+                                list-style: disc;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -494,6 +494,24 @@ main {
 .MarkdownEditorComponent .markdown-result ul ul ul ul {
   list-style: circle;
 }
+.MarkdownEditorComponent .markdown-result ol {
+  padding-left: 40px;
+}
+.MarkdownEditorComponent .markdown-result ol ol {
+  list-style: upper-alpha;
+}
+.MarkdownEditorComponent .markdown-result ol ol ol {
+  list-style: upper-roman;
+}
+.MarkdownEditorComponent .markdown-result ol ol ol ol {
+  list-style: lower-alpha;
+}
+.MarkdownEditorComponent .markdown-result ol ol ol ol ol {
+  list-style: lower-roman;
+}
+.MarkdownEditorComponent .markdown-result ol ol ol ol ol ol {
+  list-style: disc;
+}
 
 .dashboard {
   margin: 0 auto;
