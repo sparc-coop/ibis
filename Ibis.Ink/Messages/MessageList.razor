@@ -4,10 +4,9 @@
     <div class="message-list ibis-ignore" id="room-@Room.RoomId">
         @foreach (var message in Messages)
         {
-            <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
+            <MessageListCard Message="message" OnDelete=DeleteMessage />
         }
     </div>
-    <NewMessage Room="Room" SelectedMessage="SelectedMessage" OnDoneEditing=DoneEditing />
 </div>
 
 @code {

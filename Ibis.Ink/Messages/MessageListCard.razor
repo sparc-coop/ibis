@@ -1,17 +1,11 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
 
-<article tabindex="0" class="message-card ibis-ignore">
+<article tabindex="0" class="message-list-card ibis-ignore" @onclick="@(e => GoToContent(Message.Id))">
     <Avatar User="Message.User" />
     @if (Me?.Id == Message.User.Id)
     {
         <ul class="actions">
-            <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
-                Tags
-            </li>
-            <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
-                Edit
-            </li>
             <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
                 Delete
             </li>
@@ -26,18 +20,24 @@
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }  
 
-    async Task Edit()
+
+    void GoToContent(string id)
     {
-        if (OnEdit.HasDelegate)
-            await OnEdit.InvokeAsync(Message);
+        Nav.NavigateTo($"/content/{Message.RoomId}/{id}");
     }
 
-    void EditTags()
-    {
-        var parameters = new ModalParameters();
-        parameters.Add("Message", Message);
-        Modal.Show<MessageTags>("Message Tags", parameters);
-    }
+    //async Task Edit()
+    //{
+    //    if (OnEdit.HasDelegate)
+    //        await OnEdit.InvokeAsync(Message);
+    //}
+
+    //void EditTags()
+    //{
+    //    var parameters = new ModalParameters();
+    //    parameters.Add("Message", Message);
+    //    Modal.Show<MessageTags>("Message Tags", parameters);
+    //}
 
     async Task Delete()
     {
@@ -49,23 +49,6 @@
         if (OnDelete.HasDelegate)
             await OnDelete.InvokeAsync(Message);
     }
-
-    void TagsAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            EditTags();
-        }
-    }
-
-    async Task EditAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Edit();
-        }
-    }
-
 
     async Task DeleteAction(KeyboardEventArgs e)
     {

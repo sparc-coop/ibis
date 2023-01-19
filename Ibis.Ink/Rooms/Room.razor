@@ -13,11 +13,11 @@
                 </h2>
             </div>
         }
+        <button @onclick="NewMessage">Add new content</button>
     </header>
     @if (RoomInfo != null)
     {
         <MessageList Room="RoomInfo" />
-@*        <AvatarList Room="RoomInfo" />*@
     }
 </section>
 
@@ -64,5 +64,10 @@
     {
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+    }
+
+    void NewMessage()
+    {
+        Nav.NavigateTo($"/content/{Id}");
     }
 }

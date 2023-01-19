@@ -14,7 +14,7 @@
 
     @if (ChildContent == null)
     {
-        @if(Me.LanguageIsRTL == false)
+        @if(Me?.LanguageIsRTL == false)
         {
             <div class="message-text">
                 @((MarkupString)LocalMessage.Html)
@@ -28,7 +28,7 @@
     }
     else
     {
-        @if (Me.LanguageIsRTL == false)
+        @if (Me?.LanguageIsRTL == false)
         {
             <section id="@_id" class="ibis-translate">
                 @ChildContent
@@ -68,7 +68,7 @@
         }
         else if (ChannelId != null && Tag != null)
         {
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = Message.RoomId, Tag = Tag });
         }
 
         _originalMessageId = LocalMessage?.Id;

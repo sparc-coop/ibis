@@ -1,9 +1,8 @@
 ﻿@inherits SparcModal
 
 <div class="invite-block room-modal">
-        <div class="room-icons">
+@*    <div class="room-icons">
         <p class="medium">Room Type</p>
-        <p>Test: @Request.RoomType</p>
         <dl class="room-icon-wrapper">
             <div @onclick="@(() => SelectRoomType("Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
                 <dt class="blog">
@@ -22,17 +21,17 @@
                 </dd>
             </div>
         </dl>
-    </div>
+    </div>*@
     <div class="room-name-wrapper">
-        <p class="medium">Name Your Room</p>
+        <p class="medium">Name Your Project</p>
         <input type="email" placeholder="Enter Room Name" @bind="Request.RoomName" />
     </div>
 
-    <button class="create-room" @onclick="CreateRoom">Create Room</button>
+    <button class="create-room" @onclick="CreateRoom">Create Project</button>
 </div>
 
 @code {
-    NewRoomRequest Request = new() { RoomType = "", Emails = new List<string>() };
+    NewRoomRequest Request = new() { RoomType = "Content", Emails = new List<string>() };
 
     async Task CreateRoom()
     {
@@ -40,5 +39,5 @@
         Nav.NavigateTo($"/rooms/{response.RoomId}");
     }
 
-    void SelectRoomType(string type) => Request.RoomType = type;
+    //void SelectRoomType(string type) => Request.RoomType = type;
 }

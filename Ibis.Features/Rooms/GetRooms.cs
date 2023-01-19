@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace Ibis.Features.Rooms;
 
-public class GetRooms : Feature<List<GetRoomResponse>>
+public class GetRooms : Feature<string, List<GetRoomResponse>>
 {
     public GetRooms(IRepository<Room> rooms, IRepository<User> users)
     {
@@ -13,16 +15,16 @@ public class GetRooms : Feature<List<GetRoomResponse>>
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
 
-    public override async Task<List<GetRoomResponse>> ExecuteAsync()
+    public override async Task<List<GetRoomResponse>> ExecuteAsync(string roomType)
     {
         var user = await Users.GetAsync(User);
-        return await ExecuteAsUserAsync(user!);
+        return await ExecuteAsUserAsync(user!, roomType);
     }
 
-    internal async Task<List<GetRoomResponse>> ExecuteAsUserAsync(User user)
+    internal async Task<List<GetRoomResponse>> ExecuteAsUserAsync(User user, string? roomType = null)
     {
         var rooms = await Rooms.Query
-            .Where(x => x.HostUser.Id == user.Id && x.EndDate == null)
+            .Where(x => x.HostUser.Id == user.Id && (roomType != null ? x.RoomType == roomType : x.RoomType.Any()) && x.EndDate == null)
             .OrderByDescending(x => x.LastActiveDate)
             .ToListAsync();
 

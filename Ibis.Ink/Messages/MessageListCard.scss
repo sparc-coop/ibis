@@ -1,6 +1,6 @@
 ﻿@import "../_variables.scss";
 
-.message-card {
+.message-list-card {
     padding: 16px;
     margin: 20px 0;
     border-radius: 12px;
@@ -9,6 +9,11 @@
     animation: new-message-card-slide-up 0.2s;
     color: $grey-900;
     border: 1px solid $grey-500;
+    cursor: pointer;
+
+    &:hover {
+        background: $grey-200;
+    }
 
     .ibis-widget {
         top: 0;
@@ -104,9 +109,9 @@
         font-size: 12px;
         z-index: 100;
         display: flex;
-/*        opacity: 0;
+        opacity: 0;
         transition: opacity 0.2s ease-in-out;
-        transition-delay: 0s;*/
+        transition-delay: 0s;
 
         li {
             padding: 4px 10px;

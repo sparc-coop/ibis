@@ -46,7 +46,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Rooms = await Api.GetRoomsAsync();
+        Rooms = await Api.GetRoomsAsync("Chat");
         OriginalList = Rooms;
     }
 
