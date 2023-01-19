@@ -7,31 +7,17 @@
         @if (RoomInfo != null)
         {
             <div class="title-container">
-                <RoomIcon RoomType="Chat" />
+                <RoomIcon RoomType="@RoomInfo.RoomType" />
                 <h2 title="@RoomInfo.Name" style="max-width:555px">
                     @RoomInfo.Name
                 </h2>
             </div>
-                <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
-                        <DownloadIcon />
-                        Transcript
-                    </button>
-                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
-                        <DownloadIcon />
-                        Subtitles
-                    </button>
-                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
-                        <DownloadIcon />
-                        Audio
-                    </button>
-                </div>
         }
     </header>
     @if (RoomInfo != null)
     {
         <MessageList Room="RoomInfo" />
-        <AvatarList Room="RoomInfo" />
+@*        <AvatarList Room="RoomInfo" />*@
     }
 </section>
 

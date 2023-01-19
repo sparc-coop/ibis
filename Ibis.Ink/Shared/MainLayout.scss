@@ -130,6 +130,10 @@
         > header {
             padding: 10px 6vw;
 
+            h1 {
+                font-size: unset;
+            }
+
             .logo img {
                 height: 28px;
             }

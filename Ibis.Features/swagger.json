@@ -2138,6 +2138,10 @@
             "type": "string",
             "nullable": true
           },
+          "roomType": {
+            "type": "string",
+            "nullable": true
+          },
           "slug": {
             "type": "string",
             "nullable": true

@@ -3,10 +3,11 @@
 <div class="invite-block room-modal">
         <div class="room-icons">
         <p class="medium">Room Type</p>
+        <p>Test: @Request.RoomType</p>
         <dl class="room-icon-wrapper">
             <div @onclick="@(() => SelectRoomType("Blog"))" class="@(Request.RoomType == "Blog" ? "selected" : "")">
                 <dt class="blog">
-                    <RoomIcon RoomType="Blog" />
+                    <RoomIcon RoomType="Blog" /> Blog
                 </dt>
                 <dd>
                     Host your own weblog or diary with timestamps.
@@ -14,7 +15,7 @@
             </div>
             <div @onclick="@(() => SelectRoomType("Content"))" class="@(Request.RoomType == "Content" ? "selected" : "")">
                 <dt class="content">
-                    <RoomIcon RoomType="Content" />
+                    <RoomIcon RoomType="Content" /> Content
                 </dt>
                 <dd>
                     Add any kind of content to Ibis and have it translated.
@@ -31,7 +32,7 @@
 </div>
 
 @code {
-    NewRoomRequest Request = new() { RoomType = "Content", Emails = new List<string>() };
+    NewRoomRequest Request = new() { RoomType = "", Emails = new List<string>() };
 
     async Task CreateRoom()
     {
