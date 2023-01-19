@@ -478,6 +478,12 @@ main {
 .MarkdownEditorComponent button i {
   color: #364150;
 }
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button.preview {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator:nth-child(13) {
+  display: none;
+}
 .MarkdownEditorComponent .markdown-result {
   margin-top: 20px;
 }
@@ -496,21 +502,25 @@ main {
 }
 .MarkdownEditorComponent .markdown-result ol {
   padding-left: 40px;
-}
-.MarkdownEditorComponent .markdown-result ol ol {
-  list-style: upper-alpha;
-}
-.MarkdownEditorComponent .markdown-result ol ol ol {
-  list-style: upper-roman;
-}
-.MarkdownEditorComponent .markdown-result ol ol ol ol {
-  list-style: lower-alpha;
-}
-.MarkdownEditorComponent .markdown-result ol ol ol ol ol {
-  list-style: lower-roman;
-}
-.MarkdownEditorComponent .markdown-result ol ol ol ol ol ol {
-  list-style: disc;
+  /*ol {
+      list-style: upper-alpha;
+
+      ol {
+          list-style: upper-roman;
+
+          ol {
+              list-style: lower-alpha;
+
+              ol {
+                  list-style: lower-roman;
+
+                  ol {
+                      list-style: disc;
+                  }
+              }
+          }
+      }
+  }*/
 }
 
 .dashboard {

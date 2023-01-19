@@ -10,6 +10,18 @@
         }
     }
 
+    .EasyMDEContainer {
+        .editor-toolbar {
+            button.preview {
+                display: none;
+            }
+
+            i.separator:nth-child(13) {
+                display: none;
+            }
+        }
+    }
+
     .markdown-result {
         margin-top: 20px;
 
@@ -33,7 +45,7 @@
         ol {
             padding-left: 40px;
 
-            ol {
+            /*ol {
                 list-style: upper-alpha;
 
                 ol {
@@ -51,7 +63,7 @@
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 }
