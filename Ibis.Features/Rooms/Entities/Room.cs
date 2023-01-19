@@ -62,7 +62,6 @@ public class Room : Root<string>
             return;
 
         Languages.Add(language);
-        Broadcast(new LanguageAdded(Id, language));
     }
 
     public void AddActiveUser(User user)

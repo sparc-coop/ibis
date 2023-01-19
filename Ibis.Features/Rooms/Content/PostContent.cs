@@ -33,7 +33,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
 
         var result = await GetAllMessagesAsync(request, room);
 
-        return new(room.Name, room.Slug, result);
+        return new(room.Name, room.Slug, request.Language, result);
     }
 
     private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)

@@ -4,6 +4,7 @@ namespace Ibis.Users;
 
 public record UserAvatarUpdated(UserAvatar Avatar) : Notification(Avatar.Id);
 public record BalanceChanged(string HostUserId, long Ticks) : Notification(HostUserId);
+public record UserLanguageChanged(string UserId, string Language) : Notification(UserId);
 public class User : BlossomUser
 {
     public User()
@@ -71,14 +72,19 @@ public class User : BlossomUser
         return roomId;
     }
 
-    internal void ChangeVoice(Language language, Voice voice)
+    internal void ChangeVoice(Language language, Voice? voice = null)
     {
+        var hasLanguageChanged = Avatar.Language != language.Id;
+        
         if (!LanguagesSpoken.Any(x => x.Id == language.Id))
             LanguagesSpoken.Add(language);
 
         Avatar.Language = language.Id;
         Avatar.LanguageIsRTL = language.IsRightToLeft;
-        Avatar.Voice = voice.ShortName;
+        Avatar.Voice = voice?.ShortName ?? null;
+
+        if (hasLanguageChanged)
+            Broadcast(new UserLanguageChanged(Id, Avatar.Language));
     }
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);

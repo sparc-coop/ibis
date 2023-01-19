@@ -55,7 +55,7 @@ public class Message : Root<string>
         Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
         Language = toLanguage.Id;
         LanguageIsRTL = toLanguage.IsRightToLeft;
-        Timestamp = DateTime.UtcNow;
+        Timestamp = sourceMessage.Timestamp;
         Tag = sourceMessage.Tag;
         SetText(text);
         SetTags(sourceMessage.Tags);

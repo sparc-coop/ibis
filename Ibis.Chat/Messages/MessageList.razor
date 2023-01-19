@@ -12,19 +12,34 @@
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
+    [Parameter] public string? Language { get; set; }
     List<Message> Messages = new();
     Message? SelectedMessage;
-    string? Language;
     bool HasNewMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Api.GetAllMessagesAsync(new GetAllMessagesRequest { RoomId = Room.RoomId });
-        Messages = response.Messages.OrderBy(x => x.Timestamp).ToList();
-            
-        HasNewMessage = true;
-        Language = response.Language;
+        await GetMessagesAsync();
+        On<UserLanguageChanged>(async x => await GetMessagesAsync());
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (HasNewMessage)
+        {
+            await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
+            HasNewMessage = false;
+        }
+    }
+
+    async Task GetMessagesAsync()
+    {
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
+        Messages = response.Content.ToList();
+
+        Language = response.Language;
+        HasNewMessage = true;
+        
         var subscriptionId = Room.RoomId + "|" + Language;
         await On<MessageTextChanged>(subscriptionId, x =>
         {
@@ -38,21 +53,14 @@
         await On<MessageDeleted>(subscriptionId, x => RemoveMessage(x.Message));
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (HasNewMessage)
-        {
-            await JS.InvokeVoidAsync("scrollToBottom", $"room-{Room.RoomId}");
-            HasNewMessage = false;
-        }
-    }
-
     void SelectMessage(Message message) => SelectedMessage = message;
     void DoneEditing() => SelectedMessage = null;
 
     void AddMessage(Message message)
     {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id);
+        var existingId = Messages.FindIndex(x => x.Id == message.Id 
+        || x.Id == message.SourceMessageId
+        || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
         if (existingId > -1)
         {
             Messages[existingId] = message;

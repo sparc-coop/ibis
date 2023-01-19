@@ -476,75 +476,6 @@
         }
       }
     },
-    "/api/GetAllMessages": {
-      "post": {
-        "tags": [
-          "GetAllMessages"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetAllMessagesRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetAllMessagesRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetAllMessagesRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllMessagesResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllMessagesResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllMessagesResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
     "/api/GetEmojis": {
       "post": {
         "tags": [
@@ -1827,10 +1758,6 @@
           "voiceName": {
             "type": "string",
             "nullable": true
-          },
-          "roomId": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2002,34 +1929,11 @@
             "type": "string",
             "nullable": true
           },
-          "content": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetAllMessagesRequest": {
-        "type": "object",
-        "properties": {
-          "roomId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetAllMessagesResponse": {
-        "type": "object",
-        "properties": {
           "language": {
             "type": "string",
             "nullable": true
           },
-          "messages": {
+          "content": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Message"
@@ -2269,36 +2173,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "LanguageAdded": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Notification"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "roomId": {
-                "type": "string",
-                "nullable": true
-              },
-              "language": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Language"
-                  }
-                ],
-                "nullable": true
-              }
-            }
-          }
-        ],
-        "additionalProperties": false,
-        "discriminator": {
-          "propertyName": "$type"
-        },
-        "x-ms-discriminator-value": "Ibis.Messages.LanguageAdded, Ibis"
       },
       "LeaveRoomRequest": {
         "type": "object",
@@ -2918,6 +2792,32 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis.Rooms.UserJoined, Ibis"
+      },
+      "UserLanguageChanged": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Notification"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string",
+                "nullable": true
+              },
+              "language": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ],
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "$type"
+        },
+        "x-ms-discriminator-value": "Ibis.Users.UserLanguageChanged, Ibis"
       },
       "UserLeft": {
         "type": "object",

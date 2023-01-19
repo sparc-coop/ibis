@@ -41,7 +41,7 @@
     {
         User.Language = language.Id;
         User.LanguageIsRTL = language.IsRightToLeft;
-        await Api.UpdateUserAsync(User);
+        await Api.ChangeVoiceAsync(new ChangeVoiceRequest { Language = language.Id });
 
         if (OnSelected.HasDelegate)
             await OnSelected.InvokeAsync();
