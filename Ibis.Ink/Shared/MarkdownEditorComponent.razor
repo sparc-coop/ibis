@@ -1,12 +1,13 @@
 ﻿@page "/MarkdownEditor"
 
-<div class="col-md-12">
+<div class="MarkdownEditorComponent">
     <MarkdownEditor @bind-Value="@markdownValue" ValueHTMLChanged="@OnMarkdownValueHTMLChanged" />
 
     <hr />
-
-    <h3>Result</h3>
-    @((MarkupString)markdownHtml)
+    
+    <div class="markdown-result">
+        @((MarkupString)markdownHtml)
+    </div>
 </div>
 
 @code {

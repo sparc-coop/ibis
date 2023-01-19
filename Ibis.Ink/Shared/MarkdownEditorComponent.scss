@@ -1,0 +1,33 @@
+﻿@import "../_variables.scss";
+
+.MarkdownEditorComponent {
+    color: $grey-900;
+    font-family: 'CircularStd';
+
+    button {
+        i {
+            color: $grey-700;
+        }
+    }
+
+    .markdown-result {
+        margin-top: 20px;
+
+        ul {
+            list-style: disc;
+            padding-left: 40px;
+
+            ul {
+                list-style: circle;
+
+                ul {
+                    list-style: square;
+
+                    ul {
+                        list-style: circle;
+                    }
+                }
+            }
+        }
+    }
+}
