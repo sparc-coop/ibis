@@ -3053,6 +3053,9 @@ main {
 .avatar-list .presenter .avatar {
   height: 218px;
 }
+.avatar-list .presenter .avatar.editable:hover {
+  transform: scale(1.03, 1.03);
+}
 .avatar-list .users {
   display: flex;
   flex-wrap: wrap;
