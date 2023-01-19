@@ -1,0 +1,98 @@
+﻿@page "/pricing"
+@using Microsoft.JSInterop;
+
+@*<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
+*@    
+    <div class="pricing-page">
+        <div class="hero">
+            <h2>Pricing</h2>
+            <p>
+                Communication with anyone in the world should be affordable.
+            </p>
+            <button @onclick="SignIn">Host a Chat</button>
+        </div>
+        <section class="options">
+            <div class="pricing-card">
+                <h4>Pay as you Go</h4>
+                <div class="price">5&#162; <span>per audio minute per language</span></div>
+                <p>
+                    Pay in your own currency, as you need, with no hidden fees, and no commitments. 
+                </p>
+                <ul>
+                    <li>
+                        <img src="/icons/plus.png" /> Unlimited users and languages
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> Unlimited chat rooms
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> Silence is always free
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> Refill as little as $1 at a time
+                    </li>
+                </ul>
+            <button @onclick="SignIn">Host a Chat</button>
+            </div>
+            <div class="pricing-card">
+                <h4>Unlimited</h4>
+                <div class="price"><span>Pricing coming soon</span></div>
+                <p>
+                    Neque viverra justo nec ultrices dui sapien eget mi. Elit eget gravida cum sociis natoque penatibus et.
+                </p>
+                <ul>
+                    <li>
+                        <img src="/icons/plus.png" /> Unlimited users and languages
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> Unlimited chat rooms
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> Unlimited audio minutes
+                    </li>
+                    <li>
+                        <img src="/icons/plus.png" /> One monthly price
+                    </li>
+                </ul>
+                <button disabled="disabled">Sign Up</button>
+            </div>
+        </section>
+        <section class="faq">
+            <h3>Frequently Asked Questions</h3>
+            <Ibis.Pages.Faq Question="How does Ibis pricing work?" Answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" />
+            <Ibis.Pages.Faq Question="How does Ibis pricing work?" Answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" />
+            <Ibis.Pages.Faq Question="How does Ibis pricing work?" Answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" />
+            <Ibis.Pages.Faq Question="How does Ibis pricing work?" Answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" />
+        </section>
+        <section class="banner">
+            <img class="banner-image desktop" src="/images/landing/banner.png" />
+            <img class="banner-image mobile" src="/images/landing/banner-mobile.png" />
+            <div class="banner-content">
+                <h3>What are you waiting for? <br />Give Ibis a go!</h3>
+                <button @onclick="SignIn" class="get-started">Launch Ibis</button>
+            </div>
+        </section>
+    </div>
+@*</Sparc.Ibis.IbisContent>
+*@
+
+@code {
+    int QuestionOpen = 0;
+
+    private void SignIn()
+    {
+        Nav.NavigateTo("/rooms", true);
+    }
+
+    async Task ToggleQuestion(int number)
+    {
+        if (QuestionOpen == number)
+        {
+            QuestionOpen = 0;
+        }
+        else
+        {
+            QuestionOpen = number;
+        }
+    }
+}

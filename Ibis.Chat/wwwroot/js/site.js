@@ -155,13 +155,3 @@ window.createStreamRiffHeader = () => {
 
     return new Uint8Array(buffer);
 }
-
-function openQuestion(number) {
-    var elements = document.getElementsByClassName("question");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].classList.remove("selected");
-    }
-
-    var element = document.getElementById("question-" + number);
-    element.classList.add("selected");
-}

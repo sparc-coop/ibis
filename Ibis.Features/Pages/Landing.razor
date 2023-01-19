@@ -1,26 +1,7 @@
-﻿<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
+﻿@page "/"
+
+@*<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">*@
     <div class="landing">
-        <div class="landing--nav desktop">
-            <a href="/" tabindex="-1"><img alt="Ibis" class="logo" src="/images/logo_2x.png" /></a>
-            <div class="menu">
-                <a href="/pricing">Pricing</a>
-                <a href="/rooms" class="get-started">Launch Ibis</a>
-            </div>
-        </div>
-        <div class="landing--nav mobile">
-            <a href="/"><img class="logo" src="/images/logo_2x.png" alt="Ibis" /></a>
-            <input id="menuToggle" type="checkbox" class="menu--toggle">
-            <label for="menuToggle" class="menu--toggle">
-                <span><i class="material-icons">menu</i></span>
-                <span><i class="material-icons">close</i></span>
-            </label>
-            <div class="menu">
-                <ul>
-                    <li><button @onclick="SignIn" class="get-started">Launch Ibis</button></li>
-                    <li><a href="/pricing">Pricing</a></li>
-                </ul>
-            </div>
-        </div>
         <div class="landing--main">
             <div class="hero">
                 <div class="description">
@@ -148,12 +129,11 @@
             </div>
         </div>
     </div>
-</Sparc.Ibis.IbisContent>
+@*</Sparc.Ibis.IbisContent>*@
 
-@inject NavigationManager Nav
 @code {
     private void SignIn()
     {
-        Nav.NavigateTo("/_authorize");
+        Nav.NavigateTo("/rooms", true);
     }
 }

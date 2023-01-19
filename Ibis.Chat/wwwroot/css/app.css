@@ -3697,7 +3697,7 @@ p.small {
   line-height: 120%;
 }
 
-:focus-visible, :focus {
+:focus-visible {
   box-shadow: 2px 2px 6px #A5120D;
-  outline: 1px solid #810A08;
+  outline: 3px solid #810A08;
 }
