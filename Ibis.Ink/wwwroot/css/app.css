@@ -1,4 +1,5 @@
-﻿.pricing-page {
+﻿@charset "UTF-8";
+.pricing-page {
   background: #fafbfc;
 }
 .pricing-page button {
@@ -472,6 +473,7 @@ main {
 }
 
 .MarkdownEditorComponent {
+  padding-bottom: 40px;
   color: #0A111D;
   font-family: "CircularStd";
 }
@@ -484,15 +486,76 @@ main {
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator:nth-child(13) {
   display: none;
 }
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror {
+  font-size: 16px;
+  font-weight: normal;
+}
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-header {
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: normal;
+}
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror p, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-strong, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-em, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-quote, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-image, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-url, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-link, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-tag {
+  color: #0A111D;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
 .MarkdownEditorComponent .markdown-result {
   margin-top: 20px;
+  line-height: 150%;
+}
+.MarkdownEditorComponent .markdown-result h1, .MarkdownEditorComponent .markdown-result h2, .MarkdownEditorComponent .markdown-result h3, .MarkdownEditorComponent .markdown-result h4, .MarkdownEditorComponent .markdown-result h5, .MarkdownEditorComponent .markdown-result h6 {
+  padding-bottom: 8px;
+  color: #0A111D;
+}
+.MarkdownEditorComponent .markdown-result h4 {
+  font-size: 30px;
+}
+.MarkdownEditorComponent .markdown-result p {
+  padding-bottom: 16px;
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result a {
+  color: #2E7BA5;
+}
+.MarkdownEditorComponent .markdown-result a:hover {
+  color: #00608B;
+  text-decoration: underline;
+}
+.MarkdownEditorComponent .markdown-result li {
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result li p:only-of-type {
+  margin: 0;
+  padding: 0;
+}
+.MarkdownEditorComponent .markdown-result li blockquote p:first-of-type {
+  padding-bottom: 16px;
+}
+.MarkdownEditorComponent .markdown-result li ul {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result li ol {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result blockquote {
+  display: block;
+  background: #F3F5F6;
+  border-left: 10px solid #D1D4DC;
+  margin: 24px 10px;
+  padding: 16px 10px;
+  padding-bottom: 0;
+  quotes: "“" "”" "‘" "’";
 }
 .MarkdownEditorComponent .markdown-result ul {
   list-style: disc;
   padding-left: 40px;
+  margin-bottom: 16px;
 }
 .MarkdownEditorComponent .markdown-result ul ul {
   list-style: circle;
+  margin-bottom: 0;
 }
 .MarkdownEditorComponent .markdown-result ul ul ul {
   list-style: square;
@@ -502,6 +565,7 @@ main {
 }
 .MarkdownEditorComponent .markdown-result ol {
   padding-left: 40px;
+  margin-bottom: 16px;
   /*ol {
       list-style: upper-alpha;
 
@@ -521,6 +585,21 @@ main {
           }
       }
   }*/
+}
+.MarkdownEditorComponent .markdown-result ol ol {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result pre {
+  background: #F3F5F6;
+  margin: 20px 0;
+  padding: 20px;
+}
+.MarkdownEditorComponent .markdown-result pre code {
+  font-size: 14px;
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result img {
+  width: 100%;
 }
 
 .dashboard {

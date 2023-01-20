@@ -1,6 +1,7 @@
 ﻿@import "../_variables.scss";
 
 .MarkdownEditorComponent {
+    padding-bottom: 40px;
     color: $grey-900;
     font-family: 'CircularStd';
 
@@ -11,6 +12,7 @@
     }
 
     .EasyMDEContainer {
+        //hide preview button from toolbar
         .editor-toolbar {
             button.preview {
                 display: none;
@@ -20,17 +22,94 @@
                 display: none;
             }
         }
+        //override CSS and disable styling within MarkdownEditor textarea itself
+        .CodeMirror {
+            font-size: 16px;
+            font-weight: normal;
+
+            .cm-header {
+                font-size: 16px;
+                line-height: 100%;
+                font-weight: normal;
+            }
+
+            p, .cm-strong, .cm-em, .cm-quote, .cm-image, .cm-url, .cm-link, .cm-tag {
+                color: $grey-900;
+                font-weight: normal;
+                font-style: normal;
+                text-decoration: none;
+            }
+        }
     }
 
     .markdown-result {
         margin-top: 20px;
+        line-height: 150%;
+
+        h1, h2, h3, h4, h5, h6 {
+            padding-bottom: 8px;
+            color: $grey-900;
+        }
+
+        h4 {
+            font-size: 30px;
+        }
+
+        p {
+            padding-bottom: 16px;
+            color: $grey-700;
+        }
+
+        a {
+            color: $secondary-700;
+
+            &:hover {
+                color: $secondary-800;
+                text-decoration: underline;
+            }
+        }
+
+        li {
+            color: $grey-700;
+
+            p:only-of-type {
+                margin: 0;
+                padding: 0;
+            }
+
+            blockquote {
+                p:first-of-type {
+                    padding-bottom: 16px;
+                }
+            }
+
+            ul {
+                margin-bottom: 0;
+            }
+
+            ol {
+                margin-bottom: 0;
+            }
+        }
+
+        blockquote {
+            display: block;
+            background: $grey-100;
+            border-left: 10px solid $grey-300;
+            margin: 24px 10px;
+            padding: 16px 10px;
+            padding-bottom: 0;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
 
         ul {
             list-style: disc;
             padding-left: 40px;
+            margin-bottom: 16px;
 
             ul {
                 list-style: circle;
+                margin-bottom: 0;
 
                 ul {
                     list-style: square;
@@ -44,7 +123,11 @@
 
         ol {
             padding-left: 40px;
+            margin-bottom: 16px;
 
+            ol {
+                margin-bottom: 0;
+            }
             /*ol {
                 list-style: upper-alpha;
 
@@ -64,6 +147,21 @@
                     }
                 }
             }*/
+        }
+
+        pre {
+            background: $grey-100;
+            margin: 20px 0;
+            padding: 20px;
+
+            code {
+                font-size: 14px;
+                color: $grey-700;
+            }
+        }
+
+        img {
+            width: 100%;
         }
     }
 }
