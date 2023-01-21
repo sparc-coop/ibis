@@ -2,7 +2,7 @@
 @inherits RealtimeComponent
 
 <article tabindex="0" class="message-card ibis-ignore" @onclick="GoToSubroom">
-    <Avatar User="Message.User" SpillBackground="true" />
+    <Avatar User="User" SpillBackground="true" />
     @if (Me?.Id == Message.User.Id)
     {
         <ul class="actions">
@@ -26,7 +26,10 @@
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
+    [CascadingParameter] public ICollection<UserAvatar>? RoomAvatars { get; set; }
 
+    UserAvatar User => RoomAvatars?.FirstOrDefault(u => u.Id == Message.User.Id) ?? Message.User;
+    
     void GoToSubroom()
     {
         //if (Message != null)
