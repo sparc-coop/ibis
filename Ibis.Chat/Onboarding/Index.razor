@@ -12,7 +12,7 @@
             <ul @onkeydown="Close" class="tabs" @ref="userOverlay">
                 @foreach (var tab in Tabs)
                 {
-                    <li @onfocus="(() => SetTab(tab))" tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                    <li tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
                 }
             </ul>
 
@@ -52,6 +52,8 @@
     {
         if (User == null)
             return;
+
+        Console.WriteLine(Tab);
 
         if (Tab == null && User.Voice == null)
             Tab = "Language";
