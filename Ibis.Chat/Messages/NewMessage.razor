@@ -2,7 +2,7 @@
 @inherits RealtimeComponent
 
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
-    <Avatar User="Me" SpillBackground=true CanEdit=true />
+    <Avatar User="Me" CanEdit=true />
     @if (Me?.LanguageIsRTL == false)
     {
         <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
@@ -26,7 +26,7 @@
                 </defs>
             </svg>
 
-            @(IsListening ? "Listening..." : "Speak")
+            @(IsListening ? "Recording..." : "Record")
         </button>
     }
     else

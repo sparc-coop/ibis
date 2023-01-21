@@ -1,3 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.75 11.0625V0.75H11.0625V11.0625H0.75ZM0.75 23.25V12.9375H11.0625V23.25H0.75ZM12.9375 11.0625V0.75H23.25V11.0625H12.9375ZM12.9375 23.25V12.9375H23.25V23.25H12.9375ZM2.625 9.1875H9.1875V2.625H2.625V9.1875ZM14.8125 9.1875H21.375V2.625H14.8125V9.1875ZM14.8125 21.375H21.375V14.8125H14.8125V21.375ZM2.625 21.375H9.1875V14.8125H2.625V21.375Z" fill="#364150"/>
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="5" height="5" transform="matrix(-1 0 0 1 12 0)" fill="#858C96"/>
+<rect width="5" height="5" transform="matrix(-1 0 0 1 12 7)" fill="#858C96"/>
+<rect width="5" height="5" transform="matrix(-1 0 0 1 5 0)" fill="#858C96"/>
+<rect width="5" height="5" transform="matrix(-1 0 0 1 5 7)" fill="#858C96"/>
 </svg>

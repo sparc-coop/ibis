@@ -2,9 +2,9 @@
 
 @if (Balance.HasValue)
 {
-    <aside tabindex="0" class="balance @(Balance.Value.Ticks < 0 ? "negative" : "")" title="@Balance.Value.ToString("g") Remaining (Click to add minutes)" @onclick=AddFunds>
-        @Math.Floor(Balance.Value.TotalMinutes).ToString("N0")m @(Balance.Value.Seconds)s remaining
-    </aside>
+    <button tabindex="0" class="balance @(Balance.Value.Ticks < 0 ? "negative" : "")" title="@Balance.Value.ToString("g") Remaining (Click to add minutes)" @onclick=AddFunds>
+        @Math.Floor(Balance.Value.TotalMinutes).ToString("N0") min
+    </button>
 }
 
 @code {

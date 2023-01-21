@@ -1204,11 +1204,10 @@
 }
 .main-layout > header {
   background: #FFFFFF;
-  padding: 28px 6vw;
+  padding: 28px 3vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #E5E7EA;
 }
 .main-layout > header h1 {
   font-size: 0;
@@ -1223,14 +1222,10 @@
 .main-layout > header a {
   color: #013b60;
 }
-.main-layout > header nav {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
 .main-layout > header nav > ul {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 16px;
 }
 .main-layout > header nav li {
   display: flex;
@@ -1252,7 +1247,7 @@
 .main-layout > header nav li > ul li {
   padding: 8px 0;
 }
-.main-layout > header nav li .navmenu-button {
+.main-layout > header nav li button {
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
@@ -1262,7 +1257,11 @@
   font-weight: normal;
   transition: 300ms ease-in-out;
 }
-.main-layout > header nav li .navmenu-button:hover {
+.main-layout > header nav li button > img {
+  height: 12px;
+  width: auto;
+}
+.main-layout > header nav li button:hover {
   background: #EEF4FA;
 }
 .main-layout > header nav li .logout {
@@ -1284,16 +1283,7 @@
   padding: 4px;
 }
 .main-layout > header .balance {
-  padding: 6px 12px;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  font-size: 12px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-  color: #4A5563;
-}
-.main-layout > header .balance:hover {
-  transform: scale(1.05, 1.05);
+  font-size: 13px;
 }
 .main-layout > header .balance.negative {
   color: #FD9E2E;
@@ -1306,7 +1296,7 @@
   grid-template-rows: 49px auto;
 }
 .main-layout.mini > header {
-  padding: 10px 6vw;
+  padding: 10px 3vw;
 }
 .main-layout.mini > header h1 {
   font-size: 0;
@@ -1588,9 +1578,10 @@ main {
   display: grid;
   height: 100%;
   max-height: calc(100vh - 75px);
-  grid-template-columns: auto 376px;
+  grid-template-columns: auto 300px;
   grid-template-rows: 40px auto;
   gap: 24px;
+  margin: 10px 6vw;
   /* The switch - the box around the slider */
   /* The slider */
   /* Rounded sliders */
@@ -2293,14 +2284,19 @@ main {
   animation: new-message-card-slide-up 0.2s;
   color: #0A111D;
 }
+.message-card p {
+  color: #0A111D;
+}
 .message-card .ibis-widget {
   top: 0;
   right: 10px;
-  opacity: 0.8;
+  opacity: 0.15;
   transition: opacity 0.2s ease-in-out;
 }
 .message-card .ibis-widget button, .message-card .ibis-widget .ibis-audio {
   background: transparent;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .message-card .ibis-widget figure {
   display: none;
@@ -2320,12 +2316,10 @@ main {
   margin-top: 12px;
 }
 .message-card .avatar {
-  height: 20px;
+  height: 24px;
   width: 200px;
   justify-content: flex-start;
-}
-.message-card .message-text {
-  padding: 8px 10px 8px 26px;
+  gap: 6px;
 }
 .message-card .message-audio {
   position: absolute;
@@ -2446,6 +2440,7 @@ main {
   border: 1px solid #e6e6e6;
   background: #FFFFFF;
   transition: transform 0.15s ease-out;
+  z-index: 1000;
 }
 .new-message.submitted {
   transform: translateY(-20%);
@@ -2454,10 +2449,10 @@ main {
 }
 .new-message > .avatar {
   position: absolute;
-  top: 24px;
-  left: 24px;
-  height: 20px;
-  width: 20px;
+  top: 16px;
+  left: 16px;
+  height: 32px;
+  width: 32px;
   justify-content: flex-start;
   background: transparent !important;
 }
@@ -2465,8 +2460,8 @@ main {
   position: absolute;
   right: 24px;
   top: 20px;
-  width: 100px;
   padding: 7px 12px 6px 12px;
+  font-weight: 400;
   background: #003B5F;
   border-radius: 8px;
   color: #FFFFFF;
@@ -2935,19 +2930,18 @@ main {
 }
 
 .avatar {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 16px;
   width: 100%;
-  max-height: 220px;
-  border-radius: 12px;
-  border: 1px solid transparent;
+  max-height: 72px;
   container: avatar/size;
 }
 .avatar svg {
   max-height: 100%;
+  border-radius: 100px;
+  border: 1px solid transparent;
 }
 .avatar svg text {
   fill: white;
@@ -2960,6 +2954,12 @@ main {
 .avatar.emoji svg text {
   font-family: "Noto Emoji";
 }
+@container (max-height: 50px) {
+  .avatar.emoji svg {
+    background-color: transparent !important;
+    transform: scale(1.2, 1.2);
+  }
+}
 .avatar.no-background {
   background: transparent !important;
 }
@@ -2967,7 +2967,7 @@ main {
   cursor: pointer;
 }
 .avatar.editable:hover {
-  transform: scale(1.3, 1.3);
+  transform: scale(1.03, 1.03);
   transition: transform 0.2s ease-in-out;
 }
 .avatar figcaption {
@@ -2989,25 +2989,15 @@ main {
 }
 .avatar figcaption aside {
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
 }
-@container (min-height: 100px) {
+@container (min-height: 50px) {
   .avatar figcaption {
-    position: absolute;
-    bottom: 6px;
-    left: 6px;
-    color: white !important;
-    background-color: rgba(0, 0, 0, 0.85);
-    padding: 6px;
-    border-radius: 6px;
+    font-size: 20px;
+    color: #0A111D !important;
   }
   .avatar figcaption aside {
     display: block;
-  }
-}
-@container (min-height: 150px) {
-  .avatar figcaption {
-    font-size: 20px;
   }
 }
 .avatar.offline {
@@ -3041,42 +3031,24 @@ main {
 .avatar-list {
   background: #FFFFFF;
   width: 100%;
-  padding: 16px;
+  padding: 10px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   border: 1px solid #F3F5F6;
   position: relative;
 }
-.avatar-list .presenter {
-  margin-bottom: 8px;
-}
-.avatar-list .presenter .avatar {
-  height: 218px;
-}
-.avatar-list .presenter .avatar.editable:hover {
-  transform: scale(1.03, 1.03);
-}
-.avatar-list .users {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.avatar-list .users .avatar {
-  height: 109px;
-  width: 30%;
-}
-.avatar-list .users .image-wrapper {
-  /*max-width: 108.6px;*/
-  max-width: 31%;
-}
-.avatar-list .users .image-wrapper img {
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
+.avatar-list .avatar {
+  height: 72px;
+  padding: 8px;
+  justify-content: flex-start;
+  margin: 8px 0;
   border-radius: 12px;
 }
-.avatar-list .users .image-wrapper .camera-name {
-  bottom: 8px;
+.avatar-list .avatar svg {
+  min-width: 56px;
+}
+.avatar-list .avatar:hover {
+  background: #F3F5F6;
 }
 .avatar-list > footer {
   position: absolute;

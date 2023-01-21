@@ -9,14 +9,20 @@
     animation: new-message-card-slide-up 0.2s;
     color: $grey-900;
 
+    p {
+        color: $grey-900;
+    }
+
     .ibis-widget {
         top: 0;
         right: 10px;
-        opacity: 0.8;
+        opacity: 0.15;
         transition: opacity 0.2s ease-in-out;
 
         button, .ibis-audio {
             background: transparent;
+            padding-left: 4px;
+            padding-right: 4px;
         }
 
         figure {
@@ -43,14 +49,10 @@
     }
 
     .avatar {
-        height: 20px;
+        height: 24px;
         width: 200px;
         justify-content: flex-start;
-    }
-
-
-    .message-text {
-        padding: 8px 10px 8px 26px;
+        gap: 6px;
     }
 
     .message-audio {

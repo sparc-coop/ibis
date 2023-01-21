@@ -4,9 +4,10 @@
     display: grid;
     height: 100%;
     max-height: calc(100vh - 75px);
-    grid-template-columns: auto 376px;
+    grid-template-columns: auto 300px;
     grid-template-rows: 40px auto;
     gap: 24px;
+    margin: 10px 6vw;
 
     .avatar-list {
         grid-column: 2;
