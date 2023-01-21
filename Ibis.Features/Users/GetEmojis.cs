@@ -8,7 +8,7 @@ public class GetEmojis : Feature<GetEmojisResponse>
 {
     public override Task<GetEmojisResponse> ExecuteAsync()
     {
-        GetEmojisResponse result = new(UserAvatar.SkinTones(), UserAvatar.Emojis(), UserAvatar.ForegroundColors());
+        GetEmojisResponse result = new(UserAvatar.SkinTones(), UserAvatar.Emojis(), UserAvatar.BackgroundColors());
         return Task.FromResult(result);
     }
 }

@@ -3028,11 +3028,11 @@ namespace Sparc.Ibis
         [Newtonsoft.Json.JsonProperty("isOnline", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsOnline { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("foregroundColor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ForegroundColor { get; set; }
-
         [Newtonsoft.Json.JsonProperty("backgroundColor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BackgroundColor { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("foregroundColor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ForegroundColor { get; set; }
 
         [Newtonsoft.Json.JsonProperty("language", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Language { get; set; }
