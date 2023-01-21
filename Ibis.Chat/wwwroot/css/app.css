@@ -2281,6 +2281,9 @@ main {
   animation: new-message-card-slide-up 0.2s;
   color: #0A111D;
 }
+.message-card-deleted {
+  display: none;
+}
 .message-card p {
   color: #0A111D;
 }

@@ -1,31 +1,15 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
 
-<article tabindex="0" class="message-card ibis-ignore" @onclick="GoToSubroom">
+<article tabindex="0" class="message-card ibis-ignore @(Message.DeletedDate != null ? "message-card-deleted" : "")" @onclick="GoToSubroom">
     <Avatar User="User" SpillBackground="true" />
-    @if (Me?.Id == Message.User.Id)
-    {
-        <ul class="actions">
-            <li>
-                <button tabindex="0" @onclick=Edit @onkeydown="EditAction">
-                    <i class="material-icons">edit</i>
-                </button>
-            </li>
-            <li>
-                <button tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
-                    <i class="material-icons">delete</i>
-                </button>
-            </li>
-        </ul>
-    }
-    <Sparc.Ibis.IbisContent Message="Message" />
+    <Sparc.Ibis.IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" />
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
-    [CascadingParameter] public UserAvatar? Me { get; set; }
     [CascadingParameter] public ICollection<UserAvatar>? RoomAvatars { get; set; }
 
     UserAvatar User => RoomAvatars?.FirstOrDefault(u => u.Id == Message.User.Id) ?? Message.User;
@@ -36,52 +20,15 @@
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
     }
 
-    async Task Edit()
+    async Task Edit(Message message)
     {
         if (OnEdit.HasDelegate)
-            await OnEdit.InvokeAsync(Message);
+            await OnEdit.InvokeAsync(message);
     }
 
-    void EditTags()
+    async Task Delete(Message message)
     {
-        var parameters = new ModalParameters();
-        parameters.Add("Message", Message);
-        Modal.Show<MessageTags>("Message Tags", parameters);
-    }
-
-    async Task Delete()
-    {
-        var truncatedMessage = new String(Message.Text.Take(20).ToArray()) + (Message.Text.Length > 20 ? "..." : "");
-
-        if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
-            return;
-
         if (OnDelete.HasDelegate)
-            await OnDelete.InvokeAsync(Message);
-    }
-
-    void TagsAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            EditTags();
-        }
-    }
-
-    async Task EditAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Edit();
-        }
-    }
-
-
-    async Task DeleteAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Delete();
-        }
+            await OnDelete.InvokeAsync(message);
     }
 }

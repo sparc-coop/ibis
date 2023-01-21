@@ -63,7 +63,7 @@
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     [Parameter] public string? LanguageString { get; set; }
     [Parameter] public Message? SelectedMessage { get; set; }
-    [Parameter] public EventCallback OnDoneEditing { get; set; }
+    [Parameter] public EventCallback<Message?> OnDoneEditing { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     ElementReference TextArea;
@@ -103,13 +103,13 @@
         await TextArea.FocusAsync();
 
         if (SelectedMessage != null && OnDoneEditing.HasDelegate)
-            await OnDoneEditing.InvokeAsync();
+            await OnDoneEditing.InvokeAsync(newMessage);
     }
 
     async Task CancelEdit()
     {
         Text = "";
-        await OnDoneEditing.InvokeAsync();
+        await OnDoneEditing.InvokeAsync(null);
     }
 
     void ShowUploadModal()

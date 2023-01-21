@@ -9,6 +9,10 @@
     animation: new-message-card-slide-up 0.2s;
     color: $grey-900;
 
+    &-deleted {
+        display: none;
+    }
+
     p {
         color: $grey-900;
     }

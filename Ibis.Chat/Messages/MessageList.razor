@@ -14,6 +14,7 @@
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     [Parameter] public UserAvatar? User { get; set; }
     [Parameter] public string? Language { get; set; }
+
     List<Message> Messages = new();
     Message? SelectedMessage;
     bool HasNewMessage;
@@ -42,27 +43,37 @@
         var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
         Messages = response.Content.ToList();
         Language = response.Language;
-        
+
         var subscriptionId = Room.RoomId + "|" + Language;
         await On<MessageTextChanged>(subscriptionId, x =>
         {
-            AddMessage(x.Message);
+            UpdateMessage(x.Message);
         });
 
         await On<MessageAudioChanged>(subscriptionId, x =>
         {
-            AddMessage(x.Message);
+            UpdateMessage(x.Message);
         });
         await On<MessageDeleted>(subscriptionId, x => RemoveMessage(x.Message));
     }
 
     void SelectMessage(Message message) => SelectedMessage = message;
-    void DoneEditing() => SelectedMessage = null;
-
-    void AddMessage(Message message)
+    void DoneEditing(Message? editedMessage) 
     {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id 
+        if (editedMessage != null)
+            UpdateMessage(editedMessage);
+
+        SelectedMessage = null;
+    }
+
+    void UpdateMessage(Message message)
+    {
+        SelectedMessage = null;
+
+        var existingId = Messages.FindIndex(x => 
+           x.Id == message.Id 
         || x.Id == message.SourceMessageId
+        || message.Id == x.SourceMessageId
         || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
         if (existingId > -1)
         {
@@ -73,24 +84,22 @@
             Messages.Add(message);
             HasNewMessage = true;
         }
-
-        SelectedMessage = null;
     }
 
     void RemoveMessage(Message message)
     {
-        var existingId = Messages.FindIndex(x => x.Id == message.Id);
-        if (existingId > -1)
+        var existing = Messages.Find(x => x.Id == message.Id);
+        if (existing != null)
         {
-            Messages.RemoveAt(existingId);
+            existing.DeletedDate = message.DeletedDate;
+            StateHasChanged();
         }
     }
 
     async Task DeleteMessage(Message message)
     {
-        var result = await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
-        if (result)
-            RemoveMessage(message);
+        Console.WriteLine("deleting " + message.Id);
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
     }
 
     protected void On<T>(Func<T, Task> action)

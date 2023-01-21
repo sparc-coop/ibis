@@ -16,7 +16,7 @@
 
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
-    [Parameter] public EventCallback<Language> OnLanguageSelected { get; set; }
+    [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
     bool IsSelecting;
     ICollection<Language>? Languages;
 
@@ -32,6 +32,6 @@
     {
         SelectedLanguage = language.Id;
         IsSelecting = false;
-        await OnLanguageSelected.InvokeAsync(language);
+        await OnLanguageSelected.InvokeAsync(language.Id);
     }
 }
