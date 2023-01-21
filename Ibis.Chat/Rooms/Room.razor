@@ -46,6 +46,15 @@
     {
         RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
+        On<UserAvatarUpdated>(avatar =>
+        {
+            var user = RoomInfo.Users.FirstOrDefault(x => x.Id == avatar.Avatar.Id);
+            if (user != null)
+            {
+                RoomInfo.Users.Remove(user);
+                RoomInfo.Users.Add(avatar.Avatar);
+            }
+        });
     }
 
     async Task DownloadAudio()

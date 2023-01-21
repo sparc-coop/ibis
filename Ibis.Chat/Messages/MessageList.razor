@@ -42,7 +42,11 @@
 
         var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
         Messages = response.Content.ToList();
-        Language = response.Language;
+        if (Language != response.Language)
+        {
+            await Hub.InvokeAsync("StopWatching", Room.RoomId + "|" + Language);
+            Language = response.Language;
+        }
 
         var subscriptionId = Room.RoomId + "|" + Language;
         await On<MessageTextChanged>(subscriptionId, x =>
