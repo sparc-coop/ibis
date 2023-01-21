@@ -280,4 +280,22 @@
             display: none;
         }
     }
+
+    @media screen and (max-width: 1000px) {
+        margin: 0;
+        
+        .message-grid {
+            grid-column: 1 / span 2;
+        }
+
+        .avatar-list {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 725px) {
+        > header .actions {
+            display: none;
+        }
+    }
 }

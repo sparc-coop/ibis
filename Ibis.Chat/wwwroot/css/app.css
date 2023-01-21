@@ -33,7 +33,7 @@
   cursor: pointer;
   transform: scale(103%);
 }
-.landing .btn-secondary {
+.landing .button-pricing {
   padding: 21px 53px;
   border: none;
   border: none;
@@ -44,7 +44,7 @@
   transition: 200ms ease-in-out;
   display: inline-block;
 }
-.landing .btn-secondary:hover {
+.landing .button-pricing:hover {
   cursor: pointer;
   transform: scale(103%);
 }
@@ -128,9 +128,13 @@
 .landing .hero .landing--button-container {
   margin-top: 72px;
   margin-bottom: 150px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
 }
 .landing .hero .landing--button-container .get-started {
   padding: 21px 53px;
+  font-size: 20px;
 }
 .landing .hero img.hero-image--room {
   width: 85%;
@@ -1292,6 +1296,11 @@
   background: #fafbfc;
   padding: 32px 6vw;
 }
+@media screen and (max-width: 725px) {
+  .main-layout main {
+    padding: 32px 16px;
+  }
+}
 .main-layout.mini {
   grid-template-rows: 49px auto;
 }
@@ -1808,6 +1817,22 @@ main {
 }
 .room-Content .avatar-list {
   display: none;
+}
+@media screen and (max-width: 1000px) {
+  .room {
+    margin: 0;
+  }
+  .room .message-grid {
+    grid-column: 1/span 2;
+  }
+  .room .avatar-list {
+    display: none;
+  }
+}
+@media screen and (max-width: 725px) {
+  .room > header .actions {
+    display: none;
+  }
 }
 
 .room-card {

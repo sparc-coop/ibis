@@ -33,7 +33,7 @@
   cursor: pointer;
   transform: scale(103%);
 }
-.landing .btn-secondary {
+.landing .button-pricing {
   padding: 21px 53px;
   border: none;
   border: none;
@@ -44,7 +44,7 @@
   transition: 200ms ease-in-out;
   display: inline-block;
 }
-.landing .btn-secondary:hover {
+.landing .button-pricing:hover {
   cursor: pointer;
   transform: scale(103%);
 }
@@ -128,9 +128,13 @@
 .landing .hero .landing--button-container {
   margin-top: 72px;
   margin-bottom: 150px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
 }
 .landing .hero .landing--button-container .get-started {
   padding: 21px 53px;
+  font-size: 20px;
 }
 .landing .hero img.hero-image--room {
   width: 85%;
