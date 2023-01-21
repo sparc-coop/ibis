@@ -8,6 +8,8 @@
     border-radius: 16px;
     border: 1px solid $grey-100;
     position: relative;
+    height: calc(100% - 24px);
+    overflow-y: auto;
 
     .avatar {
         height: 72px;
@@ -19,6 +21,7 @@
         svg {
             min-width: 56px;
         }
+
         &:hover {
             background: $grey-100;
         }

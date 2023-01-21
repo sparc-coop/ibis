@@ -13,15 +13,15 @@
                 </h2>
             </div>
                 <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript">
                         <DownloadIcon />
                         Transcript
                     </button>
-                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="action" title="Download subtitles">
                         <DownloadIcon />
                         Subtitles
                     </button>
-                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                <button @onclick="DownloadAudio" aria-label="Download Audio" class="action" title="Download audio transcript">
                         <DownloadIcon />
                         Audio
                     </button>

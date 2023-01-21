@@ -2,7 +2,7 @@
 @inherits RealtimeComponent
 
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
-    <Avatar User="Me" CanEdit=true />
+    <Avatar User="Me" EditTab="Avatar" />
     @if (Me?.LanguageIsRTL == false)
     {
         <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
@@ -44,15 +44,15 @@
     }
 
     <footer>
-        <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
+        <button class="action" @onclick="ShowUploadModal" title="Upload file">
             <UploadIcon />
             Upload a file
         </button>
-        <button>
+        <button class="action">
             <SmsIcon />
             Connect via SMS
         </button>
-        <button>
+        <button class="action">
             <PhoneIcon />
             Connect via Phone
         </button>

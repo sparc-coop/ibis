@@ -13,7 +13,8 @@
         color: $grey-900;
     }
 
-    .ibis-widget {
+    .ibis-widget, .actions {
+        position: absolute;
         top: 0;
         right: 10px;
         opacity: 0.15;
@@ -28,14 +29,32 @@
         figure {
             display: none;
         }
+
+        button {
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background-color: $secondary-200;
+        }
     }
 
-    &:hover .ibis-widget {
-        opacity: 1;
+    .actions {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        right: 70px;
+        i {
+            font-size: 18px;
+            vertical-align: middle;
+            color: #003b5f;
+        }
     }
 
-    &:focus-within .ibis-widget {
-        opacity: 1;
+    &:hover, &:focus-within {
+        .ibis-widget, .actions {
+            opacity: 1;
+        }
     }
 
     > p, span {
@@ -90,47 +109,6 @@
                 color: $grey-900;
             }
         }
-    }
-
-    .actions {
-        position: absolute;
-        top: -12px;
-        right: 60px;
-        padding: 2px 4px;
-        border: 1px solid $secondary-500;
-        border-radius: 30px;
-        background-color: white;
-        display: flex;
-        gap: 4px;
-        font-size: 12px;
-        z-index: 100;
-        display: flex;
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-        transition-delay: 0s;
-
-        li {
-            padding: 4px 10px;
-            border-radius: 30px;
-
-            &:hover {
-                background-color: $secondary-700;
-                cursor: pointer;
-                color: white;
-            }
-        }
-    }
-
-    &:hover .actions {
-        display: flex;
-        opacity: 1;
-        transition-delay: 1s;
-    }
-
-    &:focus .actions, &:focus-within .actions {
-        display: flex;
-        opacity: 1;
-        transition-delay: 1s;
     }
 }
 

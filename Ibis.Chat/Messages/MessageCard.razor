@@ -6,14 +6,15 @@
     @if (Me?.Id == Message.User.Id)
     {
         <ul class="actions">
-            <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
-                Tags
+            <li>
+                <button tabindex="0" @onclick=Edit @onkeydown="EditAction">
+                    <i class="material-icons">edit</i>
+                </button>
             </li>
-            <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
-                Edit
-            </li>
-            <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
-                Delete
+            <li>
+                <button tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
+                    <i class="material-icons">delete</i>
+                </button>
             </li>
         </ul>
     }

@@ -9,7 +9,7 @@
     border: 1px solid $light-gray;
     background: #FFFFFF;
     transition: transform 0.15s ease-out;
-    z-index: 1000;
+    z-index: 8;
 
     &.submitted {
         transform: translateY(-20%);
@@ -92,31 +92,7 @@
         gap: 10px;
 
         button {
-            color: $grey-600;
-            font-weight: 400;
-            font-size: 13px;
-            border: 1px solid $grey-400;
-            padding: 6px 12px;
-            border-radius: 8px;
             z-index: 3;
-            background: white;
-
-            svg {
-                margin-right: 8px;
-
-                path {
-                    fill: $grey-400;
-                }
-            }
-
-            &:hover {
-                background-color: $secondary-900;
-                color: white;
-
-                svg path {
-                    fill: white;
-                }
-            }
         }
     }
 }

@@ -3,7 +3,7 @@
 @if (Me != null)
 {
     <div class="avatar-list">
-        <Avatar User="Me" CanEdit=true />
+        <Avatar User="Me" EditTab="Profile" />
         @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
         {
             <Avatar User="user" />

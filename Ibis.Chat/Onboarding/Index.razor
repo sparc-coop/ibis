@@ -39,7 +39,7 @@
 
 @inject IJSRuntime jsRuntime
 @code {
-    string Tab { get; set; } = "Profile";
+    [Parameter] public string? Tab { get; set; }
     List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
@@ -53,8 +53,10 @@
         if (User == null)
             return;
 
-        if (User.Voice == null)
+        if (Tab == null && User.Voice == null)
             Tab = "Language";
+        else if (Tab == null)
+            Tab = "Profile";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
