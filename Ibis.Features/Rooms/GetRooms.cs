@@ -22,21 +22,30 @@ public class GetRooms : Feature<GetRoomsResponse>
 
     internal async Task<GetRoomsResponse> ExecuteAsUserAsync(User user)
     {
-        var hostedRooms = (await Rooms.Query
+        var hostedRooms = await Rooms.Query
             .Where(x => x.HostUser.Id == user.Id && x.EndDate == null)
             .OrderByDescending(x => x.LastActiveDate)
-            .ToListAsync())
-            .Select(x => new GetRoomResponse(x))
-            .ToList();
+            .ToListAsync();
 
         var invitedRooms = Rooms.FromSqlRaw("SELECT VALUE r FROM r JOIN u IN r.Users WHERE u.Id = {0}", user.Id)
             .Where(x => x.EndDate == null)
             .OrderByDescending(x => x.LastActiveDate)
             .ToList()
             .Where(x => !hostedRooms.Any(y => y.RoomId == x.RoomId))
-            .Select(x => new GetRoomResponse(x))
             .ToList();
 
-        return new(hostedRooms, invitedRooms);
+        var userIds = hostedRooms.SelectMany(x => x.Users).Select(x => x.Id)
+            .Union(invitedRooms.SelectMany(x => x.Users).Select(x => x.Id))
+            .ToList();
+        
+        var users = await Users.Query
+            .AsNoTracking()
+            .Where(u => userIds.Contains(u.Id))
+            .Select(x => x.Avatar)
+            .ToListAsync();
+
+        return new(
+            hostedRooms.Select(x => new GetRoomResponse(x, users)).ToList(),
+            invitedRooms.Select(x => new GetRoomResponse(x, users)).ToList());
     }
 }

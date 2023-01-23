@@ -38,7 +38,7 @@ body {
         }
     }
 
-    .btn-secondary {
+    .button-pricing {
         padding: 21px 53px;
         border: none;
         border: none;
@@ -147,9 +147,13 @@ body {
         .landing--button-container {
             margin-top: 72px;
             margin-bottom: 150px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
 
             .get-started {
                 padding: 21px 53px;
+                font-size: 20px;
             }
         }
 

@@ -21,6 +21,7 @@ ul {
     top: 48px;
     right: 15px;
     background: #f9f1e8;
+    z-index: 1000;
 }
 
 li {

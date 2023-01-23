@@ -25,14 +25,15 @@
                         <Authorized>
                             @if (User != null)
                             {
-                                <UserBalance User="User" />
                                 <ul>
                                     <li>
-                                        <a href="/rooms">
+                                        <button @onclick="GoToRooms">
                                             <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                        </a>
+                                        </button>
                                     </li>
-
+                                    <li>
+                                        <UserBalance User="User" />
+                                    </li>
                                     <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
                                         <Avatar User="User" />
                                         <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
@@ -115,6 +116,8 @@
             isUserBeingGot = false;
         }
     }
+
+    void GoToRooms() => Nav.NavigateTo("/rooms");
 
     private void Logout()
     {

@@ -3,15 +3,11 @@
 @if (Me != null)
 {
     <div class="avatar-list">
-        <div class="presenter">
-            <Avatar User="Me" CanEdit=true />
-        </div>
-        <div class="users">
-            @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
-            {
-                <Avatar User="user" />
-            }
-        </div>
+        <Avatar User="Me" EditTab="Profile" />
+        @foreach (var user in ActiveUsers.OrderByDescending(x => x.IsOnline))
+        {
+            <Avatar User="user" />
+        }
         <footer>
             <InviteUser Room="@Room" />
         </footer>

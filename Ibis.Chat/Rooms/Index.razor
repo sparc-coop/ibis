@@ -38,7 +38,7 @@
     </div>
 </div>
 
-
+@inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
     ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
     ICollection<GetRoomResponse>? OriginalList;
@@ -46,9 +46,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var rooms = await Api.GetRoomsAsync();
-        Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
-        OriginalList = Rooms;
+        try
+        {
+            var rooms = await Api.GetRoomsAsync();
+            Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+            OriginalList = Rooms;
+        }
+        catch (ApiException ex) when (ex.StatusCode == 401)
+        {
+            await Auth.LogoutAsync();
+            Nav.NavigateTo("/rooms", true);
+        }
     }
 
     void CreateRoom()

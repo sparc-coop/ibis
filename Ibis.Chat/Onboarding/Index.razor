@@ -12,7 +12,7 @@
             <ul @onkeydown="Close" class="tabs" @ref="userOverlay">
                 @foreach (var tab in Tabs)
                 {
-                    <li @onfocus="(() => SetTab(tab))" tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                    <li tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
                 }
             </ul>
 
@@ -39,7 +39,7 @@
 
 @inject IJSRuntime jsRuntime
 @code {
-    string Tab { get; set; } = "Profile";
+    [Parameter] public string? Tab { get; set; }
     List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
     [CascadingParameter] public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
@@ -53,8 +53,12 @@
         if (User == null)
             return;
 
-        if (User.Voice == null)
+        Console.WriteLine(Tab);
+
+        if (Tab == null && User.Voice == null)
             Tab = "Language";
+        else if (Tab == null)
+            Tab = "Profile";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -4,23 +4,28 @@
     display: grid;
     height: 100%;
     max-height: calc(100vh - 75px);
-    grid-template-columns: auto 376px;
+    grid-template-columns: auto 300px;
     grid-template-rows: 40px auto;
     gap: 24px;
+    margin: 0 6vw;
+    padding-top: 10px;
+
+    .message-grid {
+        grid-column: 1;
+        grid-row: 2;
+    }
 
     .avatar-list {
         grid-column: 2;
-        grid-row: 1 / span 2;
+        grid-row: 2;
         margin-bottom: 24px;
     }
 
     header {
         display: flex;
         justify-content: space-between;
-        max-width: 940px;
         width: 100%;
-        margin: 0px auto;
-        position: relative;
+        grid-column: 1 / span 2;
 
         .title-container {
             display: flex;
@@ -58,18 +63,16 @@
 
         .actions {
             align-self: flex-end;
-            width: 318px;
 
             button {
                 color: $grey-600;
                 font-size: 13px;
-                border: 1px solid $grey-500;
-                border-radius: 8px;
+                border-radius: 12px;
                 padding: 6px 12px;
-                background: white;
+                background: transparent;
 
                 svg {
-                    margin-right: 8px;
+                    margin-right: 6px;
 
                     path {
                         fill: $grey-500;
@@ -77,12 +80,7 @@
                 }
 
                 &:hover {
-                    background: $secondary-900;
-                    color: white;
-
-                    svg path {
-                        fill: white;
-                    }
+                    background: $secondary-200;
                 }
             }
         }
@@ -279,6 +277,24 @@
         grid-template-columns: auto;
 
         .avatar-list {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin: 0;
+        
+        .message-grid {
+            grid-column: 1 / span 2;
+        }
+
+        .avatar-list {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 725px) {
+        > header .actions {
             display: none;
         }
     }
