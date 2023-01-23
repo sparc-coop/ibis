@@ -64,6 +64,18 @@
                     }
                 }
 
+                a {
+                    width: 100%;
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border-width: 0;
+                    transition: 300ms ease-in-out;
+
+                    &:hover {
+                        background: $secondary-200;
+                    }
+                }
+
                 button {
                     width: 100%;
                     padding: 8px 10px;
