@@ -56,10 +56,24 @@ public class UserAvatar
         int min = Math.Min(color.R, Math.Min(color.G, color.B));
 
         var hue = color.GetHue();
-        var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-        var value = max / 255d;
+        //var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+        //var value = max / 255d;
 
-        var foreground = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
+        List<string> darkColors = new List<string> { "#F0DE38", "#47CE6D", "#5696BE", "#7361E6", "#EF5DA8", "#EA281B", "#E17723" };
+        List<string> lightColors = new List<string> { "#F9EF9B", "#9DE2B1", "#A3C5DA", "#BBB1F5", "#F4A6CE", "#FFB8B4", "#FFBE71" };
+
+        System.Drawing.Color foreground = ColorFromHSV(0, 0, 0);
+
+        if (darkColors.Contains(backgroundColor))
+        {
+            foreground = ColorFromHSV(hue, 1, 0.4);
+        }
+        
+        if (lightColors.Contains(backgroundColor))
+        {
+            foreground = ColorFromHSV(hue, 1, 0.6);
+        }
+
         return ColorTranslator.ToHtml(foreground);
     }
 
