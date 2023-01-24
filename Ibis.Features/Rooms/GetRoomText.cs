@@ -26,7 +26,7 @@ public class GetRoomText : Feature<GetRoomTextRequest, GetRoomTextResponse>
         {
             if (request.Format.ToUpper() == "TXT")
             {
-                builder.AppendLine(message.Timestamp.ToString("MM/dd/yyyy hh:mm tt") +
+                builder.AppendLine(message.User?.Name + " " + message.Timestamp.ToString("MM/dd/yyyy hh:mm tt") +
                     $": {message.Text}");
             }
             else if (request.Format.ToUpper() == "BRF")
