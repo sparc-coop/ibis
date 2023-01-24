@@ -1,55 +1,83 @@
-﻿button {
-	background: #f9f1e8;
-	color: #003b5f;
-	border-radius: 0;
-	margin-top: 10px;
-	height: 38px;
+﻿.ibis-language-selector {
+    width: 40%;
+    max-width: 736px;
+    background: white;
 }
+
+    button {
+        background: #f9f1e8;
+        color: #003b5f;
+        border-radius: 0;
+        margin-top: 10px;
+        height: 38px;
+    }
 
 ul {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
     flex-wrap: wrap;
     overflow-y: scroll;
     overflow-x: hidden;
-    min-width: 300px;
-    max-width: 50vw;
+    min-width: 310px;
+    width: min-content;
+    max-width: 30vw;
     max-height: 50vh;
     position: absolute;
+    top: 58px;
     padding: 8px;
-    top: 48px;
-    right: 15px;
-    background: #f9f1e8;
     z-index: 1000;
+    background: white;
 }
 
 li {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    flex-direction: column;
+    gap: 8px;
     position: relative;
-    width: 80px;
-    height: 60px;
-    color: #ff3520;
-    border: 1px solid #ff3520;
-    border-radius: 4px;
-    padding: 12px;
+    margin: 8px 0;
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d4dc;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
     cursor: pointer;
     font-size: 20px;
+    transition: 300ms ease-in-out;
+    white-space: nowrap;
 }
 
-li aside {
-    font-size: 12px;
+    li aside {
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    li:hover {
+        background: #f3f5f6;
+        transition: 300ms ease-in-out;
+    }
+
+    li.selected {
+        border: 1.5px solid #30C07D;
+        color: #30C07D;
+        transition: 300ms ease-in-out;
+    }
+
+.right {
+    height: 100%;
+    padding-top: 6px;
+    position: absolute;
+    top: 0;
+    right: 14px;
 }
 
-li:hover {
-    background: #ff9370;
-}
+    .right img {
+        width: 16px;
+        height: 16px;
+        margin: auto 0;
+    }
 
-li.selected {
-    background: #ff3520;
-    color: white;
-}
+    li:focus-visible {
+        border: 1.5px solid #f29e2e;
+    }
 
