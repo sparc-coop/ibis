@@ -22,6 +22,7 @@ public class Message : Root<string>
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
     public string Html => Markdown.ToHtml(Text ?? string.Empty);
+    public string Type { get; set; }
 
     protected Message()
     {

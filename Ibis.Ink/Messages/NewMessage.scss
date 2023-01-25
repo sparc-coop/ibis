@@ -9,6 +9,8 @@
     background: #FFFFFF;
     transition: transform 0.15s ease-out;
     position: relative;
+    height: 80%;
+    
 
     &.submitted {
         transform: translateY(-20%);
@@ -58,7 +60,7 @@
 
 
     textarea {
-        height: 105px;
+        height: 100%;
         padding: 24px 150px 24px 60px;
         width: 100%;
         max-width: 100%;
@@ -76,8 +78,9 @@
     }
 
     &.editing {
+
         textarea {
-            padding-right: 200px;
+            padding-right: 235px;
         }
     }
 

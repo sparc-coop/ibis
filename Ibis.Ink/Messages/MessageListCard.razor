@@ -16,7 +16,6 @@
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
-    [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }  
 
@@ -25,19 +24,6 @@
     {
         Nav.NavigateTo($"/content/{Message.RoomId}/{id}");
     }
-
-    //async Task Edit()
-    //{
-    //    if (OnEdit.HasDelegate)
-    //        await OnEdit.InvokeAsync(Message);
-    //}
-
-    //void EditTags()
-    //{
-    //    var parameters = new ModalParameters();
-    //    parameters.Add("Message", Message);
-    //    Modal.Show<MessageTags>("Message Tags", parameters);
-    //}
 
     async Task Delete()
     {

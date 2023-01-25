@@ -28,7 +28,7 @@
 
     async Task Edit()
     {
-        if (OnEdit.HasDelegate)
+        //if (OnEdit.HasDelegate)
             await OnEdit.InvokeAsync(Message);
     }
 
@@ -46,8 +46,8 @@
         if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
             return;
 
-        if (OnDelete.HasDelegate)
-            await OnDelete.InvokeAsync(Message);
+        //if (OnDelete.HasDelegate)
+        await OnDelete.InvokeAsync(Message);
     }
 
     void TagsAction(KeyboardEventArgs e)

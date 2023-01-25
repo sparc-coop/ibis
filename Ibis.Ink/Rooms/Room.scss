@@ -3,7 +3,6 @@
 .room {
     display: grid;
     height: 100%;
-    max-height: calc(100vh - 75px);
     grid-template-rows: 40px auto;
     gap: 24px;
 

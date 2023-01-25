@@ -39,7 +39,7 @@
         }
         <button type="submit" @onclick="SendText" aria-label="Send">
             <SendIcon />
-            @(SelectedMessage == null ? "Send" : "Save")
+            Save
         </button>
     }
 
@@ -56,6 +56,7 @@
     [Parameter] public string? LanguageString { get; set; }
     [Parameter] public Message? SelectedMessage { get; set; }
     [Parameter] public EventCallback OnDoneEditing { get; set; }
+    [Parameter] public EventCallback<Message> OnSetMessage { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     ElementReference TextArea;
@@ -68,7 +69,7 @@
         if (SelectedMessage != null)
         {
             Text = SelectedMessage.Text;
-            await TextArea.FocusAsync();
+            //await TextArea.FocusAsync();
         }
     }
 
@@ -92,9 +93,11 @@
         StateHasChanged();
 
         var newMessage = await Api.TypeMessageAsync(new TypeMessageRequest { RoomId = Room.RoomId, Text = text, MessageId = SelectedMessage?.Id });
-        await TextArea.FocusAsync();
+        //await TextArea.FocusAsync();
 
-        if (SelectedMessage != null && OnDoneEditing.HasDelegate)
+        await OnSetMessage.InvokeAsync(newMessage);
+
+        if (SelectedMessage != null)// && OnDoneEditing.HasDelegate
             await OnDoneEditing.InvokeAsync();
     }
 

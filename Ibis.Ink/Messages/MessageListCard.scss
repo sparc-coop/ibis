@@ -57,6 +57,12 @@
 
     .message-text {
         padding: 8px 10px 8px 26px;
+
+        > p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
     }
 
     .message-audio {

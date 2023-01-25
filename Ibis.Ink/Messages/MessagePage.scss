@@ -1,0 +1,13 @@
+﻿@import "../_variables.scss";
+
+.message-page {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+
+    .blog-check {
+        padding-top: 20px;
+        display: flex;
+    }
+}
