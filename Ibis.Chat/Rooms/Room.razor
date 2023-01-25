@@ -14,10 +14,18 @@
                     </h2>
                 </div>
                 <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript">
+                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript in current language">
                         <DownloadIcon />
-                        Transcript
+                        Transcript 
                     </button>
+                    @if (CurrentUser != null)
+                    {
+                        <button class="action" title="Download text transcript in different language">
+                            <IbisLanguageSelector SelectedLanguage="@CurrentUser.Language" /><DownloadIcon />
+                        </button>
+                    }
+                    
+ 
                     <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="action" title="Download subtitles">
                         <DownloadIcon />
                         Subtitles
@@ -40,11 +48,14 @@
 @inject NavigationManager NavigationManager
 @code {
     [Parameter] public string Id { get; set; } = null!;
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    public UserAvatar? CurrentUser { get; set; }
 
     GetRoomResponse? RoomInfo;
 
     protected override async Task OnInitializedAsync()
     {
+
         RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
         On<UserAvatarUpdated>(avatar =>
@@ -56,6 +67,8 @@
                 RoomInfo.Users.Add(avatar.Avatar);
             }
         });
+
+        CurrentUser = User;
     }
 
     async Task DownloadAudio()
@@ -66,6 +79,7 @@
 
     async Task DownloadText(string format)
     {
+
         var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
 
         string fileContent = result.Text;
