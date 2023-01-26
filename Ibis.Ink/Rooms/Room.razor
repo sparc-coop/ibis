@@ -11,6 +11,7 @@
                 <h2 title="@RoomInfo.Name" style="max-width:555px">
                     @RoomInfo.Name
                 </h2>
+                <img @onclick="CopyLink" class="copy" src="/icons/copy.svg" title="Copy Channel Name: @RoomInfo.Slug" />
             </div>
         }
         <button @onclick="NewMessage">Add new content</button>
@@ -69,5 +70,10 @@
     void NewMessage()
     {
         Nav.NavigateTo($"/content/{Id}");
+    }
+
+    async Task CopyLink()
+    {
+        await JS.InvokeVoidAsync("copyToClipboard", RoomInfo!.Slug);
     }
 }

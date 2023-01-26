@@ -96,9 +96,7 @@
         //await TextArea.FocusAsync();
 
         await OnSetMessage.InvokeAsync(newMessage);
-
-        if (SelectedMessage != null)// && OnDoneEditing.HasDelegate
-            await OnDoneEditing.InvokeAsync();
+        await OnDoneEditing.InvokeAsync();
     }
 
     async Task CancelEdit()

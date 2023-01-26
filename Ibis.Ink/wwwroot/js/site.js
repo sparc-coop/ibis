@@ -165,3 +165,7 @@ function openQuestion(number) {
     var element = document.getElementById("question-" + number);
     element.classList.add("selected");
 }
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+}

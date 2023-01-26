@@ -10,6 +10,13 @@
     color: $grey-900;
     border: 1px solid $grey-500;
     cursor: pointer;
+    max-height: 100px;
+    box-sizing: border-box;
+
+    .ibis-content {
+        max-height: 56px;
+        overflow: hidden;
+    }
 
     &:hover {
         background: $grey-200;

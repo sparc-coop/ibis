@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.1" />
-    <PackageReference Include="Sparc.Blossom.Client" Version="7.1.0-pre.10" />
+    <PackageReference Include="Sparc.Blossom.Client" Version="7.1.0-pre.10" /> 
   </ItemGroup>
 
   <ItemGroup>
