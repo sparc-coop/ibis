@@ -16,15 +16,11 @@
                 <div class="actions">
                     <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript in current language">
                         <DownloadIcon />
-                        Transcript 
+                        Transcript in:  
                     </button>
-                    @if (CurrentUser != null)
-                    {
-                        <button class="action" title="Download text transcript in different language">
-                            <IbisLanguageSelector SelectedLanguage="@CurrentUser.Language" /><DownloadIcon />
-                        </button>
-                    }
-                    
+                    <button class="" title="Download text transcript in different language">
+                        <IbisLanguageSelector SelectedLanguage="@Language" OnLanguageSelected="ChangeMessageLanguage" />
+                    </button>
  
                     <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="action" title="Download subtitles">
                         <DownloadIcon />
@@ -49,7 +45,7 @@
 @code {
     [Parameter] public string Id { get; set; } = null!;
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    public UserAvatar? CurrentUser { get; set; }
+    public string Language;
 
     GetRoomResponse? RoomInfo;
 
@@ -68,19 +64,27 @@
             }
         });
 
-        CurrentUser = User;
+        Language = User.Language;
     }
 
     async Task DownloadAudio()
     {
-        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId });
+        var text = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = "TXT", Language = User.Language });
+
+
+        IEnumerable<string> files = new string[] { text.Text };
+        //foreach (var msg in text.Text)
+        //{
+        //    textList.Append(msg);
+        //}
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId, Language = User.Language });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
     async Task DownloadText(string format)
     {
 
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
+        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format, Language = Language });
 
         string fileContent = result.Text;
         string fileTitle = RoomInfo.Name;
@@ -111,5 +115,16 @@
     {
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+    }
+
+    void ChangeMessageLanguage(string languageId)
+    {
+        if (languageId != Language)
+        {
+            //await InitFromClientAsync(languageId, true);
+            Language = languageId;
+
+        }
+        
     }
 }

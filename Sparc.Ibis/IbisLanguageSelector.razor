@@ -29,9 +29,13 @@
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
     [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
+    //[Parameter] public string Password { get; set; }
     bool IsSelecting;
     ICollection<Language>? Languages;
     ElementReference langSelection;
+
+    //[Parameter]
+    //public EventCallback<string> LangChanged { get; set; }
 
     async Task GetLanguages()
     {
@@ -67,4 +71,11 @@
             
         }
     }
+
+    //private Task OnPasswordChanged(ChangeEventArgs e)
+    //{
+    //    Password = e.Value.ToString();
+
+    //    return LangChanged.InvokeAsync(Password);
+    //}
 }

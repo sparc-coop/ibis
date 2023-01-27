@@ -82,6 +82,19 @@
                 &:hover {
                     background: $secondary-200;
                 }
+
+
+                .ibis-language-selector {
+                    padding: 0px;
+                    margin: 0px;
+                    width: auto;
+                    height: auto;
+
+                    button {
+                        padding: 0px;
+                        margin: 0px;
+                    }
+                }
             }
         }
     }
@@ -283,7 +296,7 @@
 
     @media screen and (max-width: 1000px) {
         margin: 0;
-        
+
         .message-grid {
             grid-column: 1 / span 2;
         }

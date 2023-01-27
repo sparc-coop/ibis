@@ -1329,6 +1329,14 @@ main {
             fill: #6A7280; }
         .room header .actions button:hover {
           background: #EEF4FA; }
+        .room header .actions button .ibis-language-selector {
+          padding: 0px;
+          margin: 0px;
+          width: auto;
+          height: auto; }
+          .room header .actions button .ibis-language-selector button {
+            padding: 0px;
+            margin: 0px; }
   .room .time-stamp {
     position: absolute;
     top: 0;

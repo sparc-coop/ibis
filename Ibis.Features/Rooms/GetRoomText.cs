@@ -1,17 +1,24 @@
-﻿using System.Text;
+﻿using Ibis._Plugins;
+using Sparc.Ibis;
+using System.Text;
 
 namespace Ibis.Rooms;
 
-public record GetRoomTextRequest(string RoomId, string Format);
+public record GetRoomTextRequest(string RoomId, string Format, string Language);
 public record GetRoomTextResponse(string Text);
 public class GetRoomText : Feature<GetRoomTextRequest, GetRoomTextResponse>
 {
-    public GetRoomText(IRepository<Message> messages)
+    public GetRoomText(IRepository<Messages.Message> messages, IRepository<Room> rooms, ITranslator translator)
     {
         Messages = messages;
+        Rooms = rooms;
+        Translator = translator;
     }
 
-    public IRepository<Message> Messages { get; }
+    public IRepository<Messages.Message> Messages { get; }
+    public IRepository<Room> Rooms { get; }
+    public ITranslator Translator { get; }
+    public List<Language> Languages { get; private set; }
 
     public override async Task<GetRoomTextResponse> ExecuteAsync(GetRoomTextRequest request)
     {
@@ -20,10 +27,21 @@ public class GetRoomText : Feature<GetRoomTextRequest, GetRoomTextResponse>
             .OrderBy(x => x.Timestamp)
             .ToListAsync();
 
+        var room = await Rooms.FindAsync(request.RoomId);
+
         var builder = new StringBuilder();
         var num = 1;
         foreach (var message in messages)
         {
+            if (message.Language != request.Language)
+            {              
+                var language = await Translator.GetLanguageAsync(request.Language);
+                List<Language> langs = new List<Language>();
+                langs.Add(language);
+                var translation = await Translator.TranslateAsync(message, langs);
+                message.SetText(translation.FirstOrDefault().Text);
+            }
+
             if (request.Format.ToUpper() == "TXT")
             {
                 builder.AppendLine(message.User?.Name + " " + message.Timestamp.ToString("MM/dd/yyyy hh:mm tt") +

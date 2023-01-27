@@ -31,6 +31,15 @@
             link.click();
             document.body.removeChild(link);
         }
+
+        function triggerFileDownload(url, fileName) {
+            console.log("hi????");
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = fileName ?? '';
+            anchorElement.click();
+            anchorElement.remove();
+        }
     </script>
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {
