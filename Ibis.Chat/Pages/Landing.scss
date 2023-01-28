@@ -22,6 +22,10 @@ body {
     margin: 0px;
     background: $background;
 
+    h1:focus {
+        outline: none;
+    }
+
     a.btn-primary {
         padding: 21px 53px;
         border: none;

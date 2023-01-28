@@ -19,6 +19,9 @@
   margin: 0px;
   background: #fafbfc;
 }
+.landing h1:focus {
+  outline: none;
+}
 .landing a.btn-primary {
   padding: 21px 53px;
   border: none;

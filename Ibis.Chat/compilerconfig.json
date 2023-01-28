@@ -2,9 +2,5 @@
   {
     "outputFile": "wwwroot/css/app.css",
     "inputFile": "App.scss"
-  },
-  {
-    "outputFile": "Pages/Landing.css",
-    "inputFile": "Pages/Landing.scss"
   }
 ]
