@@ -4,6 +4,10 @@
     background: white;
 }
 
+.overlay {
+    opacity: 0.3;
+}
+
     button {
         background: #f9f1e8;
         color: #003b5f;
@@ -22,11 +26,12 @@ ul {
     width: min-content;
     max-width: 30vw;
     max-height: 50vh;
-    position: absolute;
-    top: 58px;
+    position: fixed;
     padding: 8px;
-    z-index: 1000;
+    z-index: 1001;
     background: white;
+    border-radius: 12px;
+    transform: translateX(-90%) translateY(20px);
 }
 
 li {
@@ -48,6 +53,9 @@ li {
 }
 
     li aside {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
         font-size: 12px;
         vertical-align: middle;
     }

@@ -12,16 +12,12 @@
     @if (IsSelecting)
     {
         <div class="overlay" @onclick="CloseFromOverlay"></div>
-        <ul class="ibis-ignore" @onkeydown="Close">
+        <ul class="ibis-ignore" @onkeydown="Close" style="left: @(X)px; top: @(Y)px">
             @foreach (var language in Languages!)
             {
                 <li tabindex="0" @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")" @onkeydown="@((e) => KeyboardSelection(e, language))">
-                    @language.DisplayName
-
-                    @if (language.DisplayName != language.NativeName)
-                    {
-                        <aside>@language.NativeName</aside>
-                    }
+                    @language.NativeName
+                    <aside>@language.DisplayName</aside>
 
                     @if (SelectedLanguage == language.Id)
                     {
@@ -40,15 +36,19 @@
     [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     bool IsSelecting;
+    double X;
+    double Y;
     ICollection<Language>? Languages;
     ElementReference langSelection;
 
-    async Task GetLanguages()
+    async Task GetLanguages(MouseEventArgs args)
     {
         if (Languages == null)
             Languages = await Api.GetLanguagesAsync();
 
         IsSelecting = !IsSelecting;
+        X = args.ClientX;
+        Y = args.ClientY;
 
         await langSelection.FocusAsync();
     }
