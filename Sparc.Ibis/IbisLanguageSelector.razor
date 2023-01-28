@@ -35,11 +35,19 @@
     [Parameter] public string SelectedLanguage { get; set; } = null!;
     [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    bool IsSelecting;
+    [Parameter] public bool IsSelecting { get; set; }
     double X;
     double Y;
     ICollection<Language>? Languages;
     ElementReference langSelection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsSelecting)
+        {
+            Languages = await Api.GetLanguagesAsync();
+        }
+    }
 
     async Task GetLanguages(MouseEventArgs args)
     {

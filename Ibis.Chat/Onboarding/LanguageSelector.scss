@@ -3,58 +3,20 @@
 .language-selector {
     height: 100%;
 
-    ul {
-        height: 58%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        padding-right: 10px;
-    }
-
-    li {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-        position: relative;
-        margin: 8px 0;
+    .ibis-language-selector {
         width: 100%;
-        padding: 10px 14px;
-        border: 1px solid $grey-300;
-        border-radius: 8px;
-        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-        cursor: pointer;
-        font-size: 20px;
-        transition: 300ms ease-in-out;
 
-        aside {
-            vertical-align: middle;
+        button {
+            display: none;
         }
 
-        &:hover {
-            background: $grey-100;
+        .overlay {
+            display: none;
         }
-
-        &.selected {
-            border: 1.5px solid #30C07D;
-            color: #30C07D;
-
-            .right {
-                height: 100%;
-                padding-top: 6px;
-                position: absolute;
-                top: 0;
-                right: 14px;
-
-                img {
-                    width: 16px;
-                    height: 16px;
-                    margin: auto 0;
-
-                    svg {
-                        fill: #30C07D;
-                        color: #30C07D;
-                    }
-                }
-            }
+        ul {
+            position: static;
+            transform: none;
+            width: 100%;
         }
     }
 }

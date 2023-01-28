@@ -3336,52 +3336,19 @@ main {
 .language-selector {
   height: 100%;
 }
-.language-selector ul {
-  height: 58%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding-right: 10px;
-}
-.language-selector li {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  position: relative;
-  margin: 8px 0;
+.language-selector .ibis-language-selector {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #D1D4DC;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  cursor: pointer;
-  font-size: 20px;
-  transition: 300ms ease-in-out;
 }
-.language-selector li aside {
-  vertical-align: middle;
+.language-selector .ibis-language-selector button {
+  display: none;
 }
-.language-selector li:hover {
-  background: #F3F5F6;
+.language-selector .ibis-language-selector .overlay {
+  display: none;
 }
-.language-selector li.selected {
-  border: 1.5px solid #30C07D;
-  color: #30C07D;
-}
-.language-selector li.selected .right {
-  height: 100%;
-  padding-top: 6px;
-  position: absolute;
-  top: 0;
-  right: 14px;
-}
-.language-selector li.selected .right img {
-  width: 16px;
-  height: 16px;
-  margin: auto 0;
-}
-.language-selector li.selected .right img svg {
-  fill: #30C07D;
-  color: #30C07D;
+.language-selector .ibis-language-selector ul {
+  position: static;
+  transform: none;
+  width: 100%;
 }
 
 .voice-selector {
