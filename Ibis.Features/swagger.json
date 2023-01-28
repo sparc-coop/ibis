@@ -338,6 +338,78 @@
         ]
       }
     },
+    "/api/DownloadRoomContent": {
+      "post": {
+        "tags": [
+          "DownloadRoomContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetRoomTextRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
+      }
+    },
     "/api/EditMessageTags": {
       "post": {
         "tags": [
@@ -772,75 +844,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetRoomsResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/GetRoomText": {
-      "post": {
-        "tags": [
-          "GetRoomText"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomTextRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomTextRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/GetRoomTextRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomTextResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomTextResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRoomTextResponse"
                 }
               }
             }
@@ -1900,9 +1903,6 @@
             "type": "string",
             "nullable": true
           },
-          "asHtml": {
-            "type": "boolean"
-          },
           "tags": {
             "type": "object",
             "additionalProperties": {
@@ -2071,16 +2071,6 @@
             "nullable": true
           },
           "language": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetRoomTextResponse": {
-        "type": "object",
-        "properties": {
-          "text": {
             "type": "string",
             "nullable": true
           }

@@ -1,6 +1,7 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
 @page "/rooms/{Id}"
+@using Microsoft.AspNetCore.WebUtilities;
 
 <CascadingValue Value="RoomInfo?.Users">
     <section class="room room-@(RoomInfo == null ? "loading" : "chat")">
@@ -14,22 +15,20 @@
                     </h2>
                 </div>
                 <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript in current language">
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadTranscript">
                         <DownloadIcon />
-                        Transcript in:  
-                    </button>
-                    <button class="" title="Download text transcript in different language">
-                        <IbisLanguageSelector SelectedLanguage="@Language" OnLanguageSelected="ChangeMessageLanguage" />
-                    </button>
- 
-                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="action" title="Download subtitles">
+                        Transcript
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadSubtitles">
                         <DownloadIcon />
                         Subtitles
-                    </button>
-                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="action" title="Download audio transcript">
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadAudio">
                         <DownloadIcon />
                         Audio
-                    </button>
+                    </IbisLanguageSelector>
                 </div>
             }
         </header>
@@ -45,8 +44,6 @@
 @code {
     [Parameter] public string Id { get; set; } = null!;
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
-    public string Language;
-
     GetRoomResponse? RoomInfo;
 
     protected override async Task OnInitializedAsync()
@@ -63,47 +60,36 @@
                 RoomInfo.Users.Add(avatar.Avatar);
             }
         });
-
-        Language = User.Language;
     }
 
     async Task DownloadAudio()
     {
-        var text = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = "TXT", Language = User.Language });
-
-
-        IEnumerable<string> files = new string[] { text.Text };
-        //foreach (var msg in text.Text)
-        //{
-        //    textList.Append(msg);
-        //}
         var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId, Language = User.Language });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
-    async Task DownloadText(string format)
+    async Task DownloadTranscript(string languageId)
     {
+        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
+        {
+            { "roomId", RoomInfo!.RoomId },
+            { "language", languageId },
+            { "format", "txt" }
+        });
 
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format, Language = Language });
+        await JS.InvokeVoidAsync("open", url, "_blank");
+    }
 
-        string fileContent = result.Text;
-        string fileTitle = RoomInfo.Name;
+    async Task DownloadSubtitles(string languageId)
+    {
+        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
+        {
+            { "roomId", RoomInfo!.RoomId },
+            { "language", languageId ?? User.Language },
+            { "format", "srt" }
+        });
 
-        //byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
-        //Stream fileStream = new MemoryStream(bytes);
-
-        //var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
-        //foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-        //{
-        //    fileName = fileName.Replace(c, '_');
-        //}
-
-        //using var streamRef = new DotNetStreamReference(stream: fileStream);
-        //await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
-
-        string currentUrl = NavigationManager.Uri;
-
-        await JS.InvokeVoidAsync("saveFile", fileTitle, fileContent);
+        await JS.InvokeVoidAsync("open", url, "_blank");
     }
 
     void UpdateName()
@@ -115,16 +101,5 @@
     {
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
-    }
-
-    void ChangeMessageLanguage(string languageId)
-    {
-        if (languageId != Language)
-        {
-            //await InitFromClientAsync(languageId, true);
-            Language = languageId;
-
-        }
-        
     }
 }

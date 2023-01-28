@@ -1,7 +1,17 @@
 <div class="ibis-language-selector" @ref="langSelection">
-    <button @onclick="GetLanguages">@SelectedLanguage</button>
+    <button @onclick="GetLanguages">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            @SelectedLanguage
+        }
+    </button>
     @if (IsSelecting)
     {
+        <div class="overlay" @onclick="CloseFromOverlay"></div>
         <ul class="ibis-ignore" @onkeydown="Close">
             @foreach (var language in Languages!)
             {
@@ -25,17 +35,13 @@
     }
 </div>
 
-
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
     [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
-    //[Parameter] public string Password { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
     bool IsSelecting;
     ICollection<Language>? Languages;
     ElementReference langSelection;
-
-    //[Parameter]
-    //public EventCallback<string> LangChanged { get; set; }
 
     async Task GetLanguages()
     {
@@ -60,8 +66,9 @@
         {
             await SetLanguage(language);
         }
-
     }
+
+    async Task CloseFromOverlay() => IsSelecting = false;
 
     void Close(KeyboardEventArgs e)
     {
@@ -71,11 +78,4 @@
             
         }
     }
-
-    //private Task OnPasswordChanged(ChangeEventArgs e)
-    //{
-    //    Password = e.Value.ToString();
-
-    //    return LangChanged.InvokeAsync(Password);
-    //}
 }

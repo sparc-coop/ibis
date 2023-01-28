@@ -6,7 +6,7 @@ public static class UserRepositoryExtensions
 {
     public static Task<User?> GetAsync(this IRepository<User> repository, ClaimsPrincipal user)
     {
-        var id = user.Id();
+        var id = user?.Id();
         if (id == null)
             return Task.FromResult<User?>(null);
         

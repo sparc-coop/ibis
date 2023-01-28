@@ -63,13 +63,16 @@
 
         .actions {
             align-self: flex-end;
+            position: relative;
+            top: 10px;
 
-            button {
+            button, .ibis-language-selector {
                 color: $grey-600;
                 font-size: 13px;
                 border-radius: 12px;
                 padding: 6px 12px;
                 background: transparent;
+                display: inline-block;
 
                 svg {
                     margin-right: 6px;
@@ -82,18 +85,21 @@
                 &:hover {
                     background: $secondary-200;
                 }
+            }
 
+            .ibis-language-selector {
+                width: auto;
+                button {
+                    margin-top: 0;
+                }
 
-                .ibis-language-selector {
-                    padding: 0px;
-                    margin: 0px;
-                    width: auto;
-                    height: auto;
+                ul {
+                    box-shadow: rgba(0, 0, 0, 0.1) 10px 10px 10px;
+                    border-radius: 12px;
+                }
 
-                    button {
-                        padding: 0px;
-                        margin: 0px;
-                    }
+                .overlay {
+                    opacity: 0.3;
                 }
             }
         }

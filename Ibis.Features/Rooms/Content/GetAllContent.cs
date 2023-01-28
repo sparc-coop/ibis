@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 
 namespace Ibis.Rooms;
-public record GetAllContentRequest(string RoomSlug, string? Language = null, bool AsHtml = false, Dictionary<string, string>? Tags = null, int? Take = null);
+public record GetAllContentRequest(string RoomSlug, string? Language = null, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {

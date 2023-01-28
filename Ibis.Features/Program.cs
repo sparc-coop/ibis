@@ -16,7 +16,8 @@ builder.Services
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>();
+        .AddSingleton<ExchangeRates>()
+        .AddScoped<GetAllContent>();
 
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 auth.AddCookie();
