@@ -9,8 +9,8 @@ public class UserAvatar
     public string Name { get; set; }
     public string Initials => string.IsNullOrWhiteSpace(Name) ? "" : string.Join(string.Empty, Name.Split(' ').Select(x => x[0]));
     public bool IsOnline { get; set; }
-    public string ForegroundColor { get; set; }
-    public string BackgroundColor => CalculateBackgroundColor(ForegroundColor);
+    public string BackgroundColor { get; set; }
+    public string ForegroundColor => CalculateForegroundColor(BackgroundColor);
     public string? Language { get; set; }
     public bool? LanguageIsRTL { get; set; }
     public string? Emoji { get; set; }
@@ -28,7 +28,7 @@ public class UserAvatar
         Id = sourceAvatar.Id;
         Name = sourceAvatar.Name;
         IsOnline = sourceAvatar.IsOnline;
-        ForegroundColor = sourceAvatar.ForegroundColor;
+        BackgroundColor = sourceAvatar.BackgroundColor;
         Language = sourceAvatar.Language;
         LanguageIsRTL = sourceAvatar.LanguageIsRTL;
         Emoji = sourceAvatar.Emoji;
@@ -44,14 +44,14 @@ public class UserAvatar
         Name = name;
         Language = "en";
         LanguageIsRTL = false;
-        ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
+        BackgroundColor = BackgroundColors().OrderBy(x => Guid.NewGuid()).First();
     }
 
-    public static string CalculateBackgroundColor(string foregroundColor)
+    public static string CalculateForegroundColor(string backgroundColor)
     {
         // derived from https://stackoverflow.com/a/1626175
 
-        var color = ColorTranslator.FromHtml(foregroundColor);
+        var color = ColorTranslator.FromHtml(backgroundColor);
         int max = Math.Max(color.R, Math.Max(color.G, color.B));
         int min = Math.Min(color.R, Math.Min(color.G, color.B));
 
@@ -59,8 +59,8 @@ public class UserAvatar
         var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
         var value = max / 255d;
 
-        var background = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
-        return ColorTranslator.ToHtml(background);
+        var foreground = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
+        return ColorTranslator.ToHtml(foreground);
     }
 
     public static Color ColorFromHSV(double hue, double saturation, double value)
@@ -88,7 +88,7 @@ public class UserAvatar
             return Color.FromArgb(255, v, p, q);
     }
 
-    public static List<string> ForegroundColors() => new()
+    public static List<string> BackgroundColors() => new()
     {
         // generated from http://phrogz.net/css/distinct-colors.html 
         // hue 29-330, sat 100-23, value 70-20, 50 colors

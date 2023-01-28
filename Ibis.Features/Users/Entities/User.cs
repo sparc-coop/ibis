@@ -109,7 +109,7 @@ public class User : BlossomUser
         Avatar.Voice = avatar.Voice;
         Avatar.Language = avatar.Language;
         Avatar.LanguageIsRTL = avatar.LanguageIsRTL;
-        Avatar.ForegroundColor = avatar.ForegroundColor;
+        Avatar.BackgroundColor = avatar.BackgroundColor;
         Avatar.Pronouns = avatar.Pronouns;
         Avatar.Name = avatar.Name;
         Avatar.Description = avatar.Description;

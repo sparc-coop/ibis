@@ -2684,11 +2684,11 @@
           "isOnline": {
             "type": "boolean"
           },
-          "foregroundColor": {
+          "backgroundColor": {
             "type": "string",
             "nullable": true
           },
-          "backgroundColor": {
+          "foregroundColor": {
             "type": "string",
             "nullable": true,
             "readOnly": true
