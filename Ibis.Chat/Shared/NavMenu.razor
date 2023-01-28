@@ -7,7 +7,7 @@
                 <a href="rooms" class="nav-link">
                     <img class="dash-icon" src="../icons/dashboard.svg"/>
                 </a>
-                <button class="logout" @onclick="Logout">
+                <button class="logout">
                     Log Out
                 </button>
             </Authorized>
@@ -17,10 +17,3 @@
         </AuthorizeView>
     </nav>
 </div>
-
-@code {
-    private void Logout(MouseEventArgs args)
-    {
-        Nav.NavigateToLogout("authentication/logout");
-    }
-}

@@ -17,7 +17,7 @@
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
     <PackageReference Include="Sparc.Blossom.Authentication.AzureADB2C" Version="7.1.0-pre.2" />
     <PackageReference Include="Sparc.Blossom.Data.Cosmos" Version="7.1.0-pre.5" />
-    <PackageReference Include="Sparc.Blossom.Server" Version="7.1.0-pre.21" />
+    <PackageReference Include="Sparc.Blossom.Server" Version="7.1.0-pre.22" />
     <PackageReference Include="Sparc.Blossom.Realtime.Twilio" Version="7.1.0-pre.1" />
     <PackageReference Include="Sparc.Blossom.Data.AzureStorage" Version="7.1.0-pre.1" />
     <PackageReference Include="Stripe.net" Version="41.3.0" />
