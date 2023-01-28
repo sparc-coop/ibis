@@ -52,14 +52,12 @@ public class UserAvatar
         // derived from https://stackoverflow.com/a/1626175
 
         var color = ColorTranslator.FromHtml(backgroundColor);
-        int max = Math.Max(color.R, Math.Max(color.G, color.B));
-        int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
         var hue = color.GetHue();
-        var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-        var value = max / 255d;
 
-        var foreground = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
+        var foreground = BackgroundColors().IndexOf(backgroundColor) < 7 // dark colors
+            ? ColorFromHSV(hue, 1, 0.4)
+            : ColorFromHSV(hue, 1, 0.6);
+        
         return ColorTranslator.ToHtml(foreground);
     }
 
