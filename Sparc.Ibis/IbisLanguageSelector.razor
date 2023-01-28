@@ -1,24 +1,41 @@
-<div class="ibis-languages ibis-ignore">
+<div class="ibis-language-selector" @ref="langSelection">
     <button @onclick="GetLanguages">@SelectedLanguage</button>
     @if (IsSelecting)
     {
-        <ul aria-hidden="true">
+        <ul class="ibis-ignore" @onkeydown="Close">
             @foreach (var language in Languages!)
             {
-                <li @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")">
-                    @language.Id
-                    <aside>@language.NativeName</aside>
+                <li tabindex="0" @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")" @onkeydown="@((e) => KeyboardSelection(e, language))">
+                    @language.DisplayName
+
+                    @if (language.DisplayName != language.NativeName)
+                    {
+                        <aside>@language.NativeName</aside>
+                    }
+
+                    @if (SelectedLanguage == language.Id)
+                    {
+                        <div class="right">
+                            <img src="icons/Check.svg" />
+                        </div>
+                    }
                 </li>
             }
         </ul>
     }
 </div>
 
+
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
     [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
+    //[Parameter] public string Password { get; set; }
     bool IsSelecting;
     ICollection<Language>? Languages;
+    ElementReference langSelection;
+
+    //[Parameter]
+    //public EventCallback<string> LangChanged { get; set; }
 
     async Task GetLanguages()
     {
@@ -26,6 +43,8 @@
             Languages = await Api.GetLanguagesAsync();
 
         IsSelecting = !IsSelecting;
+
+        await langSelection.FocusAsync();
     }
 
     async Task SetLanguage(Language language)
@@ -34,4 +53,29 @@
         IsSelecting = false;
         await OnLanguageSelected.InvokeAsync(language.Id);
     }
+
+    async Task KeyboardSelection(KeyboardEventArgs e, Language language)
+    {
+        if (e.Key == "Enter")
+        {
+            await SetLanguage(language);
+        }
+
+    }
+
+    void Close(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            IsSelecting = false;
+            
+        }
+    }
+
+    //private Task OnPasswordChanged(ChangeEventArgs e)
+    //{
+    //    Password = e.Value.ToString();
+
+    //    return LangChanged.InvokeAsync(Password);
+    //}
 }

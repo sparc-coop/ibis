@@ -14,10 +14,14 @@
                     </h2>
                 </div>
                 <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript">
+                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="action" title="Download text transcript in current language">
                         <DownloadIcon />
-                        Transcript
+                        Transcript in:  
                     </button>
+                    <button class="" title="Download text transcript in different language">
+                        <IbisLanguageSelector SelectedLanguage="@Language" OnLanguageSelected="ChangeMessageLanguage" />
+                    </button>
+ 
                     <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="action" title="Download subtitles">
                         <DownloadIcon />
                         Subtitles
@@ -37,13 +41,17 @@
     </section>
 </CascadingValue>
 
+@inject NavigationManager NavigationManager
 @code {
     [Parameter] public string Id { get; set; } = null!;
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    public string Language;
 
     GetRoomResponse? RoomInfo;
 
     protected override async Task OnInitializedAsync()
     {
+
         RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
         On<UserAvatarUpdated>(avatar =>
@@ -55,29 +63,47 @@
                 RoomInfo.Users.Add(avatar.Avatar);
             }
         });
+
+        Language = User.Language;
     }
 
     async Task DownloadAudio()
     {
-        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId });
+        var text = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = "TXT", Language = User.Language });
+
+
+        IEnumerable<string> files = new string[] { text.Text };
+        //foreach (var msg in text.Text)
+        //{
+        //    textList.Append(msg);
+        //}
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId, Language = User.Language });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
     async Task DownloadText(string format)
     {
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
 
-        byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
-        Stream fileStream = new MemoryStream(bytes);
+        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format, Language = Language });
 
-        var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
-        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-        {
-            fileName = fileName.Replace(c, '_');
-        }
+        string fileContent = result.Text;
+        string fileTitle = RoomInfo.Name;
 
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        //byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
+        //Stream fileStream = new MemoryStream(bytes);
+
+        //var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
+        //foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        //{
+        //    fileName = fileName.Replace(c, '_');
+        //}
+
+        //using var streamRef = new DotNetStreamReference(stream: fileStream);
+        //await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+        string currentUrl = NavigationManager.Uri;
+
+        await JS.InvokeVoidAsync("saveFile", fileTitle, fileContent);
     }
 
     void UpdateName()
@@ -89,5 +115,16 @@
     {
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
+    }
+
+    void ChangeMessageLanguage(string languageId)
+    {
+        if (languageId != Language)
+        {
+            //await InitFromClientAsync(languageId, true);
+            Language = languageId;
+
+        }
+        
     }
 }
