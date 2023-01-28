@@ -27,6 +27,7 @@ public class DownloadRoomContent : Feature<GetRoomTextRequest, FileResult>
 
         var builder = new StringBuilder();
         var num = 1;
+        var firstMessageTimestamp = content.Content.FirstOrDefault(x => x.Audio != null)?.Timestamp;
         foreach (var message in content.Content)
         {
             switch (request.Format.ToUpper())
@@ -39,10 +40,13 @@ public class DownloadRoomContent : Feature<GetRoomTextRequest, FileResult>
                     builder.AppendLine(ToBrailleAscii(message.Text!));
                     break;
                 case "SRT" when message.Audio != null:
+                    var start = message.Timestamp - firstMessageTimestamp!.Value;
+                    var end = message.Timestamp.Add(new(message.Audio.Duration)) - firstMessageTimestamp!.Value;
+                    
                     builder.AppendLine(num++.ToString());
                     builder.AppendLine(
-                          message.Timestamp.ToString("hh:mm:ss,ms") + " --> "
-                        + message.Timestamp.AddTicks(message.Audio!.Duration).ToString("hh:mm:ss,ms"));
+                          start.ToString(@"hh\:mm\:ss\,fff") + " --> "
+                        + end.ToString(@"hh\:mm\:ss\,fff"));
                     builder.AppendLine(message.Text);
                     builder.Append(Environment.NewLine);
                     break;
@@ -51,7 +55,7 @@ public class DownloadRoomContent : Feature<GetRoomTextRequest, FileResult>
 
         var file = Encoding.UTF8.GetBytes(builder.ToString());
         var type = request.Format.ToUpper() == "TXT" ? "text/plain" : "application/octet-stream";
-        return File(file, type, $"{content.Name} - {request.Language}.{request.Format.ToLowerInvariant()}");
+        return File(file, type, $"{content.Name}.{request.Language}.{request.Format.ToLowerInvariant()}");
     }
 
     protected string ToBrailleAscii(string txt) => BrailleAscii.Aggregate(txt, (result, s) => result.Replace(s.Key, s.Value));
