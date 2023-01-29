@@ -120,4 +120,11 @@ public class AzureSpeaker : ISpeaker
         wtr.Flush();
         return retMs.ToArray();
     }
+
+    public async Task<string?> GetClosestVoiceAsync(string language, string gender, string deterministicId)
+    {
+        var voices = await GetVoicesAsync(language, null, gender);
+        var hash = deterministicId.ToCharArray().Aggregate(0, (acc, c) => acc + c);
+        return voices[hash % voices.Count].Name;
+    }
 }

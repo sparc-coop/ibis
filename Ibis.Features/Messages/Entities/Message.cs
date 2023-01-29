@@ -92,8 +92,10 @@ public class Message : Root<string>
 
     internal async Task<AudioMessage?> SpeakAsync(ISpeaker engine, string? voiceId = null)
     {
-        if (voiceId == null && Audio?.Voice == null)
-            return null;
+        if (voiceId == null && (Audio?.Voice == null || !Audio.Voice.StartsWith(Language)))
+        {
+            voiceId = await engine.GetClosestVoiceAsync(Language, User.Gender, User.Id);
+        }
 
         var audio = await engine.SpeakAsync(this, voiceId);
 

@@ -38,6 +38,8 @@ public class UserAvatar
         Pronouns = sourceAvatar.Pronouns;
         Description = sourceAvatar.Description;
         Voice = sourceAvatar.Voice;
+        Dialect = sourceAvatar.Dialect;
+        Gender = sourceAvatar.Gender;
     }
 
     public UserAvatar(string id, string name)
