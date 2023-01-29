@@ -19,16 +19,10 @@
     </figcaption>
 </figure>
 
-@if (EditTab != null && ShowEditor)
-{
-    <Ibis.Chat.Onboarding.Index OnDone="CloseEditor" Tab="@EditTab" />
-}
-
 @code {
     [Parameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public string? EditTab { get; set; }
     [Parameter] public bool SpillBackground { get; set; }
-    bool ShowEditor;
     UserAvatar LocalUser = null!;
 
     protected override async Task OnInitializedAsync()
@@ -47,14 +41,15 @@
         if (EditTab == null)
             return;
 
-        ShowEditor = true;
+        var parameters = new ModalParameters();
+        parameters.Add("Tab", EditTab);
+
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", parameters, new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
     }
 
     async Task SpeakAsync(byte[] audio)
     {
         await JS.InvokeVoidAsync("speak", Convert.ToBase64String(audio));
     }
-
-    void CloseEditor() => ShowEditor = false;
 }
 

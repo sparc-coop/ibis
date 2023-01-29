@@ -15,17 +15,7 @@
     @if (IsSpeak)
     {
         <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_1473_31872)">
-                    <path d="M6 12C2.6862 12 0 9.3138 0 6C0 2.6862 2.6862 0 6 0C9.3138 0 12 2.6862 12 6C12 9.3138 9.3138 12 6 12ZM6 10.8C7.27304 10.8 8.49394 10.2943 9.39411 9.39411C10.2943 8.49394 10.8 7.27304 10.8 6C10.8 4.72696 10.2943 3.50606 9.39411 2.60589C8.49394 1.70571 7.27304 1.2 6 1.2C4.72696 1.2 3.50606 1.70571 2.60589 2.60589C1.70571 3.50606 1.2 4.72696 1.2 6C1.2 7.27304 1.70571 8.49394 2.60589 9.39411C3.50606 10.2943 4.72696 10.8 6 10.8ZM6 7.8C5.52261 7.8 5.06477 7.61036 4.72721 7.27279C4.38964 6.93523 4.2 6.47739 4.2 6C4.2 5.52261 4.38964 5.06477 4.72721 4.72721C5.06477 4.38964 5.52261 4.2 6 4.2C6.47739 4.2 6.93523 4.38964 7.27279 4.72721C7.61036 5.06477 7.8 5.52261 7.8 6C7.8 6.47739 7.61036 6.93523 7.27279 7.27279C6.93523 7.61036 6.47739 7.8 6 7.8Z" fill="white" />
-                </g>
-                <defs>
-                    <clipPath id="clip0_1473_31872">
-                        <rect width="12" height="12" fill="white" />
-                    </clipPath>
-                </defs>
-            </svg>
-
+            <RecordIcon />
             @(IsListening ? "Recording..." : "Record")
         </button>
     }
@@ -126,6 +116,16 @@
 
     async Task BeginListeningAsync()
     {
+        if (Me?.Dialect == null)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Tab", "Voice");
+            var modal = Modal.Show<Onboarding.Index>("Edit Your Avatar", parameters, new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+            var result = await modal.Result;
+            if (result.Data is UserAvatar avatar && avatar.Dialect == null)
+                return;
+        }
+
         IsListening = true;
         StateHasChanged();
 

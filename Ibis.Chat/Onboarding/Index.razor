@@ -1,6 +1,5 @@
-﻿@layout EmptyLayout
+﻿@inherits SparcModal
 
-<div tabindex="0" class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
 <div class="onboarding">
     @if (User != null)
     {
@@ -41,15 +40,17 @@
 @code {
     [Parameter] public string? Tab { get; set; }
     List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
-    [CascadingParameter] public UserAvatar? User { get; set; }
+    public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
-    private ElementReference userOverlay;
+    ElementReference? userOverlay;
 
     void SetTab(string tab) => Tab = tab;
     void GoToVoice() => Tab = "Voice";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        User = await Api.GetUserAsync();
+
         if (User == null)
             return;
 
@@ -63,16 +64,14 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-
-            await jsRuntime.InvokeVoidAsync("SetFocusToElement", userOverlay);
-        }
+        if (firstRender && userOverlay.HasValue)
+            await userOverlay.Value.FocusAsync();
     }
 
     async Task Done()
     {
-        await OnDone.InvokeAsync();
+        var user = await Api.GetUserAsync();
+        await Ok(user);
     }
 
     public async Task Close(KeyboardEventArgs e)

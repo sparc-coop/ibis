@@ -76,7 +76,7 @@
         }
     }
 
-    async Task CloseFromOverlay() => IsSelecting = false;
+    void CloseFromOverlay() => IsSelecting = false;
 
     void Close(KeyboardEventArgs e)
     {

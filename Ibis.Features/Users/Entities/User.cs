@@ -81,7 +81,9 @@ public class User : BlossomUser
 
         Avatar.Language = language.Id;
         Avatar.LanguageIsRTL = language.IsRightToLeft;
-        Avatar.Voice = voice?.ShortName ?? null;
+        Avatar.Voice = voice?.ShortName;
+        Avatar.Dialect = voice?.Locale;
+        Avatar.Gender = voice?.Gender;
 
         if (hasLanguageChanged)
             Broadcast(new UserLanguageChanged(Id, Avatar.Language));

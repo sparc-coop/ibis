@@ -18,6 +18,8 @@ public class UserAvatar
     public string? Pronouns { get; set; }
     public string? Description { get; set; }
     public string? Voice { get; set; }
+    public string? Gender { get; set; }
+    public string? Dialect { get; set; }
 
     public UserAvatar() : this("", "")
     {

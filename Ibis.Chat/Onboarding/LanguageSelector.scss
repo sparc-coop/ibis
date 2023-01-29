@@ -13,10 +13,12 @@
         .overlay {
             display: none;
         }
+
         ul {
             position: static;
             transform: none;
             width: 100%;
+            max-width: none;
         }
     }
 }

@@ -63,11 +63,6 @@
                 @Body
             </main>
         </div>
-
-        @if (ShowOnboarding)
-        {
-            <Ibis.Chat.Onboarding.Index OnDone="CloseOnboarding" />
-        }
     </CascadingValue>
 </RealtimeHub>
 
@@ -77,7 +72,6 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    bool ShowOnboarding;
     string HubUrl => Config["Blossom:Authority"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
@@ -94,12 +88,10 @@
 
     void OpenMenu() => ShowMenu = !ShowMenu;
 
-    void CloseOnboarding() => ShowOnboarding = false;
-
     void EditAvatar()
     {
         ShowMenu = false;
-        ShowOnboarding = true;
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
     }
 
     bool isUserBeingGot;
@@ -111,8 +103,11 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Voice == null)
-                ShowOnboarding = true;
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
             StateHasChanged();
             isUserBeingGot = false;
         }
@@ -122,7 +117,7 @@
 
     private async Task Logout()
     {
-        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider).LogoutAsync();
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
     }
 
     void KeyboardMenu(KeyboardEventArgs e)

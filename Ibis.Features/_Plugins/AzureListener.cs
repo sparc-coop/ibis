@@ -21,13 +21,16 @@ public class AzureListener : IListener
         Publisher = publisher;
     }
 
-    public async Task<string> BeginListeningAsync()
+    public async Task<string> BeginListeningAsync(Dialect? dialect)
     {
         var audioStream = new VoiceAudioStream();
         var audioFormat = AudioStreamFormat.GetWaveFormatPCM(16000, 16, 1);
         var audioConfig = AudioConfig.FromStreamInput(audioStream);
         var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "southcentralus");
-        speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
+        if (dialect != null)
+            speechConfig.SpeechRecognitionLanguage = $"{dialect.Language}-{dialect.Locale}";
+        
+        //speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
         var speechClient = new SpeechRecognizer(speechConfig, audioConfig);
 
         speechClient.SessionStarted += SpeechClient_SessionStarted;

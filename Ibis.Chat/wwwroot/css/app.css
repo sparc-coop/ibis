@@ -22,6 +22,9 @@
 .landing h1:focus {
   outline: none;
 }
+.landing h1:focus-visible {
+  box-shadow: none;
+}
 .landing a.btn-primary {
   padding: 21px 53px;
   border: none;
@@ -3231,15 +3234,10 @@ main {
 .onboarding {
   background: #FFFFFF;
   height: 80vh;
-  width: 50%;
+  width: 50vw;
   max-width: 736px;
   padding: 20px 4vw;
-  border-radius: 16px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10000;
+  position: relative;
 }
 .onboarding header {
   padding: 12px 0;
@@ -3349,27 +3347,32 @@ main {
   position: static;
   transform: none;
   width: 100%;
+  max-width: none;
 }
 
 .voice-selector {
   height: 100%;
 }
-.voice-selector h4 {
-  padding-top: 8px;
+.voice-selector h3 {
   color: #364150;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
+  margin: 16px 0;
 }
-.voice-selector .voice-list {
-  overflow-y: scroll;
+.voice-selector h4 {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.voice-selector ul {
+  overflow-y: auto;
   overflow-x: hidden;
-  height: 58%;
+  max-height: 40%;
   padding-right: 10px;
 }
-.voice-selector .voice-list ul li {
+.voice-selector ul li {
   display: flex;
   position: relative;
-  margin: 8px 0;
   padding: 10px 14px;
   border: 1px solid #D1D4DC;
   border-radius: 8px;
@@ -3378,38 +3381,64 @@ main {
   font-size: 16px;
   transition: 300ms ease-in-out;
 }
-.voice-selector .voice-list ul li aside {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
+.voice-selector ul li aside {
   position: absolute;
-  top: 0;
-  right: 14px;
+  bottom: 6px;
+  right: 6px;
+  font-size: 12px;
+  vertical-align: middle;
 }
-.voice-selector .voice-list ul li aside span {
+.voice-selector ul li aside span {
   margin: auto 0;
   font-size: 12px;
   color: #9BA3AF;
 }
-.voice-selector .voice-list ul li aside svg {
+.voice-selector ul li aside svg {
   width: 20px;
   height: 20px;
   margin: auto 0;
   opacity: 0.4;
 }
-.voice-selector .voice-list ul li:hover {
+.voice-selector ul li:hover {
   background: #F3F5F6;
 }
-.voice-selector .voice-list ul li.selected {
+.voice-selector ul li.selected {
   border: 1.5px solid #30C07D;
   color: #30C07D;
 }
-.voice-selector .voice-list ul li.selected aside span {
+.voice-selector ul li.selected aside span {
   color: #30C07D;
 }
-.voice-selector .voice-list ul li.selected aside svg {
+.voice-selector ul li.selected aside svg {
   fill: #30C07D;
+}
+.voice-selector ul.dialects, .voice-selector ul.genders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.voice-selector ul.dialects li, .voice-selector ul.genders li {
+  margin: 0;
+}
+.voice-selector ul.voice-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.voice-selector ul.voice-list aside {
+  top: 8px;
+}
+.voice-selector .right {
+  height: 100%;
+  padding-top: 0;
+  position: absolute;
+  top: 0;
+  right: 14px;
+}
+.voice-selector .right img {
+  width: 16px;
+  height: 16px;
+  margin: auto 0;
 }
 
 .avatar-editor {

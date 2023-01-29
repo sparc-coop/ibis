@@ -26,6 +26,10 @@ body {
         outline: none;
     }
 
+    h1:focus-visible {
+        box-shadow: none;
+    }
+
     a.btn-primary {
         padding: 21px 53px;
         border: none;

@@ -939,44 +939,6 @@
         ]
       }
     },
-    "/api/HearMessage": {
-      "post": {
-        "tags": [
-          "HearMessage"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/HearMessageResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HearMessageResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HearMessageResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
     "/api/InviteUser": {
       "post": {
         "tags": [
@@ -2097,16 +2059,6 @@
         },
         "additionalProperties": false
       },
-      "HearMessageResponse": {
-        "type": "object",
-        "properties": {
-          "sessionId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "InviteUserRequest": {
         "type": "object",
         "properties": {
@@ -2718,6 +2670,14 @@
             "nullable": true
           },
           "voice": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "dialect": {
             "type": "string",
             "nullable": true
           }

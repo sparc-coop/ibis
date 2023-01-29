@@ -8,6 +8,10 @@
 		<UserSecretsId>5e4b95a7-1ce6-4e22-b9bd-b26c96a982e3</UserSecretsId>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Content Remove="Shared\Icons\RecordIcon.razor" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.Modal" Version="7.1.0" />
@@ -22,6 +26,18 @@
 		<ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
 		<TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
 		<TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Shared\Icons\RecordIcon.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Shared\Icons\RecordIcon.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Shared\Icons\RecordIcon.razor" />
 	</ItemGroup>
 
 </Project>
