@@ -101,6 +101,11 @@
         font-size: 24px;
         z-index: 10001;
         border-radius: 8px;
+
+        aside {
+            color: $grey-300;
+            font-size: 14px;
+        }
     }
 
     > footer {

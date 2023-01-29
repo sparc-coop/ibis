@@ -45,7 +45,14 @@
     @if (IsListening)
     {
         <div class="message-subtitles">
-            @TextPreview
+            @if (string.IsNullOrWhiteSpace(TextPreview))
+            {
+                <aside>Listening...</aside>
+            }
+            else
+            {
+                <span>@TextPreview</span>
+            }
         </div>
     }
 
@@ -194,6 +201,8 @@
         AudioChannel?.Writer.Complete();
         objRef = null;
         IsListening = false;
+        TextPreview = null;
+
         StateHasChanged();
 
         await TextArea.FocusAsync();
