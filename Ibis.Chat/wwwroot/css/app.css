@@ -2390,26 +2390,6 @@ main {
   top: 16px;
   right: 16px;
 }
-.message-card .message-subtitles span {
-  display: inline-block;
-  padding: 4px 2px;
-  border-radius: 4px;
-}
-.message-card.playing .message-subtitles span {
-  opacity: 30%;
-}
-.message-card.playing .message-subtitles span.active {
-  background-color: #0A111D;
-  color: white;
-  opacity: 100%;
-  font-weight: bold;
-}
-.message-card.playing .message-text {
-  display: none;
-}
-.message-card.playing .message-text p {
-  color: #0A111D;
-}
 
 .subroom {
   margin-left: 40px;

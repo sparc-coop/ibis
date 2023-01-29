@@ -83,37 +83,6 @@
         top: 16px;
         right: 16px;
     }
-
-    .message-subtitles {
-        span {
-            display: inline-block;
-            padding: 4px 2px;
-            border-radius: 4px;
-        }
-    }
-
-    &.playing {
-        .message-subtitles {
-            span {
-                opacity: 30%;
-
-                &.active {
-                    background-color: $grey-900;
-                    color: white;
-                    opacity: 100%;
-                    font-weight: bold;
-                }
-            }
-        }
-
-        .message-text {
-            display: none;
-
-            p {
-                color: $grey-900;
-            }
-        }
-    }
 }
 
 .subroom {

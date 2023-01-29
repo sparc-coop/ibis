@@ -97,7 +97,7 @@ public class Message : Root<string>
 
         var audio = await engine.SpeakAsync(this, voiceId);
 
-        if (Audio == null)
+        if (audio != null)
         {
             Audio = audio;
             Broadcast(new MessageAudioChanged(this));

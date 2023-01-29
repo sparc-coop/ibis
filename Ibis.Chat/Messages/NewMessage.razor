@@ -163,8 +163,7 @@
             parameters.Add("Tab", "Voice");
             var modal = Modal.Show<Onboarding.Index>("Edit Your Avatar", parameters, new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
             var result = await modal.Result;
-            if (result.Data is UserAvatar avatar && avatar.Dialect == null)
-                return;
+            return;
         }
 
         objRef = DotNetObjectReference.Create(this);

@@ -2,7 +2,7 @@
 
 @if (Message != null)
 {
-    <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="  Play">
+    <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play">
         <PlayIcon />
 
         @if (MessagePlaying != null)
@@ -64,6 +64,7 @@
             {
                 AudioTimer.Stop();
                 AudioOffset = null;
+                MessagePlaying = null;
             }
             else
             {
