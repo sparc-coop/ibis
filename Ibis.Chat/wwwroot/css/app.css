@@ -1596,7 +1596,9 @@ main {
   grid-template-columns: auto 300px;
   grid-template-rows: 40px auto;
   gap: 24px;
-  margin: 0 6vw;
+  padding: 0 6vw;
+  margin: 0 auto;
+  max-width: 1920px;
   padding-top: 10px;
   /* The switch - the box around the slider */
   /* The slider */
@@ -2491,6 +2493,11 @@ main {
   color: #003B5F;
   border: 1px solid #003B5F;
 }
+.new-message > button aside {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 400;
+}
 .new-message textarea {
   height: 105px;
   padding: 24px 150px 24px 60px;
@@ -2508,6 +2515,20 @@ main {
 }
 .new-message.editing textarea {
   padding-right: 200px;
+}
+.new-message .message-subtitles {
+  position: fixed;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 16px;
+  background-color: #0A111D;
+  color: white;
+  font-size: 24px;
+  z-index: 10001;
+  border-radius: 8px;
 }
 .new-message > footer {
   border-top: 1px solid #e6e6e6;

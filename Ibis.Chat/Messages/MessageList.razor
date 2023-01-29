@@ -102,7 +102,6 @@
 
     async Task DeleteMessage(Message message)
     {
-        Console.WriteLine("deleting " + message.Id);
         await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
     }
 

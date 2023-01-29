@@ -136,7 +136,6 @@ function getBrowserLanguage() {
 }
 
 let playAudio = function (url) {
-    console.log('playing ' + url);
     const sound = new Howl({
         src: [url]
     });

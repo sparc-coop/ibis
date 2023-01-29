@@ -85,6 +85,8 @@ public class User : BlossomUser
         Avatar.Dialect = voice?.Locale;
         Avatar.Gender = voice?.Gender;
 
+        Broadcast(new UserAvatarUpdated(Avatar));
+
         if (hasLanguageChanged)
             Broadcast(new UserLanguageChanged(Id, Avatar.Language));
     }

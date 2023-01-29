@@ -31,7 +31,6 @@ async function confirmStripe(returnUrl) {
         redirect: 'if_required'
     });
 
-    console.log(result);
     return "";
 }
 

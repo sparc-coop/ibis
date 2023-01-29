@@ -6,6 +6,23 @@
     sound.play();
 }
 
+var isListening = false;
+function enablePtt(dotNetHelper) {
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && !isListening) {
+            isListening = true;
+            return dotNetHelper.invokeMethodAsync('BeginListeningAsync', true);
+        }
+    });
+
+    document.addEventListener('keyup', e => {
+        if (e.keyCode === 17 && isListening) {
+            isListening = false;
+            return dotNetHelper.invokeMethodAsync('BeginListeningAsync', true);
+        }
+    });
+}
+
 var context;
 var recorder;
 async function beginListening(dotNet) {

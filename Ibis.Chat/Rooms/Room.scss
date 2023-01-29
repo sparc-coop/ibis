@@ -7,7 +7,9 @@
     grid-template-columns: auto 300px;
     grid-template-rows: 40px auto;
     gap: 24px;
-    margin: 0 6vw;
+    padding: 0 6vw;
+    margin: 0 auto;
+    max-width: 1920px;
     padding-top: 10px;
 
     .message-grid {

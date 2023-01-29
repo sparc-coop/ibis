@@ -11,12 +11,20 @@
     {
         <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     }
-    
+
     @if (IsSpeak)
     {
-        <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">
+        <button type="button" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
             <RecordIcon />
-            @(IsListening ? "Recording..." : "Record")
+            @if (IsListening)
+            {
+                <span>Listening...</span>
+            }
+            else
+            {
+                <span>Speak</span>
+                <aside>[hold Ctrl]</aside>
+            }
         </button>
     }
     else
@@ -29,8 +37,16 @@
         }
         <button type="submit" @onclick="SendText" aria-label="Send">
             <SendIcon />
-            @(SelectedMessage == null ? "Send" : "Save")
+            <span>@(SelectedMessage == null ? "Send" : "Save")</span>
+            <aside>[Enter]</aside>
         </button>
+    }
+
+    @if (IsListening)
+    {
+        <div class="message-subtitles">
+            @TextPreview
+        </div>
     }
 
     <footer>
@@ -56,10 +72,11 @@
     [Parameter] public EventCallback<Message?> OnDoneEditing { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
+    string? TextPreview;
     ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
-    bool LiveMode = true;
+    bool LiveMode = false;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -68,6 +85,12 @@
             Text = SelectedMessage.Text;
             await TextArea.FocusAsync();
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await JS.InvokeAsync<DotNetObjectReference<NewMessage>>("enablePtt", DotNetObjectReference.Create(this));
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)
@@ -114,8 +137,19 @@
     DotNetObjectReference<NewMessage>? objRef;
     bool IsListening;
 
-    async Task BeginListeningAsync()
+    [JSInvokable]
+    public async Task BeginListeningAsync(bool liveMode)
     {
+        if (AudioStartTime != null)
+        {
+            await StopListeningAsync();
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Text))
+            return;
+
+        LiveMode = liveMode;
         if (Me?.Dialect == null)
         {
             var parameters = new ModalParameters();
@@ -126,31 +160,27 @@
                 return;
         }
 
-        IsListening = true;
-        StateHasChanged();
-
-        if (AudioStartTime != null)
-        {
-            await StopListeningAsync();
-            return;
-        }
-
         objRef = DotNetObjectReference.Create(this);
         AudioStartTime = DateTime.UtcNow;
         AudioChannel = Channel.CreateUnbounded<byte[]>(); ;
         await JS.InvokeVoidAsync("beginListening", objRef);
 
+        IsListening = true;
+        StateHasChanged();
+
         On<SpeechRecognizing>(x =>
         {
-            Text = x.Text;
+            TextPreview = x.Text;
+            StateHasChanged();
         });
-        On<SpeechRecognized>(async x =>
+        On<SpeechRecognized>(x =>
         {
-            Text = x.Text;
-            if (LiveMode)
-                await SendText();
-            else
-                await StopListeningAsync();
+            if (TextPreview != null)
+            {
+                Text += " " + x.Text;
+                TextPreview = null;
+            }
+            StateHasChanged();
         });
 
         if (Hub?.State == HubConnectionState.Connected)
@@ -165,6 +195,8 @@
         objRef = null;
         IsListening = false;
         StateHasChanged();
+
+        await TextArea.FocusAsync();
     }
 
     [JSInvokable]
