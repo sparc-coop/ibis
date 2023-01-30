@@ -2046,11 +2046,12 @@ main {
 .blazored-modal .bm-close {
   color: #9BA3AF;
 }
-.blazored-modal .invite-search {
+.blazored-modal .invite-search label {
   display: flex;
   justify-content: space-between;
   column-gap: 16px;
   margin: 6px 0 24px;
+  align-items: center;
 }
 .blazored-modal .invite-search input {
   border: 1px solid #D1D4DC;
@@ -2061,6 +2062,12 @@ main {
   line-height: 120%;
   width: 67%;
 }
+.blazored-modal .invite-search aside {
+  display: block;
+  color: #6A7280;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
 .blazored-modal .invite-search ::placeholder {
   color: #6A7280;
 }
@@ -2068,12 +2075,6 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.blazored-modal .invite-search button {
-  color: #003B5F;
-  background: #FFFFFF;
-  border: 1px solid #003B5F;
-  font-weight: 400;
 }
 .blazored-modal .invite-users {
   margin-bottom: 45px;

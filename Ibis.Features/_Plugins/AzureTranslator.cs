@@ -68,6 +68,16 @@ public class AzureTranslator : ITranslator
         return await TranslateAsync(message, message.Language, toLanguages);
     }
 
+    public async Task<string?> TranslateAsync(string text, string fromLanguage, string toLanguage)
+    {
+        var language = await GetLanguageAsync(toLanguage);
+        if (language == null)
+            throw new ArgumentException($"Language {toLanguage} not found");
+        var message = new Message("", User.System, text);
+        var result = await TranslateAsync(message, fromLanguage, new() { language });
+        return result?.FirstOrDefault()?.Text;
+    }
+
     public async Task<List<Language>> GetLanguagesAsync()
     {
         var result = await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");

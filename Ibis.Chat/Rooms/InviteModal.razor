@@ -1,10 +1,17 @@
 ﻿@inherits SparcModal
 
 <div class="invite-block">
-    <label>Invite Room Members</label>
     <div class="invite-search">
-        <input placeholder="Email" @bind="InviteEmail" @ref=EmailInput />
-        <button @onclick="SendInvite" class="primary">Add Member</button>
+        <label>
+            Email Address
+            <input placeholder="Email" @bind="InviteEmail" @ref=EmailInput />
+        </label>
+        <label>
+            Native Language
+            <input @bind="InviteLanguage" />
+        </label>
+        <aside>Don't know their preferred language? You can skip this, and they can choose their language when they accept the invite.</aside>
+        <button @onclick="SendInvite" class="primary">Send the Invite</button>
     </div>
     <div class="invite-users">
         <h5>Participants</h5>
@@ -13,8 +20,6 @@
             <Avatar User="user" />
         }
     </div>
-    
-    <button @onclick=Done class="done">Done</button>
 </div>
 
 
@@ -24,6 +29,7 @@
     ElementReference EmailInput;
 
     string? InviteEmail;
+    string? InviteLanguage;
     List<string> NewEmails = new List<string>();
 
     protected override void OnInitialized()
@@ -31,12 +37,17 @@
         Users = Room.Users.ToList();
     }
 
+    void ChangeLanguage(string language)
+    {
+        InviteLanguage = language;
+    }
+
     async Task SendInvite()
     {
         if (!string.IsNullOrWhiteSpace(InviteEmail))
         {
             NewEmails.Add(InviteEmail);
-            var newUser = await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail });
+            var newUser = await Api.InviteUserAsync(new InviteUserRequest { RoomId = Room.RoomId, Email = InviteEmail, Language = InviteLanguage });
             Users.Add(newUser);
             InviteEmail = "";
             await EmailInput.FocusAsync();

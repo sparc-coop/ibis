@@ -20,10 +20,13 @@
     }
 
     .invite-search {
-        display: flex;
-        justify-content: space-between;
-        column-gap: 16px;
-        margin: 6px 0 24px;
+        label {
+            display: flex;
+            justify-content: space-between;
+            column-gap: 16px;
+            margin: 6px 0 24px;
+            align-items: center;
+        }
 
         input {
             border: 1px solid $grey-300;
@@ -35,6 +38,13 @@
             width: 67%;
         }
 
+        aside {
+            display: block;
+            color: $grey-500;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
         ::placeholder {
             color: $grey-500;
         }
@@ -43,13 +53,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        button {
-            color: $dark-blue;
-            background: $white;
-            border: 1px solid $dark-blue;
-            font-weight: 400;
         }
     }
 
