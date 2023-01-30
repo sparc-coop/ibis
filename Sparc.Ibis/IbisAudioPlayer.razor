@@ -22,6 +22,7 @@
 @code {
     [Parameter] public Message? Message { get; set; }
     [Parameter] public IList<Message>? Messages { get; set; }
+    [Parameter] public bool? AutoPlay { get; set; }
     Message? MessagePlaying;
 
     long? AudioOffset;
@@ -31,6 +32,12 @@
     {
         if (Message != null)
             Messages = new List<Message> { Message };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AutoPlay == true)
+            await Play();
     }
 
     async Task Play()

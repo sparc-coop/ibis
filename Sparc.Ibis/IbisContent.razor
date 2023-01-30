@@ -20,7 +20,7 @@
             </ul>
         }
         <IbisLanguageSelector SelectedLanguage="@_selectedLanguage" OnLanguageSelected="ChangeMessageLanguage" />
-        <IbisAudioPlayer Message="LocalMessage" />
+        <IbisAudioPlayer Message="LocalMessage" AutoPlay="@AutoPlay" />
         <figure>
             <img src="https://ibis.chat/images/logo_icon.png" alt="Ibis logo" />
             <figcaption>Ibis</figcaption>
@@ -51,6 +51,7 @@
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool AutoPlay { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
 
     Message LocalMessage = new();

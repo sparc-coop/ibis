@@ -2680,6 +2680,10 @@
           "dialect": {
             "type": "string",
             "nullable": true
+          },
+          "hearOthers": {
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false

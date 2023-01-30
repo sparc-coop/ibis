@@ -2965,6 +2965,9 @@ namespace Sparc.Ibis
         [Newtonsoft.Json.JsonProperty("dialect", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Dialect { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("hearOthers", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? HearOthers { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
