@@ -7,9 +7,10 @@ public class UserBilling
         Currency = "USD";
     }
     
-    public UserBilling(string customerId, string currency)
+    public UserBilling(string customerId, long ticksBalance, string currency)
     {
         CustomerId = customerId;
+        TicksBalance = ticksBalance;
         Currency = currency;
     }
 

@@ -33,7 +33,7 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
                 Name = user.Avatar.Name,
                 Metadata = new() { { "IbisUserId", user.Id } }
             });
-            user.SetUpBilling(customer.Id, request.Currency);
+            user.SetUpBilling(customer.Id, 6000000000, request.Currency);
             await Users.UpdateAsync(user);
         }
 
@@ -53,9 +53,22 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
         var selectedAmount = request.Amount == 0 ? amounts.First() : request.Amount;
         var selectedPackage = packages.First(x => x.Amount == selectedAmount);
 
+        var options = new PaymentIntentListOptions
+        {
+            Customer = user.BillingInfo.CustomerId
+        };
+
         var paymentIntentService = new PaymentIntentService();
+        StripeList<PaymentIntent> paymentIntents = paymentIntentService.List(options);
+
         var paymentIntent = request.Id != null
             ? await paymentIntentService.UpdateAsync(request.Id, new()
+            {
+                Amount = StripePaymentIntentExtensions.StripeAmount(selectedAmount, request.Currency),
+                Metadata = new() { { "Ticks", selectedPackage.Ticks.ToString() } }
+            })
+            : paymentIntents.Data.Count > 0
+            ? await paymentIntentService.UpdateAsync(paymentIntents.Where(x => x.Status != "succeeded").FirstOrDefault().Id, new()
             {
                 Amount = StripePaymentIntentExtensions.StripeAmount(selectedAmount, request.Currency),
                 Metadata = new() { { "Ticks", selectedPackage.Ticks.ToString() } }
@@ -75,6 +88,4 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
 
         return new(paymentIntent.ClientSecret, paymentIntent.FormattedAmount(), paymentIntent.Id, paymentIntent.Currency, packages);
     }
-
-
 }

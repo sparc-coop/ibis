@@ -3220,12 +3220,17 @@ main {
   color: var(--primary-500);
   border: 1px solid var(--primary-500);
 }
-.add-funds-modal ul li:hover button, .add-funds-modal ul li.selected button {
+.add-funds-modal ul li {
+  padding: 6px;
+}
+.add-funds-modal ul li:hover, .add-funds-modal ul li.selected {
   background-color: var(--primary-500);
   color: white;
-}
-.add-funds-modal ul li:hover button, .add-funds-modal ul li:hover input, .add-funds-modal ul li.selected button, .add-funds-modal ul li.selected input {
   cursor: pointer;
+  border-radius: 4px;
+}
+.add-funds-modal .show-balance {
+  padding: 0 0 30px 0;
 }
 .add-funds-modal form {
   display: flex;
