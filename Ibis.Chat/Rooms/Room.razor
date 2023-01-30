@@ -62,10 +62,15 @@
         });
     }
 
-    async Task DownloadAudio()
+    async Task DownloadAudio(string languageId)
     {
-        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId, Language = User.Language });
-        await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
+        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadAudioContent", new Dictionary<string, string>
+        {
+            { "roomId", RoomInfo!.RoomId },
+            { "language", languageId ?? User.Language }
+        });
+        
+        await JS.InvokeVoidAsync("open", url, "_blank");
     }
 
     async Task DownloadTranscript(string languageId)

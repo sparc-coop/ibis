@@ -338,6 +338,75 @@
         ]
       }
     },
+    "/api/DownloadAudioContent": {
+      "post": {
+        "tags": [
+          "DownloadAudioContent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DownloadAudioRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DownloadAudioRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DownloadAudioRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
+      }
+    },
     "/api/DownloadRoomContent": {
       "post": {
         "tags": [
@@ -1815,6 +1884,20 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadAudioRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
