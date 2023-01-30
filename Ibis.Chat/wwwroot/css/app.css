@@ -1274,6 +1274,15 @@
 .main-layout > header nav li button:hover {
   background: #EEF4FA;
 }
+.main-layout > header nav li a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border-width: 0;
+  transition: 300ms ease-in-out;
+}
+.main-layout > header nav li a:hover {
+  background: #EEF4FA;
+}
 .main-layout > header nav li .logout {
   color: #FF3520;
 }
