@@ -1,6 +1,8 @@
 ﻿using Ibis._Plugins;
+using Markdig.Syntax;
 using Microsoft.AspNetCore.Identity;
 using Sparc.Ibis;
+using System.Reflection.Metadata;
 
 namespace Ibis.Users;
 
@@ -37,6 +39,20 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
             var invitingUser = await Users.GetAsync(User);
             var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
             var exampleTranslation = "Your friend";
+            var guessSentence = await Translator.TranslateAsync("Guess what...", "en", request.Language);
+            var invitationSentence = await Translator.TranslateAsync("has invited you to join them on Ibis!", "en", request.Language); ;
+            var joinSentence = await Translator.TranslateAsync("Click the button below to join them now", "en", request.Language); ;
+            var joinButton = await Translator.TranslateAsync("Join", "en", request.Language); ;
+            var questionSentence = await Translator.TranslateAsync("What is Ibis?", "en", request.Language); ;
+            var explanationSentence = await Translator.TranslateAsync("Ibis enables you to communicate in *your* language and communication style.", "en", request.Language); ;
+            var learnButton = await Translator.TranslateAsync("Learn More", "en", request.Language); ;
+            var helpQuestion = await Translator.TranslateAsync("Need help joining? Questions about accounts or billing?", "en", request.Language); ;
+            var helpSentence = await Translator.TranslateAsync("We're here to help. Our customer service reps are available most of the time.", "en", request.Language); ;
+            var contactUs = await Translator.TranslateAsync("Contact Us", "en", request.Language); ;
+            var unsubscribe = await Translator.TranslateAsync("Unsubscribe", "en", request.Language); ;
+            var unsubscribePreferences = await Translator.TranslateAsync("Unsubscribe Preferences", "en", request.Language); ;
+            var powered = await Translator.TranslateAsync("POWERED BY IBIS", "en", request.Language); ;
+
 
             if (user == null)
             {
@@ -61,10 +77,23 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
             {
                 RoomName = room.Name,
                 InvitingUser = invitingUser?.Avatar.Name ?? exampleTranslation,
-                RoomLink =  roomLink
+                RoomLink =  roomLink,
+                GuessSentence = guessSentence,
+                InvitationSentence = invitationSentence,
+                JoinSentence = joinSentence,
+                JoinButton = joinButton,
+                QuestionSentence = questionSentence,
+                ExplanationSentence = explanationSentence,
+                LearnButton = learnButton,
+                HelpQuestion = helpQuestion,
+                HelpSentence = helpSentence,
+                ContactUs = contactUs,
+                Unsubscribe = unsubscribe,
+                UnsubscribePreferences = unsubscribePreferences,
+                Powered = powered
             };
 
-            await Twilio.SendEmailTemplateAsync(request.Email, "d-f6bdbef00daf4780adb9ec3816193237", templateData);
+            await Twilio.SendEmailTemplateAsync(request.Email, "d-24b6f07e97a54df2accc40a9789c0e23", templateData);
 
             return user.Avatar;
 
