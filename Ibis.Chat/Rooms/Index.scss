@@ -6,18 +6,34 @@
     padding: 40px;
     max-width: 1140px;
 
+    @media screen and (max-width: 550px) {
+        padding-top: 0;
+    }
+
     .actions {
         padding: 32px 0px;
+
+        @media screen and (max-width: 550px) {
+            padding-top: 16px;
+        }
 
         .header, .search {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            @media screen and (max-width: 550px) {
+                display: block;
+            }
         }
 
         .header {
             margin-bottom: 18px;
             position: relative;
+
+            @media screen and (max-width: 550px) {
+                margin-bottom: 32px;
+            }
 
             .add {
                 display: flex;
@@ -43,9 +59,14 @@
             align-items: center;
             justify-content: space-between;
 
+            @media screen and (max-width: 550px) {
+                display: block;
+            }
+
             .searchbar {
                 width: 100%;
                 max-width: 480px;
+                position: relative;
             }
 
             ::placeholder {
@@ -85,6 +106,10 @@
                 width: 118px;
                 height: 44px;
                 box-sizing: border-box;
+
+                @media screen and (max-width: 550px) {
+                    margin-top: 16px;
+                }
 
                 .grid {
                     padding: 8px 11px;
@@ -193,7 +218,7 @@
         h3 {
             margin: 16px 0 24px;
         }
-        
+
         h4 {
             text-align: left;
             font-size: 16px;

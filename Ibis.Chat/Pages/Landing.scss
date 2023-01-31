@@ -19,6 +19,20 @@ body {
             top: 5px;
             right: 60px;
         }
+
+        @media only screen and (max-width: 760px) {
+            top: 85px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+        }
+
+        @media only screen and (max-width: 500px) {
+            top: 25px;
+            left: auto;
+            right: 30px;
+            transform: translateX(0);
+        }
     }
 }
 
@@ -120,6 +134,10 @@ body {
                     transform: scale(103%);
                 }
             }
+
+            @media screen and (max-width: 500px) {
+                display: none;
+            }
         }
 
         &.mobile {
@@ -166,6 +184,15 @@ body {
             .get-started {
                 padding: 21px 53px;
                 font-size: 20px;
+            }
+
+            @media screen and (max-width: 475px) {
+                display: block;
+
+                button {
+                    display: block;
+                    margin: 8px auto;
+                }
             }
         }
 
@@ -738,7 +765,7 @@ body {
 
         .hero {
             margin: 0;
-            padding: 100px 0;
+            padding: 150px 0;
 
             .description {
                 width: 400px;
