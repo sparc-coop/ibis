@@ -4,10 +4,16 @@
 <div class="add-funds-modal">
     @if (PaymentIntent != null)
     {
+        @if(Balance != null)
+        {
+            <div class="show-balance">
+                Current balance: @Math.Floor(Balance.Value.TotalMinutes).ToString("N0") min
+            </div>
+        }
         <ul>
             @foreach (var amount in PaymentIntent.Amounts)
             {
-                <li class="@(SelectedPackage == amount ? "selected" : "")" @onclick="(() => ChoosePackage(amount))">
+                <li class="@(SelectedPackage?.Amount == amount.Amount ? "selected" : "")" @onclick="(() => ChoosePackage(amount))">
                     <header>@amount.Amount.ToString("C0")</header>
                     <aside>@TimeSpan.FromTicks(amount.Ticks).TotalMinutes minutes</aside>
                 </li>
@@ -29,15 +35,17 @@
 
 @code {
     [Parameter] public string? PaymentIntentClientSecret { get; set; }
-
     List<double> Amounts = new();
     TicksPackage? SelectedPackage;
     PaymentIntentResponse? PaymentIntent;
+    TimeSpan? Balance;
 
     protected override async Task OnInitializedAsync()
     {
         var ri = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
         PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = 0, Currency = ri.ISOCurrencySymbol });
+        var ticks = await Api.GetUserBalanceAsync();
+        Balance = TimeSpan.FromTicks(ticks);
     }
 
     async Task ChoosePackage(TicksPackage package)

@@ -127,7 +127,7 @@ public class User : BlossomUser
 
     internal void SetUpBilling(string customerId, string currency)
     {
-        BillingInfo = new(customerId, currency);
+        BillingInfo.SetUpCustomer(customerId, currency);
     }
 
     internal void GoOnline(string connectionId)
