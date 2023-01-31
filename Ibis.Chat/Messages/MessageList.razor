@@ -1,12 +1,21 @@
 ﻿@inherits RealtimeComponent
 
 <div class="message-grid">
-    <div class="message-list ibis-ignore" id="room-@Room.RoomId">
-        @foreach (var message in Messages)
-        {
-            <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
-        }
-    </div>
+    @if (Messages != null)
+    {
+        <div class="message-list ibis-ignore" id="room-@Room.RoomId">
+            @foreach (var message in Messages)
+            {
+                <MessageCard Message="message" PlayMessage="@PlayMessage" OnEdit=SelectMessage OnDelete=DeleteMessage />
+            }
+            @if (!Messages.Any())
+            {
+                <aside>
+                    --- Start the conversation by typing or speaking below. ---
+                </aside>
+            }
+        </div>
+    }
     <NewMessage Room="Room" SelectedMessage="SelectedMessage" OnDoneEditing=DoneEditing />
 </div>
 
@@ -15,9 +24,10 @@
     [Parameter] public UserAvatar? User { get; set; }
     [Parameter] public string? Language { get; set; }
 
-    List<Message> Messages = new();
+    List<Message>? Messages;
     Message? SelectedMessage;
     bool HasNewMessage;
+    string? PlayMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,7 +47,9 @@
 
     async Task GetMessagesAsync(UserLanguageChanged evt)
     {
-        Messages.Clear();
+        if (Messages != null)
+            Messages.Clear();
+        
         await InvokeAsync(StateHasChanged);
 
         var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
@@ -87,6 +99,8 @@
         {
             Messages.Add(message);
             HasNewMessage = true;
+            PlayMessage = message.Id;
+            Console.WriteLine($"HasNewMessage {PlayMessage}");
         }
     }
 

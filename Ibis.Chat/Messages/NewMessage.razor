@@ -63,7 +63,7 @@
     </div>
 
     <footer>
-        <button class="action" @onclick="ShowUploadModal" title="Upload file">
+        @*<button class="action" @onclick="ShowUploadModal" title="Upload file">
             <UploadIcon />
             Upload a file
         </button>
@@ -74,6 +74,10 @@
         <button class="action">
             <PhoneIcon />
             Connect via Phone
+        </button>*@
+        <button class="action @(Me?.MuteMe == true ? "selected" : "")" @onclick:stopPropagation=true @onclick:preventDefault="true" @onclick="MuteMe">
+            <Ibis.Chat.Shared.Icons.UserVoice />
+            @((Me?.MuteMe == null || Me?.MuteMe == false) ? "Hear myself" : "Mute myself")
         </button>
     </footer>
     @*@if(ShowMobileActions)
@@ -103,6 +107,7 @@
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     string? TextPreview;
+    string? Dialect;
     ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
@@ -116,12 +121,25 @@
             Text = SelectedMessage.Text;
             await TextArea.FocusAsync();
         }
+
+        if (Dialect == null && Me != null)
+        {
+            Dialect = Me.Dialect;
+            await On<UserAvatarUpdated>(Me!.Id, x => Dialect = x.Avatar.Dialect);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
             await JS.InvokeAsync<DotNetObjectReference<NewMessage>>("enablePtt", DotNetObjectReference.Create(this));
+    }
+
+    async Task MuteMe()
+    {
+        Me!.MuteMe ??= false;
+        Me!.MuteMe = !Me.MuteMe;
+        await Api.UpdateUserAsync(Me);
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)
@@ -181,7 +199,7 @@
             return;
 
         LiveMode = liveMode;
-        if (Me?.Dialect == null)
+        if (Dialect == null)
         {
             var parameters = new ModalParameters();
             parameters.Add("Tab", "Voice");

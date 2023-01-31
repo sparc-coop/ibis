@@ -8,19 +8,19 @@
     Layout = "_Layout";
 }
 
-<div class="container @(Model.Message == null ? "" : "signing-in")">
+<div class="container @(Model.Email == null ? "" : "signing-in")">
     <div class="logo">
         <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
     </div>
 
-    <h2>Welcome to Ibis</h2>
+    <h2>@Model.Welcome</h2>
     <p>
-        @(Model.Message ?? "Welcome to Ibis! Please enter your email below.")
+        @Model.Message
     </p>
 
     <form method="post">
         <label>
-            Email Address
+            @Model.EmailLabel
             <input type="text" asp-for="Email" placeholder="your@email.com" />
         </label>
 
@@ -31,7 +31,7 @@
             </div>
         }
 
-        <button id="next" type="submit">Sign In</button>
+        <button id="next" type="submit">@Model.SignInButton</button>
     </form>
 </div>
 

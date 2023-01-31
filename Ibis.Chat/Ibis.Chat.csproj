@@ -8,10 +8,6 @@
 		<UserSecretsId>5e4b95a7-1ce6-4e22-b9bd-b26c96a982e3</UserSecretsId>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
-	</ItemGroup>
-
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.Modal" Version="7.1.0" />

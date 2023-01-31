@@ -2,6 +2,10 @@
   margin: 0px;
 }
 
+#blazor-error-ui {
+  display: none;
+}
+
 .ibis-meta-app .ibis-widget {
   position: fixed;
   top: 30px;
@@ -1770,6 +1774,39 @@ nav li .avatar {
     left: 92%;
   }
 }
+.dashboard .welcome {
+  margin: 40px auto;
+  text-align: center;
+  max-width: 600px;
+}
+.dashboard .welcome p {
+  margin-bottom: 16px;
+}
+.dashboard .welcome h3 {
+  margin: 16px 0 24px;
+}
+.dashboard .welcome h4 {
+  text-align: left;
+  font-size: 16px;
+  margin: 0;
+  margin-top: 24px;
+}
+.dashboard .welcome .avatar {
+  height: 72px;
+  padding: 8px;
+  justify-content: flex-start;
+  margin: 24px 0;
+  border-radius: 12px;
+  background-color: #F3F5F6;
+  text-align: left;
+}
+.dashboard .welcome .avatar svg {
+  min-width: 56px;
+}
+.dashboard .welcome .avatar:hover {
+  background: #E5E7EA;
+  cursor: pointer;
+}
 
 .room {
   display: grid;
@@ -2282,11 +2319,12 @@ nav li .avatar {
 .blazored-modal .bm-close {
   color: #9BA3AF;
 }
-.blazored-modal .invite-search {
+.blazored-modal .invite-search label {
   display: flex;
   justify-content: space-between;
   column-gap: 16px;
   margin: 6px 0 24px;
+  align-items: center;
 }
 .blazored-modal .invite-search input {
   border: 1px solid #D1D4DC;
@@ -2297,6 +2335,12 @@ nav li .avatar {
   line-height: 120%;
   width: 67%;
 }
+.blazored-modal .invite-search aside {
+  display: block;
+  color: #6A7280;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
 .blazored-modal .invite-search ::placeholder {
   color: #6A7280;
 }
@@ -2305,26 +2349,10 @@ nav li .avatar {
   justify-content: space-between;
   align-items: center;
 }
-.blazored-modal .invite-search button {
-  color: #003B5F;
-  background: #FFFFFF;
-  border: 1px solid #003B5F;
-  font-weight: 400;
-}
 .blazored-modal .invite-users {
   margin-bottom: 45px;
-}
-.blazored-modal .invite-users p.medium {
-  margin-bottom: 12px;
-}
-.blazored-modal .invite-users .user-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.blazored-modal .invite-users .user-wrapper .large {
-  font-size: 16px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 .blazored-modal .invite-users .user-wrapper .user-left {
   display: flex;
@@ -2337,11 +2365,11 @@ nav li .avatar {
   line-height: 19px;
 }
 .blazored-modal .invite-users .user-wrapper .user-right .host {
-  color: #FF3520;
+  color: #CA1E14;
   background: #FFCDAA;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
-  border: 1px solid #FF3520;
+  border: 1px solid #CA1E14;
   padding: 4px 6px;
 }
 .blazored-modal .invite-users .user-wrapper .user-right .success {
@@ -2364,16 +2392,9 @@ nav li .avatar {
   padding-bottom: 14px;
 }
 .blazored-modal .invite-users .avatar {
-  color: #364150;
-  font-weight: 500;
-  font-size: 11px;
-  width: 25px;
-  height: 25px;
-  line-height: 27px;
-  text-align: center;
-  border-radius: 45px;
-  background: #E5E7EA;
-  margin-right: 8px;
+  justify-content: flex-start;
+  height: 48px;
+  padding: 4px 0;
 }
 .blazored-modal button.secondary {
   color: #013b60;
@@ -2656,6 +2677,12 @@ nav li .avatar {
   overflow-y: auto;
   padding: 24px 0 38px 0;
   height: calc(100vh - 295px);
+}
+.message-grid .message-list > aside {
+  font-size: 14px;
+  opacity: 0.7;
+  text-align: center;
+  margin: 24px;
 }
 
 .new-message {
@@ -3362,6 +3389,8 @@ nav li .avatar {
   right: 0;
   padding: 24px;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 .avatar-list .user-invite {
   border: 1px solid #003B5F;
@@ -3384,6 +3413,28 @@ nav li .avatar {
   color: white;
 }
 .avatar-list .user-invite:hover svg path {
+  fill: white;
+}
+.avatar-list button.action {
+  border: 1px solid #003B5F;
+  border-radius: 100px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.avatar-list button.action svg {
+  height: 14px;
+  width: 14px;
+  margin-right: 0;
+  margin-top: 1px;
+}
+.avatar-list button.action.selected {
+  background-color: #003B5F;
+}
+.avatar-list button.action.selected svg path {
   fill: white;
 }
 .avatar-list .image-wrapper {
@@ -3511,8 +3562,13 @@ nav li .avatar {
 .add-funds-modal {
   font-family: "CircularStd", sans-serif;
 }
+.add-funds-modal > aside {
+  opacity: 0.7;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
 .add-funds-modal ul {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
@@ -3529,20 +3585,52 @@ nav li .avatar {
   color: var(--primary-500);
   border: 1px solid var(--primary-500);
 }
-.add-funds-modal ul li:hover button, .add-funds-modal ul li.selected button {
-  background-color: var(--primary-500);
-  color: white;
+.add-funds-modal ul li {
+  padding: 6px;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
 }
-.add-funds-modal ul li:hover button, .add-funds-modal ul li:hover input, .add-funds-modal ul li.selected button, .add-funds-modal ul li.selected input {
+.add-funds-modal ul li header {
+  font-weight: bold;
+}
+.add-funds-modal ul li:hover, .add-funds-modal ul li.selected {
+  border-color: #12B76A;
+  color: #12B76A;
   cursor: pointer;
+}
+.add-funds-modal ul.selected li {
+  display: none;
+}
+.add-funds-modal ul.selected li.selected {
+  display: flex;
+}
+.add-funds-modal .show-balance {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #F3F5F6;
+  border-radius: 12px;
 }
 .add-funds-modal form {
   display: flex;
   flex-direction: column;
 }
-.add-funds-modal form button {
+.add-funds-modal form footer {
+  display: flex;
   margin-top: 20px;
-  align-self: flex-end;
+  justify-content: space-between;
+}
+.add-funds-modal dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.add-funds-modal dl dd {
+  text-align: right;
 }
 
 .onboarding {
@@ -3871,9 +3959,9 @@ ul.colors li {
   display: flex;
   align-items: center;
   justify-content: center;
-  /*&:hover, &.selected {
-      border-color: $primary-500;
-  }*/
+}
+ul.colors li:hover, ul.colors li.selected {
+  border: 3px solid #FF3520;
 }
 ul.colors li span {
   display: block;

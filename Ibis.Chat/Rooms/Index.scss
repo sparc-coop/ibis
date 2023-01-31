@@ -180,4 +180,44 @@
             }
         }
     }
+
+    .welcome {
+        margin: 40px auto;
+        text-align: center;
+        max-width: 600px;
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        h3 {
+            margin: 16px 0 24px;
+        }
+        
+        h4 {
+            text-align: left;
+            font-size: 16px;
+            margin: 0;
+            margin-top: 24px;
+        }
+
+        .avatar {
+            height: 72px;
+            padding: 8px;
+            justify-content: flex-start;
+            margin: 24px 0;
+            border-radius: 12px;
+            background-color: $grey-100;
+            text-align: left;
+
+            svg {
+                min-width: 56px;
+            }
+
+            &:hover {
+                background: $grey-200;
+                cursor: pointer;
+            }
+        }
+    }
 }

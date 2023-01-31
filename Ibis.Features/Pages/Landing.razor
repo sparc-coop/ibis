@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@*<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">*@
+<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
     <div class="landing">
         <div class="landing--main">
             <div class="hero">
@@ -12,7 +12,7 @@
                     </p>
                 </div>
                 <div class="landing--button-container">
-                    <button @onclick="SignIn" class="get-started">Host a Chat</button>
+                    <button @onclick="SignIn" class="get-started">Launch Ibis</button>
                     <button @onclick="Pricing" class="button-pricing">Pricing</button>
                 </div>
                 <img class="hero-image--room" src="/images/landing/hero-image_room.png" alt="Example of an Ibis room, displaying messages between multiple users." />
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-@*</Sparc.Ibis.IbisContent>*@
+</Sparc.Ibis.IbisContent>
 
 @code {
     private void SignIn()

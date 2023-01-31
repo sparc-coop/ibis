@@ -2069,6 +2069,10 @@
           "roomId": {
             "type": "string",
             "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2679,6 +2683,14 @@
           },
           "dialect": {
             "type": "string",
+            "nullable": true
+          },
+          "hearOthers": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "muteMe": {
+            "type": "boolean",
             "nullable": true
           }
         },

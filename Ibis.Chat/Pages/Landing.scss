@@ -4,6 +4,10 @@ body {
     margin: 0px;
 }
 
+#blazor-error-ui {
+    display: none;
+}
+
 .ibis-meta-app {
     .ibis-widget {
         position: fixed;
