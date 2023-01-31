@@ -69,8 +69,8 @@
             <PhoneIcon />
             Connect via Phone
         </button>
-        <button class="action" @onclick="MuteMe">
-            Mute me
+        <button class="action" @onclick:stopPropagation=true @onclick:preventDefault="true" @onclick="MuteMe" title="Mute me">
+            <span>@((Me?.MuteMe == null || Me?.MuteMe == false) ? "Mute me" : "Unmute me")</span>
         </button>
     </footer>
 </form>
@@ -101,6 +101,13 @@
     {
         if (firstRender)
             await JS.InvokeAsync<DotNetObjectReference<NewMessage>>("enablePtt", DotNetObjectReference.Create(this));
+    }
+
+    async Task MuteMe()
+    {
+        Me!.MuteMe ??= false;
+        Me!.MuteMe = !Me.MuteMe;
+        await Api.UpdateUserAsync(Me);
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)

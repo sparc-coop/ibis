@@ -3,7 +3,7 @@
 
 <article tabindex="0" class="message-card ibis-ignore @(Message.DeletedDate != null ? "message-card-deleted" : "")" @onclick="GoToSubroom">
     <Avatar User="User" SpillBackground="true" />
-    <Sparc.Ibis.IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" AutoPlay="@(Message.Id == PlayMessage)" />
+    <Sparc.Ibis.IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" AutoPlay="@AutoPlay" />
 </article>
 
 @code {
@@ -12,9 +12,11 @@
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [CascadingParameter] public ICollection<UserAvatar>? RoomAvatars { get; set; }
     [Parameter] public string? PlayMessage { get; set; }
+    [CascadingParameter] public UserAvatar? Me { get; set; }
 
     UserAvatar User => RoomAvatars?.FirstOrDefault(u => u.Id == Message.User.Id) ?? Message.User;
-    
+    bool AutoPlay => Message.Id == PlayMessage && ((Message.User?.Id == Me?.Id && Me?.MuteMe == false) || (Message.User?.Id != Me?.Id && Me?.HearOthers == true));
+
     void GoToSubroom()
     {
         //if (Message != null)

@@ -120,6 +120,7 @@ public class User : BlossomUser
         Avatar.SkinTone = avatar.SkinTone;
         Avatar.Emoji = avatar.Emoji;
         Avatar.HearOthers = avatar.HearOthers;
+        Avatar.MuteMe = avatar.MuteMe;
 
         Broadcast(new UserAvatarUpdated(Avatar));
     }
