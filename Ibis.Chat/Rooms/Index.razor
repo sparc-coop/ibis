@@ -55,7 +55,7 @@
 
 @inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
-    ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
+    ICollection<GetRoomResponse>? Rooms;
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
     TimeSpan? Balance;

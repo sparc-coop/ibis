@@ -57,7 +57,7 @@
     }
 
     <footer>
-        <button class="action" @onclick="ShowUploadModal" title="Upload file">
+        @*<button class="action" @onclick="ShowUploadModal" title="Upload file">
             <UploadIcon />
             Upload a file
         </button>
@@ -68,9 +68,10 @@
         <button class="action">
             <PhoneIcon />
             Connect via Phone
-        </button>
-        <button class="action" @onclick:stopPropagation=true @onclick:preventDefault="true" @onclick="MuteMe" title="Mute me">
-            <span>@((Me?.MuteMe == null || Me?.MuteMe == false) ? "Mute me" : "Unmute me")</span>
+        </button>*@
+        <button class="action @(Me?.MuteMe == true ? "selected" : "")" @onclick:stopPropagation=true @onclick:preventDefault="true" @onclick="MuteMe">
+            <Ibis.Chat.Shared.Icons.UserVoice />
+            @((Me?.MuteMe == null || Me?.MuteMe == false) ? "Hear myself" : "Mute myself")
         </button>
     </footer>
 </form>

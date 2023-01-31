@@ -3076,6 +3076,8 @@ main {
   right: 0;
   padding: 24px;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 .avatar-list .user-invite {
   border: 1px solid #003B5F;
@@ -3098,6 +3100,28 @@ main {
   color: white;
 }
 .avatar-list .user-invite:hover svg path {
+  fill: white;
+}
+.avatar-list button.action {
+  border: 1px solid #003B5F;
+  border-radius: 100px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.avatar-list button.action svg {
+  height: 14px;
+  width: 14px;
+  margin-right: 0;
+  margin-top: 1px;
+}
+.avatar-list button.action.selected {
+  background-color: #003B5F;
+}
+.avatar-list button.action.selected svg path {
   fill: white;
 }
 .avatar-list .image-wrapper {
