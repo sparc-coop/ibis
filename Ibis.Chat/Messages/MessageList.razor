@@ -4,7 +4,7 @@
     <div class="message-list ibis-ignore" id="room-@Room.RoomId">
         @foreach (var message in Messages)
         {
-            <MessageCard Message="message" OnEdit=SelectMessage OnDelete=DeleteMessage />
+            <MessageCard Message="message" PlayMessage="@PlayMessage" OnEdit=SelectMessage OnDelete=DeleteMessage />
         }
     </div>
     <NewMessage Room="Room" SelectedMessage="SelectedMessage" OnDoneEditing=DoneEditing />
@@ -18,6 +18,7 @@
     List<Message> Messages = new();
     Message? SelectedMessage;
     bool HasNewMessage;
+    string? PlayMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,6 +88,8 @@
         {
             Messages.Add(message);
             HasNewMessage = true;
+            PlayMessage = message.Id;
+            Console.WriteLine($"HasNewMessage {PlayMessage}");
         }
     }
 

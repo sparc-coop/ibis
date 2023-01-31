@@ -45,7 +45,7 @@
     [Parameter] public string Id { get; set; } = null!;
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
     GetRoomResponse? RoomInfo;
-
+   
     protected override async Task OnInitializedAsync()
     {
 

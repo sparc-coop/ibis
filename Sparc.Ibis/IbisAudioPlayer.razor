@@ -45,6 +45,8 @@
         if (Messages?.Any() != true)
             return;
 
+        Console.WriteLine("AudioPlayer Play()");
+
         foreach (var message in Messages)
         {
             if (message.Audio?.Url == null)
@@ -59,7 +61,7 @@
     {
         if (message?.Audio?.Url == null)
             return;
-
+        
         MessagePlaying = message;
         StateHasChanged();
 
