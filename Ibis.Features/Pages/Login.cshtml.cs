@@ -53,7 +53,8 @@ public class IbisLoginModel : LoginModel
     {
         Error = null;
         Message = "Welcome to Ibis! Please enter your email below.";
-        
+        var language = RequestLanguage();
+
         if (string.IsNullOrWhiteSpace(Email) || !new EmailAddressAttribute().IsValid(Email))
         {
             Error = "Please enter a valid email address.";
@@ -61,7 +62,21 @@ public class IbisLoginModel : LoginModel
         }
 
         var user = Users.Query.FirstOrDefault(x => x.Email == Email);
-        var language = user?.PrimaryLanguage?.Id ?? RequestLanguage() ?? "en";
+        if (user == null)
+        {
+            user = new(Email);
+            if (language != null)
+            {
+                var userLanguage = await Translator.GetLanguageAsync(language);
+                if (userLanguage != null)
+                {
+                    user.ChangeVoice(userLanguage);
+                }
+            }
+            await Users.AddAsync(user);
+        }
+
+        language = user?.PrimaryLanguage?.Id ?? RequestLanguage() ?? "en";
         var link = await Authenticator.CreateMagicSignInLinkAsync(Email, ReturnUrl!);
         link = $"{Request.Scheme}://{Request.Host.Value}{link}";
 
