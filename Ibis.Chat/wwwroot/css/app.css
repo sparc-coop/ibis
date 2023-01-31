@@ -2449,6 +2449,12 @@ main {
   padding: 24px 0 38px 0;
   height: calc(100vh - 295px);
 }
+.message-grid .message-list > aside {
+  font-size: 14px;
+  opacity: 0.7;
+  text-align: center;
+  margin: 24px;
+}
 
 .new-message {
   position: absolute;

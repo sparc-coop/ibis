@@ -4,6 +4,8 @@ public class AzureTranslator : ITranslator
 {
     readonly HttpClient Client;
 
+    public static LanguageList? Languages;
+
     public AzureTranslator(IConfiguration configuration)
     {
         Client = new HttpClient
@@ -80,9 +82,9 @@ public class AzureTranslator : ITranslator
 
     public async Task<List<Language>> GetLanguagesAsync()
     {
-        var result = await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");
+        Languages ??= await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");
 
-        return result!.translation
+        return Languages!.translation
             .Select(x => new Language(x.Key, x.Value.name, x.Value.nativeName, x.Value.dir == "rtl"))
             .ToList();
     }

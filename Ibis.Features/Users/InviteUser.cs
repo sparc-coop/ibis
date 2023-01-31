@@ -1,10 +1,4 @@
-﻿using Ibis._Plugins;
-using Markdig.Syntax;
-using Microsoft.AspNetCore.Identity;
-using Sparc.Ibis;
-using System.Reflection.Metadata;
-
-namespace Ibis.Users;
+﻿namespace Ibis.Users;
 
 public record InviteUserRequest(string Email, string RoomId, string? Language);
 public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
@@ -35,35 +29,44 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
     {
         try
         {
-            var room = Rooms.Query.Where(r => r.RoomId == request.RoomId).First();
+            var room = Rooms.Query.First(r => r.RoomId == request.RoomId);
             var invitingUser = await Users.GetAsync(User);
-            var user = Users.Query.Where(u => u.Email == request.Email).FirstOrDefault();
-            var exampleTranslation = "Your friend";
-            var guessSentence = await Translator.TranslateAsync("Guess what...", "en", request.Language);
-            var invitationSentence = await Translator.TranslateAsync("has invited you to join them on Ibis!", "en", request.Language); ;
-            var joinSentence = await Translator.TranslateAsync("Click the button below to join them now", "en", request.Language); ;
-            var joinButton = await Translator.TranslateAsync("Join", "en", request.Language); ;
-            var questionSentence = await Translator.TranslateAsync("What is Ibis?", "en", request.Language); ;
-            var explanationSentence = await Translator.TranslateAsync("Ibis enables you to communicate in *your* language and communication style.", "en", request.Language); ;
-            var learnButton = await Translator.TranslateAsync("Learn More", "en", request.Language); ;
-            var helpQuestion = await Translator.TranslateAsync("Need help joining? Questions about accounts or billing?", "en", request.Language); ;
-            var helpSentence = await Translator.TranslateAsync("We're here to help. Our customer service reps are available most of the time.", "en", request.Language); ;
-            var contactUs = await Translator.TranslateAsync("Contact Us", "en", request.Language); ;
-            var unsubscribe = await Translator.TranslateAsync("Unsubscribe", "en", request.Language); ;
-            var unsubscribePreferences = await Translator.TranslateAsync("Unsubscribe Preferences", "en", request.Language); ;
-            var powered = await Translator.TranslateAsync("POWERED BY IBIS", "en", request.Language); ;
+            var user = Users.Query.FirstOrDefault(u => u.Email == request.Email);
+            var language = user?.PrimaryLanguage?.Id ?? request.Language;
+                
+            var dictionary = new Dictionary<string, string>
+            {
+                { "YourFriend", "Your friend" },
+                { "GuessSentence", "Guess what..." },
+                { "InvitationSentence", "has invited you to join them on Ibis!" },
+                { "JoinSentence", "Click the button below to join them now" },
+                { "JoinButton", "Join" },
+                { "QuestionSentence", "What is Ibis?" },
+                { "ExplanationSentence", "Ibis enables you to communicate in *your* language and communication style." },
+                { "LearnButton", "Learn More" },
+                { "HelpQuestion", "Need help joining? Questions about accounts or billing?" },
+                { "HelpSentence", "We're here to help. Our customer service reps are available most of the time." },
+                { "ContactUs", "Contact Us" },
+                { "Unsubscribe", "Unsubscribe" },
+                { "UnsubscribePreferences", "Unsubscribe Preferences" },
+                { "Powered", "POWERED BY IBIS" },
+            };
 
+            if (language != null)
+            {
+                foreach (var key in dictionary.Keys)
+                    dictionary[key] = await Translator.TranslateAsync(dictionary[key], "en", language) ?? dictionary[key];
+            }
 
             if (user == null)
             {
                 user = new(request.Email);
-                if (request.Language != null)
+                if (language != null)
                 {
-                    var language = await Translator.GetLanguageAsync(request.Language);
-                    if (language != null)
+                    var userLanguage = await Translator.GetLanguageAsync(language);
+                    if (userLanguage != null)
                     {
-                        user.ChangeVoice(language);
-                        exampleTranslation = await Translator.TranslateAsync(exampleTranslation, "en", request.Language);
+                        user.ChangeVoice(userLanguage);
                     }
                 }
                 await Users.AddAsync(user);
@@ -76,21 +79,21 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
             var templateData = new
             {
                 RoomName = room.Name,
-                InvitingUser = invitingUser?.Avatar.Name ?? exampleTranslation,
+                InvitingUser = invitingUser?.Avatar.Name ?? dictionary["YourFriend"],
                 RoomLink =  roomLink,
-                GuessSentence = guessSentence,
-                InvitationSentence = invitationSentence,
-                JoinSentence = joinSentence,
-                JoinButton = joinButton,
-                QuestionSentence = questionSentence,
-                ExplanationSentence = explanationSentence,
-                LearnButton = learnButton,
-                HelpQuestion = helpQuestion,
-                HelpSentence = helpSentence,
-                ContactUs = contactUs,
-                Unsubscribe = unsubscribe,
-                UnsubscribePreferences = unsubscribePreferences,
-                Powered = powered
+                GuessSentence = dictionary["GuessSentence"],
+                InvitationSentence = dictionary["InvitationSentence"],
+                JoinSentence = dictionary["JoinSentence"],
+                JoinButton = dictionary["JoinButton"],
+                QuestionSentence = dictionary["QuestionSentence"],
+                ExplanationSentence = dictionary["ExplanationSentence"],
+                LearnButton = dictionary["LearnButton"],
+                HelpQuestion = dictionary["HelpQuestion"],
+                HelpSentence = dictionary["HelpSentence"],
+                ContactUs = dictionary["ContactUs"],
+                Unsubscribe = dictionary["Unsubscribe"],
+                UnsubscribePreferences = dictionary["UnsubscribePreferences"],
+                Powered = dictionary["Powered"]
             };
 
             await Twilio.SendEmailTemplateAsync(request.Email, "d-24b6f07e97a54df2accc40a9789c0e23", templateData);

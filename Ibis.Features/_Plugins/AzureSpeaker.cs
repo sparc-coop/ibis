@@ -12,6 +12,7 @@ public class AzureSpeaker : ISpeaker
     readonly string SubscriptionKey;
 
     public IFileRepository<File> Files { get; }
+    public static List<Voice>? Voices;
 
     public AzureSpeaker(IConfiguration configuration, IFileRepository<File> files)
     {
@@ -92,9 +93,9 @@ public class AzureSpeaker : ISpeaker
 
     public async Task<List<Voice>> GetVoicesAsync(string? language = null, string? dialect = null, string? gender = null)
     {
-        var result = await Client.GetFromJsonAsync<List<Voice>>("/cognitiveservices/voices/list");
+        Voices ??= await Client.GetFromJsonAsync<List<Voice>>("/cognitiveservices/voices/list");
 
-        return result!
+        return Voices!
             .Where(x => language == null || x.Locale.StartsWith(language))
             .Where(x => dialect == null || x.Locale.Split("-").Last() == dialect)
             .Where(x => gender == null || x.Gender == gender)
