@@ -2,59 +2,65 @@
 @inherits RealtimeComponent
 
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
-    <Avatar User="Me" EditTab="Avatar" />
-    @if (Me?.LanguageIsRTL == false)
-    {
-        <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
-    }
-    else
-    {
-        <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
-    }
-
-    @if (IsSpeak)
-    {
-        <button type="button" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
-            <RecordIcon />
-            @if (IsListening)
-            {
-                <span>Listening...</span>
-            }
-            else
-            {
-                <span>Speak</span>
-                <aside>[hold Ctrl]</aside>
-            }
-        </button>
-    }
-    else
-    {
-        if (SelectedMessage != null)
+    <div class="new-message container">
+        <Avatar User="Me" EditTab="Avatar" />
+        @*<button type="button" class="mobile-actions "onclick="ToggleMobileActions">
+            <img src="icons/+.png" />
+        </button>*@
+        @if (Me?.LanguageIsRTL == false)
         {
-            <button type="button" class="cancel" @onclick=CancelEdit>
-                Cancel
-            </button>
+            <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
         }
-        <button type="submit" @onclick="SendText" aria-label="Send">
-            <SendIcon />
-            <span>@(SelectedMessage == null ? "Send" : "Save")</span>
-            <aside>[Enter]</aside>
-        </button>
-    }
-
-    @if (IsListening)
-    {
-        <div class="message-subtitles">
-            @if (string.IsNullOrWhiteSpace(TextPreview))
+        else
+        {
+            <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+        }
+        <div class="send">
+            @if (IsSpeak)
             {
-                <aside>Listening...</aside>
+                <button type="button" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
+                    <RecordIcon />
+                    @if (IsListening)
+                    {
+                        <span>Listening...</span>
+                    }
+                    else
+                    {
+                        <span>Speak</span>
+                        <aside>[hold Ctrl]</aside>
+                    }
+                </button>
             }
             else
             {
-                <span>@TextPreview</span>
+                if (SelectedMessage != null)
+                {
+                    <button type="button" class="cancel" @onclick=CancelEdit>
+                        Cancel
+                    </button>
+                }
+                <button type="submit" @onclick="SendText" aria-label="Send">
+                    <SendIcon />
+                    <span>@(SelectedMessage == null ? "Send" : "Save")</span>
+                    <aside>[Enter]</aside>
+                </button>
             }
         </div>
-    }
+
+        @if (IsListening)
+        {
+            <div class="message-subtitles">
+                @if (string.IsNullOrWhiteSpace(TextPreview))
+                {
+                    <aside>Listening...</aside>
+                }
+                else
+                {
+                    <span>@TextPreview</span>
+                }
+            </div>
+        }
+    </div>
 
     <footer>
         <button class="action" @onclick="ShowUploadModal" title="Upload file">
@@ -70,9 +76,26 @@
             Connect via Phone
         </button>
     </footer>
+    @*@if(ShowMobileActions)
+    {
+        <div class="actions-mobilemenu">
+            <button class="action" @onclick="ShowUploadModal" title="Upload file">
+                <UploadIcon />
+                Upload a file
+            </button>
+            <button class="action">
+                <SmsIcon />
+                Connect via SMS
+            </button>
+            <button class="action">
+                <PhoneIcon />
+                Connect via Phone
+            </button>
+        </div>
+    }*@
 </form>
 
-@code {
+    @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     [Parameter] public string? LanguageString { get; set; }
     [Parameter] public Message? SelectedMessage { get; set; }
@@ -84,6 +107,7 @@
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
     bool LiveMode = false;
+    bool ShowMobileActions = false;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -218,5 +242,16 @@
 
         if (AudioChannel != null)
             await AudioChannel!.Writer.WriteAsync(audio);
+    }
+
+    void ToggleMobileActions()
+    {
+        if (!ShowMobileActions)
+        {
+            ShowMobileActions = true;
+        } else
+        {
+            ShowMobileActions = false;
+        }
     }
 }

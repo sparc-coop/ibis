@@ -85,11 +85,11 @@
 
             .user-right {
                 .host {
-                    color: $primary-700;
+                    color: $primary-500;
                     background: $primary-200;
                     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
                     border-radius: 16px;
-                    border: 1px solid $primary-700;
+                    border: 1px solid $primary-500;
                     padding: 4px 6px;
                 }
 
@@ -216,7 +216,7 @@
             &:hover, &.selected {
                 opacity: 1;
                 cursor: pointer;
-                border: 1px solid $primary-700;
+                border: 1px solid $primary-500;
                 border-radius: 8px;
             }
         }

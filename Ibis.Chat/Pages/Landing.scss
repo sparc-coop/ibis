@@ -34,7 +34,7 @@ body {
         padding: 21px 53px;
         border: none;
         border-radius: 5px;
-        background: $primary-700;
+        background: $primary-500;
         color: $white;
         font-size: 20px;
         transition: 200ms ease-in-out;
@@ -52,7 +52,7 @@ body {
         border: none;
         border-radius: 5px;
         background: $primary-100;
-        color: $primary-700;
+        color: $primary-500;
         font-size: 20px;
         transition: 200ms ease-in-out;
         display: inline-block;
@@ -94,17 +94,17 @@ body {
 
                 &:hover {
                     cursor: pointer;
-                    color: $primary-700;
+                    color: $primary-500;
                     transform: scale(103%);
                 }
             }
 
             a.get-started {
                 padding: 13px 37px;
-                border: 1px solid $primary-700;
+                border: 1px solid $primary-500;
                 border-radius: 5px;
                 background: transparent;
-                color: $primary-700;
+                color: $primary-500;
                 font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
@@ -378,7 +378,7 @@ body {
                     position: absolute;
                     top: 60px;
                     right: 80px;
-                    background: $primary-700;
+                    background: $primary-500;
                     font-size: 20px;
                     line-height: 24px;
                 }
@@ -565,7 +565,7 @@ body {
                         position: absolute;
                         top: 35px;
                         right: 70px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 20px;
                         line-height: 24px;
                     }
@@ -715,7 +715,7 @@ body {
                                 min-width: 200px;
                                 margin: 6px 0px 0px 45px;
                                 padding: 5px 20px;
-                                border: 1px solid $primary-700;
+                                border: 1px solid $primary-500;
                                 font-size: 16px;
                                 line-height: 20px;
                                 text-align: center;
@@ -930,7 +930,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 12px 71px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 18px;
                         line-height: 24px;
                         display: inline-block;
@@ -1143,7 +1143,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 6px 71px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 16px;
                         line-height: 24px;
                     }
@@ -1189,7 +1189,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 8px 25px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 13px;
                         line-height: 15px;
                     }

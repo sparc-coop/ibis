@@ -1,41 +1,85 @@
 @import "../_variables.scss";
 
-.nav-menu {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .nav-link {
-        color: $primary;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 5px 38px;
-        position: absolute;
-        right: 260px;
-        top: 34px;
+nav {
+    > ul {
+        display: flex;
+        align-items: center;
+        gap: 16px;
     }
 
-    .logo {
-        width: 146px;
-    }
+    li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        position: relative;
+        white-space: nowrap;
 
-    nav {
-        font-size: 20px;
-        font-weight: 400;
-    }
+        > ul {
+            position: absolute;
+            top: 170%;
+            pointer-events: none;
+            transition: top 0.2s ease-in, opacity 0.2s;
+            opacity: 0;
+            background-color: white;
+            padding: 16px;
 
-    .logout, .login {
-        color: $secondary;
-        background: none;
-        border: 1px solid $secondary;
-        font-size: 20px;
-        font-weight: 400;
-        border-radius: 4px;
-        margin-left: 30px;
-        padding: 13px 37px;
+            li {
+                padding: 8px 0;
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border-width: 0;
+            background: none;
+            color: #013b60;
+            font-weight: normal;
+            transition: 300ms ease-in-out;
+
+            > img {
+                height: 12px;
+                width: auto;
+            }
+
+            &:hover {
+                background: $secondary-200;
+            }
+        }
+
+        a {
+            padding: 8px 10px;
+            border-radius: 8px;
+            border-width: 0;
+            transition: 300ms ease-in-out;
+
+            &:hover {
+                background: $secondary-200;
+            }
+        }
+
+        .logout {
+            color: $primary-500;
+
+            &:hover {
+                background: $primary-100;
+            }
+        }
+
+        &.open > ul {
+            opacity: 1;
+            top: 130%;
+            right: 0;
+            z-index: 100;
+            pointer-events: initial;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            padding: 4px;
+        }
     }
 }

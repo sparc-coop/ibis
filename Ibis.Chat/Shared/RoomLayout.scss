@@ -1,11 +1,6 @@
-@import "../_variables.scss";
+﻿@import "../_variables.scss";
 
-.main-layout {
-    height: 100vh;
-    display: grid;
-    height: 100vh;
-    grid-template-rows: 96px auto;
-
+.room-layout {
     header {
         background: $white;
         padding: 28px 3vw;
@@ -13,10 +8,6 @@
         justify-content: space-between;
         align-items: center;
         //border-bottom: 1px solid $grey-200;
-
-        &.main-header.mobile {
-            display: none;
-        }
 
         h1 {
             font-size: 0;
@@ -164,16 +155,8 @@
     }
 
     @media screen and (max-width: 480px) {
-        header {
-            &.main-header.desktop {
-                display: none;
-            }
-
-            &.main-header.mobile {
-                display: flex;
-                width: 100%;
-                padding: 12px;
-            }
+        header.room-nav.desktop {
+            display: none;
         }
     }
 }

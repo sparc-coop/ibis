@@ -17,94 +17,111 @@
         transition: transform 0.15s ease-out, opacity 0.15s ease-out;
     }
 
-    > .avatar {
-        position: absolute;
-        top: 16px;
-        left: 16px;
-        height: 32px;
-        width: 32px;
-        justify-content: flex-start;
-        background: transparent !important;
-    }
-
-    > button {
-        position: absolute;
-        right: 24px;
-        top: 20px;
-        padding: 7px 12px 6px 12px;
-        font-weight: 400;
-        background: $secondary-900;
-        border-radius: 8px;
-        color: $white;
-        align-items: center;
-        height: 32px;
-        line-height: 20px;
-        z-index: 2;
-
-        &:hover {
-            background: $secondary-800;
-        }
-
-        img, svg {
-            margin-right: 8px;
-        }
-
-        &.cancel {
-            right: 120px;
-            background: transparent;
-            color: $secondary-900;
-            border: 1px solid $secondary-900;
-        }
-
-        aside {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 400;
-        }
-    }
-
-
-    textarea {
-        height: 105px;
-        padding: 24px 150px 24px 60px;
+    &.container {
         width: 100%;
-        max-width: 100%;
-        resize: none;
+        top: 0;
+        background: transparent;
+        border: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
         z-index: 2;
-        border: 0;
 
-        &::placeholder {
-            color: $grey-500;
+        > .avatar {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            height: 32px;
+            width: 32px;
+            justify-content: flex-start;
+            background: transparent !important;
         }
 
-        &[disabled] {
-            opacity: 0.5;
+        button.mobile-actions {
+            display: none;
         }
-    }
 
-    &.editing {
+        .send {
+            > button {
+                position: absolute;
+                right: 24px;
+                top: 20px;
+                padding: 7px 12px 6px 12px;
+                font-weight: 400;
+                background: $secondary-900;
+                border-radius: 8px;
+                color: $white;
+                align-items: center;
+                height: 32px;
+                line-height: 20px;
+                z-index: 2;
+
+                &:hover {
+                    background: $secondary-800;
+                }
+
+                img, svg {
+                    margin-right: 8px;
+                }
+
+                &.cancel {
+                    right: 120px;
+                    background: transparent;
+                    color: $secondary-900;
+                    border: 1px solid $secondary-900;
+                }
+
+                aside {
+                    display: inline-block;
+                    font-size: 12px;
+                    font-weight: 400;
+                }
+            }
+        }
+
         textarea {
-            padding-right: 200px;
+            height: 105px;
+            padding: 24px 150px 24px 60px;
+            width: 100%;
+            max-width: 100%;
+            resize: none;
+            z-index: 0;
+            border: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            &::placeholder {
+                color: $grey-500;
+            }
+
+            &[disabled] {
+                opacity: 0.5;
+            }
         }
-    }
 
-    .message-subtitles {
-        position: fixed;
-        bottom: 36px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        max-width: 600px;
-        padding: 16px;
-        background-color: $grey-900;
-        color: white;
-        font-size: 24px;
-        z-index: 10001;
-        border-radius: 8px;
+        &.editing {
+            textarea {
+                padding-right: 200px;
+            }
+        }
 
-        aside {
-            color: $grey-300;
-            font-size: 14px;
+        .message-subtitles {
+            position: fixed;
+            bottom: 36px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 16px;
+            background-color: $grey-900;
+            color: white;
+            font-size: 24px;
+            z-index: 10001;
+            border-radius: 8px;
+
+            aside {
+                color: $grey-300;
+                font-size: 14px;
+            }
         }
     }
 
@@ -119,6 +136,76 @@
 
         button {
             z-index: 3;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border: none;
+        border-top: 1px solid $grey-100;
+        border-radius: 0px;
+        box-shadow: 0px -16px 24px rgb(0, 0, 0, 0.06);
+
+        .new-message.container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 6px 11px;
+
+            .avatar {
+                display: none;
+            }
+
+            button.mobile-actions {
+                display: inline;
+                position: relative;
+                background: none;
+                padding: 0;
+                vertical-align: middle;
+
+                img {
+                    width: 11px;
+                    height: 11px;
+                }
+            }
+
+            textarea {
+                height: 30px;
+                background: $grey-100;
+                padding: 6px;
+                font-size: 13px;
+            }
+
+            .send {
+                position: relative;
+
+                button {
+                    position: relative;
+                    right: 0;
+                    top: 4px;
+                    padding: 2px 0 0 4px;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50px;
+
+                    svg {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+            }
+        }
+
+        footer {
+            padding: 8px;
+            border-radius: 0;
+
+            button {
+                padding: 4px;
+                text-align: center;
+            }
         }
     }
 }

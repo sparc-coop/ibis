@@ -4,26 +4,8 @@
 
 <RealtimeHub Url="@HubUrl">
     <CascadingValue Value="User">
-        <div class="main-layout @(IsRoom ? "mini" : "" )">
-            <header class="main-header desktop">
-                <h1>
-                <a href="/rooms">
-                    <figure class="logo">
-                        @if (IsRoom)
-                        {
-                            <img src="/images/logo_icon.png" alt="Ibis" />
-                        }
-                        else
-                        {
-                            <img src="/images/logo_2x.png" alt="Ibis" />
-                        }
-                        <figcaption>Ibis</figcaption>
-                    </figure>
-                </a>
-                </h1>
-                <NavMenu/>            
-            </header>
-            <header class="main-header mobile">
+        <div class="room-layout @(IsRoom ? "mini" : "" )">
+            <header class="room-nav desktop">
                 <h1>
                     <a href="/rooms">
                         <figure class="logo">
@@ -39,8 +21,8 @@
                         </figure>
                     </a>
                 </h1>
-                <NavMenu/>            
-                </header>
+                <NavMenu />
+            </header>
             <main>
                 @Body
             </main>

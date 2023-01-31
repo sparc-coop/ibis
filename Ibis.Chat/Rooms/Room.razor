@@ -1,11 +1,12 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
+@layout RoomLayout
 @page "/rooms/{Id}"
-@using Microsoft.AspNetCore.WebUtilities;
+@using Microsoft.AspNetCore.WebUtilities
 
 <CascadingValue Value="RoomInfo?.Users">
     <section class="room room-@(RoomInfo == null ? "loading" : "chat")">
-        <header>
+        <header class="room-header desktop">
             @if (RoomInfo != null)
             {
                 <div class="title-container">
@@ -31,6 +32,34 @@
                     </IbisLanguageSelector>
                 </div>
             }
+        </header>
+        <header class="room-header mobile">
+            <img class="mobile-goback" src="icons/logout-primary.png" @onclick="GoToRooms" />
+            @if (RoomInfo != null)
+            {
+                <div class="title-container">
+                    <h2 title="@RoomInfo.Name">
+                        @RoomInfo.Name
+                    </h2>
+                </div>
+                @*<div class="actions">
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadTranscript">
+                        <DownloadIcon />
+                        Transcript
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadSubtitles">
+                        <DownloadIcon />
+                        Subtitles
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadAudio">
+                        <DownloadIcon />
+                        Audio
+                    </IbisLanguageSelector>
+                </div>*@
+            }
+            <img class="mobile-roommenu" src="icons/menu-secondary.png" />
         </header>
         @if (RoomInfo != null)
         {
@@ -102,4 +131,6 @@
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
     }
+
+    void GoToRooms() => Nav.NavigateTo("/rooms");
 }
