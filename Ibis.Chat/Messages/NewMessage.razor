@@ -84,6 +84,7 @@
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     string? TextPreview;
+    string? Dialect;
     ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
@@ -95,6 +96,12 @@
         {
             Text = SelectedMessage.Text;
             await TextArea.FocusAsync();
+        }
+
+        if (Dialect == null && Me != null)
+        {
+            Dialect = Me.Dialect;
+            await On<UserAvatarUpdated>(Me!.Id, x => Dialect = x.Avatar.Dialect);
         }
     }
 
@@ -168,7 +175,7 @@
             return;
 
         LiveMode = liveMode;
-        if (Me?.Dialect == null)
+        if (Dialect == null)
         {
             var parameters = new ModalParameters();
             parameters.Add("Tab", "Voice");

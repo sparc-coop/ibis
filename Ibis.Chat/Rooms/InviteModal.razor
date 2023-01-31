@@ -7,8 +7,17 @@
             <input placeholder="Email" @bind="InviteEmail" @ref=EmailInput />
         </label>
         <label>
-            Native Language
-            <input @bind="InviteLanguage" />
+            Their Native Language
+            @if (Languages != null)
+            {
+                <select @bind="InviteLanguage">
+                    <option value="">Select a Language</option>
+                    @foreach (var language in Languages)
+                    {
+                        <option value="@language.Id">@language.Id - @language.NativeName</option>
+                    }
+                </select>
+            }
         </label>
         <aside>Don't know their preferred language? You can skip this, and they can choose their language when they accept the invite.</aside>
         <button @onclick="SendInvite" class="primary">Send the Invite</button>
@@ -26,15 +35,17 @@
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
     List<UserAvatar> Users { get; set; } = new();
+    ICollection<Language>? Languages;
     ElementReference EmailInput;
 
     string? InviteEmail;
     string? InviteLanguage;
     List<string> NewEmails = new List<string>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Users = Room.Users.ToList();
+        Languages = await Api.GetLanguagesAsync();
     }
 
     void ChangeLanguage(string language)
