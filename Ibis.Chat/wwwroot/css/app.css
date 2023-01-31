@@ -3771,12 +3771,14 @@ nav li .avatar {
   margin-top: 16px;
 }
 .avatar-editor--container .avatar-preview {
-  width: 123px;
+  width: 100%;
+  max-width: 123px;
 }
 .avatar-editor--container .avatar-preview .avatar {
-  width: 123px;
-  height: 123px;
+  aspect-ratio: 1/1;
+  width: 100%;
   padding: 15%;
+  border-radius: 8px;
 }
 .avatar-editor--container .avatar-preview .upload-image {
   width: 123px;

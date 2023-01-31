@@ -16,12 +16,14 @@
         }
 
         .avatar-preview {
-            width: 123px;
+            width: 100%;
+            max-width: 123px;
 
             .avatar {
-                width: 123px;
-                height: 123px;
+                aspect-ratio: 1 / 1;
+                width: 100%;
                 padding: 15%;
+                border-radius: 8px;
             }
 
             .upload-image {
