@@ -1616,6 +1616,7 @@ nav li .avatar {
 .dashboard {
   margin: 0 auto;
   width: 100%;
+  padding: 40px;
   max-width: 1140px;
 }
 .dashboard .actions {
@@ -2601,7 +2602,7 @@ nav li .avatar {
 .message-card .actions i {
   font-size: 18px;
   vertical-align: middle;
-  color: #003b5f;
+  color: #E5E7EA;
 }
 .message-card:hover .ibis-widget, .message-card:hover .actions, .message-card:focus-within .ibis-widget, .message-card:focus-within .actions {
   opacity: 1;
@@ -2733,8 +2734,6 @@ nav li .avatar {
   resize: none;
   z-index: 0;
   border: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
 .new-message.container textarea::placeholder {
   color: #6A7280;
@@ -3548,8 +3547,8 @@ nav li .avatar {
 
 .onboarding {
   background: #FFFFFF;
-  height: 80vh;
-  width: 50vw;
+  height: 100%;
+  width: 90vw;
   max-width: 736px;
   padding: 20px 4vw;
   position: relative;
@@ -3561,11 +3560,6 @@ nav li .avatar {
 .onboarding header img {
   width: 61px;
   height: auto;
-}
-@media only screen and (max-width: 480px) {
-  .onboarding {
-    width: 100vw;
-  }
 }
 .onboarding .avatar {
   height: 220px;
@@ -3594,10 +3588,11 @@ nav li .avatar {
   font-weight: normal;
   text-align: left;
 }
-.onboarding > button {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
+.onboarding .close-avatareditor {
+  width: 100%;
+  display: block;
+  padding: 40px 0;
+  text-align: right;
 }
 .onboarding ::-webkit-scrollbar {
   width: 5px;
@@ -3613,6 +3608,13 @@ nav li .avatar {
 }
 .onboarding ::-webkit-scrollbar-thumb:hover {
   background: #003B5F;
+}
+@media screen and (max-width: 480px) {
+  .onboarding {
+    width: 90vw;
+    max-width: none;
+    padding: 0;
+  }
 }
 
 .account-details {
@@ -3635,12 +3637,14 @@ nav li .avatar {
   margin: 6px 0;
   width: 100%;
   padding: 10px 14px !important;
+  resize: none;
 }
 .account-details input ::placeholder, .account-details textarea ::placeholder {
   color: #4A5563;
 }
 .account-details textarea {
   min-height: 128px;
+  width: 100%;
 }
 .account-details aside {
   color: #4A5563;
@@ -3760,7 +3764,7 @@ nav li .avatar {
   height: 100%;
 }
 .avatar-editor--container {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -3795,6 +3799,18 @@ nav li .avatar {
   border-radius: 8px;
   background-color: #FFFFFF;
   color: #0A111D;
+}
+@media screen and (max-width: 480px) {
+  .avatar-editor--container {
+    display: block;
+  }
+  .avatar-editor--container .emoji-selector {
+    width: 100%;
+    min-width: 150px;
+  }
+  .avatar-editor--container .avatar-preview {
+    margin-top: 35px;
+  }
 }
 .avatar-editor h3 {
   font-size: 13px;

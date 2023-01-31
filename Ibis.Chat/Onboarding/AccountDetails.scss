@@ -22,6 +22,7 @@
         margin: 6px 0;
         width: 100%;
         padding: 10px 14px !important;
+        resize: none;
 
         ::placeholder {
             color: $grey-600;
@@ -30,6 +31,7 @@
 
     textarea {
         min-height: 128px;
+        width: 100%;
     }
 
     aside {

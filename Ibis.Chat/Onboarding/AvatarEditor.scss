@@ -4,7 +4,7 @@
     height: 100%;
 
     &--container {
-        width: 80%;
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -42,6 +42,19 @@
                 border-radius: 8px;
                 background-color: $white;
                 color: $grey-900;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            display: block;
+
+            .emoji-selector {
+                width: 100%;
+                min-width: 150px;
+            }
+
+            .avatar-preview {
+                margin-top: 35px;
             }
         }
     }
