@@ -3270,8 +3270,13 @@ main {
 .add-funds-modal {
   font-family: "CircularStd", sans-serif;
 }
+.add-funds-modal > aside {
+  opacity: 0.7;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
 .add-funds-modal ul {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
@@ -3290,23 +3295,50 @@ main {
 }
 .add-funds-modal ul li {
   padding: 6px;
+  border: 1px solid #D1D4DC;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.add-funds-modal ul li header {
+  font-weight: bold;
 }
 .add-funds-modal ul li:hover, .add-funds-modal ul li.selected {
-  background-color: var(--primary-500);
-  color: white;
+  border-color: #12B76A;
+  color: #12B76A;
   cursor: pointer;
-  border-radius: 4px;
+}
+.add-funds-modal ul.selected li {
+  display: none;
+}
+.add-funds-modal ul.selected li.selected {
+  display: flex;
 }
 .add-funds-modal .show-balance {
-  padding: 0 0 30px 0;
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #F3F5F6;
+  border-radius: 12px;
 }
 .add-funds-modal form {
   display: flex;
   flex-direction: column;
 }
-.add-funds-modal form button {
+.add-funds-modal form footer {
+  display: flex;
   margin-top: 20px;
-  align-self: flex-end;
+  justify-content: space-between;
+}
+.add-funds-modal dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.add-funds-modal dl dd {
+  text-align: right;
 }
 
 .onboarding {

@@ -2,32 +2,59 @@
 @using System.Globalization;
 
 <div class="add-funds-modal">
-    @if (PaymentIntent != null)
+    @if (NewBalance == null)
     {
-        @if(Balance != null)
+        <aside>
+            Select the amount of minutes you wish to purchase and add to your Ibis account.
+        </aside>
+        @if (PaymentIntent != null)
         {
-            <div class="show-balance">
-                Current balance: @Math.Floor(Balance.Value.TotalMinutes).ToString("N0") min
-            </div>
-        }
-        <ul>
-            @foreach (var amount in PaymentIntent.Amounts)
+            @if (Balance != null)
             {
-                <li class="@(SelectedPackage?.Amount == amount.Amount ? "selected" : "")" @onclick="(() => ChoosePackage(amount))">
-                    <header>@amount.Amount.ToString("C0")</header>
-                    <aside>@TimeSpan.FromTicks(amount.Ticks).TotalMinutes minutes</aside>
-                </li>
+                <div class="show-balance">
+                    Your current balance:
+                    <strong>@Math.Floor(Balance.Value.TotalMinutes).ToString("N0") minutes @Balance.Value.Seconds.ToString("N0") seconds</strong>
+                </div>
             }
-        </ul>
+            <ul class="@(SelectedPackage == null ? "" : "selected")">
+                @foreach (var amount in PaymentIntent.Amounts)
+                {
+                    <li class="@(SelectedPackage?.Amount == amount.Amount ? "selected" : "")" @onclick="(() => ChoosePackage(amount))">
+                        <header>@amount.Amount.ToString("C0")</header>
+                        <aside>@Math.Floor(TimeSpan.FromTicks(amount.Ticks).TotalMinutes).ToString("N0") minutes</aside>
+                    </li>
+                }
+            </ul>
 
+            <form>
+                <div id="payment-element"></div>
+                <footer>
+                    @if (SelectedPackage != null)
+                    {
+                        <button type="button" class="secondary" @onclick=Back>Back</button>
+                        <button type="button" @onclick=Pay>
+                            Add @Math.Floor(TimeSpan.FromTicks(SelectedPackage.Ticks).TotalMinutes).ToString("N0") minutes
+                        </button>
+                    }
+                </footer>
+            </form>
+        }
+    }
+    else
+    {
+        <aside>Thank you! Your purchase was successful. Your balance will be updated in real time as soon as your payment is processed (typically a few seconds).</aside>
         <form>
-            <div id="payment-element"></div>
-            @if (SelectedPackage != null)
-            {
-                <button type="button" @onclick=Pay>
-                    Add @TimeSpan.FromTicks(SelectedPackage.Ticks).TotalMinutes minutes
-                </button>
-            }
+            <dl>
+                <dt>Your current balance</dt>
+                <dd>@Math.Floor(Balance!.Value.TotalMinutes).ToString("N0") minutes @Balance.Value.Seconds.ToString("N0") seconds</dd>
+                <dt>Minutes added</dt>
+                <dd>@Math.Floor(TimeSpan.FromTicks(SelectedPackage!.Ticks).TotalMinutes).ToString("N0") minutes @Balance.Value.Seconds.ToString("N0") seconds</dd>
+                <dt>Your new balance will be:</dt>
+                <dd>@Math.Floor(NewBalance.Value.TotalMinutes).ToString("N0") minutes @NewBalance.Value.Seconds.ToString("N0") seconds</dd>
+            </dl>
+            <footer>
+                <button type="button" @onclick=Close>OK</button>
+            </footer>
         </form>
     }
 </div>
@@ -39,6 +66,7 @@
     TicksPackage? SelectedPackage;
     PaymentIntentResponse? PaymentIntent;
     TimeSpan? Balance;
+    TimeSpan? NewBalance;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,10 +98,14 @@
         await JS.InvokeVoidAsync("initStripe", PaymentIntent.ClientSecret, "#payment-element");
     }
 
+    void Back() => SelectedPackage = null;
+
     async Task Pay()
     {
         // Loading indicator
         var result = await JS.InvokeAsync<string>("confirmStripe", Nav.Uri);
-        await Ok();
+        NewBalance = Balance!.Value.Add(new(SelectedPackage!.Ticks));
     }
+
+    async Task Close() => await Ok();
 }

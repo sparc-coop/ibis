@@ -3,8 +3,14 @@
 .add-funds-modal {
     font-family: 'CircularStd', sans-serif;
 
+    > aside {
+        opacity: 0.7;
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
     ul {
-        display: flex;
+        display: block;
         flex-wrap: wrap;
         gap: 8px;
         margin-bottom: 20px;
@@ -24,27 +30,61 @@
 
         li {
             padding: 6px;
+            border: 1px solid $grey-300;
+            box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+            border-radius: 8px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+
+            header {
+                font-weight: bold;
+            }
 
             &:hover, &.selected {
-                background-color: var(--primary-500);
-                color: white;
+                border-color: $success-500;
+                color: $success-500;
                 cursor: pointer;
-                border-radius: 4px;
+            }
+        }
+
+        &.selected li {
+            display: none;
+            &.selected {
+                display: flex;
             }
         }
     }
 
     .show-balance {
-        padding: 0 0 30px 0;
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: $grey-100;
+        border-radius: 12px;
     }
 
     form {
         display: flex;
         flex-direction: column;
 
-        button {
+        footer {
+            display: flex;
             margin-top: 20px;
-            align-self: flex-end;
+            justify-content: space-between;
+        }
+
+        button {
+        }
+    }
+
+    dl {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+
+        dd {
+            text-align: right;
         }
     }
 }
