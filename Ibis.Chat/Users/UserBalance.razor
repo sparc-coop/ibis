@@ -21,7 +21,7 @@
         await On<BalanceChanged>(User.Id, x => Balance = TimeSpan.FromTicks(x.Ticks));
     }
 
-    async Task AddFunds()
+    public async Task AddFunds()
     {
         var parameters = new ModalParameters();
         if (PaymentIntentClientSecret != null)

@@ -33,7 +33,7 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <UserBalance User="User" />
+                                        <UserBalance User="User" @ref=BalanceComponent />
                                     </li>
                                     <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
                                         <Avatar User="User" />
@@ -43,9 +43,12 @@
                                                 <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
                                             </li>
                                             <li>
+                                                <button class="navmenu-button" @onclick="@AddFunds" @onclick:stopPropagation=true>Add Minutes</button>
+                                            </li>
+@*                                            <li>
                                                 <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
                                             </li>
-                                            <li>
+*@                                            <li>
                                                 <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
                                                     Log Out
                                                 </button>
@@ -73,6 +76,7 @@
     bool ShowMenu;
     bool IsRoom;
     string HubUrl => Config["Blossom:Authority"] + "/hub";
+    UserBalance BalanceComponent;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -93,6 +97,8 @@
         ShowMenu = false;
         Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
     }
+
+    async Task AddFunds() => await BalanceComponent.AddFunds();
 
     bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)
