@@ -17,9 +17,9 @@ ul.colors {
         align-items: center;
         justify-content: center;
 
-        /*&:hover, &.selected {
-            border-color: $primary-500;
-        }*/
+        &:hover, &.selected {
+            border: 3px solid $primary-500;
+        }
 
         span {
             display: block;

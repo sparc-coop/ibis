@@ -34,6 +34,21 @@
             {
                 <RoomCard Room=room />
             }
+            @if (!Rooms.Any())
+            {
+                <div class="welcome">
+                    <figure>
+                        <img src="/images/logo_icon.png" alt="Welcome to Ibis" />
+                    </figure>
+                    <h3>Welcome to Ibis!</h3>
+                    <p>Host your first room by clicking the Create New Room button above.</p>
+                    <p>Or, click your Ibis Avatar below to set up your profile:</p>
+                    @if (Me != null)
+                    {
+                        <Avatar User="Me" EditTab="Profile" />
+                    }
+                </div>
+            }
         }
     </div>
 </div>
@@ -44,6 +59,7 @@
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
     TimeSpan? Balance;
+    [CascadingParameter] public UserAvatar? Me { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

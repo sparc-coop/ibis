@@ -53,9 +53,22 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
         var selectedAmount = request.Amount == 0 ? amounts.First() : request.Amount;
         var selectedPackage = packages.First(x => x.Amount == selectedAmount);
 
+        var options = new PaymentIntentListOptions
+        {
+            Customer = user.BillingInfo.CustomerId
+        };
+
         var paymentIntentService = new PaymentIntentService();
+        StripeList<PaymentIntent> paymentIntents = paymentIntentService.List(options);
+
         var paymentIntent = request.Id != null
             ? await paymentIntentService.UpdateAsync(request.Id, new()
+            {
+                Amount = StripePaymentIntentExtensions.StripeAmount(selectedAmount, request.Currency),
+                Metadata = new() { { "Ticks", selectedPackage.Ticks.ToString() } }
+            })
+            : paymentIntents.Any(x => x.Status != "succeeded")
+            ? await paymentIntentService.UpdateAsync(paymentIntents.First(x => x.Status != "succeeded").Id, new()
             {
                 Amount = StripePaymentIntentExtensions.StripeAmount(selectedAmount, request.Currency),
                 Metadata = new() { { "Ticks", selectedPackage.Ticks.ToString() } }
@@ -75,6 +88,4 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
 
         return new(paymentIntent.ClientSecret, paymentIntent.FormattedAmount(), paymentIntent.Id, paymentIntent.Currency, packages);
     }
-
-
 }
