@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.PortableExecutable;
 
 namespace Ibis.Users;
 
@@ -33,7 +34,12 @@ public class IbisLoginModel : LoginModel
         var link = await Authenticator.CreateMagicSignInLinkAsync(Email, ReturnUrl!);
         link = $"{Request.Scheme}://{Request.Host.Value}{link}";
 
-        await Twilio.SendEmailAsync(Email, "Your Ibis Magic Login Link", "Welcome back to Ibis! Click the link below to login to your account.\r\n\r\n" + link);
+        var templateData = new
+        { 
+            Link= link,
+        };
+
+            await Twilio.SendEmailTemplateAsync(Email, "d-f9f37ce3326b4b92bf5db74a0062cd6b", templateData);
 
         Message = "Check your email for a link to sign in!";
         return Page();
