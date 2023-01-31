@@ -5,12 +5,12 @@ public class UserBilling
     public UserBilling()
     {
         Currency = "USD";
+        TicksBalance = TimeSpan.FromMinutes(10).Ticks; // Initial free minutes
     }
     
-    public UserBilling(string customerId, long ticksBalance, string currency)
+    public void SetUpCustomer(string customerId, string currency)
     {
         CustomerId = customerId;
-        TicksBalance = ticksBalance;
         Currency = currency;
     }
 

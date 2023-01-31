@@ -1588,6 +1588,29 @@ main {
     left: 92%;
   }
 }
+.dashboard .welcome {
+  margin: 40px auto;
+  text-align: center;
+}
+.dashboard .welcome h3 {
+  margin: 16px 0 24px;
+}
+.dashboard .welcome .avatar {
+  height: 72px;
+  padding: 8px;
+  justify-content: flex-start;
+  margin: 24px 0;
+  border-radius: 12px;
+  background-color: #F3F5F6;
+  text-align: left;
+}
+.dashboard .welcome .avatar svg {
+  min-width: 56px;
+}
+.dashboard .welcome .avatar:hover {
+  background: #E5E7EA;
+  cursor: pointer;
+}
 
 .room {
   display: grid;
@@ -3548,9 +3571,9 @@ ul.colors li {
   display: flex;
   align-items: center;
   justify-content: center;
-  /*&:hover, &.selected {
-      border-color: $primary-500;
-  }*/
+}
+ul.colors li:hover, ul.colors li.selected {
+  border: 3px solid #FF3520;
 }
 ul.colors li span {
   display: block;

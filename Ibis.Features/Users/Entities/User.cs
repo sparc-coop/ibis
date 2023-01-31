@@ -123,9 +123,9 @@ public class User : BlossomUser
         Broadcast(new UserAvatarUpdated(Avatar));
     }
 
-    internal void SetUpBilling(string customerId, long ticksBalance, string currency)
+    internal void SetUpBilling(string customerId, string currency)
     {
-        BillingInfo = new(customerId, ticksBalance, currency);
+        BillingInfo.SetUpCustomer(customerId, currency);
     }
 
     internal void GoOnline(string connectionId)
