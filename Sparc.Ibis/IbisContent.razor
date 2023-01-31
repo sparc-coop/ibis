@@ -4,7 +4,7 @@
 
 <article lang="@_selectedLanguage" class="ibis-content @ChannelId">
     <aside class="ibis-widget">
-        @if (Me?.Id == LocalMessage.User.Id)
+        @if (LocalMessage.User != null && Me?.Id == LocalMessage.User.Id)
         {
             <ul class="actions">
                 <li>
