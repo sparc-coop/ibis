@@ -28,6 +28,7 @@
 
 .landing {
   margin: 0px;
+  padding-bottom: 100px;
   background: #fafbfc; }
   .landing h1:focus {
     outline: none; }
@@ -1258,28 +1259,39 @@ nav li {
 
 .footer {
   width: 100%;
-  padding: 0;
-  display: flex;
+  padding: 18px;
   justify-content: space-between;
   background: #f9f1e8;
-  color: #858a8f;
-  font-family: freight-display-pro, serif;
+  color: #161E29;
   font-weight: 500;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 60px;
+  font-size: 20px;
+  line-height: 26px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10001;
+  text-align: center;
+  border-top: 1px solid #FFCDAA;
   /*    &--container {
         margin: 0 auto;
         max-width: 1200px;
         padding: 0 20px;
     }
 */ }
+  @media screen and (max-width: 500px) {
+    .footer {
+      font-size: 16px;
+      line-height: 20px; } }
+  .footer > a {
+    display: inline-block;
+    margin-left: 8px;
+    color: #161E29; }
   .footer--left {
     padding-left: 20px; }
   .footer--right {
     padding-right: 20px; }
   .footer a {
-    color: #858a8f;
     text-decoration: underline; }
 
 .tooltip-wrapper {
