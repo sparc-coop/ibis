@@ -16,8 +16,6 @@ public class UpdateUser : Feature<UserAvatar, UserAvatar>
             throw new NotFoundException("User not found!");
 
         user.UpdateAvatar(avatar);
-
-        
         await Users.UpdateAsync(user);
        
         return user.Avatar;

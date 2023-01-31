@@ -20,6 +20,8 @@ public class UserAvatar
     public string? Voice { get; set; }
     public string? Gender { get; set; }
     public string? Dialect { get; set; }
+    public bool? HearOthers { get; set; }
+    public bool? MuteMe { get; set; }
 
     public UserAvatar() : this("", "")
     {

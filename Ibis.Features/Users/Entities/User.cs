@@ -119,13 +119,15 @@ public class User : BlossomUser
         Avatar.Description = avatar.Description;
         Avatar.SkinTone = avatar.SkinTone;
         Avatar.Emoji = avatar.Emoji;
+        Avatar.HearOthers = avatar.HearOthers;
+        Avatar.MuteMe = avatar.MuteMe;
 
         Broadcast(new UserAvatarUpdated(Avatar));
     }
 
     internal void SetUpBilling(string customerId, string currency)
     {
-        BillingInfo = new(customerId, currency);
+        BillingInfo.SetUpCustomer(customerId, currency);
     }
 
     internal void GoOnline(string connectionId)

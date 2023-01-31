@@ -23,17 +23,19 @@
         }
 
         li {
-            &:hover, &.selected {
-                button {
-                    background-color: var(--primary-500);
-                    color: white;
-                }
+            padding: 6px;
 
-                button, input {
-                    cursor: pointer;
-                }
+            &:hover, &.selected {
+                background-color: var(--primary-500);
+                color: white;
+                cursor: pointer;
+                border-radius: 4px;
             }
         }
+    }
+
+    .show-balance {
+        padding: 0 0 30px 0;
     }
 
     form {

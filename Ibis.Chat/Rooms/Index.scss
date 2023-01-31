@@ -179,4 +179,32 @@
             }
         }
     }
+
+    .welcome {
+        margin: 40px auto;
+        text-align: center;
+
+        h3 {
+            margin: 16px 0 24px;
+        }
+
+        .avatar {
+            height: 72px;
+            padding: 8px;
+            justify-content: flex-start;
+            margin: 24px 0;
+            border-radius: 12px;
+            background-color: $grey-100;
+            text-align: left;
+
+            svg {
+                min-width: 56px;
+            }
+
+            &:hover {
+                background: $grey-200;
+                cursor: pointer;
+            }
+        }
+    }
 }

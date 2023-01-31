@@ -93,15 +93,8 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         
         if (room == null)
         {
-            if (user != null)
-            {
-                room = new Room(slug, "Content", user);
-                await Rooms.AddAsync(room);
-            }
-            else
-            {
-                throw new NotFoundException($"Room {slug} not found");
-            }
+            room = new Room(slug, "Content", user ?? Ibis.Users.User.System);
+            await Rooms.AddAsync(room);
         }
 
         return room;

@@ -12,9 +12,14 @@
         </text>
     </svg>
     <figcaption style="color: @LocalUser.ForegroundColor">
-        @LocalUser.Name
+        @(string.IsNullOrWhiteSpace(LocalUser.Name) ? "Ibis User" : LocalUser.Name)
         <aside>
-            @LocalUser.Language &#8226; @LocalUser.Pronouns
+            @LocalUser.Language
+            @if (!string.IsNullOrWhiteSpace(LocalUser.Pronouns))
+            {
+                <span> &#8226; </span>
+            }
+            @LocalUser.Pronouns
         </aside>
     </figcaption>
 </figure>

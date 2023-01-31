@@ -48,9 +48,9 @@ public class AzureSpeaker : ISpeaker
 
         var cost = message.Text!.Length / 1_000_000M * 16.00M; // $16 per 1M characters
         var ticks = result.AudioDuration.Ticks;
-        message.AddCharge(ticks, cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice}");
+        message.AddCharge(ticks, cost, $"Speak message from {message.User.Name} in voice {message.Audio?.Voice}");
         
-        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio.Voice, words);
+        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio?.Voice, words);
     }
 
     public async Task<AudioMessage> SpeakAsync(List<Message> messages)
@@ -121,7 +121,7 @@ public class AzureSpeaker : ISpeaker
         return retMs.ToArray();
     }
 
-    public async Task<string?> GetClosestVoiceAsync(string language, string gender, string deterministicId)
+    public async Task<string?> GetClosestVoiceAsync(string language, string? gender, string deterministicId)
     {
         var voices = await GetVoicesAsync(language, null, gender);
         var hash = deterministicId.ToCharArray().Aggregate(0, (acc, c) => acc + c);

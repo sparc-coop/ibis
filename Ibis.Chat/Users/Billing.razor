@@ -29,7 +29,7 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @code {
-    UserAvatar? User;
+        UserAvatar? User;
     public string FirstName = "First Name";
     public string LastName = "Last Name";
     // private string? Email;
@@ -46,7 +46,11 @@
             if (User.Name != null)
             {
                 FirstName = User.Name.Split(' ')[0];
-                LastName = User.Name.Split(' ')[1];
+
+                if (User.Name.Split(' ').Length > 1)
+                {
+                    LastName = User.Name.Split(' ')[1];
+                }
             }
         }
     }

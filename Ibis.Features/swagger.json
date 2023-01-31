@@ -2684,6 +2684,14 @@
           "dialect": {
             "type": "string",
             "nullable": true
+          },
+          "hearOthers": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "muteMe": {
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false
