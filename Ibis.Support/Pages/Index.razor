@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+<button @onclick="Login">Login</button>
+
+@code {
+    public string LoginLink = "https://localhost:7117/_login?returnUrl=https%3A%2F%2Flocalhost%3A7228";
+
+    void Login()
+    {
+        Nav.NavigateTo(LoginLink);
+    }
+}
