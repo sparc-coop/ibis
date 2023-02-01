@@ -1,6 +1,6 @@
 ﻿using File = Sparc.Blossom.Data.File;
 
-namespace Ibis.Features.Messages;
+namespace Ibis.Messages;
 
 public record UploadFileRequest(string RoomId, string Language, byte[] Bytes, string FileName);
 

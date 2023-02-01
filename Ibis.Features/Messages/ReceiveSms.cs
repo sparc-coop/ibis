@@ -3,7 +3,7 @@
 //using Twilio.AspNet.Core;
 //using Twilio.TwiML;
 
-//namespace Ibis.Features.Messages;
+//namespace Ibis.Messages;
 
 //public class ReceiveSms : TwilioController
 //{

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Ibis.Features.Rooms;
+namespace Ibis.Rooms;
 
 public class Dialect
 {

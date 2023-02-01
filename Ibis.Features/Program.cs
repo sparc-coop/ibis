@@ -1,4 +1,4 @@
-using Ibis.Features;
+using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
 using Sparc.Ibis;
@@ -9,16 +9,18 @@ builder.Host.UseLamar();
 builder.AddBlossom(builder.Configuration["WebClientUrl"]);
 
 builder.Services
-        .AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis", ServiceLifetime.Transient)
+        .AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis-prod", ServiceLifetime.Transient)
         .AddAzureStorage(builder.Configuration.GetConnectionString("Storage")!)
         .AddTwilio(builder.Configuration)
         .AddBlossomRealtime<IbisHub>()
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>();
+        .AddSingleton<ExchangeRates>()
+        .AddScoped<GetAllContent>();
 
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
+auth.AddCookie();
 builder.AddPasswordlessAuthentication<User>(auth);
 
 builder.Services.AddIbis(builder.Configuration["IbisApi"]!);

@@ -46,14 +46,13 @@ public class IbisTranslator : IAsyncDisposable
         await ibis.InvokeVoidAsync("init", elementId, Language, DotNetObjectReference.Create(component), content);
     }
 
-    public async Task<GetAllContentResponse?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, bool asHtml = false, int? take = null)
+    public async Task<GetAllContentResponse?> GetAllAsync(string channelId, Dictionary<string, string>? tags = null, int? take = null)
     {
         var request = new GetAllContentRequest
         {
             RoomSlug = channelId,
             Language = Language,
             Tags = tags,
-            AsHtml = asHtml,
             Take = take
         };
 

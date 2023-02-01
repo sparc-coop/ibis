@@ -1,30 +1,21 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
 
-<article tabindex="0" class="message-card ibis-ignore" @onclick="GoToSubroom">
-    <Avatar User="Message.User" SpillBackground="true" />
-    @if (Me?.Id == Message.User.Id)
-    {
-        <ul class="actions">
-            <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
-                Tags
-            </li>
-            <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
-                Edit
-            </li>
-            <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
-                Delete
-            </li>
-        </ul>
-    }
-    <Sparc.Ibis.IbisContent Message="Message" />
+<article tabindex="0" class="message-card ibis-ignore @(Message.DeletedDate != null ? "message-card-deleted" : "")" @onclick="GoToSubroom">
+    <Avatar User="User" SpillBackground="true" />
+    <Sparc.Ibis.IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" AutoPlay="@AutoPlay" />
 </article>
 
 @code {
     [Parameter] public Message Message { get; set; } = new();
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
+    [CascadingParameter] public ICollection<UserAvatar>? RoomAvatars { get; set; }
+    [Parameter] public string? PlayMessage { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
+
+    UserAvatar User => RoomAvatars?.FirstOrDefault(u => u.Id == Message.User.Id) ?? Message.User;
+    bool AutoPlay => Message.Id == PlayMessage && ((Message.User?.Id == Me?.Id && Me?.MuteMe == false) || (Message.User?.Id != Me?.Id && Me?.HearOthers == true));
 
     void GoToSubroom()
     {
@@ -32,52 +23,15 @@
         //    Nav.NavigateTo($"/rooms/{Message.SubroomId}");
     }
 
-    async Task Edit()
+    async Task Edit(Message message)
     {
         if (OnEdit.HasDelegate)
-            await OnEdit.InvokeAsync(Message);
+            await OnEdit.InvokeAsync(message);
     }
 
-    void EditTags()
+    async Task Delete(Message message)
     {
-        var parameters = new ModalParameters();
-        parameters.Add("Message", Message);
-        Modal.Show<MessageTags>("Message Tags", parameters);
-    }
-
-    async Task Delete()
-    {
-        var truncatedMessage = new String(Message.Text.Take(20).ToArray()) + (Message.Text.Length > 20 ? "..." : "");
-
-        if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
-            return;
-
         if (OnDelete.HasDelegate)
-            await OnDelete.InvokeAsync(Message);
-    }
-
-    void TagsAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            EditTags();
-        }
-    }
-
-    async Task EditAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Edit();
-        }
-    }
-
-
-    async Task DeleteAction(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            await Delete();
-        }
+            await OnDelete.InvokeAsync(message);
     }
 }

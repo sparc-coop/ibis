@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Globalization;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 public class UserAvatar
 {
@@ -9,8 +9,8 @@ public class UserAvatar
     public string Name { get; set; }
     public string Initials => string.IsNullOrWhiteSpace(Name) ? "" : string.Join(string.Empty, Name.Split(' ').Select(x => x[0]));
     public bool IsOnline { get; set; }
-    public string ForegroundColor { get; set; }
-    public string BackgroundColor => CalculateBackgroundColor(ForegroundColor);
+    public string BackgroundColor { get; set; }
+    public string ForegroundColor => CalculateForegroundColor(BackgroundColor);
     public string? Language { get; set; }
     public bool? LanguageIsRTL { get; set; }
     public string? Emoji { get; set; }
@@ -18,6 +18,10 @@ public class UserAvatar
     public string? Pronouns { get; set; }
     public string? Description { get; set; }
     public string? Voice { get; set; }
+    public string? Gender { get; set; }
+    public string? Dialect { get; set; }
+    public bool? HearOthers { get; set; }
+    public bool? MuteMe { get; set; }
 
     public UserAvatar() : this("", "")
     {
@@ -28,7 +32,7 @@ public class UserAvatar
         Id = sourceAvatar.Id;
         Name = sourceAvatar.Name;
         IsOnline = sourceAvatar.IsOnline;
-        ForegroundColor = sourceAvatar.ForegroundColor;
+        BackgroundColor = sourceAvatar.BackgroundColor;
         Language = sourceAvatar.Language;
         LanguageIsRTL = sourceAvatar.LanguageIsRTL;
         Emoji = sourceAvatar.Emoji;
@@ -36,6 +40,8 @@ public class UserAvatar
         Pronouns = sourceAvatar.Pronouns;
         Description = sourceAvatar.Description;
         Voice = sourceAvatar.Voice;
+        Dialect = sourceAvatar.Dialect;
+        Gender = sourceAvatar.Gender;
     }
 
     public UserAvatar(string id, string name)
@@ -44,23 +50,21 @@ public class UserAvatar
         Name = name;
         Language = "en";
         LanguageIsRTL = false;
-        ForegroundColor = ForegroundColors().OrderBy(x => Guid.NewGuid()).First();
+        BackgroundColor = BackgroundColors().OrderBy(x => Guid.NewGuid()).First();
     }
 
-    public static string CalculateBackgroundColor(string foregroundColor)
+    public static string CalculateForegroundColor(string backgroundColor)
     {
         // derived from https://stackoverflow.com/a/1626175
 
-        var color = ColorTranslator.FromHtml(foregroundColor);
-        int max = Math.Max(color.R, Math.Max(color.G, color.B));
-        int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
+        var color = ColorTranslator.FromHtml(backgroundColor);
         var hue = color.GetHue();
-        var saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-        var value = max / 255d;
 
-        var background = ColorFromHSV(hue, saturation * 0.7, value + ((1 - value) * 0.8));
-        return ColorTranslator.ToHtml(background);
+        var foreground = BackgroundColors().IndexOf(backgroundColor) < 7 // dark colors
+            ? ColorFromHSV(hue, 1, 0.4)
+            : ColorFromHSV(hue, 1, 0.6);
+        
+        return ColorTranslator.ToHtml(foreground);
     }
 
     public static Color ColorFromHSV(double hue, double saturation, double value)
@@ -88,7 +92,7 @@ public class UserAvatar
             return Color.FromArgb(255, v, p, q);
     }
 
-    public static List<string> ForegroundColors() => new()
+    public static List<string> BackgroundColors() => new()
     {
         // generated from http://phrogz.net/css/distinct-colors.html 
         // hue 29-330, sat 100-23, value 70-20, 50 colors

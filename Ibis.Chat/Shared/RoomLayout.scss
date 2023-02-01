@@ -1,0 +1,162 @@
+﻿@import "../_variables.scss";
+
+.room-layout {
+    header {
+        background: $white;
+        padding: 28px 3vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        //border-bottom: 1px solid $grey-200;
+
+        h1 {
+            font-size: 0;
+        }
+
+        .logo {
+            img {
+                height: 40px;
+                width: auto;
+            }
+
+            figcaption {
+                display: none;
+            }
+        }
+
+        a {
+            color: $primary;
+        }
+
+        nav {
+            > ul {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            li {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                position: relative;
+                white-space: nowrap;
+
+                > ul {
+                    position: absolute;
+                    top: 170%;
+                    pointer-events: none;
+                    transition: top 0.2s ease-in, opacity 0.2s;
+                    opacity: 0;
+                    background-color: white;
+                    padding: 16px;
+
+                    li {
+                        padding: 8px 0;
+                    }
+                }
+
+                button {
+                    width: 100%;
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border-width: 0;
+                    background: none;
+                    color: #013b60;
+                    font-weight: normal;
+                    transition: 300ms ease-in-out;
+
+                    > img {
+                        height: 12px;
+                        width: auto;
+                    }
+
+                    &:hover {
+                        background: $secondary-200;
+                    }
+                }
+
+                a {
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border-width: 0;
+                    transition: 300ms ease-in-out;
+
+                    &:hover {
+                        background: $secondary-200;
+                    }
+                }
+
+                .logout {
+                    color: $primary-500;
+
+                    &:hover {
+                        background: $primary-100;
+                    }
+                }
+
+                &.open > ul {
+                    opacity: 1;
+                    top: 130%;
+                    right: 0;
+                    z-index: 100;
+                    pointer-events: initial;
+                }
+
+                .avatar {
+                    width: 32px;
+                    height: 32px;
+                    padding: 4px;
+                }
+            }
+        }
+
+        .balance {
+            font-size: 13px;
+
+            &.negative {
+                color: $amber-500;
+            }
+        }
+
+        main {
+            background: $background;
+            padding: 32px 6vw;
+
+            @media screen and (max-width: 725px) {
+                padding: 32px 16px;
+            }
+        }
+
+        &.mini {
+            grid-template-rows: 49px auto;
+
+            > header {
+                padding: 10px 3vw;
+
+                h1 {
+                    font-size: 0;
+                }
+
+                .logo img {
+                    height: 28px;
+                }
+            }
+
+            nav ul {
+                // display: none;
+            }
+
+            main {
+                padding: 24px 24px 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        header.room-nav.desktop {
+            display: none;
+        }
+    }
+}

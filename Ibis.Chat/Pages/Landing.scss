@@ -4,6 +4,10 @@ body {
     margin: 0px;
 }
 
+#blazor-error-ui {
+    display: none;
+}
+
 .ibis-meta-app {
     .ibis-widget {
         position: fixed;
@@ -15,18 +19,41 @@ body {
             top: 5px;
             right: 60px;
         }
+
+        @media only screen and (max-width: 760px) {
+            top: 85px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+        }
+
+        @media only screen and (max-width: 500px) {
+            top: 25px;
+            left: auto;
+            right: 30px;
+            transform: translateX(0);
+        }
     }
 }
 
 .landing {
     margin: 0px;
+    padding-bottom: 100px;
     background: $background;
+
+    h1:focus {
+        outline: none;
+    }
+
+    h1:focus-visible {
+        box-shadow: none;
+    }
 
     a.btn-primary {
         padding: 21px 53px;
         border: none;
         border-radius: 5px;
-        background: $primary-700;
+        background: $primary-500;
         color: $white;
         font-size: 20px;
         transition: 200ms ease-in-out;
@@ -38,13 +65,13 @@ body {
         }
     }
 
-    .btn-secondary {
+    .button-pricing {
         padding: 21px 53px;
         border: none;
         border: none;
         border-radius: 5px;
         background: $primary-100;
-        color: $primary-700;
+        color: $primary-500;
         font-size: 20px;
         transition: 200ms ease-in-out;
         display: inline-block;
@@ -86,17 +113,17 @@ body {
 
                 &:hover {
                     cursor: pointer;
-                    color: $primary-700;
+                    color: $primary-500;
                     transform: scale(103%);
                 }
             }
 
             a.get-started {
                 padding: 13px 37px;
-                border: 1px solid $primary-700;
+                border: 1px solid $primary-500;
                 border-radius: 5px;
                 background: transparent;
-                color: $primary-700;
+                color: $primary-500;
                 font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
@@ -107,6 +134,10 @@ body {
                     cursor: pointer;
                     transform: scale(103%);
                 }
+            }
+
+            @media screen and (max-width: 500px) {
+                display: none;
             }
         }
 
@@ -147,6 +178,23 @@ body {
         .landing--button-container {
             margin-top: 72px;
             margin-bottom: 150px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+
+            .get-started {
+                padding: 21px 53px;
+                font-size: 20px;
+            }
+
+            @media screen and (max-width: 475px) {
+                display: block;
+
+                button {
+                    display: block;
+                    margin: 8px auto;
+                }
+            }
         }
 
         img.hero-image--room {
@@ -356,13 +404,13 @@ body {
                     line-height: 48px;
                 }
 
-                a.btn-primary {
+                .get-started {
                     padding: 21px 61px;
                     border-radius: 5px;
                     position: absolute;
                     top: 60px;
                     right: 80px;
-                    background: $primary-700;
+                    background: $primary-500;
                     font-size: 20px;
                     line-height: 24px;
                 }
@@ -549,7 +597,7 @@ body {
                         position: absolute;
                         top: 35px;
                         right: 70px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 20px;
                         line-height: 24px;
                     }
@@ -699,7 +747,7 @@ body {
                                 min-width: 200px;
                                 margin: 6px 0px 0px 45px;
                                 padding: 5px 20px;
-                                border: 1px solid $primary-700;
+                                border: 1px solid $primary-500;
                                 font-size: 16px;
                                 line-height: 20px;
                                 text-align: center;
@@ -718,7 +766,7 @@ body {
 
         .hero {
             margin: 0;
-            padding: 100px 0;
+            padding: 150px 0;
 
             .description {
                 width: 400px;
@@ -914,7 +962,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 12px 71px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 18px;
                         line-height: 24px;
                         display: inline-block;
@@ -1127,7 +1175,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 6px 71px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 16px;
                         line-height: 24px;
                     }
@@ -1173,7 +1221,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 8px 25px;
-                        background: $primary-700;
+                        background: $primary-500;
                         font-size: 13px;
                         line-height: 15px;
                     }

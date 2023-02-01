@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class IbisHub : BlossomHub
@@ -35,7 +35,12 @@ public class IbisHub : BlossomHub
 
     public async Task ReceiveAudio(IAsyncEnumerable<byte[]> audio)
     {
-        var sessionId = await Listener.BeginListeningAsync();
+        var user = await Users.FindAsync(Context.UserIdentifier!);
+        var dialect = user?.Avatar.Dialect;
+        if (dialect == null)
+            return;
+
+        var sessionId = await Listener.BeginListeningAsync(new(dialect));
 
         await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
 

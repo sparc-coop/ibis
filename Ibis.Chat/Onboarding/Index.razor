@@ -1,11 +1,9 @@
-﻿@layout EmptyLayout
+﻿@inherits SparcModal
 
-<div tabindex="0" class="overlay" @onclick=Done @onclick:stopPropagation="true"></div>
 <div class="onboarding">
     @if (User != null)
     {
         <header>
-            @*<Avatar User="User" />*@
             <img class="header-logo" src="images/logo_icon.png" />
         </header>
 
@@ -13,7 +11,7 @@
             <ul @onkeydown="Close" class="tabs" @ref="userOverlay">
                 @foreach (var tab in Tabs)
                 {
-                    <li @onfocus="(() => SetTab(tab))" tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
+                    <li tabindex="0" class="@(Tab == tab ? "selected" : "")" @onclick="(() => SetTab(tab))">@tab</li>
                 }
             </ul>
 
@@ -32,48 +30,47 @@
                     <AvatarEditor User=User SpillBackground="true"/>
                     break;
             }   
-
-            <button @onclick="Done">Done</button>
+            <div class="close-avatareditor">
+                <button @onclick="Done">Done</button>
+            </div>
         </CascadingValue>
     }
 </div>
 
 @inject IJSRuntime jsRuntime
 @code {
-    string Tab { get; set; } = "Profile";
+    [Parameter] public string? Tab { get; set; }
     List<string> Tabs = new() { "Profile", "Language", "Voice", "Avatar" };
-    [CascadingParameter] public UserAvatar? User { get; set; }
+    public UserAvatar? User { get; set; }
     [Parameter] public EventCallback OnDone { get; set; }
-    private ElementReference userOverlay;
+    ElementReference? userOverlay;
 
     void SetTab(string tab) => Tab = tab;
     void GoToVoice() => Tab = "Voice";
 
     protected override async Task OnInitializedAsync()
     {
+        User = await Api.GetUserAsync();
 
         if (User == null)
             return;
 
-        if (User.Voice == null)
+        if (Tab == null && User.Voice == null)
             Tab = "Language";
-
+        else if (Tab == null)
+            Tab = "Profile";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-
-            await jsRuntime.InvokeVoidAsync("SetFocusToElement", userOverlay);
-            //await userOverlay.FocusAsync();
-            
-        }
+        if (firstRender && userOverlay.HasValue)
+            await userOverlay.Value.FocusAsync();
     }
 
     async Task Done()
     {
-        await OnDone.InvokeAsync();
+        var user = await Api.GetUserAsync();
+        await Ok(user);
     }
 
     public async Task Close(KeyboardEventArgs e)

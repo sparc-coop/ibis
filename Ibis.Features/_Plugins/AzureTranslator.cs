@@ -1,10 +1,10 @@
-﻿using System.Security.Policy;
-
-namespace Ibis.Features._Plugins;
+﻿namespace Ibis._Plugins;
 
 public class AzureTranslator : ITranslator
 {
     readonly HttpClient Client;
+
+    public static LanguageList? Languages;
 
     public AzureTranslator(IConfiguration configuration)
     {
@@ -31,9 +31,11 @@ public class AzureTranslator : ITranslator
                 translatedTagKeys.Add(tag.Key);
                 body = body.Append(new { Text = tag.Value }).ToArray();
             }
-            
+
+            var languageDictionary = batch.ToDictionary(x => x.Id.Split('-').First(), x => x);
+
             var from = $"&from={fromLanguageId.Split('-').First()}";
-            var to = "&to=" + string.Join("&to=", batch.Select(x => x.Id.Split('-').First()));
+            var to = "&to=" + string.Join("&to=", languageDictionary.Keys);
 
             var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
 
@@ -50,12 +52,12 @@ public class AzureTranslator : ITranslator
                         .Select(key => new MessageTag(key, translatedTags[translatedTagKeys.IndexOf(key)].Translations.First(x => x.To == t.To).Text, false))
                         .ToList();
 
-                    var translatedMessage = new Message(message, t.To, t.Text, translatedMessageTags);
+                    var translatedMessage = new Message(message, languageDictionary[t.To], t.Text, translatedMessageTags);
                     
                     translatedMessages.Add(translatedMessage);
 
                     var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
-                    message.AddCharge(cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
+                    message.AddCharge(0, cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
                 }
             }
         }
@@ -68,11 +70,21 @@ public class AzureTranslator : ITranslator
         return await TranslateAsync(message, message.Language, toLanguages);
     }
 
+    public async Task<string?> TranslateAsync(string text, string fromLanguage, string toLanguage)
+    {
+        var language = await GetLanguageAsync(toLanguage);
+        if (language == null)
+            throw new ArgumentException($"Language {toLanguage} not found");
+        var message = new Message("", User.System, text);
+        var result = await TranslateAsync(message, fromLanguage, new() { language });
+        return result?.FirstOrDefault()?.Text;
+    }
+
     public async Task<List<Language>> GetLanguagesAsync()
     {
-        var result = await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");
+        Languages ??= await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");
 
-        return result!.translation
+        return Languages!.translation
             .Select(x => new Language(x.Key, x.Value.name, x.Value.nativeName, x.Value.dir == "rtl"))
             .ToList();
     }

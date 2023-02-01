@@ -1,7 +1,6 @@
 ﻿using Markdig;
-using System.Diagnostics;
 
-namespace Ibis.Features.Messages;
+namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
@@ -10,6 +9,7 @@ public class Message : Root<string>
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
     public string Language { get; protected set; }
+    public bool? LanguageIsRTL { get; protected set; }  
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
     public DateTime? DeletedDate { get; private set; }
@@ -17,7 +17,8 @@ public class Message : Root<string>
     public AudioMessage? Audio { get; private set; }
     public string? Text { get; private set; }
     public List<MessageTranslation> Translations { get; private set; }
-    public decimal Charge { get; private set; }
+    public long Charge { get; private set; }
+    public decimal Cost { get; private set; }
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
@@ -40,20 +41,22 @@ public class Message : Root<string>
         RoomId = roomId;
         User = user.Avatar;
         Language = user.Avatar.Language ?? "";
+        LanguageIsRTL = user.Avatar.LanguageIsRTL;
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
         SetText(text);
     }
 
-    public Message(Message sourceMessage, string toLanguage, string text, List<MessageTag> translatedTags) : this()
+    public Message(Message sourceMessage, Language toLanguage, string text, List<MessageTag> translatedTags) : this()
     {
         RoomId = sourceMessage.RoomId;
         SourceMessageId = sourceMessage.Id;
         User = new(sourceMessage.User);
         Audio = sourceMessage.Audio?.Voice == null ? null : new(null, 0, new(sourceMessage.Audio.Voice));
-        Language = toLanguage;
-        Timestamp = DateTime.UtcNow;
+        Language = toLanguage.Id;
+        LanguageIsRTL = toLanguage.IsRightToLeft;
+        Timestamp = sourceMessage.Timestamp;
         Tag = sourceMessage.Tag;
         SetText(text);
         SetTags(sourceMessage.Tags);
@@ -90,12 +93,14 @@ public class Message : Root<string>
 
     internal async Task<AudioMessage?> SpeakAsync(ISpeaker engine, string? voiceId = null)
     {
-        if (voiceId == null && Audio?.Voice == null)
-            return null;
+        if (voiceId == null && (Audio?.Voice == null || !Audio.Voice.StartsWith(Language)))
+        {
+            voiceId = await engine.GetClosestVoiceAsync(Language, User.Gender, User.Id);
+        }
 
         var audio = await engine.SpeakAsync(this, voiceId);
 
-        if (Audio == null)
+        if (audio != null)
         {
             Audio = audio;
             Broadcast(new MessageAudioChanged(this));
@@ -144,10 +149,12 @@ public class Message : Root<string>
             Broadcast(new MessageTextChanged(this));
     }
 
-    internal void AddCharge(decimal cost, string description)
+    internal void AddCharge(long ticks, decimal cost, string description)
     {
-        Charge += cost;
-        Broadcast(new CostIncurred(this, description, cost));
+        Charge += ticks;
+        Cost -= cost;
+        if (ticks > 0)
+            Broadcast(new CostIncurred(this, description, ticks));
     }
 
     internal void Delete()

@@ -1,28 +1,26 @@
-﻿//File download
-async function downloadFileFromStream(fileName, contentStreamReference) {
-    const arrayBuffer = await contentStreamReference.arrayBuffer();
-    const blob = new Blob([arrayBuffer]);
-    const url = URL.createObjectURL(blob);
-
-    triggerFileDownload(fileName, url);
-
-    URL.revokeObjectURL(url);
-}
-
-function triggerFileDownload(url, fileName) {
-    const anchorElement = document.createElement('a');
-    anchorElement.href = url;
-    anchorElement.download = fileName ?? '';
-    anchorElement.click();
-    anchorElement.remove();
-}
-
-function speak(audio) {
+﻿function speak(audio) {
     const contentType = "audio/mp3";
     const sound = new Howl({
         src: [`data:${contentType};base64,${audio}`]
     });
     sound.play();
+}
+
+var isListening = false;
+function enablePtt(dotNetHelper) {
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && !isListening) {
+            isListening = true;
+            return dotNetHelper.invokeMethodAsync('BeginListeningAsync', true);
+        }
+    });
+
+    document.addEventListener('keyup', e => {
+        if (e.keyCode === 17 && isListening) {
+            isListening = false;
+            return dotNetHelper.invokeMethodAsync('BeginListeningAsync', true);
+        }
+    });
 }
 
 var context;
@@ -154,14 +152,4 @@ window.createStreamRiffHeader = () => {
     view.setUint32(40, 2 ^ 31, true);
 
     return new Uint8Array(buffer);
-}
-
-function openQuestion(number) {
-    var elements = document.getElementsByClassName("question");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].classList.remove("selected");
-    }
-
-    var element = document.getElementById("question-" + number);
-    element.classList.add("selected");
 }

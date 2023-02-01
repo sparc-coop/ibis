@@ -1,7 +1,7 @@
-﻿namespace Ibis.Features;
+﻿namespace Ibis;
 
 public interface IListener
 {
-    Task<string> BeginListeningAsync();
+    Task<string> BeginListeningAsync(Dialect? dialect);
     Task ListenAsync(string sessionId, byte[] audioChunk) => Task.CompletedTask;
 }

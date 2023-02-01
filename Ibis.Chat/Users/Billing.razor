@@ -1,6 +1,6 @@
 ﻿@page "/billing"
 
-<AccountNav/>
+<AccountNav />
 <div class="account">
 	<div class="account--header">
 		<h2>Billing info</h2>
@@ -29,35 +29,39 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @code {
-	UserAvatar? User;
-	public string FirstName = "First Name";
-	public string LastName = "Last Name";
-	// private string? Email;
-	bool userPayment = false;
+        UserAvatar? User;
+    public string FirstName = "First Name";
+    public string LastName = "Last Name";
+    // private string? Email;
+    bool userPayment = false;
 
-	protected override async Task OnInitializedAsync()
-	{
-		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		var user = authState.User;
-		if(user.Identity!.IsAuthenticated)
-		{
-			User = await Api.GetUserAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity!.IsAuthenticated)
+        {
+            User = await Api.GetUserAsync();
 
-			if(User.Name != null)
-			{
-				FirstName = User.Name.Split(' ')[0];
-				LastName = User.Name.Split(' ')[1];
-			}
-		}
-	}
+            if (User.Name != null)
+            {
+                FirstName = User.Name.Split(' ')[0];
 
-	
-	//protected override Task OnAfterRenderAsync(bool firstRender)
-	//{
-		//string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
-		//if (clientSecret != "current-customer") {
-		//    userPayment = true;
-		//    await JS.InvokeAsync<string>("setPayment", clientSecret);
-		//}
-	//}
+                if (User.Name.Split(' ').Length > 1)
+                {
+                    LastName = User.Name.Split(' ')[1];
+                }
+            }
+        }
+    }
+
+
+    //protected override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //string clientSecret = await Api.CreateStripeCustomerAsync(new CreateStripeCustomerRequest { UserId = User.Id });
+    //if (clientSecret != "current-customer") {
+    //    userPayment = true;
+    //    await JS.InvokeAsync<string>("setPayment", clientSecret);
+        //}
+    //}
 }

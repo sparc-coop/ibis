@@ -1,26 +1,108 @@
-﻿<div class="nav-menu">
-    <a href="/"><img class="logo" src="/images/logo_2x.png" /></a>
+﻿@using Sparc.Blossom.Authentication;
+@using Sparc.Ibis;
+
+<CascadingValue Value="User">
     <nav>
-        <a href="/pricing">Pricing</a>
         <AuthorizeView>
             <Authorized>
-                <a href="rooms" class="nav-link">
-                    <img class="dash-icon" src="../icons/dashboard.svg"/>
-                </a>
-                <button class="logout" @onclick="Logout">
-                    Log Out
-                </button>
+                @if (User != null)
+                {
+                    <ul>
+                        <li>
+                            <button @onclick="GoToRooms">
+                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
+                            </button>
+                        </li>
+                        <li>
+                            <UserBalance User="User" @ref=BalanceComponent />
+                        </li>
+                        <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
+                            <Avatar User="User" />
+                            <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                            <ul>
+                                <li>
+                                    <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                </li>
+                                <li>
+                                    <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
+                                </li>
+                                <li>
+                                    <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
+                                        Log Out
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
             </Authorized>
-            <NotAuthorized>
-                <a href="authentication/login" class="login">Get Started</a>
-            </NotAuthorized>
         </AuthorizeView>
     </nav>
-</div>
+</CascadingValue>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @code {
-    private void Logout(MouseEventArgs args)
+    UserAvatar? User;
+    bool ShowMenu;
+    bool IsRoom;
+    string HubUrl => Config["Blossom:Authority"] + "/hub";
+    UserBalance? BalanceComponent;
+
+
+    protected override async Task OnParametersSetAsync()
     {
-        Nav.NavigateToLogout("authentication/logout");
+        IsRoom = Nav.Uri.Contains("rooms/");
+
+        if (User != null)
+            return;
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    void OpenMenu() => ShowMenu = !ShowMenu;
+
+    void EditAvatar()
+    {
+        ShowMenu = false;
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+    }
+
+    async Task AddFunds() => await BalanceComponent.AddFunds();
+
+    bool isUserBeingGot;
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    void GoToRooms() => Nav.NavigateTo("/rooms");
+
+    private async Task Logout()
+    {
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+    }
+
+    void KeyboardMenu(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            OpenMenu();
+        }
     }
 }

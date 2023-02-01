@@ -1,72 +1,124 @@
 ﻿@inherits RealtimeComponent
 @implements IAsyncDisposable
+@layout RoomLayout
 @page "/rooms/{Id}"
+@using Microsoft.AspNetCore.WebUtilities
 
-<section class="room room-@(RoomInfo == null ? "loading" : "chat")">
-    <header>
-        @if (RoomInfo != null)
-        {
-            <div class="title-container">
-                <RoomIcon RoomType="Chat" />
-                <h2 title="@RoomInfo.Name" style="max-width:555px">
-                    @RoomInfo.Name
-                </h2>
-            </div>
+<CascadingValue Value="RoomInfo?.Users">
+    <section class="room room-@(RoomInfo == null ? "loading" : "chat")">
+        <header class="room-header desktop">
+            @if (RoomInfo != null)
+            {
+                <div class="title-container">
+                    <RoomIcon RoomType="Chat" />
+                    <h2 title="@RoomInfo.Name" style="max-width:555px">
+                        @RoomInfo.Name
+                    </h2>
+                </div>
                 <div class="actions">
-                    <button @onclick="@(() => DownloadText("TXT"))" aria-label="Download Text" class="select-upload" title="Download text transcript">
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadTranscript">
                         <DownloadIcon />
                         Transcript
-                    </button>
-                    <button @onclick="@(() => DownloadText("SRT"))" aria-label="Download Subtitles" class="select-upload" title="Download subtitles">
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadSubtitles">
                         <DownloadIcon />
                         Subtitles
-                    </button>
-                    <button @onclick="DownloadAudio" aria-label="Download Audio" class="select-upload" title="Download audio transcript">
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadAudio">
                         <DownloadIcon />
                         Audio
-                    </button>
+                    </IbisLanguageSelector>
                 </div>
-        }
-    </header>
-    @if (RoomInfo != null)
-    {
-        <MessageList Room="RoomInfo" />
-        <AvatarList Room="RoomInfo" />
-    }
-</section>
+            }
+        </header>
+        <header class="room-header mobile">
+            <img class="mobile-goback" src="icons/logout-primary.png" @onclick="GoToRooms" />
+            @if (RoomInfo != null)
+            {
+                <div class="title-container">
+                    <h2 title="@RoomInfo.Name">
+                        @RoomInfo.Name
+                    </h2>
+                </div>
+                @*<div class="actions">
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadTranscript">
+                        <DownloadIcon />
+                        Transcript
+                    </IbisLanguageSelector>
 
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadSubtitles">
+                        <DownloadIcon />
+                        Subtitles
+                    </IbisLanguageSelector>
+
+                    <IbisLanguageSelector SelectedLanguage="@User.Language" OnLanguageSelected="DownloadAudio">
+                        <DownloadIcon />
+                        Audio
+                    </IbisLanguageSelector>
+                </div>*@
+            }
+            <img class="mobile-roommenu" src="icons/menu-secondary.png" />
+        </header>
+        @if (RoomInfo != null)
+        {
+            <MessageList Room="RoomInfo" />
+            <AvatarList Room="RoomInfo" />
+        }
+    </section>
+</CascadingValue>
+
+@inject NavigationManager NavigationManager
 @code {
     [Parameter] public string Id { get; set; } = null!;
-
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
     GetRoomResponse? RoomInfo;
-
+   
     protected override async Task OnInitializedAsync()
     {
+
         RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = Id });
         await On<UserJoined>(RoomInfo.RoomId, x => { });
+        On<UserAvatarUpdated>(avatar =>
+        {
+            var user = RoomInfo.Users.FirstOrDefault(x => x.Id == avatar.Avatar.Id);
+            if (user != null)
+            {
+                RoomInfo.Users.Remove(user);
+                RoomInfo.Users.Add(avatar.Avatar);
+            }
+        });
     }
 
     async Task DownloadAudio()
     {
-        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId });
+        var audio = await Api.GetRoomAudioAsync(new GetRoomAudioRequest { RoomId = RoomInfo!.RoomId, Language = User.Language });
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
-    async Task DownloadText(string format)
+    async Task DownloadTranscript(string languageId)
     {
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
-
-        byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
-        Stream fileStream = new MemoryStream(bytes);
-
-        var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
-        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
         {
-            fileName = fileName.Replace(c, '_');
-        }
+            { "roomId", RoomInfo!.RoomId },
+            { "language", languageId },
+            { "format", "txt" }
+        });
 
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        await JS.InvokeVoidAsync("open", url, "_blank");
+    }
+
+    async Task DownloadSubtitles(string languageId)
+    {
+        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
+        {
+            { "roomId", RoomInfo!.RoomId },
+            { "language", languageId ?? User.Language },
+            { "format", "srt" }
+        });
+
+        await JS.InvokeVoidAsync("open", url, "_blank");
     }
 
     void UpdateName()
@@ -79,4 +131,6 @@
         if (RoomInfo != null)
             await Api.LeaveRoomAsync(new LeaveRoomRequest { RoomId = RoomInfo!.RoomId });
     }
+
+    void GoToRooms() => Nav.NavigateTo("/rooms");
 }

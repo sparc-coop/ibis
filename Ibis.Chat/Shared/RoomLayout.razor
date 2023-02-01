@@ -1,0 +1,94 @@
+﻿@inherits LayoutComponentBase
+@using Sparc.Blossom.Authentication;
+@using Sparc.Ibis;
+
+<RealtimeHub Url="@HubUrl">
+    <CascadingValue Value="User">
+        <div class="room-layout @(IsRoom ? "mini" : "" )">
+            <header class="room-nav desktop">
+                <h1>
+                    <a href="/rooms">
+                        <figure class="logo">
+                            @if (IsRoom)
+                            {
+                                <img src="/images/logo_icon.png" alt="Ibis" />
+                            }
+                            else
+                            {
+                                <img src="/images/logo_2x.png" alt="Ibis" />
+                            }
+                            <figcaption>Ibis</figcaption>
+                        </figure>
+                    </a>
+                </h1>
+                <NavMenu />
+            </header>
+            <main>
+                @Body
+            </main>
+        </div>
+    </CascadingValue>
+</RealtimeHub>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    UserAvatar? User;
+    bool ShowMenu;
+    bool IsRoom;
+    string HubUrl => Config["Blossom:Authority"] + "/hub";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsRoom = Nav.Uri.Contains("rooms/");
+
+        if (User != null)
+            return;
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    void OpenMenu() => ShowMenu = !ShowMenu;
+
+    void EditAvatar()
+    {
+        ShowMenu = false;
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+    }
+
+    bool isUserBeingGot;
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    void GoToRooms() => Nav.NavigateTo("/rooms");
+
+    private async Task Logout()
+    {
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+    }
+
+    void KeyboardMenu(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            OpenMenu();
+        }
+    }
+}

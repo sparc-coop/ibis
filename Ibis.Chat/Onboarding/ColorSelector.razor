@@ -5,7 +5,7 @@
         <ul class="colors ibis-ignore">
             @foreach (var color in Emojis.Colors)
             {
-                <li @onclick="(() => SetColor(color))" class="@(User.ForegroundColor == color ? "selected" : "")">
+                <li @onclick="(() => SetColor(color))" class="@(User.BackgroundColor == color ? "selected" : "")">
                     <span style="background: @color">&nbsp;</span>
                 </li>
             }
@@ -24,7 +24,7 @@
 
     async Task SetColor(string color)
     {
-        User.ForegroundColor = color;
+        User.BackgroundColor = color;
         await Api.UpdateUserAsync(User);
     }
 }

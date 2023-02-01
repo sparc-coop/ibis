@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Chat", "Ibis.Chat\Ibis.Chat.csproj", "{0213E4A9-F287-4259-B95D-B628D61ABF1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Features", "Ibis.Features\Ibis.Features.csproj", "{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis", "Ibis.Features\Ibis.csproj", "{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparc.Ibis", "Sparc.Ibis\Sparc.Ibis.csproj", "{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}"
 EndProject

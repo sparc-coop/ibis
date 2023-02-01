@@ -34,20 +34,57 @@
             {
                 <RoomCard Room=room />
             }
+            @if (!Rooms.Any())
+            {
+                <div class="welcome">
+                    <figure>
+                        <img src="/images/logo_icon.png" alt="Welcome to Ibis" />
+                    </figure>
+                    <h3>Welcome to Ibis!</h3>
+                    <p>As a special thank you for joining us, you have been gifted <b>10 free audio minutes</b> to host your first room! 
+                        Minutes are charged based on the translated audio of each actual message in your room, which means silence is always free.</p>
+                    <p>Host your first room by clicking the <b>Create New Room</b> button above. 
+                        Or, click your <b>Ibis Avatar</b> below to set up your profile:</p>
+                    @if (Me != null)
+                    {
+                        <h4>Your Ibis Avatar:</h4>
+                        <Avatar User="Me" EditTab="Profile" />
+                    }
+                </div>
+            }
         }
     </div>
 </div>
 
-
+@inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
-    ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
+    ICollection<GetRoomResponse>? Rooms;
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
+    TimeSpan? Balance;
+    [CascadingParameter] public UserAvatar? Me { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Rooms = await Api.GetRoomsAsync("Chat");
-        OriginalList = Rooms;
+        try
+        {
+            var ticks = await Api.GetUserBalanceAsync();
+            Balance = TimeSpan.FromTicks(ticks);
+
+            if (Balance.Value.Ticks <= 0)
+            {
+                Modal.Show<AddFundsModal>("Add Funds");
+            }
+
+            var rooms = await Api.GetRoomsAsync("Chat");
+            Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+            OriginalList = Rooms;
+        }
+        catch (ApiException ex) when (ex.StatusCode == 401)
+        {
+            await Auth.LogoutAsync();
+            Nav.NavigateTo("/rooms", true);
+        }
     }
 
     void CreateRoom()

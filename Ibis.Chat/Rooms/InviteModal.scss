@@ -20,10 +20,13 @@
     }
 
     .invite-search {
-        display: flex;
-        justify-content: space-between;
-        column-gap: 16px;
-        margin: 6px 0 24px;
+        label {
+            display: flex;
+            justify-content: space-between;
+            column-gap: 16px;
+            margin: 6px 0 24px;
+            align-items: center;
+        }
 
         input {
             border: 1px solid $grey-300;
@@ -35,6 +38,13 @@
             width: 67%;
         }
 
+        aside {
+            display: block;
+            color: $grey-500;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
         ::placeholder {
             color: $grey-500;
         }
@@ -44,21 +54,12 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        button {
-            color: $dark-blue;
-            background: $white;
-            border: 1px solid $dark-blue;
-            font-weight: 400;
-        }
     }
 
     .invite-users {
         margin-bottom: 45px;
-
-        p.medium {
-            margin-bottom: 12px;
-        }
+        max-height: 300px;
+        overflow-y: auto;
 
         .user-wrapper {
             display: flex;
@@ -118,16 +119,9 @@
         }
 
         .avatar {
-            color: $grey-700;
-            font-weight: 500;
-            font-size: 11px;
-            width: 25px;
-            height: 25px;
-            line-height: 27px;
-            text-align: center;
-            border-radius: 45px;
-            background: $grey-200;
-            margin-right: 8px;
+            justify-content: flex-start;
+            height: 48px;
+            padding: 4px 0;
         }
     }
 
@@ -216,7 +210,7 @@
             &:hover, &.selected {
                 opacity: 1;
                 cursor: pointer;
-                border: 1px solid $primary-700;
+                border: 1px solid $primary-500;
                 border-radius: 8px;
             }
         }

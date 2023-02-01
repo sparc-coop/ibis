@@ -1,21 +1,30 @@
-<div class="ibis-languages ibis-ignore">
-    <button @onclick="GetLanguages">@SelectedLanguage</button>
+<div class="ibis-language-selector" @ref="langSelection">
+    <button @onclick="GetLanguages">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            @SelectedLanguage
+        }
+    </button>
     @if (IsSelecting)
     {
-        @*<select aria-labelledby="languageLabel">
-                @foreach (var language in Languages)
-                {
-                <option value="@language.Id" @(Message.Language == language.Id ? "selected" : "" )>
-                @language.Id
-                </option>
-                }
-           </select>*@
-        <ul aria-hidden="true">
+        <div class="overlay" @onclick="CloseFromOverlay"></div>
+        <ul class="ibis-ignore" @onkeydown="Close" style="left: @(X)px; top: @(Y)px">
             @foreach (var language in Languages!)
             {
-                <li @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")">
-                    @language.Id
-                    <aside>@language.NativeName</aside>
+                <li tabindex="0" @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")" @onkeydown="@((e) => KeyboardSelection(e, language))">
+                    @language.NativeName
+                    <aside>@language.DisplayName</aside>
+
+                    @if (SelectedLanguage == language.Id)
+                    {
+                        <div class="right">
+                            <img src="icons/Check.svg" />
+                        </div>
+                    }
                 </li>
             }
         </ul>
@@ -24,22 +33,57 @@
 
 @code {
     [Parameter] public string SelectedLanguage { get; set; } = null!;
-    [Parameter] public EventCallback<Language> OnLanguageSelected { get; set; }
-    bool IsSelecting;
+    [Parameter] public EventCallback<string> OnLanguageSelected { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool IsSelecting { get; set; }
+    double X;
+    double Y;
     ICollection<Language>? Languages;
+    ElementReference langSelection;
 
-    async Task GetLanguages()
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsSelecting)
+        {
+            Languages = await Api.GetLanguagesAsync();
+        }
+    }
+
+    async Task GetLanguages(MouseEventArgs args)
     {
         if (Languages == null)
             Languages = await Api.GetLanguagesAsync();
 
         IsSelecting = !IsSelecting;
+        X = args.ClientX;
+        Y = args.ClientY;
+
+        await langSelection.FocusAsync();
     }
 
     async Task SetLanguage(Language language)
     {
         SelectedLanguage = language.Id;
         IsSelecting = false;
-        await OnLanguageSelected.InvokeAsync(language);
+        await OnLanguageSelected.InvokeAsync(language.Id);
+    }
+
+    async Task KeyboardSelection(KeyboardEventArgs e, Language language)
+    {
+        if (e.Key == "Enter")
+        {
+            await SetLanguage(language);
+        }
+    }
+
+    void CloseFromOverlay() => IsSelecting = false;
+
+    void Close(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            IsSelecting = false;
+            
+        }
     }
 }

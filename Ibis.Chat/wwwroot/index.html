@@ -17,11 +17,6 @@
         if (!("container" in document.documentElement.style)) {
             import("https://unpkg.com/container-query-polyfill@^0.2.0");
         }
-
-        window.SetFocusToElement = (element) => {
-            if (element?.firstChild)
-                element.firstChild.focus();
-        };
     </script>
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {

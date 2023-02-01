@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.OutputCaching;
 
-namespace Ibis.Features.Users;
+namespace Ibis.Users;
 
 [OutputCache(Duration = 3600)]
 public class GetLanguages : PublicFeature<List<Language>>

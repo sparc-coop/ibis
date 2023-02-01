@@ -1,6 +1,6 @@
 ﻿
 
-const stripe = Stripe('pk_test_51LxZjWAtmjNehy1iYH6vbqIS9bucufNTvQWCyzQD9do9Wy2TyFv834Xj2LZurDEwcx37eZ8twMzh6scj3TMlNsb200WsSIYYcc');
+const stripe = Stripe('pk_live_51LxZjWAtmjNehy1iYa5yZUzRcguXWhNqR5enIgHx5OhN0joI4IrIraYsrdVm97bENRsAJgHQUnYUP0pvjVifnqM100ro4jk7rP');
 let elements, clientsecret;
 
 function initStripe(secret, id) {
@@ -31,7 +31,6 @@ async function confirmStripe(returnUrl) {
         redirect: 'if_required'
     });
 
-    console.log(result);
     return "";
 }
 

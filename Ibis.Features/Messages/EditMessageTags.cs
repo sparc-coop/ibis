@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record EditMessageTagsRequest(string RoomId, string MessageId, List<MessageTag> Tags);
 public class EditMessageTags : Feature<EditMessageTagsRequest, List<MessageTag>>

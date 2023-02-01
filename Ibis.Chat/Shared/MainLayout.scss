@@ -6,13 +6,21 @@
     height: 100vh;
     grid-template-rows: 96px auto;
 
-    > header {
+    header {
         background: $white;
-        padding: 28px 6vw;
+        padding: 28px 3vw;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid $grey-200;
+        //border-bottom: 1px solid $grey-200;
+
+        &.main-header.mobile {
+            display: none;
+        }
+
+        h1 {
+            font-size: 0;
+        }
 
         .logo {
             img {
@@ -30,13 +38,10 @@
         }
 
         nav {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-
             > ul {
                 display: flex;
-                gap: 24px;
+                align-items: center;
+                gap: 16px;
             }
 
             li {
@@ -61,7 +66,7 @@
                     }
                 }
 
-                .navmenu-button {
+                button {
                     width: 100%;
                     padding: 8px 10px;
                     border-radius: 8px;
@@ -69,6 +74,22 @@
                     background: none;
                     color: #013b60;
                     font-weight: normal;
+                    transition: 300ms ease-in-out;
+
+                    > img {
+                        height: 12px;
+                        width: auto;
+                    }
+
+                    &:hover {
+                        background: $secondary-200;
+                    }
+                }
+
+                a {
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border-width: 0;
                     transition: 300ms ease-in-out;
 
                     &:hover {
@@ -101,46 +122,58 @@
         }
 
         .balance {
-            padding: 6px 12px;
-            box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-            font-size: 12px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.1s ease-in-out;
-            color: $grey-600;
-
-            &:hover {
-                transform: scale(1.05, 1.05);
-            }
+            font-size: 13px;
 
             &.negative {
                 color: $amber-500;
             }
         }
-    }
 
-    main {
-        background: $background;
-        padding: 32px 6vw;
-    }
+        main {
+            background: $background;
+            padding: 32px 6vw;
 
-    &.mini {
-        grid-template-rows: 49px auto;
-
-        > header {
-            padding: 10px 6vw;
-
-            .logo img {
-                height: 28px;
+            @media screen and (max-width: 725px) {
+                padding: 32px 16px;
             }
         }
 
-        nav ul {
-            // display: none;
-        }
+        &.mini {
+            grid-template-rows: 49px auto;
 
-        main {
-            padding: 24px 24px 0;
+            > header {
+                padding: 10px 3vw;
+
+                h1 {
+                    font-size: 0;
+                }
+
+                .logo img {
+                    height: 28px;
+                }
+            }
+
+            nav ul {
+                // display: none;
+            }
+
+            main {
+                padding: 24px 24px 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        header {
+            &.main-header.desktop {
+                display: none;
+            }
+
+            &.main-header.mobile {
+                display: flex;
+                width: 100%;
+                padding: 12px;
+            }
         }
     }
 }

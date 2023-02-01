@@ -1,8 +1,9 @@
-﻿@import "Pages/Landing";
+﻿@import "Pages/Landing.scss";
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
+@import "Shared/RoomLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
@@ -63,6 +64,24 @@
     font-family: 'CircularStd';
     font-weight: 900;
     src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $primary-500;
+    border-radius: 35px;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-500;
 }
 
 body {
@@ -159,7 +178,43 @@ p.small {
     line-height: 120%;
 }
 
-:focus-visible, :focus {
+button.action {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border-width: 0;
+    background: none;
+    color: #013b60;
+    font-weight: normal;
+    font-size: 13px;
+    transition: 300ms ease-in-out;
+
+    > img, > svg {
+        height: 12px;
+        width: auto;
+    }
+
+    svg {
+        margin-right: 6px;
+    }
+
+    svg path {
+        fill: #013b60;
+    }
+
+    &:hover {
+        background: $secondary-200;
+    }
+}
+
+:focus-visible {
     box-shadow: 2px 2px 6px $primary-800;
-    outline: 1px solid $primary-900;
+    outline: 3px solid $primary-900;
+}
+
+.realtime-hub, .realtime-hub-Connecting {
+    display: none;
+
+    span {
+        display: none;
+    }
 }

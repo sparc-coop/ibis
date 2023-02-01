@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public record SlackPost(string team_id, string user_id, string text, string? command);
@@ -52,7 +52,7 @@ public class SlackApi : ControllerBase
         CheckLoggedIn(parameters);
 
         var rooms = await GetRooms.ExecuteAsUserAsync(parameters.User!);
-        return string.Join("\r\n", rooms.Select(room => $"{room.Name} => {room.Slug} (Last activity: {room.LastActiveDate:d})"));
+        return string.Join("\r\n", rooms.HostedRooms.Select(room => $"{room.Name} => {room.Slug} (Last activity: {room.LastActiveDate:d})"));
     }
 
     private async Task<string> CreateRoomAsync(SlackParameters parameters)

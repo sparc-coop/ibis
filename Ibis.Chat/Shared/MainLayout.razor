@@ -1,10 +1,11 @@
 ﻿@inherits LayoutComponentBase
+@using Sparc.Blossom.Authentication;
 @using Sparc.Ibis;
 
 <RealtimeHub Url="@HubUrl">
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
-            <header>
+            <header class="main-header desktop">
                 <h1>
                 <a href="/rooms">
                     <figure class="logo">
@@ -20,52 +21,30 @@
                     </figure>
                 </a>
                 </h1>
-                <nav>
-                    <AuthorizeView>
-                        <Authorized>
-                            @if (User != null)
-                            {
-                                <UserBalance User="User" />
-                                <ul>
-                                    <li>
-                                        <a href="/rooms">
-                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                        </a>
-                                    </li>
-
-                                    <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
-                                        <Avatar User="User" />
-                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                        <ul>
-                                            <li>
-                                                <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                            </li>
-                                            <li>
-                                                <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                            </li>
-                                            <li>
-                                                <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
-                                                    Log Out
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            }
-                        </Authorized>
-                    </AuthorizeView>
-                </nav>
+                <NavMenu/>            
             </header>
-
+            <header class="main-header mobile">
+                <h1>
+                    <a href="/rooms">
+                        <figure class="logo">
+                            @if (IsRoom)
+                            {
+                                <img src="/images/logo_icon.png" alt="Ibis" />
+                            }
+                            else
+                            {
+                                <img src="/images/logo_2x.png" alt="Ibis" />
+                            }
+                            <figcaption>Ibis</figcaption>
+                        </figure>
+                    </a>
+                </h1>
+                <NavMenu/>            
+                </header>
             <main>
                 @Body
             </main>
         </div>
-
-        @if (ShowOnboarding)
-        {
-            <Ibis.Chat.Onboarding.Index OnDone="CloseOnboarding" />
-        }
     </CascadingValue>
 </RealtimeHub>
 
@@ -75,8 +54,8 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    bool ShowOnboarding;
-    string HubUrl => Config["ApiUrl"] + "/hub";
+    string HubUrl => Config["Blossom:Authority"] + "/hub";
+    UserBalance BalanceComponent;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -92,13 +71,13 @@
 
     void OpenMenu() => ShowMenu = !ShowMenu;
 
-    void CloseOnboarding() => ShowOnboarding = false;
-
     void EditAvatar()
     {
         ShowMenu = false;
-        ShowOnboarding = true;
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
     }
+
+    async Task AddFunds() => await BalanceComponent.AddFunds();
 
     bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)
@@ -109,16 +88,21 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Voice == null)
-                ShowOnboarding = true;
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
             StateHasChanged();
             isUserBeingGot = false;
         }
     }
 
-    private void Logout()
+    void GoToRooms() => Nav.NavigateTo("/rooms");
+
+    private async Task Logout()
     {
-        Nav.NavigateToLogout("authentication/logout");
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
     }
 
     void KeyboardMenu(KeyboardEventArgs e)

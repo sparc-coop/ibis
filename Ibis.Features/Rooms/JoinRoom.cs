@@ -1,4 +1,6 @@
-﻿namespace Ibis.Features.Rooms;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Ibis.Rooms;
 
 public record JoinRoomRequest(string RoomId);
 public record GetRoomResponse
@@ -12,7 +14,7 @@ public record GetRoomResponse
     public List<UserAvatar>? Users { get; set; }
     public string HostUserId { get; set; }
 
-    public GetRoomResponse(Room room)
+    public GetRoomResponse(Room room, List<UserAvatar>? users = null)
     {
         RoomId = room.Id;
         RoomType = room.RoomType;
@@ -21,7 +23,23 @@ public record GetRoomResponse
         Name = room.Name;
         Slug = room.Slug;
         Users = room.Users;
+
+        ReplaceUsersWithCurrent(users);
+
         HostUserId = room.HostUser.Id;
+    }
+
+    private void ReplaceUsersWithCurrent(List<UserAvatar>? users)
+    {
+        if (users != null)
+        {
+            foreach (var user in users)
+            {
+                var idx = Users!.FindIndex(u => u.Id == user.Id);
+                if (idx >= 0)
+                    Users[idx] = user;
+            }
+        }
     }
 }
 
@@ -47,7 +65,14 @@ public class JoinRoom : Feature<JoinRoomRequest, GetRoomResponse>
 
         await Users.ExecuteAsync(User.Id(), user => user.JoinRoom(room.Id));
         await Rooms.ExecuteAsync(room.Id, room => room.AddActiveUser(user));
-        
-        return new(room);
+
+        var userIds = room.Users.Select(u => u.Id).ToList();
+        var users = await Users.Query
+            .AsNoTracking()
+            .Where(u => userIds.Contains(u.Id))
+            .Select(x => x.Avatar)
+            .ToListAsync();
+
+        return new(room, users);
     }
 }

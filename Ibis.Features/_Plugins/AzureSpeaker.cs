@@ -2,10 +2,8 @@
 using NAudio.Lame;
 using NAudio.Wave;
 using File = Sparc.Blossom.Data.File;
-using Sparc.Blossom.Realtime;
-using Sparc.Blossom.Data;
 
-namespace Ibis.Features._Plugins;
+namespace Ibis._Plugins;
 
 public record WordSpoken(string UserId, string Language, byte[] Audio, List<Word> Words) : Notification(UserId + "|" + Language);
 public class AzureSpeaker : ISpeaker
@@ -14,6 +12,7 @@ public class AzureSpeaker : ISpeaker
     readonly string SubscriptionKey;
 
     public IFileRepository<File> Files { get; }
+    public static List<Voice>? Voices;
 
     public AzureSpeaker(IConfiguration configuration, IFileRepository<File> files)
     {
@@ -48,10 +47,11 @@ public class AzureSpeaker : ISpeaker
         File file = new("speak", $"{message.RoomId}/{message.Id}/{result.ResultId}.mp3", AccessTypes.Public, stream);
         await Files.AddAsync(file);
 
-        var cost = message.Text!.Length / 1_000_000M * -16.00M; // $16 per 1M characters
-        message.AddCharge(cost, $"Speak message from {message.User.Name} in voice {message.Audio!.Voice}");
+        var cost = message.Text!.Length / 1_000_000M * 16.00M; // $16 per 1M characters
+        var ticks = result.AudioDuration.Ticks;
+        message.AddCharge(ticks, cost, $"Speak message from {message.User.Name} in voice {message.Audio?.Voice}");
         
-        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio.Voice, words);
+        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio?.Voice, words);
     }
 
     public async Task<AudioMessage> SpeakAsync(List<Message> messages)
@@ -93,9 +93,9 @@ public class AzureSpeaker : ISpeaker
 
     public async Task<List<Voice>> GetVoicesAsync(string? language = null, string? dialect = null, string? gender = null)
     {
-        var result = await Client.GetFromJsonAsync<List<Voice>>("/cognitiveservices/voices/list");
+        Voices ??= await Client.GetFromJsonAsync<List<Voice>>("/cognitiveservices/voices/list");
 
-        return result!
+        return Voices!
             .Where(x => language == null || x.Locale.StartsWith(language))
             .Where(x => dialect == null || x.Locale.Split("-").Last() == dialect)
             .Where(x => gender == null || x.Gender == gender)
@@ -120,5 +120,12 @@ public class AzureSpeaker : ISpeaker
         rdr.CopyTo(wtr);
         wtr.Flush();
         return retMs.ToArray();
+    }
+
+    public async Task<string?> GetClosestVoiceAsync(string language, string? gender, string deterministicId)
+    {
+        var voices = await GetVoicesAsync(language, null, gender);
+        var hash = deterministicId.ToCharArray().Aggregate(0, (acc, c) => acc + c);
+        return voices[hash % voices.Count].Name;
     }
 }

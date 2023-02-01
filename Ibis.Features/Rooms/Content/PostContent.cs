@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Rooms;
+﻿namespace Ibis.Rooms;
 
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
 public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
@@ -33,13 +33,13 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
 
         var result = await GetAllMessagesAsync(request, room);
 
-        return new(room.Name, room.Slug, result);
+        return new(room.Name, room.Slug, request.Language, result);
     }
 
     private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new(roomId, message, message), user ?? Features.Users.User.System);
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
     }
 
     private async Task<List<string>> GetUntranslatedMessagesAsync(PostContentRequest request, Room room)
@@ -83,17 +83,10 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         var room = Rooms.Query.FirstOrDefault(x => x.Slug == slug);
         if (room == null)
         {
-            if (user != null)
-            {
-                room = new Room(slug, "Content", user);
-                await Rooms.AddAsync(room);
-            }
-            else
-            {
-                throw new NotFoundException($"Room {slug} not found");
-            }
+            room = new Room(slug, "Content", user ?? Ibis.Users.User.System);
+            await Rooms.AddAsync(room);
         }
-
+        
         return room;
     }
 }

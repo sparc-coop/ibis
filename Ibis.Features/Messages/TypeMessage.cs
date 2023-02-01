@@ -1,4 +1,4 @@
-﻿namespace Ibis.Features.Messages;
+﻿namespace Ibis.Messages;
 
 public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
@@ -39,9 +39,16 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
             }
         }
 
-        var message = new Message(request.RoomId, user!, request.Text, request.Tag);
-        await Messages.AddAsync(message);
-
-        return message;
+        try
+        {
+            var message = new Message(request.RoomId, user!, request.Text, request.Tag);
+            await Messages.AddAsync(message);
+            return message;
+        }
+        catch (Exception ex)
+        {
+            var e = ex;
+            return null;
+        }
     }
 }

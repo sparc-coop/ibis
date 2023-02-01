@@ -3,74 +3,108 @@
 .voice-selector {
     height: 100%;
 
-    h4 {
-        padding-top: 8px;
+    h3 {
         color: $grey-700;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: 500;
+        margin: 16px 0;
     }
 
-    .voice-list {
-        overflow-y: scroll;
+    h4 {
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    ul {
+        overflow-y: auto;
         overflow-x: hidden;
-        height: 58%;
+        max-height: 40%;
         padding-right: 10px;
 
-        ul {
-            li {
-                display: flex;
-                position: relative;
-                margin: 8px 0;
-                padding: 10px 14px;
-                border: 1px solid $grey-300;
-                border-radius: 8px;
-                box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-                cursor: pointer;
-                font-size: 16px;
-                transition: 300ms ease-in-out;
+        li {
+            display: flex;
+            position: relative;
+            padding: 10px 14px;
+            border: 1px solid $grey-300;
+            border-radius: 8px;
+            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+            cursor: pointer;
+            font-size: 16px;
+            transition: 300ms ease-in-out;
+
+            aside {
+                position: absolute;
+                bottom: 6px;
+                right: 6px;
+                font-size: 12px;
+                vertical-align: middle;
+
+                span {
+                    margin: auto 0;
+                    font-size: 12px;
+                    color: $grey-400;
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    margin: auto 0;
+                    opacity: 0.4;
+                }
+            }
+
+            &:hover {
+                background: $grey-100;
+            }
+
+            &.selected {
+                border: 1.5px solid #30C07D;
+                color: #30C07D;
 
                 aside {
-                    height: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 12px;
-                    position: absolute;
-                    top: 0;
-                    right: 14px;
-
                     span {
-                        margin: auto 0;
-                        font-size: 12px;
-                        color: $grey-400;
+                        color: #30C07D;
                     }
 
                     svg {
-                        width: 20px;
-                        height: 20px;
-                        margin: auto 0;
-                        opacity: 0.4;
-                    }
-                }
-
-                &:hover {
-                    background: $grey-100;
-                }
-
-                &.selected {
-                    border: 1.5px solid #30C07D;
-                    color: #30C07D;
-
-                    aside {
-                        span {
-                            color: #30C07D;
-                        }
-
-                        svg {
-                            fill: #30C07D;
-                        }
+                        fill: #30C07D;
                     }
                 }
             }
+        }
+
+        &.dialects, &.genders {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+
+            li {
+                margin: 0;
+            }
+        }
+
+        &.voice-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            aside {
+                top: 8px;
+            }
+        }
+    }
+
+    .right {
+        height: 100%;
+        padding-top: 0;
+        position: absolute;
+        top: 0;
+        right: 14px;
+
+        img {
+            width: 16px;
+            height: 16px;
+            margin: auto 0;
         }
     }
 }

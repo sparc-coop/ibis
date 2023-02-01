@@ -1,0 +1,160 @@
+﻿@page "/_login"
+@model IbisLoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container @(Model.Email == null ? "" : "signing-in")">
+    <div class="logo">
+        <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
+    </div>
+
+    <h2>@Model.Welcome</h2>
+    <p>
+        @Model.Message
+    </p>
+
+    <form method="post">
+        <label>
+            @Model.EmailLabel
+            <input type="text" asp-for="Email" placeholder="your@email.com" />
+        </label>
+
+        @if (Model.Error != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <span>@Model.Error</span>
+            </div>
+        }
+
+        <button id="next" type="submit">@Model.SignInButton</button>
+    </form>
+</div>
+
+<style>
+    @@font-face {
+        font-family: 'CircularStd';
+        font-weight: 400;
+        src: url(https://ibistranscriber.blob.core.windows.net/custom-login/CircularStd-Book.ttf) format('truetype');
+    }
+
+    body {
+        background: #F3F5F6;
+        text-align: center;
+        font-family: 'CircularStd', sans-serif;
+        outline-color: #161E29;
+        outline-width: 1.5px;
+    }
+
+    h2 {
+        font-size: 31px;
+        color: #0A111D;
+        margin-bottom: 10px;
+        margin-top: 24px;
+    }
+
+    .signing-in h2 {
+        animation: signin-response 0.5s forwards;
+    }
+
+    p {
+        color: #4A5563;
+        font-size: 16px;
+        margin: 12px 0 35px 0;
+    }
+
+
+    .container {
+        padding-top: 10%;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 360px;
+        position: relative;
+        display: block;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        padding: 20px 0 6px 0;
+        color: #364150;
+        font-size: 13px;
+    }
+
+    .signing-in label {
+        animation: signin-response 0.5s forwards;
+        animation-delay: 0.2s;
+    }
+
+    input {
+        margin-top: 6px;
+        padding: 10px 14px;
+        background: #FFFFFF;
+        border: 1px solid #D1D4DC;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 360px;
+        box-sizing: border-box;
+    }
+
+    label input:only-child {
+        padding-left: 14px;
+    }
+
+    input:focus {
+        border: 1px solid #2E7BA5;
+        box-shadow: 0px 0px 5px #38ADED;
+    }
+
+    .error.itemLevel p {
+        color: #2E7BA5;
+        text-align: left;
+        font-size: 13px;
+        line-height: 120%;
+        padding-bottom: 4px;
+        margin: 0;
+    }
+
+    .error.pageLevel p {
+        border: 1px solid #2E7BA5;
+        background: #D3E4F1;
+        border-radius: 5px;
+        padding: 14px 16px;
+        color: #2E7BA5;
+        margin: 0;
+    }
+
+    #next {
+        width: 100%;
+        background: #CA1E14;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 66px;
+        color: #FFFFFF;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .signing-in #next {
+        animation: signin-response 0.5s forwards;
+        animation-delay: 0.3s;
+    }
+
+
+    @@keyframes signin-response {
+        from {
+            opacity: 1;
+            transform: translate3d(0,0,0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translate3d(0,-30px,0);
+        }
+    }
+</style>

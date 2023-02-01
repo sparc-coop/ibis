@@ -1,32 +1,7 @@
-﻿<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
+﻿@page "/"
+
+<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
     <div class="landing">
-        <div class="landing--nav desktop">
-            <a href="/" tabindex="-1"><img alt="Ibis" class="logo" src="/images/logo_2x.png" /></a>
-            <div class="menu">
-                @*            <a href="/About">About</a>
-                <a href="/Features">Features</a>
-                *@
-                <a href="/pricing">Pricing</a>
-                <a href="/rooms" class="get-started">Launch Ibis</a>
-            </div>
-        </div>
-        <div class="landing--nav mobile">
-            <a href="/"><img class="logo" src="/images/logo_2x.png" alt="Ibis" /></a>
-            <input id="menuToggle" type="checkbox" class="menu--toggle">
-            <label for="menuToggle" class="menu--toggle">
-                <span><i class="material-icons">menu</i></span>
-                <span><i class="material-icons">close</i></span>
-            </label>
-            <div class="menu">
-                <ul>
-                    <li><a href="/rooms" class="get-started">Launch Ibis</a></li>
-                    <li><a href="/pricing">Pricing</a></li>
-                    @*                <li><a href="/About">About</a></li>
-                    <li><a href="/Features">Features</a></li>
-                    *@
-                </ul>
-            </div>
-        </div>
         <div class="landing--main">
             <div class="hero">
                 <div class="description">
@@ -37,8 +12,8 @@
                     </p>
                 </div>
                 <div class="landing--button-container">
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
-                    @*<button class="btn-secondary">Learn More</button>*@
+                    <button @onclick="SignIn" class="get-started">Launch Ibis</button>
+                    <button @onclick="Pricing" class="button-pricing">Pricing</button>
                 </div>
                 <img class="hero-image--room" src="/images/landing/hero-image_room.png" alt="Example of an Ibis room, displaying messages between multiple users." />
                 <img class="hero-background" src="/images/landing/hero-background.png" alt="" />
@@ -49,7 +24,6 @@
                     <p>
                         Speak to your fellow humans without the barrier of language.
                     </p>
-                    @*<button class="btn-primary">Learn More</button>*@
                 </div>
                 <div class="left-container">
                     <div class="card-container">
@@ -105,7 +79,6 @@
                             Every message is transformed into the form of communication and language that fits you.
                             Ibis empowers you to speak up, take up space, and be truly heard.
                         </p>
-                        @*<button class="btn-primary">Learn More</button>*@
                     </div>
                     <div class="row--images">
                         <img class="content-background feature1" src="/images/landing/feature1_graphic.png" alt="Screenshot of Ibis' user language settings, including text and voice options." />
@@ -120,7 +93,6 @@
                             to fit each user's communication preferences in real-time.
                             Rooms are permanent, so join anytime you like.
                         </p>
-                        @*<button class="btn-primary">Learn More</button>*@
                     </div>
                     <div class="row--left row--images">
                         <img class="content-background feature2" src="/images/landing/feature2_graphic.png" alt="Example of the Ibis chat interface." />
@@ -135,7 +107,6 @@
                             Download full transcripts and subtitle files in your language of choice.
                             
                         </p>
-                        @*<button class="btn-primary">Learn More</button>*@
                     </div>
                     <div class="row--images">
                         <img class="content-background feature3" src="/images/landing/feature3_graphic.png" alt="Screenshot of Ibis' options to download conversations in multiple formates." />
@@ -147,18 +118,27 @@
                 <img class="banner-image desktop" src="/images/landing/banner.png" alt="" />
                 <div class="banner-content desktop">
                     <h3>What are you waiting for? <br />Give Ibis a go!</h3>
-                    @*<button class="btn-primary">Get Started</button>*@
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
+                    <button @onclick="SignIn" class="get-started">Host a Chat</button>
                 </div>
                 <img class="banner-image mobile" src="/images/landing/banner-mobile.png" alt="" />
                 <div class="banner-content mobile">
                     <h3>What are you waiting for? <br />Give Ibis a go!</h3>
-                    @*<button class="btn-primary">Get Started</button>*@
-                    <a href="/rooms" class="btn-primary">Launch Ibis</a>
+                    <button @onclick="SignIn" class="get-started">Host a Chat</button>
                 </div>
             </section>
             <div class="footer">
+                🎉 Ibis is honored to have been recently selected as a Microsoft #BuildFor2030 Hackathon winner focusing on inclusive, sustainable, and resilient innovation!  🎉
+                <a href="https://aka.ms/buildfor2030-hackathon-winner-announcement" target="_blank">Learn more</a>
             </div>
         </div>
     </div>
 </Sparc.Ibis.IbisContent>
+
+@code {
+    private void SignIn()
+    {
+        Nav.NavigateTo("/rooms", true);
+    }
+
+    private void Pricing() => Nav.NavigateTo("/pricing");
+}

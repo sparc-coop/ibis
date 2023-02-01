@@ -2,10 +2,25 @@
 @using Microsoft.JSInterop;
 @implements IDisposable
 
-<article lang="@_language" class="ibis-content @ChannelId">
+<article lang="@_selectedLanguage" class="ibis-content @ChannelId">
     <aside class="ibis-widget">
-        <IbisLanguageSelector SelectedLanguage="@_language" OnLanguageSelected="ChangeMessageLanguage" />
-        <IbisAudioPlayer Message="LocalMessage" />
+        @if (LocalMessage.User != null && Me?.Id == LocalMessage.User.Id)
+        {
+            <ul class="actions">
+                <li>
+                    <button tabindex="0" @onclick=Edit @onkeydown="EditAction">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </li>
+                <li>
+                    <button tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </li>
+            </ul>
+        }
+        <IbisLanguageSelector SelectedLanguage="@_selectedLanguage" OnLanguageSelected="ChangeMessageLanguage" />
+        <IbisAudioPlayer Message="LocalMessage" AutoPlay="@AutoPlay" />
         <figure>
             <img src="https://ibis.chat/images/logo_icon.png" alt="Ibis logo" />
             <figcaption>Ibis</figcaption>
@@ -14,31 +29,15 @@
 
     @if (ChildContent == null)
     {
-        @if(Me?.LanguageIsRTL == false)
-        {
-            <div class="message-text">
-                @((MarkupString)LocalMessage.Html)
-            </div>
-        } else
-        {
-            <div class="message-text" dir="rtl">
-                @((MarkupString)LocalMessage.Html)
-            </div>
-        }
+        <div class="message-text" dir="@_languageDirection">
+            @((MarkupString)LocalMessage.Html)
+        </div>
     }
     else
     {
-        @if (Me?.LanguageIsRTL == false)
-        {
-            <section id="@_id" class="ibis-translate">
-                @ChildContent
-            </section>
-        } else
-        {
-            <section id="@_id" class="ibis-translate" dir="rtl">
-                @ChildContent
-            </section>
-        }
+        <section id="@_id" class="ibis-translate" dir="@_languageDirection">
+            @ChildContent
+        </section>
     }
 </article>
 
@@ -49,30 +48,44 @@
     [Parameter] public Message? Message { get; set; }
     [Parameter] public string? ChannelId { get; set; }
     [Parameter] public string? Tag { get; set; }
+    [Parameter] public EventCallback<Message> OnEdit { get; set; }
+    [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool AutoPlay { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
 
-    string? _originalMessageId;
     Message LocalMessage = new();
 
-    string? _language;
+    string? _selectedLanguage;
+    string _languageDirection => Message?.LanguageIsRTL == true ? "rtl" : "ltr";
     string _id = $"ibis-{Guid.NewGuid()}";
 
     PersistingComponentStateSubscription PersistedStateSubscription;
 
     protected override async Task OnInitializedAsync()
     {
-        if (Message != null)
+        if (ChannelId != null && Tag != null)
+        {
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+        }
+        else if (Message != null)
         {
             LocalMessage = Message;
         }
-        else if (ChannelId != null && Tag != null)
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Message != null && Message.Id == LocalMessage.Id && Message.LastModified != LocalMessage.LastModified)
         {
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = Message.RoomId, Tag = Tag });
+            LocalMessage = Message;
         }
 
-        _originalMessageId = LocalMessage?.Id;
-        _language = LocalMessage?.Language;
+        if (_selectedLanguage != LocalMessage?.Language)
+        {
+            _selectedLanguage = LocalMessage?.Language;
+            await ChangeMessageLanguage(_selectedLanguage);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -83,7 +96,7 @@
         }
 
         PersistedStateSubscription = PersistedState.RegisterOnPersisting(PersistData);
-        await InitFromClientAsync(_language);
+        await InitFromClientAsync(_selectedLanguage);
     }
 
     async Task InitFromClientAsync(string? language, bool forceLoad = false)
@@ -93,31 +106,34 @@
 
         if (!forceLoad && PersistedState.TryTakeFromJson<List<Message>>(ChannelId, out var restoredIbisContent))
         {
-            _language = await Ibis.InitAsync(ChannelId, language, restoredIbisContent);
+            _selectedLanguage = await Ibis.InitAsync(ChannelId, language, restoredIbisContent);
         }
         else
         {
-            _language = await Ibis.InitAsync(ChannelId, language);
+            _selectedLanguage = await Ibis.InitAsync(ChannelId, language);
         }
 
         await Ibis.InitClientAsync(this, _id);
         StateHasChanged();
     }
 
-    async Task ChangeMessageLanguage(Language language)
+    async Task ChangeMessageLanguage(string languageId)
     {
-        if (ChildContent != null && language.Id != _language)
+        if (ChildContent != null && languageId != _selectedLanguage)
         {
-            await InitFromClientAsync(language.Id, true);
+            await InitFromClientAsync(languageId, true);
         }
-        else if (_originalMessageId != null && language.Id != LocalMessage.Language)
+        else if (languageId != LocalMessage.Language)
         {
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = LocalMessage.RoomId, Tag = _originalMessageId, Language = language.Id });
-            _language = LocalMessage?.Language;
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest 
+            { 
+                RoomSlug = LocalMessage.RoomId, 
+                Tag = LocalMessage.SourceMessageId ?? LocalMessage.Id, 
+                Language = languageId 
+            });
+            _selectedLanguage = LocalMessage?.Language;
         }
     }
-
-    
 
     [JSInvokable]
     public async Task<List<string>> TranslateAsync(List<string> text)
@@ -129,12 +145,46 @@
     {
         if (ChannelId != null)
             PersistedState.PersistAsJson(ChannelId, Ibis.Content);
-        
+
         return Task.CompletedTask;
     }
 
     public void Dispose()
     {
         PersistedStateSubscription.Dispose();
+    }
+
+    async Task Edit()
+    {
+        if (OnEdit.HasDelegate)
+            await OnEdit.InvokeAsync(LocalMessage);
+    }
+    
+    async Task Delete()
+    {
+        var truncatedMessage = new String(LocalMessage.Text.Take(20).ToArray()) + (LocalMessage.Text.Length > 20 ? "..." : "");
+
+        if (!await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the message '{truncatedMessage}'?"))
+            return;
+
+        if (OnDelete.HasDelegate)
+            await OnDelete.InvokeAsync(Message);
+    }
+
+    async Task EditAction(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Edit();
+        }
+    }
+
+
+    async Task DeleteAction(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Delete();
+        }
     }
 }
