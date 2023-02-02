@@ -1301,6 +1301,75 @@
         }
       }
     },
+    "/api/SubmitSupportRequest": {
+      "post": {
+        "tags": [
+          "SubmitSupportRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SupportRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SupportRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SupportRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
+      }
+    },
     "/api/TypeMessage": {
       "post": {
         "tags": [
@@ -2546,6 +2615,24 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis._Plugins.SpeechSessionStarted, Ibis"
+      },
+      "SupportRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactEmail": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "TicksPackage": {
         "type": "object",
