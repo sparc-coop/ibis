@@ -3,7 +3,7 @@
 namespace Ibis.Rooms;
 
 public record GetRoomsResponse(List<GetRoomResponse> HostedRooms, List<GetRoomResponse> InvitedRooms);
-public class GetRooms : Feature<GetRoomsResponse>
+public class GetRooms : Feature<string, GetRoomsResponse>
 {
     public GetRooms(IRepository<Room> rooms, IRepository<User> users)
     {
@@ -28,7 +28,7 @@ public class GetRooms : Feature<GetRoomsResponse>
             .ToListAsync();
 
         var invitedRooms = Rooms.FromSqlRaw("SELECT VALUE r FROM r JOIN u IN r.Users WHERE u.Id = {0}", user.Id)
-            .Where(x => x.EndDate == null)
+            .Where(x => (roomType != null ? x.RoomType == roomType : x.RoomType.Any()) && x.EndDate == null)
             .OrderByDescending(x => x.LastActiveDate)
             .ToList()
             .Where(x => !hostedRooms.Any(y => y.RoomId == x.RoomId))

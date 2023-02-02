@@ -8,7 +8,6 @@
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
-@import "Shared/MarkdownEditorComponent";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
@@ -27,6 +26,7 @@
 @import "Messages/Upload";
 @import "Messages/MessageTags";
 @import "Messages/MessagePage";
+@import "Messages/MarkdownEditorComponent";
 
 @import "Users/Account";
 @import "Users/Notifications";

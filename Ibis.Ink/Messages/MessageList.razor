@@ -2,40 +2,87 @@
 
 <div class="message-grid">
     <div class="message-list ibis-ignore" id="room-@Room.RoomId">
-        @foreach (var message in Messages)
+        @if(Messages != null)
         {
-            <MessageListCard Message="message" OnDelete=DeleteMessage />
+            @foreach (var message in Messages)
+            {
+                <MessageListCard Message="message" OnDelete=DeleteMessage />
+            }
+        } else
+        {
+            <div>
+                <p>Get started with some new content.</p>
+                <button @onclick="NewMessage">Add new content</button>
+            </div>
         }
     </div>
 </div>
 
 @code {
     [Parameter] public GetRoomResponse Room { get; set; } = null!;
-    List<Message> Messages = new();
+    List<Message>? Messages;
     Message? SelectedMessage;
     string? Language;
     bool HasNewMessage;
+    string? PlayMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Api.GetAllMessagesAsync(new GetAllMessagesRequest { RoomId = Room.RoomId });
-        Messages = response.Messages.OrderBy(x => x.Timestamp).ToList();
-            
+        await GetMessagesAsync(new());
+        On<UserLanguageChanged>(GetMessagesAsync);
         HasNewMessage = true;
-        Language = response.Language;
+    }
+
+    async Task GetMessagesAsync(UserLanguageChanged? evt)
+    {
+        if (Messages != null)
+            Messages.Clear();
+
+        await InvokeAsync(StateHasChanged);
+
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Room.RoomId });
+        Messages = response.Content.ToList();
+        if (Language != response.Language)
+        {
+            //await Hub.InvokeAsync("StopWatching", Room.RoomId + "|" + Language);
+            Language = response.Language;
+        }
 
         var subscriptionId = Room.RoomId + "|" + Language;
         await On<MessageTextChanged>(subscriptionId, x =>
         {
-            AddMessage(x.Message);
+            UpdateMessage(x.Message);
         });
 
         await On<MessageAudioChanged>(subscriptionId, x =>
         {
-            AddMessage(x.Message);
+            UpdateMessage(x.Message);
         });
         await On<MessageDeleted>(subscriptionId, x => RemoveMessage(x.Message));
     }
+
+    void UpdateMessage(Message message)
+    {
+        SelectedMessage = null;
+
+        var existingId = Messages.FindIndex(x =>
+           x.Id == message.Id
+        || x.Id == message.SourceMessageId
+        || message.Id == x.SourceMessageId
+        || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
+        if (existingId > -1)
+        {
+            Messages[existingId] = message;
+        }
+        else
+        {
+            Messages.Add(message);
+            HasNewMessage = true;
+            PlayMessage = message.Id;
+            Console.WriteLine($"HasNewMessage {PlayMessage}");
+        }
+    }
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -79,5 +126,23 @@
         var result = await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = Room.RoomId, MessageId = message.Id });
         if (result)
             RemoveMessage(message);
+    }
+
+    void NewMessage()
+    {
+        Nav.NavigateTo($"/content/{Room.RoomId}");
+    }
+
+
+    protected void On<T>(Func<T, Task> action)
+    {
+        if (Hub != null)
+        {
+            Hub.On(typeof(T)!.Name, async delegate (T evt)
+            {
+                await action(evt);
+                await InvokeAsync(StateHasChanged);
+            });
+        }
     }
 }

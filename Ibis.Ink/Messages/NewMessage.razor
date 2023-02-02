@@ -2,46 +2,91 @@
 @inherits RealtimeComponent
 
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
-    <Avatar User="Me" CanEdit=true />
-    @if (Me?.LanguageIsRTL == false)
+@*    @if (Me?.LanguageIsRTL == false)
     {
+        <MarkdownEditorComponent></MarkdownEditorComponent>
         <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
     }
     else
     {
-        <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
-    }
+        <MarkdownEditorComponent></MarkdownEditorComponent>
+      <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
+    }*@
     
-    @if (IsSpeak)
+<div class="MarkdownEditorComponent ibis-ignore" aria-label="Message">
+    @if (Me?.LanguageIsRTL == false)
     {
-        <button type="button" @onclick="BeginListeningAsync" aria-label="Speak">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_1473_31872)">
-                    <path d="M6 12C2.6862 12 0 9.3138 0 6C0 2.6862 2.6862 0 6 0C9.3138 0 12 2.6862 12 6C12 9.3138 9.3138 12 6 12ZM6 10.8C7.27304 10.8 8.49394 10.2943 9.39411 9.39411C10.2943 8.49394 10.8 7.27304 10.8 6C10.8 4.72696 10.2943 3.50606 9.39411 2.60589C8.49394 1.70571 7.27304 1.2 6 1.2C4.72696 1.2 3.50606 1.70571 2.60589 2.60589C1.70571 3.50606 1.2 4.72696 1.2 6C1.2 7.27304 1.70571 8.49394 2.60589 9.39411C3.50606 10.2943 4.72696 10.8 6 10.8ZM6 7.8C5.52261 7.8 5.06477 7.61036 4.72721 7.27279C4.38964 6.93523 4.2 6.47739 4.2 6C4.2 5.52261 4.38964 5.06477 4.72721 4.72721C5.06477 4.38964 5.52261 4.2 6 4.2C6.47739 4.2 6.93523 4.38964 7.27279 4.72721C7.61036 5.06477 7.8 5.52261 7.8 6C7.8 6.47739 7.61036 6.93523 7.27279 7.27279C6.93523 7.61036 6.47739 7.8 6 7.8Z" fill="white" />
-                </g>
-                <defs>
-                    <clipPath id="clip0_1473_31872">
-                        <rect width="12" height="12" fill="white" />
-                    </clipPath>
-                </defs>
-            </svg>
-
-            @(IsListening ? "Listening..." : "Speak")
-        </button>
+         <MarkdownEditor ValueHTMLChanged="@OnMarkdownValueHTMLChanged"
+        @bind-Value="@markdownValue" />   @*@onkeydown= MaybeSendText*@
+        } else
+    {
+            <MarkdownEditor ValueHTMLChanged="@OnMarkdownValueHTMLChanged"
+        @bind-Value="@markdownValue" 
+        dir="rtl"/>
     }
-    else
-    {
-        if (SelectedMessage != null)
-        {
+
+    <hr />    
+    <div class="markdown-result">
+        @((MarkupString)markdownHtml)
+    </div>
+</div>
+    
+        <div class="send">
+@*            @if (IsSpeak)
+            {
+                <button type="button" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
+                    <RecordIcon />
+                    @if (IsListening)
+                    {
+                        <span>Listening...</span>
+                    }
+                    else
+                    {
+                        <span>Speak</span>
+                        <aside>[hold Ctrl]</aside>
+                    }
+                </button>
+            }
+            else
+            {
+                if (SelectedMessage != null)
+                {
+                    <button type="button" class="cancel" @onclick=CancelEdit>
+                        Cancel
+                    </button>
+                }
+                <button type="submit" @onclick="SendText" aria-label="Send">
+                    <SendIcon />
+                    <span>@(SelectedMessage == null ? "Send" : "Save")</span>
+                    <aside>[Enter]</aside>
+                </button>
+            }*@
+            @if (SelectedMessage != null)
+            {
             <button type="button" class="cancel" @onclick=CancelEdit>
                 Cancel
             </button>
+            }
+            <button type="submit" @onclick="SendText" aria-label="Send">
+                <SendIcon />
+                <span>Save</span>
+                <aside>[Enter]</aside>
+            </button>
+        </div>
+
+        @if (IsListening)
+        {
+            <div class="message-subtitles">
+                @if (string.IsNullOrWhiteSpace(TextPreview))
+                {
+                    <aside>Listening...</aside>
+                }
+                else
+                {
+                    <span>@TextPreview</span>
+                }
+            </div>
         }
-        <button type="submit" @onclick="SendText" aria-label="Send">
-            <SendIcon />
-            Save
-        </button>
-    }
 
     <footer>
         <button @onclick="ShowUploadModal" class="select-upload" title="Upload file">
@@ -59,18 +104,34 @@
     [Parameter] public EventCallback<Message> OnSetMessage { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
+    string? TextPreview;
+    string? Dialect;
     ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
     bool preventDefault = false;
     bool LiveMode = true;
+    string markdownValue = "#Markdown Editor\nThis is a test";
+    string markdownHtml;
 
     protected override async Task OnParametersSetAsync()
     {
         if (SelectedMessage != null)
         {
             Text = SelectedMessage.Text;
-            //await TextArea.FocusAsync();
+            markdownHtml = markdownValue = Markdig.Markdown.ToHtml(SelectedMessage.Html ?? string.Empty);
         }
+    }
+
+
+    Task OnMarkdownValueChanged(string value)
+    {
+        return Task.CompletedTask;
+    }
+
+    async Task OnMarkdownValueHTMLChanged(string value)
+    {
+        markdownHtml = value;
+        Text = markdownHtml;
     }
 
     async Task MaybeSendText(KeyboardEventArgs args)
@@ -117,14 +178,25 @@
     DotNetObjectReference<NewMessage>? objRef;
     bool IsListening;
 
-    async Task BeginListeningAsync()
+    [JSInvokable]
+    public async Task BeginListeningAsync(bool liveMode)
     {
-        IsListening = true;
-        StateHasChanged();
-
         if (AudioStartTime != null)
         {
             await StopListeningAsync();
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Text))
+            return;
+
+        LiveMode = liveMode;
+        if (Dialect == null)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Tab", "Voice");
+            var modal = Modal.Show<Onboarding.Index>("Edit Your Avatar", parameters, new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+            var result = await modal.Result;
             return;
         }
 
@@ -133,17 +205,22 @@
         AudioChannel = Channel.CreateUnbounded<byte[]>(); ;
         await JS.InvokeVoidAsync("beginListening", objRef);
 
+        IsListening = true;
+        StateHasChanged();
+
         On<SpeechRecognizing>(x =>
         {
-            Text = x.Text;
+            TextPreview = x.Text;
+            StateHasChanged();
         });
-        On<SpeechRecognized>(async x =>
+        On<SpeechRecognized>(x =>
         {
-            Text = x.Text;
-            if (LiveMode)
-                await SendText();
-            else
-                await StopListeningAsync();
+            if (TextPreview != null)
+            {
+                Text += " " + x.Text;
+                TextPreview = null;
+            }
+            StateHasChanged();
         });
 
         if (Hub?.State == HubConnectionState.Connected)
@@ -157,7 +234,11 @@
         AudioChannel?.Writer.Complete();
         objRef = null;
         IsListening = false;
+        TextPreview = null;
+
         StateHasChanged();
+
+        await TextArea.FocusAsync();
     }
 
     [JSInvokable]

@@ -1,7 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using Sparc.Blossom.Authentication;
 @using Sparc.Ibis;
 
-<RealtimeHub Url="@HubUrl">
+@*<RealtimeHub Url="@HubUrl">*@
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
             <header>
@@ -20,54 +21,20 @@
                     </figure>
                 </a>
                 </h1>
-                <nav>
-                    <AuthorizeView>
-                        <Authorized>
-                            @if (User != null)
-                            {
-                                <UserBalance User="User" />
-                                <ul>
-                                    <li>
-                                        <a href="/rooms">
-                                            <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                                        </a>
-                                    </li>
-
-                                    <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
-                                        <Avatar User="User" />
-                                        <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                                        <ul>
-                                            <li>
-                                                <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                            </li>
-                                            <li>
-                                                <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                            </li>
-                                            <li>
-                                                <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
-                                                    Log Out
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            }
-                        </Authorized>
-                    </AuthorizeView>
-                </nav>
+                <NavMenu />
             </header>
 
             <main>
                 @Body
             </main>
         </div>
-
+@*
         @if (ShowOnboarding)
         {
             <Ibis.Ink.Onboarding.Index OnDone="CloseOnboarding" />
-        }
+        }*@
     </CascadingValue>
-</RealtimeHub>
+@*</RealtimeHub>*@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
@@ -116,9 +83,9 @@
         }
     }
 
-    private void Logout()
+    private async Task Logout()
     {
-        Nav.NavigateToLogout("authentication/logout");
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
     }
 
     void KeyboardMenu(KeyboardEventArgs e)

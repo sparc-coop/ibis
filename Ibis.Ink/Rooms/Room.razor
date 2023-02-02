@@ -41,19 +41,19 @@
 
     async Task DownloadText(string format)
     {
-        var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
+        //var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
 
-        byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
-        Stream fileStream = new MemoryStream(bytes);
+        //byte[] bytes = Encoding.ASCII.GetBytes(result.Text);
+        //Stream fileStream = new MemoryStream(bytes);
 
-        var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
-        foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-        {
-            fileName = fileName.Replace(c, '_');
-        }
+        //var fileName = $"{RoomInfo!.Name}.{format.ToLower()}";
+        //foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        //{
+        //    fileName = fileName.Replace(c, '_');
+        //}
 
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        //using var streamRef = new DotNetStreamReference(stream: fileStream);
+        //await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
     }
 
     void UpdateName()

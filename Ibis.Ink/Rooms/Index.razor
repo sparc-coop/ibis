@@ -10,23 +10,25 @@
             </button>
             <Tooltip Text="Start your first room!" />
         </div>
-        <div class="search-wrapper">
-            <div class="searchbar">
-                <input aria-label="Search" placeholder="Search rooms" @onchange="@SearchRooms" />
-                <span class="search"><img alt="" src="/icons/Search.svg" /></span>
-            </div>
-            <div tabindex="0" class="grid-wrapper" @onclick="ToggleListView" @onkeypress="@Enter">
-                <div class="selected @(listView != "" ? "selected-left" : null)"></div>
-                <div class="grid">
-                    Grid
+        @if (Rooms != null)
+        {
+            <div class="search-wrapper">
+                <div class="searchbar">
+                    <input aria-label="Search" placeholder="Search rooms" @onchange="@SearchRooms" />
+                    <span class="search"><img alt="" src="/icons/Search.svg" /></span>
                 </div>
-                <div class="list">
-                    List
+                <div tabindex="0" class="grid-wrapper" @onclick="ToggleListView" @onkeypress="@Enter">
+                    <div class="selected @(listView != "" ? "selected-left" : null)"></div>
+                    <div class="grid">
+                        Grid
+                    </div>
+                    <div class="list">
+                        List
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
-
     <div class="rooms @listView">
         @if (Rooms != null)
         {
@@ -34,21 +36,63 @@
             {
                 <RoomCard Room=room />
             }
+            @if (!Rooms.Any())
+            {
+                <div class="welcome">
+                    <figure>
+                        <img src="/images/logo_icon.png" alt="Welcome to Ibis" />
+                    </figure>
+                    <h3>Welcome to Ibis!</h3>
+                    <p>
+                        As a special thank you for joining us, you have been gifted <b>10 free audio minutes</b> to host your first room!
+                        Minutes are charged based on the translated audio of each actual message in your room, which means silence is always free.
+                    </p>
+                    <p>
+                        Host your first room by clicking the <b>Create New Room</b> button above.
+                        Or, click your <b>Ibis Avatar</b> below to set up your profile:
+                    </p>
+                    @if (Me != null)
+                    {
+                        <h4>Your Ibis Avatar:</h4>
+                        <Avatar User="Me" EditTab="Profile" />
+                    }
+                </div>
+            }
         }
     </div>
 </div>
 
 
 @code {
-    ICollection<GetRoomResponse> Rooms = new List<GetRoomResponse>();
+    ICollection<GetRoomResponse>? Rooms;
     ICollection<GetRoomResponse>? OriginalList;
     string listView = "";
+    TimeSpan? Balance;
+    [CascadingParameter] public UserAvatar? Me { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Rooms = await Api.GetRoomsAsync("Content");
-        OriginalList = Rooms;
+        try
+        {
+            var ticks = await Api.GetUserBalanceAsync();
+            Balance = TimeSpan.FromTicks(ticks);
+
+            if (Balance.Value.Ticks <= 0)
+            {
+                Modal.Show<AddFundsModal>("Add Funds");
+            }
+
+            GetRoomsResponse rooms = await Api.GetRoomsAsync("Content");
+            Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+            OriginalList = Rooms;
+        }
+        catch (ApiException ex) when (ex.StatusCode == 401)
+        {
+            //await Auth.LogoutAsync();
+            Nav.NavigateTo("/rooms", true);
+        }
     }
+
 
     void CreateRoom()
     {
@@ -73,7 +117,8 @@
 
         if (searchTerm.Length >= 3)
         {
-            Rooms = Rooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
+            //Rooms.HostedRooms = Rooms.HostedRooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
+            //Rooms.InvitedRooms = Rooms.InvitedRooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
         }
         else if (string.IsNullOrEmpty(searchTerm))
         {

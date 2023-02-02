@@ -1,22 +1,22 @@
 ﻿@using System.Web
 @inherits RealtimeComponent
 
+@if (Me?.Id == Message.User.Id)
+{
+            <ul class="actions">
+                <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
+                    Tags
+                </li>
+                <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
+                    Edit
+                </li>
+                <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
+                    Delete
+                </li>
+            </ul>
+}
 <article tabindex="0" class="message-card ibis-ignore">
     <Avatar User="Message.User" />
-    @if (Me?.Id == Message.User.Id)
-    {
-        <ul class="actions">
-            <li tabindex="0" class="actions-tags" @onclick=EditTags @onkeydown="TagsAction">
-                Tags
-            </li>
-            <li tabindex="0" @onclick=Edit @onkeydown="EditAction">
-                Edit
-            </li>
-            <li tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
-                Delete
-            </li>
-        </ul>
-    }
     <Sparc.Ibis.IbisContent Message="Message" />
 </article>
 
