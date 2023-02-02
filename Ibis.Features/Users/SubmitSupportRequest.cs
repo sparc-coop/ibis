@@ -63,7 +63,7 @@ namespace Ibis.Users
 
             Payload payload = new Payload()
             {
-                Channel = "C04NB9J31KJ",
+                Channel = "C0176U1V57Y",
                 Text = request.Message,
                 Blocks = blocks
             };
