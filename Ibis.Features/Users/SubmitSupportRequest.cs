@@ -7,7 +7,7 @@ using System.Text;
 namespace Ibis.Users
 {
 
-    public record SupportRequest(string? UserId, string Message, string? contactEmail);
+    public record SupportRequest(string? UserId, string? RoomId, string Message, string? Attachment, string? contactEmail);
     public class SubmitSupportRequest : Feature<SupportRequest, bool>
     {
         public IRepository<User> Users { get; }
@@ -26,9 +26,9 @@ namespace Ibis.Users
             Block header = new Block()
             {
                 Type = "header",
-                Text = new Text { Type = "plain_text", TextContent = "Ibis Support Request"}
+                Text = new Text { Type = "plain_text", TextContent = "Ibis Support Request" }
             };
-            blocks.Add(header); 
+            blocks.Add(header);
 
             if (request.UserId != null)
             {
@@ -37,11 +37,28 @@ namespace Ibis.Users
                 Block userInfo = new Block()
                 {
                     Type = "section",
-                    Text = new Text { Type = "mrkdwn", TextContent = "Submitted by *" + user.UserName.ToLower() + "* (" + user.Id + ")" }
-                 };
+                    Text = new Text { Type = "mrkdwn", TextContent = "Submitted by *" + user.UserName.ToLower() + "* (id: " + user.Id + ")" }
+                };
                 blocks.Add(userInfo);
             }
 
+            Block supportInfo = new Block()
+            {
+                Type = "section",
+                Text = new Text { Type = "mrkdwn", TextContent = "> " + request.Message }
+            };
+            blocks.Add(supportInfo);
+
+            if (request.Attachment != null)
+            {
+                Block image = new Block()
+                {
+                    Type = "image",
+                    ImageUrl = request.Attachment,
+                    AltText = "Attachment image"
+                };
+                blocks.Add(image);
+            }
 
             if (request.contactEmail != null)
             {
@@ -53,13 +70,12 @@ namespace Ibis.Users
                 blocks.Add(email);
             }
 
-
-            Block supportInfo = new Block()
+            Block roomInfo = new Block()
             {
                 Type = "section",
-                Text = new Text { Type = "mrkdwn", TextContent = "> " + request.Message }
+                Text = new Text { Type = "mrkdwn", TextContent = "*<https://ibis.chat/rooms/" + request.RoomId + "|Go To Room>*" },
             };
-            blocks.Add(supportInfo);
+            blocks.Add(roomInfo);
 
             Payload payload = new Payload()
             {
@@ -83,6 +99,8 @@ namespace Ibis.Users
                 if (response.IsSuccessStatusCode)
                 {
                     string responseText = await response.Content.ReadAsStringAsync();
+                    var respInfo = JsonConvert.DeserializeObject(responseText);
+
                     return true;
                 }
                 else
@@ -111,17 +129,38 @@ public class Payload
 
 public class Block
 {
-    [JsonProperty("type")]
+    [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
     public string? Type { get; set; }
-    [JsonProperty("text")]
+    [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
     public Text? Text { get; set; }
+    [JsonProperty("image_url", NullValueHandling = NullValueHandling.Ignore)]
+    public string? ImageUrl { get; set; }
+    [JsonProperty("alt_text", NullValueHandling = NullValueHandling.Ignore)]
+    public string? AltText { get; set; }
 }
+
+//public class Accessory
+//{
+//    [JsonProperty("type")]
+//    public string? Type { get; set; }
+//    [JsonProperty("text")]
+//    public Text? Text { get; set; }
+//    [JsonProperty("value")]
+//    public string? Value { get; set; }
+//    [JsonProperty("url")]
+//    public string? Url { get; set; }
+//    [JsonProperty("action_id")]
+//    public string? ActionId { get; set; }
+//}
 
 public class Text
 {
-    [JsonProperty("type")] 
+    [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
     public string? Type { get; set; }
 
-    [JsonProperty("text")]
+    [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
     public string? TextContent { get; set; }
 }
+
+
+

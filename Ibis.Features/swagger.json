@@ -2623,7 +2623,15 @@
             "type": "string",
             "nullable": true
           },
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
           "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "attachment": {
             "type": "string",
             "nullable": true
           },
