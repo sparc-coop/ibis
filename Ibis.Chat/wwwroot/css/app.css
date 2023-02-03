@@ -60,21 +60,6 @@
   cursor: pointer;
   transform: scale(103%);
 }
-.landing .button-pricing {
-  padding: 21px 53px;
-  border: none;
-  border: none;
-  border-radius: 5px;
-  background: #FAF1E8;
-  color: #FF3520;
-  font-size: 20px;
-  transition: 200ms ease-in-out;
-  display: inline-block;
-}
-.landing .button-pricing:hover {
-  cursor: pointer;
-  transform: scale(103%);
-}
 .landing--nav {
   display: flex;
   justify-content: space-between;
@@ -90,10 +75,10 @@
   width: 146px;
 }
 .landing--nav .menu {
-  padding-top: 10px;
+  padding-top: 5px;
   font-size: 20px;
 }
-.landing--nav .menu a.log-in {
+.landing--nav .menu .log-in {
   margin-right: 35px;
   color: #4A5563;
   font-size: 20px;
@@ -102,12 +87,25 @@
   transition: 300ms ease-in-out;
   display: inline-block;
 }
-.landing--nav .menu a.log-in:hover {
+.landing--nav .menu .log-in:hover {
   cursor: pointer;
   color: #FF3520;
   transform: scale(103%);
 }
-.landing--nav .menu a.get-started {
+.landing--nav .menu .pricing {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border-width: 0;
+  background: none;
+  color: #6A7280;
+  font-weight: normal;
+  transition: 300ms ease-in-out;
+}
+.landing--nav .menu .pricing:hover {
+  color: #003B5F;
+}
+.landing--nav .menu .get-started {
   padding: 13px 37px;
   border: 1px solid #FF3520;
   border-radius: 5px;
@@ -119,12 +117,12 @@
   display: inline-block;
   margin-left: 15px;
 }
-.landing--nav .menu a.get-started:hover {
+.landing--nav .menu .get-started:hover {
   cursor: pointer;
   transform: scale(103%);
 }
 @media screen and (max-width: 500px) {
-  .landing--nav .menu {
+  .landing--nav {
     display: none;
   }
 }
@@ -174,7 +172,28 @@
 }
 .landing .hero .landing--button-container .get-started {
   padding: 21px 53px;
+  border-radius: 5px;
   font-size: 20px;
+  transition: 200ms ease-in-out;
+}
+.landing .hero .landing--button-container .get-started:hover {
+  cursor: pointer;
+  transform: scale(103%);
+}
+.landing .hero .landing--button-container .button-pricing {
+  padding: 21px 53px;
+  border: none;
+  border: none;
+  border-radius: 5px;
+  background: #FAF1E8;
+  color: #FF3520;
+  font-size: 20px;
+  transition: 200ms ease-in-out;
+  display: inline-block;
+}
+.landing .hero .landing--button-container .button-pricing:hover {
+  cursor: pointer;
+  transform: scale(103%);
 }
 @media screen and (max-width: 475px) {
   .landing .hero .landing--button-container {
@@ -369,6 +388,10 @@
   background: #FF3520;
   font-size: 20px;
   line-height: 24px;
+  transition: 300ms ease-in-out;
+}
+.landing .banner .banner-content.desktop .get-started:hover {
+  transform: scale(103%);
 }
 .landing .banner .banner-content.mobile {
   display: none;
@@ -832,8 +855,8 @@
     margin-bottom: 80px;
     padding: 0px 20px;
     /*                .btn-primary {
-                        margin-right: 10px;
-                    }
+                    margin-right: 10px;
+                }
     */
   }
   .landing .section-1 {
@@ -3381,7 +3404,7 @@ nav li .avatar {
 }
 @container (max-height: 50px) {
   .avatar.emoji svg {
-    background-color: transparent !important;
+    /*background-color: transparent !important;*/
     transform: scale(1.2, 1.2);
   }
 }
@@ -4215,8 +4238,8 @@ button.action:hover {
 }
 
 :focus-visible {
-  box-shadow: 2px 2px 6px #A5120D;
-  outline: 3px solid #810A08;
+  border-radius: 16px;
+  outline: 2px solid #0A111D;
 }
 
 .realtime-hub, .realtime-hub-Connecting {

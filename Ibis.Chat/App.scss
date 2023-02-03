@@ -207,8 +207,8 @@ button.action {
 }
 
 :focus-visible {
-    box-shadow: 2px 2px 6px $primary-800;
-    outline: 3px solid $primary-900;
+    border-radius: 16px;
+    outline: 2px solid $grey-900;
 }
 
 .realtime-hub, .realtime-hub-Connecting {
