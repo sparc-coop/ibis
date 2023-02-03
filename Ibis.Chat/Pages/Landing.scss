@@ -175,6 +175,15 @@ body {
             }
         }
 
+        p.special {
+            padding: 6px 12px;
+            background: $grey-100;
+            border-radius: 32px;
+            font-size: 14px !important;
+            line-height: 20px !important;
+            margin-top: 16px;
+        }
+
         .landing--button-container {
             margin-top: 72px;
             margin-bottom: 150px;
