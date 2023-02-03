@@ -79,7 +79,7 @@ namespace Ibis.Users
 
             Payload payload = new Payload()
             {
-                Channel = "C0176U1V57Y",
+                Channel = "C0176U1V57Y", //realtimeresponse
                 Text = request.Message,
                 Blocks = blocks
             };
@@ -92,7 +92,7 @@ namespace Ibis.Users
                 client.BaseAddress = new Uri("https://slack.com/api/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["SlackSupportToken"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["Slack:SupportToken"]);
 
                 //send channel message api.slack.com/methods/chat.postMessage
                 HttpResponseMessage response = await client.PostAsync("chat.postMessage", httpContent);
