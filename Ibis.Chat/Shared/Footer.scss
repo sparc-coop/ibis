@@ -2,16 +2,32 @@
 
 .footer {
     width: 100%;
-    padding: 0;
-    display: flex;
+    padding: 18px;
     justify-content: space-between;
     background: $tertiary;
-    color: $gray;
-    font-family: freight-display-pro, serif;
+    color: #161E29;
+    //font-family: freight-display-pro, serif;
     font-weight: 500;
-    font-style: italic;
-    font-size: 14px;
-    line-height: 60px;
+    font-size: 20px;
+    line-height: 26px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10001;
+    text-align: center;
+    border-top: 1px solid $primary-200;
+
+    @media screen and (max-width: 500px) {
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    > a {
+        display: inline-block;
+        margin-left: 8px;
+        color: #161E29;
+    }
 
     &--left {
         padding-left: 20px;
@@ -22,7 +38,6 @@
     }
 
     a {
-        color: $gray;
         text-decoration: underline;
     }
     /*    &--container {

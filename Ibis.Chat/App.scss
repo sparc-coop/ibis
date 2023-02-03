@@ -3,6 +3,7 @@
 
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
+@import "Shared/RoomLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
@@ -89,7 +90,7 @@ body {
 }
 
 .container {
-    max-width: 1140px;
+    max-width: 1240px;
     margin: 0 auto;
     display: flex;
     position: relative;
@@ -208,4 +209,12 @@ button.action {
 :focus-visible {
     box-shadow: 2px 2px 6px $primary-800;
     outline: 3px solid $primary-900;
+}
+
+.realtime-hub, .realtime-hub-Connecting {
+    display: none;
+
+    span {
+        display: none;
+    }
 }

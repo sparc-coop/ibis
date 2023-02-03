@@ -2,8 +2,8 @@
 
 .onboarding {
     background: $white;
-    height: 80vh;
-    width: 50vw;
+    height: 100%;
+    width: 90vw;
     max-width: 736px;
     padding: 20px 4vw;
     position: relative;
@@ -17,11 +17,6 @@
             height: auto;
         }
     }
-
-    @media only screen and (max-width: 480px) {
-        width: 100vw;
-    }
-
 
     .avatar {
         height: 220px;
@@ -55,10 +50,14 @@
         text-align: left;
     }
 
-    > button {
-        position: absolute;
-        bottom: 24px;
-        right: 24px;
+    .close-avatareditor {
+        width: 100%;
+        display: block;
+        padding: 40px 0;
+        text-align: right;
+
+        button {
+        }
     }
 
     ::-webkit-scrollbar {
@@ -78,5 +77,11 @@
                 background: $secondary-900;
             }
         }
+    }
+
+    @media screen and (max-width: 480px) {
+        width: 90vw;
+        max-width: none;
+        padding: 0;
     }
 }
