@@ -24,8 +24,8 @@
             align-items: center;
             text-align: center;
             background: white;
-            color: var(--primary-500);
-            border: 1px solid var(--primary-500);
+            color: $secondary-900;
+            border: 1px solid $secondary-900;
         }
 
         li {
@@ -51,6 +51,7 @@
 
         &.selected li {
             display: none;
+
             &.selected {
                 display: flex;
             }

@@ -113,7 +113,7 @@ body {
             transform: rotate(-90deg);
 
             &:last-child {
-                stroke: $primary-500;
+                stroke: $secondary-900;
                 stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
                 transition: stroke-dasharray 0.05s ease-in-out;
             }
@@ -124,7 +124,7 @@ body {
         position: absolute;
         text-align: center;
         inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
-        color: $primary-500;
+        color: $secondary-900;
 
         &:after {
             content: var(--blazor-load-percentage-text, "Loading");
@@ -176,6 +176,13 @@ p.medium {
 p.small {
     font-size: 10px;
     line-height: 120%;
+}
+
+button {
+    background: $secondary-900;
+    &:hover {
+        background: $secondary-800;
+    }
 }
 
 button.action {
