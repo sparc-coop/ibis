@@ -23,6 +23,16 @@ function enablePtt(dotNetHelper) {
     });
 }
 
+function animate(el, source) {
+    var animation = bodymovin.loadAnimation({
+        container: el,
+        path: source,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true
+    });
+}
+
 var context;
 var recorder;
 async function beginListening(dotNet) {

@@ -1306,6 +1306,16 @@
   height: 32px;
   padding: 4px;
 }
+.main-layout header .user-balance {
+  position: relative;
+}
+.main-layout header .user-balance .blossom-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .main-layout header .balance {
   font-size: 13px;
 }

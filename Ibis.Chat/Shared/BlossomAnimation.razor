@@ -1,0 +1,17 @@
+﻿<div class="blossom-animation" id="bl-anim-@Id" @ref=Element></div>
+
+@inject IJSRuntime JS
+@code {
+    [Parameter] public string Source { get; set; } = null!;
+
+    string Id = Guid.NewGuid().ToString();
+    ElementReference Element;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("window.animate", Element, Source);
+        }
+    }
+}

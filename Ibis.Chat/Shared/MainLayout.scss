@@ -121,6 +121,18 @@
             }
         }
 
+        .user-balance {
+            position: relative;
+
+            .blossom-animation {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+        }
+
         .balance {
             font-size: 13px;
 
