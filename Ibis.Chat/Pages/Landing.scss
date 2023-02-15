@@ -14,14 +14,14 @@ body {
         bottom: 30px;
         right: 30px;
         z-index: 1000001;
+
+        ul {
+            transform: translateX(-90%) translateY(-540px);
+        }
     }
 
     .ibis-language-selector {
         background: transparent;
-    }
-
-    ul {
-        transform: translateX(-90%) translateY(-540px);
     }
 }
 

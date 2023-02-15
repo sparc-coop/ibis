@@ -12,11 +12,11 @@
   right: 30px;
   z-index: 1000001;
 }
+.ibis-meta-app .ibis-widget ul {
+  transform: translateX(-90%) translateY(-540px);
+}
 .ibis-meta-app .ibis-language-selector {
   background: transparent;
-}
-.ibis-meta-app ul {
-  transform: translateX(-90%) translateY(-540px);
 }
 
 .landing {
@@ -1465,20 +1465,20 @@ main {
     padding: 32px 16px;
   }
 }
-.room-layout header.mini {
+.room-layout.mini {
   grid-template-rows: 49px auto;
 }
-.room-layout header.mini > header {
+.room-layout.mini > header {
   padding: 10px 3vw;
 }
-.room-layout header.mini > header h1 {
+.room-layout.mini > header h1 {
   font-size: 0;
 }
-.room-layout header.mini > header .logo img {
+.room-layout.mini > header .logo img {
   height: 28px;
 }
-.room-layout header.mini main {
-  padding: 24px 24px 0;
+.room-layout.mini main {
+  padding: 36px 24px 0;
 }
 @media screen and (max-width: 480px) {
   .room-layout header.room-nav.desktop {
@@ -1641,7 +1641,7 @@ nav li .avatar {
   }
 }
 .dashboard .actions {
-  padding: 32px 0px;
+  padding: 0 0 32px;
 }
 @media screen and (max-width: 550px) {
   .dashboard .actions {
@@ -1861,7 +1861,6 @@ nav li .avatar {
   padding: 0 6vw;
   margin: 0 auto;
   max-width: 1920px;
-  padding-top: 10px;
   /* The switch - the box around the slider */
   /* The slider */
   /* Rounded sliders */
@@ -1880,6 +1879,8 @@ nav li .avatar {
   justify-content: space-between;
   width: 100%;
   grid-column: 1/span 2;
+  background: transparent;
+  padding: 0;
 }
 .room header.room-header.mobile {
   display: none;
@@ -1914,7 +1915,7 @@ nav li .avatar {
 .room header .actions {
   align-self: flex-end;
   position: relative;
-  top: 30px;
+  top: 15px;
 }
 .room header .actions button, .room header .actions .ibis-language-selector {
   color: #4A5563;
@@ -2721,7 +2722,7 @@ nav li .avatar {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 12px 12px 0 0;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 152px);
   position: relative;
   overflow: hidden;
   margin: 0 auto;
@@ -4066,6 +4067,7 @@ html {
 body {
   overflow-x: hidden !important;
   font-family: "CircularStd", sans-serif;
+  background-color: #f3f5f6;
 }
 
 .container {
