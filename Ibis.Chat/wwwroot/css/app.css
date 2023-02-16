@@ -56,8 +56,22 @@
   background: #fafbfc;
   z-index: 100;
 }
+.landing--nav > a {
+  display: inline-flex;
+  align-content: flex-end;
+  position: relative;
+}
 .landing--nav .logo {
-  width: 146px;
+  height: 34px;
+  width: auto;
+  position: relative;
+  top: 20px;
+  left: -20px;
+}
+.landing--nav .blossom-animation {
+  position: relative;
+  top: -35px;
+  height: 146px;
 }
 .landing--nav .menu {
   padding-top: 10px;
@@ -4087,33 +4101,32 @@ body {
   position: relative;
 }
 
-#app .loading-progress {
-  position: relative;
-  display: block;
-  width: 8rem;
-  height: 8rem;
-  margin: 20vh auto 1rem auto;
+.loading-progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 200px;
+  width: auto;
 }
-#app .loading-progress circle {
-  fill: none;
-  stroke: #e0e0e0;
-  stroke-width: 0.6rem;
-  transform-origin: 50% 50%;
-  transform: rotate(-90deg);
+
+.loading-progress .blossom-animation {
+  height: 100%;
+  width: auto;
 }
-#app .loading-progress circle:last-child {
-  stroke: #003B5F;
-  stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
-  transition: stroke-dasharray 0.05s ease-in-out;
-}
-#app .loading-progress-text {
+
+.loading-progress-text {
   position: absolute;
   text-align: center;
   inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
   color: #003B5F;
 }
-#app .loading-progress-text:after {
+.loading-progress-text:after {
   content: var(--blazor-load-percentage-text, "Loading");
+}
+
+#bl-anim-loaded {
+  display: none;
 }
 
 h1, h2, h3, h4, h5, h6 {

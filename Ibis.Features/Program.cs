@@ -2,6 +2,7 @@ using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
 using Sparc.Ibis;
+using Blazored.Modal;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -17,7 +18,8 @@ builder.Services
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>();
+        .AddScoped<GetAllContent>()
+        .AddBlazoredModal();
 
 var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
 auth.AddCookie();

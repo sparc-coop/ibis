@@ -39,20 +39,34 @@
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
     </div>
 
-    <script src="_framework/blazor.webassembly.js"></script>
+    <div class="loading-progress" id="loading-progress">
+        <div class="blossom-animation" id="bl-anim-loading"></div>
+        <div class="blossom-animation" id="bl-anim-loaded"></div>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/site.js"></script>
     <script src="js/checkout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js" integrity="sha512-fTTVSuY9tLP+l/6c6vWz7uAQqd1rq3Q/GyKBN2jOZvJSLC5RjggSdboIFL1ox09/Ezx/AKwcv/xnDeYN9+iDDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var loading = animate(document.getElementById('bl-anim-loading'), '/animations/Icon_Idle.json');
+        var loaded = animate(document.getElementById('bl-anim-loaded'), '/animations/Icon_Flyoff.json', 'Once');
+
+        Blazor.start().then(function () {
+            document.getElementById('bl-anim-loading').style.display = 'none';
+            document.getElementById('bl-anim-loaded').style.display = 'block';
+            loaded.play();
+
+            setTimeout(() => {
+                document.getElementById('loading-progress').style.display = 'none'
+            }, 2000);
+        });
+    </script>
 </body>
 
 </html>

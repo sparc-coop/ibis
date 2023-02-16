@@ -66,9 +66,24 @@ body {
         background: $background;
         z-index: 100;
 
+        > a {
+            display: inline-flex;
+            align-content: flex-end;
+            position: relative;
+        }
 
         .logo {
-            width: 146px;
+            height: 34px;
+            width: auto;
+            position: relative;
+            top: 20px;
+            left: -20px;
+        }
+
+        .blossom-animation {
+            position: relative;
+            top: -35px;
+            height: 146px;
         }
 
         .menu {
