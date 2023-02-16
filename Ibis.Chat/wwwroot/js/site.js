@@ -44,7 +44,7 @@ function randomInterval(callback, min, max) {
 }
 
 function animate(el, source, animateOn) {
-    var animation = bodymovin.loadAnimation({
+    var animation = lottie.loadAnimation({
         container: el,
         path: source,
         renderer: 'svg',
