@@ -56,6 +56,13 @@
   background: #fafbfc;
   z-index: 100;
 }
+@media screen and (max-width: 600px) {
+  .landing--nav {
+    justify-content: center;
+    padding: 30px 0;
+    width: 100vw;
+  }
+}
 .landing--nav > a {
   display: inline-flex;
   align-content: flex-end;
@@ -96,7 +103,7 @@
   cursor: pointer;
   transform: scale(103%);
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .landing--nav .menu {
     display: none;
   }
@@ -352,12 +359,11 @@
     font-size: 16px;
   }
   .landing--nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 30px 60px;
+    max-height: 100px;
   }
   .landing--nav .logo {
-    width: 120px;
+    height: 35px;
+    width: auto;
   }
   .landing--nav .menu a {
     font-size: 18px;

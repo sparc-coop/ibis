@@ -66,6 +66,12 @@ body {
         background: $background;
         z-index: 100;
 
+        @media screen and (max-width: 600px) {
+            justify-content: center;
+            padding: 30px 0;
+            width: 100vw;
+        }
+
         > a {
             display: inline-flex;
             align-content: flex-end;
@@ -112,7 +118,7 @@ body {
                 }
             }
 
-            @media screen and (max-width: 500px) {
+            @media screen and (max-width: 600px) {
                 display: none;
             }
         }
@@ -414,12 +420,11 @@ body {
         }
 
         &--nav {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px 60px;
+            max-height: 100px;
 
             .logo {
-                width: 120px;
+                height: 35px;
+                width: auto;
             }
 
             .menu {
