@@ -5,15 +5,15 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
-    public PasswordlessAuthenticator<User> Authenticator { get; }
+    public BlossomAuthenticator<User> Authenticator { get; }
     public IConfiguration Configuration { get; }
     public ITranslator Translator { get; }
     TwilioService Twilio { get; set; }
 
     public InviteUser(TwilioService twilio, 
         IRepository<Room> rooms, 
-        IRepository<User> users, 
-        PasswordlessAuthenticator<User> authenticator, 
+        IRepository<User> users,
+        BlossomAuthenticator<User> authenticator, 
         IConfiguration configuration,
         ITranslator translator)
     {
