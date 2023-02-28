@@ -6,10 +6,20 @@
         <Ibis.Chat.Shared.BlossomAnimation Source="/animations/Icon_Idle.json" AnimateOn="Random" />
         <img alt="Ibis" class="logo" src="/images/logo_text.png" />
     </a>
-    <div class="menu">
-        <a href="/pricing">Pricing</a>
-        <a href="/rooms" class="get-started">Get Started</a>
-    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="menu">
+                <a href="/pricing">Pricing</a>
+                <a href="/rooms" class="get-started">My Rooms</a>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="menu">
+                <a href="/pricing">Pricing</a>
+                <a href="/rooms" class="get-started">Get Started</a>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 <div class="landing--nav mobile">
     <a href="/"><img class="logo" src="/images/logo_2x.png" alt="Ibis" /></a>
@@ -18,12 +28,20 @@
         <span><i class="material-icons">menu</i></span>
         <span><i class="material-icons">close</i></span>
     </label>
-    <div class="menu">
-        <ul>
-            <li><button @onclick="SignIn" class="get-started">Get Started</button></li>
-            <li><a href="/pricing">Pricing</a></li>
-        </ul>
-    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="menu">
+                <a href="/pricing">Pricing</a>
+                <a href="/rooms" class="get-started">My Rooms</a>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="menu">
+                <a href="/pricing">Pricing</a>
+                <a href="/rooms" class="get-started">Get Started</a>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 
 <main>

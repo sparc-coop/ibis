@@ -33,7 +33,7 @@ public class IbisLoginModel : LoginModel
     public override PageResult Page()
     {
         var language = RequestLanguage();
-        if (language != null)
+        if (!string.IsNullOrWhiteSpace(language))
         {
             Task.Run(async () =>
             {
