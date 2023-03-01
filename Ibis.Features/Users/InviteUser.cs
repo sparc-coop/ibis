@@ -7,7 +7,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
     public IRepository<User> Users { get; }
     public BlossomAuthenticator<User> Authenticator { get; }
     public IConfiguration Configuration { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     TwilioService Twilio { get; set; }
 
     public InviteUser(TwilioService twilio, 
@@ -15,7 +15,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
         IRepository<User> users,
         BlossomAuthenticator<User> authenticator, 
         IConfiguration configuration,
-        ITranslator translator)
+        Translator translator)
     {
         Twilio = twilio;
         Rooms = rooms;

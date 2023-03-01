@@ -14,6 +14,8 @@ builder.Services
         .AddAzureStorage(builder.Configuration.GetConnectionString("Storage")!)
         .AddTwilio(builder.Configuration)
         .AddBlossomRealtime<IbisHub>()
+        .AddScoped<Translator>()
+        .AddScoped<ITranslator, DeepLTranslator>()
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()

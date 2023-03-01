@@ -5,12 +5,12 @@ namespace Ibis.Users;
 [OutputCache(Duration = 3600)]
 public class GetLanguages : PublicFeature<List<Language>>
 {
-    public GetLanguages(ITranslator translator, ISpeaker synthesizer)
+    public GetLanguages(Translator translator, ISpeaker synthesizer)
     {
         Translator = translator;
         Synthesizer = synthesizer;
     }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     public ISpeaker Synthesizer { get; }
 
     public override async Task<List<Language>> ExecuteAsync()

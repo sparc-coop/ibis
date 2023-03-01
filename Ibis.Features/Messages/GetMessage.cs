@@ -3,7 +3,7 @@
 public record GetMessageRequest(string RoomSlug, string Tag, string? Language = null, bool AsHtml = false);
 public class GetMessage : PublicFeature<GetMessageRequest, Message>
 {
-    public GetMessage(IRepository<Message> messages, IRepository<Room> rooms, ITranslator translator)
+    public GetMessage(IRepository<Message> messages, IRepository<Room> rooms, Translator translator)
     {
         Messages = messages;
         Rooms = rooms;
@@ -11,7 +11,7 @@ public class GetMessage : PublicFeature<GetMessageRequest, Message>
     }
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
 
     public override async Task<Message> ExecuteAsync(GetMessageRequest request)
     {

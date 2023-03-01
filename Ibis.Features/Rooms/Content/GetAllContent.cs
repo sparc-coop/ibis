@@ -5,7 +5,7 @@ public record GetAllContentRequest(string RoomSlug, string? Language = null, Dic
 public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
 public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
 {
-    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
+    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, Translator translator, TypeMessage typeMessage)
     {
         Messages = messages;
         Rooms = rooms;
@@ -16,7 +16,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     public TypeMessage TypeMessage { get; }
 
     public override async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)

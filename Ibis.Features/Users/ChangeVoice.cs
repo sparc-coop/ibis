@@ -4,7 +4,7 @@ public record ChangeVoiceRequest(string Language, string? VoiceName);
 public record ChangeVoiceResponse(string? PreviewAudioUrl);
 public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
 {
-    public ChangeVoice(IRepository<User> users, IRepository<Room> rooms, ITranslator translator, ISpeaker speaker)
+    public ChangeVoice(IRepository<User> users, IRepository<Room> rooms, Translator translator, ISpeaker speaker)
     {
         Users = users;
         Rooms = rooms;
@@ -14,7 +14,7 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
 
     public IRepository<User> Users { get; }
     public IRepository<Room> Rooms { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     public ISpeaker Speaker { get; }
 
     public override async Task<ChangeVoiceResponse> ExecuteAsync(ChangeVoiceRequest request)
@@ -48,16 +48,16 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
     {
         var testMessages = new List<Message>
         {
-            new Message("", user, $"Hi, nice to meet you!"),
-            new Message("", user, $"Hey, how are things going today?"),
-            new Message("", user, $"What time do you want to meet?"),
-            new Message("", user, $"Thanks, talk to you later!")
+            new Message("", user, $"Hi, nice to meet you!", "en"),
+            new Message("", user, $"Hey, how are things going today?", "en"),
+            new Message("", user, $"What time do you want to meet?", "en"),
+            new Message("", user, $"Thanks, talk to you later!", "en")
         };
 
         int index = new Random().Next(testMessages.Count);
         var testMessage = testMessages[index];
 
-        var translation = await Translator.TranslateAsync(testMessage, "en", new() { language });
+        var translation = await Translator.TranslateAsync(testMessage, new() { language });
         var speech = await Speaker.SpeakAsync(translation.First());
         return speech;
     }

@@ -8,7 +8,7 @@ namespace Ibis.Rooms;
 public record DownloadRoomContentRequest(string RoomId, string Format, string Language);
 public class DownloadRoomContent : Feature<GetRoomTextRequest, FileResult>
 {
-    public DownloadRoomContent(IRepository<Messages.Message> messages, IRepository<Room> rooms, ITranslator translator, GetAllContent getAllContent)
+    public DownloadRoomContent(IRepository<Messages.Message> messages, IRepository<Room> rooms, Translator translator, GetAllContent getAllContent)
     {
         Messages = messages;
         Rooms = rooms;
@@ -18,7 +18,7 @@ public class DownloadRoomContent : Feature<GetRoomTextRequest, FileResult>
 
     public IRepository<Messages.Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     public GetAllContent GetAllContent { get; }
 
     public override async Task<FileResult> ExecuteAsync([FromQuery]GetRoomTextRequest request)

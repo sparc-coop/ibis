@@ -3,7 +3,7 @@
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
 public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
 {
-    public PostContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
+    public PostContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, Translator translator, TypeMessage typeMessage)
     {
         Messages = messages;
         Rooms = rooms;
@@ -14,7 +14,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     public TypeMessage TypeMessage { get; }
 
     public override async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)

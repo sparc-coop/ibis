@@ -92,7 +92,7 @@ public class Room : Root<string>
             Users.Add(user);
     }
 
-    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
+    internal async Task<List<Message>> TranslateAsync(Message message, Translator translator, bool forceRetranslation = false)
     {
         var languagesToTranslate = forceRetranslation
             ? Languages.Where(x => x.Id != message.Language).ToList()
