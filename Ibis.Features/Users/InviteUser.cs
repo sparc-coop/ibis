@@ -72,9 +72,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
                 await Users.AddAsync(user);
             }
 
-            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
-            roomLink = $"{Request.Scheme}://{Request.Host.Value}{roomLink}";
-
+            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(request.Email, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}", Request);
 
             var templateData = new
             {
