@@ -52,7 +52,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
                 { "Powered", "POWERED BY IBIS" },
             };
 
-            if (language != null)
+            if (language != null && language != "en")
             {
                 foreach (var key in dictionary.Keys)
                     dictionary[key] = await Translator.TranslateAsync(dictionary[key], "en", language) ?? dictionary[key];
@@ -72,7 +72,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
                 await Users.AddAsync(user);
             }
 
-            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(request.Email, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}", Request);
+            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(request.Email, $"/rooms/{request.RoomId}", Request);
 
             var templateData = new
             {

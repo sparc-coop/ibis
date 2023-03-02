@@ -41,12 +41,19 @@
                 var languages = await translator.GetLanguagesAsync();
                 if (!languages.Any(x => x.Id.ToUpper() == message.Language.ToUpper()))
                     continue;
-                
-                var languagesToTranslate = processedLanguages.Where(x => languages.Any(y => y.Id.ToUpper() == x.Id.ToUpper())).ToList();
-                messages.AddRange(await translator.TranslateAsync(message, languagesToTranslate));
-                processedLanguages.RemoveAll(x => languagesToTranslate.Any(y => y.Id.ToUpper() == x.Id.ToUpper()));
-                if (!processedLanguages.Any())
-                    break;
+
+                try
+                {
+                    var languagesToTranslate = processedLanguages.Where(x => languages.Any(y => y.Id.ToUpper() == x.Id.ToUpper())).ToList();
+                    messages.AddRange(await translator.TranslateAsync(message, languagesToTranslate));
+                    processedLanguages.RemoveAll(x => languagesToTranslate.Any(y => y.Id.ToUpper() == x.Id.ToUpper()));
+                    if (!processedLanguages.Any())
+                        break;
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
             return messages;
@@ -54,6 +61,9 @@
 
         public async Task<string?> TranslateAsync(string text, string fromLanguage, string toLanguage)
         {
+            if (fromLanguage == toLanguage)
+                return text;
+            
             var language = await GetLanguageAsync(toLanguage)
                 ?? throw new ArgumentException($"Language {toLanguage} not found");
 

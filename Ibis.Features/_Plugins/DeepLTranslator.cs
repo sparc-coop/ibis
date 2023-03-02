@@ -25,11 +25,12 @@ public class DeepLTranslator : ITranslator
         // Split the translations into 10 max per call
         foreach (var language in toLanguages)
         {
-            var result = await Client.TranslateTextAsync(message.Text!, message.Language, language.Id, options);
+            var toLanguage = language.Id.ToUpper() == "EN" ? "en-US" : language.Id;
+            var result = await Client.TranslateTextAsync(message.Text!, message.Language, toLanguage, options);
             var translatedMessage = new Message(message, language, result.Text, new());
             translatedMessages.Add(translatedMessage);
             var cost = message.Text!.Length / 1_000_000M * -25.00M; // $25 per 1M characters
-            message.AddCharge(0, cost, $"Translate message from {message.User.Name} from {message.Language} to {language.Id}");
+            message.AddCharge(0, cost, $"Translate message from {message.User.Name} from {message.Language} to {toLanguage}");
         }
 
         return translatedMessages;
