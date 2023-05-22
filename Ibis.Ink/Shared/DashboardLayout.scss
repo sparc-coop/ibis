@@ -60,11 +60,35 @@ body {
                     margin-right: 12px;
                 }
             }
+        }
 
-            &.user-menu {
-                position: absolute;
-                top: 32px;
-                right: 32px;
+        .user-menu {
+            width: 50px;
+            height: 27px;
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            vertical-align: middle;
+            text-align: center;
+
+            img {
+                width: 23px;
+                height: 23px;
+                margin-right: 7px;
+            }
+
+            svg {
+                width: 10px;
+                height: 5px;
+                margin-bottom: 2px;
+
+                path {
+                    stroke: $grey-400;
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
             }
         }
     }

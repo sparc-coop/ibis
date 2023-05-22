@@ -671,10 +671,30 @@ body nav button.add-website {
 body nav button.add-website svg {
   margin-right: 12px;
 }
-body nav button.user-menu {
+body nav .user-menu {
+  width: 50px;
+  height: 27px;
   position: absolute;
   top: 32px;
   right: 32px;
+  vertical-align: middle;
+  text-align: center;
+}
+body nav .user-menu img {
+  width: 23px;
+  height: 23px;
+  margin-right: 7px;
+}
+body nav .user-menu svg {
+  width: 10px;
+  height: 5px;
+  margin-bottom: 2px;
+}
+body nav .user-menu svg path {
+  stroke: #9BA3AF;
+}
+body nav .user-menu:hover {
+  cursor: pointer;
 }
 body main {
   grid-column: 4/13;
