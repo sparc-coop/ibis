@@ -2,12 +2,16 @@
 
 @import "Pages/Landing";
 @import "Pages/Pricing";
+@import "Pages/Webpages";
+
+@import "Components/WebpageCard";
 
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
+@import "Shared/DashboardLayout";
 
 @import "Rooms/Index";
 @import "Rooms/Room";

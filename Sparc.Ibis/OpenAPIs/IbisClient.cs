@@ -1054,7 +1054,7 @@ namespace Sparc.Ibis
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetRoomResponse>> GetRoomsAsync(string body)
+        public virtual System.Threading.Tasks.Task<GetRoomsResponse> GetRoomsAsync(string body)
         {
             return GetRoomsAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1062,7 +1062,7 @@ namespace Sparc.Ibis
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetRoomResponse>> GetRoomsAsync(string body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetRoomsResponse> GetRoomsAsync(string body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/GetRooms");

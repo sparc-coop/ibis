@@ -1,0 +1,75 @@
+﻿@import "../_variables";
+
+body {
+    padding: 32px;
+    position: relative;
+
+    #app {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 32px;
+    }
+
+    button {
+        background: $secondary-900;
+    }
+
+    nav {
+        grid-column: 1 / 4;
+        height: calc(100vh - 64px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .logo {
+            width: 88px;
+        }
+
+        button {
+            display: block;
+            border: 1px solid transparent;
+            transition: 250ms ease-in-out;
+
+            &:hover {
+                border: 1px solid $secondary-900;
+                background: $white;
+                color: $secondary-900;
+
+                svg path {
+                    fill: $secondary-900;
+                }
+            }
+
+            &:active {
+                background: $secondary-200;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &.add-website {
+                width: 299px;
+                height: 44px;
+                border-radius: 8px;
+                text-align: center;
+                transition: 250ms ease-in-out;
+
+                svg {
+                    margin-right: 12px;
+                }
+            }
+
+            &.user-menu {
+                position: absolute;
+                top: 32px;
+                right: 32px;
+            }
+        }
+    }
+
+    main {
+        grid-column: 4 / 13;
+    }
+}

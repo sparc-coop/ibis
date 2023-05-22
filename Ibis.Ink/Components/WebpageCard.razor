@@ -1,0 +1,39 @@
+﻿<div class="webpage-card">
+    <div class="webpage-card--container">
+        <img class="webpage-image" src="@ImagePath" />
+        <div class="card-content">
+            <header>
+                <h3><a href="/webpages">@Title</a></h3>
+                <p class="subheader assosciated-contents">
+                    Associated contents: @NumContent
+                </p>
+            </header>
+            <div class="users">
+                <img src="images/Avatar.svg" />
+            </div>
+        </div>
+        <div class="actions">
+            <p class="last-modified">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
+            <button class="link">
+                <LinkIcon />
+            </button>
+            <button class="more">
+                <MoreIcon />
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? NumContent { get; set; }
+
+    [Parameter]
+    public string? ImagePath { get; set; }
+
+    [Parameter] 
+    public DateTime DateModified { get; set; }
+}
