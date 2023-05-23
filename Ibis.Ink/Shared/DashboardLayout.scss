@@ -2,12 +2,22 @@
 
 body {
     padding: 32px;
-
-    #app {
+    /*#app {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(12, 1fr);
-        gap: 32px;
+        grid-template-columns: 0 auto;
+    }*/
+
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 0 auto;
+
+        &.nav-expanded {
+            grid-template-columns: 363px auto;
+        }
+
+        &.nav-collapsed {
+            grid-template-columns: 121px auto;
+        }
     }
 
     button {
@@ -16,8 +26,6 @@ body {
     }
 
     main {
-        grid-column: 4 / 13;
-        grid-row: 2 / 13;
         margin-top: 16px;
     }
 }

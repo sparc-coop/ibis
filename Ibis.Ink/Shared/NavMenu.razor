@@ -19,7 +19,7 @@
         </AuthorizeView>
     </div>
 
-    <nav class="@Show">
+    <nav>
         <AuthorizeView>
             <Authorized>
                 @if (User != null)
@@ -27,12 +27,12 @@
                     <div class="navmenu">
                         <header class="navmenu--header">
                             <a href="/webpages"><img class="logo" src="images/logo.png" /></a>
-                            <button class="toggle-menu" @onclick="ToggleMenu"><ExpandIcon /></button>
+                            <button class="toggle-menu" @onclick="ToggleNav"><ExpandIcon /></button>
                         </header>
-                        <div class="navmenu--search @Show">
-                            @if (Show == "collapse-menu")
+                        <div class="navmenu--search">
+                            @if (NavSize == "nav-collapsed")
                             {
-                                <span @onclick="ToggleMenu">
+                                <span @onclick="ToggleNav">
                                     <SearchIcon />
                                 </span>
                             } else
@@ -41,6 +41,12 @@
                                 <input type="text" placeholder="Search..." />
                             }
                         </div>
+                        @if (NavSize == "nav-collapsed")
+                        {
+                            <div class="navmenu--home">
+                                <a href="/webpages"><HomeIcon /></a>
+                            </div>
+                        }
                         <div class="navmenu--webpages">
                             <div class="item">
                                 <header>
@@ -66,34 +72,7 @@
                         </div>
                         <button class="add-website"><AddIcon /><span> Add Website</span></button>
                     </div>
-@*                    <ul>
-                        <li>
-                            <button @onclick="GoToRooms">
-                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                            </button>
-                        </li>
-                        <li>
-                            <UserBalance User="User" @ref=BalanceComponent />
-                        </li>
-                        <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
-                            <Avatar User="User" />
-                            <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
-                            <ul>
-                                <li>
-                                    <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
-                                </li>
-                                <li>
-                                    <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                </li>
-                                <li>
-                                    <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
-                                        Log Out
-                                    </button>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-*@                }
+                }
             </Authorized>
         </AuthorizeView>
     </nav>
@@ -102,10 +81,14 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @code {
+    [Parameter]
+    public EventCallback<bool> OnCollapseNav { get; set; }
+
+    protected bool NavIsCollapsed { get; set; }
+    string NavSize = "nav-expanded";
+
     UserAvatar? User;
     bool ShowMenu;
-    bool CollapseMenu;
-    string Show = "expand-menu";
     bool IsRoom;
     string HubUrl => Config["Blossom:Authority"] + "/hub";
     UserBalance? BalanceComponent;
@@ -172,13 +155,15 @@
         }
     }
 
-    private void ToggleMenu()
+    protected async Task ToggleNav()
     {
-        CollapseMenu = !CollapseMenu;
+        NavIsCollapsed = !NavIsCollapsed;
 
-        if (CollapseMenu == true)
-            Show = "collapse-menu";
+        if (NavIsCollapsed == true)
+            NavSize = "nav-collapsed";
         else
-            Show = "expand-menu";
+            NavSize = "nav-expanded";
+
+        await OnCollapseNav.InvokeAsync(NavIsCollapsed);
     }
 }

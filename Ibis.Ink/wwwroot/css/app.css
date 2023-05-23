@@ -522,10 +522,10 @@ main {
 }
 
 .user-menu {
-  grid-column: 12/13;
-  grid-row: 1/2;
+  position: absolute;
+  top: 32px;
+  right: 32px;
   text-align: center;
-  position: relative;
 }
 .user-menu button {
   width: 50px;
@@ -561,8 +561,6 @@ main {
 }
 
 nav {
-  grid-column: 1/4;
-  grid-row: 1/13;
   height: calc(100vh - 64px);
   padding-right: 32px;
   position: relative;
@@ -584,6 +582,25 @@ nav .navmenu--header .toggle-menu svg {
   height: 8px;
 }
 nav .navmenu--header .toggle-menu svg path {
+  stroke: #6A7280;
+}
+nav .navmenu--search {
+  width: 100%;
+  height: 40px;
+  position: relative;
+  margin-bottom: 16px;
+}
+nav .navmenu--search input {
+  width: 100%;
+  padding: 10.5px 14px 10.5px 42px;
+  border-radius: 8px;
+}
+nav .navmenu--search svg {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 12.5px;
+  left: 16.5px;
   stroke: #6A7280;
 }
 nav .navmenu--webpages {
@@ -629,25 +646,6 @@ nav .navmenu--webpages .item a:focus {
   border: none;
   box-shadow: none;
 }
-nav .navmenu--search {
-  width: 100%;
-  height: 40px;
-  position: relative;
-  margin-bottom: 16px;
-}
-nav .navmenu--search.expand-menu input {
-  width: 100%;
-  padding: 10.5px 14px 10.5px 42px;
-  border-radius: 8px;
-}
-nav .navmenu--search.expand-menu svg {
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  top: 12.5px;
-  left: 16.5px;
-  stroke: #6A7280;
-}
 nav button {
   display: block;
   border: 1px solid transparent;
@@ -692,53 +690,94 @@ nav button.add-website:focus {
   box-shadow: none;
 }
 
-.collapse-menu {
-  grid-column: 1/2;
-  transition: width 250ms ease-in-out;
-}
-.collapse-menu .navmenu--header {
+.nav-collapsed nav .navmenu--header {
   display: block;
   gap: 0;
 }
-.collapse-menu .navmenu--header .logo {
+.nav-collapsed nav .navmenu--header .logo {
   display: none;
 }
-.collapse-menu .navmenu--header .toggle-menu {
+.nav-collapsed nav .navmenu--header .toggle-menu {
   margin: 0 auto;
 }
-.collapse-menu .navmenu--header .toggle-menu svg {
+.nav-collapsed nav .navmenu--header .toggle-menu svg {
   transform: rotate(180deg);
 }
-.collapse-menu .navmenu--search.collapse-menu span {
+.nav-collapsed nav .navmenu--search span {
   display: block;
   width: 100%;
   height: 100%;
   cursor: pointer;
   text-align: center;
 }
-.collapse-menu .navmenu--search.collapse-menu svg {
-  margin: 0 auto;
+.nav-collapsed nav .navmenu--search svg {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.collapse-menu .navmenu--webpages .item header img {
+.nav-collapsed nav .navmenu--home {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.nav-collapsed nav .navmenu--home a {
+  display: inline-block;
+  aspect-ratio: 1/1;
+  width: 90%;
+  height: auto;
+  border: 1.5px solid #00608B;
+  border-radius: 8px;
+  position: relative;
+  transition: 250ms ease-in-out;
+}
+.nav-collapsed nav .navmenu--home a:hover {
+  background: #EEF4FA;
+}
+.nav-collapsed nav .navmenu--home a:hover svg path {
+  fill: #00608B;
+}
+.nav-collapsed nav .navmenu--home a:active {
+  background: #FFFFFF;
+}
+.nav-collapsed nav .navmenu--home a:active svg path {
+  fill: #6A7280;
+}
+.nav-collapsed nav .navmenu--home a:focus {
+  outline: none;
+  box-shadow: none;
+}
+.nav-collapsed nav .navmenu--home svg {
+  width: 22px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.nav-collapsed nav .navmenu--home svg path {
+  fill: #6A7280;
+}
+.nav-collapsed nav .navmenu--webpages .item header img {
   display: block;
   width: 90%;
   margin: 0 auto;
   transition: 250ms ease-in-out;
 }
-.collapse-menu .navmenu--webpages .item header img:hover {
+.nav-collapsed nav .navmenu--webpages .item header img:hover {
   transform: scale(105%);
 }
-.collapse-menu .navmenu--webpages .item .title, .collapse-menu .navmenu--webpages .item ul {
+.nav-collapsed nav .navmenu--webpages .item .title, .nav-collapsed nav .navmenu--webpages .item ul {
   display: none;
 }
-.collapse-menu .navmenu .add-website {
+.nav-collapsed nav .navmenu .add-website {
   width: calc(100% - 32px);
   padding: 10px 6px;
 }
-.collapse-menu .navmenu .add-website svg {
+.nav-collapsed nav .navmenu .add-website svg {
   margin: 0;
 }
-.collapse-menu .navmenu .add-website span {
+.nav-collapsed nav .navmenu .add-website span {
   display: none;
 }
 
@@ -803,20 +842,26 @@ nav button.add-website:focus {
 
 body {
   padding: 32px;
+  /*#app {
+      display: grid;
+      grid-template-columns: 0 auto;
+  }*/
 }
-body #app {
+body .dashboard-layout {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(12, 1fr);
-  gap: 32px;
+  grid-template-columns: 0 auto;
+}
+body .dashboard-layout.nav-expanded {
+  grid-template-columns: 363px auto;
+}
+body .dashboard-layout.nav-collapsed {
+  grid-template-columns: 121px auto;
 }
 body button {
   background: #003B5F;
   text-align: center;
 }
 body main {
-  grid-column: 4/13;
-  grid-row: 2/13;
   margin-top: 16px;
 }
 
