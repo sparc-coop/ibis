@@ -26,7 +26,7 @@
                 {
                     <div class="navmenu">
                         <header class="navmenu--header">
-                            <a href="/webpages"><img class="logo" src="images/logo.png" /></a>
+                            <a href="/dashboard"><img class="logo" src="images/logo.png" /></a>
                             <button class="toggle-menu" @onclick="ToggleNav"><ExpandIcon /></button>
                         </header>
                         <div class="navmenu--search">
@@ -44,31 +44,26 @@
                         @if (NavSize == "nav-collapsed")
                         {
                             <div class="navmenu--home">
-                                <a href="/webpages"><HomeIcon /></a>
+                                <a href="/dashboard"><HomeIcon /></a>
                             </div>
                         }
-                        <div class="navmenu--webpages">
-                            <div class="item">
-                                <header>
-                                    <a href="/webpages"><img src="images/Sparc-image.png" /></a>
-                                    <p class="title"><a href="">Sparc (sparc.coop)</a></p>
-                                </header>
-                                <ul>
-                                    <li><a href="/webpages">Homepage (/)</a></li>
-                                    <li><a href="/webpages">Kodekit (/projects/kodekit)</a></li>
-                                    <li><a href="/webpages">Law of 100 (/projects/lawof100)</a></li>
-                                </ul>
-                            </div>
-                            <div class="item">
-                                <header>
-                                    <a href="/webpages"><img src="images/Blossom-image.png" /></a>
-                                    <p class="title"><a href="">Blossom</a></p>
-                                </header>
-                                <ul>
-                                    <li><a href="/webpages">Home (/)</a></li>
-                                    <li><a href="/webpages">21 Days of Blossom (/21daysofblossom)</a></li>
-                                </ul>
-                            </div>
+                        <div class="navmenu--websites">
+                            <ul>
+                                @if (NavSize == "nav-expanded")
+                                {
+                                    <li @onclick=@(e =>SelectWebsite(""))>
+                                        <p class="title">All Websites</p>
+                                    </li>
+                                }
+                                <li @onclick=@(e =>SelectWebsite(""))>
+                                    <img src="images/Sparc-image.png" />
+                                    <p class="title">Sparc (sparc.coop)</p>
+                                </li>
+                                <li @onclick=@(e =>SelectWebsite(""))>
+                                    <img src="images/Blossom-image.png" />
+                                    <p class="title">Blossom</p>
+                                </li>
+                            </ul>
                         </div>
                         <button class="add-website"><AddIcon /><span> Add Website</span></button>
                     </div>
@@ -165,5 +160,10 @@
             NavSize = "nav-expanded";
 
         await OnCollapseNav.InvokeAsync(NavIsCollapsed);
+    }
+
+    void SelectWebsite(string Id)
+    {
+        Nav.NavigateTo("/dashboard");
     }
 }

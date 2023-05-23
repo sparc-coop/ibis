@@ -69,6 +69,8 @@ nav {
             }
 
             .toggle-menu {
+                padding: 0;
+
                 svg {
                     width: 13px;
                     height: 8px;
@@ -102,58 +104,60 @@ nav {
             }
         }
 
-        &--webpages {
+        &--websites {
             font-family: 'CircularStd';
             font-weight: 400;
-            font-size: 20px;
+            font-size: 16px;
             line-height: 120%;
             color: $grey-800;
 
-            .item {
-                margin-bottom: 16px;
+            li {
+                padding: 0;
+                padding: 8px 32px;
+                margin: 0 -32px;
+                transition: 250ms ease-in-out;
 
                 &:last-of-type {
                     margin-bottom: 0;
                 }
 
-                header {
-                    img {
-                        display: none;
-                    }
+                img {
+                    display: none;
+                }
 
-                    .title {
-                        color: $grey-800;
-                        margin-bottom: 16px;
+                .title {
+                    color: $grey-800;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background: $secondary-200;
+
+                    p {
+                        color: $secondary-900;
                     }
                 }
 
-                ul {
-                    margin-left: 32px;
-                }
+                &:active {
+                    background: $secondary-900;
 
-                li {
-                    margin-bottom: 16px;
-
-                    &:last-of-type {
-                        margin-bottom: 0;
+                    p {
+                        color: $white;
                     }
                 }
 
-                a {
-                    transition: 250ms ease-in-out;
+                &:focus {
+                    background: none;
+                    outline: none;
+                    border: none;
+                    box-shadow: none;
+                }
 
-                    &:hover {
-                        color: $secondary-700;
-                    }
+                &.active {
+                    background: $secondary-200;
 
-                    &:active {
-                        color: $grey-800;
-                    }
-
-                    &:focus {
-                        outline: none;
-                        border: none;
-                        box-shadow: none;
+                    p {
+                        color: $secondary-900;
                     }
                 }
             }
@@ -251,16 +255,15 @@ nav {
             }
 
             &--home {
+                aspect-ratio: 1 / 1;
                 width: 100%;
-                height: 100%;
-                margin-bottom: 16px;
+                height: auto;
                 text-align: center;
 
                 a {
                     display: inline-block;
-                    aspect-ratio: 1 / 1;
                     width: 100%;
-                    height: auto;
+                    height: 100%;
                     border: 1.5px solid $secondary-800;
                     border-radius: 8px;
                     position: relative;
@@ -302,23 +305,27 @@ nav {
                 }
             }
 
-            &--webpages {
-                .item {
-                    header {
-                        img {
-                            display: block;
-                            width: 100%;
-                            margin: 0 auto;
-                            border-radius: 8px;
-                            transition: 250ms ease-in-out;
+            &--websites {
+                margin-top: 8px;
 
-                            &:hover {
-                                transform: scale(105%);
-                            }
+                ul {
+                    height: 100%;
+                }
+
+                li {
+                    img {
+                        display: block;
+                        width: 100%;
+                        margin: 0 auto;
+                        border-radius: 8px;
+                        transition: 250ms ease-in-out;
+
+                        &:hover {
+                            transform: scale(105%);
                         }
                     }
 
-                    .title, ul {
+                    .title {
                         display: none;
                     }
                 }
