@@ -2,12 +2,71 @@
 @using Sparc.Ibis;
 
 <CascadingValue Value="User">
-    <nav>
+    <div class="user-menu">
         <AuthorizeView>
             <Authorized>
                 @if (User != null)
                 {
-                    <ul>
+                    <button class="toggle-usermenu">
+                        <img src="images/1.png" />
+                        <ExpandIcon />
+                    </button>
+                }
+            </Authorized>
+            <NotAuthorized>
+                <button class="login" @onclick="Login">Login</button>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
+    <nav class="@Show">
+        <AuthorizeView>
+            <Authorized>
+                @if (User != null)
+                {
+                    <div class="navmenu">
+                        <header class="navmenu--header">
+                            <a href="/webpages"><img class="logo" src="images/logo.png" /></a>
+                            <button class="toggle-menu" @onclick="ToggleMenu"><ExpandIcon /></button>
+                        </header>
+                        <div class="navmenu--search @Show">
+                            @if (Show == "collapse-menu")
+                            {
+                                <span @onclick="ToggleMenu">
+                                    <SearchIcon />
+                                </span>
+                            } else
+                            {
+                                <SearchIcon />
+                                <input type="text" placeholder="Search..." />
+                            }
+                        </div>
+                        <div class="navmenu--webpages">
+                            <div class="item">
+                                <header>
+                                    <a href="/webpages"><img src="images/Sparc-image.png" /></a>
+                                    <p class="title"><a href="">Sparc (sparc.coop)</a></p>
+                                </header>
+                                <ul>
+                                    <li><a href="/webpages">Homepage (/)</a></li>
+                                    <li><a href="/webpages">Kodekit (/projects/kodekit)</a></li>
+                                    <li><a href="/webpages">Law of 100 (/projects/lawof100)</a></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <header>
+                                    <a href="/webpages"><img src="images/Blossom-image.png" /></a>
+                                    <p class="title"><a href="">Blossom</a></p>
+                                </header>
+                                <ul>
+                                    <li><a href="/webpages">Home (/)</a></li>
+                                    <li><a href="/webpages">21 Days of Blossom (/21daysofblossom)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="add-website"><AddIcon /><span> Add Website</span></button>
+                    </div>
+@*                    <ul>
                         <li>
                             <button @onclick="GoToRooms">
                                 <img src="../icons/dashboard.svg" alt="Your Rooms" />
@@ -34,11 +93,8 @@
                             </ul>
                         </li>
                     </ul>
-                }
+*@                }
             </Authorized>
-            <NotAuthorized>
-                <button @onclick="Login">Login</button>
-            </NotAuthorized>
         </AuthorizeView>
     </nav>
 </CascadingValue>
@@ -48,6 +104,8 @@
 @code {
     UserAvatar? User;
     bool ShowMenu;
+    bool CollapseMenu;
+    string Show = "expand-menu";
     bool IsRoom;
     string HubUrl => Config["Blossom:Authority"] + "/hub";
     UserBalance? BalanceComponent;
@@ -112,5 +170,15 @@
         {
             OpenMenu();
         }
+    }
+
+    private void ToggleMenu()
+    {
+        CollapseMenu = !CollapseMenu;
+
+        if (CollapseMenu == true)
+            Show = "collapse-menu";
+        else
+            Show = "expand-menu";
     }
 }

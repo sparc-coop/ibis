@@ -1,45 +1,288 @@
 @import "../_variables";
 
-.nav-menu {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.user-menu {
+    grid-column: 12 / 13;
+    grid-row: 1 / 2;
+    text-align: center;
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    .nav-link {
-        color: $primary;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 5px 38px;
-        position: absolute;
-        right: 260px;
-        top: 34px;
-    }
-
-    .logo {
-        width: 146px;
-    }
-
-    nav {
-        font-size: 20px;
-        font-weight: 400;
-    }
-
-    .logout, .login {
-        color: $secondary;
+    button {
+        width: 50px;
+        height: 27px;
+        padding: 0;
         background: none;
-        border: 1px solid $secondary;
-        font-size: 20px;
-        font-weight: 400;
-        border-radius: 4px;
-        margin-left: 30px;
-        padding: 13px 37px;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        &:hover {
+            background: none;
+            border: none;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
     }
 
-    a {
-        text-decoration: none;
+    img {
+        width: 23px;
+        height: 23px;
+        margin-right: 7px;
+    }
+
+    svg {
+        width: 10px;
+        height: 5px;
+
+        path {
+            stroke: $grey-500;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+nav {
+    grid-column: 1 / 4;
+    grid-row: 1 / 13;
+    height: calc(100vh - 64px);
+    padding-right: 32px;
+    position: relative;
+
+    .navmenu {
+        display: flex;
+        flex-direction: column;
+
+        &--header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+
+            .logo {
+                width: 88px;
+            }
+
+            .toggle-menu {
+                svg {
+                    width: 13px;
+                    height: 8px;
+
+                    path {
+                        stroke: $grey-500;
+                    }
+                }
+            }
+        }
+
+        &--webpages {
+            font-family: 'CircularStd';
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 120%;
+            color: $grey-800;
+
+            .item {
+                margin-bottom: 16px;
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+
+                header {
+                    img {
+                        display: none;
+                    }
+
+                    .title {
+                        color: $grey-800;
+                        margin-bottom: 16px;
+                    }
+                }
+
+                ul {
+                    margin-left: 32px;
+                }
+
+                li {
+                    margin-bottom: 16px;
+
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+
+                a {
+                    transition: 250ms ease-in-out;
+
+                    &:hover {
+                        color: $secondary-700;
+                    }
+
+                    &:active {
+                        color: $grey-800;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border: none;
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+
+        &--search {
+            width: 100%;
+            height: 40px;
+            position: relative;
+            margin-bottom: 16px;
+
+            &.expand-menu {
+                input {
+                    width: 100%;
+                    padding: 10.5px 14px 10.5px 42px;
+                    border-radius: 8px;
+                }
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                    position: absolute;
+                    top: 12.5px;
+                    left: 16.5px;
+                    stroke: $grey-500;
+                }
+            }
+        }
+    }
+
+    button {
+        display: block;
+        border: 1px solid transparent;
+        transition: 250ms ease-in-out;
+
+        &.toggle-menu {
+            background: none;
+            transform: rotate(90deg);
+
+            &:hover {
+                background: none;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+
+        &.add-website {
+            width: calc(100% - 32px);
+            padding: 10px 74px;
+            border-radius: 8px;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            transition: 250ms ease-in-out;
+
+            svg {
+                margin-right: 12px;
+            }
+
+            &:hover {
+                border: 1px solid $secondary-900;
+                background: $white;
+                color: $secondary-900;
+
+                svg path {
+                    fill: $secondary-900;
+                }
+            }
+
+            &:active {
+                background: $secondary-200;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+.collapse-menu {
+    grid-column: 1 / 2;
+    transition: width 250ms ease-in-out;
+
+    .navmenu {
+        &--header {
+            display: block;
+            gap: 0;
+
+            .logo {
+                display: none;
+            }
+
+            .toggle-menu {
+                margin: 0 auto;
+
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        &--search {
+            &.collapse-menu {
+                span {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    cursor: pointer;
+                    text-align: center;
+                }
+
+                svg {
+                    margin: 0 auto;
+                }
+            }
+        }
+
+        &--webpages {
+            .item {
+                header {
+                    img {
+                        display: block;
+                        width: 90%;
+                        margin: 0 auto;
+                        transition: 250ms ease-in-out;
+                        &:hover {
+                            transform: scale(105%);
+                        }
+                    }
+                }
+
+                .title, ul {
+                    display: none;
+                }
+            }
+        }
+
+        .add-website {
+            width: calc(100% - 32px);
+            padding: 10px 6px;
+
+            svg {
+                margin: 0;
+            }
+
+            span {
+                display: none;
+            }
+        }
     }
 }
