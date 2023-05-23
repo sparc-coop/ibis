@@ -301,6 +301,9 @@
 
 .webpage-card {
   padding: 24px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EA;
+  border-radius: 8px;
   font-family: "CircularStd";
   font-weight: 400;
   line-height: 120%;
@@ -561,9 +564,13 @@ main {
 }
 
 nav {
-  height: calc(100vh - 64px);
-  padding-right: 32px;
+  height: 100vh;
+  padding: 32px;
   position: relative;
+  background: #FFFFFF;
+  /*min-width: 121px;
+  max-width: 363px;
+  transition: width 500ms ease-in-out;*/
 }
 nav .navmenu {
   display: flex;
@@ -663,12 +670,12 @@ nav button.toggle-menu:focus {
   box-shadow: none;
 }
 nav button.add-website {
-  width: calc(100% - 32px);
+  width: calc(100% - 64px);
   padding: 10px 74px;
   border-radius: 8px;
   text-align: center;
   position: absolute;
-  bottom: 0;
+  bottom: 32px;
   transition: 250ms ease-in-out;
 }
 nav button.add-website svg {
@@ -724,7 +731,7 @@ nav button.add-website:focus {
 .nav-collapsed nav .navmenu--home a {
   display: inline-block;
   aspect-ratio: 1/1;
-  width: 90%;
+  width: 100%;
   height: auto;
   border: 1.5px solid #00608B;
   border-radius: 8px;
@@ -760,8 +767,9 @@ nav button.add-website:focus {
 }
 .nav-collapsed nav .navmenu--webpages .item header img {
   display: block;
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
+  border-radius: 8px;
   transition: 250ms ease-in-out;
 }
 .nav-collapsed nav .navmenu--webpages .item header img:hover {
@@ -771,7 +779,7 @@ nav button.add-website:focus {
   display: none;
 }
 .nav-collapsed nav .navmenu .add-website {
-  width: calc(100% - 32px);
+  width: calc(100% - 64px);
   padding: 10px 6px;
 }
 .nav-collapsed nav .navmenu .add-website svg {
@@ -841,7 +849,7 @@ nav button.add-website:focus {
 }
 
 body {
-  padding: 32px;
+  background: #fafbfc;
   /*#app {
       display: grid;
       grid-template-columns: 0 auto;
@@ -862,7 +870,7 @@ body button {
   text-align: center;
 }
 body main {
-  margin-top: 16px;
+  padding: 98px 32px 32px 32px;
 }
 
 .dashboard {

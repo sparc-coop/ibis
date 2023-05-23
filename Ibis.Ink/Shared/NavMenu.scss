@@ -47,9 +47,13 @@
 }
 
 nav {
-    height: calc(100vh - 64px);
-    padding-right: 32px;
+    height: 100vh;
+    padding: 32px;
     position: relative;
+    background: $white;
+    /*min-width: 121px;
+    max-width: 363px;
+    transition: width 500ms ease-in-out;*/
 
     .navmenu {
         display: flex;
@@ -176,12 +180,12 @@ nav {
         }
 
         &.add-website {
-            width: calc(100% - 32px);
+            width: calc(100% - 64px);
             padding: 10px 74px;
             border-radius: 8px;
             text-align: center;
             position: absolute;
-            bottom: 0;
+            bottom: 32px;
             transition: 250ms ease-in-out;
 
             svg {
@@ -255,7 +259,7 @@ nav {
                 a {
                     display: inline-block;
                     aspect-ratio: 1 / 1;
-                    width: 90%;
+                    width: 100%;
                     height: auto;
                     border: 1.5px solid $secondary-800;
                     border-radius: 8px;
@@ -303,8 +307,9 @@ nav {
                     header {
                         img {
                             display: block;
-                            width: 90%;
+                            width: 100%;
                             margin: 0 auto;
+                            border-radius: 8px;
                             transition: 250ms ease-in-out;
 
                             &:hover {
@@ -320,7 +325,7 @@ nav {
             }
 
             .add-website {
-                width: calc(100% - 32px);
+                width: calc(100% - 64px);
                 padding: 10px 6px;
 
                 svg {

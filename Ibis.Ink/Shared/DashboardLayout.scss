@@ -1,7 +1,7 @@
 ﻿@import "../_variables";
 
 body {
-    padding: 32px;
+    background: $background;
     /*#app {
         display: grid;
         grid-template-columns: 0 auto;
@@ -26,6 +26,6 @@ body {
     }
 
     main {
-        margin-top: 16px;
+        padding: 98px 32px 32px 32px;
     }
 }
