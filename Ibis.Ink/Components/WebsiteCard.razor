@@ -1,9 +1,9 @@
 ﻿<div class="website-card">
     <div class="website-card--container">
-        <img class="website-image" src="@ImagePath" />
+        <a href="/websites/@Id"><img class="website-image" src="@ImagePath"/></a>
         <div class="card-content">
             <header>
-                <h3><a href="/dashboard">@Title</a></h3>
+                <h3><a href="/websites/@Id">@Title</a></h3>
                 <p class="subheader assosciated-contents">
                     Associated contents: @NumContent
                 </p>
@@ -25,6 +25,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public string? Id { get; set; }
+
     [Parameter]
     public string? Title { get; set; }
 

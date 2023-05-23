@@ -51,15 +51,15 @@
                             <ul>
                                 @if (NavSize == "nav-expanded")
                                 {
-                                    <li @onclick=@(e =>SelectWebsite(""))>
+                                    <li @onclick=@(e =>SelectWebsite("/dashboard"))>
                                         <p class="title">All Websites</p>
                                     </li>
                                 }
-                                <li @onclick=@(e =>SelectWebsite(""))>
+                                <li @onclick=@(e =>SelectWebsite("/websites/sparc"))>
                                     <img src="images/Sparc-image.png" />
                                     <p class="title">Sparc (sparc.coop)</p>
                                 </li>
-                                <li @onclick=@(e =>SelectWebsite(""))>
+                                <li @onclick=@(e =>SelectWebsite("websites/blossom"))>
                                     <img src="images/Blossom-image.png" />
                                     <p class="title">Blossom</p>
                                 </li>
@@ -162,8 +162,8 @@
         await OnCollapseNav.InvokeAsync(NavIsCollapsed);
     }
 
-    void SelectWebsite(string Id)
+    void SelectWebsite(string endpoint)
     {
-        Nav.NavigateTo("/dashboard");
+        Nav.NavigateTo(endpoint);
     }
 }

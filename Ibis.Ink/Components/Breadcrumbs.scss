@@ -1,0 +1,16 @@
+﻿.breadcrumbs {
+    display: flex;
+    gap: 6px;
+
+    p {
+        font-family: 'CircularStd';
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 120%;
+    }
+
+    svg {
+        width: 18px;
+        height: 24px;
+    }
+}

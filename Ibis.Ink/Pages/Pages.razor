@@ -1,0 +1,29 @@
+﻿@page "/websites/{WebsiteId}"
+@layout DashboardLayout
+@using Ibis.Ink.Components;
+
+<Breadcrumbs Page=""/>
+<div clsss="pages">
+    <h2>@Title</h2>
+    <div class="search--container">
+        <div class="searchbar">
+            <SearchIcon />
+            <input type="text" placeholder="Search..." />
+        </div>
+        <div class="sort">
+            <select>
+                <option>Sort</option>
+            </select>
+        </div>
+    </div>
+    <div class="pages-list">
+        <PageCard Type="Page" Title="Home" Endpoint="/" DateModified="@DateTime.Now" />
+        <PageCard Type="Blog" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? WebsiteId { get; set; }
+
+    [Parameter] public string? Title { get; set; }
+}
