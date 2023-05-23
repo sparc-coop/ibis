@@ -573,9 +573,8 @@ nav {
   padding: 32px;
   position: relative;
   background: #FFFFFF;
-  /*min-width: 121px;
   max-width: 363px;
-  transition: width 500ms ease-in-out;*/
+  transition: max-width 400ms ease-in;
 }
 nav .navmenu {
   display: flex;
@@ -709,6 +708,10 @@ nav button.add-website:focus {
   box-shadow: none;
 }
 
+.nav-collapsed nav {
+  max-width: 121px;
+  transition: max-width 400ms ease-in;
+}
 .nav-collapsed nav .navmenu--header {
   display: block;
   gap: 0;
