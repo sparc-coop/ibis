@@ -5,6 +5,7 @@
 @import "Pages/Websites";
 @import "Pages/Pages";
 
+@import "Components/Breadcrumbs";
 @import "Components/WebsiteCard";
 @import "Components/PageCard";
 
@@ -173,4 +174,17 @@ p.small {
 :focus-visible, :focus {
     box-shadow: 2px 2px 6px $primary-800;
     outline: 1px solid $primary-900;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $grey-500;
+    border-radius: 4px;
 }

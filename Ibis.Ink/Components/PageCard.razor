@@ -1,12 +1,12 @@
 ﻿<div class="page-card">
     <div class="card-content">
-        <div class="page-type">@Type</div>
+        <div class="page-type page-type--@Type">@Type</div>
         <h3>@Title (@Endpoint)</h3>
         <p class="date">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
     </div>
     <div class="actions">
-        <LinkIcon />
-        <MoreIcon />
+        <button class="link"><LinkIcon /></button>
+        <button class="more"><MoreIcon /></button>
     </div>
 </div>
 
