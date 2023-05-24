@@ -12,6 +12,11 @@ public class IbisContext : BlossomContext
     {
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<User>().ToContainer("Users").HasPartitionKey(x => x.UserId);

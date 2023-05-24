@@ -4,7 +4,7 @@ namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
-public class Message : Root<string>
+public class Message : Entity<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
@@ -24,6 +24,7 @@ public class Message : Root<string>
     public List<EditHistory> EditHistory { get; private set; }
     public string Html => Markdown.ToHtml(Text ?? string.Empty);
     public string Type { get; set; }
+    internal virtual Room Room { get; private set; }
 
     protected Message()
     {

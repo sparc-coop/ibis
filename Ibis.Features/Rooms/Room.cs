@@ -3,11 +3,7 @@ using System.Text;
 
 namespace Ibis.Rooms;
 
-public record SourceMessage(string RoomId, string MessageId);
-public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
-public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
-
-public class Room : Root<string>
+public class Room : Entity<string>
 {
     public string RoomId { get; private set; }
     public string RoomType { get; private set; }
@@ -15,12 +11,21 @@ public class Room : Root<string>
     public string Slug { get; private set; }
     public UserAvatar HostUser { get; private set; }
     public List<UserAvatar> Users { get; private set; }
-    public SourceMessage? SourceMessage { get; private set; }
-    public List<Language> Languages { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime? LastActiveDate { get; private set; }
-    public DateTime? EndDate { get; private set; }
-    public AudioMessage? Audio { get; private set; }
+
+    internal SourceMessage? SourceMessage { get; private set; }
+    internal List<Language> Languages { get; private set; }
+    internal DateTime? EndDate { get; private set; }
+    internal AudioMessage? Audio { get; private set; }
+    internal virtual List<Message> Messages { get; private set; } = new();
+
+    public Room(string name, string type, User hostUser) : this()
+    {
+        SetName(name);
+        RoomType = type;
+        HostUser = hostUser.Avatar;
+    }
 
     private Room() 
     { 
@@ -37,14 +42,8 @@ public class Room : Root<string>
         Users = new();
     }
 
-    public Room(string name, string type, User hostUser) : this()
-    {
-        SetName(name);
-        RoomType = type;
-        HostUser = hostUser.Avatar;
-    }
-
-    public Room(Room room, Message message) : this()
+    
+    private Room(Room room, Message message) : this()
     {
         // Create a subroom from a message
 
@@ -56,15 +55,7 @@ public class Room : Root<string>
         //Translations = room.Translations;
     }
 
-    public void AddLanguage(Language language)
-    {
-        if (Languages.Any(x => x.Id == language.Id))
-            return;
-
-        Languages.Add(language);
-    }
-
-    public void AddActiveUser(User user)
+    public void Join(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser == null)
@@ -79,20 +70,41 @@ public class Room : Root<string>
         Broadcast(new UserJoined(Id, activeUser));
     }
 
-    public void RemoveActiveUser(User user)
+    public void Leave(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
         if (activeUser != null)
             Broadcast(new UserLeft(Id, activeUser));
     }
 
-    internal void InviteUser(UserAvatar user)
+    public void SetName(string title)
+    {
+        Name = title;
+        Slug = UrlFriendly(Name);
+    }
+
+    public async Task<AudioMessage> SpeakAsync(ISpeaker speaker, string language)
+    {
+        var messages = Messages.Where(x => x.Language == language)
+            .OrderBy(x => x.Timestamp)
+            .ToList();
+
+        Audio = await speaker.SpeakAsync(messages);
+        return Audio;
+    }
+
+    internal void Close()
+    {
+        EndDate = DateTime.UtcNow;
+    }
+
+    void InviteUser(UserAvatar user)
     {
         if (!Users.Any(x => x.Id == user.Id))
             Users.Add(user);
     }
 
-    internal async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
+    async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
     {
         var languagesToTranslate = forceRetranslation
             ? Languages.Where(x => x.Id != message.Language).ToList()
@@ -119,20 +131,12 @@ public class Room : Root<string>
         }
     }
 
-    internal async Task SpeakAsync(ISpeaker speaker, List<Message> messages)
+    void AddLanguage(Language language)
     {
-        Audio = await speaker.SpeakAsync(messages);        
-    }
+        if (Languages.Any(x => x.Id == language.Id))
+            return;
 
-    internal void Close()
-    {
-        EndDate = DateTime.UtcNow;
-    }
-
-    internal void SetName(string title)
-    {
-        Name = title;
-        Slug = UrlFriendly(Name);
+        Languages.Add(language);
     }
 
     // Adopted from https://stackoverflow.com/a/25486
@@ -184,7 +188,7 @@ public class Room : Root<string>
             return sb.ToString();
     }
 
-    public static string RemapInternationalCharToAscii(char c)
+    private static string RemapInternationalCharToAscii(char c)
     {
         string s = c.ToString().ToLowerInvariant();
         if ("àåáâäãåą".Contains(s))
