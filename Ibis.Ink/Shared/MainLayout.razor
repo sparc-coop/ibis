@@ -5,7 +5,8 @@
 @*<RealtimeHub Url="@HubUrl">*@
     <CascadingValue Value="User">
         <div class="main-layout @(IsRoom ? "mini" : "" )">
-            <header>
+            <DashboardLayout />
+            @*<header>
                 <h1>
                 <a href="/rooms">
                     <figure class="logo">
@@ -26,7 +27,7 @@
 
             <main>
                 @Body
-            </main>
+            </main>*@
         </div>
 @*
         @if (ShowOnboarding)

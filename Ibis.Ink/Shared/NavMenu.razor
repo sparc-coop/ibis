@@ -65,7 +65,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <button class="add-website"><AddIcon /><span> Add Website</span></button>
+                        <button class="add-website" @onclick=AddSite><AddIcon /><span> Add Website</span></button>
                     </div>
                 }
             </Authorized>
@@ -74,6 +74,7 @@
 </CascadingValue>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IModalService Modal
 
 @code {
     [Parameter]
@@ -166,4 +167,11 @@
     {
         Nav.NavigateTo(endpoint);
     }
+
+    void AddSite()
+    {
+        Modal.Show<AddWebsite>("Add Site");
+    }
+
+    
 }
