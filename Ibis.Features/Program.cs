@@ -1,7 +1,7 @@
 using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
-using Sparc.Ibis;
+// using Sparc.Ibis;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -21,7 +21,7 @@ builder.Services
 
 builder.AddBlossomAuthentication<User>();
 
-builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
+// builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
 builder.Services.AddServerSideBlazor();
 builder.Services.AddOutputCache();
 
