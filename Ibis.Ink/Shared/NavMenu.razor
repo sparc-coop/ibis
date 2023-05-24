@@ -7,10 +7,17 @@
             <Authorized>
                 @if (User != null)
                 {
-                    <button class="toggle-usermenu">
+                    <button class="toggle-usermenu" @onclick="ToggleUserMenu">
                         <img src="images/1.png" />
                         <ExpandIcon />
                     </button>
+                }
+                @if(ShowUserMenu == true)
+                {
+                    <div class="user-menu--dropdown">
+                        <button class="logout" @onclick="Logout">Log Out</button>
+                    </div>
+                    <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
                 }
             </Authorized>
             <NotAuthorized>
@@ -59,7 +66,7 @@
                                     <img src="images/Sparc-image.png" />
                                     <p class="title">Sparc (sparc.coop)</p>
                                 </li>
-                                <li @onclick=@(e =>SelectWebsite("websites/blossom"))>
+                                <li @onclick=@(e =>SelectWebsite("/websites/blossom"))>
                                     <img src="images/Blossom-image.png" />
                                     <p class="title">Blossom</p>
                                 </li>
@@ -69,6 +76,14 @@
                     </div>
                 }
             </Authorized>
+            <NotAuthorized>
+                <div class="navmenu">
+                    <header class="navmenu--header">
+                        <a href="/dashboard"><img class="logo" src="images/logo.png" /></a>
+                        <button class="toggle-menu" @onclick="ToggleNav"><ExpandIcon /></button>
+                    </header>
+                </div>
+            </NotAuthorized>
         </AuthorizeView>
     </nav>
 </CascadingValue>
@@ -79,14 +94,11 @@
     [Parameter]
     public EventCallback<bool> OnCollapseNav { get; set; }
 
+    UserAvatar? User;
+    bool isUserBeingGot;
     protected bool NavIsCollapsed { get; set; }
     string NavSize = "nav-expanded";
-
-    UserAvatar? User;
-    bool ShowMenu;
-    bool IsRoom;
-    string HubUrl => Config["Blossom:Authority"] + "/hub";
-    UserBalance? BalanceComponent;
+    bool ShowUserMenu = false;
     public string LoginLink = "https://localhost:7117/_login?returnUrl=https%3A%2F%2Flocalhost%3A7083";
 
     void Login()
@@ -94,10 +106,13 @@
         Nav.NavigateTo(LoginLink);
     }
 
+    private async Task Logout()
+    {
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+    }
+
     protected override async Task OnParametersSetAsync()
     {
-        IsRoom = Nav.Uri.Contains("rooms/");
-
         if (User != null)
             return;
 
@@ -106,17 +121,6 @@
         AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
     }
 
-    void OpenMenu() => ShowMenu = !ShowMenu;
-
-    void EditAvatar()
-    {
-        ShowMenu = false;
-        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
-    }
-
-    async Task AddFunds() => await BalanceComponent.AddFunds();
-
-    bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)
     {
         var user = (await state).User;
@@ -125,22 +129,19 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Language == null)
-            {
-                EditAvatar();
-            }
 
             StateHasChanged();
             isUserBeingGot = false;
         }
     }
 
-    void GoToRooms() => Nav.NavigateTo("/rooms");
-
-    private async Task Logout()
+    void ToggleUserMenu()
     {
-        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+        Console.WriteLine("toggle user menu");
+        ShowUserMenu = !ShowUserMenu;
     }
+
+    void OpenMenu() => ShowUserMenu = !ShowUserMenu;
 
     void KeyboardMenu(KeyboardEventArgs e)
     {

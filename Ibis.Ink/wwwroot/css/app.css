@@ -534,8 +534,21 @@ main {
   top: 32px;
   right: 32px;
   text-align: center;
+  z-index: 11;
 }
-.user-menu button {
+.user-menu .login:hover {
+  border: 1px solid #003B5F;
+  background: #FFFFFF;
+  color: #003B5F;
+}
+.user-menu .login:active {
+  background: #EEF4FA;
+}
+.user-menu .login:focus {
+  outline: none;
+  box-shadow: none;
+}
+.user-menu .toggle-usermenu {
   width: 50px;
   height: 27px;
   padding: 0;
@@ -543,29 +556,67 @@ main {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 11;
 }
-.user-menu button:hover {
+.user-menu .toggle-usermenu:hover {
   background: none;
   border: none;
 }
-.user-menu button:focus {
+.user-menu .toggle-usermenu:focus {
   outline: none;
   box-shadow: none;
 }
-.user-menu img {
+.user-menu .toggle-usermenu img {
   width: 23px;
   height: 23px;
   margin-right: 7px;
 }
-.user-menu svg {
+.user-menu .toggle-usermenu svg {
   width: 10px;
   height: 5px;
 }
-.user-menu svg path {
+.user-menu .toggle-usermenu svg path {
   stroke: #6A7280;
 }
-.user-menu:hover {
+.user-menu .toggle-usermenu:hover {
   cursor: pointer;
+}
+.user-menu--dropdown {
+  width: 125px;
+  height: 54px;
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  background: #FFFFFF;
+  border: 1px solid #6A7280;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  color: #1D2937;
+  z-index: 12;
+}
+.user-menu--dropdown .logout {
+  width: 100%;
+  padding: 0;
+  margin-top: 18px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #1D2937;
+  transition: 250ms ease-in-out;
+}
+.user-menu--dropdown .logout:hover {
+  transform: scale(105%);
+}
+.user-menu--overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 10;
 }
 
 nav {
@@ -573,8 +624,10 @@ nav {
   padding: 32px;
   position: relative;
   background: #FFFFFF;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
   max-width: 363px;
   transition: max-width 400ms ease-in;
+  z-index: 10;
 }
 nav .navmenu {
   display: flex;
@@ -682,7 +735,7 @@ nav button.toggle-menu:focus {
 }
 nav button.add-website {
   width: calc(100% - 64px);
-  padding: 10px 74px;
+  padding: 10px;
   border-radius: 8px;
   text-align: center;
   position: absolute;
@@ -753,16 +806,10 @@ nav button.add-website:focus {
   transition: 250ms ease-in-out;
 }
 .nav-collapsed nav .navmenu--home a:hover {
-  background: #EEF4FA;
-}
-.nav-collapsed nav .navmenu--home a:hover svg path {
-  fill: #00608B;
+  transform: scale(105%);
 }
 .nav-collapsed nav .navmenu--home a:active {
-  background: #FFFFFF;
-}
-.nav-collapsed nav .navmenu--home a:active svg path {
-  fill: #6A7280;
+  transform: scale(100%);
 }
 .nav-collapsed nav .navmenu--home a:focus {
   outline: none;
@@ -792,11 +839,21 @@ nav button.add-website:focus {
   border-radius: 8px;
   transition: 250ms ease-in-out;
 }
-.nav-collapsed nav .navmenu--websites li img:hover {
-  transform: scale(105%);
-}
 .nav-collapsed nav .navmenu--websites li .title {
   display: none;
+}
+.nav-collapsed nav .navmenu--websites li:hover {
+  background: none;
+  transform: scale(105%);
+}
+.nav-collapsed nav .navmenu--websites li:active {
+  background: none;
+  transform: scale(100%);
+}
+.nav-collapsed nav .navmenu--websites li:focus {
+  background: none;
+  border: none;
+  outline: none;
 }
 .nav-collapsed nav .navmenu .add-website {
   width: calc(100% - 64px);

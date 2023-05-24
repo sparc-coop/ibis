@@ -5,8 +5,26 @@
     top: 32px;
     right: 32px;
     text-align: center;
+    z-index: 11;
 
-    button {
+    .login {
+        &:hover {
+            border: 1px solid $secondary-900;
+            background: $white;
+            color: $secondary-900;
+        }
+
+        &:active {
+            background: $secondary-200;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .toggle-usermenu {
         width: 50px;
         height: 27px;
         padding: 0;
@@ -14,6 +32,7 @@
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 11;
 
         &:hover {
             background: none;
@@ -24,25 +43,66 @@
             outline: none;
             box-shadow: none;
         }
-    }
 
-    img {
-        width: 23px;
-        height: 23px;
-        margin-right: 7px;
-    }
+        img {
+            width: 23px;
+            height: 23px;
+            margin-right: 7px;
+        }
 
-    svg {
-        width: 10px;
-        height: 5px;
+        svg {
+            width: 10px;
+            height: 5px;
 
-        path {
-            stroke: $grey-500;
+            path {
+                stroke: $grey-500;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
         }
     }
 
-    &:hover {
-        cursor: pointer;
+    &--dropdown {
+        width: 125px;
+        height: 54px;
+        position: absolute;
+        top: 40px;
+        right: 0px;
+        background: $white;
+        border: 1px solid $grey-500;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        color: $grey-800;
+        z-index: 12;
+
+        .logout {
+            width: 100%;
+            padding: 0;
+            margin-top: 18px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            color: $grey-800;
+            transition: 250ms ease-in-out;
+
+            &:hover {
+                transform: scale(105%);
+            }
+        }
+    }
+
+    &--overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        z-index: 10;
     }
 }
 
@@ -51,8 +111,10 @@ nav {
     padding: 32px;
     position: relative;
     background: $white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
     max-width: 363px;
     transition: max-width 400ms ease-in;
+    z-index: 10;
 
     .navmenu {
         display: flex;
@@ -184,7 +246,7 @@ nav {
 
         &.add-website {
             width: calc(100% - 64px);
-            padding: 10px 74px;
+            padding: 10px;
             border-radius: 8px;
             text-align: center;
             position: absolute;
@@ -272,19 +334,11 @@ nav {
                     transition: 250ms ease-in-out;
 
                     &:hover {
-                        background: $secondary-200;
-
-                        svg path {
-                            fill: $secondary-800;
-                        }
+                        transform: scale(105%);
                     }
 
                     &:active {
-                        background: $white;
-
-                        svg path {
-                            fill: $grey-500;
-                        }
+                        transform: scale(100%);
                     }
 
                     &:focus {
@@ -321,14 +375,26 @@ nav {
                         margin: 0 auto;
                         border-radius: 8px;
                         transition: 250ms ease-in-out;
-
-                        &:hover {
-                            transform: scale(105%);
-                        }
                     }
 
                     .title {
                         display: none;
+                    }
+
+                    &:hover {
+                        background: none;
+                        transform: scale(105%);
+                    }
+
+                    &:active {
+                        background: none;
+                        transform: scale(100%);
+                    }
+
+                    &:focus {
+                        background: none;
+                        border: none;
+                        outline: none;
                     }
                 }
             }
