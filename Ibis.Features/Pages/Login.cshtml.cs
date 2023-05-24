@@ -13,7 +13,7 @@ namespace Ibis.Users;
 [AllowAnonymous]
 public class IbisLoginModel : LoginModel
 {
-    public IbisLoginModel(PasswordlessAuthenticator<User> authenticator, TwilioService twilio, IRepository<User> users, ITranslator translator) : base(authenticator)
+    public IbisLoginModel(BlossomAuthenticator<User> authenticator, TwilioService twilio, IRepository<User> users, ITranslator translator) : base(authenticator)
     {
         Authenticator = authenticator;
         Twilio = twilio;
@@ -21,7 +21,7 @@ public class IbisLoginModel : LoginModel
         Translator = translator;
     }
 
-    private PasswordlessAuthenticator<User> Authenticator { get; }
+    private BlossomAuthenticator<User> Authenticator { get; }
     private TwilioService Twilio { get; }
     private IRepository<User> Users { get; }
     private ITranslator Translator { get; }
