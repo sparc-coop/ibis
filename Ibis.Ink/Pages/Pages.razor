@@ -2,28 +2,33 @@
 @layout DashboardLayout
 @using Ibis.Ink.Components;
 
-<Breadcrumbs Page=""/>
-<div clsss="pages">
-    <h2>@Title</h2>
-    <div class="search--container">
-        <div class="searchbar">
-            <SearchIcon />
-            <input type="text" placeholder="Search..." />
+<Breadcrumbs Page="@WebsiteId"/>
+<div class="pages">
+    <header class="page--header">
+        <h2>@WebsiteId</h2>
+        <div class="search--container">
+            <div class="searchbar">
+                <SearchIcon />
+                <input type="text" placeholder="Search..." />
+            </div>
+            <div class="sort">
+                <select>
+                    <option>Sort</option>
+                </select>
+            </div>
         </div>
-        <div class="sort">
-            <select>
-                <option>Sort</option>
-            </select>
-        </div>
-    </div>
+    </header>
     <div class="pages-list">
         <PageCard Type="Page" Title="Home" Endpoint="/" DateModified="@DateTime.Now" />
-        <PageCard Type="Blog" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
+        <PageCard Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
+        <PageCard Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
+        <PageCard Type="Blog" Title="Welcome to Blossom" Endpoint="/21days/Welcome" DateModified="@DateTime.Now" />
+        <PageCard Type="Other" Title="Sparc Entities" Endpoint="/21days/SparcEntities" DateModified="@DateTime.Now" />
     </div>
 </div>
 
 @code {
     [Parameter] public string? WebsiteId { get; set; }
 
-    [Parameter] public string? Title { get; set; }
+    //[Parameter] public string? Title { get; set; }
 }
