@@ -396,6 +396,72 @@
   outline: none;
 }
 
+.add-site-modal p {
+  color: #28303B;
+}
+.add-site-modal .manual-input {
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  margin-bottom: 16px;
+}
+.add-site-modal .manual-input .manual-label {
+  position: relative;
+  left: 10px;
+  color: #667085;
+}
+.add-site-modal .add-site-tags {
+  margin-bottom: 32px;
+}
+.add-site-modal .add-site-tags .tag-options {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.add-site-modal .add-site-tags .tag-options label {
+  margin-right: 64px;
+}
+.add-site-modal .add-site-tags .tag-options label input[type=checkbox] {
+  top: 4px;
+  position: relative;
+}
+.add-site-modal .add-site-tags .tag {
+  display: flex;
+  padding: 4px 6px;
+  border-radius: 1000px;
+  gap: 4px;
+  flex-direction: row;
+  align-items: center;
+  font-size: 10px;
+  background: #FFCDAA;
+  border: 1px solid #A5120D;
+  color: #A5120D;
+}
+.add-site-modal .add-site-tags .page-tag {
+  border: 1px solid #003B5F;
+  background-color: #D3E4F1;
+  color: #003B5F;
+}
+.add-site-modal .addBtn {
+  float: right;
+  border: 1px solid transparent;
+}
+.add-site-modal .addBtn:hover {
+  border: 1px solid #003B5F;
+  background: #FFFFFF;
+  color: #003B5F;
+}
+.add-site-modal .addBtn:hover svg path {
+  fill: #003B5F;
+}
+.add-site-modal .addBtn:active {
+  background: #EEF4FA;
+}
+.add-site-modal .addBtn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .main-layout {
   height: 100vh;
   display: grid;
