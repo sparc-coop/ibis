@@ -23,14 +23,6 @@
             }
         }
 
-        a {
-            &:focus {
-                border: none;
-                box-shadow: none;
-                outline: none;
-            }
-        }
-
         .card-content {
             display: flex;
             flex-direction: column;
@@ -110,12 +102,6 @@
                     svg path {
                         stroke: $secondary-500;
                     }
-                }
-
-                &:focus {
-                    border: none;
-                    box-shadow: none;
-                    outline: none;
                 }
             }
         }

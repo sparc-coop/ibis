@@ -17,11 +17,6 @@
         &:active {
             background: $secondary-200;
         }
-
-        &:focus {
-            outline: none;
-            box-shadow: none;
-        }
     }
 
     .toggle-usermenu {
@@ -37,11 +32,6 @@
         &:hover {
             background: none;
             border: none;
-        }
-
-        &:focus {
-            outline: none;
-            box-shadow: none;
         }
 
         img {
@@ -209,13 +199,6 @@ nav {
                     }
                 }
 
-                &:focus {
-                    background: none;
-                    outline: none;
-                    border: none;
-                    box-shadow: none;
-                }
-
                 &.active {
                     background: $secondary-200;
 
@@ -238,11 +221,6 @@ nav {
 
             &:hover {
                 background: none;
-            }
-
-            &:focus {
-                outline: none;
-                box-shadow: none;
             }
         }
 
@@ -271,11 +249,6 @@ nav {
 
             &:active {
                 background: $secondary-200;
-            }
-
-            &:focus {
-                outline: none;
-                box-shadow: none;
             }
         }
     }
@@ -342,11 +315,6 @@ nav {
                     &:active {
                         transform: scale(100%);
                     }
-
-                    &:focus {
-                        outline: none;
-                        box-shadow: none;
-                    }
                 }
 
                 svg {
@@ -388,12 +356,6 @@ nav {
                     &:active {
                         background: none;
                         transform: scale(100%);
-                    }
-
-                    &:focus {
-                        background: none;
-                        border: none;
-                        outline: none;
                     }
                 }
             }

@@ -170,11 +170,10 @@ p.small {
     font-size: 10px;
     line-height: 120%;
 }
-
+    
 :focus-visible, :focus {
-    box-shadow: 2px 2px 6px $primary-800;
-    outline: 1px solid $primary-900;
-}
+    outline: 1px solid $primary-500;
+}       
 
 ::-webkit-scrollbar {
     width: 4px;

@@ -15,14 +15,6 @@
         margin-bottom: 0;
     }
 
-    a {
-        &:focus {
-            border: none;
-            box-shadow: none;
-            outline: none;
-        }
-    }
-
     .card-content {
         .page-type {
             width: 35px;
@@ -122,12 +114,6 @@
                 svg path {
                     stroke: $secondary-500;
                 }
-            }
-
-            &:focus {
-                border: none;
-                box-shadow: none;
-                outline: none;
             }
         }
     }

@@ -7,7 +7,7 @@
             <Authorized>
                 @if (User != null)
                 {
-                    <button class="toggle-usermenu" @onclick="ToggleUserMenu">
+                    <button class="toggle-usermenu" @onclick="ToggleUserMenu" tabindex="1">
                         <img src="images/1.png" />
                         <ExpandIcon />
                     </button>
@@ -15,13 +15,13 @@
                 @if(ShowUserMenu == true)
                 {
                     <div class="user-menu--dropdown">
-                        <button class="logout" @onclick="Logout">Log Out</button>
+                        <button class="logout" @onclick="Logout" tabindex="1">Log Out</button>
                     </div>
                     <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
                 }
             </Authorized>
-            <NotAuthorized>
-                <button class="login" @onclick="Login">Login</button>
+                    <NotAuthorized>
+                        <button class="login" @onclick="Login" tabindex="1">Login</button>
             </NotAuthorized>
         </AuthorizeView>
     </div>
@@ -34,9 +34,9 @@
                     <div class="navmenu">
                         <header class="navmenu--header">
                             <a href="/dashboard"><img class="logo" src="images/logo.png" /></a>
-                            <button class="toggle-menu" @onclick="ToggleNav"><ExpandIcon /></button>
+                            <button class="toggle-menu" @onclick="ToggleNav" tabindex="2"><ExpandIcon /></button>
                         </header>
-                        <div class="navmenu--search">
+                        <div class="navmenu--search" tabindex="3">
                             @if (NavSize == "nav-collapsed")
                             {
                                 <span @onclick="ToggleNav">
@@ -50,7 +50,7 @@
                         </div>
                         @if (NavSize == "nav-collapsed")
                         {
-                            <div class="navmenu--home">
+                            <div class="navmenu--home" tabindex="4">
                                 <a href="/dashboard"><HomeIcon /></a>
                             </div>
                         }
@@ -58,21 +58,21 @@
                             <ul>
                                 @if (NavSize == "nav-expanded")
                                 {
-                                    <li @onclick=@(e =>SelectWebsite("/dashboard"))>
+                                    <li @onclick=@(e =>SelectWebsite("/dashboard")) tabindex="5">
                                         <p class="title">All Websites</p>
                                     </li>
                                 }
-                                <li @onclick=@(e =>SelectWebsite("/websites/sparc"))>
+                                <li @onclick=@(e =>SelectWebsite("/websites/sparc")) tabindex="6">
                                     <img src="images/Sparc-image.png" />
                                     <p class="title">Sparc (sparc.coop)</p>
                                 </li>
-                                <li @onclick=@(e =>SelectWebsite("/websites/blossom"))>
+                                <li @onclick=@(e =>SelectWebsite("/websites/blossom")) tabindex="7">
                                     <img src="images/Blossom-image.png" />
                                     <p class="title">Blossom</p>
                                 </li>
                             </ul>
                         </div>
-                        <button class="add-website"><AddIcon /><span> Add Website</span></button>
+                        <button class="add-website" tabindex="8"><AddIcon /><span> Add Website</span></button>
                     </div>
                 }
             </Authorized>

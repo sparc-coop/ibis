@@ -391,11 +391,6 @@
 .website-card--container .website-image:hover {
   cursor: pointer;
 }
-.website-card--container a:focus {
-  border: none;
-  box-shadow: none;
-  outline: none;
-}
 .website-card--container .card-content {
   display: flex;
   flex-direction: column;
@@ -461,11 +456,6 @@
 .website-card--container .actions button:active svg path {
   stroke: #7EB0D1;
 }
-.website-card--container .actions button:focus {
-  border: none;
-  box-shadow: none;
-  outline: none;
-}
 
 .page-card {
   position: relative;
@@ -480,11 +470,6 @@
 }
 .page-card:last-of-type {
   margin-bottom: 0;
-}
-.page-card a:focus {
-  border: none;
-  box-shadow: none;
-  outline: none;
 }
 .page-card .card-content .page-type {
   width: 35px;
@@ -566,11 +551,6 @@
 }
 .page-card .actions button:active svg path {
   stroke: #7EB0D1;
-}
-.page-card .actions button:focus {
-  border: none;
-  box-shadow: none;
-  outline: none;
 }
 
 .main-layout {
@@ -721,10 +701,6 @@ main {
 .user-menu .login:active {
   background: #EEF4FA;
 }
-.user-menu .login:focus {
-  outline: none;
-  box-shadow: none;
-}
 .user-menu .toggle-usermenu {
   width: 50px;
   height: 27px;
@@ -738,10 +714,6 @@ main {
 .user-menu .toggle-usermenu:hover {
   background: none;
   border: none;
-}
-.user-menu .toggle-usermenu:focus {
-  outline: none;
-  box-shadow: none;
 }
 .user-menu .toggle-usermenu img {
   width: 23px;
@@ -884,12 +856,6 @@ nav .navmenu--websites li:active {
 nav .navmenu--websites li:active p {
   color: #FFFFFF;
 }
-nav .navmenu--websites li:focus {
-  background: none;
-  outline: none;
-  border: none;
-  box-shadow: none;
-}
 nav .navmenu--websites li.active {
   background: #EEF4FA;
 }
@@ -907,10 +873,6 @@ nav button.toggle-menu {
 }
 nav button.toggle-menu:hover {
   background: none;
-}
-nav button.toggle-menu:focus {
-  outline: none;
-  box-shadow: none;
 }
 nav button.add-website {
   width: calc(100% - 64px);
@@ -934,10 +896,6 @@ nav button.add-website:hover svg path {
 }
 nav button.add-website:active {
   background: #EEF4FA;
-}
-nav button.add-website:focus {
-  outline: none;
-  box-shadow: none;
 }
 
 .nav-collapsed nav {
@@ -990,10 +948,6 @@ nav button.add-website:focus {
 .nav-collapsed nav .navmenu--home a:active {
   transform: scale(100%);
 }
-.nav-collapsed nav .navmenu--home a:focus {
-  outline: none;
-  box-shadow: none;
-}
 .nav-collapsed nav .navmenu--home svg {
   width: 22px;
   height: 20px;
@@ -1026,11 +980,6 @@ nav button.add-website:focus {
 .nav-collapsed nav .navmenu--websites li:active {
   background: none;
   transform: scale(100%);
-}
-.nav-collapsed nav .navmenu--websites li:focus {
-  background: none;
-  border: none;
-  outline: none;
 }
 .nav-collapsed nav .navmenu .add-website {
   width: calc(100% - 64px);
@@ -3665,8 +3614,7 @@ p.small {
 }
 
 :focus-visible, :focus {
-  box-shadow: 2px 2px 6px #A5120D;
-  outline: 1px solid #810A08;
+  outline: 1px solid #FF3520;
 }
 
 ::-webkit-scrollbar {
