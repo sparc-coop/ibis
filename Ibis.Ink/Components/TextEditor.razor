@@ -1,1 +1,26 @@
-﻿<div class="page-editor--toolbar"></div>
+﻿<div class="page-editor--MDE">
+    <MarkdownEditor @bind-Value="@MarkdownValue" />
+</div>
+
+@code {
+    [Parameter] public string? MarkdownValue { get; set; }
+
+    //string markdownHtml;
+
+    //protected override void OnInitialized()
+    //{
+    //    markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
+    //    base.OnInitialized();
+    //}
+
+    //Task OnMarkdownValueChanged(string value)
+    //{
+    //    return Task.CompletedTask;
+    //}
+
+    //Task OnMarkdownValueHTMLChanged(string value)
+    //{
+    //    markdownHtml = value;
+    //    return Task.CompletedTask;
+    //}
+}
