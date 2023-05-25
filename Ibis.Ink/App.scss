@@ -2,12 +2,19 @@
 
 @import "Pages/Landing";
 @import "Pages/Pricing";
+@import "Pages/Websites";
+@import "Pages/Pages";
+
+@import "Components/Breadcrumbs";
+@import "Components/WebsiteCard";
+@import "Components/PageCard";
 
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
+@import "Shared/DashboardLayout";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
@@ -163,8 +170,20 @@ p.small {
     font-size: 10px;
     line-height: 120%;
 }
-
+    
 :focus-visible, :focus {
-    box-shadow: 2px 2px 6px $primary-800;
-    outline: 1px solid $primary-900;
+    outline: 1px solid $primary-500;
+}       
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $grey-500;
+    border-radius: 4px;
 }

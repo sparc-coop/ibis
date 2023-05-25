@@ -1,0 +1,32 @@
+﻿@import "../_variables";
+
+body {
+    background: $background;
+    /*#app {
+        display: grid;
+        grid-template-columns: 0 auto;
+    }*/
+
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 0 auto;
+
+        &.nav-expanded {
+            grid-template-columns: 363px auto;
+        }
+
+        &.nav-collapsed {
+            grid-template-columns: 121px auto;
+        }
+    }
+
+    button {
+        background: $secondary-900;
+        text-align: center;
+    }
+
+    main {
+        grid-column-start: 2;
+        padding: 98px 32px 32px 32px;
+    }
+}

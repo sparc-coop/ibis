@@ -1,0 +1,25 @@
+﻿<div class="page-card">
+    <div class="card-content">
+        <div class="page-type page-type--@Type">@Type</div>
+        <h3>@Title (@Endpoint)</h3>
+        <p class="date">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
+    </div>
+    <div class="actions">
+        <button class="link"><LinkIcon /></button>
+        <button class="more"><MoreIcon /></button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Type { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Endpoint { get; set; }
+
+    [Parameter]
+    public DateTime DateModified { get; set; }
+}

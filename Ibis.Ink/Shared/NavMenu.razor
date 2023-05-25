@@ -2,42 +2,87 @@
 @using Sparc.Ibis;
 
 <CascadingValue Value="User">
+    <div class="user-menu">
+        <AuthorizeView>
+            <Authorized>
+                @if (User != null)
+                {
+                    <button class="toggle-usermenu" @onclick="ToggleUserMenu" tabindex="1">
+                        <img src="images/1.png" />
+                        <ExpandIcon />
+                    </button>
+                }
+                @if(ShowUserMenu == true)
+                {
+                    <div class="user-menu--dropdown">
+                        <button class="logout" @onclick="Logout" tabindex="1">Log Out</button>
+                    </div>
+                    <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
+                }
+            </Authorized>
+                    <NotAuthorized>
+                        <button class="login" @onclick="Login" tabindex="1">Login</button>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
     <nav>
         <AuthorizeView>
             <Authorized>
                 @if (User != null)
                 {
-                    <ul>
-                        <li>
-                            <button @onclick="GoToRooms">
-                                <img src="../icons/dashboard.svg" alt="Your Rooms" />
-                            </button>
-                        </li>
-                        <li>
-                            <UserBalance User="User" @ref=BalanceComponent />
-                        </li>
-                        <li tabindex="0" class="avatar-container @(ShowMenu ? "open" : "")" @onclick="OpenMenu" @onfocus="OpenMenu">
-                            <Avatar User="User" />
-                            <img src="../icons/down-arrow.png" class="arrow" alt="Account Settings" />
+                    <div class="navmenu">
+                        <header class="navmenu--header">
+                            <a href="/dashboard"><img class="logo" src="images/logo.png" /></a>
+                            <button class="toggle-menu" @onclick="ToggleNav" tabindex="2"><ExpandIcon /></button>
+                        </header>
+                        <div class="navmenu--search" tabindex="3">
+                            @if (NavSize == "nav-collapsed")
+                            {
+                                <span @onclick="ToggleNav">
+                                    <SearchIcon />
+                                </span>
+                            } else
+                            {
+                                <SearchIcon />
+                                <input type="text" placeholder="Search..." />
+                            }
+                        </div>
+                        @if (NavSize == "nav-collapsed")
+                        {
+                            <div class="navmenu--home" tabindex="4">
+                                <a href="/dashboard"><HomeIcon /></a>
+                            </div>
+                        }
+                        <div class="navmenu--websites">
                             <ul>
-                                <li>
-                                    <button class="navmenu-button" @onclick="@EditAvatar" @onclick:stopPropagation="true">Edit Your Avatar</button>
+                                @if (NavSize == "nav-expanded")
+                                {
+                                    <li @onclick=@(e =>SelectWebsite("/dashboard")) tabindex="5">
+                                        <p class="title">All Websites</p>
+                                    </li>
+                                }
+                                <li @onclick=@(e =>SelectWebsite("/websites/sparc")) tabindex="6">
+                                    <img src="images/Sparc-image.png" />
+                                    <p class="title">Sparc (sparc.coop)</p>
                                 </li>
-                                <li>
-                                    <a href="account" class="navmenu-button" @onclick="@(e => ShowMenu = !ShowMenu)" @onclick:stopPropagation="true">Account Settings</a>
-                                </li>
-                                <li>
-                                    <button class="logout navmenu-button" @onclick="Logout" @onclick:stopPropagation="true">
-                                        Log Out
-                                    </button>
+                                <li @onclick=@(e =>SelectWebsite("/websites/blossom")) tabindex="7">
+                                    <img src="images/Blossom-image.png" />
+                                    <p class="title">Blossom</p>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </div>
+                        <button class="add-website" tabindex="8"><AddIcon /><span> Add Website</span></button>
+                    </div>
                 }
             </Authorized>
             <NotAuthorized>
-                <button @onclick="Login">Login</button>
+                <div class="navmenu">
+                    <header class="navmenu--header">
+                        <a href="/dashboard"><img class="logo" src="images/logo.png" /></a>
+                        <button class="toggle-menu" @onclick="ToggleNav"><ExpandIcon /></button>
+                    </header>
+                </div>
             </NotAuthorized>
         </AuthorizeView>
     </nav>
@@ -46,11 +91,14 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @code {
+    [Parameter]
+    public EventCallback<bool> OnCollapseNav { get; set; }
+
     UserAvatar? User;
-    bool ShowMenu;
-    bool IsRoom;
-    string HubUrl => Config["Blossom:Authority"] + "/hub";
-    UserBalance? BalanceComponent;
+    bool isUserBeingGot;
+    protected bool NavIsCollapsed { get; set; }
+    string NavSize = "nav-expanded";
+    bool ShowUserMenu = false;
     public string LoginLink = "https://localhost:7117/_login?returnUrl=https%3A%2F%2Flocalhost%3A7083";
 
     void Login()
@@ -58,10 +106,13 @@
         Nav.NavigateTo(LoginLink);
     }
 
+    private async Task Logout()
+    {
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+    }
+
     protected override async Task OnParametersSetAsync()
     {
-        IsRoom = Nav.Uri.Contains("rooms/");
-
         if (User != null)
             return;
 
@@ -70,17 +121,6 @@
         AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
     }
 
-    void OpenMenu() => ShowMenu = !ShowMenu;
-
-    void EditAvatar()
-    {
-        ShowMenu = false;
-        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
-    }
-
-    async Task AddFunds() => await BalanceComponent.AddFunds();
-
-    bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)
     {
         var user = (await state).User;
@@ -89,22 +129,19 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Language == null)
-            {
-                EditAvatar();
-            }
 
             StateHasChanged();
             isUserBeingGot = false;
         }
     }
 
-    void GoToRooms() => Nav.NavigateTo("/rooms");
-
-    private async Task Logout()
+    void ToggleUserMenu()
     {
-        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+        Console.WriteLine("toggle user menu");
+        ShowUserMenu = !ShowUserMenu;
     }
+
+    void OpenMenu() => ShowUserMenu = !ShowUserMenu;
 
     void KeyboardMenu(KeyboardEventArgs e)
     {
@@ -112,5 +149,22 @@
         {
             OpenMenu();
         }
+    }
+
+    protected async Task ToggleNav()
+    {
+        NavIsCollapsed = !NavIsCollapsed;
+
+        if (NavIsCollapsed == true)
+            NavSize = "nav-collapsed";
+        else
+            NavSize = "nav-expanded";
+
+        await OnCollapseNav.InvokeAsync(NavIsCollapsed);
+    }
+
+    void SelectWebsite(string endpoint)
+    {
+        Nav.NavigateTo(endpoint);
     }
 }
