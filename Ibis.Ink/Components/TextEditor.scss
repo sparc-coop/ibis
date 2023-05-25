@@ -33,6 +33,16 @@
 
             i {
                 color: $grey-800;
+
+                &.separator:nth-of-type(4) {
+                    display: none;
+                }
+            }
+
+            button {
+                &.guide {
+                    display: none;
+                }
             }
         }
 

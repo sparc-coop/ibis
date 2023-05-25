@@ -699,6 +699,12 @@
 .page-editor--MDE .EasyMDEContainer .editor-toolbar i {
   color: #1D2937;
 }
+.page-editor--MDE .EasyMDEContainer .editor-toolbar i.separator:nth-of-type(4) {
+  display: none;
+}
+.page-editor--MDE .EasyMDEContainer .editor-toolbar button.guide {
+  display: none;
+}
 .page-editor--MDE .EasyMDEContainer .editor-statusbar {
   display: none;
 }
