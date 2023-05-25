@@ -1,0 +1,134 @@
+﻿@import "../_variables";
+
+.page-editor {
+    margin-bottom: -32px;
+    padding: 18px 32px 0 32px;
+    font-family: 'CircularStd';
+
+    &--container {
+        padding: 20px;
+        background: $white;
+        border-radius: 16px 16px 0 0;
+
+        header {
+            label {
+                display: block;
+                margin-bottom: 6px;
+                font-size: 13px;
+                line-height: 120%;
+                color: $grey-700;
+            }
+
+            input {
+                width: 100%;
+                padding: 10px 14px;
+                border: 1px solid $grey-300;
+                border-radius: 8px;
+                font-size: 16px;
+                line-height: 120%;
+                color: $grey-900;
+            }
+        }
+
+        .page-content {
+            max-height: 789px;
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            margin-top: 6px;
+            padding: 16px 25px;
+            border: 1px solid $grey-300;
+            border-radius: 16px;
+
+            &::-webkit-scrollbar {
+                width: 3px;
+
+                &-track {
+                    margin: 12px 0;
+                    background-color: transparent;
+                }
+
+                &-thumb {
+                    background: $primary-500;
+                    border: none;
+                    border-radius: 3px;
+                }
+            }
+
+            &--component {
+                margin-bottom: 16px;
+                padding-left: 12px;
+                border-left: 1px solid $grey-400;
+                font-size: 16px;
+                line-height: 120%;
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+
+                .component-title {
+                    margin-bottom: 16px;
+                    color: $secondary-700;
+                }
+
+                .component-text {
+                    color: $grey-900;
+                }
+
+                .component-image {
+                    &--image {
+                        width: 459px;
+                        height: 306px;
+                    }
+
+                    &--caption {
+                        margin-top: 16px;
+                        color: $grey-900;
+                    }
+                }
+            }
+        }
+    }
+
+    &--toolbar {
+        width: calc(100% + 12px);
+        height: 38px;
+        margin: 16px -24px 0 -12px;
+        background: $secondary-200;
+    }
+
+    &--actions {
+        padding: 0 20px 20px 20px;
+        display: flex;
+        justify-content: space-between;
+        background: $white;
+
+        button {
+            border: 1px solid transparent;
+            font-family: 'CircularStd';
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 120%;
+            transition: 250ms ease-in-out;
+
+            &.back, &.page-settings {
+                margin: 0;
+                background: none;
+                color: $secondary-900;
+            }
+
+            &.save-page {
+                margin-left: 16px;
+            }
+
+            &:hover {
+                border: 1px solid $secondary-900;
+                background: $white;
+                color: $secondary-900;
+            }
+
+            &:active {
+                background: $secondary-200;
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@
 @import "Pages/Pricing";
 @import "Pages/Websites";
 @import "Pages/Pages";
+@import "Pages/PageEditor";
 
 @import "Components/Breadcrumbs";
 @import "Components/WebsiteCard";
@@ -173,17 +174,18 @@ p.small {
     
 :focus-visible, :focus {
     outline: 1px solid $primary-500;
-}       
+}
 
 ::-webkit-scrollbar {
-    width: 4px;
-}
+    width: 7px;
 
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
+    &-track {
+        background-color: transparent;
+    }
 
-::-webkit-scrollbar-thumb {
-    background: $grey-500;
-    border-radius: 4px;
+    &-thumb {
+        background: transparent;
+        border: 1px solid $grey-400;
+        border-radius: 7px;
+    }
 }
