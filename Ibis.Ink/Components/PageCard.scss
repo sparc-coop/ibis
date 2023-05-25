@@ -38,6 +38,13 @@
                 border: 1px solid $primary-800;
                 color: $primary-800;
             }
+
+            &--Other {
+                width: 41px;
+                background: $amber-100;
+                border: 1px solid $amber-900;
+                color: $amber-900;
+            }
         }
 
         h3 {
