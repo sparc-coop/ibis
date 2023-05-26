@@ -16,7 +16,7 @@ public class AzureTranslator : ITranslator
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
     }
 
-    public async Task<List<Message>> TranslateAsync(Message message, string fromLanguageId, List<Language> toLanguages)
+    public async Task<List<Message>> TranslateAsync(Message message, List<Language> toLanguages)
     {
         var translatedMessages = new List<Message>();
 
@@ -34,7 +34,7 @@ public class AzureTranslator : ITranslator
 
             var languageDictionary = batch.ToDictionary(x => x.Id.Split('-').First(), x => x);
 
-            var from = $"&from={fromLanguageId.Split('-').First()}";
+            var from = $"&from={message.Language.Split('-').First()}";
             var to = "&to=" + string.Join("&to=", languageDictionary.Keys);
 
             var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
@@ -64,22 +64,7 @@ public class AzureTranslator : ITranslator
 
         return translatedMessages;
     }
-
-    public async Task<List<Message>> TranslateAsync(Message message, List<Language> toLanguages)
-    {
-        return await TranslateAsync(message, message.Language, toLanguages);
-    }
-
-    public async Task<string?> TranslateAsync(string text, string fromLanguage, string toLanguage)
-    {
-        var language = await GetLanguageAsync(toLanguage);
-        if (language == null)
-            throw new ArgumentException($"Language {toLanguage} not found");
-        var message = new Message("", User.System, text);
-        var result = await TranslateAsync(message, fromLanguage, new() { language });
-        return result?.FirstOrDefault()?.Text;
-    }
-
+    
     public async Task<List<Language>> GetLanguagesAsync()
     {
         Languages ??= await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");
@@ -87,12 +72,6 @@ public class AzureTranslator : ITranslator
         return Languages!.translation
             .Select(x => new Language(x.Key, x.Value.name, x.Value.nativeName, x.Value.dir == "rtl"))
             .ToList();
-    }
-
-    public async Task<Language?> GetLanguageAsync(string language)
-    {
-        var languages = await GetLanguagesAsync();
-        return languages.FirstOrDefault(x => x.Id == language);
     }
 
     // from https://stackoverflow.com/a/13731854

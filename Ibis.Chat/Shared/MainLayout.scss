@@ -98,10 +98,10 @@
                 }
 
                 .logout {
-                    color: $primary-500;
+                    color: $secondary-900;
 
                     &:hover {
-                        background: $primary-100;
+                        background: $secondary-800;
                     }
                 }
 
@@ -118,6 +118,18 @@
                     height: 32px;
                     padding: 4px;
                 }
+            }
+        }
+
+        .user-balance {
+            position: relative;
+
+            .blossom-animation {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
             }
         }
 

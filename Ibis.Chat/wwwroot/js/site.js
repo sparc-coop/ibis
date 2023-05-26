@@ -23,6 +23,42 @@ function enablePtt(dotNetHelper) {
     });
 }
 
+function randomInterval(callback, min, max) {
+    let timeout;
+
+    const randomNum = (max, min = 0) => Math.random() * (max - min) + min;
+
+    const stop = () => clearTimeout(timeout)
+
+    const tick = () => {
+        let time = randomNum(min, max);
+        stop();
+
+        timeout = setTimeout(() => {
+            tick();
+            callback && typeof callback === "function" && callback(stop);
+        }, time)
+    }
+
+    tick();
+}
+
+function animate(el, source, animateOn) {
+    var animation = lottie.loadAnimation({
+        container: el,
+        path: source,
+        renderer: 'svg',
+        loop: !animateOn,
+        autoplay: !animateOn
+    });
+
+    if (animateOn == "Random") {
+        randomInterval(() => animation.goToAndPlay(1, true), 10000, 20000);
+    }
+
+    return animation;
+}
+
 var context;
 var recorder;
 async function beginListening(dotNet) {

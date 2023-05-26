@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis", "Ibis.Features\Ibis.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparc.Ibis", "Sparc.Ibis\Sparc.Ibis.csproj", "{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Support", "Ibis.Support\Ibis.Support.csproj", "{8372A284-B853-492F-A87F-62347981E705}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +41,6 @@ Global
 		{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}.Release|x64.ActiveCfg = Release|Any CPU
 		{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}.Release|x64.Build.0 = Release|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Debug|x64.Build.0 = Debug|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Release|x64.ActiveCfg = Release|Any CPU
-		{8372A284-B853-492F-A87F-62347981E705}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

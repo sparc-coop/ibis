@@ -39,16 +39,8 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
             }
         }
 
-        try
-        {
-            var message = new Message(request.RoomId, user!, request.Text, request.Tag);
-            await Messages.AddAsync(message);
-            return message;
-        }
-        catch (Exception ex)
-        {
-            var e = ex;
-            return null;
-        }
+        var message = new Message(request.RoomId, user!, request.Text, request.Tag);
+        await Messages.AddAsync(message);
+        return message;
     }
 }

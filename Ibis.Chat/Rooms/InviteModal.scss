@@ -185,7 +185,7 @@
     }
 
     .create-room {
-        background: $primary-500;
+        background: $secondary-900;
         border-radius: 8px;
         padding: 9px 16px;
         color: $white;
@@ -210,7 +210,7 @@
             &:hover, &.selected {
                 opacity: 1;
                 cursor: pointer;
-                border: 1px solid $primary-500;
+                border: 1px solid $secondary-900;
                 border-radius: 8px;
             }
         }

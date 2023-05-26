@@ -11,28 +11,17 @@ body {
 .ibis-meta-app {
     .ibis-widget {
         position: fixed;
-        top: 30px;
-        right: 370px;
-        z-index: 101;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000001;
 
-        @media only screen and (max-width: 760px) {
-            top: 5px;
-            right: 60px;
+        ul {
+            transform: translateX(-90%) translateY(-540px);
         }
+    }
 
-        @media only screen and (max-width: 760px) {
-            top: 85px;
-            left: 50%;
-            right: auto;
-            transform: translateX(-50%);
-        }
-
-        @media only screen and (max-width: 500px) {
-            top: 25px;
-            left: auto;
-            right: 30px;
-            transform: translateX(0);
-        }
+    .ibis-language-selector {
+        background: transparent;
     }
 }
 
@@ -49,29 +38,13 @@ body {
         box-shadow: none;
     }
 
-    a.btn-primary {
-        padding: 21px 53px;
-        border: none;
-        border-radius: 5px;
-        background: $primary-500;
-        color: $white;
-        font-size: 20px;
-        transition: 200ms ease-in-out;
-        display: inline-block;
-
-        &:hover {
-            cursor: pointer;
-            transform: scale(103%);
-        }
-    }
-
     .button-pricing {
         padding: 21px 53px;
         border: none;
         border: none;
         border-radius: 5px;
-        background: $primary-100;
-        color: $primary-500;
+        background: $secondary-200;
+        color: $secondary-900;
         font-size: 20px;
         transition: 200ms ease-in-out;
         display: inline-block;
@@ -93,37 +66,46 @@ body {
         background: $background;
         z-index: 100;
 
+        @media screen and (max-width: 600px) {
+            justify-content: center;
+            padding: 30px 0;
+            width: 100vw;
+        }
+
+        > a {
+            display: inline-flex;
+            align-content: flex-end;
+            position: relative;
+        }
 
         .logo {
-            width: 146px;
+            height: 34px;
+            width: auto;
+            position: relative;
+            top: 20px;
+            left: -20px;
+        }
+
+        .blossom-animation {
+            position: relative;
+            top: -35px;
+            height: 146px;
         }
 
         .menu {
             padding-top: 10px;
             font-size: 20px;
 
-            a.log-in {
-                margin-right: 35px;
-                color: $grey-600;
-                font-size: 20px;
-                line-height: 25px;
-                text-decoration: none;
-                transition: 300ms ease-in-out;
-                display: inline-block;
-
-                &:hover {
-                    cursor: pointer;
-                    color: $primary-500;
-                    transform: scale(103%);
-                }
+            a {
+                color: $grey-500;
             }
 
             a.get-started {
                 padding: 13px 37px;
-                border: 1px solid $primary-500;
+                border: 1px solid $secondary-900;
                 border-radius: 5px;
                 background: transparent;
-                color: $primary-500;
+                color: $secondary-900;
                 font-size: 20px;
                 line-height: 25px;
                 transition: 200ms ease-in-out;
@@ -136,7 +118,7 @@ body {
                 }
             }
 
-            @media screen and (max-width: 500px) {
+            @media screen and (max-width: 600px) {
                 display: none;
             }
         }
@@ -173,6 +155,15 @@ body {
                 font-size: 20px;
                 line-height: 35px;
             }
+        }
+
+        p.special {
+            padding: 6px 12px;
+            background: $grey-100;
+            border-radius: 32px;
+            font-size: 14px !important;
+            line-height: 20px !important;
+            margin-top: 16px;
         }
 
         .landing--button-container {
@@ -252,9 +243,9 @@ body {
 
                         p {
                             margin-top: 11px;
-                            color: $grey-600;
-                            font-family: freight-display-pro, serif;
-                            font-weight: 600;
+                            color: $grey-500;
+                            font-family: "CircularStd", sans-serif;
+                            font-weight: 500;
                             font-style: normal;
                             font-size: 18px;
                             line-height: 25px;
@@ -279,9 +270,9 @@ body {
             p {
                 margin: 0;
                 margin-top: 16px;
-                color: $grey-600;
-                font-family: freight-display-pro, serif;
-                font-weight: 600;
+                color: $grey-500;
+                font-family: "CircularStd", sans-serif;
+                font-weight: 500;
                 font-style: normal;
                 font-size: 20px;
                 line-height: 33px;
@@ -325,9 +316,9 @@ body {
                     margin: 0;
                     margin-top: 16px;
                     margin-bottom: 55px;
-                    color: $grey-600;
-                    font-family: freight-display-pro, serif;
-                    font-weight: 600;
+                    color: $grey-500;
+                    font-family: "CircularStd", sans-serif;
+                    font-weight: 500;
                     font-style: normal;
                     font-size: 20px;
                     line-height: 33px;
@@ -429,12 +420,11 @@ body {
         }
 
         &--nav {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px 60px;
+            max-height: 100px;
 
             .logo {
-                width: 120px;
+                height: 35px;
+                width: auto;
             }
 
             .menu {
@@ -747,7 +737,7 @@ body {
                                 min-width: 200px;
                                 margin: 6px 0px 0px 45px;
                                 padding: 5px 20px;
-                                border: 1px solid $primary-500;
+                                border: 1px solid $secondary-900;
                                 font-size: 16px;
                                 line-height: 20px;
                                 text-align: center;
@@ -962,7 +952,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 12px 71px;
-                        background: $primary-500;
+                        background: $secondary-900;
                         font-size: 18px;
                         line-height: 24px;
                         display: inline-block;
@@ -1175,7 +1165,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 6px 71px;
-                        background: $primary-500;
+                        background: $secondary-900;
                         font-size: 16px;
                         line-height: 24px;
                     }
@@ -1221,7 +1211,7 @@ body {
                     a.btn-primary {
                         width: 100%;
                         padding: 8px 25px;
-                        background: $primary-500;
+                        background: $secondary-900;
                         font-size: 13px;
                         line-height: 15px;
                     }

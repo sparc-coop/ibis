@@ -32,6 +32,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: 300ms ease-in-out;
+            color: $grey-500;
 
             aside {
                 position: absolute;
@@ -59,16 +60,16 @@
             }
 
             &.selected {
-                border: 1.5px solid #30C07D;
-                color: #30C07D;
+                border: 1.5px solid $secondary-900;
+                color: $secondary-900;
 
                 aside {
                     span {
-                        color: #30C07D;
+                        color: $secondary-900;
                     }
 
                     svg {
-                        fill: #30C07D;
+                        fill: $secondary-900;
                     }
                 }
             }
@@ -88,6 +89,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
+
             aside {
                 top: 8px;
             }

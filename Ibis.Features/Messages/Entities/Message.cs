@@ -35,11 +35,11 @@ public class Message : Root<string>
         Tags = new();
     }
 
-    public Message(string roomId, User user, string text, string? tag = null) : this()
+    public Message(string roomId, User user, string text, string? tag = null, string? language = null) : this()
     {
         RoomId = roomId;
         User = user.Avatar;
-        Language = user.Avatar.Language ?? "";
+        Language = user.Avatar.Language ?? language ?? "";
         LanguageIsRTL = user.Avatar.LanguageIsRTL;
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
@@ -76,7 +76,7 @@ public class Message : Root<string>
         Broadcast(new MessageTextChanged(this));
     }
 
-    internal async Task<(string?, Message?)> TranslateAsync(ITranslator translator, string languageId)
+    internal async Task<(string?, Message?)> TranslateAsync(Translator translator, string languageId)
     {
         if (HasTranslation(languageId))
             return (Translations.First(x => x.LanguageId == languageId).SourceMessageId, null);

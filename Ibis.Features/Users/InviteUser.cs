@@ -5,17 +5,17 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
 {
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
-    public PasswordlessAuthenticator<User> Authenticator { get; }
+    public BlossomAuthenticator<User> Authenticator { get; }
     public IConfiguration Configuration { get; }
-    public ITranslator Translator { get; }
+    public Translator Translator { get; }
     TwilioService Twilio { get; set; }
 
     public InviteUser(TwilioService twilio, 
         IRepository<Room> rooms, 
-        IRepository<User> users, 
-        PasswordlessAuthenticator<User> authenticator, 
+        IRepository<User> users,
+        BlossomAuthenticator<User> authenticator, 
         IConfiguration configuration,
-        ITranslator translator)
+        Translator translator)
     {
         Twilio = twilio;
         Rooms = rooms;
@@ -52,7 +52,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
                 { "Powered", "POWERED BY IBIS" },
             };
 
-            if (language != null)
+            if (language != null && language != "en")
             {
                 foreach (var key in dictionary.Keys)
                     dictionary[key] = await Translator.TranslateAsync(dictionary[key], "en", language) ?? dictionary[key];
@@ -72,9 +72,7 @@ public class InviteUser : Feature<InviteUserRequest, UserAvatar?>
                 await Users.AddAsync(user);
             }
 
-            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(user, $"{Configuration["WebClientUrl"]}/rooms/{request.RoomId}");
-            roomLink = $"{Request.Scheme}://{Request.Host.Value}{roomLink}";
-
+            string roomLink = await Authenticator.CreateMagicSignInLinkAsync(request.Email, $"/rooms/{request.RoomId}", Request);
 
             var templateData = new
             {

@@ -2,6 +2,7 @@ using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
 using Sparc.Ibis;
+using Blazored.Modal;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
@@ -13,15 +14,16 @@ builder.Services
         .AddAzureStorage(builder.Configuration.GetConnectionString("Storage")!)
         .AddTwilio(builder.Configuration)
         .AddBlossomRealtime<IbisHub>()
+        .AddScoped<Translator>()
+        .AddScoped<ITranslator, DeepLTranslator>()
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>();
+        .AddScoped<GetAllContent>()
+        .AddBlazoredModal();
 
-var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
-auth.AddCookie();
-builder.AddPasswordlessAuthentication<User>(auth);
+builder.AddBlossomAuthentication<User>();
 
 builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
 builder.Services.AddServerSideBlazor();
@@ -44,7 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapHub<IbisHub>("/hub");
-app.UsePasswordlessAuthentication<User>();
+app.UseBlossomAuthentication<User>();
 app.UseAllCultures();
 
 // Warm up the entity framework model

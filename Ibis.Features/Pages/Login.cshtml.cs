@@ -1,10 +1,8 @@
-﻿using Ibis._Plugins;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection.PortableExecutable;
 
 namespace Ibis.Users;
 
@@ -13,7 +11,7 @@ namespace Ibis.Users;
 [AllowAnonymous]
 public class IbisLoginModel : LoginModel
 {
-    public IbisLoginModel(PasswordlessAuthenticator<User> authenticator, TwilioService twilio, IRepository<User> users, ITranslator translator) : base(authenticator)
+    public IbisLoginModel(BlossomAuthenticator<User> authenticator, TwilioService twilio, IRepository<User> users, Translator translator) : base(authenticator)
     {
         Authenticator = authenticator;
         Twilio = twilio;
@@ -21,19 +19,21 @@ public class IbisLoginModel : LoginModel
         Translator = translator;
     }
 
-    private PasswordlessAuthenticator<User> Authenticator { get; }
+    private BlossomAuthenticator<User> Authenticator { get; }
     private TwilioService Twilio { get; }
     private IRepository<User> Users { get; }
-    private ITranslator Translator { get; }
+    private Translator Translator { get; }
     public string Message { get; set; } = "Welcome to Ibis! Please enter your email below.";
     public string Welcome { get; set; } = "Welcome to Ibis";
     public string EmailLabel { get; set; } = "Email Address";
+    public string CodeLabel { get; set; } = "Enter Code";
     public string SignInButton { get; set; } = "Sign In";
+    public string? Code { get; set; }
 
     public override PageResult Page()
     {
         var language = RequestLanguage();
-        if (language != null)
+        if (!string.IsNullOrWhiteSpace(language) && language != "en")
         {
             Task.Run(async () =>
             {
@@ -76,14 +76,27 @@ public class IbisLoginModel : LoginModel
             await Users.AddAsync(user);
         }
 
+        if (!string.IsNullOrWhiteSpace(Code))
+        {
+            var loggedInUser = await Authenticator.LoginAsync(Email, Code, "Email");
+            if (loggedInUser != null)
+                return Redirect("/rooms");
+            else
+            {
+                Error = "The code you entered doesn't match what we sent. Please try again!";
+                Code = null;
+                return Page();
+            }
+        }
+
         language = user?.PrimaryLanguage?.Id ?? RequestLanguage() ?? "en";
-        var link = await Authenticator.CreateMagicSignInLinkAsync(Email, ReturnUrl!);
-        link = $"{Request.Scheme}://{Request.Host.Value}{link}";
+        var link = await Authenticator.CreateMagicSignInLinkAsync(Email, ReturnUrl!, Request);
+        var code = await Authenticator.CreateOneTimeCodeAsync(Email);
 
         var dictionary = new Dictionary<string, string>
         {
             { "Hi", "Hi from Ibis!" },
-            { "ClickTheLink", "Click the link below to log into your account." },
+            { "ClickTheLink", $"Your login code is {code}. Alternatively, you may click the link below to log into your account." },
             { "LogIn", "Log In" },
             { "NeedSupport", "Need support? We're here to help. Our customer service reps are available most of the time." },
             { "ContactSupport", "Contact Support" }
@@ -107,7 +120,7 @@ public class IbisLoginModel : LoginModel
 
         await Twilio.SendEmailTemplateAsync(Email, "d-f9f37ce3326b4b92bf5db74a0062cd6b", templateData);
 
-        Message = "Check your email for a link to sign in!";
+        Message = "Enter the one-time code sent to your email to log in.";
         return Page();
     }
 
