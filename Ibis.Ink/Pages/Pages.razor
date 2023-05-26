@@ -2,7 +2,7 @@
 @layout DashboardLayout
 @using Ibis.Ink.Components;
 
-<Breadcrumbs Page="@WebsiteId"/>
+<Breadcrumbs WebsiteId="@WebsiteId"/>
 <div class="pages">
     <header class="page--header">
         <h2>@WebsiteId</h2>
@@ -19,11 +19,11 @@
         </div>
     </header>
     <div class="pages-list">
-        <PageCard Type="Page" Title="Home" Endpoint="/" DateModified="@DateTime.Now" />
-        <PageCard Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
-        <PageCard Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
-        <PageCard Type="Blog" Title="Welcome to Blossom" Endpoint="/21days/Welcome" DateModified="@DateTime.Now" />
-        <PageCard Type="Other" Title="Sparc Entities" Endpoint="/21days/SparcEntities" DateModified="@DateTime.Now" />
+        <PageCard WebsiteId=@WebsiteId Type="Page" Title="Home" Endpoint="/Home" DateModified="@DateTime.Now" />
+        <PageCard WebsiteId=@WebsiteId Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
+        <PageCard WebsiteId=@WebsiteId Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
+        <PageCard WebsiteId=@WebsiteId Type="Blog" Title="Welcome to Blossom" Endpoint="/21days/Welcome" DateModified="@DateTime.Now" />
+        <PageCard WebsiteId=@WebsiteId Type="Other" Title="Sparc Entities" Endpoint="/21days/SparcEntities" DateModified="@DateTime.Now" />
     </div>
 </div>
 

@@ -1,0 +1,34 @@
+﻿<div class="page-content--component">
+    @if (Type == "Text")
+    {
+        <div class="component-title">@Title</div>
+        <div class="component-text">
+            <TextEditor MarkdownValue="@Content_Text" />
+        </div>
+    } else if (Type == "Image")
+    {
+        @if (Content_ImageWidth != null && Content_ImageHeight != null)
+        {
+            string res = $"width: {Content_ImageWidth}; height: {Content_ImageHeight}";
+            string resString = $"{Content_ImageWidth.Replace("px", "")}x{Content_ImageHeight.Replace("px", "")}";
+            <div class="component-title">@Title | @Content_ImagePath @resString</div>
+            <div class="component-image">
+                <img class="component-image--image" src="images/@Content_ImagePath" style=@res />
+                <div class="component-image--caption">
+                    <TextEditor MarkdownValue="@Content_ImageCaption" />
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? Type { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Content_Text { get; set; }
+    [Parameter] public string? Content_ImagePath { get; set; }
+    [Parameter] public string? Content_ImageWidth { get; set; }
+    [Parameter] public string? Content_ImageHeight { get; set; }
+    [Parameter] public string? Content_ImageCaption { get; set; }
+}

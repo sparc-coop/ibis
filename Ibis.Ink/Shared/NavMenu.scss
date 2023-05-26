@@ -8,6 +8,8 @@
     z-index: 11;
 
     .login {
+        transition: 250ms ease-in-out;
+
         &:hover {
             border: 1px solid $secondary-900;
             background: $white;

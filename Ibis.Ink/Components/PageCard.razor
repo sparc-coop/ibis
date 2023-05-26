@@ -1,7 +1,16 @@
 ﻿<div class="page-card">
     <div class="card-content">
         <div class="page-type page-type--@Type">@Type</div>
-        <h3>@Title (@Endpoint)</h3>
+        @if (Endpoint != null)
+        {
+            string link = "/websites/" + WebsiteId + Endpoint;
+            <a href="@link">
+                <h3>@Title (@Endpoint)</h3>
+            </a>
+        } else
+        {
+            <h3>@Title (@Endpoint)</h3>
+        }
         <p class="date">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
     </div>
     <div class="actions">
@@ -11,15 +20,9 @@
 </div>
 
 @code {
-    [Parameter]
-    public string? Type { get; set; }
-
-    [Parameter]
-    public string? Title { get; set; }
-
-    [Parameter]
-    public string? Endpoint { get; set; }
-
-    [Parameter]
-    public DateTime DateModified { get; set; }
+    [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? Type { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Endpoint { get; set; }
+    [Parameter] public DateTime DateModified { get; set; }
 }

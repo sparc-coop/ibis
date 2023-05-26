@@ -1,0 +1,53 @@
+﻿@import "../_variables";
+
+.page-editor--MDE {
+    .EasyMDEContainer {
+        margin: 0;
+        display: flex;
+        flex-direction: column-reverse;
+        border: none;
+
+        .editor-preview {
+            border: none;
+        }
+
+        .CodeMirror {
+            height: 100%;
+            padding: 0;
+            border: none;
+            border-radius: 0px;
+
+            &-scroll {
+                min-height: 0 !important;
+            }
+        }
+
+        .editor-toolbar {
+            width: calc(100% + 12px);
+            height: 38px;
+            margin: 16px -24px 0 -12px;
+            padding: 6px 15px;
+            border: none;
+            border-radius: 0px;
+            background: $secondary-200;
+
+            i {
+                color: $grey-800;
+
+                &.separator:nth-of-type(4) {
+                    display: none;
+                }
+            }
+
+            button {
+                &.guide {
+                    display: none;
+                }
+            }
+        }
+
+        .editor-statusbar {
+            display: none;
+        }
+    }
+}
