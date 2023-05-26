@@ -3,10 +3,10 @@
 @using Sparc.Ibis;
 
 @*<RealtimeHub Url="@HubUrl">*@
-<CascadingValue Value="User">
-    <div class="main-layout @(IsRoom ? "mini" : "" )">
-        <header>
-            <h1>
+    <CascadingValue Value="User">
+        <div class="main-layout @(IsRoom ? "mini" : "" )">            
+            <header>
+                <h1>
                 <a href="/rooms">
                     <figure class="logo">
                         @if (IsRoom)
@@ -23,7 +23,7 @@
             </h1>
             @*<NavMenu />*@
         </header>
-
+          
         <main>
             @Body
         </main>
