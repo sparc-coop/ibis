@@ -72,7 +72,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <button class="add-website" tabindex="8"><AddIcon /><span> Add Website</span></button>
+                        <button class="add-website" @onclick=AddWebsite tabindex ="8"><AddIcon /><span> Add Website</span></button>
                     </div>
                 }
             </Authorized>
@@ -89,6 +89,7 @@
 </CascadingValue>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IModalService Modal
 
 @code {
     [Parameter] public EventCallback<bool> OnCollapseNav { get; set; }
@@ -165,5 +166,10 @@
     void SelectWebsite(string endpoint)
     {
         Nav.NavigateTo(endpoint);
+    }
+
+    void AddWebsite()
+    {
+        Modal.Show<AddWebsiteModal>("Add Website");
     }
 }

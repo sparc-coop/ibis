@@ -33,7 +33,7 @@
     <div class="page-editor--actions">
         <button class="back" @onclick="GoBack">Back</button>
         <div class="actions">
-            <button class="page-settings">Settings</button>
+            <button class="page-settings" @onclick="OpenPageSettings">Settings</button>
             <button class="save-page">Save</button>
         </div>
     </div>
@@ -48,5 +48,10 @@
     void GoBack()
     {
         Nav.NavigateTo($"/websites/{WebsiteId}");
+    }
+
+    void OpenPageSettings()
+    {
+        Modal.Show<PageSettingsModal>("Settings");
     }
 }
