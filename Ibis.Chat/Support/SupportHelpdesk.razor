@@ -1,5 +1,29 @@
-﻿<h3>SupportHelpdesk</h3>
+﻿<div class="support-helpdesk--chat mini">
+    <header class="helpdesk-header">
+        <div class="title">Message</div>
+        <div class="helpdesk-actions">
+            <div class="agent-status">Online <div class="agent-status-icon"></div></div>
+            <button class="popout-helpdesk">
+                <img src="icons/popout-icon.svg" />
+            </button>
+            <button class="close-helpdesk">
+                <img src="icons/close-icon.svg" />
+            </button>
+        </div>
+    </header>
+    <div class="helpdesk-messages">
+        <ul>
+            <li><SupportMessageCard Type="agent"/></li>
+            <li><SupportMessageCard Type="user" User="User"/></li>
+        </ul>
+    </div>
+    <div class="helpdesk-footer">
+        <button class="support-attach"><img src="icons/attach-icon.svg" /></button>
+        <input type="text" placeholder="Type your message..."/>
+        <button class="send-support-message"><img src="icons/send-icon.svg" /></button>
+    </div>
+</div>
 
 @code {
-
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
 }

@@ -1,0 +1,25 @@
+﻿<div class="support-message-card @Type">
+    <header>
+        @if (Type == "agent")
+        {
+            <div class="avatar-wrapper">
+                <img src="images/logo_icon.png">
+            </div>
+            <span>Ibis support</span>
+        } else if (Type == "user" && User != null)
+        {
+            <div class="avatar-wrapper">
+                <Avatar />
+            </div>
+            <span>@User.Name</span>
+        }
+    </header>
+    <div class="message-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Type { get; set; }
+    [Parameter] public UserAvatar? User { get; set; }
+}

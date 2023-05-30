@@ -1,0 +1,59 @@
+﻿@import "../_variables.scss";
+
+.support-message-card {
+    max-width: 252px;
+    padding: 8px;
+    border-radius: 12px;
+    font-family: 'CircularStd';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 120%;
+    margin-bottom: 8px;
+
+    header {
+        display: block;
+        height: 20px;
+        padding: 0;
+        margin-bottom: 6px;
+        background: none;
+
+        .avatar-wrapper {
+            display: inline-block;
+            margin-right: 6px;
+        }
+    }
+
+    &.agent {
+        background: $secondary-900;
+
+        header {
+            display: block;
+            color: $secondary-300;
+
+            img {
+                width: 24px;
+                height: 18px;
+            }
+        }
+
+        .message-content {
+            p {
+                color: $white;
+            }
+        }
+    }
+
+    &.user {
+        background: $white;
+
+        header {
+            color: $grey-500;
+        }
+
+        .message-content {
+            p {
+                color: $grey-900;
+            }
+        }
+    }
+}

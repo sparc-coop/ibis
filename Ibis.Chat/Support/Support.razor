@@ -11,9 +11,12 @@
         </div>
     </div>
     <div class="support-helpdesk">
-        <button class="open-helpdesk">
+        <button class="open-helpdesk" @onclick=ToggleHelpdesk>
             <SupportIcon />
         </button>
+        <div class="helpdesk @ShowHelpdesk">
+            <SupportHelpdesk />
+        </div>
     </div>
 </div>
 
@@ -22,6 +25,9 @@
 
     bool OpenLanguageSettings = false;
     string? ShowLanguageSettings;
+
+    bool OpenHelpdesk = false;
+    string? ShowHelpdesk;
 
     void ToggleLanguageSettings()
     {
@@ -33,6 +39,32 @@
         } else
         {
             ShowLanguageSettings = "open";
+        }
+
+        @if (OpenHelpdesk == true)
+        {
+            OpenHelpdesk = false;
+            ShowHelpdesk = "";
+        }
+    }
+
+    void ToggleHelpdesk()
+    {
+        OpenHelpdesk = !OpenHelpdesk;
+
+        @if (OpenHelpdesk == false)
+        {
+            ShowHelpdesk = "";
+        }
+        else
+        {
+            ShowHelpdesk = "open";
+        }
+
+        @if(OpenLanguageSettings == true)
+        {
+            OpenLanguageSettings = false;
+            ShowLanguageSettings = "";
         }
     }
 }

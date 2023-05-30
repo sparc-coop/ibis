@@ -1,0 +1,111 @@
+﻿@import "../_variables.scss";
+
+.support-helpdesk--chat {
+    width: 275px;
+    max-height: 550px;
+    position: absolute;
+    top: 0;
+    right: 75px;
+    border: 1px solid $grey-300;
+    border-radius: 16px;
+
+    .helpdesk-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-radius: 16px 16px 0 0;
+        background: $white;
+
+        .title {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 120%;
+        }
+
+        .helpdesk-actions {
+            display: flex;
+            gap: 18px;
+            font-size: 10px;
+            line-height: 120%;
+
+            .agent-status {
+                margin-top: 1px;
+                color: $green;
+            }
+
+            .agent-status-icon {
+                display: inline-block;
+                width: 6px;
+                height: 6px;
+                margin-bottom: 1.5px;
+                background: $green;
+                border-radius: 50%;
+            }
+
+            button {
+                &.popout-helpdesk img {
+                    width: 11px;
+                    height: 11px;
+                }
+
+                &.close-helpdesk img {
+                    width: 10px;
+                    height: 10px;
+                }
+            }
+        }
+    }
+
+    .helpdesk-messages {
+        padding: 12px 18px;
+        background: $secondary-300;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .helpdesk-footer {
+        height: 40px;
+        padding: 6px 5px;
+        display: flex;
+        gap: 2px;
+        border-radius: 0 0 16px 16px;
+        background: $white;
+
+        button {
+            width: 18px;
+            height: 18px;
+
+            &.support-attach {
+                margin: 0 auto;
+
+                img {
+                    width: 10px;
+                    height: 12px;
+                    margin-top: 6px;
+                    margin-left: 5px;
+                }
+            }
+
+            &.send-support-message {
+                margin: 0 auto;
+
+                img {
+                    width: 10px;
+                    height: 11px;
+                    margin-top: 6px;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        input {
+            width: 205px;
+            padding: 6px 8px;
+            border: none;
+            background: $grey-100;
+            font-size: 13px;
+        }
+    }
+}

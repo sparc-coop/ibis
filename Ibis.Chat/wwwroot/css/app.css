@@ -1754,17 +1754,27 @@ nav li .avatar {
 }
 .support-language .language-settings.open {
   display: block;
+  z-index: 1000;
 }
-.support-helpdesk button img {
+.support-helpdesk {
+  position: relative;
+}
+.support-helpdesk .open-helpdesk img {
   transition: 250ms ease-in-out;
 }
-.support-helpdesk button:hover img {
+f .support-helpdesk .open-helpdesk:hover img {
   width: 40px;
   height: 39px;
 }
-.support-helpdesk button:active img {
+.support-helpdesk .open-helpdesk:active img {
   width: 36px;
   height: 35px;
+}
+.support-helpdesk .helpdesk {
+  display: none;
+}
+.support-helpdesk .helpdesk.open {
+  display: block;
 }
 
 .support-language--dropdown {
@@ -1843,6 +1853,143 @@ nav li .avatar {
   margin-bottom: 16px;
   border: none;
   background: #FFFFFF;
+}
+
+.support-helpdesk--chat {
+  width: 275px;
+  max-height: 550px;
+  position: absolute;
+  top: 0;
+  right: 75px;
+  border: 1px solid #D1D4DC;
+  border-radius: 16px;
+}
+.support-helpdesk--chat .helpdesk-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 16px 16px 0 0;
+  background: #FFFFFF;
+}
+.support-helpdesk--chat .helpdesk-header .title {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 120%;
+}
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions {
+  display: flex;
+  gap: 18px;
+  font-size: 10px;
+  line-height: 120%;
+}
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions .agent-status {
+  margin-top: 1px;
+  color: #30C07D;
+}
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions .agent-status-icon {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-bottom: 1.5px;
+  background: #30C07D;
+  border-radius: 50%;
+}
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions button.popout-helpdesk img {
+  width: 11px;
+  height: 11px;
+}
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions button.close-helpdesk img {
+  width: 10px;
+  height: 10px;
+}
+.support-helpdesk--chat .helpdesk-messages {
+  padding: 12px 18px;
+  background: #D3E4F1;
+}
+.support-helpdesk--chat .helpdesk-messages:last-child {
+  margin-bottom: 0;
+}
+.support-helpdesk--chat .helpdesk-footer {
+  height: 40px;
+  padding: 6px 5px;
+  display: flex;
+  gap: 2px;
+  border-radius: 0 0 16px 16px;
+  background: #FFFFFF;
+}
+.support-helpdesk--chat .helpdesk-footer button {
+  width: 18px;
+  height: 18px;
+}
+.support-helpdesk--chat .helpdesk-footer button.support-attach {
+  margin: 0 auto;
+}
+.support-helpdesk--chat .helpdesk-footer button.support-attach img {
+  width: 10px;
+  height: 12px;
+  margin-top: 6px;
+  margin-left: 5px;
+}
+.support-helpdesk--chat .helpdesk-footer button.send-support-message {
+  margin: 0 auto;
+}
+.support-helpdesk--chat .helpdesk-footer button.send-support-message img {
+  width: 10px;
+  height: 11px;
+  margin-top: 6px;
+  margin-left: 5px;
+}
+.support-helpdesk--chat .helpdesk-footer input {
+  width: 205px;
+  padding: 6px 8px;
+  border: none;
+  background: #F3F5F6;
+  font-size: 13px;
+}
+
+.support-message-card {
+  max-width: 252px;
+  padding: 8px;
+  border-radius: 12px;
+  font-family: "CircularStd";
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 120%;
+  margin-bottom: 8px;
+}
+.support-message-card header {
+  display: block;
+  height: 20px;
+  padding: 0;
+  margin-bottom: 6px;
+  background: none;
+}
+.support-message-card header .avatar-wrapper {
+  display: inline-block;
+  margin-right: 6px;
+}
+.support-message-card.agent {
+  background: #003B5F;
+}
+.support-message-card.agent header {
+  display: block;
+  color: #D3E4F1;
+}
+.support-message-card.agent header img {
+  width: 24px;
+  height: 18px;
+}
+.support-message-card.agent .message-content p {
+  color: #FFFFFF;
+}
+.support-message-card.user {
+  background: #FFFFFF;
+}
+.support-message-card.user header {
+  color: #6A7280;
+}
+.support-message-card.user .message-content p {
+  color: #0A111D;
 }
 
 .dashboard {
