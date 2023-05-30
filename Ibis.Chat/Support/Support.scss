@@ -1,0 +1,114 @@
+﻿@import "../_variables.scss";
+
+.support {
+    z-index: 1000;
+
+    &--container {
+        width: 76px;
+        height: 220px;
+        padding: 14px 10px 14px 10px;
+        background: rgba(0, 59, 95, 0.1);
+        border-radius: 40px 0px 0px 40px;
+
+        button {
+            display: block;
+            background: none;
+            padding: 0;
+            margin: 0 auto;
+        }
+    }
+
+    &-language {
+        width: 56px;
+        height: 126px;
+        padding: 21px 8px;
+        position: relative;
+        background: $secondary-900;
+        box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+        border-radius: 53px;
+        margin-bottom: 10px;
+
+        button {
+            aspect-ratio: 1/1;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            text-align: center;
+
+            &.open-language-settings {
+                margin-bottom: 6px;
+
+                span {
+                    font-family: 'CircularStd';
+                    font-weight: 400;
+                    font-style: normal;
+                    font-size: 16px;
+                    line-height: 20px;
+                    transition: 250ms ease-in-out;
+                }
+
+                &.open {
+                    background: $secondary-800;
+                }
+            }
+
+            &.play-button {
+                svg {
+                    width: 17px;
+                    height: 17px;
+                    transition: 250ms ease-in-out;
+                }
+            }
+
+            &:hover {
+                span {
+                    font-size: 19px;
+                }
+
+                svg {
+                    transform: scale(120%);
+                }
+            }
+
+            &:active {
+                span {
+                    font-size: 16px;
+                }
+
+                svg {
+                    transform: scale(100%);
+                }
+            }
+        }
+
+        .language-settings {
+            display: none;
+
+            &.open {
+                display: block;
+            }
+        }
+    }
+
+    &-helpdesk {
+        button {
+            img {
+                transition: 250ms ease-in-out;
+            }
+
+            &:hover {
+                img {
+                    width: 40px;
+                    height: 39px;
+                }
+            }
+
+            &:active {
+                img {
+                    width: 36px;
+                    height: 35px;
+                }
+            }
+        }
+    }
+}

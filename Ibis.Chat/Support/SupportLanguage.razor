@@ -1,0 +1,23 @@
+﻿<div class="support-language--dropdown">
+    <div class="support-language--searchbar">
+        <label>Search</label>
+        <input type="text" placeholder="Search langauge" />
+    </div>
+    <ul class="support-language--list">
+        @if (Languages != null) {
+            @foreach (var language in Languages)
+            {
+                <li>@language.NativeName</li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    ICollection<Language>? Languages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Languages = await Api.GetLanguagesAsync();
+    }
+}

@@ -1,0 +1,38 @@
+﻿<div class="support support--container">
+    <div class="support-language">
+        <button class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
+            <span>@User.Language</span>
+        </button>
+        <button class="play-button">
+            <PlayIcon2 />
+        </button>
+        <div class="language-settings @ShowLanguageSettings">
+            <SupportLanguage />
+        </div>
+    </div>
+    <div class="support-helpdesk">
+        <button class="open-helpdesk">
+            <SupportIcon />
+        </button>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+
+    bool OpenLanguageSettings = false;
+    string? ShowLanguageSettings;
+
+    void ToggleLanguageSettings()
+    {
+        OpenLanguageSettings = !OpenLanguageSettings;
+
+        @if (OpenLanguageSettings == false)
+        {
+            ShowLanguageSettings = "";
+        } else
+        {
+            ShowLanguageSettings = "open";
+        }
+    }
+}
