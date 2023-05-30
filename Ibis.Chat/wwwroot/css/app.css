@@ -1790,8 +1790,37 @@ nav li .avatar {
 .support-language--dropdown ul li {
   padding: 10px 14px;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
   border-radius: 8px;
   background: #FFFFFF;
+  color: #0A111D;
+  font-size: 16px;
+  transition: 250ms ease-in-out;
+}
+.support-language--dropdown ul li span {
+  margin-top: 4px;
+  font-size: 10px;
+}
+.support-language--dropdown ul li:hover {
+  cursor: pointer;
+  background: #D3E4F1;
+  color: #003B5F;
+}
+.support-language--dropdown ul li:active {
+  background: #FFFFFF;
+}
+.support-language--dropdown ul li.selected-language {
+  background: #D3E4F1;
+}
+.support-language--dropdown ul li.selected-language img {
+  width: 14px;
+  height: 10px;
+  margin-bottom: 2px;
+  margin-right: -4px;
+}
+.support-language--dropdown ul li.selected-language img svg {
+  fill: #003B5F;
 }
 .support-language--searchbar {
   margin: 0;

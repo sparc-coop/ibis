@@ -24,8 +24,43 @@
             li {
                 padding: 10px 14px;
                 margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
                 border-radius: 8px;
                 background: $white;
+                color: $grey-900;
+                font-size: 16px;
+                transition: 250ms ease-in-out;
+
+                span {
+                    margin-top: 4px;
+                    font-size: 10px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background: $secondary-300;
+                    color: $secondary-900;
+                }
+
+                &:active {
+                    background: $white;
+                }
+
+                &.selected-language {
+                    background: $secondary-300;
+
+                    img {
+                        width: 14px;
+                        height: 10px;
+                        margin-bottom: 2px;
+                        margin-right: -4px;
+
+                        svg {
+                            fill: $secondary-900;
+                        }
+                    }
+                }
             }
         }
     }

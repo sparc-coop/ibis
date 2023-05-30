@@ -7,17 +7,31 @@
         @if (Languages != null) {
             @foreach (var language in Languages)
             {
-                <li>@language.NativeName</li>
+                @if(language.Id == User.Language)
+                {
+                    <li class="selected-language" value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName <img src="icons/Check.svg" /></span></li>
+                } else
+                {
+                    <li value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName</span></li>
+                }
             }
         }
     </ul>
 </div>
 
 @code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
     ICollection<Language>? Languages { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Languages = await Api.GetLanguagesAsync();
+    }
+
+    async Task SetLanguage(string language)
+    {
+        User.Language = language;
+        await Api.ChangeVoiceAsync(new ChangeVoiceRequest { Language = language });
+        Nav.NavigateTo("/rooms");
     }
 }
