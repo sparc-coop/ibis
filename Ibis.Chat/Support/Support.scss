@@ -1,6 +1,7 @@
 ﻿@import "../_variables.scss";
 .support {
     z-index: 1000;
+    position: relative;
 
     &--container {
         width: 76px;
@@ -85,8 +86,22 @@
 
             &.open {
                 display: block;
-                z-index: 1000;
+                z-index: 1001;
             }
+        }
+    }
+
+    &--overlay {
+        display: none;
+
+        &.show {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: -195px;
+            right: 0px;
+            z-index: 500;
         }
     }
 

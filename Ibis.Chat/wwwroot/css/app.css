@@ -1687,6 +1687,7 @@ nav li .avatar {
 
 .support {
   z-index: 1000;
+  position: relative;
 }
 .support--container {
   width: 76px;
@@ -1754,7 +1755,19 @@ nav li .avatar {
 }
 .support-language .language-settings.open {
   display: block;
-  z-index: 1000;
+  z-index: 1001;
+}
+.support--overlay {
+  display: none;
+}
+.support--overlay.show {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: -195px;
+  right: 0px;
+  z-index: 500;
 }
 .support-helpdesk {
   position: relative;
@@ -1787,6 +1800,7 @@ nav li .avatar {
   background: #003B5F;
   border: none;
   border-radius: 8px;
+  z-index: 1001;
 }
 .support-language--dropdown ul {
   max-height: 200px;
