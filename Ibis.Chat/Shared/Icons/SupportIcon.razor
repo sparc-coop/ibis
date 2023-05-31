@@ -1,3 +1,7 @@
-﻿<div class="support-icon">
+﻿<div class="support-icon" style="background: @BackgroundColor">
     <img src="icons/chat-1-line.png" />
 </div>
+
+@code {
+    [Parameter] public string? BackgroundColor { get; set; }
+}

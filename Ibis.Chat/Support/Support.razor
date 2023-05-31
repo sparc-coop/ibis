@@ -12,7 +12,7 @@
     </div>
     <div class="support-helpdesk">
         <button tabindex="0" class="open-helpdesk" @onclick=ToggleHelpdesk>
-            <SupportIcon />
+            <SupportIcon BackgroundColor="@BackgroundColor" />
         </button>
         <div class="helpdesk @ShowHelpdesk">
             <SupportHelpdesk OnClose="ToggleHelpdesk"/>
@@ -28,6 +28,7 @@
 
     bool OpenHelpdesk = false;
     string? ShowHelpdesk;
+    string? BackgroundColor = "#003B5F";
 
     void ToggleLanguageSettings()
     {
@@ -55,10 +56,12 @@
         @if (OpenHelpdesk == false)
         {
             ShowHelpdesk = "";
+            BackgroundColor = "#003B5F";
         }
         else
         {
             ShowHelpdesk = "open";
+            BackgroundColor = "#00608B";
         }
 
         @if(OpenLanguageSettings == true)
