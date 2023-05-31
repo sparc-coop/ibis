@@ -3,10 +3,10 @@
         <div class="title">Message</div>
         <div class="helpdesk-actions">
             <div class="agent-status">Online <div class="agent-status-icon"></div></div>
-            <button class="popout-helpdesk">
+            <button tabindex="0" class="popout-helpdesk">
                 <img src="icons/popout-icon.svg" />
             </button>
-            <button class="close-helpdesk">
+            <button tabindex="0" class="close-helpdesk" @onclick=Close>
                 <img src="icons/close-icon.svg" />
             </button>
         </div>
@@ -18,12 +18,18 @@
         </ul>
     </div>
     <div class="helpdesk-footer">
-        <button class="support-attach"><img src="icons/attach-icon.svg" /></button>
-        <input type="text" placeholder="Type your message..."/>
-        <button class="send-support-message"><img src="icons/send-icon.svg" /></button>
+        <button tabindex="0" class="support-attach"><img src="icons/attach-icon.svg" /></button>
+        <input tabindex="0" type="text" placeholder="Type your message..." />
+        <button tabindex="0" class="send-support-message"><img src="icons/send-icon.svg" /></button>
     </div>
 </div>
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    protected async Task Close()
+    {
+        await OnClose.InvokeAsync();
+    }
 }

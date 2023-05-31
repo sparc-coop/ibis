@@ -1,7 +1,7 @@
 ﻿<div class="support-language--dropdown">
     <div class="support-language--searchbar">
         <label>Search</label>
-        <input type="text" placeholder="Search langauge" />
+        <input tabindex="0" type="text" placeholder="Search langauge" />
     </div>
     <ul class="support-language--list">
         @if (Languages != null) {
@@ -9,10 +9,10 @@
             {
                 @if(language.Id == User.Language)
                 {
-                    <li class="selected-language" value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName <img src="icons/Check.svg" /></span></li>
+                    <li tabindex="0" class="selected-language" value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName <img src="icons/Check.svg" /></span></li>
                 } else
                 {
-                    <li value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName</span></li>
+                    <li tabindex="0" value="@language.Id" @onclick=@((e) => SetLanguage(@language.Id))>@language.NativeName <span>@language.DisplayName</span></li>
                 }
             }
         }
@@ -21,6 +21,7 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
+
     ICollection<Language>? Languages { get; set; }
 
     protected override async Task OnInitializedAsync()

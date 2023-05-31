@@ -1,9 +1,9 @@
-﻿<div class="support support--container">
+﻿<div class="support support--container" tabindex="0">
     <div class="support-language">
-        <button class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
+        <button tabindex="0" class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
             <span>@User.Language</span>
         </button>
-        <button class="play-button">
+        <button tabindex="0" class="play-button">
             <PlayIcon2 />
         </button>
         <div class="language-settings @ShowLanguageSettings">
@@ -11,11 +11,11 @@
         </div>
     </div>
     <div class="support-helpdesk">
-        <button class="open-helpdesk" @onclick=ToggleHelpdesk>
+        <button tabindex="0" class="open-helpdesk" @onclick=ToggleHelpdesk>
             <SupportIcon />
         </button>
         <div class="helpdesk @ShowHelpdesk">
-            <SupportHelpdesk />
+            <SupportHelpdesk OnClose="ToggleHelpdesk"/>
         </div>
     </div>
 </div>

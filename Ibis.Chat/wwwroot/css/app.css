@@ -1762,7 +1762,7 @@ nav li .avatar {
 .support-helpdesk .open-helpdesk img {
   transition: 250ms ease-in-out;
 }
-f .support-helpdesk .open-helpdesk:hover img {
+.support-helpdesk .open-helpdesk:hover img {
   width: 40px;
   height: 39px;
 }
@@ -1790,8 +1790,9 @@ f .support-helpdesk .open-helpdesk:hover img {
 }
 .support-language--dropdown ul {
   max-height: 200px;
+  padding: 4px 13px 0px 4px;
+  margin-left: -4px;
   margin-right: -16px;
-  padding-right: 13px;
   background: none;
   border: none;
   overflow-x: hidden;
