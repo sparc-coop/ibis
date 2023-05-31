@@ -9,6 +9,10 @@
     border: 1px solid $grey-300;
     border-radius: 16px;
 
+    button {
+        border-radius: 4px;
+    }
+
     .helpdesk-header {
         display: flex;
         justify-content: space-between;
@@ -24,12 +28,12 @@
 
         .helpdesk-actions {
             display: flex;
-            gap: 18px;
+            gap: 14px;
             font-size: 10px;
             line-height: 120%;
 
             .agent-status {
-                margin-top: 1px;
+                margin-top: 3px;
                 color: $green;
             }
 
@@ -43,9 +47,11 @@
             }
 
             button {
+                padding: 2px;
+                    
                 &.popout-helpdesk img {
-                    width: 11px;
-                    height: 11px;
+                    width: 12px;
+                    height: 12px;       
                 }
 
                 &.close-helpdesk img {
@@ -76,27 +82,23 @@
         button {
             width: 18px;
             height: 18px;
+            margin: 0 auto;
+            margin-top: 6px;
 
             &.support-attach {
-                margin: 0 auto;
-
                 img {
                     width: 10px;
                     height: 12px;
-                    margin-top: 6px;
                     margin-left: 5px;
                 }
             }
 
             &.send-support-message {
-                margin: 0 auto;
-
                 img {
                     width: 10px;
                     height: 11px;
-                    margin-top: 6px;
                     margin-left: 5px;
-                }
+                }       
             }
         }
 

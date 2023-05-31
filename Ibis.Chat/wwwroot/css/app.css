@@ -1865,6 +1865,9 @@ nav li .avatar {
   border: 1px solid #D1D4DC;
   border-radius: 16px;
 }
+.support-helpdesk--chat button {
+  border-radius: 4px;
+}
 .support-helpdesk--chat .helpdesk-header {
   display: flex;
   justify-content: space-between;
@@ -1879,12 +1882,12 @@ nav li .avatar {
 }
 .support-helpdesk--chat .helpdesk-header .helpdesk-actions {
   display: flex;
-  gap: 18px;
+  gap: 14px;
   font-size: 10px;
   line-height: 120%;
 }
 .support-helpdesk--chat .helpdesk-header .helpdesk-actions .agent-status {
-  margin-top: 1px;
+  margin-top: 3px;
   color: #30C07D;
 }
 .support-helpdesk--chat .helpdesk-header .helpdesk-actions .agent-status-icon {
@@ -1895,9 +1898,12 @@ nav li .avatar {
   background: #30C07D;
   border-radius: 50%;
 }
+.support-helpdesk--chat .helpdesk-header .helpdesk-actions button {
+  padding: 2px;
+}
 .support-helpdesk--chat .helpdesk-header .helpdesk-actions button.popout-helpdesk img {
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
 }
 .support-helpdesk--chat .helpdesk-header .helpdesk-actions button.close-helpdesk img {
   width: 10px;
@@ -1921,23 +1927,17 @@ nav li .avatar {
 .support-helpdesk--chat .helpdesk-footer button {
   width: 18px;
   height: 18px;
-}
-.support-helpdesk--chat .helpdesk-footer button.support-attach {
   margin: 0 auto;
+  margin-top: 6px;
 }
 .support-helpdesk--chat .helpdesk-footer button.support-attach img {
   width: 10px;
   height: 12px;
-  margin-top: 6px;
   margin-left: 5px;
-}
-.support-helpdesk--chat .helpdesk-footer button.send-support-message {
-  margin: 0 auto;
 }
 .support-helpdesk--chat .helpdesk-footer button.send-support-message img {
   width: 10px;
   height: 11px;
-  margin-top: 6px;
   margin-left: 5px;
 }
 .support-helpdesk--chat .helpdesk-footer input {
@@ -1964,19 +1964,23 @@ nav li .avatar {
   padding: 0;
   margin-bottom: 6px;
   background: none;
+  position: relative;
 }
 .support-message-card header .avatar-wrapper {
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 3px;
 }
 .support-message-card.agent {
   background: #003B5F;
 }
 .support-message-card.agent header {
-  display: block;
   color: #D3E4F1;
 }
-.support-message-card.agent header img {
+.support-message-card.agent header .avatar-wrapper {
+  width: 24px;
+  height: 20px;
+}
+.support-message-card.agent header .avatar-wrapper img {
   width: 24px;
   height: 18px;
 }
@@ -1988,6 +1992,25 @@ nav li .avatar {
 }
 .support-message-card.user header {
   color: #6A7280;
+}
+.support-message-card.user header .avatar-wrapper {
+  width: 20px;
+  height: 20px;
+}
+.support-message-card.user header .avatar-wrapper figure {
+  width: 100%;
+  height: 100%;
+}
+.support-message-card.user header .avatar-wrapper svg {
+  width: 20px;
+  height: 20px;
+  border: none;
+  transform: scale(1);
+}
+.support-message-card.user header span {
+  position: absolute;
+  left: 26px;
+  top: 3px;
 }
 .support-message-card.user .message-content p {
   color: #0A111D;
@@ -3702,7 +3725,7 @@ nav li .avatar {
 }
 @container (max-height: 50px) {
   .avatar.emoji svg {
-    background-color: transparent !important;
+    /*background-color: transparent !important;*/
     transform: scale(1.2, 1.2);
   }
 }

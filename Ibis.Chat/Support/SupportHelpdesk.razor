@@ -12,10 +12,13 @@
         </div>
     </header>
     <div class="helpdesk-messages">
-        <ul>
-            <li><SupportMessageCard Type="agent"/></li>
-            <li><SupportMessageCard Type="user" User="User"/></li>
-        </ul>
+        @if (User != null)
+        {
+            <ul>
+                <li><SupportMessageCard Type="agent" /></li>
+                <li><SupportMessageCard Type="user" User="User" /></li>
+            </ul>
+        }
     </div>
     <div class="helpdesk-footer">
         <button tabindex="0" class="support-attach"><img src="icons/attach-icon.svg" /></button>
@@ -25,8 +28,13 @@
 </div>
 
 @code {
-    [CascadingParameter] public UserAvatar User { get; set; } = null!;
     [Parameter] public EventCallback OnClose { get; set; }
+    public UserAvatar? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = await Api.GetUserAsync();
+    }
 
     protected async Task Close()
     {
