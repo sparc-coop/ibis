@@ -12,4 +12,5 @@ public class MessageTranslation
     public string Id { get; set; }
     public string LanguageId { get; set; }
     public string SourceMessageId { get; set; }
+    internal virtual Message? SourceMessage { get; set; } 
 }

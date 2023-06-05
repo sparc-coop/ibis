@@ -104,33 +104,6 @@ public class Room : Entity<string>
             Users.Add(user);
     }
 
-    async Task<List<Message>> TranslateAsync(Message message, ITranslator translator, bool forceRetranslation = false)
-    {
-        var languagesToTranslate = forceRetranslation
-            ? Languages.Where(x => x.Id != message.Language).ToList()
-            : Languages.Where(x => !message.HasTranslation(x.Id)).ToList();
-
-        if (!languagesToTranslate.Any())
-            return new();
-
-        try
-        {
-            var translatedMessages = await translator.TranslateAsync(message, languagesToTranslate);
-        
-        
-        // Add reference to all the new translated messages
-        foreach (var translatedMessage in translatedMessages)
-            message.AddTranslation(translatedMessage);
-
-        return translatedMessages;
-        }
-        catch (Exception e)
-        {
-            Debug.WriteLine(e.Message);
-            throw;
-        }
-    }
-
     void AddLanguage(Language language)
     {
         if (Languages.Any(x => x.Id == language.Id))
