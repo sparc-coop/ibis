@@ -1,0 +1,77 @@
+﻿<div class="support support--container" tabindex="0">
+    <div class="support-language">
+        <button tabindex="0" class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
+            <span>@User.Language</span>
+        </button>
+        <button tabindex="0" class="play-button">
+            <PlayIcon2 />
+        </button>
+        <div class="language-settings @ShowLanguageSettings">
+            <SupportLanguage />
+        </div>
+    </div>
+    <div class="support-helpdesk">
+        <button tabindex="0" class="open-helpdesk" @onclick=ToggleHelpdesk>
+            <SupportIcon BackgroundColor="@BackgroundColor" />
+        </button>
+        <div class="helpdesk @ShowHelpdesk">
+            <SupportHelpdesk OnClose="ToggleHelpdesk"/>
+        </div>
+    </div>
+    <div class="support--overlay @ShowOverlay" @onclick="ToggleLanguageSettings"></div>
+</div>
+
+@code {
+    [CascadingParameter] public UserAvatar User { get; set; } = null!;
+
+    bool OpenLanguageSettings = false;
+    string? ShowLanguageSettings;
+    string? ShowOverlay = "";
+
+    bool OpenHelpdesk = false;
+    string? ShowHelpdesk;
+    string? BackgroundColor = "#003B5F";
+
+    void ToggleLanguageSettings()
+    {
+        OpenLanguageSettings = !OpenLanguageSettings;
+
+        @if (OpenLanguageSettings == false)
+        {
+            ShowLanguageSettings = "";
+            ShowOverlay = "";
+        } else
+        {
+            ShowLanguageSettings = "open";
+            ShowOverlay = "show";
+        }
+
+        @if (OpenHelpdesk == true)
+        {
+            OpenHelpdesk = false;
+            ShowHelpdesk = "";
+        }
+    }
+
+    void ToggleHelpdesk()
+    {
+        OpenHelpdesk = !OpenHelpdesk;
+
+        @if (OpenHelpdesk == false)
+        {
+            ShowHelpdesk = "";
+            BackgroundColor = "#003B5F";
+        }
+        else
+        {
+            ShowHelpdesk = "open";
+            BackgroundColor = "#00608B";
+        }
+
+        @if(OpenLanguageSettings == true)
+        {
+            OpenLanguageSettings = false;
+            ShowLanguageSettings = "";
+        }
+    }
+}
