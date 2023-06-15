@@ -18,15 +18,15 @@ body {
         &.nav-collapsed {
             grid-template-columns: 121px auto;
         }
-    }
 
-    button {
-        background: $secondary-900;
-        text-align: center;
-    }
+        button {
+            background: $secondary-900;
+            text-align: center;
+        }
 
-    main {
-        grid-column-start: 2;
-        padding: 98px 32px 32px 32px;
+        main {
+            grid-column-start: 2;
+            padding: 98px 32px 32px 32px;
+        }
     }
 }

@@ -72,8 +72,14 @@
 
 @font-face {
     font-family: 'CircularStd';
-    font-weight: 600;
+    font-weight: 700;
     src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 900;
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
 }
 
 @font-face {
@@ -111,7 +117,7 @@ body {
             transform: rotate(-90deg);
 
             &:last-child {
-                stroke: $primary-500;
+                stroke: $purple-main;
                 stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
                 transition: stroke-dasharray 0.05s ease-in-out;
             }
@@ -122,7 +128,7 @@ body {
         position: absolute;
         text-align: center;
         inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
-        color: $primary-500;
+        color: $purple-main;
 
         &:after {
             content: var(--blazor-load-percentage-text, "Loading");
@@ -158,7 +164,7 @@ h5 {
 
 h6 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 p.large {
