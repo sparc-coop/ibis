@@ -58,15 +58,21 @@
 
 .landing {
   width: 100%;
+  height: calc(100vh - 100px);
   margin-top: 100px;
-  position: relative;
   background: #fafbfc;
 }
-.landing .landing--header {
+.landing--header {
   height: calc(100vh - 100px);
   overflow: hidden;
+  position: relative;
+  transition: 300ms ease-in-out;
 }
-.landing .landing--header .header--container {
+.landing--header.hide {
+  animation: fadeOutSlideUp 300ms ease-in-out;
+  height: 0;
+}
+.landing--header .header--container {
   width: 70%;
   max-width: 950px;
   position: absolute;
@@ -75,8 +81,8 @@
   transform: translate(-30%, -50%);
   z-index: 20;
 }
-.landing .landing--header .header--container h2 {
-  font-family: "CircularStd";
+.landing--header .header--container h2 {
+  font-family: "CircularStd", sans-serif;
   font-weight: 700;
   font-size: 80px;
   line-height: 88px;
@@ -84,7 +90,7 @@
   text-align: left;
   color: #003B5F;
 }
-.landing .landing--header .header--container .subheader {
+.landing--header .header--container .subheader {
   width: 75%;
   max-width: 747px;
   margin-top: 16px;
@@ -96,7 +102,7 @@
   text-align: left;
   color: #003B5F;
 }
-.landing .landing--header .background--container {
+.landing--header .background--container {
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -105,29 +111,29 @@
   overflow: hidden;
   z-index: 10;
 }
-.landing .landing--header .background--container .background-image {
+.landing--header .background--container .background-image {
   background: url("../../images/Group 73.png") repeat-x;
   background-size: 2768px 1066px;
   width: 5356px;
   height: 1066px;
   animation: headerBackgroundSlide 173s linear infinite;
 }
-.landing .landing--header .slide--container {
+.landing--header .slide--container {
   width: 100%;
   position: absolute;
   bottom: 50px;
   z-index: 20;
 }
-.landing .landing--header .slide--container .slide-down {
+.landing--header .slide--container .slide-down {
   width: 150px;
   height: 63px;
   margin: 0 auto;
 }
-.landing .landing--header .slide--container .slide-down:hover {
-  animation: slideDownBounce 2s ease-in-out infinite;
+.landing--header .slide--container .slide-down:hover {
+  animation: slideDownBounce 600ms ease-in-out infinite;
   cursor: pointer;
 }
-.landing .landing--header .slide--container p {
+.landing--header .slide--container p {
   font-family: "CircularStd";
   font-size: 12px;
   font-weight: 400;
@@ -136,10 +142,134 @@
   text-align: center;
   color: #003B5F;
 }
-.landing .landing--header .slide--container img {
+.landing--header .slide--container img {
   display: block;
   margin: 0 auto;
   margin-top: 8px;
+}
+.landing--content {
+  width: 100vw;
+  height: calc(100vh - 100px);
+  position: relative;
+  display: none;
+}
+.landing--content.show {
+  display: block;
+  animation: slideUpFadeIn 600ms ease-in-out;
+}
+.landing--content .arrows--container {
+  display: flex;
+  justify-content: space-around;
+  gap: 40vw;
+  width: 100vw;
+  height: 26px;
+  position: absolute;
+  top: 50%;
+  transform: translatexX(-50%);
+  z-index: 30;
+}
+.landing--content .arrows--container img {
+  width: 27px;
+  height: 26px;
+}
+.landing--content .arrows--container img:hover {
+  cursor: pointer;
+}
+.landing--content .arrows--container .arrow-left:hover {
+  animation: leftArrowBounce 600ms ease-in-out infinite;
+}
+.landing--content .arrows--container .arrow-right:hover {
+  animation: rightArrowBounce 600ms ease-in-out infinite;
+}
+.landing--content section {
+  position: relative;
+  display: block;
+  width: 100vw;
+  height: calc(100vh - 100px);
+}
+.landing--content section .content {
+  width: 50%;
+  max-width: 638px;
+  position: absolute;
+  top: 55%;
+  left: 55%;
+  transform: translate(-55%, -55%);
+  z-index: 20;
+  animation: fadeIn 300ms ease-in-out;
+}
+.landing--content section .content header .subheader {
+  color: #6F36FF;
+  font-size: 20px;
+  line-height: 24px;
+}
+.landing--content section .content header h2 {
+  font-weight: 700;
+  font-size: 39px;
+  line-height: 47px;
+  color: #003B5F;
+}
+.landing--content section .content p {
+  margin-top: 28px;
+  font-size: 20px;
+  line-height: 32px;
+  color: #003B5F;
+}
+.landing--content section .content p img {
+  vertical-align: middle;
+  margin-bottom: 4px;
+}
+.landing--content section .landing-blob {
+  width: 78vw;
+  height: calc(100vh - 100px);
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-40%, -50%);
+  z-index: 10;
+}
+.landing--content section .landing-blob path {
+  animation: fadeChangeColor 300ms ease-in-out;
+}
+.landing--content .ibis-logo--container {
+  width: 645px;
+  position: absolute;
+  bottom: 150px;
+  left: 55%;
+  transform: translateX(-55%);
+  z-index: 30;
+}
+.landing--content .ibis-logo--container div {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  background: #FFFFFF;
+  border-radius: 24px;
+}
+.landing--content .ibis-logo--container div:last-child {
+  margin-right: 0;
+}
+.landing--content .slide-indicators {
+  width: 100vw;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  animation: fadeIn 300ms ease-out;
+}
+.landing--content .slide-indicators div {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(138, 91, 255, 0.2);
+}
+.landing--content .slide-indicators div.active {
+  background: rgb(138, 91, 255);
 }
 
 @keyframes headerBackgroundSlide {
@@ -151,14 +281,65 @@
   }
 }
 @keyframes slideDownBounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%, 100% {
     transform: translateY(0);
   }
-  40% {
-    transform: translateY(-30px);
+  50% {
+    transform: translateY(-10px);
   }
-  60% {
-    transform: translateY(-15px);
+}
+@keyframes leftArrowBounce {
+  0%, 100% {
+    transform: rotate(90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(90deg) translateY(10px);
+  }
+}
+@keyframes rightArrowBounce {
+  0%, 100% {
+    transform: rotate(270deg) translateY(0);
+  }
+  50% {
+    transform: rotate(270deg) translateY(10px);
+  }
+}
+@keyframes fadeOutSlideUp {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+}
+@keyframes slideUpFadeIn {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeChangeColor {
+  0% {
+    fill: var(--colorStart);
+  }
+  100% {
+    fill: var(--colorEnd);
   }
 }
 .pricing-page {

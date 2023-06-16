@@ -71,13 +71,20 @@
 
 .landing {
     width: 100%;
+    height: calc(100vh - 100px);
     margin-top: 100px;
-    position: relative;
     background: $background;
 
-    .landing--header {
+    &--header {
         height: calc(100vh - 100px);
         overflow: hidden;
+        position: relative;
+        transition: 300ms ease-in-out;
+
+        &.hide {
+            animation: fadeOutSlideUp 300ms ease-in-out;
+            height: 0;
+        }
 
         .header--container {
             width: 70%;
@@ -89,7 +96,7 @@
             z-index: 20;
 
             h2 {
-                font-family: 'CircularStd';
+                font-family: 'CircularStd', sans-serif;
                 font-weight: 700;
                 font-size: 80px;
                 line-height: 88px;
@@ -142,7 +149,7 @@
                 margin: 0 auto;
 
                 &:hover {
-                    animation: slideDownBounce 2s ease-in-out infinite;
+                    animation: slideDownBounce 600ms ease-in-out infinite;
                     cursor: pointer;
                 }
             }
@@ -164,6 +171,153 @@
             }
         }
     }
+
+    &--content {
+        width: 100vw;
+        height: calc(100vh - 100px);
+        position: relative;
+        display: none;
+
+        &.show {
+            display: block;
+            animation: slideUpFadeIn 600ms ease-in-out;
+        }
+
+        .arrows--container {
+            display: flex;
+            justify-content: space-around;
+            gap: calc(100vw * 0.4);
+            width: 100vw;
+            height: 26px;
+            position: absolute;
+            top: 50%;
+            transform: translatexX(-50%);
+            z-index: 30;
+
+            img {
+                width: 27px;
+                height: 26px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .arrow-left:hover {
+                animation: leftArrowBounce 600ms ease-in-out infinite;
+            }
+
+            .arrow-right:hover {
+                animation: rightArrowBounce 600ms ease-in-out infinite;
+            }
+        }
+
+        section {
+            position: relative;
+            display: block;
+            width: 100vw;
+            height: calc(100vh - 100px);
+
+            .content {
+                width: 50%;
+                max-width: 638px;
+                position: absolute;
+                top: 55%;
+                left: 55%;
+                transform: translate(-55%, -55%);
+                z-index: 20;
+                animation: fadeIn 300ms ease-in-out;
+
+                header {
+                    .subheader {
+                        color: $purple-main;
+                        font-size: 20px;
+                        line-height: 24px;
+                    }
+
+                    h2 {
+                        font-weight: 700;
+                        font-size: 39px;
+                        line-height: 47px;
+                        color: $dark-blue;
+                    }
+                }
+
+                p {
+                    margin-top: 28px;
+                    font-size: 20px;
+                    line-height: 32px;
+                    color: $dark-blue;
+
+                    img {
+                        vertical-align: middle;
+                        margin-bottom: 4px;
+                    }
+                }
+            }
+
+            .landing-blob {
+                width: calc(100vw * 0.78);
+                height: calc(100vh - 100px);
+                position: absolute;
+                top: 50%;
+                left: 40%;
+                transform: translate(-40%, -50%);
+                z-index: 10;
+
+                path {
+                    animation: fadeChangeColor 300ms ease-in-out;
+                }
+            }
+        }
+
+        .ibis-logo--container {
+            width: 645px;
+            position: absolute;
+            bottom: 150px;
+            left: 55%;
+            transform: translateX(-55%);
+            z-index: 30;
+
+            div {
+                display: inline-block;
+                margin-right: 15px;
+                margin-bottom: 12px;
+                padding: 10px 15px;
+                background: $white;
+                border-radius: 24px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .slide-indicators {
+            width: 100vw;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            animation: fadeIn 300ms ease-out;
+
+            div {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(138, 91, 255, 0.2);
+
+                &.active {
+                    background: rgba(138, 91, 255, 1);
+                }
+            }
+        }
+    }
 }
 
 @keyframes headerBackgroundSlide {
@@ -177,15 +331,78 @@
 }
 
 @keyframes slideDownBounce {
-    0%, 20%, 50%, 80%, 100% {
+    0%, 100%{
         transform: translateY(0);
     }
 
-    40% {
-        transform: translateY(-30px);
+    50%{
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes leftArrowBounce {
+    0%, 100% {
+        transform: rotate(90deg) translateY(0);
     }
 
-    60% {
-        transform: translateY(-15px);
-    } 
+    50% {
+        transform: rotate(90deg) translateY(10px);
+    }
+}
+
+@keyframes rightArrowBounce {
+    0%, 100% {
+        transform: rotate(270deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(270deg) translateY(10px);
+    }
+}
+
+@keyframes fadeOutSlideUp {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+}
+
+@keyframes slideUpFadeIn {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeChangeColor {
+    0% {
+        fill: var(--colorStart);
+    }
+
+    100% {
+        fill: var(--colorEnd);
+    }
 }
