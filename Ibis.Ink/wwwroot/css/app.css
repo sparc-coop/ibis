@@ -189,11 +189,11 @@
 }
 .landing--content section .content {
   width: 50%;
-  max-width: 638px;
+  max-width: 600px;
   position: absolute;
-  top: 55%;
-  left: 55%;
-  transform: translate(-55%, -55%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 20;
   animation: fadeIn 300ms ease-in-out;
 }
@@ -218,24 +218,31 @@
   vertical-align: middle;
   margin-bottom: 4px;
 }
-.landing--content section .landing-blob {
-  width: 78vw;
+.landing--content .section--background {
+  width: 100%;
   height: calc(100vh - 100px);
   position: absolute;
-  top: 50%;
-  left: 40%;
-  transform: translate(-40%, -50%);
+  top: 0;
+  left: 0;
   z-index: 10;
 }
-.landing--content section .landing-blob path {
+.landing--content .section--background .blob-background {
+  width: 150%;
+  height: 150%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.landing--content .section--background .blob-background path {
   animation: fadeChangeColor 300ms ease-in-out;
 }
 .landing--content .ibis-logo--container {
   width: 645px;
   position: absolute;
   bottom: 150px;
-  left: 55%;
-  transform: translateX(-55%);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 30;
 }
 .landing--content .ibis-logo--container div {

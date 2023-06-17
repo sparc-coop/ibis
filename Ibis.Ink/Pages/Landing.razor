@@ -32,98 +32,104 @@
             </div>
         </div>
     </header>
-    <div class="landing--content @ShowContent" id="landingContent">
-        <section class="slide-1"style="display: @DisplaySlide1">
-            <div class="arrows--container">
-                <img @onclick=@(e => @changeSlide(1, 3)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                <img @onclick=@(e => @changeSlide(1, 2)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
-            </div>
-            <div class="content">
-                <header>
-                    <h3 class="subheader">Your personal translator</h3>
-                    <h2>Break the language barrier</h2>
-                </header>
-                <p>
-                    Have you ever wanted to share your thoughts, ideas, or amazing work with the world?
-                    Ibis uses Machine Learning to break down barriers and transform the way you communicate with your friends, family, or team.
-                    So you can just come as you are.
-                </p>
-            </div>
-            <div class="slide-indicators">
-                <div class="active"></div>
-                <div></div>
-                <div></div>
-            </div>
-            <Blob Color="@SlideColor1" ColorStart=@ColorStart />
-        </section>
-        <section class="slide-2" style="display: @DisplaySlide2">
-            <div class="arrows--container">
-                <img @onclick=@(e => @changeSlide(2, 1)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                <img @onclick=@(e => @changeSlide(2, 3)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
-            </div>
-            <div class="content">
-                <header>
-                    <h3 class="subheader">Low Maintenance</h3>
-                    <h2>It’s simple as copy and paste</h2>
-                </header>
-                <p>
-                    Simply link your website to <img class="logo" src="images/IbisInk_logo-text.png" width="58" height="14" />.
-                    Once it’s connected, Ibis will automatically read and organize your website structure for you as long as it’s connected.
-                    No more headache, Ibis got your back.
-                </p>
-            </div>
-            <div class="slide-indicators">
-                <div></div>
-                <div class="active"></div>
-                <div></div>
-            </div>
-            <Blob Color="@SlideColor2" ColorStart=@ColorStart/>
-        </section>
-        <section class="slide-3" style="display: @DisplaySlide3">
-            <div class="arrows--container">
-                <img @onclick=@(e => @changeSlide(3, 2)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                <img @onclick=@(e => @changeSlide(3, 1)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
-            </div>
-            <div class="content">
-                <header>
-                    <h3 class="subheader">Dream Big</h3>
-                    <h2>Don’t Stop Believing</h2>
-                </header>
-                <p>
-                    Allow more people join your creative world. The possibility doesn’t stop here.
-                    Try visiting Ibis, Ibis support, and Ibis Ink, and see what is the most suitable for you.
-                </p>
-            </div>
-            <div class="ibis-logo--container">
-                <div><img src="images/logo.png" width="146" height="65" /></div>
-                <div><img src="images/IbisSupport_logo-full.png" width="146" height="65" /></div>
-                <div><img src="images/IbisInk_logo-full.png" width="225" height="65" /></div>
-            </div>
-            <div class="slide-indicators">
-                <div></div>
-                <div></div>
-                <div class="active"></div>
-            </div>
-            <Blob Color=@SlideColor3 ColorStart=@ColorStart />
-        </section>
+    <div class="landing--content @ShowContent">
+        <div class="section--container">
+            <section class="slide-1"style="display: @DisplaySlide1">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(1, 3)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(1, 2)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Your personal translator</h3>
+                        <h2>Break the language barrier</h2>
+                    </header>
+                    <p>
+                        Have you ever wanted to share your thoughts, ideas, or amazing work with the world?
+                        Ibis uses Machine Learning to break down barriers and transform the way you communicate with your friends, family, or team.
+                        So you can just come as you are.
+                    </p>
+                </div>
+                <div class="slide-indicators">
+                    <div class="active"></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </section>
+            <section class="slide-2" style="display: @DisplaySlide2">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(2, 1)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(2, 3)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Low Maintenance</h3>
+                        <h2>It’s simple as copy and paste</h2>
+                    </header>
+                    <p>
+                        Simply link your website to <img class="logo" src="images/IbisInk_logo-text.png" width="58" height="14" />.
+                        Once it’s connected, Ibis will automatically read and organize your website structure for you as long as it’s connected.
+                        No more headache, Ibis got your back.
+                    </p>
+                </div>
+                <div class="slide-indicators">
+                    <div></div>
+                    <div class="active"></div>
+                    <div></div>
+                </div>
+            </section>
+            <section class="slide-3" style="display: @DisplaySlide3">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(3, 2)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(3, 1)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Dream Big</h3>
+                        <h2>Don’t Stop Believing</h2>
+                    </header>
+                    <p>
+                        Allow more people join your creative world. The possibility doesn’t stop here.
+                        Try visiting Ibis, Ibis support, and Ibis Ink, and see what is the most suitable for you.
+                    </p>
+                </div>
+                <div class="ibis-logo--container">
+                    <div><img src="images/logo.png" width="146" height="65" /></div>
+                    <div><img src="images/IbisSupport_logo-full.png" width="146" height="65" /></div>
+                    <div><img src="images/IbisInk_logo-full.png" width="225" height="65" /></div>
+                </div>
+                <div class="slide-indicators">
+                    <div></div>
+                    <div></div>
+                    <div class="active"></div>
+                </div>
+            </section>
+        </div>
+        <div class="section--background">
+            <Blob Color="@ColorEnd" ColorStart=@ColorStart />
+        </div>
     </div>
-    <span id="landingContent"></span>
 </div>
 
 @inject NavigationManager Navigation
+@inject IJSRuntime jsRuntime
 
 @code {
     string ShowHero = "";
     string HeroBackgroundAnimation = "";
     string ShowContent = "";
     string SlideDownAnimation = "";
-    string SlideColor1 = "#CAEBFF";
-    string SlideColor2 = "#FEEAD7";
-    string SlideColor3 = "#CCFFDA";
+
     string DisplaySlide1 = "block";
     string DisplaySlide2 = "none";
     string DisplaySlide3 = "none";
     string ColorStart = "";
+
+    string SlideColor1 = "#CAEBFF";
+    string SlideColor2 = "#FEEAD7";
+    string SlideColor3 = "#CCFFDA";
+
+    string ColorEnd = "#CAEBFF";
 
     void RefreshLanding ()
     {
@@ -145,6 +151,7 @@
             DisplaySlide1 = "block";
             DisplaySlide2 = "none";
             DisplaySlide3 = "none";
+            ColorEnd = SlideColor1;
 
             if (slideStart == 2)
             {
@@ -159,6 +166,7 @@
             DisplaySlide1 = "none";
             DisplaySlide2 = "block";
             DisplaySlide3 = "none";
+            ColorEnd = SlideColor2;
 
             if (slideStart == 1)
             {
@@ -174,6 +182,7 @@
             DisplaySlide1 = "none";
             DisplaySlide2 = "none";
             DisplaySlide3 = "block";
+            ColorEnd = SlideColor3;
 
             if (slideStart == 1)
             {
@@ -183,7 +192,6 @@
             {
                 ColorStart = SlideColor2;
             }
-
         }
     }
 }
