@@ -1,0 +1,87 @@
+﻿@page "/Support"
+@layout MarketingLayout
+
+<nav class="nav--support">
+    <div class="nav--left">
+        <h1>
+            <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisSupport_logo-full.png" /></a>
+        </h1>
+    </div>
+    <div class="nav--right">
+        <a href="/pricing">Pricing</a>
+        <button class="contact-us">Contact Us</button>
+    </div>
+</nav>
+
+<div class="support-landing">
+    <header class="support-landing--header">
+        <div class="hero">
+            <img class="hero-img-1" src="images/Rectangle 589.png" />
+            <div class="hero--right">
+                <img class="hero-img-2" src="images/Rectangle 588.png" />
+                <div class="hero-message">
+                    <div>
+                        <img src="images/IbisSupport_logo-icon.png" />
+                        <span>Ibis Team</span>
+                    </div>
+                    <div>How can we help you?</div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <h2>Take your <img src="images/Frame 349.svg" /> to another level</h2>
+            <p class="subheader">
+                Break language barriers effortlessly and enhance communication with our powerful Translator Support Widget. 
+                Whether you're running a global business, managing a multilingual website, or simply want to support clients 
+                from different cultures, our Ibis is here to make your life easier.
+            </p>
+            <button>Take a look <img src="icons/arrow-down-icon.svg" /></button>
+        </div>
+    </header>
+    <div class="features">
+        <div class="feature-1">
+            <header>
+                <h3><span>01</span> High Capabilities</h3>
+            </header>
+            <p>
+                Ibis Support provides 130+ translation capabilities, enabling you to communicate effectively with your audience, regardless of their language.
+            </p>
+        </div>
+        <div class="feature-2">
+            <header>
+                <h3><span>02</span> Real-time  Translation</h3>
+            </header>
+            <p>
+                Translation happens in real time. As the user type or speak, our Ibis work tirelessly to convert your content into the desired language.
+            </p>
+        </div>
+        <div class="feature-3">
+            <header>
+                <h3><span>03</span> Customizable UI</h3>
+            </header>
+            <p>
+                Tailor the Ibis to match your brand's unique identity. Customize the appearance, position, and language options to seamlessly integrate it into your website or application.
+            </p>
+        </div>
+    </div>
+    <div class="more-informatiom">
+        <header>
+            <h3>Looking for more inspiration?</h3>
+            <p>We're excited to introduce Ibis series that share the same passion, quality, and values. Explore these similar products and uncover even more services that align with your preferences and interests!</p>
+        </header>
+        <div class="ibis-logo--container">
+            <img src="images/logo.png" />
+            <img src="images/IbisSupport_logo-full.png" />
+            <img src="images/IbisInk_logo-full.png" />
+        </div>
+    </div>
+</div>
+
+@inject NavigationManager Navigation
+
+@code {
+    void RefreshLanding()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

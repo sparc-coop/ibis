@@ -3,7 +3,6 @@
 .support-message-card {
     max-width: 252px;
     padding: 8px;
-    border-radius: 12px;
     font-family: 'CircularStd';
     font-weight: 400;
     font-size: 13px;
@@ -26,6 +25,7 @@
 
     &.agent {
         background: $secondary-900;
+        border-radius: 12px 12px 12px 0px;
 
         header {
             color: $secondary-300;
@@ -50,6 +50,7 @@
 
     &.user {
         background: $white;
+        border-radius: 12px 12px 0px 12px;
 
         header {
             color: $grey-500;

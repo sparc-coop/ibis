@@ -1393,11 +1393,7 @@
 }
 
 main {
-  flex: 1;
-}
-
-.sidebar {
-  background-image: linear-gradient(180deg, rgba(5, 39, 103, 0), #3a0647 70%);
+  background: #fafbfc;
 }
 
 .room-layout header {
@@ -1597,26 +1593,23 @@ nav li .avatar {
 
 .footer {
   width: 100%;
+  height: 73px;
   padding: 18px;
+  display: none;
+  /*    display: flex;
+  */
   justify-content: space-between;
-  background: #f9f1e8;
-  color: #161E29;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 26px;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10001;
-  text-align: center;
   border-top: 1px solid #FFCDAA;
-  /*    &--container {
-          margin: 0 auto;
-          max-width: 1200px;
-          padding: 0 20px;
-      }
-  */
+  background: #f9f1e8;
+  color: #FF9E70;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 23px;
+  font-style: italic;
 }
 @media screen and (max-width: 500px) {
   .footer {
@@ -1630,9 +1623,11 @@ nav li .avatar {
   color: #161E29;
 }
 .footer--left {
+  margin: auto 0;
   padding-left: 20px;
 }
 .footer--right {
+  margin: auto 0;
   padding-right: 20px;
 }
 .footer a {
@@ -1683,6 +1678,152 @@ nav li .avatar {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.nav--support {
+  width: 100%;
+  height: 100px;
+  padding: 25px 94px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  background: #FFFFFF;
+  z-index: 500;
+}
+.nav--support .nav--left h1 {
+  margin: auto 0;
+  font-size: 51px;
+  line-height: 51px;
+}
+.nav--support .nav--left a:hover {
+  cursor: pointer;
+}
+.nav--support .nav--left a img {
+  width: 114px;
+  height: 51px;
+  margin: auto 0;
+}
+.nav--support .nav--right {
+  display: flex;
+  gap: 30px;
+}
+.nav--support .nav--right a {
+  margin: auto 0;
+  color: #6A7280;
+  font-family: "CircularStd";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 120%;
+  transition: 250ms ease-in-out;
+}
+.nav--support .nav--right a:hover {
+  color: #003B5F;
+}
+.nav--support .nav--right button {
+  padding: 13px 37px;
+  background: #FFFFFF;
+  color: #003B5F;
+  border: 1px solid #003B5F;
+  border-radius: 8px;
+  font-family: "CircularStd";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 120%;
+  transition: 250ms ease-in-out;
+}
+.nav--support .nav--right button:hover {
+  background: #003B5F;
+  color: #FFFFFF;
+}
+
+.support-landing {
+  width: 100%;
+  height: calc(100vh - 100px);
+  margin-top: 100px;
+  background: #fafbfc;
+}
+.support-landing header {
+  padding: 74px;
+  margin-bottom: 327px;
+  display: flex;
+  gap: 100px;
+}
+.support-landing header .hero {
+  display: flex;
+  gap: 20px;
+}
+.support-landing header .hero img {
+  width: 311px;
+  height: 427px;
+}
+.support-landing header .hero img.hero-img-1 {
+  margin-top: 120px;
+}
+.support-landing header .hero--right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.support-landing header .hero-message {
+  width: 311px;
+  height: 100px;
+  padding: 14px;
+  border-radius: 0px 20px 20px 20px;
+  background: #003B5F;
+  color: #FFFFFF;
+}
+.support-landing header .hero-message img {
+  width: 47px;
+  height: 32px;
+}
+.support-landing header .hero-message div:first-child {
+  margin-bottom: 7px;
+  color: #D3E4F1;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 120%;
+}
+.support-landing header .hero-message div:last-child {
+  color: #FFFFFF;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 120%;
+}
+.support-landing header .content h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 61px;
+  color: #001537;
+  line-height: 120%;
+}
+.support-landing header .content h2 img {
+  width: 294px;
+  height: 84px;
+}
+.support-landing header .content p {
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  color: #003B5F;
+}
+.support-landing header .content button {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  color: #003B5F;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 150%;
+}
+.support-landing header .content button img {
+  transform: rotate(270deg);
+  margin-left: 10px;
+}
+.support-landing .features {
+  padding: 0 104px;
+  background: #fafbfc;
 }
 
 .support {
@@ -1967,7 +2108,6 @@ nav li .avatar {
 .support-message-card {
   max-width: 252px;
   padding: 8px;
-  border-radius: 12px;
   font-family: "CircularStd";
   font-weight: 400;
   font-size: 13px;
@@ -1988,6 +2128,7 @@ nav li .avatar {
 }
 .support-message-card.agent {
   background: #003B5F;
+  border-radius: 12px 12px 12px 0px;
 }
 .support-message-card.agent header {
   color: #D3E4F1;
@@ -2005,6 +2146,7 @@ nav li .avatar {
 }
 .support-message-card.user {
   background: #FFFFFF;
+  border-radius: 12px 12px 0px 12px;
 }
 .support-message-card.user header {
   color: #6A7280;
@@ -4437,7 +4579,7 @@ ul.colors li span {
 }
 @font-face {
   font-family: "CircularStd";
-  font-weight: 600;
+  font-weight: 700;
   src: url(../fonts/CircularStd-Bold.ttf) format("truetype");
 }
 @font-face {
@@ -4532,7 +4674,7 @@ h5 {
 
 h6 {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 p.large {
