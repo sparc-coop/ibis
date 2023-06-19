@@ -318,10 +318,14 @@
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                background: rgba(138, 91, 255, 0.2);
+                transition: 300ms ease-in-out;
 
-                &.active {
+                &.block {
                     background: rgba(138, 91, 255, 1);
+                }
+
+                &.none {
+                    background: rgba(138, 91, 255, 0.2);
                 }
             }
         }

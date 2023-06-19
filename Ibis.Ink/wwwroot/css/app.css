@@ -273,10 +273,13 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(138, 91, 255, 0.2);
+  transition: 300ms ease-in-out;
 }
-.landing--content .slide-indicators div.active {
+.landing--content .slide-indicators div.block {
   background: rgb(138, 91, 255);
+}
+.landing--content .slide-indicators div.none {
+  background: rgba(138, 91, 255, 0.2);
 }
 
 @keyframes headerBackgroundSlide {

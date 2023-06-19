@@ -50,11 +50,6 @@
                         So you can just come as you are.
                     </p>
                 </div>
-                <div class="slide-indicators">
-                    <div class="active"></div>
-                    <div></div>
-                    <div></div>
-                </div>
             </section>
             <section class="slide-2" style="display: @DisplaySlide2">
                 <div class="arrows--container">
@@ -71,11 +66,6 @@
                         Once it’s connected, Ibis will automatically read and organize your website structure for you as long as it’s connected.
                         No more headache, Ibis got your back.
                     </p>
-                </div>
-                <div class="slide-indicators">
-                    <div></div>
-                    <div class="active"></div>
-                    <div></div>
                 </div>
             </section>
             <section class="slide-3" style="display: @DisplaySlide3">
@@ -98,15 +88,15 @@
                     <div><img src="images/IbisSupport_logo-full.png" width="146" height="65" /></div>
                     <div><img src="images/IbisInk_logo-full.png" width="225" height="65" /></div>
                 </div>
-                <div class="slide-indicators">
-                    <div></div>
-                    <div></div>
-                    <div class="active"></div>
-                </div>
             </section>
         </div>
         <div class="section--background">
             <Blob Color="@ColorEnd" ColorStart=@ColorStart />
+        </div>
+        <div class="slide-indicators">
+            <div class="slide-1 @DisplaySlide1"></div>
+            <div class="slide-2  @DisplaySlide2"></div>
+            <div class="slide-3  @DisplaySlide3"></div>
         </div>
     </div>
 </div>
@@ -124,11 +114,9 @@
     string DisplaySlide2 = "none";
     string DisplaySlide3 = "none";
     string ColorStart = "";
-
     string SlideColor1 = "#CAEBFF";
     string SlideColor2 = "#FEEAD7";
     string SlideColor3 = "#CCFFDA";
-
     string ColorEnd = "#CAEBFF";
 
     void RefreshLanding ()
