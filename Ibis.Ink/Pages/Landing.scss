@@ -220,15 +220,17 @@
 
             .content {
                 width: 50%;
-                max-width: 600px;
+                max-width: 645px;
                 position: absolute;
-                top: 50%;
+                top: 30%;
                 left: 50%;
-                transform: translate(-50%, -50%);
+                transform: translateX(-50%);
                 z-index: 20;
                 animation: fadeIn 300ms ease-in-out;
 
                 header {
+                    max-width: 638px;
+
                     .subheader {
                         color: $purple-main;
                         font-size: 20px;
@@ -244,6 +246,7 @@
                 }
 
                 p {
+                    max-width: 638px;
                     margin-top: 28px;
                     font-size: 20px;
                     line-height: 32px;
@@ -252,6 +255,28 @@
                     img {
                         vertical-align: middle;
                         margin-bottom: 4px;
+                    }
+                }
+
+                .ibis-logo--container {
+                    max-width: 645px;
+                    margin-top: 40px;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 15px;
+                    flex-wrap: wrap;
+                    z-index: 30;
+
+                    a {
+                        height: 85px;
+                        padding: 10px 15px;
+                        background: $white;
+                        border-radius: 24px;
+                    }
+
+                    img {
+                        height: 100%;
+                        width: auto;
                     }
                 }
             }
@@ -264,10 +289,11 @@
             top: 0;
             left: 0;
             z-index: 10;
+            overflow: hidden;
 
             .blob-background {
-                width: 150%;
-                height: 150%;
+                width: 150% !important;
+                height: 200% !important;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -279,28 +305,6 @@
             }
         }
 
-        .ibis-logo--container {
-            width: 645px;
-            position: absolute;
-            bottom: 150px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 30;
-
-            div {
-                display: inline-block;
-                margin-right: 15px;
-                margin-bottom: 12px;
-                padding: 10px 15px;
-                background: $white;
-                border-radius: 24px;
-
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-        }
-
         .slide-indicators {
             width: 100vw;
             height: 10px;
@@ -308,7 +312,7 @@
             justify-content: center;
             gap: 25px;
             position: absolute;
-            bottom: 100px;
+            bottom: 13%;
             left: 50%;
             transform: translateX(-50%);
             z-index: 30;

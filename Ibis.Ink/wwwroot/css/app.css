@@ -189,13 +189,16 @@
 }
 .landing--content section .content {
   width: 50%;
-  max-width: 600px;
+  max-width: 645px;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   z-index: 20;
   animation: fadeIn 300ms ease-in-out;
+}
+.landing--content section .content header {
+  max-width: 638px;
 }
 .landing--content section .content header .subheader {
   color: #6F36FF;
@@ -209,6 +212,7 @@
   color: #003B5F;
 }
 .landing--content section .content p {
+  max-width: 638px;
   margin-top: 28px;
   font-size: 20px;
   line-height: 32px;
@@ -218,6 +222,25 @@
   vertical-align: middle;
   margin-bottom: 4px;
 }
+.landing--content section .content .ibis-logo--container {
+  max-width: 645px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  z-index: 30;
+}
+.landing--content section .content .ibis-logo--container a {
+  height: 85px;
+  padding: 10px 15px;
+  background: #FFFFFF;
+  border-radius: 24px;
+}
+.landing--content section .content .ibis-logo--container img {
+  height: 100%;
+  width: auto;
+}
 .landing--content .section--background {
   width: 100%;
   height: calc(100vh - 100px);
@@ -225,10 +248,11 @@
   top: 0;
   left: 0;
   z-index: 10;
+  overflow: hidden;
 }
 .landing--content .section--background .blob-background {
-  width: 150%;
-  height: 150%;
+  width: 150% !important;
+  height: 200% !important;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -237,25 +261,6 @@
 .landing--content .section--background .blob-background path {
   animation: fadeChangeColor 300ms ease-in-out;
 }
-.landing--content .ibis-logo--container {
-  width: 645px;
-  position: absolute;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-}
-.landing--content .ibis-logo--container div {
-  display: inline-block;
-  margin-right: 15px;
-  margin-bottom: 12px;
-  padding: 10px 15px;
-  background: #FFFFFF;
-  border-radius: 24px;
-}
-.landing--content .ibis-logo--container div:last-child {
-  margin-right: 0;
-}
 .landing--content .slide-indicators {
   width: 100vw;
   height: 10px;
@@ -263,7 +268,7 @@
   justify-content: center;
   gap: 25px;
   position: absolute;
-  bottom: 100px;
+  bottom: 13%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
