@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparc.Ibis", "Sparc.Ibis\Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibis.Ink", "Ibis.Ink\Ibis.Ink.csproj", "{1F1A9960-465E-46A6-85C4-6A752E0D91AA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{291C03C5-E3ED-4C94-9A92-C3939ECCC3C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0213E4A9-F287-4259-B95D-B628D61ABF1C} = {291C03C5-E3ED-4C94-9A92-C3939ECCC3C0}
+		{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C} = {291C03C5-E3ED-4C94-9A92-C3939ECCC3C0}
+		{1F1A9960-465E-46A6-85C4-6A752E0D91AA} = {291C03C5-E3ED-4C94-9A92-C3939ECCC3C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5D85848-3DD9-45A1-A5F3-4A8CD10F5AAC}
