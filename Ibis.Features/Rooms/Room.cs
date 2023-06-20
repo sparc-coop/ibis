@@ -2,6 +2,7 @@
 
 namespace Ibis.Rooms;
 
+public record SourceMessage(string RoomId, string MessageId);
 public class Room : Entity<string>
 {
     public string RoomId { get; private set; }

@@ -16,10 +16,8 @@ public class Rooms : BlossomAggregate<Room>
                && (roomType != null ? x.RoomType == roomType : x.RoomType.Any())
                && x.EndDate == null)
            .OrderByDescending(x => x.LastActiveDate);
-    
 }
 
 
-public record SourceMessage(string RoomId, string MessageId);
 public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
 public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
