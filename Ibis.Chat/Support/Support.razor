@@ -49,7 +49,7 @@
     {
         OpenLanguageSettings = !OpenLanguageSettings;
 
-        @if (OpenLanguageSettings == false)
+        if (OpenLanguageSettings == false)
         {
             ShowLanguageSettings = "";
             ShowOverlay = "";
@@ -57,9 +57,10 @@
         {
             ShowLanguageSettings = "open";
             ShowOverlay = "show";
+            BackgroundColor = "#003B5F";
         }
 
-        @if (OpenHelpdesk == true)
+        if (OpenHelpdesk == true)
         {
             OpenHelpdesk = false;
             ShowHelpdesk = "";
@@ -70,7 +71,7 @@
     {
         OpenHelpdesk = !OpenHelpdesk;
 
-        @if (OpenHelpdesk == false)
+        if (OpenHelpdesk == false)
         {
             ShowHelpdesk = "";
             BackgroundColor = "#003B5F";
@@ -82,11 +83,10 @@
             BackgroundColor = "#00608B";
         }
 
-        @if(OpenLanguageSettings == true)
+        if(OpenLanguageSettings == true)
         {
             OpenLanguageSettings = false;
             ShowLanguageSettings = "";
-            await ClosePreview.InvokeAsync();
         }
     }
 }

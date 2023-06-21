@@ -23,7 +23,7 @@
                 Whether you're running a global business, managing a multilingual website, or simply want to support clients 
                 from different cultures, our Ibis is here to make your life easier.
             </p>
-            <button @onclick=TogglePreviewHelpdesk>Take a look <img class="right-arrow" src="icons/arrow-down-icon.svg" /></button>
+            <button @onclick=OpenPreviewHelpdesk>Take a look <img class="right-arrow" src="icons/arrow-down-icon.svg" /></button>
         </div>
     </header>
     <div class="features">
@@ -73,7 +73,7 @@
     <Footer />
 </div>
 
-<Support PreviewHelpdesk=previewHelpdesk ClosePreview="TogglePreviewHelpdesk" />
+<Support PreviewHelpdesk=previewHelpdesk ClosePreview="ClosePreviewHelpdesk" />
 
 @inject NavigationManager Navigation
 
@@ -85,16 +85,15 @@
         Navigation.NavigateTo("/", forceLoad: true);
     }
 
-    void TogglePreviewHelpdesk()
+    void OpenPreviewHelpdesk()
     {
-        previewHelpdesk = !previewHelpdesk;
+        previewHelpdesk = true;
+        Console.WriteLine("open preview");
+    }
 
-        if (previewHelpdesk)
-        {
-            Console.WriteLine("open preview");
-        } else
-        {
-            Console.WriteLine("close preview");
-        }
+    void ClosePreviewHelpdesk()
+    {
+        previewHelpdesk = false;
+        Console.WriteLine("close preview");
     }
 }
