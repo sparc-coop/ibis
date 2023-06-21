@@ -23,14 +23,27 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public bool? PreviewHelpdesk { get; set; } = false;
+    [Parameter] public EventCallback ClosePreview { get; set; }
 
     bool OpenLanguageSettings = false;
     string? ShowLanguageSettings;
     string? ShowOverlay = "";
 
-    bool OpenHelpdesk = false;
+    bool? OpenHelpdesk = false;
     string? ShowHelpdesk;
     string? BackgroundColor = "#003B5F";
+
+    protected override void OnParametersSet()
+    {
+        if (PreviewHelpdesk == true)
+        {
+            OpenHelpdesk = true;
+            ShowHelpdesk = "open";
+            BackgroundColor = "#00608B";
+            Console.WriteLine("showing preview");
+        }
+    }
 
     void ToggleLanguageSettings()
     {
@@ -53,7 +66,7 @@
         }
     }
 
-    void ToggleHelpdesk()
+    async void ToggleHelpdesk()
     {
         OpenHelpdesk = !OpenHelpdesk;
 
@@ -61,6 +74,7 @@
         {
             ShowHelpdesk = "";
             BackgroundColor = "#003B5F";
+            await ClosePreview.InvokeAsync();
         }
         else
         {
@@ -72,6 +86,7 @@
         {
             OpenLanguageSettings = false;
             ShowLanguageSettings = "";
+            await ClosePreview.InvokeAsync();
         }
     }
 }

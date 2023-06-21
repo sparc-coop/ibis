@@ -78,6 +78,7 @@
     &--header {
         padding: 74px 74px 0px 74px;
         display: flex;
+        justify-content: center;
         gap: 100px;
 
         .hero {
@@ -130,6 +131,7 @@
         }
 
         .content {
+            max-width: 529px;
             margin: auto 0;
 
             h2 {
@@ -162,9 +164,15 @@
                 font-size: 18px;
                 line-height: 150%;
 
-                img {
+                .right-arrow {
                     transform: rotate(270deg);
                     margin-left: 10px;
+                }
+
+                &:hover {
+                    .right-arrow {
+                        animation: rightArrowBounce 600ms ease-in-out infinite;
+                    }
                 }
             }
         }
@@ -274,5 +282,15 @@
                 width: auto;
             }
         }
+    }
+}
+
+@keyframes rightArrowBounce {
+    0%, 100% {
+        transform: rotate(270deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(270deg) translateY(10px);
     }
 }
