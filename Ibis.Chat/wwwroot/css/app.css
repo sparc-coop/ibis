@@ -1790,6 +1790,9 @@ nav li .avatar {
   font-size: 24px;
   line-height: 120%;
 }
+.support-landing header .content {
+  margin: auto 0;
+}
 .support-landing header .content h2 {
   margin-bottom: 20px;
   font-weight: 700;
