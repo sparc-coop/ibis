@@ -2,7 +2,7 @@
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
-@import "Shared/MarketingLayout";
+@import "Shared/SupportMarketingLayout";
 @import "Shared/RoomLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
@@ -94,6 +94,7 @@ html {
 body {
     overflow-x: hidden !important;
     font-family: 'CircularStd', sans-serif;
+    background: $background;
 }
 
 .container {

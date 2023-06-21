@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+
+<nav class="nav--support">
+    <div class="nav--left">
+        <h1>
+            <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisSupport_logo-full.png" /></a>
+        </h1>
+    </div>
+    <div class="nav--right">
+        <a href="/pricing">Pricing</a>
+        <button class="contact-us">Contact Us</button>
+    </div>
+</nav>
+
+<main>
+    @Body
+</main>
+<Support />
+
+@inject NavigationManager Navigation
+
+@code {
+    void RefreshLanding()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

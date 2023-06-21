@@ -75,9 +75,8 @@
     margin-top: 100px;
     background: $background;
 
-    header {
-        padding: 74px;
-        margin-bottom: 327px;
+    &--header {
+        padding: 74px 74px 0px 74px;
         display: flex;
         gap: 100px;
 
@@ -172,7 +171,108 @@
     }
 
     .features {
-        padding: 0 104px;
-        background: $background;
+        background: url('images/Group 68.png') center no-repeat;
+        background-size: 1690px auto;
+        height: 1168px;
+        position: relative;
+        /*&-background {
+            display: none;
+            width: 110%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }*/
+
+        &--container {
+            height: 469px;
+            padding: 327px 104px;
+            display: flex;
+            justify-content: center;
+            gap: 76px;
+            position: relative;
+            z-index: 20;
+
+            div {
+                width: 360px;
+                height: 369px;
+                padding: 60px 40px;
+                background: $white;
+                box-shadow: 0px 16px 24px rgba(5, 94, 148, 0.1), 0px 2px 6px rgba(0, 59, 95, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+                border-radius: 20px;
+                z-index: 20;
+
+                &.feature-2 {
+                    margin-top: 100px;
+                }
+
+                header {
+                    padding: 0;
+                    position: relative;
+
+                    span {
+                        font-weight: 700;
+                        font-size: 96px;
+                        line-height: 120%;
+                        color: rgba(34, 98, 202, 0.1);
+                    }
+
+                    h3 {
+                        font-weight: 700;
+                        font-size: 25px;
+                        line-height: 120%;
+                        color: $darker-blue;
+                        position: absolute;
+                        bottom: 8px;
+                    }
+                }
+
+                p {
+                    margin-top: 35px;
+                    color: $darker-blue;
+                }
+            }
+        }
+    }
+
+    .more-information {
+        width: 100%;
+        padding-top: 125px;
+        padding-bottom: 151px;
+        position: relative;
+        background: transparent;
+        z-index: 20;
+
+        header {
+            max-width: 638px;
+            margin: 0 auto;
+            text-align: center;
+
+            h3 {
+                margin-top: 20px;
+                font-weight: 700;
+                font-size: 31px;
+                line-height: 120%;
+            }
+
+            p {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 160%;
+            }
+        }
+
+        .ibis-logo--container {
+            margin-top: 45px;
+            display: flex;
+            gap: 169px;
+            justify-content: center;
+
+            img {
+                height: 73px;
+                width: auto;
+            }
+        }
     }
 }
