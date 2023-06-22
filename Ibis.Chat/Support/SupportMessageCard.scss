@@ -70,6 +70,20 @@
                     border: none;
                     transform: scale(1);
                 }
+
+                &.guest {
+                    background: $grey-200;
+                    padding: 3px;
+                    border-radius: 50%;
+                    text-align: center;
+
+                    img {
+                        width: 12px;
+                        height: 12px;
+                        margin-bottom: 4px;
+                        opacity: 0.5;
+                    }
+                }
             }
 
             span {

@@ -2286,6 +2286,18 @@ footer .footer--container a {
   border: none;
   transform: scale(1);
 }
+.support-message-card.user header .avatar-wrapper.guest {
+  background: #E5E7EA;
+  padding: 3px;
+  border-radius: 50%;
+  text-align: center;
+}
+.support-message-card.user header .avatar-wrapper.guest img {
+  width: 12px;
+  height: 12px;
+  margin-bottom: 4px;
+  opacity: 0.5;
+}
 .support-message-card.user header span {
   position: absolute;
   left: 26px;

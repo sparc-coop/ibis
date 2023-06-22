@@ -1,7 +1,13 @@
 ﻿<div class="support support--container" tabindex="0">
     <div class="support-language">
         <button tabindex="0" class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
-            <span>@User.Language</span>
+            @if (User != null)
+            {
+                <span>@User.Language</span>
+            } else
+            {
+                <span>en</span>
+            }
         </button>
         <button tabindex="0" class="play-button">
             <PlayIcon2 />
