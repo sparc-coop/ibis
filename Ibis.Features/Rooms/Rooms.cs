@@ -21,3 +21,4 @@ public class Rooms : BlossomAggregate<Room>
 
 public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
 public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
+public record FileUploaded(string RoomId, string Url) : Notification(RoomId);

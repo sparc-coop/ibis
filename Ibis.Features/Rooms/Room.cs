@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using File = Sparc.Blossom.Data.File;
 
 namespace Ibis.Rooms;
 
@@ -42,19 +43,6 @@ public class Room : Entity<string>
         Users = new();
     }
 
-    
-    private Room(Room room, Message message) : this()
-    {
-        // Create a subroom from a message
-
-        SetName(room.Name);
-        RoomType = room.RoomType;
-        SourceMessage = new(room.Id, message.Id);
-        //Languages = room.Languages;
-        //ActiveUsers = room.ActiveUsers;
-        //Translations = room.Translations;
-    }
-
     public void Join(User user)
     {
         var activeUser = Users.FirstOrDefault(x => x.Id == user.Id);
@@ -81,6 +69,22 @@ public class Room : Entity<string>
     {
         Name = title;
         Slug = UrlFriendly(Name);
+    }
+
+    public void AddMessages(List<Message> messages)
+    {
+        Messages.AddRange(messages);
+        LastActiveDate = DateTime.UtcNow;
+        foreach (var message in messages)
+            Broadcast(new MessageTextChanged(message));
+    }
+
+    public async Task AddFileAsync(IFileRepository<File> files, string filename, byte[] bytes)
+    {
+        var uploadFile = $"{RoomId}/upload/{filename}";
+        File file = new("speak", uploadFile, AccessTypes.Public, new MemoryStream(bytes));
+        await files.AddAsync(file);
+        Broadcast(new FileUploaded(RoomId, file.Url!));
     }
 
     public async Task<AudioMessage> SpeakAsync(ISpeaker speaker, string language)

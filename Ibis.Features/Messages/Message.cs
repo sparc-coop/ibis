@@ -23,8 +23,7 @@ public class Message : Entity<string>
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
     public string Html => Markdown.ToHtml(Text ?? string.Empty);
-    public string Type { get; set; }
-    internal virtual Room Room { get; private set; }
+    internal virtual Room Room { get; private set; } = null!;
     internal virtual Message? SourceMessage { get; private set; }
 
     protected Message()
