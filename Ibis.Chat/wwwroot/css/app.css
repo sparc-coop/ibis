@@ -1629,6 +1629,12 @@ footer .footer--container > a {
 footer .footer--container a {
   text-decoration: underline;
 }
+@media screen and (max-width: 850px) {
+  footer {
+    height: 60px;
+    padding: 18px 25px;
+  }
+}
 
 .tooltip-wrapper {
   position: absolute;
@@ -1690,7 +1696,11 @@ footer .footer--container a {
 .nav--support .nav--left h1 {
   margin: auto 0;
   font-size: 51px;
-  line-height: 51px;
+  line-height: 100%;
+}
+.nav--support .nav--left a {
+  font-size: 51px;
+  line-height: 100%;
 }
 .nav--support .nav--left a:hover {
   cursor: pointer;
@@ -1732,6 +1742,31 @@ footer .footer--container a {
   background: #003B5F;
   color: #FFFFFF;
 }
+@media screen and (max-width: 850px) {
+  .nav--support {
+    height: 75px;
+    padding: 10px 40px;
+  }
+  .nav--support .nav--left h1 {
+    font-size: 40px;
+    line-height: 100%;
+    margin: auto 0;
+  }
+  .nav--support .nav--left img {
+    height: 40px;
+    width: auto;
+  }
+  .nav--support .nav--right a {
+    font-size: 16px;
+  }
+  .nav--support .nav--right button {
+    height: 40px;
+    padding: 10px 14px;
+    margin: auto 0;
+    font-size: 16px;
+    line-height: 100%;
+  }
+}
 
 .support-landing {
   width: 100%;
@@ -1740,13 +1775,27 @@ footer .footer--container a {
   background: #fafbfc;
 }
 .support-landing--header {
-  padding: 74px 74px 0px 74px;
-  display: flex;
+  padding: 40px 74px 0px 74px;
+  display: grid;
   justify-content: center;
-  gap: 100px;
+  gap: 8%;
+}
+@media screen and (max-width: 1260px) {
+  .support-landing--header {
+    display: block;
+    padding: 32px 32px 0px 32px;
+  }
+}
+@media screen and (max-width: 850px) {
+  .support-landing--header {
+    padding: 32px 60px 0px 60px;
+  }
 }
 .support-landing--header .hero {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-area: 1/1/2/2;
+  justify-content: center;
   gap: 20px;
 }
 .support-landing--header .hero img {
@@ -1786,9 +1835,38 @@ footer .footer--container a {
   font-size: 24px;
   line-height: 120%;
 }
+@media screen and (max-width: 850px) {
+  .support-landing--header .hero img {
+    width: 250px;
+    height: auto;
+  }
+  .support-landing--header .hero-message {
+    width: 250px;
+  }
+  .support-landing--header .hero-message img {
+    width: 32px;
+    height: auto;
+  }
+  .support-landing--header .hero-message div:first-child {
+    margin-bottom: 14px;
+  }
+  .support-landing--header .hero-message div:first-child, .support-landing--header .hero-message div:last-child {
+    font-size: 20px;
+  }
+}
 .support-landing--header .content {
+  min-width: 382px;
   max-width: 529px;
   margin: auto 0;
+  grid-area: 1/2/2/3;
+}
+@media screen and (max-width: 1260px) {
+  .support-landing--header .content {
+    display: block;
+    max-width: 642px;
+    margin: 0 auto;
+    margin-top: 40px;
+  }
 }
 .support-landing--header .content h2 {
   margin-bottom: 20px;
@@ -1824,6 +1902,24 @@ footer .footer--container a {
 .support-landing--header .content button:hover .right-arrow {
   animation: rightArrowBounce 600ms ease-in-out infinite;
 }
+@media screen and (max-width: 850px) {
+  .support-landing--header .content {
+    margin-top: 0;
+  }
+  .support-landing--header .content h2 {
+    font-size: 48px;
+    line-height: 120%;
+  }
+  .support-landing--header .content h2 img {
+    width: 35%;
+  }
+  .support-landing--header .content p {
+    font-size: 16px;
+  }
+  .support-landing--header .content button {
+    font-size: 16px;
+  }
+}
 .support-landing .features {
   background: url("../../images/Group 68.png") center no-repeat;
   background-size: 1690px auto;
@@ -1840,25 +1936,37 @@ footer .footer--container a {
   }*/
 }
 .support-landing .features--container {
-  height: 469px;
-  padding: 327px 104px;
-  display: flex;
+  min-height: 469px;
+  padding-top: 327px;
+  padding-bottom: 327px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
   justify-content: center;
-  gap: 76px;
+  gap: 8%;
   position: relative;
   z-index: 20;
 }
 .support-landing .features--container div {
-  width: 360px;
+  width: 25vw;
+  min-width: 300px;
+  max-width: 360px;
   height: 369px;
-  padding: 60px 40px;
+  padding: 2.5rem 2rem;
   background: #FFFFFF;
   box-shadow: 0px 16px 24px rgba(5, 94, 148, 0.1), 0px 2px 6px rgba(0, 59, 95, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
   z-index: 20;
 }
+.support-landing .features--container div.feature-1 {
+  grid-area: 1/2/2/3;
+}
 .support-landing .features--container div.feature-2 {
+  grid-area: 1/3/2/4;
   margin-top: 100px;
+}
+.support-landing .features--container div.feature-3 {
+  grid-area: 1/4/2/5;
 }
 .support-landing .features--container div header {
   padding: 0;
@@ -1879,8 +1987,59 @@ footer .footer--container a {
   bottom: 8px;
 }
 .support-landing .features--container div p {
-  margin-top: 35px;
+  margin-top: 1.5rem;
   color: #001537;
+}
+@media screen and (max-width: 1260px) {
+  .support-landing .features--container {
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    margin-top: 20px;
+    gap: 100px;
+    padding: 150px 32px;
+  }
+  .support-landing .features--container div.feature-1 {
+    grid-area: 1/2/2/3;
+  }
+  .support-landing .features--container div.feature-2 {
+    grid-area: 1/3/2/4;
+    display: inline;
+    justify-self: end;
+    margin-top: 250px;
+  }
+  .support-landing .features--container div.feature-3 {
+    grid-area: 2/2/3/3;
+    margin-top: -250px;
+  }
+}
+@media screen and (max-width: 850px) {
+  .support-landing .features--container {
+    padding-top: 225px;
+    gap: 60px;
+  }
+  .support-landing .features--container div {
+    width: 250px;
+    min-width: 0;
+    height: 275px;
+    padding: 1.5rem;
+  }
+  .support-landing .features--container div header span {
+    font-size: 60px;
+  }
+  .support-landing .features--container div header h3 {
+    font-size: 20px;
+  }
+  .support-landing .features--container div p {
+    font-size: 14px;
+    margin-top: 0.5rem;
+  }
+  .support-landing .features--container div.feature-2 {
+    margin-top: 225px;
+  }
+  .support-landing .features--container div.feature-3 {
+    grid-area: 2/2/3/3;
+    margin-top: -125px;
+  }
 }
 .support-landing .more-information {
   width: 100%;
@@ -1916,8 +2075,27 @@ footer .footer--container a {
   height: 73px;
   width: auto;
 }
-
-.tooltip-wrapper span {
+@media screen and (max-width: 1260px) {
+  .support-landing .more-information .ibis-logo--container {
+    gap: 8%;
+  }
+  .support-landing .more-information .ibis-logo--container img {
+    height: 65px;
+  }
+}
+@media screen and (max-width: 850px) {
+  .support-landing .more-information {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+  .support-landing .more-information .ibis-logo--container {
+    gap: 8%;
+  }
+  .support-landing .more-information .ibis-logo--container img {
+    height: 40px;
+  }
+}
+.support-landing .tooltip-wrapper span {
   width: 248px;
   height: 50px;
   padding: 13px 20px;
@@ -1935,7 +2113,7 @@ footer .footer--container a {
   visibility: visible;
   z-index: 30;
 }
-.tooltip-wrapper span::after {
+.support-landing .tooltip-wrapper span::after {
   display: none;
 }
 
