@@ -2085,8 +2085,7 @@ footer .footer--container a {
 }
 @media screen and (max-width: 850px) {
   .support-landing .more-information {
-    padding-top: 40px;
-    padding-bottom: 80px;
+    padding: 40px 40px 80px 40px;
   }
   .support-landing .more-information .ibis-logo--container {
     gap: 8%;
