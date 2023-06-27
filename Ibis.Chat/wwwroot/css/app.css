@@ -1767,12 +1767,49 @@ footer .footer--container a {
     line-height: 100%;
   }
 }
+@media screen and (max-width: 680px) {
+  .nav--support {
+    padding: 10px 25px;
+  }
+  .nav--support .nav--left h1, .nav--support .nav--left a {
+    font-size: 36px;
+  }
+  .nav--support .nav--left h1 {
+    margin-top: 10px;
+  }
+  .nav--support .nav--left img {
+    height: 36px !important;
+    width: auto !important;
+  }
+}
+@media screen and (max-width: 530px) {
+  .nav--support {
+    padding: 10px 15px;
+  }
+  .nav--support .nav--right {
+    gap: 15px;
+  }
+  .nav--support .nav--right a {
+    font-size: 14px;
+  }
+  .nav--support .nav--right button {
+    height: 36px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
 
 .support-landing {
   width: 100%;
   height: calc(100vh - 100px);
   margin-top: 100px;
   background: #fafbfc;
+}
+@media screen and (max-width: 680px) {
+  .support-landing {
+    height: calc(100vh - 75px);
+    margin-top: 75px;
+  }
 }
 .support-landing--header {
   padding: 40px 74px 0px 74px;
@@ -1789,6 +1826,11 @@ footer .footer--container a {
 @media screen and (max-width: 850px) {
   .support-landing--header {
     padding: 32px 60px 0px 60px;
+  }
+}
+@media screen and (max-width: 530px) {
+  .support-landing--header {
+    padding: 40px 32px 0px 32px;
   }
 }
 .support-landing--header .hero {
@@ -1852,6 +1894,56 @@ footer .footer--container a {
   }
   .support-landing--header .hero-message div:first-child, .support-landing--header .hero-message div:last-child {
     font-size: 20px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .support-landing--header .hero img {
+    width: 190px;
+    height: auto;
+  }
+  .support-landing--header .hero img.hero-img-1 {
+    margin-top: 90px;
+  }
+  .support-landing--header .hero-message {
+    width: 190px;
+    height: 70px;
+    padding: 12px 14px;
+  }
+  .support-landing--header .hero-message img {
+    width: 26px;
+    height: auto;
+  }
+  .support-landing--header .hero-message div:first-child {
+    margin-bottom: 8px;
+  }
+  .support-landing--header .hero-message div:first-child, .support-landing--header .hero-message div:last-child {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 530px) {
+  .support-landing--header .hero {
+    grid-area: 1/1/1/1;
+    gap: 0;
+    margin-top: 40px;
+  }
+  .support-landing--header .hero img {
+    width: 75%;
+    height: auto;
+    align-self: center;
+  }
+  .support-landing--header .hero img.hero-img-1 {
+    display: none;
+  }
+  .support-landing--header .hero-message {
+    width: 75%;
+    align-self: center;
+  }
+  .support-landing--header .hero-message img {
+    width: 26px;
+    height: auto;
+  }
+  .support-landing--header .hero-message div:first-child, .support-landing--header .hero-message div:last-child {
+    font-size: 14px;
   }
 }
 .support-landing--header .content {
@@ -1918,6 +2010,37 @@ footer .footer--container a {
   }
   .support-landing--header .content button {
     font-size: 16px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .support-landing--header .content {
+    max-width: 420px;
+  }
+  .support-landing--header .content h2 {
+    font-size: 42px;
+  }
+  .support-landing--header .content h2 img {
+    width: 40%;
+  }
+  .support-landing--header .content p {
+    font-size: 16px;
+  }
+  .support-landing--header .content button {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 530px) {
+  .support-landing--header .content {
+    min-width: 0px;
+  }
+  .support-landing--header .content h2 {
+    font-size: 36px;
+  }
+  .support-landing--header .content p {
+    font-size: 14px;
+  }
+  .support-landing--header .content button {
+    font-size: 14px;
   }
 }
 .support-landing .features {
@@ -2037,8 +2160,55 @@ footer .footer--container a {
     margin-top: 225px;
   }
   .support-landing .features--container div.feature-3 {
-    grid-area: 2/2/3/3;
     margin-top: -125px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .support-landing .features--container {
+    padding-top: 175px;
+    gap: 1.5rem;
+  }
+  .support-landing .features--container div {
+    width: 200px;
+    min-width: 0;
+    height: 275px;
+    padding: 1rem 1.5rem;
+  }
+  .support-landing .features--container div header span {
+    font-size: 60px;
+  }
+  .support-landing .features--container div header h3 {
+    font-size: 20px;
+    bottom: -16px;
+  }
+  .support-landing .features--container div p {
+    font-size: 12px;
+    margin-top: 1.5rem;
+  }
+  .support-landing .features--container div.feature-2 {
+    margin-top: 275px;
+  }
+  .support-landing .features--container div.feature-3 {
+    margin-top: -25px;
+  }
+}
+@media screen and (max-width: 530px) {
+  .support-landing .features--container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .support-landing .features--container div.feature-1 {
+    grid-area: 1/1/2/2;
+  }
+  .support-landing .features--container div.feature-2 {
+    grid-area: 2/1/3/1;
+    align-self: end;
+    margin-top: 0px;
+  }
+  .support-landing .features--container div.feature-3 {
+    grid-area: 3/1/4/2;
+    margin-top: 0;
+    align-self: start;
   }
 }
 .support-landing .more-information {
@@ -2094,6 +2264,45 @@ footer .footer--container a {
     height: 40px;
   }
 }
+@media screen and (max-width: 680px) {
+  .support-landing .more-information {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  .support-landing .more-information header h3 {
+    font-size: 26px;
+  }
+  .support-landing .more-information header p {
+    margin-top: 16px;
+  }
+}
+@media screen and (max-width: 530px) {
+  .support-landing .more-information {
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 60px;
+  }
+  .support-landing .more-information header h3 {
+    font-size: 24px;
+  }
+  .support-landing .more-information header p {
+    font-size: 14px;
+  }
+  .support-landing .more-information .ibis-logo--container {
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .support-landing .more-information .ibis-logo--container img {
+    height: 40px;
+    margin-bottom: 20px;
+  }
+  .support-landing .more-information .ibis-logo--container img:last-of-type {
+    margin-bottom: 0;
+  }
+}
 .support-landing .tooltip-wrapper span {
   width: 248px;
   height: 50px;
@@ -2140,6 +2349,13 @@ footer .footer--container a {
   background: none;
   padding: 0;
   margin: 0 auto;
+}
+@media screen and (max-width: 850px) {
+  .support--container {
+    width: 58px;
+    height: 168px;
+    padding: 10px 8px;
+  }
 }
 .support-language {
   width: 56px;
@@ -2197,6 +2413,31 @@ footer .footer--container a {
   display: block;
   z-index: 1001;
 }
+@media screen and (max-width: 850px) {
+  .support-language {
+    width: 43px;
+    height: 92px;
+    padding: 16px 6px;
+    border-radius: 32px;
+  }
+  .support-language button {
+    width: 20px;
+    height: 20px;
+  }
+  .support-language button.open-language-settings {
+    margin-bottom: 20px;
+  }
+  .support-language button.open-language-settings span {
+    font-size: 14px;
+    line-height: 120%;
+  }
+  .support-language button:hover span {
+    font-size: 16px;
+  }
+  .support-language button:active span {
+    font-size: 14px;
+  }
+}
 .support--overlay {
   display: none;
 }
@@ -2217,18 +2458,36 @@ footer .footer--container a {
   transition: 250ms ease-in-out;
 }
 .support-helpdesk .open-helpdesk:hover img {
-  width: 40px;
-  height: 39px;
+  width: 32px;
+  height: 31px;
 }
 .support-helpdesk .open-helpdesk:active img {
-  width: 36px;
-  height: 35px;
+  width: 22px;
+  height: 21px;
 }
 .support-helpdesk .helpdesk {
   display: none;
 }
 .support-helpdesk .helpdesk.open {
   display: block;
+}
+@media screen and (max-width: 850px) {
+  .support-helpdesk .open-helpdesk .support-icon {
+    width: 43px;
+    height: 43px;
+  }
+  .support-helpdesk .open-helpdesk .support-icon img {
+    width: 27px !important;
+    height: 26px !important;
+  }
+  .support-helpdesk .open-helpdesk:hover img {
+    width: 31px !important;
+    height: 30px !important;
+  }
+  .support-helpdesk .open-helpdesk:active img {
+    width: 27px !important;
+    height: 26px !important;
+  }
 }
 
 .support-language--dropdown {
