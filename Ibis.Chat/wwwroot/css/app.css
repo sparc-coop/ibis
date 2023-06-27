@@ -1615,12 +1615,6 @@ footer .footer--container {
   display: flex;
   justify-content: space-between;
 }
-footer .footer--container--left {
-  padding-left: 20px;
-}
-footer .footer--container--right {
-  padding-right: 20px;
-}
 footer .footer--container > a {
   display: inline-block;
   margin-left: 8px;
@@ -1633,6 +1627,16 @@ footer .footer--container a {
   footer {
     height: 60px;
     padding: 18px 25px;
+  }
+}
+@media screen and (max-width: 850px) {
+  footer {
+    height: 48px;
+    padding: 12px 15px;
+    font-size: 10px;
+  }
+  footer .footer--left, footer .footer--right {
+    text-align: center;
   }
 }
 

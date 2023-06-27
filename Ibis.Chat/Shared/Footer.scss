@@ -22,14 +22,6 @@ footer {
         display: flex;
         justify-content: space-between;
 
-        &--left {
-            padding-left: 20px;
-        }
-
-        &--right {
-            padding-right: 20px;
-        }
-
         > a {
             display: inline-block;
             margin-left: 8px;
@@ -44,5 +36,15 @@ footer {
     @media screen and (max-width: 850px) {
         height: 60px;
         padding: 18px 25px;
+    }
+
+    @media screen and (max-width: 850px) {
+        height: 48px;
+        padding: 12px 15px;
+        font-size: 10px;
+
+        .footer--left, .footer--right {
+            text-align: center;
+        }
     }
 }
