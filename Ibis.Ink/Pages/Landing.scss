@@ -47,6 +47,10 @@
             &:hover {
                 color: $dark-blue;
             }
+
+            @media screen and (max-width: 480px) {
+                display: none;
+            }
         }
 
         button {
@@ -67,6 +71,75 @@
             }
         }
     }
+
+    @media screen and (max-width: 850px) {
+        height: 75px;
+        padding: 10px 40px;
+
+        .nav--left {
+            h1 {
+                font-size: 40px;
+                line-height: 100%;
+                margin: auto 0;
+            }
+
+            img {
+                height: 40px;
+                width: auto;
+            }
+        }
+
+        .nav--right {
+            a {
+                font-size: 16px;
+            }
+
+            button {
+                height: 40px;
+                padding: 10px 14px;
+                margin: auto 0;
+                font-size: 16px;
+                line-height: 100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 680px) {
+        padding: 10px 25px;
+
+        .nav--left {
+            h1, a {
+                font-size: 36px;
+            }
+
+            h1 {
+                margin-top: 10px;
+            }
+
+            img {
+                height: 36px !important;
+                width: auto !important;
+            }
+        }
+    }
+
+    @media screen and (max-width: 530px) {
+        padding: 10px 15px;
+
+        .nav--right {
+            gap: 15px;
+
+            a {
+                font-size: 14px;
+            }
+
+            button {
+                height: 36px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+    }
 }
 
 .landing {
@@ -75,11 +148,20 @@
     margin-top: 100px;
     background: $background;
 
+    @media screen and (max-width: 850px) {
+        height: calc(100vh - 75px);
+        margin-top: 75px;
+    }
+
     &--header {
         height: calc(100vh - 100px);
         overflow: hidden;
         position: relative;
         transition: 300ms ease-in-out;
+
+        @media screen and (max-width: 850px) {
+            height: calc(100vh - 75px);
+        }
 
         &.hide {
             animation: fadeOutSlideUp 300ms ease-in-out;
@@ -90,16 +172,16 @@
             width: 70%;
             max-width: 950px;
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 30%;
-            transform: translate(-30%, -50%);
+            transform: translate(-30%, -40%);
             z-index: 20;
 
             h2 {
                 font-family: 'CircularStd', sans-serif;
                 font-weight: 700;
                 font-size: 80px;
-                line-height: 88px;
+                line-height: 120%;
                 letter-spacing: 0px;
                 text-align: left;
                 color: $dark-blue;
@@ -112,10 +194,48 @@
                 font-family: 'CircularStd';
                 font-weight: 400;
                 font-size: 20px;
-                line-height: 26px;
+                line-height: 150%;
                 letter-spacing: 0px;
                 text-align: left;
                 color: $dark-blue;
+            }
+
+            @media screen and (max-width: 1200px) {
+                min-width: 500px;
+                width: 70%;
+                left: 40%;
+                transform: translate(-40%, -40%);
+            }
+
+            @media screen and (max-width: 800px) {
+                h2 {
+                    font-size: 4.5rem;
+                }
+            }
+
+            @media screen and (max-width: 650px) {
+                width: 75%;
+                min-width: 0;
+
+                h2 {
+                    width: 100%;
+                    font-size: 4rem;
+                }
+
+                .subheader {
+                    width: 100%;
+                    font-size: 18px;
+                }
+            }
+
+            @media screen and (max-width: 480px) {
+                h2 {
+                    font-size: 3rem;
+                }
+
+                .subheader {
+                    font-size: 16px;
+                }
             }
         }
 
@@ -135,13 +255,21 @@
                 height: 1066px;
                 animation: headerBackgroundSlide 173s linear infinite;
             }
+
+            @media screen and (max-width: 850px) {
+                top: -75px;
+            }
         }
 
         .slide--container {
             width: 100%;
             position: absolute;
-            bottom: 50px;
+            bottom: 3%;
             z-index: 20;
+
+            @media screen and (max-width: 800px) {
+                bottom: 1%;
+            }
 
             .slide-down {
                 width: 150px;
@@ -191,8 +319,17 @@
             height: 26px;
             position: absolute;
             top: 50%;
-            transform: translatexX(-50%);
-            z-index: 30;
+            transform: translatexY(-50%);
+            z-index: 40;
+
+            @media screen and (max-width: 850px) {
+                gap: calc(100vw * 0.6);
+            }
+
+            @media screen and (max-width: 480px) {
+                top: 90%;
+                margin-top: -4px;
+            }
 
             img {
                 width: 27px;
@@ -234,13 +371,13 @@
                     .subheader {
                         color: $purple-main;
                         font-size: 20px;
-                        line-height: 24px;
+                        line-height: 120%;
                     }
 
                     h2 {
                         font-weight: 700;
                         font-size: 39px;
-                        line-height: 47px;
+                        line-height: 150%;
                         color: $dark-blue;
                     }
                 }
@@ -249,7 +386,7 @@
                     max-width: 638px;
                     margin-top: 28px;
                     font-size: 20px;
-                    line-height: 32px;
+                    line-height: 150%;
                     color: $dark-blue;
 
                     img {
@@ -261,10 +398,9 @@
                 .ibis-logo--container {
                     max-width: 645px;
                     margin-top: 40px;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 15px;
-                    flex-wrap: wrap;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1.25fr;
+                    gap: 1rem;
                     z-index: 30;
 
                     a {
@@ -272,11 +408,88 @@
                         padding: 10px 15px;
                         background: $white;
                         border-radius: 24px;
+                        text-align: center;
                     }
 
                     img {
                         height: 100%;
                         width: auto;
+                    }
+                }
+
+                @media screen and (max-width: 1280px) {
+                    .ibis-logo--container {
+                        max-width: none;
+
+                        a {
+                            max-height: 65px;
+                            padding: 0.5rem 1rem;
+                            border-radius: 1rem;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 850px) {
+                    width: 60%;
+                    top: 20%;
+
+                    .ibis-logo--container {
+                        margin-top: 20px;
+
+                        a {
+                            max-height: 55px;
+                            border-radius: 0.75rem;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 650px) {
+                    header {
+                        .subheader {
+                            font-size: 20px;
+                        }
+
+                        h2 {
+                            font-size: 36px;
+                        }
+                    }
+
+                    p {
+                        margin-top: 20px;
+                        font-size: 18px;
+                    }
+
+                    .ibis-logo--container {
+                        a {
+                            max-height: 50px;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 600px) {
+                    .ibis-logo--container {
+                        gap: 0.5rem;
+
+                        a {
+                            max-height: 45px;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 480px) {
+                    width: 75%;
+                    top: 15%;
+
+                    header {
+                        p {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .ibis-logo--container {
+                        a {
+                            max-height: 40px;
+                        }
                     }
                 }
             }
@@ -303,6 +516,25 @@
                     animation: fadeChangeColor 300ms ease-in-out;
                 }
             }
+
+            @media screen and (max-width: 850px) {
+                .blob-background {
+                    width: 125% !important;
+                    height: 200% !important;
+                }
+            }
+        }
+
+        @media screen and (max-width: 850px) {
+            height: calc(100vh - 75px);
+
+            section {
+                height: calc(100vh - 75px);
+            }
+
+            .section--background {
+                height: calc(100vh - 75px);
+            }
         }
 
         .slide-indicators {
@@ -312,11 +544,15 @@
             justify-content: center;
             gap: 25px;
             position: absolute;
-            bottom: 13%;
+            bottom: 10%;
             left: 50%;
             transform: translateX(-50%);
             z-index: 30;
             animation: fadeIn 300ms ease-out;
+
+            @media screen and (max-width: 480px) {
+                bottom: 8%;
+            }
 
             div {
                 width: 10px;

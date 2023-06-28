@@ -39,6 +39,11 @@
 .nav--landing .nav--right a:hover {
   color: #003B5F;
 }
+@media screen and (max-width: 480px) {
+  .nav--landing .nav--right a {
+    display: none;
+  }
+}
 .nav--landing .nav--right button {
   padding: 13px 37px;
   background: #FFFFFF;
@@ -55,6 +60,62 @@
   background: #003B5F;
   color: #FFFFFF;
 }
+@media screen and (max-width: 850px) {
+  .nav--landing {
+    height: 75px;
+    padding: 10px 40px;
+  }
+  .nav--landing .nav--left h1 {
+    font-size: 40px;
+    line-height: 100%;
+    margin: auto 0;
+  }
+  .nav--landing .nav--left img {
+    height: 40px;
+    width: auto;
+  }
+  .nav--landing .nav--right a {
+    font-size: 16px;
+  }
+  .nav--landing .nav--right button {
+    height: 40px;
+    padding: 10px 14px;
+    margin: auto 0;
+    font-size: 16px;
+    line-height: 100%;
+  }
+}
+@media screen and (max-width: 680px) {
+  .nav--landing {
+    padding: 10px 25px;
+  }
+  .nav--landing .nav--left h1, .nav--landing .nav--left a {
+    font-size: 36px;
+  }
+  .nav--landing .nav--left h1 {
+    margin-top: 10px;
+  }
+  .nav--landing .nav--left img {
+    height: 36px !important;
+    width: auto !important;
+  }
+}
+@media screen and (max-width: 530px) {
+  .nav--landing {
+    padding: 10px 15px;
+  }
+  .nav--landing .nav--right {
+    gap: 15px;
+  }
+  .nav--landing .nav--right a {
+    font-size: 14px;
+  }
+  .nav--landing .nav--right button {
+    height: 36px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
 
 .landing {
   width: 100%;
@@ -62,11 +123,22 @@
   margin-top: 100px;
   background: #fafbfc;
 }
+@media screen and (max-width: 850px) {
+  .landing {
+    height: calc(100vh - 75px);
+    margin-top: 75px;
+  }
+}
 .landing--header {
   height: calc(100vh - 100px);
   overflow: hidden;
   position: relative;
   transition: 300ms ease-in-out;
+}
+@media screen and (max-width: 850px) {
+  .landing--header {
+    height: calc(100vh - 75px);
+  }
 }
 .landing--header.hide {
   animation: fadeOutSlideUp 300ms ease-in-out;
@@ -76,16 +148,16 @@
   width: 70%;
   max-width: 950px;
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 30%;
-  transform: translate(-30%, -50%);
+  transform: translate(-30%, -40%);
   z-index: 20;
 }
 .landing--header .header--container h2 {
   font-family: "CircularStd", sans-serif;
   font-weight: 700;
   font-size: 80px;
-  line-height: 88px;
+  line-height: 120%;
   letter-spacing: 0px;
   text-align: left;
   color: #003B5F;
@@ -97,10 +169,45 @@
   font-family: "CircularStd";
   font-weight: 400;
   font-size: 20px;
-  line-height: 26px;
+  line-height: 150%;
   letter-spacing: 0px;
   text-align: left;
   color: #003B5F;
+}
+@media screen and (max-width: 1200px) {
+  .landing--header .header--container {
+    min-width: 500px;
+    width: 70%;
+    left: 40%;
+    transform: translate(-40%, -40%);
+  }
+}
+@media screen and (max-width: 800px) {
+  .landing--header .header--container h2 {
+    font-size: 4.5rem;
+  }
+}
+@media screen and (max-width: 650px) {
+  .landing--header .header--container {
+    width: 75%;
+    min-width: 0;
+  }
+  .landing--header .header--container h2 {
+    width: 100%;
+    font-size: 4rem;
+  }
+  .landing--header .header--container .subheader {
+    width: 100%;
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .landing--header .header--container h2 {
+    font-size: 3rem;
+  }
+  .landing--header .header--container .subheader {
+    font-size: 16px;
+  }
 }
 .landing--header .background--container {
   width: 100%;
@@ -118,11 +225,21 @@
   height: 1066px;
   animation: headerBackgroundSlide 173s linear infinite;
 }
+@media screen and (max-width: 850px) {
+  .landing--header .background--container {
+    top: -75px;
+  }
+}
 .landing--header .slide--container {
   width: 100%;
   position: absolute;
-  bottom: 50px;
+  bottom: 3%;
   z-index: 20;
+}
+@media screen and (max-width: 800px) {
+  .landing--header .slide--container {
+    bottom: 1%;
+  }
 }
 .landing--header .slide--container .slide-down {
   width: 150px;
@@ -165,8 +282,19 @@
   height: 26px;
   position: absolute;
   top: 50%;
-  transform: translatexX(-50%);
-  z-index: 30;
+  transform: translatexY(-50%);
+  z-index: 40;
+}
+@media screen and (max-width: 850px) {
+  .landing--content .arrows--container {
+    gap: 60vw;
+  }
+}
+@media screen and (max-width: 480px) {
+  .landing--content .arrows--container {
+    top: 90%;
+    margin-top: -4px;
+  }
 }
 .landing--content .arrows--container img {
   width: 27px;
@@ -203,19 +331,19 @@
 .landing--content section .content header .subheader {
   color: #6F36FF;
   font-size: 20px;
-  line-height: 24px;
+  line-height: 120%;
 }
 .landing--content section .content header h2 {
   font-weight: 700;
   font-size: 39px;
-  line-height: 47px;
+  line-height: 150%;
   color: #003B5F;
 }
 .landing--content section .content p {
   max-width: 638px;
   margin-top: 28px;
   font-size: 20px;
-  line-height: 32px;
+  line-height: 150%;
   color: #003B5F;
 }
 .landing--content section .content p img {
@@ -225,10 +353,9 @@
 .landing--content section .content .ibis-logo--container {
   max-width: 645px;
   margin-top: 40px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.25fr;
+  gap: 1rem;
   z-index: 30;
 }
 .landing--content section .content .ibis-logo--container a {
@@ -236,10 +363,69 @@
   padding: 10px 15px;
   background: #FFFFFF;
   border-radius: 24px;
+  text-align: center;
 }
 .landing--content section .content .ibis-logo--container img {
   height: 100%;
   width: auto;
+}
+@media screen and (max-width: 1280px) {
+  .landing--content section .content .ibis-logo--container {
+    max-width: none;
+  }
+  .landing--content section .content .ibis-logo--container a {
+    max-height: 65px;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+  }
+}
+@media screen and (max-width: 850px) {
+  .landing--content section .content {
+    width: 60%;
+    top: 20%;
+  }
+  .landing--content section .content .ibis-logo--container {
+    margin-top: 20px;
+  }
+  .landing--content section .content .ibis-logo--container a {
+    max-height: 55px;
+    border-radius: 0.75rem;
+  }
+}
+@media screen and (max-width: 650px) {
+  .landing--content section .content header .subheader {
+    font-size: 20px;
+  }
+  .landing--content section .content header h2 {
+    font-size: 36px;
+  }
+  .landing--content section .content p {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  .landing--content section .content .ibis-logo--container a {
+    max-height: 50px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .landing--content section .content .ibis-logo--container {
+    gap: 0.5rem;
+  }
+  .landing--content section .content .ibis-logo--container a {
+    max-height: 45px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .landing--content section .content {
+    width: 75%;
+    top: 15%;
+  }
+  .landing--content section .content header p {
+    font-size: 16px;
+  }
+  .landing--content section .content .ibis-logo--container a {
+    max-height: 40px;
+  }
 }
 .landing--content .section--background {
   width: 100%;
@@ -261,6 +447,23 @@
 .landing--content .section--background .blob-background path {
   animation: fadeChangeColor 300ms ease-in-out;
 }
+@media screen and (max-width: 850px) {
+  .landing--content .section--background .blob-background {
+    width: 125% !important;
+    height: 200% !important;
+  }
+}
+@media screen and (max-width: 850px) {
+  .landing--content {
+    height: calc(100vh - 75px);
+  }
+  .landing--content section {
+    height: calc(100vh - 75px);
+  }
+  .landing--content .section--background {
+    height: calc(100vh - 75px);
+  }
+}
 .landing--content .slide-indicators {
   width: 100vw;
   height: 10px;
@@ -268,11 +471,16 @@
   justify-content: center;
   gap: 25px;
   position: absolute;
-  bottom: 13%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
   animation: fadeIn 300ms ease-out;
+}
+@media screen and (max-width: 480px) {
+  .landing--content .slide-indicators {
+    bottom: 8%;
+  }
 }
 .landing--content .slide-indicators div {
   width: 10px;
