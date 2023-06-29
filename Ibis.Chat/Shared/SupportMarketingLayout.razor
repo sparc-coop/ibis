@@ -1,0 +1,66 @@
+﻿@inherits LayoutComponentBase
+
+<CascadingValue Value="User">
+    <nav class="nav--support">
+        <div class="nav--left">
+            <h1>
+                <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisSupport_logo-full.png" /></a>
+            </h1>
+        </div>
+        <div class="nav--right">
+            <a href="/pricing">Pricing</a>
+            <button class="contact-us">Contact Us</button>
+        </div>
+    </nav>
+
+    <main>
+        @Body
+    </main>
+
+</CascadingValue>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+
+@code {
+    UserAvatar? User;
+    bool isUserBeingGot;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (User != null)
+            return;
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    void EditAvatar()
+    {
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+    }
+
+    void RefreshLanding()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

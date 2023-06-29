@@ -16,6 +16,12 @@
             padding: 0;
             margin: 0 auto;
         }
+
+        @media screen and (max-width: 850px) {
+            width: 58px;
+            height: 168px;
+            padding: 10px 8px;
+        }
     }
 
     &-language {
@@ -90,6 +96,39 @@
                 z-index: 1001;
             }
         }
+
+        @media screen and (max-width: 850px) {
+            width: 43px;
+            height: 92px;
+            padding: 16px 6px;
+            border-radius: 32px;
+
+            button {
+                width: 20px;
+                height: 20px;
+
+                &.open-language-settings {
+                    margin-bottom: 20px;
+
+                    span {
+                        font-size: 14px;
+                        line-height: 120%;
+                    }
+                }
+
+                &:hover {
+                    span {
+                        font-size: 16px;
+                    }
+                }
+
+                &:active {
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
     }
 
     &--overlay {
@@ -117,15 +156,15 @@
 
             &:hover {
                 img {
-                    width: 40px;
-                    height: 39px;
+                    width: 32px;
+                    height: 31px;
                 }
             }
 
             &:active {
                 img {
-                    width: 36px;
-                    height: 35px;
+                    width: 22px;
+                    height: 21px;
                 }
             }
         }
@@ -135,6 +174,34 @@
 
             &.open {
                 display: block;
+            }
+        }
+
+        @media screen and (max-width: 850px) {
+            .open-helpdesk {
+                .support-icon {
+                    width: 43px;
+                    height: 43px;
+
+                    img {
+                        width: 27px !important;
+                        height: 26px !important;
+                    }
+                }
+
+                &:hover {
+                    img {
+                        width: 31px !important;
+                        height: 30px !important;
+                    }
+                }
+
+                &:active {
+                    img {
+                        width: 27px !important;
+                        height: 26px !important;
+                    }
+                }
             }
         }
     }

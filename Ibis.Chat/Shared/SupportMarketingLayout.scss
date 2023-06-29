@@ -1,0 +1,12 @@
+@import '../_variables.scss';
+
+main {
+    position: relative;
+    background: $background;
+}
+
+.support {
+    position: fixed !important;
+    right: 0;
+    top: 195px;
+}

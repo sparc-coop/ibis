@@ -3,7 +3,7 @@
         @if (Type == "agent")
         {
             <div class="avatar-wrapper">
-                <img src="images/logo_icon.png">
+                <img src="images/IbisSupport_logo-icon.png">
             </div>
             <span>Ibis Support</span>
         } else if (Type == "user" && User != null)
@@ -12,6 +12,12 @@
                 <Avatar User="User"/>
             </div>
             <span>@User.Name</span>
+        } else if (Type == "user" && User == null)
+        {
+            <div class="avatar-wrapper guest">
+                <img class="default-avatar" src="icons/user-solid.svg" />
+            </div>
+            <span>Guest</span>
         }
     </header>
     <div class="message-content">

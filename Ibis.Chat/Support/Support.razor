@@ -1,7 +1,13 @@
 ﻿<div class="support support--container" tabindex="0">
     <div class="support-language">
         <button tabindex="0" class="open-language-settings @ShowLanguageSettings" @onclick="ToggleLanguageSettings">
-            <span>@User.Language</span>
+            @if (User != null)
+            {
+                <span>@User.Language</span>
+            } else
+            {
+                <span>en</span>
+            }
         </button>
         <button tabindex="0" class="play-button">
             <PlayIcon2 />
@@ -23,20 +29,33 @@
 
 @code {
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
+    [Parameter] public bool? PreviewHelpdesk { get; set; } = false;
+    [Parameter] public EventCallback ClosePreview { get; set; }
 
     bool OpenLanguageSettings = false;
     string? ShowLanguageSettings;
     string? ShowOverlay = "";
 
-    bool OpenHelpdesk = false;
+    bool? OpenHelpdesk = false;
     string? ShowHelpdesk;
     string? BackgroundColor = "#003B5F";
+
+    protected override void OnParametersSet()
+    {
+        if (PreviewHelpdesk == true)
+        {
+            OpenHelpdesk = true;
+            ShowHelpdesk = "open";
+            BackgroundColor = "#00608B";
+            Console.WriteLine("showing preview");
+        }
+    }
 
     void ToggleLanguageSettings()
     {
         OpenLanguageSettings = !OpenLanguageSettings;
 
-        @if (OpenLanguageSettings == false)
+        if (OpenLanguageSettings == false)
         {
             ShowLanguageSettings = "";
             ShowOverlay = "";
@@ -44,23 +63,25 @@
         {
             ShowLanguageSettings = "open";
             ShowOverlay = "show";
+            BackgroundColor = "#003B5F";
         }
 
-        @if (OpenHelpdesk == true)
+        if (OpenHelpdesk == true)
         {
             OpenHelpdesk = false;
             ShowHelpdesk = "";
         }
     }
 
-    void ToggleHelpdesk()
+    async void ToggleHelpdesk()
     {
         OpenHelpdesk = !OpenHelpdesk;
 
-        @if (OpenHelpdesk == false)
+        if (OpenHelpdesk == false)
         {
             ShowHelpdesk = "";
             BackgroundColor = "#003B5F";
+            await ClosePreview.InvokeAsync();
         }
         else
         {
@@ -68,7 +89,7 @@
             BackgroundColor = "#00608B";
         }
 
-        @if(OpenLanguageSettings == true)
+        if(OpenLanguageSettings == true)
         {
             OpenLanguageSettings = false;
             ShowLanguageSettings = "";
