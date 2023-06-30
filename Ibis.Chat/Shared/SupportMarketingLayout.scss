@@ -3,23 +3,19 @@
 #app {
     height: 100%; 
 }
-    
+
 .nav--support {
     width: 100%;
     height: 100px;
     padding: 25px 94px;
     position: fixed;
     top: 0;
-    /*display: flex;
-    justify-content: space-between;*/
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
     background: $white;
     z-index: 500;
 
     .nav--left {
-        grid-column: 1 / 2;
-
         h1 {
             margin: auto 0;
             font-size: 51px;
@@ -45,8 +41,6 @@
     .nav--right {
         /*display: flex;
         gap: 30px;*/
-        display: grid;
-        grid-column: 3 / 3;
 
         a {
             margin: auto 0;
@@ -63,6 +57,7 @@
         }
 
         button {
+            margin: auto 0;
             padding: 13px 37px;
             background: $white;
             color: $dark-blue;
@@ -73,7 +68,6 @@
             font-size: 20px;
             line-height: 120%;
             transition: 250ms ease-in-out;
-            align-self: end;
 
             &:hover {
                 background: $dark-blue;
@@ -82,20 +76,26 @@
         }
     }
 
-    @media screen and (max-width: 797px) {
+    @media screen and (max-width: 800px) {
         height: 75px;
         padding: 10px 40px;
 
         .nav--left {
             h1 {
+                margin-top: 8px;
+                vertical-align: middle;
                 font-size: 40px;
                 line-height: 100%;
-                margin: auto 0;
+            }
+
+            a {
+                font-size: 40px;
+                line-height: 100%;
             }
 
             img {
-                height: 40px;
-                width: auto;
+                height: 40px !important;
+                width: auto !important;
             }
         }
 
@@ -107,15 +107,14 @@
             button {
                 height: 40px;
                 padding: 10px 14px;
-                margin: auto 0;
                 font-size: 16px;
                 line-height: 100%;
             }
         }
     }
 
-    @media screen and (max-width: 680px) {
-        padding: 10px 25px;
+    @media screen and (max-width: 600px) {
+        padding: 10px 15px;
 
         .nav--left {
             h1, a {
@@ -131,15 +130,12 @@
                 width: auto !important;
             }
         }
-    }
-
-    @media screen and (max-width: 530px) {
-        padding: 10px 15px;
 
         .nav--right {
             gap: 15px;
 
             a {
+                margin: auto 0;
                 font-size: 14px;
             }
 
@@ -152,7 +148,7 @@
     }
 }
 
-main {
+.main--support-landing {
     position: relative;
     background: $background;
     display: grid;
@@ -164,6 +160,10 @@ main {
 
 .support-landing {
     grid-column: 2 / 14;
+
+    .more-information {
+        margin: 0 192px;
+    }
 }
 
 footer {
@@ -177,32 +177,69 @@ footer {
 }
 
 @media screen and (max-width: 1297px) {
-    main {
-        grid-template-columns: 1fr repeat(8, 64px) 1fr;
+    .main--support-landing {
+        grid-template-columns: 1fr repeat(8, 71px) 1fr;
         grid-column-gap: 15px;
         grid-template-rows: repeat(185, 8px);
     }
 
+    .support-landing {
+        grid-column: 2 / 9;
+
+        &--header {
+            margin: 0 86px;
+        }
+    }
+
+    .more-information {
+        margin: 0 94px 0 86px;
+    }
+
     footer {
         grid-column: 1 / 10;
     }
 }
 
-@media screen and (max-width: 747px) {
-    main {
-        grid-template-columns: 1fr repeat(8, 64px) 1fr;
-        grid-template-rows: repeat(153, 8px);
+@media screen and (max-width: 800px) {
+    .main--support-landing {
+        grid-template-rows: repeat(180, 8px);
+    }
+
+    .support-landing {
+        .features {
+            margin: 0 64px;
+        }
+
+        .more-information {
+            margin: 0 71px;
+        }
     }
 
     footer {
         grid-column: 1 / 10;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .support-landing {
+        &--header {
+            margin: 0 36px;
+        }
+
+        .more-information {
+            margin: 0 36px;
+        }
     }
 }
 
 @media screen and (max-width: 600px) {
-    main {
-        grid-template-columns: 1fr repeat(4, 64px) 1fr;
-        grid-template-rows: repeat(156, 8px);
+    .main--support-landing {
+        grid-template-columns: 1fr repeat(4, 71px) 1fr;
+        grid-template-rows: repeat(180, 8px);
+    }
+
+    .support-landing {
+        grid-column: 2 / 6;
     }
 
     footer {
@@ -211,8 +248,8 @@ footer {
 }
 
 @media screen and (max-width: 390px) {
-    main {
-        grid-template-rows: repeat(163, 8px);
+    .main--support-landing {
+        grid-template-rows: repeat(180, 8px);
     }
 
     footer {

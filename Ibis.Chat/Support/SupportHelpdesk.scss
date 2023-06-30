@@ -5,9 +5,13 @@
     max-height: 550px;
     position: absolute;
     top: 0;
-    right: 75px;
+    right: 60px;
     border: 1px solid $grey-300;
     border-radius: 16px;
+
+    @media screen and (max-width: 800px) {
+        right: 50px;
+    }
 
     button {
         border-radius: 4px;

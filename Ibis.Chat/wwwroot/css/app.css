@@ -1396,15 +1396,10 @@
   padding: 25px 94px;
   position: fixed;
   top: 0;
-  /*display: flex;
-  justify-content: space-between;*/
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   background: #FFFFFF;
   z-index: 500;
-}
-.nav--support .nav--left {
-  grid-column: 1/2;
 }
 .nav--support .nav--left h1 {
   margin: auto 0;
@@ -1426,8 +1421,6 @@
 .nav--support .nav--right {
   /*display: flex;
   gap: 30px;*/
-  display: grid;
-  grid-column: 3/3;
 }
 .nav--support .nav--right a {
   margin: auto 0;
@@ -1442,6 +1435,7 @@
   color: #003B5F;
 }
 .nav--support .nav--right button {
+  margin: auto 0;
   padding: 13px 37px;
   background: #FFFFFF;
   color: #003B5F;
@@ -1452,25 +1446,29 @@
   font-size: 20px;
   line-height: 120%;
   transition: 250ms ease-in-out;
-  align-self: end;
 }
 .nav--support .nav--right button:hover {
   background: #003B5F;
   color: #FFFFFF;
 }
-@media screen and (max-width: 797px) {
+@media screen and (max-width: 800px) {
   .nav--support {
     height: 75px;
     padding: 10px 40px;
   }
   .nav--support .nav--left h1 {
+    margin-top: 8px;
+    vertical-align: middle;
     font-size: 40px;
     line-height: 100%;
-    margin: auto 0;
+  }
+  .nav--support .nav--left a {
+    font-size: 40px;
+    line-height: 100%;
   }
   .nav--support .nav--left img {
-    height: 40px;
-    width: auto;
+    height: 40px !important;
+    width: auto !important;
   }
   .nav--support .nav--right a {
     font-size: 16px;
@@ -1478,14 +1476,13 @@
   .nav--support .nav--right button {
     height: 40px;
     padding: 10px 14px;
-    margin: auto 0;
     font-size: 16px;
     line-height: 100%;
   }
 }
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 600px) {
   .nav--support {
-    padding: 10px 25px;
+    padding: 10px 15px;
   }
   .nav--support .nav--left h1, .nav--support .nav--left a {
     font-size: 36px;
@@ -1497,15 +1494,11 @@
     height: 36px !important;
     width: auto !important;
   }
-}
-@media screen and (max-width: 530px) {
-  .nav--support {
-    padding: 10px 15px;
-  }
   .nav--support .nav--right {
     gap: 15px;
   }
   .nav--support .nav--right a {
+    margin: auto 0;
     font-size: 14px;
   }
   .nav--support .nav--right button {
@@ -1515,7 +1508,7 @@
   }
 }
 
-main {
+.main--support-landing {
   position: relative;
   background: #fafbfc;
   display: grid;
@@ -1527,6 +1520,9 @@ main {
 
 .support-landing {
   grid-column: 2/14;
+}
+.support-landing .more-information {
+  margin: 0 192px;
 }
 
 footer {
@@ -1540,36 +1536,61 @@ footer {
 }
 
 @media screen and (max-width: 1297px) {
-  main {
-    grid-template-columns: 1fr repeat(8, 64px) 1fr;
+  .main--support-landing {
+    grid-template-columns: 1fr repeat(8, 71px) 1fr;
     grid-column-gap: 15px;
     grid-template-rows: repeat(185, 8px);
   }
+  .support-landing {
+    grid-column: 2/9;
+  }
+  .support-landing--header {
+    margin: 0 86px;
+  }
+  .more-information {
+    margin: 0 94px 0 86px;
+  }
   footer {
     grid-column: 1/10;
   }
 }
-@media screen and (max-width: 747px) {
-  main {
-    grid-template-columns: 1fr repeat(8, 64px) 1fr;
-    grid-template-rows: repeat(153, 8px);
+@media screen and (max-width: 800px) {
+  .main--support-landing {
+    grid-template-rows: repeat(180, 8px);
+  }
+  .support-landing .features {
+    margin: 0 64px;
+  }
+  .support-landing .more-information {
+    margin: 0 71px;
   }
   footer {
     grid-column: 1/10;
+  }
+}
+@media screen and (max-width: 700px) {
+  .support-landing--header {
+    margin: 0 36px;
+  }
+  .support-landing .more-information {
+    margin: 0 36px;
   }
 }
 @media screen and (max-width: 600px) {
-  main {
-    grid-template-columns: 1fr repeat(4, 64px) 1fr;
-    grid-template-rows: repeat(156, 8px);
+  .main--support-landing {
+    grid-template-columns: 1fr repeat(4, 71px) 1fr;
+    grid-template-rows: repeat(180, 8px);
+  }
+  .support-landing {
+    grid-column: 2/6;
   }
   footer {
     grid-column: 1/7;
   }
 }
 @media screen and (max-width: 390px) {
-  main {
-    grid-template-rows: repeat(163, 8px);
+  .main--support-landing {
+    grid-template-rows: repeat(180, 8px);
   }
   footer {
     grid-column: 1/7;
@@ -1869,7 +1890,7 @@ footer .footer--container a {
   margin-top: 100px;
   background: #fafbfc;
 }
-@media screen and (max-width: 747px) {
+@media screen and (max-width: 800px) {
   .support-landing {
     height: calc(100vh - 75px);
     margin-top: 75px;
@@ -1953,7 +1974,7 @@ footer .footer--container a {
     font-size: 18px;
   }
 }
-@media screen and (max-width: 747px) {
+@media screen and (max-width: 800px) {
   .support-landing--header .hero-message {
     width: 250px;
   }
@@ -2029,7 +2050,7 @@ footer .footer--container a {
     display: block;
   }
 }
-@media screen and (max-width: 747px) {
+@media screen and (max-width: 800px) {
   .support-landing--header .content h2 {
     font-size: 61px;
     line-height: 120%;
@@ -2184,7 +2205,7 @@ footer .footer--container a {
     margin-top: -250px;
   }
 }
-@media screen and (max-width: 747px) {
+@media screen and (max-width: 800px) {
   .support-landing .features--container {
     padding-top: 225px;
     gap: 60px;
@@ -2261,7 +2282,7 @@ footer .footer--container a {
   }
 }
 .support-landing .more-information {
-  width: 100%;
+  width: 736px;
   padding-top: 125px;
   padding-bottom: 151px;
   position: relative;
@@ -2287,36 +2308,38 @@ footer .footer--container a {
 .support-landing .more-information .ibis-logo--container {
   margin-top: 45px;
   display: flex;
-  gap: 169px;
+  gap: 32px;
   justify-content: center;
 }
+.support-landing .more-information .ibis-logo--container a {
+  padding: 16px 32px;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
 .support-landing .more-information .ibis-logo--container img {
-  height: 73px;
+  height: 50px;
   width: auto;
 }
 @media screen and (max-width: 1297px) {
-  .support-landing .more-information .ibis-logo--container {
-    gap: 8%;
+  .support-landing .more-information {
+    width: 506px;
+  }
+  .support-landing .more-information .ibis-logo--container a {
+    padding: 12px 24px;
   }
   .support-landing .more-information .ibis-logo--container img {
-    height: 65px;
+    height: 39px;
   }
 }
-@media screen and (max-width: 747px) {
-  .support-landing .more-information {
-    padding: 40px 40px 80px 40px;
-  }
-  .support-landing .more-information .ibis-logo--container {
-    gap: 8%;
-  }
+@media screen and (max-width: 800px) {
   .support-landing .more-information .ibis-logo--container img {
     height: 40px;
   }
 }
 @media screen and (max-width: 600px) {
   .support-landing .more-information {
-    padding-left: 60px;
-    padding-right: 60px;
+    width: 326px;
   }
   .support-landing .more-information header h3 {
     font-size: 26px;
@@ -2324,13 +2347,15 @@ footer .footer--container a {
   .support-landing .more-information header p {
     margin-top: 16px;
   }
+  .support-landing .more-information .ibis-logo--container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .support-landing .more-information .ibis-logo--container a {
+    width: fit-content;
+  }
 }
 @media screen and (max-width: 390px) {
-  .support-landing .more-information {
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-bottom: 60px;
-  }
   .support-landing .more-information header h3 {
     font-size: 24px;
   }
@@ -2387,11 +2412,11 @@ footer .footer--container a {
   position: relative;
 }
 .support--container {
-  width: 76px;
-  height: 220px;
-  padding: 14px 10px 14px 10px;
+  width: 56px;
+  height: 145px;
+  padding: 9px 6px;
   background: rgba(0, 59, 95, 0.1);
-  border-radius: 40px 0px 0px 40px;
+  border-radius: 25px;
 }
 .support--container button {
   display: block;
@@ -2399,17 +2424,16 @@ footer .footer--container a {
   padding: 0;
   margin: 0 auto;
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 800px) {
   .support--container {
-    width: 58px;
-    height: 168px;
-    padding: 10px 8px;
+    width: 49px;
+    height: 145px;
   }
 }
 .support-language {
-  width: 56px;
-  height: 126px;
-  padding: 21px 8px;
+  width: 43px;
+  height: 80px;
+  padding: 13px 5px;
   position: relative;
   background: #003B5F;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -2419,13 +2443,14 @@ footer .footer--container a {
 }
 .support-language button {
   aspect-ratio: 1/1;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   text-align: center;
 }
 .support-language button.open-language-settings {
-  margin-bottom: 6px;
+  height: 25px;
+  margin-bottom: 4px;
 }
 .support-language button.open-language-settings span {
   font-family: "CircularStd";
@@ -2439,8 +2464,8 @@ footer .footer--container a {
   background: #00608B;
 }
 .support-language button.play-button svg {
-  width: 17px;
-  height: 17px;
+  width: 13px;
+  height: 13px;
   transition: 250ms ease-in-out;
 }
 .support-language button:hover span {
@@ -2462,29 +2487,22 @@ footer .footer--container a {
   display: block;
   z-index: 1001;
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 800px) {
   .support-language {
-    width: 43px;
-    height: 92px;
+    width: 36px;
+    height: 81px;
     padding: 16px 6px;
     border-radius: 32px;
   }
   .support-language button {
-    width: 20px;
-    height: 20px;
-  }
-  .support-language button.open-language-settings {
-    margin-bottom: 20px;
-  }
-  .support-language button.open-language-settings span {
-    font-size: 14px;
-    line-height: 120%;
+    width: 25px;
+    height: 25px;
   }
   .support-language button:hover span {
-    font-size: 16px;
+    font-size: 18px;
   }
   .support-language button:active span {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 .support--overlay {
@@ -2503,16 +2521,22 @@ footer .footer--container a {
   position: relative;
   z-index: 1000;
 }
-.support-helpdesk .open-helpdesk img {
+.support-helpdesk .open-helpdesk .support-icon {
+  width: 35px;
+  height: 35px;
+}
+.support-helpdesk .open-helpdesk .support-icon img {
   transition: 250ms ease-in-out;
+  width: 25px;
+  height: 24px;
 }
 .support-helpdesk .open-helpdesk:hover img {
-  width: 32px;
-  height: 31px;
+  width: 29px;
+  height: 28px;
 }
 .support-helpdesk .open-helpdesk:active img {
-  width: 22px;
-  height: 21px;
+  width: 25px;
+  height: 24px;
 }
 .support-helpdesk .helpdesk {
   display: none;
@@ -2520,22 +2544,10 @@ footer .footer--container a {
 .support-helpdesk .helpdesk.open {
   display: block;
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 800px) {
   .support-helpdesk .open-helpdesk .support-icon {
-    width: 43px;
-    height: 43px;
-  }
-  .support-helpdesk .open-helpdesk .support-icon img {
-    width: 27px !important;
-    height: 26px !important;
-  }
-  .support-helpdesk .open-helpdesk:hover img {
-    width: 31px !important;
-    height: 30px !important;
-  }
-  .support-helpdesk .open-helpdesk:active img {
-    width: 27px !important;
-    height: 26px !important;
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -2545,11 +2557,16 @@ footer .footer--container a {
   padding: 9px 16px 0px 16px;
   position: absolute;
   top: 0;
-  right: 65px;
+  right: 50px;
   background: #003B5F;
   border: none;
   border-radius: 8px;
   z-index: 1001;
+}
+@media screen and (max-width: 800px) {
+  .support-language--dropdown {
+    right: 43px;
+  }
 }
 .support-language--dropdown ul {
   max-height: 200px;
@@ -2624,9 +2641,14 @@ footer .footer--container a {
   max-height: 550px;
   position: absolute;
   top: 0;
-  right: 75px;
+  right: 60px;
   border: 1px solid #D1D4DC;
   border-radius: 16px;
+}
+@media screen and (max-width: 800px) {
+  .support-helpdesk--chat {
+    right: 50px;
+  }
 }
 .support-helpdesk--chat button {
   border-radius: 4px;

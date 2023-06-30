@@ -6,7 +6,7 @@
     margin-top: 100px;
     background: $background;
 
-    @media screen and (max-width: 747px) {
+    @media screen and (max-width: 800px) {
         height: calc(100vh - 75px);
         margin-top: 75px;
     }
@@ -100,7 +100,7 @@
                 }
             }
 
-            @media screen and (max-width: 747px) {
+            @media screen and (max-width: 800px) {
                 &-message {
                     width: 250px;
 
@@ -190,7 +190,7 @@
                 display: block;
             }
 
-            @media screen and (max-width: 747px) {
+            @media screen and (max-width: 800px) {
                 h2 {
                     font-size: 61px;
                     line-height: 120%;
@@ -370,7 +370,7 @@
                 }
             }
 
-            @media screen and (max-width: 747px) {
+            @media screen and (max-width: 800px) {
                 padding-top: 225px;
                 gap: 60px;
 
@@ -465,7 +465,7 @@
     }
 
     .more-information {
-        width: 100%;
+        width: 736px;
         padding-top: 125px;
         padding-bottom: 151px;
         position: relative;
@@ -494,31 +494,38 @@
         .ibis-logo--container {
             margin-top: 45px;
             display: flex;
-            gap: 169px;
+            gap: 32px;
             justify-content: center;
 
+            a {
+                padding: 16px 32px;
+                border-radius: 14px;
+                background: $white;
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            }
+
             img {
-                height: 73px;
+                height: 50px;
                 width: auto;
             }
         }
 
         @media screen and (max-width: 1297px) {
+            width: 506px;
+
             .ibis-logo--container {
-                gap: 8%;
+                a {
+                    padding: 12px 24px;
+                }
 
                 img {
-                    height: 65px;
+                    height: 39px;
                 }
             }
         }
 
-        @media screen and (max-width: 747px) {
-            padding: 40px 40px 80px 40px;
-
+        @media screen and (max-width: 800px) {
             .ibis-logo--container {
-                gap: 8%;
-
                 img {
                     height: 40px;
                 }
@@ -526,8 +533,7 @@
         }
 
         @media screen and (max-width: 600px) {
-            padding-left: 60px;
-            padding-right: 60px;
+            width: 326px;
 
             header {
                 h3 {
@@ -538,13 +544,18 @@
                     margin-top: 16px;
                 }
             }
+
+            .ibis-logo--container {
+                flex-direction: column;
+                align-items: center;
+
+                a {
+                    width: fit-content;
+                }
+            }
         }
 
         @media screen and (max-width: 390px) {
-            padding-left: 32px;
-            padding-right: 32px;
-            padding-bottom: 60px;
-
             header {
                 h3 {
                     font-size: 24px;
