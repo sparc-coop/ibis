@@ -2362,20 +2362,6 @@ footer .footer--container a {
   .support-landing .more-information header p {
     font-size: 14px;
   }
-  .support-landing .more-information .ibis-logo--container {
-    display: block;
-    width: 150px;
-    margin: 0 auto;
-    margin-top: 40px;
-    text-align: center;
-  }
-  .support-landing .more-information .ibis-logo--container img {
-    height: 40px;
-    margin-bottom: 20px;
-  }
-  .support-landing .more-information .ibis-logo--container img:last-of-type {
-    margin-bottom: 0;
-  }
 }
 .support-landing .tooltip-wrapper span {
   width: 248px;
