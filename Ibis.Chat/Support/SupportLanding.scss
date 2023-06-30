@@ -1,183 +1,35 @@
 ﻿@import '../_variables.scss';
 
-.nav--support {
-    width: 100%;
-    height: 100px;
-    padding: 25px 94px;
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    background: $white;
-    z-index: 500;
-
-    .nav--left {
-        h1 {
-            margin: auto 0;
-            font-size: 51px;
-            line-height: 100%;
-        }
-
-        a {
-            font-size: 51px;
-            line-height: 100%;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            img {
-                width: 114px;
-                height: 51px;
-                margin: auto 0;
-            }
-        }
-    }
-
-    .nav--right {
-        display: flex;
-        gap: 30px;
-
-        a {
-            margin: auto 0;
-            color: $grey-500;
-            font-family: 'CircularStd';
-            font-weight: 400;
-            font-size: 20px;
-            line-height: 120%;
-            transition: 250ms ease-in-out;
-
-            &:hover {
-                color: $dark-blue;
-            }
-        }
-
-        button {
-            padding: 13px 37px;
-            background: $white;
-            color: $dark-blue;
-            border: 1px solid $dark-blue;
-            border-radius: 8px;
-            font-family: 'CircularStd';
-            font-weight: 400;
-            font-size: 20px;
-            line-height: 120%;
-            transition: 250ms ease-in-out;
-
-            &:hover {
-                background: $dark-blue;
-                color: $white;
-            }
-        }
-    }
-
-    @media screen and (max-width: 850px) {
-        height: 75px;
-        padding: 10px 40px;
-
-        .nav--left {
-            h1 {
-                font-size: 40px;
-                line-height: 100%;
-                margin: auto 0;
-            }
-
-            img {
-                height: 40px;
-                width: auto;
-            }
-        }
-
-        .nav--right {
-            a {
-                font-size: 16px;
-            }
-
-            button {
-                height: 40px;
-                padding: 10px 14px;
-                margin: auto 0;
-                font-size: 16px;
-                line-height: 100%;
-            }
-        }
-    }
-
-    @media screen and (max-width: 680px) {
-        padding: 10px 25px;
-
-        .nav--left {
-            h1, a {
-                font-size: 36px;
-            }
-
-            h1 {
-                margin-top: 10px;
-            }
-
-            img {
-                height: 36px !important;
-                width: auto !important;
-            }
-        }
-    }
-
-    @media screen and (max-width: 530px) {
-        padding: 10px 15px;
-
-        .nav--right {
-            gap: 15px;
-
-            a {
-                font-size: 14px;
-            }
-
-            button {
-                height: 36px;
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-        }
-    }
-}
-
 .support-landing {
     width: 100%;
     height: calc(100vh - 100px);
     margin-top: 100px;
     background: $background;
 
-    @media screen and (max-width: 680px) {
+    @media screen and (max-width: 747px) {
         height: calc(100vh - 75px);
         margin-top: 75px;
     }
 
-
     &--header {
-        padding: 40px 74px 0px 74px;
+        padding-top: 142px;
         display: grid;
         justify-content: center;
-        gap: 8%;
+        gap: 128px;
 
-        @media screen and (max-width: 1260px) {
+        @media screen and (max-width: 1297px) {
+            padding-top: 40px;
             display: block;
-            padding: 32px 32px 0px 32px;
-        }
-
-        @media screen and (max-width: 850px) {
-            padding: 32px 60px 0px 60px;
-        }
-
-        @media screen and (max-width: 530px) {
-            padding: 40px 32px 0px 32px;
         }
 
         .hero {
+            width: 512px;
+            grid-column-start: 2;
             display: grid;
             grid-template-columns: auto auto;
             grid-area: 1 / 1 / 2 / 2;
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
 
             img {
                 width: 311px;
@@ -223,12 +75,32 @@
                 }
             }
 
-            @media screen and (max-width: 850px) {
+            @media screen and (max-width: 1297px) {
                 img {
-                    width: 250px;
+                    width: 245px;
                     height: auto;
                 }
 
+                &-message {
+                    width: 245px;
+
+                    img {
+                        width: 35px;
+                        height: auto;
+                    }
+
+                    div:first-child {
+                        margin-bottom: 14px;
+                        font-size: 13px;
+                    }
+
+                    div:last-child {
+                        font-size: 18px;
+                    }
+                }
+            }
+
+            @media screen and (max-width: 747px) {
                 &-message {
                     width: 250px;
 
@@ -247,45 +119,12 @@
                 }
             }
 
-            @media screen and (max-width: 680px) {
-                img {
-                    width: 190px;
-                    height: auto;
-
-                    &.hero-img-1 {
-                        margin-top: 90px;
-                    }
-                }
-
-                &-message {
-                    width: 190px;
-                    height: 70px;
-                    padding: 12px 14px;
-
-                    img {
-                        width: 26px;
-                        height: auto;
-                    }
-
-                    div:first-child {
-                        margin-bottom: 8px;
-                    }
-
-                    div:first-child, div:last-child {
-                        font-size: 14px;
-                    }
-                }
-            }
-
-            @media screen and (max-width: 530px) {
-                grid-area: 1 / 1 / 1 / 1;
-                gap: 0;
-                margin-top: 40px;
+            @media screen and (max-width: 600px) {
+                display: block;
 
                 img {
-                    width: 75%;
-                    height: auto;
-                    align-self: center;
+                    width: 326px;
+                    height: 335px;
 
                     &.hero-img-1 {
                         display: none;
@@ -293,33 +132,15 @@
                 }
 
                 &-message {
-                    width: 75%;
-                    align-self: center;
-
-                    img {
-                        width: 26px;
-                        height: auto;
-                    }
-
-                    div:first-child, div:last-child {
-                        font-size: 14px;
-                    }
+                    display: none;
                 }
             }
         }
 
         .content {
-            min-width: 382px;
-            max-width: 529px;
+            width: 480px;
             margin: auto 0;
             grid-area: 1 / 2 / 2 / 3;
-
-            @media screen and (max-width: 1260px) {
-                display: block;
-                max-width: 642px;
-                margin: 0 auto;
-                margin-top: 40px;
-            }
 
             h2 {
                 margin-bottom: 20px;
@@ -363,15 +184,19 @@
                 }
             }
 
-            @media screen and (max-width: 850px) {
-                margin-top: 0;
+            @media screen and (max-width: 1297px) {
+                width: 507px;
+                margin-top: 64px;
+                display: block;
+            }
 
+            @media screen and (max-width: 747px) {
                 h2 {
-                    font-size: 48px;
+                    font-size: 61px;
                     line-height: 120%;
 
                     img {
-                        width: 35%;
+                        width: 275px;
                     }
                 }
 
@@ -384,27 +209,27 @@
                 }
             }
 
-            @media screen and (max-width: 680px) {
-                max-width: 420px;
+            @media screen and (max-width: 600px) {
+                width: 326px;
 
                 h2 {
-                    font-size: 42px;
+                    font-size: 39px;
 
                     img {
-                        width: 40%;
+                        width: 184px;
                     }
                 }
 
                 p {
-                    font-size: 16px;
+                    font-size: 12px;
                 }
 
                 button {
-                    font-size: 16px;
+                    font-size: 13px;
                 }
             }
 
-            @media screen and (max-width: 530px) {
+            @media screen and (max-width: 390px) {
                 min-width: 0px;
 
                 h2 {
@@ -426,21 +251,42 @@
         background: url('images/Group 68.png') center no-repeat;
         background-size: 1690px auto;
         height: 1168px;
+        margin-top: 80px;
         position: relative;
-        /*&-background {
-        display: none;
-        width: 110%;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-    }*/
+
+        &-background {
+            display: none;
+            position: relative;
+
+            &-blob {
+                width: 1654px;
+                height: auto;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 5;
+            }
+
+            &--graphic1 {
+                width: 336px;
+                height: auto;
+                position: absolute;
+                z-index: 10;
+            }
+
+            &--graphic2 {
+                width: 325px;
+                height: auto;
+                position: absolute;
+                z-index: 10;
+            }
+        }
 
         &--container {
             min-height: 469px;
-            padding-top: 327px;
-            padding-bottom: 327px;
+            padding-top: 325px;
+            padding-bottom: 325px;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: 1fr;
@@ -500,7 +346,7 @@
                 }
             }
 
-            @media screen and (max-width: 1260px) {
+            @media screen and (max-width: 1297px) {
                 grid-template-columns: 1fr 2fr 2fr 1fr;
                 grid-template-rows: repeat(2, 1fr);
                 margin-top: 20px;
@@ -524,7 +370,7 @@
                 }
             }
 
-            @media screen and (max-width: 850px) {
+            @media screen and (max-width: 747px) {
                 padding-top: 225px;
                 gap: 60px;
 
@@ -559,7 +405,7 @@
                 }
             }
 
-            @media screen and (max-width: 680px) {
+            @media screen and (max-width: 600px) {
                 padding-top: 175px;
                 gap: 1.5rem;
 
@@ -595,7 +441,7 @@
                 }
             }
 
-            @media screen and (max-width: 530px) {
+            @media screen and (max-width: 390px) {
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr 1fr 1fr;
 
@@ -657,7 +503,7 @@
             }
         }
 
-        @media screen and (max-width: 1260px) {
+        @media screen and (max-width: 1297px) {
             .ibis-logo--container {
                 gap: 8%;
 
@@ -667,7 +513,7 @@
             }
         }
 
-        @media screen and (max-width: 850px) {
+        @media screen and (max-width: 747px) {
             padding: 40px 40px 80px 40px;
 
             .ibis-logo--container {
@@ -679,7 +525,7 @@
             }
         }
 
-        @media screen and (max-width: 680px) {
+        @media screen and (max-width: 600px) {
             padding-left: 60px;
             padding-right: 60px;
 
@@ -694,7 +540,7 @@
             }
         }
 
-        @media screen and (max-width: 530px) {
+        @media screen and (max-width: 390px) {
             padding-left: 32px;
             padding-right: 32px;
             padding-bottom: 60px;

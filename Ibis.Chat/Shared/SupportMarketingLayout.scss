@@ -1,12 +1,222 @@
 @import '../_variables.scss';
 
+#app {
+    height: 100%; 
+}
+    
+.nav--support {
+    width: 100%;
+    height: 100px;
+    padding: 25px 94px;
+    position: fixed;
+    top: 0;
+    /*display: flex;
+    justify-content: space-between;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: $white;
+    z-index: 500;
+
+    .nav--left {
+        grid-column: 1 / 2;
+
+        h1 {
+            margin: auto 0;
+            font-size: 51px;
+            line-height: 100%;
+        }
+
+        a {
+            font-size: 51px;
+            line-height: 100%;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            img {
+                width: 114px;
+                height: 51px;
+                margin: auto 0;
+            }
+        }
+    }
+
+    .nav--right {
+        /*display: flex;
+        gap: 30px;*/
+        display: grid;
+        grid-column: 3 / 3;
+
+        a {
+            margin: auto 0;
+            color: $grey-500;
+            font-family: 'CircularStd';
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 120%;
+            transition: 250ms ease-in-out;
+
+            &:hover {
+                color: $dark-blue;
+            }
+        }
+
+        button {
+            padding: 13px 37px;
+            background: $white;
+            color: $dark-blue;
+            border: 1px solid $dark-blue;
+            border-radius: 8px;
+            font-family: 'CircularStd';
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 120%;
+            transition: 250ms ease-in-out;
+            align-self: end;
+
+            &:hover {
+                background: $dark-blue;
+                color: $white;
+            }
+        }
+    }
+
+    @media screen and (max-width: 797px) {
+        height: 75px;
+        padding: 10px 40px;
+
+        .nav--left {
+            h1 {
+                font-size: 40px;
+                line-height: 100%;
+                margin: auto 0;
+            }
+
+            img {
+                height: 40px;
+                width: auto;
+            }
+        }
+
+        .nav--right {
+            a {
+                font-size: 16px;
+            }
+
+            button {
+                height: 40px;
+                padding: 10px 14px;
+                margin: auto 0;
+                font-size: 16px;
+                line-height: 100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 680px) {
+        padding: 10px 25px;
+
+        .nav--left {
+            h1, a {
+                font-size: 36px;
+            }
+
+            h1 {
+                margin-top: 10px;
+            }
+
+            img {
+                height: 36px !important;
+                width: auto !important;
+            }
+        }
+    }
+
+    @media screen and (max-width: 530px) {
+        padding: 10px 15px;
+
+        .nav--right {
+            gap: 15px;
+
+            a {
+                font-size: 14px;
+            }
+
+            button {
+                height: 36px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
 main {
     position: relative;
     background: $background;
+    display: grid;
+    grid-template-columns: 1fr repeat(12, 64px) 1fr;
+    grid-column-gap: 30px;
+    grid-template-rows: repeat(163, 8px);
+    grid-row-gap: 8px;
+}
+
+.support-landing {
+    grid-column: 2 / 14;
+}
+
+footer {
+    grid-column: 1 / 15;
 }
 
 .support {
     position: fixed !important;
     right: 0;
     top: 195px;
+}
+
+@media screen and (max-width: 1297px) {
+    main {
+        grid-template-columns: 1fr repeat(8, 64px) 1fr;
+        grid-column-gap: 15px;
+        grid-template-rows: repeat(185, 8px);
+    }
+
+    footer {
+        grid-column: 1 / 10;
+    }
+}
+
+@media screen and (max-width: 747px) {
+    main {
+        grid-template-columns: 1fr repeat(8, 64px) 1fr;
+        grid-template-rows: repeat(153, 8px);
+    }
+
+    footer {
+        grid-column: 1 / 10;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        grid-template-columns: 1fr repeat(4, 64px) 1fr;
+        grid-template-rows: repeat(156, 8px);
+    }
+
+    footer {
+        grid-column: 1 / 7;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    main {
+        grid-template-rows: repeat(163, 8px);
+    }
+
+    footer {
+        grid-column: 1 / 7;
+    }
+
 }
