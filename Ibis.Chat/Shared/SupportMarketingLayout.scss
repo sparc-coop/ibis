@@ -1,11 +1,7 @@
 @import '../_variables.scss';
 
-#app {
-    height: 100%; 
-}
-
 .nav--support {
-    width: 100%;
+    width: 100vw;
     height: 100px;
     padding: 25px 94px;
     position: fixed;
@@ -149,12 +145,13 @@
 }
 
 .main--support-landing {
+    width: 100vw;
     position: relative;
     background: $background;
     display: grid;
     grid-template-columns: 1fr repeat(12, 64px) 1fr;
     grid-column-gap: 30px;
-    grid-template-rows: repeat(163, 8px);
+    grid-template-rows: repeat(153, 8px);
     grid-row-gap: 8px;
 }
 
@@ -167,7 +164,7 @@
 }
 
 footer {
-    grid-column: 1 / 15;
+    width: 100vw !important;
 }
 
 .support {
@@ -180,54 +177,35 @@ footer {
     .main--support-landing {
         grid-template-columns: 1fr repeat(8, 71px) 1fr;
         grid-column-gap: 15px;
-        grid-template-rows: repeat(185, 8px);
+        grid-template-rows: repeat(226, 8px);
     }
 
     .support-landing {
-        grid-column: 2 / 9;
+        grid-column: 2 / 10;
 
         &--header {
             margin: 0 86px;
         }
-    }
 
-    .more-information {
-        margin: 0 94px 0 86px;
-    }
-
-    footer {
-        grid-column: 1 / 10;
+        .more-information {
+            margin: 0 94px 0 86px;
+        }
     }
 }
 
 @media screen and (max-width: 800px) {
     .main--support-landing {
-        grid-template-rows: repeat(180, 8px);
+        grid-template-columns: 0.5fr repeat(8, 71px) 0.5fr;
+        grid-template-rows: repeat(226, 8px);
     }
 
     .support-landing {
         .features {
-            margin: 0 64px;
+            margin: 0;
         }
 
         .more-information {
             margin: 0 71px;
-        }
-    }
-
-    footer {
-        grid-column: 1 / 10;
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .support-landing {
-        &--header {
-            margin: 0 36px;
-        }
-
-        .more-information {
-            margin: 0 36px;
         }
     }
 }
@@ -235,25 +213,18 @@ footer {
 @media screen and (max-width: 600px) {
     .main--support-landing {
         grid-template-columns: 1fr repeat(4, 71px) 1fr;
-        grid-template-rows: repeat(180, 8px);
+        grid-template-rows: repeat(228, 8px);
     }
 
     .support-landing {
         grid-column: 2 / 6;
-    }
 
-    footer {
-        grid-column: 1 / 7;
-    }
-}
+        &--header {
+            margin: 0;
+        }
 
-@media screen and (max-width: 390px) {
-    .main--support-landing {
-        grid-template-rows: repeat(180, 8px);
+        .more-information {
+            margin: 0;
+        }
     }
-
-    footer {
-        grid-column: 1 / 7;
-    }
-
 }
