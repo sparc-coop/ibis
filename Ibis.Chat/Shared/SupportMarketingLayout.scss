@@ -110,7 +110,7 @@
         }
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 673px) {
         padding: 10px 15px;
 
         .nav--left {
@@ -212,7 +212,24 @@ footer {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
+    .support-landing {
+        &--header {
+            margin: 0 71px;
+        }
+    }
+}
+
+@media screen and (max-width: 650px){
+    .support-landing {
+        &--header {
+            margin: 0 auto;
+        }
+    }
+
+}
+
+@media screen and (max-width: 673px) {
     .main--support-landing {
         grid-template-columns: 1fr repeat(4, 71px) 1fr;
         grid-template-rows: repeat(237, 8px);
@@ -231,7 +248,7 @@ footer {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 390px) {
     .main--support-landing {
         grid-template-rows: repeat(235, 8px);
     }

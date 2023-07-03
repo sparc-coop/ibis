@@ -1477,7 +1477,7 @@
     line-height: 100%;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .nav--support {
     padding: 10px 15px;
   }
@@ -1562,7 +1562,17 @@ footer {
     margin: 0 71px;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
+  .support-landing--header {
+    margin: 0 71px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .support-landing--header {
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 673px) {
   .main--support-landing {
     grid-template-columns: 1fr repeat(4, 71px) 1fr;
     grid-template-rows: repeat(237, 8px);
@@ -1577,7 +1587,7 @@ footer {
     margin: 0;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 390px) {
   .main--support-landing {
     grid-template-rows: repeat(235, 8px);
   }
@@ -1969,7 +1979,7 @@ footer .footer--container a {
     font-size: 20px;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .support-landing--header .hero {
     display: block;
   }
@@ -2045,7 +2055,7 @@ footer .footer--container a {
     font-size: 16px;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .support-landing--header .content {
     width: 326px;
   }
@@ -2131,7 +2141,7 @@ footer .footer--container a {
     right: -71px;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .support-landing .features {
     margin-top: 215px;
     margin-bottom: 300px;
@@ -2210,15 +2220,15 @@ footer .footer--container a {
 }
 @media screen and (max-width: 1012px) {
   .support-landing .features--container {
-    width: 100%;
+    max-width: 600px;
     margin: 0;
   }
   .support-landing .features--container div.feature-1, .support-landing .features--container div.feature-2, .support-landing .features--container div.feature-3 {
-    margin: 0;
+    margin: 0 auto;
     align-self: center !important;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .support-landing .features--container div {
     width: 326px;
   }
@@ -2278,7 +2288,7 @@ footer .footer--container a {
     height: 40px;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 673px) {
   .support-landing .more-information {
     width: 326px;
   }
