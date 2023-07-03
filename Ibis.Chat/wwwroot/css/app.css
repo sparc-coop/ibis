@@ -2365,7 +2365,7 @@ footer .footer--container a {
   display: block;
   z-index: 1001;
 }
-@media screen and (max-width: 889px) {
+@media screen and (max-width: 800px) {
   .support-language {
     width: 36px;
     height: 81px;
@@ -2422,7 +2422,7 @@ footer .footer--container a {
 .support-helpdesk .helpdesk.open {
   display: block;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .support-helpdesk .open-helpdesk .support-icon {
     width: 36px;
     height: 36px;
@@ -2441,7 +2441,7 @@ footer .footer--container a {
   border-radius: 8px;
   z-index: 1001;
 }
-@media screen and (max-width: 889px) {
+@media screen and (max-width: 800px) {
   .support-language--dropdown {
     right: 43px;
   }
