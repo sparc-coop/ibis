@@ -248,20 +248,20 @@
     }
 
     .features {
-        background: url('images/Group 68.png') center no-repeat;
-        background-size: 1690px auto;
-        margin-top: 104px;
-        margin-bottom: 137px;
+        /* background: url('images/Group 68.png') center no-repeat;
+        background-size: 1690px auto;*/
+        margin-top: 80px;
+        margin-bottom: 123px;
+        padding-top: 325px;
+        padding-bottom: 362px;
         position: relative;
 
         &-background {
-            display: none;
-            position: relative;
-
-            &-blob {
+            &--blob {
                 width: 1654px;
-                height: auto;
+                height: 1146px;
                 position: absolute;
+                opacity: 0.8;
                 top: 0;
                 left: 50%;
                 transform: translateX(-50%);
@@ -270,21 +270,74 @@
 
             &--graphic1 {
                 width: 336px;
-                height: auto;
+                height: 235px;
                 position: absolute;
+                top: 66px;
+                left: -172px;
                 z-index: 10;
             }
 
             &--graphic2 {
                 width: 325px;
-                height: auto;
+                height: 223px;
                 position: absolute;
+                bottom: 57px;
+                right: -162px;
                 z-index: 10;
             }
         }
 
+        @media screen and (max-width: 1297px) {
+            margin-top: 105px;
+            margin-bottom: 195px;
+            padding-top: 247px;
+            padding-bottom: 236px;
+
+            &-background {
+                &--blob {
+                    width: 2500px;
+                    height: 1732px;
+                }
+
+                &--graphic1 {
+                    top: 47px;
+                    left: -90px;
+                }
+
+                &--graphic2 {
+                    bottom: -58px;
+                    right: -71px;
+                }
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            margin-top: 215px;
+            margin-bottom: 300px;
+            padding-top: 200px;
+            padding-bottom: 257px;
+
+            &-background {
+                &--blob {
+                    width: 2500px;
+                    height: 1732px;
+                    left: 60%;
+                    transform: translateX(-60%);
+                }
+
+                &--graphic1 {
+                    top: -71px;
+                    left: -93px;
+                }
+
+                &--graphic2 {
+                    bottom: -30px;
+                    right: -81px;
+                }
+            }
+        }
+
         &--container {
-            padding: 247px 0;
             display: flex;
             justify-content: center;
             gap: 32px;

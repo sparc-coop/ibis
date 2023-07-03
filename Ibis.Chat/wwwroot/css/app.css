@@ -1513,7 +1513,7 @@
   display: grid;
   grid-template-columns: 1fr repeat(12, 64px) 1fr;
   grid-column-gap: 30px;
-  grid-template-rows: repeat(153, 8px);
+  grid-template-rows: repeat(162, 8px);
   grid-row-gap: 8px;
 }
 
@@ -1565,7 +1565,7 @@ footer {
 @media screen and (max-width: 600px) {
   .main--support-landing {
     grid-template-columns: 1fr repeat(4, 71px) 1fr;
-    grid-template-rows: repeat(228, 8px);
+    grid-template-rows: repeat(237, 8px);
   }
   .support-landing {
     grid-column: 2/6;
@@ -1575,6 +1575,11 @@ footer {
   }
   .support-landing .more-information {
     margin: 0;
+  }
+}
+@media screen and (max-width: 600px) {
+  .main--support-landing {
+    grid-template-rows: repeat(235, 8px);
   }
 }
 .room-layout header {
@@ -2072,20 +2077,19 @@ footer .footer--container a {
   }
 }
 .support-landing .features {
-  background: url("../../images/Group 68.png") center no-repeat;
-  background-size: 1690px auto;
-  margin-top: 104px;
-  margin-bottom: 137px;
+  /* background: url('../../images/Group 68.png') center no-repeat;
+  background-size: 1690px auto;*/
+  margin-top: 80px;
+  margin-bottom: 123px;
+  padding-top: 325px;
+  padding-bottom: 362px;
   position: relative;
 }
-.support-landing .features-background {
-  display: none;
-  position: relative;
-}
-.support-landing .features-background-blob {
+.support-landing .features-background--blob {
   width: 1654px;
-  height: auto;
+  height: 1146px;
   position: absolute;
+  opacity: 0.8;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -2093,18 +2097,63 @@ footer .footer--container a {
 }
 .support-landing .features-background--graphic1 {
   width: 336px;
-  height: auto;
+  height: 235px;
   position: absolute;
+  top: 66px;
+  left: -172px;
   z-index: 10;
 }
 .support-landing .features-background--graphic2 {
   width: 325px;
-  height: auto;
+  height: 223px;
   position: absolute;
+  bottom: 57px;
+  right: -162px;
   z-index: 10;
 }
+@media screen and (max-width: 1297px) {
+  .support-landing .features {
+    margin-top: 105px;
+    margin-bottom: 195px;
+    padding-top: 247px;
+    padding-bottom: 236px;
+  }
+  .support-landing .features-background--blob {
+    width: 2500px;
+    height: 1732px;
+  }
+  .support-landing .features-background--graphic1 {
+    top: 47px;
+    left: -90px;
+  }
+  .support-landing .features-background--graphic2 {
+    bottom: -58px;
+    right: -71px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .support-landing .features {
+    margin-top: 215px;
+    margin-bottom: 300px;
+    padding-top: 200px;
+    padding-bottom: 257px;
+  }
+  .support-landing .features-background--blob {
+    width: 2500px;
+    height: 1732px;
+    left: 60%;
+    transform: translateX(-60%);
+  }
+  .support-landing .features-background--graphic1 {
+    top: -71px;
+    left: -93px;
+  }
+  .support-landing .features-background--graphic2 {
+    bottom: -30px;
+    right: -81px;
+  }
+}
 .support-landing .features--container {
-  padding: 247px 0;
   display: flex;
   justify-content: center;
   gap: 32px;

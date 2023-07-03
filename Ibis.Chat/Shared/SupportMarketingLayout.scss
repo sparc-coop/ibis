@@ -153,7 +153,7 @@
     display: grid;
     grid-template-columns: 1fr repeat(12, 64px) 1fr;
     grid-column-gap: 30px;
-    grid-template-rows: repeat(153, 8px);
+    grid-template-rows: repeat(162, 8px);
     grid-row-gap: 8px;
 }
 
@@ -215,7 +215,7 @@ footer {
 @media screen and (max-width: 600px) {
     .main--support-landing {
         grid-template-columns: 1fr repeat(4, 71px) 1fr;
-        grid-template-rows: repeat(228, 8px);
+        grid-template-rows: repeat(237, 8px);
     }
 
     .support-landing {
@@ -228,5 +228,11 @@ footer {
         .more-information {
             margin: 0;
         }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main--support-landing {
+        grid-template-rows: repeat(235, 8px);
     }
 }
