@@ -31,7 +31,7 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          az webapp deployment slot create --name ${{ vars.AZURE_WEBAPP_NAME }} --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --slot ${{ env.DEPLOYMENT_SLOT }} --configurationSource ${{ vars.AZURE_WEBAPP_NAME }}
+          az webapp deployment slot create --name ${{ vars.AZURE_WEBAPP_NAME }} --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --slot ${{ env.DEPLOYMENT_SLOT }} --configuration-source ${{ vars.AZURE_WEBAPP_NAME }}
 
     - uses: actions/checkout@v3
   
