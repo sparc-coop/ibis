@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Ibis.Messages;
 
@@ -190,5 +191,23 @@ public class Message : Entity<string>
 
         DeletedDate = DateTime.UtcNow;
         Broadcast(new MessageDeleted(this));
+    }
+
+    public void ToText() => Text = $"{User?.Name} {Timestamp:MM/dd/yyyy hh:mm tt}: {Text}";
+    
+    internal void ToSubtitles(DateTime firstMessageTimestamp)
+    {
+        if (Audio == null)
+            Text = string.Empty;
+
+        var start = Timestamp - firstMessageTimestamp;
+        var end = Timestamp.Add(new(Audio!.Duration)) - firstMessageTimestamp;
+
+        Text = $"{start:hh\\:mm\\:ss\\,fff} --> {end:hh\\:mm\\:ss\\,fff}{Environment.NewLine}{Text}{Environment.NewLine}";
+    }
+
+    internal void ToBrailleAscii()
+    {
+        Text = BrailleConverter.Convert(Text);
     }
 }
