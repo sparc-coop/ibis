@@ -1,0 +1,60 @@
+name: Build and deploy any branch push to an Azure Web App development slot
+on:
+  push
+
+env:
+  DOTNET_CORE_VERSION: 7.0.x
+  CONFIGURATION: Release
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+    
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Issue Deployment Slot Name
+      run: echo "DEPLOYMENT_SLOT=${GITHUB_REF_NAME////-}" >> $GITHUB_ENV
+    
+    - name: Create Deployment Slot
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az webapp deployment slot create --name ${{ vars.AZURE_WEBAPP_NAME }} --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --slot ${{ env.DEPLOYMENT_SLOT }} --configurationSource ${{ vars.AZURE_WEBAPP_NAME }}
+
+    - uses: actions/checkout@v3
+  
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+    - name: Restore
+      run: dotnet restore "${{ vars.PROJECT_DIRECTORY }}"
+
+    - name: Build
+      run: dotnet build "${{ vars.PROJECT_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Test
+      run: dotnet test "${{ vars.PROJECT_DIRECTORY }}" --no-build
+
+    - name: Publish
+      run: dotnet publish "${{ vars.PROJECT_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ vars.PROJECT_DIRECTORY }}/published"
+
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+        slot-name: ${{ env.DEPLOYMENT_SLOT }}
+        package: '${{ vars.PROJECT_DIRECTORY }}/published'
