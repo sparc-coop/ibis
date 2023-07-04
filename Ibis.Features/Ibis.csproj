@@ -23,4 +23,9 @@
     <PackageReference Include="Sparc.Blossom.Data.AzureStorage" Version="7.1.0" />
     <PackageReference Include="Stripe.net" Version="41.20.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ibis.Chat\Ibis.Chat.csproj" />
+    <ProjectReference Include="..\Ibis.Ink\Ibis.Ink.csproj" />
+  </ItemGroup>
 </Project>
