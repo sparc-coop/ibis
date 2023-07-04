@@ -1,8 +1,4 @@
 ﻿using Ibis.Messages.Queries;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using Sparc.Ibis;
 using System.Text;
 
 namespace Ibis.Messages;
@@ -16,14 +12,14 @@ public class Messages : BlossomAggregate<Message>
         GetAllAsync = GetAll;
     }
 
-    public async Task<IResult> GetAll(IRepository<Message> messages, IRepository<Room> rooms, IRepository<Language> User? user, string id, HttpRequest request, int? take = null)
+    public async Task<IResult> GetAll(IRepository<Message> messages, IRepository<Room> rooms, IRepository<Language> languages, User? user, string id, HttpRequest request, int? take = null)
     {
         var room = await rooms.FindAsync(id);
 
         var language = await languages.FindAsync(new GetLanguage(request, room, user));
         var accept = request.GetTypedHeaders().Accept.OrderByDescending(x => x.Quality).FirstOrDefault();
         var format = accept?.MediaType == "text/plain" ? accept.Charset.Value : null;
-        var result = await messages.GetAllAsync(new GetMessages(id, language, user, room, format, take));
+        var result = await messages.GetAllAsync(new GetMessages(id, language!.Id, format, take));
 
         if (format != null)
         { 
