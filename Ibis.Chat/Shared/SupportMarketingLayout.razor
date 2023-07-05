@@ -19,7 +19,6 @@
         <div class="mobile-menu @ShowMobileMenu">
             <div class="mobile-menu--links">
                 <button class="contact-us">Contact Us</button>
-
             </div>
         </div>
     </nav>
@@ -37,7 +36,7 @@
 @code {
     UserAvatar? User;
     bool isUserBeingGot;
-    string ShowMobileMenu;
+    string ShowMobileMenu = "";
 
     protected override async Task OnParametersSetAsync()
     {
