@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Ibis._Plugins;
+using System.Text;
 using File = Sparc.Blossom.Data.File;
 
 namespace Ibis.Rooms;
@@ -28,8 +29,8 @@ public class Room : Entity<string>
         HostUser = hostUser.Avatar;
     }
 
-    private Room() 
-    { 
+    private Room()
+    {
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
         RoomType = "Chat";
@@ -54,7 +55,7 @@ public class Room : Entity<string>
 
         if (user.PrimaryLanguage != null)
             AddLanguage(user.PrimaryLanguage);
-        
+
         Broadcast(new UserJoined(Id, activeUser));
     }
 
@@ -102,10 +103,72 @@ public class Room : Entity<string>
         EndDate = DateTime.UtcNow;
     }
 
-    void InviteUser(UserAvatar user)
+    public record InviteUserRequest(string Email, string? Language);
+    public async Task<UserAvatar> InviteUser(InviteUserRequest request, User invitingUser, IRepository<User> users, ITranslator translator, BlossomAuthenticator<User> authenticator, IConfiguration configuration, HttpRequest httpRequest, TwilioService twilio)
     {
-        if (!Users.Any(x => x.Id == user.Id))
-            Users.Add(user);
+        var user = users.Query.FirstOrDefault(u => u.Email == request.Email);
+        var language = user?.PrimaryLanguage?.Id ?? request.Language;
+
+        var dictionary = new Dictionary<string, string>
+            {
+                { "YourFriend", "Your friend" },
+                { "GuessSentence", "Guess what..." },
+                { "InvitationSentence", "has invited you to join them on Ibis!" },
+                { "JoinSentence", "Click the button below to join them now" },
+                { "JoinButton", "Join" },
+                { "QuestionSentence", "What is Ibis?" },
+                { "ExplanationSentence", "Ibis enables you to communicate in *your* language and communication style." },
+                { "LearnButton", "Learn More" },
+                { "HelpQuestion", "Need help joining? Questions about accounts or billing?" },
+                { "HelpSentence", "We're here to help. Our customer service reps are available most of the time." },
+                { "ContactUs", "Contact Us" },
+                { "Unsubscribe", "Unsubscribe" },
+                { "UnsubscribePreferences", "Unsubscribe Preferences" },
+                { "Powered", "POWERED BY IBIS" },
+            };
+
+        if (language != null)
+        {
+            foreach (var key in dictionary.Keys)
+                dictionary[key] = await translator.TranslateAsync(dictionary[key], "en", language) ?? dictionary[key];
+        }
+
+        if (user == null)
+        {
+            user = new(request.Email);
+            if (language != null)
+            {
+                await user.ChangeVoiceAsync(language, translator);
+            }
+            await users.AddAsync(user);
+        }
+
+        string roomLink = await authenticator.CreateMagicSignInLinkAsync(user.Email!, $"{configuration["WebClientUrl"]}/rooms/{Id}");
+        roomLink = $"{httpRequest.Scheme}://{httpRequest.Host.Value}{roomLink}";
+
+        var templateData = new
+        {
+            RoomName = Name,
+            InvitingUser = invitingUser?.Avatar.Name ?? dictionary["YourFriend"],
+            RoomLink = roomLink,
+            GuessSentence = dictionary["GuessSentence"],
+            InvitationSentence = dictionary["InvitationSentence"],
+            JoinSentence = dictionary["JoinSentence"],
+            JoinButton = dictionary["JoinButton"],
+            QuestionSentence = dictionary["QuestionSentence"],
+            ExplanationSentence = dictionary["ExplanationSentence"],
+            LearnButton = dictionary["LearnButton"],
+            HelpQuestion = dictionary["HelpQuestion"],
+            HelpSentence = dictionary["HelpSentence"],
+            ContactUs = dictionary["ContactUs"],
+            Unsubscribe = dictionary["Unsubscribe"],
+            UnsubscribePreferences = dictionary["UnsubscribePreferences"],
+            Powered = dictionary["Powered"]
+        };
+
+        await twilio.SendEmailTemplateAsync(request.Email, "d-24b6f07e97a54df2accc40a9789c0e23", templateData);
+
+        return user.Avatar;
     }
 
     void AddLanguage(Language language)

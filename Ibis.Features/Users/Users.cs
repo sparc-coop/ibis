@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.OutputCaching;
+﻿using Ibis._Plugins;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace Ibis.Users;
 
@@ -6,10 +7,10 @@ public class Users : BlossomAggregate<User>
 {
     public Users()
     {
-        GetAsync = (User user) => user.Avatar; 
+        GetAsync = (User user) => user.Avatar;
         UpdateAsync = (User user, UserAvatar avatar) => user.UpdateAvatar(avatar);
     }
-
+    
     public record GetEmojisResponse(List<string> Skintones, List<string> Emojis, List<string> Colors);
     [OutputCache(Duration = 3600)]
     public Task<GetEmojisResponse> GetEmojis()

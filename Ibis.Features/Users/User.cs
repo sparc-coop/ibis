@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Ibis._Plugins;
+using System.Security.Claims;
 
 namespace Ibis.Users;
 
@@ -72,7 +73,7 @@ public class User : BlossomUser
         return roomId;
     }
 
-    public async Task<string?> ChangeVoice(string languageId, string? voiceName, ITranslator translator, ISpeaker speaker)
+    public async Task<string?> ChangeVoiceAsync(string languageId, ITranslator translator, string? voiceName = null, ISpeaker? speaker = null)
     {
         var language = await translator.GetLanguageAsync(languageId)
             ?? throw new Exception("Language not found!");
@@ -87,13 +88,16 @@ public class User : BlossomUser
 
         if (voiceName != null)
         {
-            var voices = await speaker.GetVoicesAsync(languageId);
+            var voices = await speaker!.GetVoicesAsync(languageId);
             var voice = voices.FirstOrDefault(x => x.ShortName == voiceName)
                 ?? throw new Exception("Voice doesn't match language!");
 
             Avatar.Voice = voice?.ShortName;
             Avatar.Dialect = voice?.Locale;
             Avatar.Gender = voice?.Gender;
+
+            var speech = await GenerateVoiceSampleAsync(translator, speaker);
+            return new(speech?.Url);
         }
 
         Broadcast(new UserAvatarUpdated(Avatar));
@@ -101,8 +105,7 @@ public class User : BlossomUser
         if (hasLanguageChanged)
             Broadcast(new UserLanguageChanged(Id, Avatar.Language));
 
-        var speech = await GenerateVoiceSampleAsync(translator, speaker);
-        return new(speech?.Url);
+        return null;
     }
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);

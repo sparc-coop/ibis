@@ -64,13 +64,8 @@ public class IbisLoginModel : LoginModel
         {
             user = new(Email);
             if (language != null)
-            {
-                var userLanguage = await Translator.GetLanguageAsync(language);
-                if (userLanguage != null)
-                {
-                    user.ChangeVoice(userLanguage);
-                }
-            }
+                await user.ChangeVoiceAsync(language, Translator);
+
             await Users.AddAsync(user);
         }
 
