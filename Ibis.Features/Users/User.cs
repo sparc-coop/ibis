@@ -1,5 +1,4 @@
-﻿using Ibis._Plugins;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace Ibis.Users;
 
@@ -122,7 +121,7 @@ public class User : BlossomUser
         Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
     }
 
-    internal void UpdateAvatar(UserAvatar avatar)
+    internal UserAvatar UpdateAvatar(UserAvatar avatar)
     {
         Avatar.Id = Id;
         Avatar.Voice = avatar.Voice;
@@ -138,6 +137,7 @@ public class User : BlossomUser
         Avatar.MuteMe = avatar.MuteMe;
 
         Broadcast(new UserAvatarUpdated(Avatar));
+        return avatar;
     }
 
     internal void SetUpBilling(string customerId, string currency)
