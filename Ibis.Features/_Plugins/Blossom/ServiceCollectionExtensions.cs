@@ -1,8 +1,10 @@
-﻿namespace Ibis._Plugins.Blossom;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Ibis._Plugins.Blossom;
 
 public static class ServiceCollectionExtensions
 {
-    public static WebApplication Host(this WebApplication app, string domainName, int developmentPort, string staticWebAssetBasePath)
+    public static WebApplication Host(this WebApplication app, string domainName, int developmentPort, string staticWebAssetBasePath, RenderMode renderMode)
     {
         app.MapWhen(x => x.Request.Host.Port == developmentPort || x.Request.Host.Equals(domainName), subapp =>
         {
@@ -21,7 +23,14 @@ public static class ServiceCollectionExtensions
             subapp.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile(subpath + "/{*path:nonfile}", subpath + "/index.html");
+                if (renderMode == RenderMode.ServerPrerendered || renderMode == RenderMode.WebAssemblyPrerendered)
+                {
+                    endpoints.MapFallbackToPage(renderMode == RenderMode.ServerPrerendered ? "/_ServerHost" : "/_WebAssemblyHost");
+                }
+                else
+                {
+                    endpoints.MapFallbackToFile(subpath + "/{*path:nonfile}", subpath + "/index.html");
+                }
             });
 
             if (app.Environment.IsDevelopment())
@@ -30,6 +39,8 @@ public static class ServiceCollectionExtensions
                 subapp.UseWebAssemblyDebugging();
             }
         });
+
+        return app;
     }
 
     public static WebApplication Blossom<TUser>(this WebApplicationBuilder builder, Action<IServiceCollection> services) where TUser : BlossomUser, new()

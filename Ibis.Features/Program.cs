@@ -1,6 +1,7 @@
 using Ibis;
 using Ibis._Plugins.Blossom;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +18,9 @@ var app = builder.Blossom<User>(s =>
         .AddSingleton<ExchangeRates>()
         .AddScoped<GetAllContent>());
 
-// builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
-app.Host("ibis.chat", 5001, "Chat");
-app.Host("ibis.ink", 5002, "Ink");
+app.Host("ibis.chat", 5001, "Chat", RenderMode.WebAssembly);
+app.Host("ibis.ink", 5002, "Ink", RenderMode.WebAssembly);
+app.Host("ibis.support", 5003, "Support", RenderMode.WebAssembly);
 
 app.MapHub<IbisHub>("/hub");
 app.UseAllCultures();
