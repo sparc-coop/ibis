@@ -12,7 +12,7 @@
             </p>
         </div>
         <div class="background--container">
-            <div class="background-image"></div>
+            <div class="background-image" style="@ShowHeroBackground"></div>
         </div>
         <div class="slide--container">
             <div class="slide-down" @onclick=slideDown>
@@ -95,7 +95,7 @@
 
 @code {
     string ShowHero = "";
-    string HeroBackgroundAnimation = "";
+    string ShowHeroBackground = "";
     string ShowContent = "";
     string SlideDownAnimation = "";
 
@@ -115,10 +115,9 @@
 
     void slideDown()
     {
-        SlideDownAnimation = "animation: fadeOut 600ms ease-in-out;";
         ShowHero = "hide";
         ShowContent = "show";
-        HeroBackgroundAnimation = "animation: fadeOutSlideUp 600ms ease-in-out;";
+        ShowHeroBackground = "display: none;";
     }
 
     void changeSlide(int slideStart, int slideNext)

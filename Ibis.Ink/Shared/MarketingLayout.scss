@@ -236,6 +236,42 @@
     }
 }
 
-main {
+.main--landing {
     width: 100vw;
+    background: $background;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr repeat(12, 64px) 1fr;
+    grid-column-gap: 30px;
+}
+
+.landing {
+    grid-column: 2/14;
+
+    &--header {
+    }
+}
+
+@media screen and (max-width: 1098px) {
+    .main--landing {
+        grid-template-columns: 1fr repeat(8, 71px) 1fr;
+        grid-column-gap: 15px;
+    }
+
+    .landing {
+        grid-column: 2/10;
+    }
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 673px) {
+    .main--landing {
+        grid-template-columns: 1fr repeat(4, 71px) 1fr;
+    }
+
+    .landing {
+        grid-column: 2/6;
+    }
 }
