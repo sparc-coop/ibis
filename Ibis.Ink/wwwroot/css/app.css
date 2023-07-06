@@ -1414,6 +1414,11 @@
   border-radius: 4px;
   color: #003B5F;
   text-align: center;
+  transition: 250ms ease-in-out;
+}
+.nav--landing .mobile-menu .get-started:hover {
+  background: #003B5F;
+  color: #FFFFFF;
 }
 .nav--landing .mobile-menu--overlay {
   display: none;
