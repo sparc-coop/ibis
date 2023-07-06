@@ -12,7 +12,7 @@
     }
 
     &--header {
-        height: calc(100vh - 100px);
+        height: 100%;
         overflow: hidden;
         position: relative;
         transition: 300ms ease-in-out;
@@ -150,7 +150,7 @@
 
     &--content {
         width: 100%;
-        height: calc(100vh - 100px);
+        height: 100%;
         position: relative;
         display: none;
 
@@ -198,11 +198,15 @@
             }
         }
 
+        .section--container {
+            height: 100%;
+        }
+
         section {
             position: relative;
             display: block;
             width: 100%;
-            height: calc(100vh - 100px);
+            height: 100%;
             overflow-y: hidden;
 
             .content {
@@ -314,7 +318,7 @@
 
         .section--background {
             width: 100%;
-            height: calc(100vh - 100px);
+            height: 100%;
             position: fixed;
             top: 100px;
             left: 0;
@@ -322,8 +326,8 @@
             overflow: hidden;
 
             .blob-background {
-                width: 150% !important;
-                height: 200% !important;
+                width: 150%;
+                height: 200%;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -336,31 +340,23 @@
 
             @media screen and (max-width: 1098px) {
                 .blob-background {
-                    width: 774px !important;
-                    height: 1091px !important;
+                    width: 774px;
+                    height: 1091px;
                 }
+            }
+
+            @media screen and (max-width: 800px) {
+                top: 75px;
             }
 
             @media screen and (max-width: 480px) {
                 .blob-background {
-                    width: 574px !important;
-                    height: 811px !important;
+                    width: 574px;
+                    height: 811px;
                 }
             }
         }
 
-        @media screen and (max-width: 800px) {
-            height: calc(100vh - 75px);
-
-            section {
-                height: calc(100vh - 75px);
-            }
-
-            .section--background {
-                height: calc(100vh - 75px);
-                top: 75px;
-            }
-        }
 
         .slide-indicators {
             width: 100vw;
