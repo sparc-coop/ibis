@@ -105,15 +105,15 @@
     [CascadingParameter] public UserAvatar? Me { get; set; }
     string? Text;
     string? TextPreview;
-    string? Dialect;
-    ElementReference TextArea;
+    string? Dialect = null;
+    //ElementReference TextArea;
     bool IsSpeak => IsListening || string.IsNullOrWhiteSpace(Text);
-    bool preventDefault = false;
+    //bool preventDefault = false;
     bool LiveMode = true;
     string markdownValue = "#Markdown Editor\nThis is a test";
-    string markdownHtml;
+    string markdownHtml = string.Empty;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (SelectedMessage != null)
         {
@@ -128,7 +128,7 @@
         return Task.CompletedTask;
     }
 
-    async Task OnMarkdownValueHTMLChanged(string value)
+    void OnMarkdownValueHTMLChanged(string value)
     {
         markdownHtml = value;
         Text = markdownHtml;
@@ -138,12 +138,12 @@
     {
         if (args.Code == "Enter" && !args.ShiftKey)
         {
-            preventDefault = true;
+            //preventDefault = true;
             await SendText();
         }
         else
         {
-            preventDefault = false;
+            //preventDefault = false;
         }
     }
 
@@ -238,7 +238,7 @@
 
         StateHasChanged();
 
-        await TextArea.FocusAsync();
+        //await TextArea.FocusAsync();
     }
 
     [JSInvokable]

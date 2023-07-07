@@ -1,5 +1,9 @@
 using Ibis;
 using Ibis._Plugins.Blossom;
+using Ibis._Plugins.Database;
+using Ibis._Plugins.Realtime;
+using Ibis._Plugins.Speech;
+using Ibis._Plugins.Translation;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Stripe;
@@ -15,8 +19,7 @@ var app = builder.Blossom<User>(s =>
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>());
+        .AddSingleton<ExchangeRates>());
 
 app.Host("ibis.chat", 5001, "Chat", RenderMode.WebAssembly);
 app.Host("ibis.ink", 5002, "Ink", RenderMode.WebAssembly);

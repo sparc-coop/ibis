@@ -109,19 +109,20 @@
         AudioPreviewUrl = result.PreviewAudioUrl;
     }
 
-    void KeyboardSelection(KeyboardEventArgs e, Dialect dialect)
+    async Task KeyboardSelection(KeyboardEventArgs e, Dialect dialect)
     {
         if (e.Key == "Enter")
         {
-            SetDialect(dialect);
+            await SetDialect(dialect);
         }
     }
 
-    void KeyboardSelection(KeyboardEventArgs e, string gender)
+    Task KeyboardSelection(KeyboardEventArgs e, string gender)
     {
         if (e.Key == "Enter")
         {
             SetGender(gender);
         }
+        return Task.CompletedTask;
     }
 }

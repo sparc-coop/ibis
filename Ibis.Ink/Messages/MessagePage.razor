@@ -78,7 +78,7 @@
 
         if(IsBlog == true)
         {
-            Message.Type = "blog";
+            Message!.Type = "blog";
             await Api.UpdateMessageTypeAsync(new UpdateMessageTypeRequest { MessageId = Message.Id, RoomId = RoomId, Type = Message.Type });
         }
     }

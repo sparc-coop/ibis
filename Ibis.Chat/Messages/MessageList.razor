@@ -56,8 +56,9 @@
         Messages = response.Content.ToList();
         if (Language != response.Language)
         {
-            await Hub.InvokeAsync("StopWatching", Room.RoomId + "|" + Language);
             Language = response.Language;
+            if (Hub != null)
+                await Hub.InvokeAsync("StopWatching", Room.RoomId + "|" + Language);
         }
 
         var subscriptionId = Room.RoomId + "|" + Language;
@@ -86,7 +87,7 @@
     {
         SelectedMessage = null;
 
-        var existingId = Messages.FindIndex(x => 
+        var existingId = Messages!.FindIndex(x => 
            x.Id == message.Id 
         || x.Id == message.SourceMessageId
         || message.Id == x.SourceMessageId
@@ -106,7 +107,7 @@
 
     void RemoveMessage(Message message)
     {
-        var existing = Messages.Find(x => x.Id == message.Id);
+        var existing = Messages!.Find(x => x.Id == message.Id);
         if (existing != null)
         {
             existing.DeletedDate = message.DeletedDate;

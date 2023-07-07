@@ -1,4 +1,5 @@
 ﻿@using System.Web
+@using Sparc.Ibis.Ink
 @inherits RealtimeComponent
 
 <article tabindex="0" class="message-list-card ibis-ignore" @onclick="@(e => GoToContent(Message.Id))">
@@ -11,7 +12,7 @@
             </li>
         </ul>
     }
-    <Sparc.Ibis.IbisContent Message="Message" />
+    <IbisContent Message="Message" />
 </article>
 
 @code {

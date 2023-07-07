@@ -42,7 +42,7 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    bool ShowOnboarding;
+    //bool ShowOnboarding;
     string HubUrl => Config["ApiUrl"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
@@ -59,12 +59,12 @@
 
     void OpenMenu() => ShowMenu = !ShowMenu;
 
-    void CloseOnboarding() => ShowOnboarding = false;
+    //void CloseOnboarding() => ShowOnboarding = false;
 
     void EditAvatar()
     {
         ShowMenu = false;
-        ShowOnboarding = true;
+        //ShowOnboarding = true;
     }
 
     bool isUserBeingGot;
@@ -76,8 +76,8 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Voice == null)
-                ShowOnboarding = true;
+            //if (User != null && User.Voice == null)
+            //    ShowOnboarding = true;
             StateHasChanged();
             isUserBeingGot = false;
         }

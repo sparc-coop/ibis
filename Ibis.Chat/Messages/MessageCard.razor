@@ -3,7 +3,7 @@
 
 <article tabindex="0" class="message-card ibis-ignore @(Message.DeletedDate != null ? "message-card-deleted" : "")" @onclick="GoToSubroom">
     <Avatar User="User" SpillBackground="true" />
-    <Sparc.Ibis.IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" AutoPlay="@AutoPlay" />
+    <IbisContent Message="Message" OnEdit="Edit" OnDelete="Delete" AutoPlay="@AutoPlay" />
 </article>
 
 @code {

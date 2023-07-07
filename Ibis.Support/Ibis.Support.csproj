@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<StaticWebAssetBasePath>Support</StaticWebAssetBasePath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="compilerconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="compilerconfig.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="compilerconfig.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Sparc.Blossom.Client" Version="8.0.0-pre.6" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Sparc.Blossom.Client" Version="8.0.0-pre.6" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Sparc.Ibis\Sparc.Ibis.csproj" />
+	</ItemGroup>
 
 </Project>

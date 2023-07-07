@@ -71,7 +71,7 @@
             var ticks = await Api.GetUserBalanceAsync();
             Balance = TimeSpan.FromTicks(ticks);
 
-            var rooms = await Api.GetRoomsAsync();
+            var rooms = await Api.GetRoomsAsync("Chat");
             Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
             OriginalList = Rooms;
         }
@@ -112,7 +112,7 @@
 
         if (searchTerm.Length >= 3)
         {
-            Rooms = Rooms.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
+            Rooms = Rooms!.Where(x => x.Name.ToLower().Contains(searchTerm)).ToList();
         }
         else if (string.IsNullOrEmpty(searchTerm))
         {

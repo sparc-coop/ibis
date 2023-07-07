@@ -39,7 +39,7 @@
         await JS.InvokeVoidAsync("triggerFileDownload", audio.Url);
     }
 
-    async Task DownloadText(string format)
+    void DownloadText(string format)
     {
         //var result = await Api.GetRoomTextAsync(new GetRoomTextRequest { RoomId = RoomInfo!.RoomId, Format = format });
 

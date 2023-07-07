@@ -56,7 +56,6 @@
     bool ShowMenu;
     bool IsRoom;
     string HubUrl => Config["Blossom:Authority"] + "/hub";
-    UserBalance BalanceComponent;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -77,8 +76,6 @@
         ShowMenu = false;
         Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
     }
-
-    async Task AddFunds() => await BalanceComponent.AddFunds();
 
     bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)

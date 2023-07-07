@@ -2,7 +2,6 @@
 @implements IAsyncDisposable
 @layout RoomLayout
 @page "/rooms/{Id}"
-@using Microsoft.AspNetCore.WebUtilities
 
 <CascadingValue Value="RoomInfo?.Users">
     <section class="room room-@(RoomInfo == null ? "loading" : "chat")">
@@ -74,7 +73,7 @@
     [Parameter] public string Id { get; set; } = null!;
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
     GetRoomResponse? RoomInfo;
-   
+
     protected override async Task OnInitializedAsync()
     {
 
@@ -99,24 +98,14 @@
 
     async Task DownloadTranscript(string languageId)
     {
-        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
-        {
-            { "roomId", RoomInfo!.RoomId },
-            { "language", languageId },
-            { "format", "txt" }
-        });
+        var url = $"{Config["Blossom:Authority"]}/api/DownloadRoomContent?roomId={RoomInfo!.RoomId}&language={languageId}&format=txt";
 
         await JS.InvokeVoidAsync("open", url, "_blank");
     }
 
     async Task DownloadSubtitles(string languageId)
     {
-        var url = QueryHelpers.AddQueryString(Config["Blossom:Authority"] + "/api/DownloadRoomContent", new Dictionary<string, string>
-        {
-            { "roomId", RoomInfo!.RoomId },
-            { "language", languageId ?? User.Language },
-            { "format", "srt" }
-        });
+        var url = $"{Config["Blossom:Authority"]}/api/DownloadRoomContent?roomId={RoomInfo!.RoomId}&language={languageId}&format=srt";
 
         await JS.InvokeVoidAsync("open", url, "_blank");
     }

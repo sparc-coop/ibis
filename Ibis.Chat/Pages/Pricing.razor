@@ -2,7 +2,7 @@
 @page "/pricing"
 @using Microsoft.JSInterop;
 
-<Sparc.Ibis.IbisContent ChannelId="ibis-meta-app">
+<IbisContent ChannelId="ibis-meta-app">
     <div class="pricing-page">
         <div class="hero">
             <h2>Pricing</h2>
@@ -59,11 +59,11 @@
         </section>
         <section class="faq">
             <h3>Frequently Asked Questions</h3>
-            <Ibis.Pages.Faq Question="How does Ibis billing work?" Answer="Ibis works like a pay phone: just add minutes to your account at any time, and then use those minutes to chat in your native language with others in their native language. Ibis also only charges the person that created the room. Anyone you invite to a chat can fully participate without adding any minutes to their own account." />
-            <Ibis.Pages.Faq Question="How do you charge by minute if I'm typing?" Answer="Ibis automatically translates every message you send -- no matter if you type it or say it -- into both audio and text, in every language in the chat room. This permits you and your peers to simply communicate as you are, according to your preferences and communication styles, and Ibis debits your minutes for the translated audio of each message in the room." />
-            <Ibis.Pages.Faq Question="Am I charged when nobody is typing or speaking?" Answer="Never! Ibis only charges for actual communication that occurs in the room. Silence is always free, so feel free to pop in and out as often as you need. This means your minutes will go a lot further than the standard long distance phone plan." />
-            <Ibis.Pages.Faq Question="What happens when my minutes run out?" Answer="Once your minutes run out, Ibis will temporarily pause its automatic translation services. You and your peers may continue chatting, but you won't see each other's translated messages until you add more minutes to your account." />
-            <Ibis.Pages.Faq Question="How do I add minutes?" Answer="To add minutes to your account, click your balance at the top right, and choose a minutes package to add to your account. You can do this at any time to avoid any breaks in communication." />
+            <Faq Question="How does Ibis billing work?" Answer="Ibis works like a pay phone: just add minutes to your account at any time, and then use those minutes to chat in your native language with others in their native language. Ibis also only charges the person that created the room. Anyone you invite to a chat can fully participate without adding any minutes to their own account." />
+            <Faq Question="How do you charge by minute if I'm typing?" Answer="Ibis automatically translates every message you send -- no matter if you type it or say it -- into both audio and text, in every language in the chat room. This permits you and your peers to simply communicate as you are, according to your preferences and communication styles, and Ibis debits your minutes for the translated audio of each message in the room." />
+            <Faq Question="Am I charged when nobody is typing or speaking?" Answer="Never! Ibis only charges for actual communication that occurs in the room. Silence is always free, so feel free to pop in and out as often as you need. This means your minutes will go a lot further than the standard long distance phone plan." />
+            <Faq Question="What happens when my minutes run out?" Answer="Once your minutes run out, Ibis will temporarily pause its automatic translation services. You and your peers may continue chatting, but you won't see each other's translated messages until you add more minutes to your account." />
+            <Faq Question="How do I add minutes?" Answer="To add minutes to your account, click your balance at the top right, and choose a minutes package to add to your account. You can do this at any time to avoid any breaks in communication." />
         </section>
         <section class="banner">
             <img class="banner-image desktop" src="/images/landing/banner.png" />
@@ -74,7 +74,7 @@
             </div>
         </section>
     </div>
-</Sparc.Ibis.IbisContent>
+</IbisContent>
 
 
 @code {
