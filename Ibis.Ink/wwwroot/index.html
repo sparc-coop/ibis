@@ -18,17 +18,7 @@
 
     <script src="/_content/PSC.Blazor.Components.MarkdownEditor/js/easymde.min.js"></script>
     <script src="/_content/PSC.Blazor.Components.MarkdownEditor/js/markdownEditor.js"></script>
-
-    <script>
-        if (!("container" in document.documentElement.style)) {
-            import("https://unpkg.com/container-query-polyfill@^0.2.0");
-        }
-
-        window.SetFocusToElement = (element) => {
-            if (element?.firstChild)
-                element.firstChild.focus();
-        };
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +35,15 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/site.js"></script>
     <script src="js/checkout.js"></script>
+    <script src="js/blob-morphing.js"></script>
+    <script>
+        $(function () {
+            $('a[href*=#]').on('click', function (e) {
+                e.preventDefault();
+                $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top }, 500, 'linear');
+            });
+        });
+    </script>
 </body>
 
 </html>

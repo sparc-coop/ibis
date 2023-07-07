@@ -1,0 +1,31 @@
+﻿<div class="support-message-card @Type">
+    <header>
+        @if (Type == "agent")
+        {
+            <div class="avatar-wrapper">
+                <img src="images/IbisSupport_logo-icon.png">
+            </div>
+            <span>Ibis Support</span>
+        } else if (Type == "user" && User != null)
+        {
+            <div class="avatar-wrapper">
+                <Avatar User="User"/>
+            </div>
+            <span>@User.Name</span>
+        } else if (Type == "user" && User == null)
+        {
+            <div class="avatar-wrapper guest">
+                <img class="default-avatar" src="icons/user-solid.svg" />
+            </div>
+            <span>Guest</span>
+        }
+    </header>
+    <div class="message-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Type { get; set; }
+    [Parameter] public UserAvatar? User { get; set; }
+}

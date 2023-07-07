@@ -3,6 +3,171 @@
 @layout MarketingLayout
 
 <div class="landing">
-    <h1>Ibis.Ink</h1>
+    <header class="landing--header @ShowHero">
+        <div class="header--container">
+            <h2>Share Your Ideas With The World As You Are.</h2>
+            <p class="subheader">
+                With ibis, you become part of a vibrant and diverse global community. 
+                Share your ideas, engage in enriching conversations, and collaborate with like-minded individuals from different corners of the world.
+            </p>
+        </div>
+        <div class="background--container">
+            <div class="background-image" style="@ShowHeroBackground"></div>
+        </div>
+        <div class="slide--container">
+            <div class="slide-down" @onclick=slideDown>
+                <p>Learn more about ibis</p>
+                <img src="icons/arrow-down-icon.svg" />
+            </div>
+        </div>
+    </header>
+    <div class="landing--content @ShowContent">
+        <div class="section--container">
+            <section class="slide-1"style="display: @DisplaySlide1">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(1, 3)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(1, 2)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Your personal translator</h3>
+                        <h2>Break the language barrier</h2>
+                    </header>
+                    <p>
+                        Have you ever wanted to share your thoughts, ideas, or amazing work with the world?
+                        Ibis uses Machine Learning to break down barriers and transform the way you communicate with your friends, family, or team.
+                        So you can just come as you are.
+                    </p>
+                </div>
+            </section>
+            <section class="slide-2" style="display: @DisplaySlide2">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(2, 1)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(2, 3)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Low Maintenance</h3>
+                        <h2>It’s simple as copy and paste</h2>
+                    </header>
+                    <p>
+                        Simply link your website to <img class="logo" src="images/IbisInk_logo-text.png" width="58" height="14" />.
+                        Once it’s connected, Ibis will automatically read and organize your website structure for you as long as it’s connected.
+                        No more headache, Ibis got your back.
+                    </p>
+                </div>
+            </section>
+            <section class="slide-3" style="display: @DisplaySlide3">
+                <div class="arrows--container">
+                    <img @onclick=@(e => @changeSlide(3, 2)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img @onclick=@(e => @changeSlide(3, 1)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                </div>
+                <div class="content">
+                    <header>
+                        <h3 class="subheader">Dream Big</h3>
+                        <h2>Don’t Stop Believing</h2>
+                    </header>
+                    <p>
+                        Allow more people join your creative world. The possibility doesn’t stop here.
+                        Try visiting Ibis, Ibis support, and Ibis Ink, and see what is the most suitable for you.
+                    </p>
+                    <div class="ibis-logo--container">
+                        <a href="https://ibis.chat/"><img src="images/logo.png" width="146" height="65" /></a>
+                        <a href="/"><img src="images/IbisSupport_logo-full.png" width="146" height="65" /></a>
+                        <a href="/"><img src="images/IbisInk_logo-full.png" width="225" height="65" /></a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="section--background">
+            <Blob Color="@ColorEnd" ColorStart=@ColorStart />
+        </div>
+        <div class="slide-indicators">
+            <div class="slide-1 @DisplaySlide1"></div>
+            <div class="slide-2  @DisplaySlide2"></div>
+            <div class="slide-3  @DisplaySlide3"></div>
+        </div>
+    </div>
 </div>
 
+@inject NavigationManager Navigation
+@inject IJSRuntime jsRuntime
+
+@code {
+    string ShowHero = "";
+    string ShowHeroBackground = "";
+    string ShowContent = "";
+    string SlideDownAnimation = "";
+
+    string DisplaySlide1 = "block";
+    string DisplaySlide2 = "none";
+    string DisplaySlide3 = "none";
+    string ColorStart = "";
+    string SlideColor1 = "#CAEBFF";
+    string SlideColor2 = "#FEEAD7";
+    string SlideColor3 = "#CCFFDA";
+    string ColorEnd = "#CAEBFF";
+
+    void RefreshLanding ()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    void slideDown()
+    {
+        ShowHero = "hide";
+        ShowContent = "show";
+        ShowHeroBackground = "display: none;";
+    }
+
+    void changeSlide(int slideStart, int slideNext)
+    {
+        if(slideNext == 1)
+        {
+            DisplaySlide1 = "block";
+            DisplaySlide2 = "none";
+            DisplaySlide3 = "none";
+            ColorEnd = SlideColor1;
+
+            if (slideStart == 2)
+            {
+                ColorStart = SlideColor2;
+            }
+            if (slideStart == 3)
+            {
+                ColorStart = SlideColor3;
+            }
+        } else if (slideNext == 2)
+        {
+            DisplaySlide1 = "none";
+            DisplaySlide2 = "block";
+            DisplaySlide3 = "none";
+            ColorEnd = SlideColor2;
+
+            if (slideStart == 1)
+            {
+                ColorStart = SlideColor1;
+            }
+            if (slideStart == 3)
+            {
+                ColorStart = SlideColor3;
+            }
+        }
+        else if (slideNext == 3)
+        {
+            DisplaySlide1 = "none";
+            DisplaySlide2 = "none";
+            DisplaySlide3 = "block";
+            ColorEnd = SlideColor3;
+
+            if (slideStart == 1)
+            {
+                ColorStart = SlideColor1;
+            }
+            if (slideStart == 2)
+            {
+                ColorStart = SlideColor2;
+            }
+        }
+    }
+}

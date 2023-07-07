@@ -1,0 +1,28 @@
+﻿@page "/dashboard"
+@using Ibis.Ink.Components
+@layout DashboardLayout
+
+<div class="websites">
+    <header class="page--header">
+        <h2>Your Websites</h2>
+        <div class="search--container">
+            <div class="searchbar">
+                <SearchIcon />
+                <input type="text" placeholder="Search..." />
+            </div>
+            <div class="sort">
+                <select>
+                    <option>Sort</option>
+                </select>
+            </div>
+        </div>
+    </header>
+    <div class="websites-list">
+        <WebsiteCard Id="Sparc" Title="Sparc (sparc.coop)" NumContent="3" ImagePath="images/Sparc-image.png" DateModified="DateTime.Now" />
+        <WebsiteCard Id="Blossom" Title="Blossom" NumContent="2" ImagePath="images/Blossom-image.png" DateModified="DateTime.Now" />
+    </div>
+</div>
+
+@code {
+
+}

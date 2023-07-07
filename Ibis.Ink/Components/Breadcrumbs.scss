@@ -1,0 +1,19 @@
+﻿.breadcrumbs {
+    display: flex;
+    gap: 6px;
+    margin: 16px 0;
+
+    p {
+        font-family: 'CircularStd';
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 120%;
+    }
+
+    svg {
+        width: 14px;
+        height: 20px;
+        margin-top: 2px;
+        transform: rotate(270deg);
+    }
+}

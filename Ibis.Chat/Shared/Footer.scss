@@ -1,49 +1,44 @@
 ﻿@import "../_variables.scss";
 
-.footer {
+footer {
     width: 100%;
-    padding: 18px;
-    justify-content: space-between;
-    background: $tertiary;
-    color: #161E29;
-    //font-family: freight-display-pro, serif;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 26px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10001;
-    text-align: center;
+    height: 73px;
+    padding: 25px 100px;
     border-top: 1px solid $primary-200;
+    background: $tertiary;
+    color: $primary-300;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 23px;
+    font-style: italic;
 
     @media screen and (max-width: 500px) {
         font-size: 16px;
         line-height: 20px;
     }
 
-    > a {
-        display: inline-block;
-        margin-left: 8px;
-        color: #161E29;
+    .footer--container {
+        display: flex;
+        justify-content: space-between;
+
+        > a {
+            display: inline-block;
+            margin-left: 8px;
+            color: #161E29;
+        }
+
+        a {
+            text-decoration: underline;
+        }
     }
 
-    &--left {
-        padding-left: 20px;
-    }
+    @media screen and (max-width: 800px) {
+        height: 48px;
+        padding: 12px 15px;
+        font-size: 10px;
 
-    &--right {
-        padding-right: 20px;
+        .footer--left, .footer--right {
+            text-align: center;
+        }
     }
-
-    a {
-        text-decoration: underline;
-    }
-    /*    &--container {
-        margin: 0 auto;
-        max-width: 1200px;
-        padding: 0 20px;
-    }
-*/
 }

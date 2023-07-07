@@ -1,45 +1,50 @@
-﻿@*@inherits LayoutComponentBase
-
-<NavMenu />
-
-<main>
-    @Body
-</main>
-
-<Footer />*@
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 @using Sparc.Blossom.Authentication;
 
-<PageTitle>Ibis | Come as you are</PageTitle>
-<div class="landing--nav desktop">
-    <a href="/" tabindex="-1"><img alt="Ibis" class="logo" src="/images/logo_2x.png" /></a>
-    <div class="menu">
-        <a href="/pricing">Pricing</a>
-        <a href="/rooms" class="get-started">Host a Chat</a>
+<PageTitle>Ibis Ink</PageTitle>
+<nav class="nav--landing">
+    <div class="nav--container">
+        <div class="nav--container-left">
+            <h1>
+                <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisInk_logo-full.png" /></a>
+            </h1>
+        </div>
+        <div class="nav--container-right">
+            @*<a href="/pricing">Pricing</a>*@
+            <button class="get-started">Get Started</button>
+            <button class="mobile-menu--btn @ShowMobileMenu" @onclick=OpenMobileMenu><img src="icons/menu-secondary.png" /></button>
+            <button class="mobile-menu--close @ShowMobileMenu" @onclick=CloseMobileMenu><img src="icons/close-icon.svg" /></button>
+        </div>
     </div>
-</div>
-<div class="landing--nav mobile">
-    <a href="/"><img class="logo" src="/images/logo_2x.png" alt="Ibis" /></a>
-    <input id="menuToggle" type="checkbox" class="menu--toggle">
-    <label for="menuToggle" class="menu--toggle">
-        <span><i class="material-icons">menu</i></span>
-        <span><i class="material-icons">close</i></span>
-    </label>
-    <div class="menu">
-        <ul>
-            <li><button @onclick="SignIn" class="get-started">Host a Chat</button></li>
-            <li><a href="/pricing">Pricing</a></li>
-        </ul>
+    <div class="mobile-menu--overlay @ShowMobileMenu" @onclick=CloseMobileMenu></div>
+    <div class="mobile-menu @ShowMobileMenu">
+        <div class="mobile-menu--links">
+            <button class="get-started">Get Started</button>
+        </div>
     </div>
-</div>
+</nav>
 
-<main>
+<main class="main--landing">
     @Body
 </main>
 
+@inject NavigationManager Navigation
+
 @code {
-    private void SignIn()
+    string ShowMobileMenu = "";
+
+    void RefreshLanding()
     {
-        Nav.NavigateTo("/rooms", true);
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    void OpenMobileMenu()
+    {
+        ShowMobileMenu = "open";
+    }
+
+    void CloseMobileMenu()
+    {
+        ShowMobileMenu = "";
     }
 }

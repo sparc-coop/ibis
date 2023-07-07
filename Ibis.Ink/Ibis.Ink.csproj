@@ -22,4 +22,16 @@
     <TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
     <TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Content Update="Shared\AddWebsiteModal.razor">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="Shared\PageSettingsModal.razor">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+
 </Project>

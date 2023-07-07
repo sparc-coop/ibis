@@ -1,0 +1,19 @@
+﻿@import "../../_variables.scss";
+
+.support-icon {
+    aspect-ratio: 1/1;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    position: relative;
+    background: $secondary-900;
+
+    img {
+        width: 36px;
+        height: 35px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

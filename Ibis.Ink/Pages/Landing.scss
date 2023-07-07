@@ -1,5 +1,481 @@
 ﻿@import "../_variables";
 
 .landing {
+    width: 100%;
+    height: calc(100vh - 100px);
+    margin-top: 100px;
+    background: $background;
 
+    @media screen and (max-width: 800px) {
+        height: calc(100vh - 75px);
+        margin-top: 75px;
+    }
+
+    &--header {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        transition: 300ms ease-in-out;
+
+        @media screen and (max-width: 800px) {
+            height: calc(100vh - 75px);
+        }
+
+        &.hide {
+            animation: fadeOutSlideUp 300ms ease-in-out;
+            height: 0;
+        }
+
+        .header--container {
+            width: 950px;
+            position: absolute;
+            top: 25%;
+            z-index: 20;
+
+            h2 {
+                font-family: 'CircularStd', sans-serif;
+                font-weight: 700;
+                font-size: 80px;
+                line-height: 120%;
+                letter-spacing: 0px;
+                text-align: left;
+                color: $dark-blue;
+            }
+
+            .subheader {
+                margin-top: 16px;
+                font-family: 'CircularStd';
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 150%;
+                letter-spacing: 0px;
+                text-align: left;
+                color: $dark-blue;
+            }
+
+            @media screen and (max-width: 1098px) {
+                width: 550px;
+                top: 10%;
+
+                h2, .subheader {
+                    width: 100%;
+                }
+            }
+
+            @media screen and (max-width: 673px) {
+                width: 100%;
+                top: 15%;
+
+                h2 {
+                    font-size: 49px;
+                }
+
+                .subheader {
+                    font-size: 16px;
+                }
+            }
+
+            @media screen and (max-width: 480px) {
+                h2 {
+                    font-size: 3rem;
+                }
+
+                .subheader {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .background--container {
+            width: 5356px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 10;
+
+            .background-image {
+                background: url('images/Group 73.png') repeat-x;
+                background-size: 2768px 100vh;
+                width: 5356px;
+                height: 100vh;
+                animation: headerBackgroundSlide 173s linear infinite;
+                opacity: 0.8;
+            }
+
+            @media screen and (max-width: 800px) {
+                top: -75px;
+            }
+        }
+
+        .slide--container {
+            width: 100%;
+            position: absolute;
+            bottom: 3%;
+            z-index: 20;
+
+            @media screen and (max-width: 800px) {
+                bottom: 1%;
+            }
+
+            .slide-down {
+                width: 150px;
+                height: 63px;
+                margin: 0 auto;
+
+                &:hover {
+                    animation: slideDownBounce 600ms ease-in-out infinite;
+                    cursor: pointer;
+                }
+            }
+
+            p {
+                font-family: 'CircularStd';
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 15px;
+                letter-spacing: 0px;
+                text-align: center;
+                color: $dark-blue;
+            }
+
+            img {
+                display: block;
+                margin: 0 auto;
+                margin-top: 8px;
+            }
+        }
+    }
+
+    &--content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: none;
+
+        &.show {
+            display: block;
+            animation: slideUpFadeIn 600ms ease-in-out;
+        }
+
+        .arrows--container {
+            width: 100%;
+            height: 26px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 50%;
+            transform: translatexY(-50%);
+            z-index: 40;
+
+            img {
+                width: 27px;
+                height: 26px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .arrow-left:hover {
+                animation: leftArrowBounce 600ms ease-in-out infinite;
+            }
+
+            .arrow-right:hover {
+                animation: rightArrowBounce 600ms ease-in-out infinite;
+            }
+
+            @media screen and (max-width: 673px) {
+                top: 90%;
+                margin-top: -8px;
+            }
+
+            @media screen and (max-width: 480px) {
+                top: 92%;
+                margin-top: -8px;
+            }
+        }
+
+        .section--container {
+            height: 100%;
+        }
+
+        section {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow-y: hidden;
+
+            .content {
+                width: 638px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 20;
+                animation: fadeIn 300ms ease-in-out;
+
+                header {
+                    .subheader {
+                        color: $purple-main;
+                        font-size: 20px;
+                        line-height: 120%;
+                    }
+
+                    h2 {
+                        font-weight: 700;
+                        font-size: 39px;
+                        line-height: 120%;
+                        color: $dark-blue;
+                    }
+                }
+
+                p {
+                    margin-top: 28px;
+                    font-size: 20px;
+                    line-height: 150%;
+                    color: $dark-blue;
+
+                    img {
+                        vertical-align: middle;
+                        margin-bottom: 4px;
+                    }
+                }
+
+                .ibis-logo--container {
+                    margin-top: 40px;
+                    display: flex;
+                    gap: 15px;
+                    z-index: 30;
+
+                    a {
+                        height: 85px;
+                        padding: 10px 15px;
+                        background: $white;
+                        border-radius: 24px;
+                        text-align: center;
+                    }
+
+                    img {
+                        height: 100%;
+                        width: auto;
+                    }
+                }
+
+                @media screen and (max-width: 1098px) {
+                    width: 370px;
+
+                    .ibis-logo--container {
+                        margin-top: 79px;
+
+                        a {
+                            height: 48px;
+                            padding: 6px 8px;
+                            border-radius: 13px;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 673px) {
+                    width: 300px;
+
+                    header {
+                        .subheader {
+                            font-size: 20px;
+                        }
+
+                        h2 {
+                            font-size: 36px;
+                        }
+                    }
+
+                    p {
+                        margin-top: 20px;
+                        font-size: 18px;
+                    }
+
+                    .ibis-logo--container {
+                        a {
+                            height: 39px;
+                            padding: 5px 7px;
+                            border-radius: 11px;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 480px) {
+                    header {
+                        p {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .section--background {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 100px;
+            left: 0;
+            z-index: 10;
+            overflow: hidden;
+
+            .blob-background {
+                width: 150%;
+                height: 200%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                path {
+                    animation: fadeChangeColor 300ms ease-in-out;
+                }
+            }
+
+            @media screen and (max-width: 1098px) {
+                .blob-background {
+                    width: 774px;
+                    height: 1091px;
+                }
+            }
+
+            @media screen and (max-width: 800px) {
+                top: 75px;
+            }
+
+            @media screen and (max-width: 480px) {
+                .blob-background {
+                    width: 574px;
+                    height: 811px;
+                }
+            }
+        }
+
+
+        .slide-indicators {
+            width: 100vw;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            animation: fadeIn 300ms ease-out;
+
+            @media screen and (max-width: 480px) {
+                top: 92%;
+            }
+
+            div {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                transition: 300ms ease-in-out;
+
+                &.block {
+                    background: rgba(138, 91, 255, 1);
+                }
+
+                &.none {
+                    background: rgba(138, 91, 255, 0.2);
+                }
+            }
+        }
+    }
+}
+
+@keyframes headerBackgroundSlide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-2768px);
+    }
+}
+
+@keyframes slideDownBounce {
+    0%, 100%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes leftArrowBounce {
+    0%, 100% {
+        transform: rotate(90deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(90deg) translateY(10px);
+    }
+}
+
+@keyframes rightArrowBounce {
+    0%, 100% {
+        transform: rotate(270deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(270deg) translateY(10px);
+    }
+}
+
+@keyframes fadeOutSlideUp {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+}
+
+@keyframes slideUpFadeIn {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeChangeColor {
+    0% {
+        fill: var(--colorStart);
+    }
+
+    100% {
+        fill: var(--colorEnd);
+    }
 }

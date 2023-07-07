@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis", "Ibis.Features\Ibis.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparc.Ibis", "Sparc.Ibis\Sparc.Ibis.csproj", "{9A32F7A0-DA49-4E49-AD05-2D4C8A9CC54C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ibis.Ink", "Ibis.Ink\Ibis.Ink.csproj", "{1F1A9960-465E-46A6-85C4-6A752E0D91AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Ink", "Ibis.Ink\Ibis.Ink.csproj", "{1F1A9960-465E-46A6-85C4-6A752E0D91AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{291C03C5-E3ED-4C94-9A92-C3939ECCC3C0}"
 EndProject

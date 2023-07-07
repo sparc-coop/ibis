@@ -1,0 +1,23 @@
+﻿<div class="breadcrumbs">
+    <a href="/dashboard"><p>Home</p></a>
+
+    @if (PageTitle != null)
+    {
+        <ExpandIcon />
+        <a href="/websites/@WebsiteId">
+            <p>@WebsiteId</p>
+        </a>
+        <ExpandIcon />
+        <p>@PageTitle</p>
+    } else
+    {
+        <ExpandIcon />
+        <p>@WebsiteId</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? WebsiteTitle { get; set; }
+    [Parameter] public string? PageTitle { get; set; }
+}

@@ -5,6 +5,7 @@
     display: grid;
     height: 100vh;
     grid-template-rows: 96px auto;
+    position: relative;
 
     header {
         background: $white;
@@ -174,6 +175,14 @@
                 width: 100%;
                 padding: 12px;
             }
+        }
+    }
+
+    .support {
+        &--container {
+            position: fixed;
+            top: 195px;
+            right: 0;
         }
     }
 }

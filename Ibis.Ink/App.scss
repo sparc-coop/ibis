@@ -2,12 +2,24 @@
 
 @import "Pages/Landing";
 @import "Pages/Pricing";
+@import "Pages/Websites";
+@import "Pages/Pages";
+@import "Pages/PageEditor";
+
+@import "Components/Breadcrumbs";
+@import "Components/WebsiteCard";
+@import "Components/PageCard";
+@import "Components/TextEditor";
+@import "Components/AddWebsite";
 
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
+@import "Shared/DashboardLayout";
+@import "Shared/AddWebsiteModal";
+@import "Shared/PageSettingsModal";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
@@ -60,8 +72,14 @@
 
 @font-face {
     font-family: 'CircularStd';
-    font-weight: 600;
+    font-weight: 700;
     src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 900;
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
 }
 
 @font-face {
@@ -99,7 +117,7 @@ body {
             transform: rotate(-90deg);
 
             &:last-child {
-                stroke: $primary-500;
+                stroke: $purple-main;
                 stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
                 transition: stroke-dasharray 0.05s ease-in-out;
             }
@@ -110,7 +128,7 @@ body {
         position: absolute;
         text-align: center;
         inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
-        color: $primary-500;
+        color: $purple-main;
 
         &:after {
             content: var(--blazor-load-percentage-text, "Loading");
@@ -146,7 +164,7 @@ h5 {
 
 h6 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 p.large {
@@ -163,8 +181,21 @@ p.small {
     font-size: 10px;
     line-height: 120%;
 }
-
+    
 :focus-visible, :focus {
-    box-shadow: 2px 2px 6px $primary-800;
-    outline: 1px solid $primary-900;
+    outline: 1px solid $primary-500;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+
+    &-track {
+        background-color: transparent;
+    }
+
+    &-thumb {
+        background: transparent;
+        border: 1px solid $grey-400;
+        border-radius: 7px;
+    }
 }

@@ -1,0 +1,49 @@
+﻿<div class="support-helpdesk--chat mini">
+    <header class="helpdesk-header">
+        <div class="title">Message</div>
+        <div class="helpdesk-actions">
+            <div class="agent-status">Online <div class="agent-status-icon"></div></div>
+            <button tabindex="0" class="popout-helpdesk">
+                <img src="icons/popout-icon.svg" />
+            </button>
+            <button tabindex="0" class="close-helpdesk" @onclick=Close>
+                <img src="icons/close-icon.svg" />
+            </button>
+        </div>
+    </header>
+    <div class="helpdesk-messages">
+        @if (User != null)
+        {
+            <ul>
+                <li><SupportMessageCard Type="agent" /></li>
+                <li><SupportMessageCard Type="user" User="User" /></li>
+            </ul>
+        } else
+        {
+            <ul>
+                <li><SupportMessageCard Type="agent" /></li>
+                <li><SupportMessageCard Type="user" User=null /></li>
+            </ul>
+        }
+    </div>
+    <div class="helpdesk-footer">
+        <button tabindex="0" class="support-attach"><img src="icons/attach-icon.svg" /></button>
+        <input tabindex="0" type="text" placeholder="Type your message..." />
+        <button tabindex="0" class="send-support-message"><img src="icons/send-icon.svg" /></button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnClose { get; set; }
+    public UserAvatar? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = await Api.GetUserAsync();
+    }
+
+    protected async Task Close()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

@@ -1,0 +1,187 @@
+﻿@import "../_variables.scss";
+.support {
+    z-index: 1000;
+    position: relative;
+
+    &--container {
+        width: 56px;
+        height: 145px;
+        padding: 9px 6px;
+        background: rgba(0, 59, 95, 0.1);
+        border-radius: 25px;
+
+        button {
+            display: block;
+            background: none;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 49px;
+            height: 145px;
+        }
+    }
+
+    &-language {
+        width: 43px;
+        height: 80px;
+        padding: 13px 5px;
+        position: relative;
+        background: $secondary-900;
+        box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+        border-radius: 53px;
+        margin-bottom: 10px;
+        z-index: 1000;
+
+        button {
+            aspect-ratio: 1/1;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            text-align: center;
+
+            &.open-language-settings {
+                height: 25px;
+                margin-bottom: 4px;
+
+                span {
+                    font-family: 'CircularStd';
+                    font-weight: 400;
+                    font-style: normal;
+                    font-size: 16px;
+                    line-height: 20px;
+                    transition: 250ms ease-in-out;
+                }
+
+                &.open {
+                    background: $secondary-800;
+                }
+            }
+
+            &.play-button {
+                svg {
+                    width: 13px;
+                    height: 13px;
+                    transition: 250ms ease-in-out;
+                }
+            }
+
+            &:hover {
+                span {
+                    font-size: 19px;
+                }
+
+                svg {
+                    transform: scale(120%);
+                }
+            }
+
+            &:active {
+                span {
+                    font-size: 16px;
+                }
+
+                svg {
+                    transform: scale(100%);
+                }
+            }
+        }
+
+        .language-settings {
+            display: none;
+
+            &.open {
+                display: block;
+                z-index: 1001;
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 36px;
+            height: 81px;
+            padding: 16px 6px;
+            border-radius: 32px;
+
+            button {
+                width: 25px;
+                height: 25px;
+
+                &:hover {
+                    span {
+                        font-size: 18px;
+                    }
+                }
+
+                &:active {
+                    span {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    &--overlay {
+        display: none;
+
+        &.show {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: -195px;
+            right: 0px;
+            z-index: 500;
+        }
+    }
+
+    &-helpdesk {
+        position: relative;
+        z-index: 1000;
+
+        .open-helpdesk {
+            .support-icon {
+                width: 35px;
+                height: 35px;
+
+                img {
+                    transition: 250ms ease-in-out;
+                    width: 25px;
+                    height: 24px;
+                }
+            }
+
+            &:hover {
+                img {
+                    width: 29px;
+                    height: 28px;
+                }
+            }
+
+            &:active {
+                img {
+                    width: 25px;
+                    height: 24px;
+                }
+            }
+        }
+
+        .helpdesk {
+            display: none;
+
+            &.open {
+                display: block;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .open-helpdesk {
+                .support-icon {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
+    }
+}

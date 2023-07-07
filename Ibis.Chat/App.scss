@@ -2,11 +2,18 @@
 @import "Pages/Pricing";
 
 @import "Shared/MainLayout";
-@import "Shared/MarketingLayout";
+@import "Shared/SupportMarketingLayout";
 @import "Shared/RoomLayout";
 @import "Shared/NavMenu";
 @import "Shared/Footer";
 @import "Shared/Tooltip";
+@import "Shared/Icons/SupportIcon";
+
+@import "Support/SupportLanding";
+@import "Support/Support";
+@import "Support/SupportLanguage";
+@import "Support/SupportHelpdesk";
+@import "Support/SupportMessageCard";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
@@ -56,7 +63,7 @@
 
 @font-face {
     font-family: 'CircularStd';
-    font-weight: 600;
+    font-weight: 700;
     src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
 }
 
@@ -87,6 +94,7 @@ html {
 body {
     overflow-x: hidden !important;
     font-family: 'CircularStd', sans-serif;
+    background: $background;
 }
 
 .container {
@@ -160,7 +168,7 @@ h5 {
 
 h6 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 p.large {

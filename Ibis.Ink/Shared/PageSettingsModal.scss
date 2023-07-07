@@ -1,0 +1,142 @@
+﻿@import "../_variables";
+
+.page-settings-modal {
+    position: relative;
+
+    h4 {
+        margin-bottom: 24px;
+    }
+
+    p {
+        color: #28303B;
+    }
+
+    .page-name-wrapper {
+        margin-bottom: 16px;
+    }
+
+    .page-link-wrapper {
+        margin-bottom: 8px;
+    }
+
+    .page-name-wrapper, .page-link-wrapper {
+
+        p.medium {
+            margin-bottom: 6px;
+        }
+
+        label {
+            margin-bottom: 6px;
+            color: #28303B;
+        }
+
+        input {
+            border: 1px solid $grey-300;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            line-height: 120%;
+            width: 100%;
+        }
+
+        ::placeholder {
+            color: $grey-500;
+        }
+    }
+
+    input[type="checkbox"] {
+        height: 16px;
+        width: 16px;
+        margin-right: 7px;
+        border: 1px solid $grey-300;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .manual-input-wrapper {
+        display: flex;
+        margin-bottom: 16px;
+
+        label {
+            font-size: 14px;
+            font-weight: 400;
+            color: $grey-500;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 2px;
+        }
+    }
+
+    .page-tags {
+        margin-bottom: 32px;
+
+        .tag-options {
+            margin-top: 6px;
+            display: flex;
+            gap: 64px;
+            flex-wrap: wrap;
+
+            label {
+                display: flex;
+
+                input[type="checkbox"] {
+                    top: 6px;
+                    position: relative;
+                }
+            }
+        }
+
+        .tag {
+            display: flex;
+            padding: 4px 6px;
+            border-radius: 1000px;
+            gap: 4px;
+            flex-direction: row;
+            align-items: center;
+            font-size: 10px;
+
+            &--page {
+                border: 1px solid $secondary-900;
+                background-color: $secondary-200;
+                color: $secondary-900;
+            }
+
+            &--blog {
+                border: 1px solid $primary-800;
+                background-color: $primary-200;
+                color: $primary-800;
+            }
+
+            &--other {
+                border: 1px solid $amber-800;
+                background-color: $amber-100;
+                color: $amber-800;
+            }
+        }
+    }
+
+    .save-button {
+        float: right;
+        border: 1px solid transparent;
+
+        &:hover {
+            border: 1px solid $secondary-900;
+            background: $white;
+            color: $secondary-900;
+
+            svg path {
+                fill: $secondary-900;
+            }
+        }
+
+        &:active {
+            background: $secondary-200;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: none
+        }
+    }
+}

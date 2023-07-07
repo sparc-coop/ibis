@@ -1,0 +1,57 @@
+﻿@page "/websites/{WebsiteId}/{PageId}"
+@layout DashboardLayout
+@using Ibis.Ink.Components;
+
+<Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@WebsiteTitle" PageTitle="@PageId" />
+<div class="page-editor">
+    <div class="page-editor--container">
+        <header>
+            <label>Project Title</label>
+            <input type="text" value="@PageId" />
+        </header>
+        <div class="page-content">
+            <PageComponent 
+                Type="Text" 
+                Title="Component title" 
+                Content_Text="Sit amet mauris commodo quis imperdiet." 
+                />
+            <PageComponent 
+                Type="Text" 
+                Title="Component title" 
+                Content_Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat vivamus at augue eget. Vitae turpis massa sed elementum tempus egestas sed sed. Amet mattis vulputate enim nulla. In arcu cursus euismod quis viverra nibh. Phasellus vestibulum lorem sed risus ultricies tristique. Bibendum neque egestas congue quisque. Aliquam etiam erat velit scelerisque in dictum non consectetur. Sit amet consectetur adipiscing elit duis tristique sollicitudin. Pharetra et ultrices neque ornare aenean euismod elementum nisi quis. Pellentesque dignissim enim sit amet venenatis urna cursus eget. Amet justo donec enim diam." 
+                />
+            <PageComponent 
+                Type="Image" 
+                Title="Component title" 
+                Content_ImagePath="ibisink1.png" 
+                Content_ImageCaption="Sit amet mauris commodo quis imperdiet." 
+                Content_ImageWidth="459px"
+                Content_ImageHeight="306px"
+                />
+        </div>
+    </div>
+    <div class="page-editor--actions">
+        <button class="back" @onclick="GoBack">Back</button>
+        <div class="actions">
+            <button class="page-settings" @onclick="OpenPageSettings">Settings</button>
+            <button class="save-page">Save</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? WebsiteTitle { get; set; }
+    [Parameter] public string? PageId { get; set; }
+    [Parameter] public string? PageTitle { get; set; }
+
+    void GoBack()
+    {
+        Nav.NavigateTo($"/websites/{WebsiteId}");
+    }
+
+    void OpenPageSettings()
+    {
+        Modal.Show<PageSettingsModal>("Settings");
+    }
+}
