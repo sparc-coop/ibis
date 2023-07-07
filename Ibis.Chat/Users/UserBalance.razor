@@ -2,9 +2,15 @@
 
 @if (Balance.HasValue)
 {
-    <button tabindex="0" class="balance @(Balance.Value.Ticks < 0 ? "negative" : "")" title="@Balance.Value.ToString("g") Remaining (Click to add minutes)" @onclick=AddFunds>
-        @Math.Floor(Balance.Value.TotalMinutes).ToString("N0") min
-    </button>
+    <div class="user-balance">
+        @if (Balance.Value.TotalMinutes < 1)
+        {
+            <BlossomAnimation Source="/js/data.json" />
+        }
+        <button tabindex="0" class="balance @(Balance.Value.Ticks < 0 ? "negative" : "")" title="@Balance.Value.ToString("g") Remaining (Click to add minutes)" @onclick=AddFunds>
+            @Math.Floor(Balance.Value.TotalMinutes).ToString("N0") min
+        </button>
+    </div>
 }
 
 @code {
@@ -17,7 +23,7 @@
     {
         var ticks = await Api.GetUserBalanceAsync();
         Balance = TimeSpan.FromTicks(ticks);
-        
+
         await On<BalanceChanged>(User.Id, x => Balance = TimeSpan.FromTicks(x.Ticks));
     }
 
@@ -28,6 +34,6 @@
             parameters.Add("PaymentIntentClientSecret", PaymentIntentClientSecret);
 
         var modal = Modal.Show<AddFundsModal>("Add Funds", parameters);
-        var result = await modal.Result;        
+        var result = await modal.Result;
     }
 }

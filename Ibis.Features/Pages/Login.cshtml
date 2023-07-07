@@ -1,4 +1,4 @@
-﻿@page "/_login"
+﻿@page "/_auth/login"
 @model IbisLoginModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Configuration
@@ -8,7 +8,7 @@
     Layout = "_Layout";
 }
 
-<div class="container @(Model.Email == null ? "" : "signing-in")">
+<div class="container">
     <div class="logo">
         <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
     </div>
@@ -18,21 +18,43 @@
         @Model.Message
     </p>
 
-    <form method="post">
-        <label>
-            @Model.EmailLabel
-            <input type="text" asp-for="Email" placeholder="your@email.com" />
-        </label>
+    @if (Model.Email == null)
+    {
+        <form method="post">
+            <label>
+                @Model.EmailLabel
+                <input autofocus type="text" asp-for="Email" placeholder="your@email.com" />
+            </label>
 
-        @if (Model.Error != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                <span>@Model.Error</span>
-            </div>
-        }
+            @if (Model.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <span>@Model.Error</span>
+                </div>
+            }
 
-        <button id="next" type="submit">@Model.SignInButton</button>
-    </form>
+            <button id="next" type="submit">@Model.SignInButton</button>
+        </form>
+    }
+    else
+    {
+        <form method="post">
+            <label>
+                @Model.CodeLabel
+                <input autofocus type="text" asp-for="Code" placeholder="000000" />
+            </label>
+
+            @if (Model.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <span>@Model.Error</span>
+                </div>
+            }
+
+            <input type="hidden" asp-for="Email" />
+            <button id="next" type="submit">@Model.SignInButton</button>
+        </form>
+    }
 </div>
 
 <style>
@@ -105,9 +127,9 @@
         padding-left: 14px;
     }
 
-    input:focus {
-        border: 1px solid #2E7BA5;
-        box-shadow: 0px 0px 5px #38ADED;
+    input:focus-visible {
+        outline: 2px solid #FF3520;
+        box-shadow: none;
     }
 
     .error.itemLevel p {
@@ -130,7 +152,7 @@
 
     #next {
         width: 100%;
-        background: #CA1E14;
+        background: #003B5F;
         border: none;
         border-radius: 8px;
         padding: 10px;

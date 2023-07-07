@@ -1,4 +1,4 @@
-﻿@page "/_logout"
+﻿@page "/_auth/logout"
 @model Sparc.Blossom.Authentication.LogoutModel
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
@@ -7,12 +7,16 @@
     Layout = "_Layout";
 }
 
-<div class="sign-in">
-    <header>
+<div class="container">
+    <div class="logo">
+        <img src="https://ibistranscriber.blob.core.windows.net/custom-login/Icon.png" alt="Ibis Logo" />
+    </div>
+
+    <h2>
         You have been successfully logged out.
-    </header>
-    <aside>
+    </h2>
+    <p>
         Didn't mean to log out?
         <a href="/_login">Sign In</a>
-    </aside>
+    </p>
 </div>

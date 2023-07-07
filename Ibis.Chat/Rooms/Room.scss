@@ -10,7 +10,6 @@
     padding: 0 6vw;
     margin: 0 auto;
     max-width: 1920px;
-    padding-top: 10px;
 
     .message-grid {
         grid-column: 1;
@@ -28,6 +27,8 @@
         justify-content: space-between;
         width: 100%;
         grid-column: 1 / span 2;
+        background: transparent;
+        padding: 0;
 
         &.room-header.mobile {
             display: none;
@@ -70,7 +71,7 @@
         .actions {
             align-self: flex-end;
             position: relative;
-            top: 30px;
+            top: 15px;
 
             button, .ibis-language-selector {
                 color: $grey-600;

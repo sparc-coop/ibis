@@ -1,6 +1,7 @@
 ﻿@import "../_variables.scss";
 
 .room-layout {
+
     header {
         background: $white;
         padding: 28px 3vw;
@@ -89,10 +90,10 @@
                 }
 
                 .logout {
-                    color: $primary-500;
+                    color: $secondary-900;
 
                     &:hover {
-                        background: $primary-100;
+                        background: $secondary-800;
                     }
                 }
 
@@ -128,31 +129,32 @@
                 padding: 32px 16px;
             }
         }
+    }
 
-        &.mini {
-            grid-template-rows: 49px auto;
+    &.mini {
+        grid-template-rows: 49px auto;
 
-            > header {
-                padding: 10px 3vw;
+        > header {
+            padding: 10px 3vw;
 
-                h1 {
-                    font-size: 0;
-                }
-
-                .logo img {
-                    height: 28px;
-                }
+            h1 {
+                font-size: 0;
             }
 
-            nav ul {
-                // display: none;
-            }
-
-            main {
-                padding: 24px 24px 0;
+            .logo img {
+                height: 28px;
             }
         }
+
+        nav ul {
+            // display: none;
+        }
+
+        main {
+            padding: 36px 24px 0;
+        }
     }
+
 
     @media screen and (max-width: 480px) {
         header.room-nav.desktop {
