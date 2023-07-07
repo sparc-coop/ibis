@@ -1,7 +1,7 @@
 ﻿using DeepL;
 using DeepL.Model;
 
-namespace Ibis._Plugins;
+namespace Ibis._Plugins.Translation;
 
 public class DeepLTranslator : ITranslator
 {

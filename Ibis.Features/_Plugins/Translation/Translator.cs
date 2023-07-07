@@ -1,4 +1,4 @@
-﻿namespace Ibis._Plugins
+﻿namespace Ibis._Plugins.Translation
 {
     public class Translator
     {
@@ -63,7 +63,7 @@
         {
             if (fromLanguage == toLanguage)
                 return text;
-            
+
             var language = await GetLanguageAsync(toLanguage)
                 ?? throw new ArgumentException($"Language {toLanguage} not found");
 

@@ -1,4 +1,6 @@
-﻿namespace Ibis.Messages;
+﻿using Ibis._Plugins.Speech;
+
+namespace Ibis.Messages;
 
 public class SpeakMessage : RealtimeFeature<MessageTextChanged>
 {

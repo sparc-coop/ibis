@@ -2,7 +2,7 @@
 using Microsoft.CognitiveServices.Speech.Audio;
 using System.Collections.Concurrent;
 
-namespace Ibis._Plugins;
+namespace Ibis._Plugins.Speech;
 
 public record AudioConnection(string SessionId, SpeechRecognizer SpeechClient, VoiceAudioStream AudioStream);
 public record SpeechSessionStarted(string SessionId) : Notification(SessionId);
@@ -29,7 +29,7 @@ public class AzureListener : IListener
         var speechConfig = SpeechConfig.FromSubscription(SubscriptionKey, "southcentralus");
         if (dialect != null)
             speechConfig.SpeechRecognitionLanguage = $"{dialect.Language}-{dialect.Locale}";
-        
+
         //speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
         var speechClient = new SpeechRecognizer(speechConfig, audioConfig);
 
@@ -215,7 +215,7 @@ public class EchoStream : Stream
         else
         {
             newBuffer = new byte[count];
-            System.Buffer.BlockCopy(buffer, offset, newBuffer, 0, count);
+            Buffer.BlockCopy(buffer, offset, newBuffer, 0, count);
         }
         if (!_Buffers.TryAdd(newBuffer, WriteTimeout))
             throw new TimeoutException("EchoStream Write() Timeout");
@@ -284,7 +284,7 @@ public class EchoStream : Stream
                         break;
                 }
 
-                var bytesToCopy = (count < m_count) ? count : m_count;
+                var bytesToCopy = count < m_count ? count : m_count;
                 Buffer.BlockCopy(m_buffer!, m_offset, buffer, offset, bytesToCopy);
                 m_offset += bytesToCopy;
                 m_count -= bytesToCopy;
@@ -303,7 +303,7 @@ public class EchoStream : Stream
     public override int ReadByte()
     {
         byte[] returnValue = new byte[1];
-        return (Read(returnValue, 0, 1) <= 0 ? -1 : (int)returnValue[0]);
+        return Read(returnValue, 0, 1) <= 0 ? -1 : returnValue[0];
     }
 
     public override void Flush()

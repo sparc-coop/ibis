@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Ibis._Plugins.Speech;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ibis._Plugins;
 

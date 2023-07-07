@@ -1,4 +1,4 @@
-﻿namespace Ibis._Plugins;
+﻿namespace Ibis._Plugins.Translation;
 
 public class AzureTranslator : ITranslator
 {
@@ -43,7 +43,7 @@ public class AzureTranslator : ITranslator
             {
                 var translatedText = result.First();
                 var translatedTags = result.Skip(1).ToList();
-                
+
                 foreach (Translation t in translatedText.Translations)
                 {
                     // Zip up the message tag translations
@@ -53,7 +53,7 @@ public class AzureTranslator : ITranslator
                         .ToList();
 
                     var translatedMessage = new Message(message, languageDictionary[t.To], t.Text, translatedMessageTags);
-                    
+
                     translatedMessages.Add(translatedMessage);
 
                     var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
@@ -64,7 +64,7 @@ public class AzureTranslator : ITranslator
 
         return translatedMessages;
     }
-    
+
     public async Task<List<Language>> GetLanguagesAsync()
     {
         Languages ??= await Client.GetFromJsonAsync<LanguageList>("/languages?api-version=3.0&scope=translation");

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DeepL.net" Version="1.7.1" />
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.8" />

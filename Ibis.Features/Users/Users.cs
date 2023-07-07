@@ -1,4 +1,6 @@
 ﻿using Ibis._Plugins;
+using Ibis._Plugins.Speech;
+using Ibis._Plugins.Translation;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace Ibis.Users;

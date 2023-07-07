@@ -1,4 +1,6 @@
-﻿namespace Ibis.Messages;
+﻿using Ibis._Plugins.Translation;
+
+namespace Ibis.Messages;
 
 public class TranslateMessage : RealtimeFeature<MessageTextChanged>
 {

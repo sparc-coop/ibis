@@ -1,4 +1,5 @@
-using Ibis;
+using Ibis._Plugins.Speech;
+using Ibis._Plugins.Translation;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
 // using Sparc.Ibis;
