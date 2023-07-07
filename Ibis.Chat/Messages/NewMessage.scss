@@ -41,6 +41,10 @@
         }
 
         .send {
+            &.widget {
+                display: none;
+            }
+
             > button {
                 position: absolute;
                 right: 24px;

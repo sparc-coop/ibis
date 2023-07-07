@@ -4,9 +4,10 @@
 <form class="new-message @(SelectedMessage != null ? "editing" : "")" @onsubmit=SendText>
     <div class="new-message container">
         <Avatar User="Me" EditTab="Avatar" />
-        @*<button type="button" class="mobile-actions "onclick="ToggleMobileActions">
-            <img src="icons/+.png" />
-        </button>*@
+        <button type="button" class="mobile-actions" alt="attach file" aria-label="attach" @*@onclick="ToggleMobileActions*@">
+            <img src="icons/attachement.svg" />
+            @*<AttachmentIcon />*@
+        </button>
         @if (Me?.LanguageIsRTL == false)
         {
             <textarea aria-label="Message" type="text" class="ibis-ignore" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
@@ -15,7 +16,7 @@
         {
             <textarea aria-label="Message" type="text" class="ibis-ignore" dir="rtl" disabled="@IsListening" placeholder="Type something..." @ref=TextArea @bind="Text" @bind:event="oninput" @onkeydown=MaybeSendText @onkeydown:preventDefault="preventDefault" />
         }
-        <div class="send">
+        <div class="send full">
             @if (IsSpeak)
             {
                 <button type="button" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
@@ -43,6 +44,33 @@
                     <SendIcon />
                     <span>@(SelectedMessage == null ? "Send" : "Save")</span>
                     <aside>[Enter]</aside>
+                </button>
+            }
+        </div>
+        <div class="send widget">
+            @if (IsSpeak)
+            {
+                <button type="button" class="record" @onclick="@(() => BeginListeningAsync(false))" aria-label="Speak">
+                    @if (IsListening)
+                    {
+                        <div class="recording-animation" />
+                    }
+                    else
+                    {
+                        <RecordIcon />
+                    }
+                </button>
+            }
+            else
+            {
+                if (SelectedMessage != null)
+                {
+                    <button type="button" class="cancel" @onclick=CancelEdit>
+                        <img src="icons/X.svg" />
+                    </button>
+                }
+                <button type="submit" @onclick="SendText" aria-label="Send">
+                    <SendIcon />
                 </button>
             }
         </div>

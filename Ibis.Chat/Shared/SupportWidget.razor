@@ -1,0 +1,202 @@
+﻿@inherits RealtimeComponent
+@implements IAsyncDisposable
+@using Sparc.Blossom.Authentication;
+@using Sparc.Ibis;
+@using Microsoft.AspNetCore.WebUtilities
+@page "/support";
+
+<CascadingValue Value="User">
+    <div class="support-widget">
+        <header>
+            <img class="widget-logo" src="/images/logo_2x.png" alt="Ibis" />
+            <div class="support-header--wrapper">
+                <div class="agent-status">
+                    <p>Online <img src="icons/agent-status.svg" /></p> @*Shows if agent is Online or Away*@
+                </div>
+                <button type="button" class="pop-out">
+                    <img src="icons/Pop-out.svg" /> @*Opens Support Room into full room*@
+                </button>
+            </div>
+        </header>
+        <div class="support-message-list">
+            <div class="placeholder-message--support">
+                <div class="ibis-support">
+                    <img src="images/logo_icon.png" />
+                    <p>Ibis support</p>
+                </div>
+                <p>Hey! Welcome to Ibis Support. What can we help you with?</p>
+            </div>
+            <div class="placeholder-message--user">
+                <div class="user-name">
+                    <img src="images/Avatar.svg" />
+                    <p>Name here</p>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            @*@(RoomInfo != null) {
+                <MessageList Room="RoomInfo" />
+            }*@
+        </div>
+        <NewMessage Room="RoomInfo" SelectedMessage="SelectedMessage" OnDoneEditing="DoneEditing" />
+    </div>
+</CascadingValue>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    UserAvatar? User;
+    bool ShowMenu;
+
+    GetRoomResponse? RoomInfo;
+    string? Language;
+
+    List<Message>? Messages;
+    Message? SelectedMessage;
+    bool HasNewMessage;
+    string? PlayMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (User != null)
+        {
+            Language = User.Language;
+            return;
+        }
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    void EditAvatar()
+    {
+        ShowMenu = false;
+        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
+    }
+
+    bool isUserBeingGot;
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+            if (User != null && User.Language == null)
+            {
+                EditAvatar();
+            }
+
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    async Task<GetRoomResponse> CreateSupportRoom()
+    {
+        NewRoomRequest Request = new() { RoomName = "Ibis Support", RoomType = "Chat", Emails = new List<string>() };
+        var response = await Api.CreateRoomAsync(Request);
+
+        RoomInfo = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = response.RoomId });
+        await On<UserJoined>(RoomInfo.RoomId, x => { });
+        On<UserAvatarUpdated>(avatar =>
+        {
+            var user = RoomInfo.Users.FirstOrDefault(x => x.Id == avatar.Avatar.Id);
+            if (user != null)
+            {
+                RoomInfo.Users.Remove(user);
+                RoomInfo.Users.Add(avatar.Avatar);
+            }
+        });
+
+        return RoomInfo;
+    }
+
+    async Task GetMessagesAsync(UserLanguageChanged evt)
+    {
+        if (Messages != null)
+            Messages.Clear();
+        
+        await InvokeAsync(StateHasChanged);
+
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = RoomInfo.RoomId });
+        Messages = response.Content.ToList();
+        if (Language != response.Language)
+        {
+            await Hub.InvokeAsync("StopWatching", RoomInfo.RoomId + "|" + Language);
+            Language = response.Language;
+        }
+
+        var subscriptionId = RoomInfo.RoomId + "|" + Language;
+        await On<MessageTextChanged>(subscriptionId, x =>
+        {
+            UpdateMessage(x.Message);
+        });
+
+        await On<MessageAudioChanged>(subscriptionId, x =>
+        {
+            UpdateMessage(x.Message);
+        });
+        await On<MessageDeleted>(subscriptionId, x => RemoveMessage(x.Message));
+    }
+
+    void SelectMessage(Message message) => SelectedMessage = message;
+
+    void DoneEditing(Message? editedMessage) 
+    {
+        if (editedMessage != null)
+            UpdateMessage(editedMessage);
+
+        SelectedMessage = null;
+    }
+
+    void UpdateMessage(Message message)
+    {
+        SelectedMessage = null;
+
+        var existingId = Messages.FindIndex(x =>
+           x.Id == message.Id
+        || x.Id == message.SourceMessageId
+        || message.Id == x.SourceMessageId
+        || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
+        if (existingId > -1)
+        {
+            Messages[existingId] = message;
+        }
+        else
+        {
+            Messages.Add(message);
+            HasNewMessage = true;
+            PlayMessage = message.Id;
+            Console.WriteLine($"HasNewMessage {PlayMessage}");
+        }
+    }
+
+    void RemoveMessage(Message message)
+    {
+        var existing = Messages.Find(x => x.Id == message.Id);
+        if (existing != null)
+        {
+            existing.DeletedDate = message.DeletedDate;
+            StateHasChanged();
+        }
+    }
+
+    async Task DeleteMessage(Message message)
+    {
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomInfo.RoomId, MessageId = message.Id });
+    }
+
+    protected void On<T>(Func<T, Task> action)
+    {
+        if (Hub != null)
+        {
+            Hub.On(typeof(T)!.Name, async delegate (T evt)
+            {
+                await action(evt);
+                await InvokeAsync(StateHasChanged);
+            });
+        }
+    }
+}
