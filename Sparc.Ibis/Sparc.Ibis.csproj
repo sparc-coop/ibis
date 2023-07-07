@@ -23,20 +23,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.1">
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.8">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.19.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Sparc.Blossom.Core" Version="7.1.0-pre.6" />
+		<PackageReference Include="Sparc.Blossom.Core" Version="8.0.0-pre.5" />
 		<OpenApiReference Include="..\Ibis.Features\swagger.json" Link="OpenAPIs\swagger.json" OutputPath="$([System.IO.Path]::Combine($(MSBuildProjectDirectory),$(ServicesPath)))" />
 	</ItemGroup>
 </Project>
