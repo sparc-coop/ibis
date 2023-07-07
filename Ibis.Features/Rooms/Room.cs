@@ -31,15 +31,7 @@ public class Room : Entity<string>
         HostUser = hostUser.Avatar;
     }
 
-    // For Ibis Support Rooms
-    public bool? IsSupportRoom { get; private set; }
-    public bool? ToBeResolved { get; private set; }
-    public bool? IsResolved { get; private set; }
-    public bool? IsGeneralSupport { get; private set; }
-    public bool? IsBug { get; private set; }
-    public bool? IsAccountIssue { get; private set; }
-
-    private Room() 
+    protected Room() 
     { 
         Id = Guid.NewGuid().ToString();
         RoomId = Id;
