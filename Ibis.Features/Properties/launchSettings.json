@@ -3,11 +3,12 @@
     "Ibis": {
       "commandName": "Project",
       "launchBrowser": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "applicationUrl": "https://localhost:7117;https://localhost:5001;https://localhost:5002",
+      "nativeDebugging": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:7117",
-      "nativeDebugging": true
+      }
     }
   }
 }

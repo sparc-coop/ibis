@@ -1,54 +1,29 @@
-using Ibis._Plugins.Database;
-using Ibis._Plugins.Realtime;
-using Ibis._Plugins.Speech;
-using Ibis._Plugins.Translation;
+using Ibis;
+using Ibis._Plugins.Blossom;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Stripe;
-// using Sparc.Ibis;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar();
 
-builder.AddBlossom(builder.Configuration["WebClientUrl"]);
-
-builder.Services
-        .AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis-prod", ServiceLifetime.Transient)
+var app = builder.Blossom<User>(s => 
+    s.AddCosmos<IbisContext>(builder.Configuration.GetConnectionString("Database")!, "ibis-prod", ServiceLifetime.Transient)
         .AddAzureStorage(builder.Configuration.GetConnectionString("Storage")!)
         .AddTwilio(builder.Configuration)
         .AddBlossomRealtime<IbisHub>()
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>();
+        .AddSingleton<ExchangeRates>()
+        .AddScoped<GetAllContent>());
 
-builder.AddBlossomAuthentication<User>();
-
-// builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
-builder.Services.AddServerSideBlazor();
-builder.Services.AddOutputCache();
-
-var app = builder.Build();
-
-app.UseBlazorFrameworkFiles();
-app.UseBlossom();
-app.MapControllers();
-app.MapBlazorHub();
-app.MapFallbackToFile("index.html");
-
-if (builder.Environment.IsDevelopment())
-    app.UseDeveloperExceptionPage();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
+app.Host("ibis.chat", 5001, "Chat", RenderMode.WebAssembly);
+app.Host("ibis.ink", 5002, "Ink", RenderMode.WebAssembly);
+app.Host("ibis.support", 5003, "Support", RenderMode.WebAssembly);
 
 app.MapHub<IbisHub>("/hub");
-app.UseBlossomAuthentication<User>();
 app.UseAllCultures();
-
-// Warm up the entity framework model
-//_ = app.Services.GetRequiredService<IbisContext>().Model;
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
