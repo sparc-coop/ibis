@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Ibis._Plugins;
+namespace Ibis._Plugins.Database;
 
 public class IbisContext : BlossomContext
 {

@@ -1,7 +1,7 @@
 ﻿using Ibis._Plugins.Speech;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Ibis._Plugins;
+namespace Ibis._Plugins.Realtime;
 
 [Authorize]
 public class IbisHub : BlossomHub
@@ -20,7 +20,7 @@ public class IbisHub : BlossomHub
     public override async Task OnConnectedAsync()
     {
         await base.OnConnectedAsync();
-        
+
         if (Context.UserIdentifier != null)
             await Users.ExecuteAsync(Context.UserIdentifier, u => u.GoOnline(Context.ConnectionId));
     }

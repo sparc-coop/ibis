@@ -1,0 +1,32 @@
+﻿@import "_Imports";
+
+@import "Shared/Avatar";
+@import "Support/Support";
+@import "Support/SupportHelpdesk";
+@import "Support/SupportIcon";
+@import "Support/SupportLanguage";
+@import "Support/SupportMessageCard";
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 400;
+    src: url(wwwroot/fonts/CircularStd-Book.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 500;
+    src: url(wwwroot/fonts/CircularStd-Medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 700;
+    src: url(wwwroot/fonts/CircularStd-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'CircularStd';
+    font-weight: 900;
+    src: url(wwwroot/fonts/CircularStd-Black.ttf) format('truetype');
+}

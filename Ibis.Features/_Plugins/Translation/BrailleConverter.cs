@@ -1,8 +1,8 @@
-﻿namespace Ibis._Plugins;
+﻿namespace Ibis._Plugins.Translation;
 
 public static class BrailleConverter
 {
-    public static string Convert(string? text) => 
+    public static string Convert(string? text) =>
         text == null
         ? string.Empty
         : BrailleAscii.Aggregate(text, (current, item) => current.Replace(item.Key, item.Value));
