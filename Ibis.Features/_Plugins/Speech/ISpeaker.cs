@@ -1,4 +1,4 @@
-﻿namespace Ibis;
+﻿namespace Ibis._Plugins.Speech;
 
 public interface ISpeaker
 {

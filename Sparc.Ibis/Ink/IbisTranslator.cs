@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using System.Globalization;
 
-namespace Sparc.Ibis;
+namespace Sparc.Ibis.Ink;
 
 public class IbisTranslator : IAsyncDisposable
 {
@@ -115,7 +115,7 @@ public class IbisTranslator : IAsyncDisposable
     {
         if (message?.Audio?.Url == null)
             return;
-        
+
         var ibis = await IbisJs.Value;
         await ibis.InvokeVoidAsync("playAudio", message.Audio.Url);
     }

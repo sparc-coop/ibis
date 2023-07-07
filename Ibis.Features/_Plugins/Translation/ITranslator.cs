@@ -1,4 +1,4 @@
-﻿namespace Ibis;
+﻿namespace Ibis._Plugins.Translation;
 
 public interface ITranslator
 {
@@ -9,7 +9,7 @@ public interface ITranslator
         var languages = await GetLanguagesAsync();
         return languages.FirstOrDefault(x => x.Id == language);
     }
-    
+
     async Task<string?> TranslateAsync(string text, string fromLanguage, string toLanguage)
     {
         var language = await GetLanguageAsync(toLanguage)

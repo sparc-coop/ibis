@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Sparc.Ibis.Ink;
 
 namespace Sparc.Ibis;
 

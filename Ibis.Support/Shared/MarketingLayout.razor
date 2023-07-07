@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<CascadingValue Value="User">
+
     <nav class="nav--support">
         <div class="nav--container">
             <div class="nav--container-left">
@@ -28,48 +28,12 @@
     </main>
 
     <Footer />
-</CascadingValue>
 
-@inject AuthenticationStateProvider AuthenticationStateProvider
+
 @inject NavigationManager Navigation
 
 @code {
-    UserAvatar? User;
-    bool isUserBeingGot;
     string ShowMobileMenu = "";
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (User != null)
-            return;
-
-        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
-
-        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
-    }
-
-    async Task UpdateUser(Task<AuthenticationState> state)
-    {
-        var user = (await state).User;
-
-        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
-        {
-            isUserBeingGot = true;
-            User = await Api.GetUserAsync();
-            if (User != null && User.Language == null)
-            {
-                EditAvatar();
-            }
-
-            StateHasChanged();
-            isUserBeingGot = false;
-        }
-    }
-
-    void EditAvatar()
-    {
-        Modal.Show<Onboarding.Index>("Edit Your Avatar", new ModalOptions { HideHeader = true, Size = ModalSize.Automatic });
-    }
 
     void RefreshLanding()
     {

@@ -1,45 +1,5 @@
-﻿@import "Pages/Landing.scss";
-@import "Pages/Pricing";
-
-@import "Shared/MainLayout";
-@import "Shared/SupportMarketingLayout";
-@import "Shared/RoomLayout";
-@import "Shared/NavMenu";
-@import "Shared/Footer";
-@import "Shared/Tooltip";
-@import "Shared/Icons/SupportIcon";
-
-@import "Rooms/Index";
-@import "Rooms/Room";
-@import "Rooms/RoomCard";
-@import "Rooms/RoomShare";
-@import "Rooms/DeleteModal";
-@import "Rooms/EditModal";
-@import "Rooms/InviteModal";
-@import "Rooms/RoomMenu";
-@import "Rooms/RoomIcon";
-
-@import "Messages/MessageCard";
-@import "Messages/MessageList";
-@import "Messages/NewMessage";
-@import "Messages/Upload";
-@import "Messages/MessageTags";
-
-@import "Users/Account";
-@import "Users/Notifications";
-@import "Users/Avatar";
-@import "Users/AvatarList";
-@import "Users/AccountNav";
-@import "Users/AddFundsModal";
-
-@import "Onboarding/Index";
-@import "Onboarding/AccountDetails";
-@import "Onboarding/LanguageSelector";
-@import "Onboarding/VoiceSelector";
-@import "Onboarding/AvatarEditor";
-@import "Onboarding/EmojiSelector";
-@import "Onboarding/ColorSelector";
-
+﻿@import "_Imports";
+@import "Pages/Index";
 //Sans Serif Fonts
 //Regular fonts
 

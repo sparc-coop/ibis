@@ -17,8 +17,7 @@ builder.Services
         .AddScoped<ITranslator, AzureTranslator>()
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
-        .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>();
+        .AddSingleton<ExchangeRates>();
 
 builder.AddBlossomAuthentication<User>();
 

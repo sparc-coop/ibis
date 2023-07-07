@@ -84,7 +84,7 @@
         if (_selectedLanguage != LocalMessage?.Language)
         {
             _selectedLanguage = LocalMessage?.Language;
-            await ChangeMessageLanguage(_selectedLanguage);
+            await ChangeMessageLanguage(_selectedLanguage!);
         }
     }
 
