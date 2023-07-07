@@ -1,4 +1,5 @@
-﻿using Microsoft.CognitiveServices.Speech;
+﻿using DeepL;
+using Microsoft.CognitiveServices.Speech;
 using NAudio.Lame;
 using NAudio.Wave;
 using File = Sparc.Blossom.Data.File;
@@ -51,7 +52,7 @@ public class AzureSpeaker : ISpeaker
         var ticks = result.AudioDuration.Ticks;
         message.AddCharge(ticks, cost, $"Speak message from {message.User.Name} in voice {message.Audio?.Voice}");
 
-        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio?.Voice, words);
+        return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio?.Voice ?? "", words);
     }
 
     public async Task<AudioMessage> SpeakAsync(List<Message> messages)
@@ -127,5 +128,26 @@ public class AzureSpeaker : ISpeaker
         var voices = await GetVoicesAsync(language, null, gender);
         var hash = deterministicId.ToCharArray().Aggregate(0, (acc, c) => acc + c);
         return voices[hash % voices.Count].Name;
+    }
+
+    public async Task<List<Language>> GetLanguagesAsync(Translation.ITranslator translator)
+    {
+        var languages = await translator.GetLanguagesAsync();
+        var voices = await GetVoicesAsync();
+
+        var result = new List<Language>();
+        foreach (var language in languages)
+        {
+            var voicesByDialect = voices
+                .Where(x => x.Locale.Split("-").First() == language.Id)
+                .GroupBy(x => x.Locale);
+
+            foreach (var dialect in voicesByDialect)
+                language.AddDialect(dialect.Key, dialect.ToList());
+
+            result.Add(language);
+        }
+
+        return result;
     }
 }

@@ -27,6 +27,8 @@ public class IbisLoginModel : LoginModel
     public string Message { get; set; } = "Welcome to Ibis! Please enter your email below.";
     public string Welcome { get; set; } = "Welcome to Ibis";
     public string EmailLabel { get; set; } = "Email Address";
+    public string? Code { get; set; }
+    public string CodeLabel { get; set; } = "Enter the code you just received";
     public string SignInButton { get; set; } = "Sign In";
 
     public override PageResult Page()

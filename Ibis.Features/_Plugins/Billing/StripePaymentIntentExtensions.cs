@@ -1,7 +1,7 @@
 ﻿using Stripe;
 using System.Globalization;
 
-namespace Ibis.Users;
+namespace Ibis._Plugins.Billing;
 
 public static class StripePaymentIntentExtensions
 {
@@ -14,7 +14,7 @@ public static class StripePaymentIntentExtensions
     {
         return paymentIntent.Amount / StripeCurrencyMultiplier(paymentIntent.Currency);
     }
-    
+
 
     public static string FormattedAmount(this PaymentIntent paymentIntent)
     {

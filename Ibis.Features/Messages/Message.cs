@@ -1,7 +1,6 @@
 ﻿using Ibis._Plugins.Speech;
 using Ibis._Plugins.Translation;
 using Markdig;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Ibis.Messages;
 
@@ -103,7 +102,7 @@ public class Message : Entity<string>
             Broadcast(new MessageTextChanged(this));
     }
 
-    internal async Task<(string?, Message?)> TranslateAsync(ITranslator translator, string languageId)
+    internal async Task<(string?, Message?)> TranslateAsync(Translator translator, string languageId)
     {
         if (HasTranslation(languageId))
             return (Translations.First(x => x.LanguageId == languageId).SourceMessageId, null);
@@ -117,7 +116,7 @@ public class Message : Entity<string>
         return (translatedMessage?.Id, translatedMessage);
     }
 
-    internal async Task<List<Message>> TranslateAsync(ITranslator translator, bool forceRetranslation = false)
+    internal async Task<List<Message>> TranslateAsync(Translator translator, bool forceRetranslation = false)
     {
         var languagesToTranslate = forceRetranslation
             ? Room.Languages.Where(x => x.Id != Language).ToList()

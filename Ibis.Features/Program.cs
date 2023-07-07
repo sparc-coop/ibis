@@ -1,4 +1,4 @@
-using Ibis;
+using Ibis._Plugins.Billing;
 using Ibis._Plugins.Blossom;
 using Ibis._Plugins.Database;
 using Ibis._Plugins.Realtime;
@@ -21,9 +21,9 @@ var app = builder.Blossom<User>(s =>
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>());
 
-app.Host("ibis.chat", 5001, "Chat", RenderMode.WebAssembly);
-app.Host("ibis.ink", 5002, "Ink", RenderMode.WebAssembly);
-app.Host("ibis.support", 5003, "Support", RenderMode.WebAssembly);
+app.Host<Ibis.Chat.App>("ibis.chat", 5001, "Chat");
+app.Host<Ibis.Ink.App>("ibis.ink", 5002, "Ink");
+app.Host<Ibis.Support.App>("ibis.support", 5003, "Support");
 
 app.MapHub<IbisHub>("/hub");
 app.UseAllCultures();

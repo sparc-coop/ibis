@@ -1,31 +1,28 @@
 ﻿using Stripe;
 
-namespace Ibis.Users;
-
+namespace Ibis._Plugins.Billing;
 public record PaymentIntentRequest(decimal Amount, string Currency, string? Id = null);
 public record TicksPackage(decimal Amount, long Ticks);
 public record PaymentIntentResponse(string ClientSecret, string Amount, string Id, string Currency, List<TicksPackage> Amounts);
 
-public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentResponse>
+public class StripeBiller
 {
-    public IConfiguration Configuration { get; }
-    public IRepository<User> Users { get; }
-    public ExchangeRates ExchangeRates { get; }
-
-    public CreatePaymentIntent(IConfiguration configuration, IRepository<User> users, ExchangeRates exchangeRates)
+    internal StripeBiller(ExchangeRates exchangeRates, IConfiguration configuration, IRepository<User> users, IRepository<UserCharge> userCharges)
     {
-        Configuration = configuration;
-        Users = users;
         ExchangeRates = exchangeRates;
+        Users = users;
+        UserCharges = userCharges;
+        EndpointKey = configuration["Stripe:EndpointKey"]!;
     }
 
-    public override async Task<PaymentIntentResponse> ExecuteAsync(PaymentIntentRequest request)
-    {
-        var user = await Users.FindAsync(User.Id());
-        if (user == null)
-            throw new NotAuthorizedException("Can't find user information!");
+    internal ExchangeRates ExchangeRates { get; }
+    public IRepository<User> Users { get; }
+    public IRepository<UserCharge> UserCharges { get; }
+    private string EndpointKey { get; }
 
-        if (user.BillingInfo.CustomerId == null)
+    internal async Task<PaymentIntentResponse> CreatePaymentIntentAsync(User user, PaymentIntentRequest request)
+    {
+        if (user.BillingInfo.CustomerId != null)
         {
             var customer = await new CustomerService().CreateAsync(new()
             {
@@ -34,12 +31,11 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
                 Metadata = new() { { "IbisUserId", user.Id } }
             });
             user.SetUpBilling(customer.Id, request.Currency);
-            await Users.UpdateAsync(user);
         }
 
         var amounts = await ExchangeRates.ConvertToNiceAmountsAsync(request.Currency, 1, 5, 10, 20);
         var pricePerMinute = 0.05M;
-        
+
         List<TicksPackage> packages = new();
         var bonus = 1M;
         foreach (var amt in amounts)
@@ -88,4 +84,59 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
 
         return new(paymentIntent.ClientSecret, paymentIntent.FormattedAmount(), paymentIntent.Id, paymentIntent.Currency, packages);
     }
+
+    internal async Task<bool> ProcessPaymentIntentAsync(HttpRequest request)
+    {
+        var json = await new StreamReader(request.Body).ReadToEndAsync();
+        try
+        {
+            var signatureHeader = request.Headers["Stripe-Signature"];
+            var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, EndpointKey, throwOnApiVersionMismatch: false);
+
+            if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+            {
+                await ProcessPaymentAsync(stripeEvent);
+            }
+            else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
+            {
+                await FailPaymentAsync(stripeEvent);
+            }
+
+            return true;
+        }
+        catch (StripeException)
+        {
+            return false;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    private async Task FailPaymentAsync(Event stripeEvent)
+    {
+        var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+        var customer = new CustomerService().Get(paymentIntent!.CustomerId);
+        var user = await Users.FindAsync(customer.Metadata["IbisUserId"]);
+        if (user != null)
+        {
+            UserCharge userCharge = new(user.Id, paymentIntent!);
+            await UserCharges.AddAsync(userCharge);
+        }
+    }
+
+    private async Task ProcessPaymentAsync(Event stripeEvent)
+    {
+        var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+        var customer = new CustomerService().Get(paymentIntent!.CustomerId);
+        var user = await Users.FindAsync(customer.Metadata["IbisUserId"]);
+        if (user != null)
+        {
+            UserCharge userCharge = new(user.Id, paymentIntent!);
+            await Users.ExecuteAsync(user, x => x.Refill(userCharge.Ticks));
+            await UserCharges.AddAsync(userCharge);
+        }
+    }
 }
+

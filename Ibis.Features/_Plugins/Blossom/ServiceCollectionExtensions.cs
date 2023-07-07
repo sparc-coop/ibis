@@ -4,7 +4,7 @@ namespace Ibis._Plugins.Blossom;
 
 public static class ServiceCollectionExtensions
 {
-    public static WebApplication Host(this WebApplication app, string domainName, int developmentPort, string staticWebAssetBasePath, RenderMode renderMode)
+    public static WebApplication Host<T>(this WebApplication app, string domainName, int developmentPort, string staticWebAssetBasePath, RenderMode renderMode = RenderMode.WebAssemblyPrerendered)
     {
         app.MapWhen(x => x.Request.Host.Port == developmentPort || x.Request.Host.Equals(domainName), subapp =>
         {
@@ -25,7 +25,8 @@ public static class ServiceCollectionExtensions
                 endpoints.MapControllers();
                 if (renderMode == RenderMode.ServerPrerendered || renderMode == RenderMode.WebAssemblyPrerendered)
                 {
-                    endpoints.MapFallbackToPage(renderMode == RenderMode.ServerPrerendered ? "/_ServerHost" : "/_WebAssemblyHost");
+                    subapp.ApplicationServices.GetRequiredService<BlossomAppProvider>().SetApp<T>(renderMode);
+                    endpoints.MapFallbackToPage("/_Host");
                 }
                 else
                 {
@@ -47,6 +48,7 @@ public static class ServiceCollectionExtensions
     {
         builder.AddBlossom();
         services(builder.Services);
+        builder.Services.AddSingleton<BlossomAppProvider>();
         builder.AddBlossomAuthentication<TUser>();
 
         WebApplication app = builder.Build();

@@ -1,4 +1,4 @@
-﻿using Ibis._Plugins;
+﻿using Ibis._Plugins.Billing;
 using Ibis._Plugins.Speech;
 using Ibis._Plugins.Translation;
 using System.Security.Claims;
@@ -148,6 +148,11 @@ public class User : BlossomUser
     internal void SetUpBilling(string customerId, string currency)
     {
         BillingInfo.SetUpCustomer(customerId, currency);
+    }
+
+    public async Task<PaymentIntentResponse> CreatePaymentIntent(PaymentIntentRequest request, StripeBiller biller)
+    {
+        return await biller.CreatePaymentIntentAsync(this, request);
     }
 
     internal void GoOnline(string connectionId)

@@ -27,5 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Ibis.Chat\Ibis.Chat.csproj" />
     <ProjectReference Include="..\Ibis.Ink\Ibis.Ink.csproj" />
+    <ProjectReference Include="..\Ibis.Support\Ibis.Support.csproj" />
   </ItemGroup>
 </Project>

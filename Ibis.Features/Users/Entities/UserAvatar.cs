@@ -1977,4 +1977,7 @@ public class UserAvatar
   "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
   "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
     };
+
+    public record GetEmojisResponse(List<string> Skintones, List<string> Emojis, List<string> Colors);
+    internal static GetEmojisResponse AllEmojis() => new(SkinTones(), Emojis(), BackgroundColors());
 }

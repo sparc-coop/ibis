@@ -6,4 +6,3 @@ global using Sparc.Blossom.Authentication;
 global using Ibis.Rooms;
 global using Ibis.Messages;
 global using Ibis.Users;
-global using Ibis._Plugins;

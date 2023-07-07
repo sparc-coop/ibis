@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Ibis.Users;
+namespace Ibis._Plugins.Billing;
 
 public class ExchangeRates
 {

@@ -1,8 +1,9 @@
-﻿using Stripe;
+﻿using Ibis._Plugins.Billing;
+using Stripe;
 
 namespace Ibis.Users;
 
-public class UserCharge : Root<string>
+public class UserCharge : Entity<string>
 {
     public string UserId { get; set; }
     public string? RoomId { get; set; }
