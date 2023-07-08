@@ -46,8 +46,8 @@ public static class ServiceCollectionExtensions
 
     public static WebApplication Blossom<TUser>(this WebApplicationBuilder builder, Action<IServiceCollection> services) where TUser : BlossomUser, new()
     {
-        builder.AddBlossom();
         services(builder.Services);
+        builder.AddBlossom();
         builder.Services.AddSingleton<BlossomAppProvider>();
         builder.AddBlossomAuthentication<TUser>();
 

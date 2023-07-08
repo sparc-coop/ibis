@@ -5,7 +5,6 @@ using Ibis._Plugins.Realtime;
 using Ibis._Plugins.Speech;
 using Ibis._Plugins.Translation;
 using Lamar.Microsoft.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
