@@ -1320,7 +1320,6 @@
   z-index: 500;
 }
 .nav--landing .nav--container {
-  width: 100%;
   padding: 25px 94px;
   display: flex;
   justify-content: space-between;
@@ -4611,6 +4610,7 @@ ul.colors li span {
 body {
   overflow-x: hidden !important;
   font-family: "CircularStd", sans-serif;
+  margin: 0;
 }
 
 .container {
