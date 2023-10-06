@@ -147,7 +147,7 @@
   animation: slideUpFadeIn 600ms ease-in-out;
 }
 .landing--content .arrows--container {
-  width: 100%;
+  width: calc(100% - 40px);
   height: 26px;
   padding: 0 20px;
   display: flex;
