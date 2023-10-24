@@ -2,7 +2,7 @@
 
 namespace Ibis.Rooms;
 
-public class Rooms : BlossomAggregate<Room>
+public class Rooms : BlossomRepository<Room>
 {
     public Rooms() : base()
     {
