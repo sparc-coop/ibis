@@ -29,11 +29,53 @@ builder.Services.AddOutputCache();
 
 var app = builder.Build();
 
-app.UseBlazorFrameworkFiles();
+app.MapWhen(ctx => ctx.Request.Host.Port == 5001 ||
+    ctx.Request.Host.Equals("ibis.chat"), first =>
+    {
+        first.Use((ctx, nxt) =>
+        {
+            ctx.Request.Path = "/Chat" + ctx.Request.Path;
+            return nxt();
+        });
+
+        first.UseBlazorFrameworkFiles("/Chat");
+        first.UseStaticFiles();
+        first.UseStaticFiles("/Chat");
+        first.UseRouting();
+
+        first.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapFallbackToFile("/Chat/{*path:nonfile}",
+                "Chat/index.html");
+        });
+    });
+
+app.MapWhen(ctx => ctx.Request.Host.Port == 5002 ||
+    ctx.Request.Host.Equals("ibis.ink"), second =>
+    {
+        second.Use((ctx, nxt) =>
+        {
+            ctx.Request.Path = "/Ink" + ctx.Request.Path;
+            return nxt();
+        });
+
+        second.UseBlazorFrameworkFiles("/Ink");
+        second.UseStaticFiles();
+        second.UseStaticFiles("/Ink");
+        second.UseRouting();
+
+        second.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapFallbackToFile("/Ink/{*path:nonfile}",
+                "Ink/index.html");
+        });
+    });
+
 app.UseBlossom();
 app.MapControllers();
 app.MapBlazorHub();
-app.MapFallbackToFile("index.html");
 
 if (builder.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
