@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis", "Ibis.Features\Ibis.csproj", "{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ibis.Chat", "Ibis.Chat\Ibis.Chat.csproj", "{01E5EDBA-EC24-4FB7-9C66-47919515F399}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparc.Ibis", "Sparc.Ibis\Sparc.Ibis.csproj", "{3948C277-5800-4D31-BDBC-C61AAFF39174}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,22 @@ Global
 		{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}.Release|Any CPU.Build.0 = Release|Any CPU
 		{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}.Release|x64.ActiveCfg = Release|x64
 		{62A8737B-9E2B-448A-9BE9-58BD2E9F9670}.Release|x64.Build.0 = Release|x64
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Debug|x64.Build.0 = Debug|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Release|x64.ActiveCfg = Release|Any CPU
+		{01E5EDBA-EC24-4FB7-9C66-47919515F399}.Release|x64.Build.0 = Release|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Debug|x64.Build.0 = Debug|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Release|x64.ActiveCfg = Release|Any CPU
+		{3948C277-5800-4D31-BDBC-C61AAFF39174}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
