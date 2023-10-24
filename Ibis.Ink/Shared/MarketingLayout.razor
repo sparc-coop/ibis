@@ -11,7 +11,7 @@
         </div>
         <div class="nav--container-right">
             @*<a href="/pricing">Pricing</a>*@
-            <button class="get-started">Get Started</button>
+            <button @onclick="SignIn" class="get-started">Get Started</button>
             <button class="mobile-menu--btn @ShowMobileMenu" @onclick=OpenMobileMenu><img src="icons/menu-secondary.png" /></button>
             <button class="mobile-menu--close @ShowMobileMenu" @onclick=CloseMobileMenu><img src="icons/close-icon.svg" /></button>
         </div>
@@ -36,6 +36,11 @@
     void RefreshLanding()
     {
         Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    private void SignIn()
+    {
+        Nav.NavigateTo("/dashboard", true);
     }
 
     void OpenMobileMenu()
