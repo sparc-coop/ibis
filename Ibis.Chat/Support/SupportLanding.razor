@@ -3,15 +3,6 @@
 
 <div class="support-landing">
     <header class="support-landing--header">
-        <div class="content">
-            <h2>Take your <img src="images/Frame 349.png" /> to another level</h2>
-            <p class="subheader">
-                Break language barriers effortlessly and enhance communication with our powerful Translator Support Widget. 
-                Whether you're running a global business, managing a multilingual website, or simply want to support clients 
-                from different cultures, our Ibis is here to make your life easier.
-            </p>
-            <button @onclick=OpenPreviewHelpdesk>Take a look <img class="right-arrow" src="icons/arrow-down-icon.svg" /></button>
-        </div>
         <div class="hero">
             <img class="hero-img-1" src="images/Rectangle 589.png" />
             <div class="hero--right">
@@ -24,6 +15,15 @@
                     <div>How can we help you?</div>
                 </div>
             </div>
+        </div>
+        <div class="content">
+            <h2>Take your <img src="images/Frame 349.png" /> to another level</h2>
+            <p class="subheader">
+                Break language barriers effortlessly and enhance communication with our powerful Translator Support Widget. 
+                Whether you're running a global business, managing a multilingual website, or simply want to support clients 
+                from different cultures, our Ibis is here to make your life easier.
+            </p>
+            <button @onclick=OpenPreviewHelpdesk>Take a look <img class="right-arrow" src="icons/arrow-down-icon.svg" /></button>
         </div>
     </header>
     <div class="features">
@@ -56,7 +56,11 @@
                 </p>
             </div>
         </div>
-        @*<img class="features-background" src="images/Group 68.png" />*@
+        <div class="features-background">
+            <img class="features-background--blob" src="images/features-background.png" />
+            <img class="features-background--graphic1" src="images/circles.png" />
+            <img class="features-background--graphic2" src="images/msg box.png" />
+        </div>
     </div>
     <div class="more-information">
         <header>
@@ -65,9 +69,15 @@
             <p>We're excited to introduce Ibis series that share the same passion, quality, and values. Explore these similar products and uncover even more services that align with your preferences and interests!</p>
         </header>
         <div class="ibis-logo--container">
-            <a href="https://ibis.chat/" target="_blank"><img src="images/logo.png" /></a>
-            <img src="images/IbisSupport_logo-full.png" />
-            <img src="images/IbisInk_logo-full.png" />
+            <a href="https://ibis.chat/">
+                <img src="images/logo.png" />
+            </a>
+            <a ahref="https://ibis.support/">
+                <img src="images/IbisSupport_logo-full.png" />
+            </a>
+            <a href="https://ibis.ink/">
+                <img src="images/IbisInk_logo-full.png" />
+            </a>
         </div>
     </div>
     <Footer />

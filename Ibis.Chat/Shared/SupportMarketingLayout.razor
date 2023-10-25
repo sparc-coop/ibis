@@ -2,21 +2,32 @@
 
 <CascadingValue Value="User">
     <nav class="nav--support">
-        <div class="nav--left">
-            <h1>
-                <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisSupport_logo-full.png" /></a>
-            </h1>
+        <div class="nav--container">
+            <div class="nav--container-left">
+                <h1>
+                    <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisSupport_logo-full.png" /></a>
+                </h1>
+            </div>
+            <div class="nav--container-right">
+                @*<a href="/pricing">Pricing</a>*@
+                <button class="contact-us">Contact Us</button>
+                <button class="mobile-menu--btn @ShowMobileMenu" @onclick=OpenMobileMenu><img src="icons/menu-secondary.png" /></button>
+                <button class="mobile-menu--close @ShowMobileMenu" @onclick=CloseMobileMenu><img src="icons/close-icon.svg" /></button>
+            </div>
         </div>
-        <div class="nav--right">
-            <a href="/pricing">Pricing</a>
-            <button class="contact-us">Contact Us</button>
+        <div class="mobile-menu--overlay @ShowMobileMenu" @onclick=CloseMobileMenu></div>
+        <div class="mobile-menu @ShowMobileMenu">
+            <div class="mobile-menu--links">
+                <button class="contact-us">Contact Us</button>
+            </div>
         </div>
     </nav>
 
-    <main>
+    <main class="main--support-landing">
         @Body
     </main>
 
+    <Footer />
 </CascadingValue>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -25,6 +36,7 @@
 @code {
     UserAvatar? User;
     bool isUserBeingGot;
+    string ShowMobileMenu = "";
 
     protected override async Task OnParametersSetAsync()
     {
@@ -62,5 +74,15 @@
     void RefreshLanding()
     {
         Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    void OpenMobileMenu()
+    {
+        ShowMobileMenu = "open";
+    }
+
+    void CloseMobileMenu()
+    {
+        ShowMobileMenu = "";
     }
 }

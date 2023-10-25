@@ -7,11 +7,15 @@
         padding: 9px 16px 0px 16px;
         position: absolute;
         top: 0;
-        right: 65px;
+        right: 50px;
         background: $secondary-900;
         border: none;
         border-radius: 8px;
         z-index: 1001;
+
+        @media screen and (max-width: 800px) {
+            right: 43px;
+        }
 
         ul {
             max-height: 200px;

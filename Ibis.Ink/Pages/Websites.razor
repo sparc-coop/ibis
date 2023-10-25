@@ -1,6 +1,7 @@
 ﻿@page "/dashboard"
 @using Ibis.Ink.Components
 @layout DashboardLayout
+@attribute [Authorize]
 
 <div class="websites">
     <header class="page--header">
@@ -23,6 +24,18 @@
     </div>
 </div>
 
+@inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
-
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var ticks = await Api.GetUserBalanceAsync();
+        }
+        catch (ApiException ex) when (ex.StatusCode == 401)
+        {
+            await Auth.LogoutAsync();
+            Nav.NavigateTo("/dashboard", true);
+        }
+    }
 }

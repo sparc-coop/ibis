@@ -14,12 +14,14 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://kodekit-api.azurewebsites.net/definitized-pseudocommissure.css">
     <link href="Ibis.Chat.styles.css" rel="stylesheet">
+    <link href="Ibis.Ink.styles.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet" />
     <base href="~/" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
 </head>
 
 <body style="background: #fafbfc">
@@ -37,5 +39,19 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script>
+        function MorphBlobs() {
+            const morph1 = KUTE.fromTo('#blob1',
+                { path: '#blob1' },
+                { path: '#blob2' },
+                { repeat: 100, duration: 3000, yoyo: true });
+            const morph2 = KUTE.fromTo('#blob1',
+                { path: '#blob1' },
+                { path: '#blob3' },
+                { repeat: 100, duration: 3000, yoyo: true });
+            morph1.start();
+            morph2.start();
+        }
+    </script>
 </body>
 </html>

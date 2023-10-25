@@ -4,11 +4,11 @@
     position: relative;
 
     &--container {
-        width: 76px;
-        height: 220px;
-        padding: 14px 10px 14px 10px;
+        width: 56px;
+        height: 145px;
+        padding: 9px 6px;
         background: rgba(0, 59, 95, 0.1);
-        border-radius: 40px 0px 0px 40px;
+        border-radius: 25px;
 
         button {
             display: block;
@@ -17,17 +17,16 @@
             margin: 0 auto;
         }
 
-        @media screen and (max-width: 850px) {
-            width: 58px;
-            height: 168px;
-            padding: 10px 8px;
+        @media screen and (max-width: 800px) {
+            width: 49px;
+            height: 145px;
         }
     }
 
     &-language {
-        width: 56px;
-        height: 126px;
-        padding: 21px 8px;
+        width: 43px;
+        height: 80px;
+        padding: 13px 5px;
         position: relative;
         background: $secondary-900;
         box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -37,13 +36,14 @@
 
         button {
             aspect-ratio: 1/1;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
             text-align: center;
 
             &.open-language-settings {
-                margin-bottom: 6px;
+                height: 25px;
+                margin-bottom: 4px;
 
                 span {
                     font-family: 'CircularStd';
@@ -61,8 +61,8 @@
 
             &.play-button {
                 svg {
-                    width: 17px;
-                    height: 17px;
+                    width: 13px;
+                    height: 13px;
                     transition: 250ms ease-in-out;
                 }
             }
@@ -97,34 +97,25 @@
             }
         }
 
-        @media screen and (max-width: 850px) {
-            width: 43px;
-            height: 92px;
+        @media screen and (max-width: 800px) {
+            width: 36px;
+            height: 81px;
             padding: 16px 6px;
             border-radius: 32px;
 
             button {
-                width: 20px;
-                height: 20px;
-
-                &.open-language-settings {
-                    margin-bottom: 20px;
-
-                    span {
-                        font-size: 14px;
-                        line-height: 120%;
-                    }
-                }
+                width: 25px;
+                height: 25px;
 
                 &:hover {
                     span {
-                        font-size: 16px;
+                        font-size: 18px;
                     }
                 }
 
                 &:active {
                     span {
-                        font-size: 14px;
+                        font-size: 16px;
                     }
                 }
             }
@@ -150,21 +141,28 @@
         z-index: 1000;
 
         .open-helpdesk {
-            img {
-                transition: 250ms ease-in-out;
+            .support-icon {
+                width: 35px;
+                height: 35px;
+
+                img {
+                    transition: 250ms ease-in-out;
+                    width: 25px;
+                    height: 24px;
+                }
             }
 
             &:hover {
                 img {
-                    width: 32px;
-                    height: 31px;
+                    width: 29px;
+                    height: 28px;
                 }
             }
 
             &:active {
                 img {
-                    width: 22px;
-                    height: 21px;
+                    width: 25px;
+                    height: 24px;
                 }
             }
         }
@@ -177,30 +175,11 @@
             }
         }
 
-        @media screen and (max-width: 850px) {
+        @media screen and (max-width: 600px) {
             .open-helpdesk {
                 .support-icon {
-                    width: 43px;
-                    height: 43px;
-
-                    img {
-                        width: 27px !important;
-                        height: 26px !important;
-                    }
-                }
-
-                &:hover {
-                    img {
-                        width: 31px !important;
-                        height: 30px !important;
-                    }
-                }
-
-                &:active {
-                    img {
-                        width: 27px !important;
-                        height: 26px !important;
-                    }
+                    width: 36px;
+                    height: 36px;
                 }
             }
         }
