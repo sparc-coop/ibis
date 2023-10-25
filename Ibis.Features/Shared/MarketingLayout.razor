@@ -1,0 +1,55 @@
+﻿@inherits LayoutComponentBase
+@using Sparc.Blossom.Authentication;
+
+<PageTitle>Ibis Ink</PageTitle>
+<nav class="nav--landing">
+    <div class="nav--container">
+        <div class="nav--container-left">
+            <h1>
+                <a href="/" @onclick=RefreshLanding><img class="logo" src="images/IbisInk_logo-full.png" /></a>
+            </h1>
+        </div>
+        <div class="nav--container-right">
+            @*<a href="/pricing">Pricing</a>*@
+            <button @onclick="SignIn" class="get-started">Get Started</button>
+            <button class="mobile-menu--btn @ShowMobileMenu" @onclick=OpenMobileMenu><img src="icons/menu-secondary.png" /></button>
+            <button class="mobile-menu--close @ShowMobileMenu" @onclick=CloseMobileMenu><img src="icons/close-icon.svg" /></button>
+        </div>
+    </div>
+    <div class="mobile-menu--overlay @ShowMobileMenu" @onclick=CloseMobileMenu></div>
+    <div class="mobile-menu @ShowMobileMenu">
+        <div class="mobile-menu--links">
+            <button class="get-started">Get Started</button>
+        </div>
+    </div>
+</nav>
+
+<main class="main--landing">
+    @Body
+</main>
+
+@inject NavigationManager Navigation
+
+@code {
+    string ShowMobileMenu = "";
+
+    void RefreshLanding()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    private void SignIn()
+    {
+        Nav.NavigateTo("/dashboard", true);
+    }
+
+    void OpenMobileMenu()
+    {
+        ShowMobileMenu = "open";
+    }
+
+    void CloseMobileMenu()
+    {
+        ShowMobileMenu = "";
+    }
+}

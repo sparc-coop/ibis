@@ -1,0 +1,282 @@
+@import '../_variables.scss';
+
+.nav--landing {
+    width: 100vw;
+    height: 100px;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    background: $white;
+    z-index: 500;
+
+    .nav--container {
+        padding: 25px 94px;
+        display: flex;
+        justify-content: space-between;
+
+        &-left {
+            h1 {
+                margin: auto 0;
+                font-size: 51px;
+                line-height: 100%;
+            }
+
+            a {
+                font-size: 51px;
+                line-height: 100%;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                img {
+                    width: 177px;
+                    height: 51px;
+                    margin: auto 0;
+                }
+            }
+        }
+
+        &-right {
+            /*display: flex;
+        gap: 30px;*/
+
+            a {
+                margin: auto 0;
+                color: $grey-500;
+                font-family: 'CircularStd';
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 120%;
+                transition: 250ms ease-in-out;
+
+                &:hover {
+                    color: $dark-blue;
+                }
+            }
+
+            .get-started {
+                margin: auto 0;
+                padding: 13px 37px;
+                background: $white;
+                color: $dark-blue;
+                border: 1px solid $dark-blue;
+                border-radius: 8px;
+                font-family: 'CircularStd';
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 120%;
+                transition: 250ms ease-in-out;
+
+                &:hover {
+                    background: $dark-blue;
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    .mobile-menu {
+        width: 100%;
+        max-height: 0px;
+        position: relative;
+        background: $white;
+        transition: max-height 300ms ease-in-out;
+        text-align: center;
+        overflow: hidden;
+
+        &--btn {
+            margin-top: 10px;
+            display: none;
+            background: none;
+            border-radius: 0;
+        }
+
+        &--close {
+            display: none;
+            margin-top: 10px;
+            display: none;
+            background: none;
+            border-radius: 0;
+        }
+
+        &--links {
+            padding-bottom: 25px;
+        }
+
+        .get-started {
+            display: inline;
+            width: 326px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            background: $white;
+            border: 1px solid $secondary-900;
+            border-radius: 4px;
+            color: $secondary-900;
+            text-align: center;
+            transition: 250ms ease-in-out;
+
+            &:hover {
+                background: $dark-blue;
+                color: $white;
+            }
+        }
+
+        &--overlay {
+            display: none;
+        }
+    }
+
+
+    @media screen and (max-width: 800px) {
+        height: 75px;
+
+        .nav--container {
+            padding: 10px 40px;
+
+            &-left {
+                h1 {
+                    margin-top: 8px;
+                    vertical-align: middle;
+                    font-size: 40px;
+                    line-height: 100%;
+                }
+
+                a {
+                    font-size: 40px;
+                    line-height: 100%;
+                }
+
+                img {
+                    height: 40px !important;
+                    width: auto !important;
+                }
+            }
+
+            &-right {
+                a {
+                    font-size: 16px;
+                }
+
+                .get-started {
+                    height: 40px;
+                    margin-top: 8px;
+                    padding: 10px 14px;
+                    font-size: 16px;
+                    line-height: 100%;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 673px) {
+        .nav--container {
+            height: 75px;
+            padding: 10px 15px;
+
+            &-left {
+                h1, a {
+                    font-size: 36px;
+                }
+
+                h1 {
+                    margin-top: 10px;
+                }
+
+                img {
+                    height: 36px !important;
+                    width: auto !important;
+                }
+            }
+
+            &-right {
+                gap: 15px;
+
+                a {
+                    margin: auto 0;
+                    font-size: 14px;
+                }
+
+                .get-started {
+                    display: none;
+                    /*height: 36px;
+                    margin-top: 10px;
+                    padding: 8px 12px;
+                    font-size: 14px;*/
+                }
+            }
+        }
+
+        .mobile-menu {
+            &--btn {
+                display: block;
+
+                &.open {
+                    display: none;
+                }
+            }
+
+            &--close {
+                &.open {
+                    display: block;
+                }
+            }
+
+            &.open {
+                max-height: 95px;
+                border-radius: 0 0 20px 20px;
+            }
+
+            &--overlay.open {
+                display: block;
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 75px;
+                background: rgba(0, 0, 0, 0.4);
+                animation: fadeIn 300ms ease-in;
+                z-index: -1;
+            }
+        }
+    }
+}
+
+.main--landing {
+    width: 100vw;
+    background: $background;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr repeat(12, 64px) 1fr;
+    grid-column-gap: 30px;
+}
+
+.landing {
+    grid-column: 2/14;
+
+    &--header {
+    }
+}
+
+@media screen and (max-width: 1098px) {
+    .main--landing {
+        grid-template-columns: 1fr repeat(8, 71px) 1fr;
+        grid-column-gap: 15px;
+    }
+
+    .landing {
+        grid-column: 2/10;
+    }
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 673px) {
+    .main--landing {
+        grid-template-columns: 1fr repeat(4, 71px) 1fr;
+    }
+
+    .landing {
+        grid-column: 2/6;
+    }
+}
