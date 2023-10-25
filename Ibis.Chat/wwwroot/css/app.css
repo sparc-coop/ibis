@@ -2238,6 +2238,8 @@ footer .footer--container a {
   font-weight: 400;
   font-size: 16px;
   line-height: 160%;
+  color: #003B5F;
+  margin-top: 20px;
 }
 .support-landing .more-information .ibis-logo--container {
   margin-top: 45px;
