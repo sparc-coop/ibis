@@ -1,11 +1,17 @@
 ﻿<div class="support-language--dropdown">
     <div class="support-language--searchbar">
         <label>Search</label>
-        <input tabindex="0" type="text" placeholder="Search langauge" />
+        <input tabindex="0" type="text" placeholder="Search langauge" @bind="searchText" @bind:event="oninput" />
     </div>
     <ul class="support-language--list">
         @if (Languages != null) {
-            @foreach (var language in Languages)
+            var filteredLanguages = Languages.Where(language =>
+            string.IsNullOrWhiteSpace(searchText) ||
+            language.NativeName.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+            language.DisplayName.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            @foreach (var language in filteredLanguages)
             {
                 @if(language.Id == User.Language)
                 {
@@ -23,6 +29,8 @@
     [CascadingParameter] public UserAvatar User { get; set; } = null!;
 
     ICollection<Language>? Languages { get; set; }
+
+    private string searchText = "";
 
     protected override async Task OnInitializedAsync()
     {
