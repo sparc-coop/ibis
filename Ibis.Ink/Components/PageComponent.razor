@@ -5,6 +5,7 @@
         <div class="component-text">
             <TextEditor MarkdownValue="@Content_Text" />
         </div>
+        Console.WriteLine(HTML);
     } else if (Type == "Image")
     {
         @if (Content_ImageWidth != null && Content_ImageHeight != null)
@@ -31,4 +32,5 @@
     [Parameter] public string? Content_ImageWidth { get; set; }
     [Parameter] public string? Content_ImageHeight { get; set; }
     [Parameter] public string? Content_ImageCaption { get; set; }
+    [Parameter] public string? HTML { get; set; }
 }

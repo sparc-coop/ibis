@@ -1,0 +1,21 @@
+﻿@page "/websites/{WebsiteId}/Home"
+@layout DashboardLayout;
+
+<div class="test-page">
+    <TestContent RoomId="44ea18be-31cb-454e-a6ac-6c5425f8970f" />
+</div>
+
+@code {
+    [Parameter] public string? WebsiteId { get; set; }
+    ICollection<GetRoomResponse>? Rooms;
+    GetRoomResponse? Website;
+    string? RoomId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        RoomId = "44ea18be-31cb-454e-a6ac-6c5425f8970f";
+        var rooms = await Api.GetRoomsAsync("Chat");
+        Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+        Website = Rooms.First(x => x.RoomId == RoomId);
+    }
+}

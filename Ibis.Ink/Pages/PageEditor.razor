@@ -10,7 +10,7 @@
             <input type="text" value="@PageId" />
         </header>
         <div class="page-content">
-            <PageComponent 
+            @* <PageComponent 
                 Type="Text" 
                 Title="Component title" 
                 Content_Text="Sit amet mauris commodo quis imperdiet." 
@@ -27,7 +27,8 @@
                 Content_ImageCaption="Sit amet mauris commodo quis imperdiet." 
                 Content_ImageWidth="459px"
                 Content_ImageHeight="306px"
-                />
+                /> *@
+             <MessageList Room=Room />
         </div>
     </div>
     <div class="page-editor--actions">
@@ -40,6 +41,7 @@
 </div>
 
 @code {
+    [Parameter] public GetRoomResponse? Room { get; set; }
     [Parameter] public string? WebsiteId { get; set; }
     [Parameter] public string? WebsiteTitle { get; set; }
     [Parameter] public string? PageId { get; set; }
