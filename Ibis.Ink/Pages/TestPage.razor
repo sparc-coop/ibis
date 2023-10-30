@@ -2,20 +2,33 @@
 @layout DashboardLayout;
 
 <div class="test-page">
-    <TestContent RoomId="44ea18be-31cb-454e-a6ac-6c5425f8970f" />
+    @* <TestContent RoomId="44ea18be-31cb-454e-a6ac-6c5425f8970f" /> *@
+    @if (Messages != null)
+    {
+        @foreach (var message in Messages)
+        {
+            <PageComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" />
+        }
+    }
 </div>
 
 @code {
     [Parameter] public string? WebsiteId { get; set; }
     ICollection<GetRoomResponse>? Rooms;
+    GetAllContentResponse? ContentList;
+    List<Message>? Messages;
     GetRoomResponse? Website;
+    string? ChannelId;
     string? RoomId;
 
     protected override async Task OnInitializedAsync()
     {
+        ChannelId = "testpage";
         RoomId = "44ea18be-31cb-454e-a6ac-6c5425f8970f";
         var rooms = await Api.GetRoomsAsync("Chat");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         Website = Rooms.First(x => x.RoomId == RoomId);
+        ContentList = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = ChannelId });
+        Messages = ContentList.Content.ToList();
     }
 }

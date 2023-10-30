@@ -1,12 +1,15 @@
 ﻿<div class="page-content--component">
-    @if (Type == "Text")
+    <div class="component-title">@Title</div>
+    <div class="component-text">
+        <TextEditor MarkdownValue="@Content_Text" />
+    </div>
+@*     @if (Type == "text")
     {
         <div class="component-title">@Title</div>
         <div class="component-text">
             <TextEditor MarkdownValue="@Content_Text" />
         </div>
-        Console.WriteLine(HTML);
-    } else if (Type == "Image")
+    } else if (Type == "image")
     {
         @if (Content_ImageWidth != null && Content_ImageHeight != null)
         {
@@ -21,7 +24,7 @@
             </div>
         }
     }
-</div>
+ *@</div>
 
 @code {
     [Parameter] public string? Id { get; set; }
@@ -33,4 +36,9 @@
     [Parameter] public string? Content_ImageHeight { get; set; }
     [Parameter] public string? Content_ImageCaption { get; set; }
     [Parameter] public string? HTML { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(Content_Text);
+    }
 }
