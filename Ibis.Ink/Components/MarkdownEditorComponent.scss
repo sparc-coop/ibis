@@ -5,15 +5,17 @@
     color: $grey-900;
     font-family: 'CircularStd';
 
-    button {
-        i {
-            color: $grey-700;
-        }
-    }
-
     .EasyMDEContainer {
         //hide preview button from toolbar
         .editor-toolbar {
+            button {
+                background: $secondary-200 !important;
+
+                i {
+                    color: $grey-700;
+                }
+            }
+
             button.preview {
                 display: none;
             }

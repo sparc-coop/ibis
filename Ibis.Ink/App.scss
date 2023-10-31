@@ -1,17 +1,5 @@
 ﻿@import "_variables";
 
-@import "Pages/Landing";
-@import "Pages/Pricing";
-@import "Pages/Websites";
-@import "Pages/Pages";
-@import "Pages/PageEditor";
-
-@import "Components/Breadcrumbs";
-@import "Components/WebsiteCard";
-@import "Components/PageCard";
-@import "Components/TextEditor";
-@import "Components/AddWebsite";
-
 @import "Shared/MainLayout";
 @import "Shared/MarketingLayout";
 @import "Shared/NavMenu";
@@ -20,6 +8,12 @@
 @import "Shared/DashboardLayout";
 @import "Shared/AddWebsiteModal";
 @import "Shared/PageSettingsModal";
+
+@import "Pages/Landing";
+@import "Pages/Pricing";
+@import "Pages/Websites";
+@import "Pages/Pages";
+@import "Pages/PageEditor";
 
 @import "Rooms/Index";
 @import "Rooms/Room";
@@ -38,7 +32,6 @@
 @import "Messages/Upload";
 @import "Messages/MessageTags";
 @import "Messages/MessagePage";
-@import "Messages/MarkdownEditorComponent";
 
 @import "Users/Account";
 @import "Users/Notifications";
@@ -54,6 +47,13 @@
 @import "Onboarding/AvatarEditor";
 @import "Onboarding/EmojiSelector";
 @import "Onboarding/ColorSelector";
+
+@import "Components/Breadcrumbs";
+@import "Components/WebsiteCard";
+@import "Components/PageCard";
+@import "Components/AddWebsite";
+@import "Components/TextEditor";
+@import "Components/MarkdownEditorComponent";
 
 //Sans Serif Fonts
 //Regular fonts

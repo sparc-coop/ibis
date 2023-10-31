@@ -1,25 +1,64 @@
 ﻿@page "/websites/{WebsiteId}/Home"
 @layout DashboardLayout;
 
-<div class="test-page">
-    @* <TestContent RoomId="44ea18be-31cb-454e-a6ac-6c5425f8970f" /> *@
-    @if (Messages != null)
-    {
-        @foreach (var message in Messages)
-        {
-            <PageComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" />
-        }
-    }
+<div class="test-page page-editor">
+    <Breadcrumbs WebsiteId="@WebsiteTitle" WebsiteTitle="@WebsiteTitle" PageTitle="@PageTitle" />
+    <div class="page-editor--container">
+        <header>
+            <label>Project Title</label>
+            <input type="text" value="Home" />
+        </header>
+        <div class="page-content">
+            @if (Messages != null)
+            {
+                @foreach (var message in Messages)
+                {
+                    <PageComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" />
+                    Console.WriteLine(message.Id);
+                }
+            }
+
+            @* <PageComponent
+            Type="Text"
+            Title="Component title"
+            Content_Text="Sit amet mauris commodo quis imperdiet."
+            />
+            <PageComponent
+            Type="Text"
+            Title="Component title"
+            Content_Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat vivamus at augue eget. Vitae turpis massa sed elementum tempus egestas sed sed. Amet mattis vulputate enim nulla. In arcu cursus euismod quis viverra nibh. Phasellus vestibulum lorem sed risus ultricies tristique. Bibendum neque egestas congue quisque. Aliquam etiam erat velit scelerisque in dictum non consectetur. Sit amet consectetur adipiscing elit duis tristique sollicitudin. Pharetra et ultrices neque ornare aenean euismod elementum nisi quis. Pellentesque dignissim enim sit amet venenatis urna cursus eget. Amet justo donec enim diam."
+            />
+            <PageComponent
+            Type="Image"
+            Title="Component title"
+            Content_ImagePath="ibisink1.png"
+            Content_ImageCaption="Sit amet mauris commodo quis imperdiet."
+            Content_ImageWidth="459px"
+            Content_ImageHeight="306px"
+            /> *@
+        </div>
+    </div>
+    <div class="page-editor--actions">
+        <button class="back" @onclick="GoBack">Back</button>
+        <div class="actions">
+            <button class="page-settings" @onclick="OpenPageSettings">Settings</button>
+            <button class="save-page">Save</button>
+        </div>
+    </div>
 </div>
 
 @code {
     [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? PageId { get; set; }
+
     ICollection<GetRoomResponse>? Rooms;
     GetAllContentResponse? ContentList;
     List<Message>? Messages;
     GetRoomResponse? Website;
     string? ChannelId;
     string? RoomId;
+    string? WebsiteTitle;
+    string? PageTitle = "Home";
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,7 +67,19 @@
         var rooms = await Api.GetRoomsAsync("Chat");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         Website = Rooms.First(x => x.RoomId == RoomId);
+        WebsiteTitle = Website.Name;
+        Console.WriteLine(WebsiteTitle);
         ContentList = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = ChannelId });
         Messages = ContentList.Content.ToList();
+    }
+
+    void GoBack()
+    {
+        Nav.NavigateTo($"/websites/{WebsiteId}");
+    }
+
+    void OpenPageSettings()
+    {
+        Modal.Show<PageSettingsModal>("Settings");
     }
 }

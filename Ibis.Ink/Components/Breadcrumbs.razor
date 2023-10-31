@@ -1,18 +1,21 @@
 ﻿<div class="breadcrumbs">
     <a href="/dashboard"><p>Home</p></a>
 
-    @if (PageTitle != null)
-    {
-        <ExpandIcon />
-        <a href="/websites/@WebsiteId">
+    @if (WebsiteId != null)
+    {    
+        @if (PageTitle != null)
+        {
+            <ExpandIcon />
+            <a href="/websites/@WebsiteId">
+                <p>@WebsiteId</p>
+            </a>
+            <ExpandIcon />
+            <p>@PageTitle</p>
+        } else
+        {
+            <ExpandIcon />
             <p>@WebsiteId</p>
-        </a>
-        <ExpandIcon />
-        <p>@PageTitle</p>
-    } else
-    {
-        <ExpandIcon />
-        <p>@WebsiteId</p>
+        }
     }
 </div>
 
