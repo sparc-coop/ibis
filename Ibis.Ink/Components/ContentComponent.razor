@@ -1,7 +1,9 @@
 ﻿<div class="page-content--component">
     <div class="component-title">@Title</div>
     <div class="component-text">
-        <TextEditor MarkdownValue="@Content_Text" />
+        <div class="page-editor--MDE">
+            <MarkdownEditorComponent @bind-Value="@MarkdownValue" OnContentChanged="@HandleContentChanged" />
+        </div>
     </div>
 @*     @if (Type == "text")
     {
@@ -28,6 +30,7 @@
 
 @code {
     [Parameter] public string? Id { get; set; }
+    [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Type { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Content_Text { get; set; }
@@ -36,9 +39,48 @@
     [Parameter] public string? Content_ImageHeight { get; set; }
     [Parameter] public string? Content_ImageCaption { get; set; }
     [Parameter] public string? HTML { get; set; }
+    [Parameter] public string? MarkdownValue { get; set; }
+    [Parameter] public EventCallback<string> OnContentChanged { get; set; }
 
-    protected override void OnInitialized()
+    List<Message>? Messages;
+    Message? Message;
+
+    protected override async Task OnInitializedAsync()
     {
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = RoomId });
+        Messages = response.Content.ToList();
+        Message = Messages.First(x => x.Id == Id);
+
         Console.WriteLine(Content_Text);
+    }
+
+    async Task HandleContentChanged(string value)
+    {
+        if (Message != null)
+        {
+            Message.Text = value;
+            UpdateMessage(Message);
+            await OnContentChanged.InvokeAsync();
+        }
+    }
+
+    void UpdateMessage(Message message)
+    {
+        if (Messages != null)
+        {
+            var existingId = Messages.FindIndex(x =>
+               x.Id == message.Id
+            || x.Id == message.SourceMessageId
+            || message.Id == x.SourceMessageId
+            || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
+            if (existingId > -1)
+            {
+                Messages[existingId] = message;
+            }
+            else
+            {
+                Messages.Add(message);
+            }
+        }
     }
 }

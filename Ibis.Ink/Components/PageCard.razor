@@ -11,7 +11,7 @@
         {
             <h3>@Title (@Endpoint)</h3>
         }
-        <p class="date">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
+        <p class="date">Last edited: @DateModified</p>
     </div>
     <div class="actions">
         <button class="link"><LinkIcon /></button>
@@ -24,5 +24,5 @@
     [Parameter] public string? Type { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Endpoint { get; set; }
-    [Parameter] public DateTime DateModified { get; set; }
+    [Parameter] public DateTimeOffset? DateModified { get; set; }
 }

@@ -4450,6 +4450,46 @@ ul.colors li span {
   display: none;
 }
 
+.page-editor--MDE .EasyMDEContainer {
+  margin: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  border: none;
+}
+.page-editor--MDE .EasyMDEContainer .editor-preview {
+  border: none;
+}
+.page-editor--MDE .EasyMDEContainer .CodeMirror {
+  height: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0px;
+}
+.page-editor--MDE .EasyMDEContainer .CodeMirror-scroll {
+  min-height: 0 !important;
+}
+.page-editor--MDE .EasyMDEContainer .editor-toolbar {
+  width: calc(100% + 12px);
+  height: 38px;
+  margin: 16px -24px 0 -12px;
+  padding: 6px 15px;
+  border: none;
+  border-radius: 0px;
+  background: #EEF4FA;
+}
+.page-editor--MDE .EasyMDEContainer .editor-toolbar i {
+  color: #1D2937;
+}
+.page-editor--MDE .EasyMDEContainer .editor-toolbar i.separator:nth-of-type(4) {
+  display: none;
+}
+.page-editor--MDE .EasyMDEContainer .editor-toolbar button.guide {
+  display: none;
+}
+.page-editor--MDE .EasyMDEContainer .editor-statusbar {
+  display: none;
+}
+
 .MarkdownEditorComponent {
   padding-bottom: 40px;
   color: #0A111D;

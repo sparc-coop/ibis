@@ -1,11 +1,11 @@
-﻿@page "/websites/{WebsiteId}/Home"
+﻿@page "/websites/{WebsiteId}/testpage"
 @layout DashboardLayout;
 
 <div class="test-page page-editor">
     <Breadcrumbs WebsiteId="@WebsiteTitle" WebsiteTitle="@WebsiteTitle" PageTitle="@PageTitle" />
     <div class="page-editor--container">
         <header>
-            <label>Project Title</label>
+            <label>Page Title</label>
             <input type="text" value="Home" />
         </header>
         <div class="page-content">
@@ -13,22 +13,22 @@
             {
                 @foreach (var message in Messages)
                 {
-                    <PageComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" />
+                    <ContentComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" />
                     Console.WriteLine(message.Id);
                 }
             }
 
-            @* <PageComponent
+            @* <ContentComponent
             Type="Text"
             Title="Component title"
             Content_Text="Sit amet mauris commodo quis imperdiet."
             />
-            <PageComponent
+            <ContentComponent
             Type="Text"
             Title="Component title"
             Content_Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat vivamus at augue eget. Vitae turpis massa sed elementum tempus egestas sed sed. Amet mattis vulputate enim nulla. In arcu cursus euismod quis viverra nibh. Phasellus vestibulum lorem sed risus ultricies tristique. Bibendum neque egestas congue quisque. Aliquam etiam erat velit scelerisque in dictum non consectetur. Sit amet consectetur adipiscing elit duis tristique sollicitudin. Pharetra et ultrices neque ornare aenean euismod elementum nisi quis. Pellentesque dignissim enim sit amet venenatis urna cursus eget. Amet justo donec enim diam."
             />
-            <PageComponent
+            <ContentComponent
             Type="Image"
             Title="Component title"
             Content_ImagePath="ibisink1.png"

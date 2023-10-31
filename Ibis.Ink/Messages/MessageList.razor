@@ -8,9 +8,8 @@
             {
                 @if(message.Type == "Text")
                 {
-                    <PageComponent Id="@message.Id" Type="Text" Title="@message.Text" Content_Text="@message.Text" HTML="@message.Html"/>
+                    <ContentComponent Id="@message.Id" RoomId="@Room.RoomId" Type="Text" Title="@message.Text" Content_Text="@message.Text" HTML="@message.Html" OnContentChanged="UpdateContent"/>
                 }
-                @* <MessageListCard Message="message" OnDelete=DeleteMessage /> *@
             }
         } else
         {
@@ -148,5 +147,10 @@
                 await InvokeAsync(StateHasChanged);
             });
         }
+    }
+
+    async Task UpdateContent(string value)
+    {
+        await GetMessagesAsync(new());
     }
 }

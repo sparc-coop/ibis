@@ -18,6 +18,14 @@
         </div>
     </header>
     <div class="pages-list">
+        @if (Rooms != null)
+        {
+            foreach (var room in Rooms)
+            {
+                string? endpoint = "/" + @room.Name;
+                <PageCard WebsiteId="@room.RoomId" Type="Page" Title="@room.Name" Endpoint="@endpoint" DateModified="@room.LastActiveDate"/>
+            }
+        }
         <PageCard WebsiteId=@WebsiteId Type="Page" Title="Home" Endpoint="/Home" DateModified="@DateTime.Now" />
         <PageCard WebsiteId=@WebsiteId Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
         <PageCard WebsiteId=@WebsiteId Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
@@ -29,5 +37,14 @@
 @code {
     [Parameter] public string? WebsiteId { get; set; }
 
+    ICollection<GetRoomResponse>? Rooms;
+    string? HostUserId = "3d8ead49-e805-4b3d-811c-f6659c493fbb"; //Christine
+
     //[Parameter] public string? Title { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var rooms = await Api.GetRoomsAsync("Content");
+        Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+    }
 }
