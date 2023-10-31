@@ -63,12 +63,11 @@
     protected override async Task OnInitializedAsync()
     {
         ChannelId = "testpage";
-        RoomId = "44ea18be-31cb-454e-a6ac-6c5425f8970f";
-        var rooms = await Api.GetRoomsAsync("Chat");
+        RoomId = "97aff572-9f42-42ca-8bc4-223828a6de90";
+        var rooms = await Api.GetRoomsAsync("Content");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         Website = Rooms.First(x => x.RoomId == RoomId);
         WebsiteTitle = Website.Name;
-        Console.WriteLine(WebsiteTitle);
         ContentList = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = ChannelId });
         Messages = ContentList.Content.ToList();
     }
