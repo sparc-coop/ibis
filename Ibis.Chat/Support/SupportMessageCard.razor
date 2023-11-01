@@ -20,12 +20,16 @@
             <span>Guest</span>
         }
     </header>
-    <div class="message-content">
+    @* <div class="message-content">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div> *@
+    <div class="message-content">
+        <p>@MessageText</p>
     </div>
 </div>
 
 @code {
     [Parameter] public string? Type { get; set; }
     [Parameter] public UserAvatar? User { get; set; }
+    [Parameter] public string? MessageText { get; set; }
 }

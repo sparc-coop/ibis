@@ -11,7 +11,7 @@
             </button>
         </div>
     </header>
-    <div class="helpdesk-messages">
+    @* <div class="helpdesk-messages">
         @if (User != null)
         {
             <ul>
@@ -25,17 +25,30 @@
                 <li><SupportMessageCard Type="user" User=null /></li>
             </ul>
         }
+    </div> *@
+    <div class="helpdesk-messages">
+        @foreach (var newMessage in helpdeskMessages)
+        {
+            <ul>
+                <li><SupportMessageCard Type="agent" /></li>
+                <li><SupportMessageCard Type="user" User="User" MessageText="@newMessage" /></li>
+            </ul>
+        }
     </div>
     <div class="helpdesk-footer">
         <button tabindex="0" class="support-attach"><img src="icons/attach-icon.svg" /></button>
-        <input tabindex="0" type="text" placeholder="Type your message..." />
-        <button tabindex="0" class="send-support-message"><img src="icons/send-icon.svg" /></button>
+        @* <input tabindex="0" type="text" placeholder="Type your message..." /> *@
+        <textarea type="text" tabindex="0" rows="2" placeholder="Type your message..." @bind="newMessage"></textarea>
+        <button tabindex="0" class="send-support-message" @onclick="SendMessage"><img src="icons/send-icon.svg" /></button>
     </div>
 </div>
 
 @code {
     [Parameter] public EventCallback OnClose { get; set; }
     public UserAvatar? User { get; set; }
+
+    List<string> helpdeskMessages = new List<string>();
+    string newMessage = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,5 +58,15 @@
     protected async Task Close()
     {
         await OnClose.InvokeAsync();
+    }
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(newMessage))
+        {
+            helpdeskMessages.Add(newMessage);
+
+            newMessage = "";
+        }
     }
 }

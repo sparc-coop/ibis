@@ -2758,6 +2758,13 @@ footer .footer--container a {
   background: #F3F5F6;
   font-size: 13px;
 }
+.support-helpdesk--chat .helpdesk-footer textarea {
+  width: 205px;
+  padding: 6px 8px;
+  border: none;
+  background: #F3F5F6;
+  font-size: 13px;
+}
 
 .support-message-card {
   max-width: 252px;

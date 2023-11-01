@@ -52,10 +52,10 @@
 
             button {
                 padding: 2px;
-                    
+
                 &.popout-helpdesk img {
                     width: 12px;
-                    height: 12px;       
+                    height: 12px;
                 }
 
                 &.close-helpdesk img {
@@ -102,11 +102,19 @@
                     width: 10px;
                     height: 11px;
                     margin-left: 5px;
-                }       
+                }
             }
         }
 
         input {
+            width: 205px;
+            padding: 6px 8px;
+            border: none;
+            background: $grey-100;
+            font-size: 13px;
+        }
+
+        textarea {
             width: 205px;
             padding: 6px 8px;
             border: none;
