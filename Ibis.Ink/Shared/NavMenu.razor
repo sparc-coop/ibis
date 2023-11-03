@@ -12,7 +12,7 @@
                         <ExpandIcon />
                     </button>
                 }
-                @if(ShowUserMenu == true)
+                @if (ShowUserMenu == true)
                 {
                     <div class="user-menu--dropdown">
                         <button class="logout" @onclick="Logout" tabindex="1">Log Out</button>
@@ -20,8 +20,8 @@
                     <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
                 }
             </Authorized>
-                    <NotAuthorized>
-                        <button class="login" @onclick="Login" tabindex="1">Login</button>
+            <NotAuthorized>
+                <button class="login" @onclick="Login" tabindex="1">Login</button>
             </NotAuthorized>
         </AuthorizeView>
     </div>
@@ -42,7 +42,8 @@
                                 <span @onclick="ToggleNav">
                                     <SearchIcon />
                                 </span>
-                            } else
+                            }
+                            else
                             {
                                 <SearchIcon />
                                 <input type="text" placeholder="Search..." />
@@ -72,7 +73,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <button class="add-website" @onclick=AddWebsite tabindex ="8"><AddIcon /><span> Add Website</span></button>
+                        <button class="add-website" @onclick=AddWebsite tabindex="8"><AddIcon /><span> Add Website</span></button>
                     </div>
                 }
             </Authorized>
@@ -170,6 +171,10 @@
 
     void AddWebsite()
     {
-        Modal.Show<AddWebsiteModal>("Add Website");
+        var options = new ModalOptions()
+            {                
+                HideHeader = true
+            };
+        Modal.Show<AddWebsiteModal>("Add New Site to Ibis", options);
     }
 }

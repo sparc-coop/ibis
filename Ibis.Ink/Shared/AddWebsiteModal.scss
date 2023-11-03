@@ -2,13 +2,20 @@
 
 .add-site-modal {
     position: relative;
+    padding: 1rem;
 
-    h4 {
-        margin-bottom: 24px;
-    }
+    header {
+        h6 {
+            margin-bottom: 8px;
+            font-weight: 500;
+            line-height: 120%;
+            color: #050506;
+        }
 
-    p {
-        color: #28303B;
+        p {
+            color: #A7A7A7;
+            margin-bottom: 32px;
+        }
     }
 
     .website-name-wrapper {
@@ -16,13 +23,14 @@
     }
 
     .website-link-wrapper {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
     .website-name-wrapper, .website-link-wrapper {
 
         p.medium {
             margin-bottom: 6px;
+            font-weight: 500;
         }
 
         label {
@@ -31,7 +39,7 @@
         }
 
         input {
-            border: 1px solid $grey-300;
+            border: 1px solid #C7C9D1;
             border-radius: 8px;
             padding: 10px 14px;
             font-size: 16px;
@@ -40,103 +48,87 @@
         }
 
         ::placeholder {
-            color: $grey-500;
+            color: #858C96;
         }
     }
 
     input[type="checkbox"] {
         height: 16px;
         width: 16px;
-        margin-right: 7px;
-        border: 1px solid $grey-300;
+        margin-right: 10px;
+        border: 1px solid #858C96;
         border-radius: 4px;
         position: relative;
     }
 
     .manual-input-wrapper {
         display: flex;
-        margin-bottom: 16px;
+        margin-bottom: 32px;
 
         label {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
-            color: $grey-500;
+            color: #858C96;
         }
 
         input[type="checkbox"] {
-            margin-top: 2px;
+            margin-top: 3px;
         }
     }
 
-    .website-tags {
-        margin-bottom: 32px;
+    .close-add-btns {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
 
-        .tag-options {
-            margin-top: 6px;
-            display: flex;
-            gap: 64px;
-            flex-wrap: wrap;
+        .close-button {
+            background: transparent;
+            color: #28303B;
+            padding: 10px 14px;
+            border-radius: 8px;
+            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 120%;
+            width: 107px;
+            text-align: center;
 
-            label {
-                display: flex;
+            &:hover {
+                border: 1px solid #FFAFA3;
+                background: #FFAFA3;
+                color: white;
+            }
+        }
 
-                input[type="checkbox"] {
-                    top: 6px;
-                    position: relative;
+        .add-button {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #5B9DFF;
+            background: #5B7FFF;
+            width: 107px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 120%;
+
+            &:hover {
+                border: 1px solid $secondary-900;
+                background: $white;
+                color: $secondary-900;
+
+                svg path {
+                    fill: $secondary-900;
                 }
             }
-        }
 
-        .tag {
-            display: flex;
-            padding: 4px 6px;
-            border-radius: 1000px;
-            gap: 4px;
-            flex-direction: row;
-            align-items: center;
-            font-size: 10px;
-
-            &--page {
-                border: 1px solid $secondary-900;
-                background-color: $secondary-200;
-                color: $secondary-900;
+            &:active {
+                background: $secondary-200;
             }
 
-            &--blog {
-                border: 1px solid $primary-800;
-                background-color: $primary-200;
-                color: $primary-800;
+            &:focus {
+                outline: none;
+                box-shadow: none
             }
-
-            &--other {
-                border: 1px solid $amber-800;
-                background-color: $amber-100;
-                color: $amber-800;
-            }
-        }
-    }
-
-    .add-button {
-        float: right;
-        border: 1px solid transparent;
-
-        &:hover {
-            border: 1px solid $secondary-900;
-            background: $white;
-            color: $secondary-900;
-
-            svg path {
-                fill: $secondary-900;
-            }
-        }
-
-        &:active {
-            background: $secondary-200;
-        }
-
-        &:focus {
-            outline: none;
-            box-shadow: none
         }
     }
 }

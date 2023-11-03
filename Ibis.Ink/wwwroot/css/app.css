@@ -735,28 +735,34 @@ body .dashboard-layout main {
 
 .add-site-modal {
   position: relative;
+  padding: 1rem;
 }
-.add-site-modal h4 {
-  margin-bottom: 24px;
+.add-site-modal header h6 {
+  margin-bottom: 8px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #050506;
 }
-.add-site-modal p {
-  color: #28303B;
+.add-site-modal header p {
+  color: #A7A7A7;
+  margin-bottom: 32px;
 }
 .add-site-modal .website-name-wrapper {
   margin-bottom: 16px;
 }
 .add-site-modal .website-link-wrapper {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .add-site-modal .website-name-wrapper p.medium, .add-site-modal .website-link-wrapper p.medium {
   margin-bottom: 6px;
+  font-weight: 500;
 }
 .add-site-modal .website-name-wrapper label, .add-site-modal .website-link-wrapper label {
   margin-bottom: 6px;
   color: #28303B;
 }
 .add-site-modal .website-name-wrapper input, .add-site-modal .website-link-wrapper input {
-  border: 1px solid #D1D4DC;
+  border: 1px solid #C7C9D1;
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 16px;
@@ -764,84 +770,73 @@ body .dashboard-layout main {
   width: 100%;
 }
 .add-site-modal .website-name-wrapper ::placeholder, .add-site-modal .website-link-wrapper ::placeholder {
-  color: #6A7280;
+  color: #858C96;
 }
 .add-site-modal input[type=checkbox] {
   height: 16px;
   width: 16px;
-  margin-right: 7px;
-  border: 1px solid #D1D4DC;
+  margin-right: 10px;
+  border: 1px solid #858C96;
   border-radius: 4px;
   position: relative;
 }
 .add-site-modal .manual-input-wrapper {
   display: flex;
-  margin-bottom: 16px;
-}
-.add-site-modal .manual-input-wrapper label {
-  font-size: 14px;
-  font-weight: 400;
-  color: #6A7280;
-}
-.add-site-modal .manual-input-wrapper input[type=checkbox] {
-  margin-top: 2px;
-}
-.add-site-modal .website-tags {
   margin-bottom: 32px;
 }
-.add-site-modal .website-tags .tag-options {
-  margin-top: 6px;
+.add-site-modal .manual-input-wrapper label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #858C96;
+}
+.add-site-modal .manual-input-wrapper input[type=checkbox] {
+  margin-top: 3px;
+}
+.add-site-modal .close-add-btns {
   display: flex;
-  gap: 64px;
-  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
 }
-.add-site-modal .website-tags .tag-options label {
-  display: flex;
+.add-site-modal .close-add-btns .close-button {
+  background: transparent;
+  color: #28303B;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+  width: 107px;
+  text-align: center;
 }
-.add-site-modal .website-tags .tag-options label input[type=checkbox] {
-  top: 6px;
-  position: relative;
+.add-site-modal .close-add-btns .close-button:hover {
+  border: 1px solid #FFAFA3;
+  background: #FFAFA3;
+  color: white;
 }
-.add-site-modal .website-tags .tag {
-  display: flex;
-  padding: 4px 6px;
-  border-radius: 1000px;
-  gap: 4px;
-  flex-direction: row;
-  align-items: center;
-  font-size: 10px;
+.add-site-modal .close-add-btns .add-button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B7FFF;
+  width: 107px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
 }
-.add-site-modal .website-tags .tag--page {
-  border: 1px solid #003B5F;
-  background-color: #EEF4FA;
-  color: #003B5F;
-}
-.add-site-modal .website-tags .tag--blog {
-  border: 1px solid #A5120D;
-  background-color: #FFCDAA;
-  color: #A5120D;
-}
-.add-site-modal .website-tags .tag--other {
-  border: 1px solid #984019;
-  background-color: #FFF3CA;
-  color: #984019;
-}
-.add-site-modal .add-button {
-  float: right;
-  border: 1px solid transparent;
-}
-.add-site-modal .add-button:hover {
+.add-site-modal .close-add-btns .add-button:hover {
   border: 1px solid #003B5F;
   background: #FFFFFF;
   color: #003B5F;
 }
-.add-site-modal .add-button:hover svg path {
+.add-site-modal .close-add-btns .add-button:hover svg path {
   fill: #003B5F;
 }
-.add-site-modal .add-button:active {
+.add-site-modal .close-add-btns .add-button:active {
   background: #EEF4FA;
 }
-.add-site-modal .add-button:focus {
+.add-site-modal .close-add-btns .add-button:focus {
   outline: none;
   box-shadow: none;
 }
@@ -4408,46 +4403,6 @@ ul.colors li span {
 .add-site-modal .addBtn:focus {
   outline: none;
   box-shadow: none;
-}
-
-.page-editor--MDE .EasyMDEContainer {
-  margin: 0;
-  display: flex;
-  flex-direction: column-reverse;
-  border: none;
-}
-.page-editor--MDE .EasyMDEContainer .editor-preview {
-  border: none;
-}
-.page-editor--MDE .EasyMDEContainer .CodeMirror {
-  height: 100%;
-  padding: 0;
-  border: none;
-  border-radius: 0px;
-}
-.page-editor--MDE .EasyMDEContainer .CodeMirror-scroll {
-  min-height: 0 !important;
-}
-.page-editor--MDE .EasyMDEContainer .editor-toolbar {
-  width: calc(100% + 12px);
-  height: 38px;
-  margin: 16px -24px 0 -12px;
-  padding: 6px 15px;
-  border: none;
-  border-radius: 0px;
-  background: #EEF4FA;
-}
-.page-editor--MDE .EasyMDEContainer .editor-toolbar i {
-  color: #1D2937;
-}
-.page-editor--MDE .EasyMDEContainer .editor-toolbar i.separator:nth-of-type(4) {
-  display: none;
-}
-.page-editor--MDE .EasyMDEContainer .editor-toolbar button.guide {
-  display: none;
-}
-.page-editor--MDE .EasyMDEContainer .editor-statusbar {
-  display: none;
 }
 
 .page-editor--MDE .EasyMDEContainer {
