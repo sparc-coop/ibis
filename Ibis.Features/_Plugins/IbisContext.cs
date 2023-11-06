@@ -2,13 +2,14 @@
 
 namespace Ibis._Plugins;
 
-public class IbisContext : BlossomContext
+public class IbisContext : ApiContext
 {
-    public DbSet<Room> Rooms => Set<Room>();
-    public DbSet<Message> Messages => Set<Message>();
-    public DbSet<User> Users => Set<User>();
-
-    public IbisContext(DbContextOptions options, Publisher publisher, IHttpContextAccessor http) : base(options, publisher, http)
+    public IbisContext(
+        DbContextOptions options, 
+        BlossomNotifier notifier, 
+        IHttpContextAccessor http,
+        ApiSet<Room> Rooms,
+        ApiSet<Message> Messages) : base(options, notifier, http)
     {
     }
 
