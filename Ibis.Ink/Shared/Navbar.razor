@@ -1,0 +1,101 @@
+﻿@using Sparc.Blossom.Authentication;
+@using Sparc.Ibis;
+
+<CascadingValue Value="User">
+    <nav class="nav-ibis-ink">
+        <div class="nav--container">
+            <div class="nav--container-left">
+                <h1>
+                    <a href="/" @onclick=NavLogoClick><img class="logo" src="images/IbisInk_logo-full.png" /></a>
+                </h1>
+            </div>
+            <div class="nav--container-right">
+                <div class="user-menu">
+                    <AuthorizeView>
+                        <Authorized>
+                            @if (User != null)
+                            {
+                                <div class="user-info-container">
+                                    <img src="/images/1.png" />
+                                    <div class="user-data">
+                                        <h3>@User.Name</h3>
+                                        <p>user@accountoremail.com</p>
+                                    </div>
+                                    <button class="toggle-usermenu" @onclick="ToggleUserMenu" tabindex="1">
+                                        <ExpandIcon />
+                                    </button>
+                                </div>
+                            }
+                            @if (ShowUserMenu == true)
+                            {
+                                <div class="user-menu--dropdown">
+                                    <button class="logout" @onclick="Logout" tabindex="1">Log Out</button>
+                                </div>
+                                <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
+                            }
+                        </Authorized>
+                        <NotAuthorized>
+                            <button class="login" @onclick="Login" tabindex="1">Login</button>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+    </nav>
+</CascadingValue>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    UserAvatar? User;
+    public string LoginLink = "https://localhost:7117/_login?returnUrl=https%3A%2F%2Flocalhost%3A7083";
+    bool ShowUserMenu = false;
+    bool isUserBeingGot;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (User != null)
+            return;
+
+        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
+
+        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
+    }
+
+    async Task UpdateUser(Task<AuthenticationState> state)
+    {
+        var user = (await state).User;
+
+        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
+        {
+            isUserBeingGot = true;
+            User = await Api.GetUserAsync();
+
+            StateHasChanged();
+            isUserBeingGot = false;
+        }
+    }
+
+    private void NavLogoClick()
+    {
+        Nav.NavigateTo("/dashboard", true);
+    }
+
+    private async Task Logout()
+    {
+        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
+    }
+
+    void ToggleUserMenu()
+    {
+        Console.WriteLine("toggle user menu");
+        ShowUserMenu = !ShowUserMenu;
+    }
+
+    void OpenMenu() => ShowUserMenu = !ShowUserMenu;
+
+    void Login()
+    {
+        Nav.NavigateTo(LoginLink);
+    }
+}
