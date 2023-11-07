@@ -2,7 +2,7 @@
     <div class="component-title">@Title</div>
     <div class="component-text">
         <div class="page-editor--MDE">
-            <MarkdownEditorComponent @bind-Value="@MarkdownValue" OnContentChanged="@HandleContentChanged" />
+            <MarkdownEditorComponent @bind-Value="@MarkdownValue" />
         </div>
     </div>
 @*     @if (Type == "text")
@@ -49,7 +49,7 @@
     {
         var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = RoomId });
         Messages = response.Content.ToList();
-        Message = Messages.First(x => x.Id == Id);
+        // Message = Messages.First(x => x.Id == Id);
 
         Console.WriteLine(Content_Text);
     }
