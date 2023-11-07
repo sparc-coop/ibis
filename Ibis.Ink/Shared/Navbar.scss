@@ -41,7 +41,7 @@
         }
 
         &-right {
-            width: 262px;
+            min-width: 262px;
             height: 72px;
 
             .user-menu {
@@ -52,7 +52,7 @@
 
                 .user-info-container {
                     display: flex;
-                    width: 262px;
+                    min-width: 262px;
                     height: 72px;
                     padding: 17px 24px;
                     align-items: center;
@@ -67,6 +67,7 @@
                         align-items: flex-start;
                         display: flex;
                         flex-direction: column;
+                        margin-right: 14px;
 
                         h3 {
                             font-size: 15px;
@@ -84,7 +85,7 @@
                         background: none;                        
                         position: absolute;
                         top: 20px;
-                        right: -5px;
+                        right: 0;
                         z-index: 11;
 
                         &:hover {
