@@ -82,7 +82,7 @@
                         width: 50px;
                         height: 27px;
                         padding: 0;
-                        background: none;                        
+                        background: none;
                         position: absolute;
                         top: 20px;
                         right: 0;
@@ -121,7 +121,7 @@
                         background: $secondary-200;
                     }
                 }
-               
+
 
                 &--dropdown {
                     width: 125px;
@@ -162,6 +162,28 @@
                     height: 100vh;
                     background: transparent;
                     z-index: 10;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 673px) {
+        .nav--container {
+            padding: 0px 25px;
+
+            .nav--container-right {
+                min-width: 100px;
+
+                .user-info-container {
+                    min-width: 50px;
+
+                    .user-data {
+                        display: none;
+                    }
+
+                    .toggle-usermenu {
+                        right: -15px;
+                    }
                 }
             }
         }
