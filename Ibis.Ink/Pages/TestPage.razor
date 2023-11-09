@@ -13,7 +13,7 @@
             {
                 @foreach (var message in Messages)
                 {
-                    <ContentComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" RoomId="WebsiteId" />
+                    <ContentComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" RoomId="WebsiteId" OnContentChanged="Save" />
                     Console.WriteLine(message.Id);
                 }
             }
@@ -72,6 +72,11 @@
         WebsiteTitle = Website.Name;
         ContentList = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = ChannelId });
         Messages = ContentList.Content.ToList();
+    }
+
+    void Save(string value)
+    {
+        Console.WriteLine(value);
     }
 
     void GoBack()
