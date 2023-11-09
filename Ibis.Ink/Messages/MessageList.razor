@@ -8,7 +8,7 @@
             {
                 @if(message.Type == "Text")
                 {
-                    <ContentComponent Id="@message.Id" RoomId="@Room.RoomId" Type="Text" Title="@message.Text" Content_Text="@message.Text" HTML="@message.Html" OnContentChanged="UpdateContent"/>
+                    <ContentComponent Id="@message.Id" RoomId="@Room.RoomId" Type="Text" Title="@message.Text" Content_Text="@message.Text" HTML="@message.Html" @* OnContentChanged="UpdateContent" *@/>
                 }
             }
         } else
