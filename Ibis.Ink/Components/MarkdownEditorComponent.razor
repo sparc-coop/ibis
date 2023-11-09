@@ -1,5 +1,5 @@
 ﻿<div class="MarkdownEditorComponent">
-    <MarkdownEditor @bind-Value="@markdownValue" ValueHTMLChanged="@(e => OnMarkdownValueHTMLChanged(markdownHtml))" />
+    <MarkdownEditor @bind-Value="@markdownValue" @onchange="@(e => OnMarkdownValueChanged(markdownValue))" ValueHTMLChanged="@(e => OnMarkdownValueHTMLChanged(markdownHtml))" />
 
     <hr />
 
@@ -9,22 +9,13 @@
 </div>
 
 @code {
-    [Parameter]
-    public string Value { get; set; }
+    [Parameter] public EventCallback<string> OnContentChanged { get; set; }
 
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<string> OnContentChanged { get; set; }
-
-    // string markdownValue = "#Markdown Editor\nThis is a test";
-    private string markdownValue;
+    string markdownValue = "#Markdown Editor\nThis is a test";   
     string markdownHtml;
 
     protected override void OnInitialized()
     {
-        markdownValue = Value;
         markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
         base.OnInitialized();
     }
@@ -32,14 +23,13 @@
     async Task OnMarkdownValueChanged(string value)
     {
         markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
-        await ValueChanged.InvokeAsync(markdownValue);
+        await OnContentChanged.InvokeAsync(markdownValue);
         // return Task.CompletedTask;
     }
 
     async Task OnMarkdownValueHTMLChanged(string value)
     {
         markdownHtml = value;
-        await ValueChanged.InvokeAsync(markdownHtml);
         await OnContentChanged.InvokeAsync(markdownHtml);
         // return Task.CompletedTask;
     }
