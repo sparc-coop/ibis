@@ -15,11 +15,13 @@
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
-    string markdownValue = "#Markdown Editor\nThis is a test";
+    // string markdownValue = "#Markdown Editor\nThis is a test";
+    private string markdownValue;
     string markdownHtml;
 
     protected override void OnInitialized()
     {
+        markdownValue = Value;
         markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
         base.OnInitialized();
     }

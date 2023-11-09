@@ -2,7 +2,8 @@
     <div class="component-title">@Title</div>
     <div class="component-text">
         <div class="page-editor--MDE">
-            <MarkdownEditorComponent @bind-Value="@MarkdownValue" />
+            @* <MarkdownEditorComponent @bind-Value="@MarkdownValue" /> *@
+            <MarkdownEditorComponent @bind-Value="@Content_Text" OnContentChanged="@HandleContentChanged" />
         </div>
     </div>
 @*     @if (Type == "text")
@@ -54,11 +55,13 @@
         Console.WriteLine(Content_Text);
     }
 
+
     async Task HandleContentChanged(string value)
     {
         if (Message != null)
         {
             Message.Text = value;
+            MarkdownValue = Message.Text;
             UpdateMessage(Message);
             await OnContentChanged.InvokeAsync();
         }

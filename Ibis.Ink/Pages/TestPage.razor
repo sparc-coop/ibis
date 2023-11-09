@@ -62,8 +62,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ChannelId = "my-first-website";
-        RoomId = "dedd9ba2-9d25-4176-bbda-df2911fc909f";
+        // ChannelId = "my-first-website";
+        // RoomId = "dedd9ba2-9d25-4176-bbda-df2911fc909f";
+        ChannelId = "anewtestpage";
+        RoomId = "644ac2cf-838d-49b9-b790-c542e715317a";
         var rooms = await Api.GetRoomsAsync("Content");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         Website = Rooms.First(x => x.RoomId == RoomId);
@@ -80,5 +82,5 @@
     void OpenPageSettings()
     {
         Modal.Show<PageSettingsModal>("Settings");
-    }
+    }    
 }
