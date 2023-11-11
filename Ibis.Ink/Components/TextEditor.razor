@@ -1,9 +1,22 @@
 ﻿<div class="page-editor--MDE">
-    <MarkdownEditor @bind-Value="@MarkdownValue" />
+    @* <MarkdownEditorComponent @bind-Value="@MarkdownValue" OnContentChanged="@(e => HandleContentChanged(e.ToString()))"/> *@
+    <MarkdownEditorComponent @bind-Value="@MarkdownValue" OnContentChanged="@(e => HandleContentChanged(e))" />
 </div>
 
 @code {
     [Parameter] public string? MarkdownValue { get; set; }
+    [Parameter] public EventCallback<MarkdownEditor> OnContentChanged { get; set; }
+    [Parameter] public MarkdownEditor? markdownEditor { get; set; }
+
+    // async Task HandleContentChanged(string? value)
+    // {
+    //     await OnContentChanged.InvokeAsync(value);
+    // }
+
+    async Task HandleContentChanged(MarkdownEditor markdownEditor)
+    {
+        await OnContentChanged.InvokeAsync(markdownEditor);
+    }
 
     //string markdownHtml;
     //protected override void OnInitialized()

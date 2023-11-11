@@ -1,7 +1,7 @@
 ﻿<div class="page-content--component">
     <div class="component-title">@Title</div>
     <div class="component-text">
-        <TextEditor MarkdownValue="@Content_Text" />
+        <TextEditor MarkdownValue="@Content_Text" OnContentChanged="@(e => HandleContentChanged(e))" />
         @* <div class="page-editor--MDE">            
             <MarkdownEditorComponent @bind-Value="@MarkdownValue" OnContentChanged="HandleContentChanged" />
         </div> *@
@@ -40,54 +40,54 @@
     [Parameter] public string? Content_ImageHeight { get; set; }
     [Parameter] public string? Content_ImageCaption { get; set; }
     [Parameter] public string? HTML { get; set; }
-    // [Parameter] public string? MarkdownValue { get; set; }
-    //[Parameter] public EventCallback<string> OnContentChanged { get; set; }
+    //[Parameter] public string? MarkdownValue { get; set; }
+    [Parameter] public EventCallback<MarkdownEditor> OnContentChanged { get; set; }
 
     List<Message>? Messages;
     Message? Message;
 
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(Content_Text);
-    }
-
-    // protected override async Task OnInitializedAsync()
+    // protected override void OnInitialized()
     // {
-    //     var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = RoomId });
-    //     Messages = response.Content.ToList();
-    //     Message = Messages.First(x => x.Id == Id);
-
     //     Console.WriteLine(Content_Text);
     // }
 
-    // async Task HandleContentChanged(string value)
-    // {
-    //     if (Message != null)
-    //     {
-    //         Message.Text = value;
-    //         MarkdownValue = Message.Text;
-    //         UpdateMessage(Message);
-    //         await OnContentChanged.InvokeAsync();
-    //     }
-    // }
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = RoomId });
+        Messages = response.Content.ToList();
+        Message = Messages.First(x => x.Id == Id);
 
-    // void UpdateMessage(Message message)
-    // {
-    //     if (Messages != null)
-    //     {
-    //         var existingId = Messages.FindIndex(x =>
-    //            x.Id == message.Id
-    //         || x.Id == message.SourceMessageId
-    //         || message.Id == x.SourceMessageId
-    //         || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
-    //         if (existingId > -1)
-    //         {
-    //             Messages[existingId] = message;
-    //         }
-    //         else
-    //         {
-    //             Messages.Add(message);
-    //         }
-    //     }
-    // }
+        Console.WriteLine(Content_Text);
+    }
+
+    void HandleContentChanged(MarkdownEditor markdownEditor)
+    {
+        if (Message != null)
+        {
+            Message.Text = markdownEditor.Value.ToString();
+            Content_Text = Message.Text;
+            UpdateMessage(Message);
+            // await OnContentChanged.InvokeAsync(markdownEditor);
+        }
+    }
+
+    void UpdateMessage(Message message)
+    {
+        if (Messages != null)
+        {
+            var existingId = Messages.FindIndex(x =>
+               x.Id == message.Id
+            || x.Id == message.SourceMessageId
+            || message.Id == x.SourceMessageId
+            || (message.SourceMessageId != null && x.SourceMessageId == message.SourceMessageId));
+            if (existingId > -1)
+            {
+                Messages[existingId] = message;
+            }
+            else
+            {
+                Messages.Add(message);
+            }
+        }
+    }
 }
