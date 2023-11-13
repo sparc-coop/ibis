@@ -3,7 +3,7 @@
     <div class="component-text">
         <div class="page-editor--MDE">
             @* <MarkdownEditorComponent @bind-Value="@MarkdownValue" /> *@
-            <MarkdownEditorComponent @bind="Content_Text" OnContentChanged="HandleContentChanged" />
+            <MarkdownEditorComponent @bind-Value="Content_Text" OnContentChanged="HandleContentChanged" />
         </div>
     </div>
 @*     @if (Type == "text")
@@ -85,5 +85,10 @@
                 Messages.Add(message);
             }
         }
+    }
+
+    public async Task<string> GetMarkdownValue()
+    {
+        return await Task.FromResult(MarkdownValue);
     }
 }

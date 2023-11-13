@@ -13,7 +13,7 @@
             {
                 @foreach (var message in Messages)
                 {
-                    <ContentComponent Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" RoomId="WebsiteId" OnContentChanged="Save" />
+                    <ContentComponent @ref="ContentComponentRef" Id="@message.Id" Type="@message.Type" Title="@message.Text" Content_Text="@message.Text" RoomId="WebsiteId" OnContentChanged="Save" />
                     Console.WriteLine(message.Id);
                 }
             }
@@ -42,7 +42,7 @@
         <button class="back" @onclick="GoBack">Back</button>
         <div class="actions">
             <button class="page-settings" @onclick="OpenPageSettings">Settings</button>
-            <button class="save-page">Save</button>
+            <button class="save-page" @onclick="Save">Save</button>
         </div>
     </div>
 </div>
@@ -60,6 +60,8 @@
     string? WebsiteTitle;
     string? PageTitle = "Home";
 
+    private ContentComponent ContentComponentRef;
+
     protected override async Task OnInitializedAsync()
     {
         // ChannelId = "my-first-website";
@@ -74,9 +76,31 @@
         Messages = ContentList.Content.ToList();
     }
 
-    void Save(string value)
+    // Started to create the "Save" method
+
+    async Task Save()
     {
-        Console.WriteLine(value);
+        if (ContentComponentRef != null)
+        {            
+            string markdownValue = await ContentComponentRef.GetMarkdownValue();
+           
+            UpdateMessage(markdownValue);
+                        
+            Console.WriteLine("Markdown content saved successfully!");
+        }
+    }
+
+    void UpdateMessage(string markdownValue)
+    {
+        if (Messages != null && ContentComponentRef != null)
+        {           
+            var message = Messages.FirstOrDefault(m => m.Id == ContentComponentRef.Id);
+
+            if (message != null)
+            {                
+                message.Text = markdownValue;                
+            }
+        }
     }
 
     void GoBack()
