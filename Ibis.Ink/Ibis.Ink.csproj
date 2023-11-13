@@ -30,7 +30,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Update="Shared\PageSettingsModal.razor">
+		<Content Update="Pages\PageSettingsModal.razor">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		</Content>
 	</ItemGroup>

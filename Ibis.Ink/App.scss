@@ -6,53 +6,27 @@
 @import "Shared/Footer";
 @import "Shared/Tooltip";
 @import "Shared/DashboardLayout";
-@import "Shared/AddWebsiteModal";
-@import "Shared/PageSettingsModal";
 
-@import "Pages/Landing";
-@import "Pages/Pricing";
-@import "Pages/Websites";
-@import "Pages/Pages";
+@import "Home/Landing";
+@import "Home/Pricing";
+
+@import "Sites/Index";
+@import "Sites/AddModal";
+@import "Sites/DeleteModal";
+@import "Sites/EditModal";
+@import "Sites/WebsiteCard";
+
+@import "Pages/PageList";
 @import "Pages/PageEditor";
-
-@import "Rooms/Index";
-@import "Rooms/Room";
-@import "Rooms/RoomCard";
-@import "Rooms/RoomShare";
-@import "Rooms/DeleteModal";
-@import "Rooms/EditModal";
-@import "Rooms/InviteModal";
-@import "Rooms/RoomMenu";
-@import "Rooms/RoomIcon";
-
-@import "Messages/MessageCard";
-@import "Messages/MessageListCard";
-@import "Messages/MessageList";
-@import "Messages/NewMessage";
-@import "Messages/Upload";
-@import "Messages/MessageTags";
-@import "Messages/MessagePage";
+@import "Pages/PageCard";
+@import "Pages/PageSettingsModal";
 
 @import "Users/Account";
-@import "Users/Notifications";
-@import "Users/Avatar";
-@import "Users/AvatarList";
 @import "Users/AccountNav";
 @import "Users/AddFundsModal";
-
-@import "Onboarding/Index";
-@import "Onboarding/AccountDetails";
-@import "Onboarding/LanguageSelector";
-@import "Onboarding/VoiceSelector";
-@import "Onboarding/AvatarEditor";
-@import "Onboarding/EmojiSelector";
-@import "Onboarding/ColorSelector";
-
-@import "Components/Breadcrumbs";
-@import "Components/WebsiteCard";
-@import "Components/PageCard";
-@import "Components/AddWebsite";
-@import "Components/MarkdownEditorComponent";
+@import "Users/Avatar";
+@import "Users/AvatarList";
+@import "Users/Notifications";
 
 //Sans Serif Fonts
 //Regular fonts
