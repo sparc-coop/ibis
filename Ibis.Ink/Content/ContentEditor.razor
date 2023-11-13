@@ -1,0 +1,83 @@
+﻿@page "/content/{RoomId}/{Id}"
+@page "/content/{RoomId}/new"
+@using PSC.Blazor.Components.MarkdownEditor;
+
+<div class="message-page">
+    <button @onclick="GoBack" class="back">Back to project content</button>
+
+    <div class="blog-check">
+        <label>Is this a blog post? This will add a timestamp.</label>
+        <input type="checkbox" @bind="@IsBlog" />
+    </div>
+
+    <form class="new-message editing" @onsubmit=Save>
+        <div class="MarkdownEditorComponent ibis-ignore" aria-label="Message">
+            <MarkdownEditor @bind-Value="@Content.Text" ValueHTMLChanged="UpdateContent" />
+        </div>
+
+        <div class="send">
+            <button type="button" class="cancel" @onclick=GoBack>
+                Cancel
+            </button>
+            <button type="submit" aria-label="Send">
+                <SendIcon />
+                <span>Save</span>
+                <aside>[Enter]</aside>
+            </button>
+        </div>
+
+        <footer>
+        </footer>
+    </form>
+
+    <article tabindex="0" class="message-card ibis-ignore">
+        <Avatar User="Content.User" />
+        <Sparc.Ibis.IbisContent Message="Content" />
+    </article>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; } = null!;
+    [Parameter] public string RoomId { get; set; } = null!;
+    Message Content = new();
+    bool IsBlog;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Content = Id != null
+        ? await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = RoomId, Tag = Id })
+        : new Message { RoomId = RoomId };
+        IsBlog = Content.Type == "blog";
+    }
+
+    void GoBack()
+    {
+        Nav.NavigateTo($"/rooms/{RoomId}");
+    }
+
+    async Task Delete()
+    {
+        await Api.DeleteMessageAsync(new DeleteMessageRequest { RoomId = RoomId, MessageId = Content.Id });
+        GoBack();
+    }
+
+    void UpdateContent(string value)
+    {
+        Content!.Html = value;
+    }
+
+    async Task Save()
+    {
+        if (IsBlog)
+            Content!.Type = "blog";
+
+        await Api.TypeMessageAsync(new TypeMessageRequest
+            {
+                RoomId = RoomId,
+                MessageId = Content!.Id,
+                Type = Content.Type,
+                Text = Content.Text
+            });
+    }
+
+}

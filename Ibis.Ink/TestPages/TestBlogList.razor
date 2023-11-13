@@ -1,0 +1,21 @@
+﻿@page "/test/bloglist"
+@layout EmptyLayout
+
+<div class="test-bloglist">
+    @foreach (var item in Content)
+    {
+        <a href="@("/test/blog/" + item.Id)">
+            <IbisContent Message="item" />
+        </a>
+    }
+</div>
+
+@code {
+    List<Message> Content = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = "testblog" });
+        Content = response.Content.ToList();
+    }
+}

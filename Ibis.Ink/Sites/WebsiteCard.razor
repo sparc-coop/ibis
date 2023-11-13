@@ -1,11 +1,10 @@
 ﻿<div class="website-card">
     <div class="website-card--container">
-        <a href="/websites/@Id"><img class="website-image" src="@ImagePath"/></a>
         <div class="card-content">
             <header>
-                <h3><a href="/websites/@Id">@Title</a></h3>
+                <h3><a href="/websites/@Site.RoomId">@Site.Name</a></h3>
                 <p class="subheader assosciated-contents">
-                    Associated contents: @NumContent
+                    Associated contents: 3
                 </p>
             </header>
             <div class="users">
@@ -13,7 +12,7 @@
             </div>
         </div>
         <div class="actions">
-            <p class="last-modified">Last edited: @DateModified.ToString("MMMM dd, yyyy")</p>
+            <p class="last-modified">Last edited: @Site.LastActiveDate?.ToString("MMMM dd, yyyy")</p>
             <button class="link">
                 <LinkIcon />
             </button>
@@ -25,9 +24,5 @@
 </div>
 
 @code {
-    [Parameter] public string? Id { get; set; }
-    [Parameter] public string? Title { get; set; }
-    [Parameter] public string? NumContent { get; set; }
-    [Parameter] public string? ImagePath { get; set; }
-    [Parameter] public DateTime DateModified { get; set; }
+    [Parameter] public GetRoomResponse Site { get; set; } = null!;
 }

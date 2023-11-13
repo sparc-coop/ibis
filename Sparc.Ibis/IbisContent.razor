@@ -35,11 +35,6 @@
     }
     else
     {
-        @* @if (IsContent == true)
-        {
-
-        } *@
-
         <section id="@_id" class="ibis-translate" dir="@_languageDirection">
             @ChildContent
         </section>
@@ -50,7 +45,6 @@
 @inject PersistentComponentState PersistedState
 
 @code {
-    [Parameter] public string? RoomId { get; set; }
     [Parameter] public Message? Message { get; set; }
     [Parameter] public string? ChannelId { get; set; }
     [Parameter] public string? Tag { get; set; }
@@ -59,6 +53,8 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool AutoPlay { get; set; }
     [CascadingParameter] public UserAvatar? Me { get; set; }
+
+    public string Title = "";
 
     Message LocalMessage = new();
 

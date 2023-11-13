@@ -25,7 +25,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Content Update="Shared\AddWebsiteModal.razor">
+		<Content Update="Sites\AddModal.razor">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		</Content>
 	</ItemGroup>

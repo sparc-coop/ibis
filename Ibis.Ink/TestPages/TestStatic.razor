@@ -1,4 +1,7 @@
-﻿<IbisContent ChannelId="testpage" RoomId="44ea18be-31cb-454e-a6ac-6c5425f8970f">
+﻿@page "/test/static"
+@layout EmptyLayout
+
+<IbisContent ChannelId="testpage">
     <div class="test-content">
         <div class="page-hero">
             <header class="page-header">
@@ -17,16 +20,13 @@
         </section>
         <section>
             <header class="section-header">
-                <h2>Section Header</h2>
-                <p>Section Description</p>
+                <h2>Section 2 Header</h2>
+                <p>Section 2 Description</p>
             </header>
             <div class="section-content">
-                <p>Section Paragraph</p>
+                <p>Section 2 Paragraph</p>
             </div>
         </section>
     </div>
 </IbisContent>
 
-@code {
-    [Parameter] public string? RoomId { get; set; }
-}

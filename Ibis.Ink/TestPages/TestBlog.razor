@@ -1,0 +1,15 @@
+﻿@page "/test/blog/{Id}"
+@layout EmptyLayout
+
+<h1>
+    @Content?.Title
+</h1>
+
+<article>
+    <IbisContent @ref=Content ChannelId="testblog" Tag="@Id" />
+</article>
+
+@code {
+    IbisContent? Content;
+    string Id = null!;
+}

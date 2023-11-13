@@ -1389,75 +1389,6 @@
         ]
       }
     },
-    "/api/UpdateMessageType": {
-      "post": {
-        "tags": [
-          "UpdateMessageType"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UpdateMessageTypeRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UpdateMessageTypeRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/UpdateMessageTypeRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
     "/api/UpdateRoomOptions": {
       "post": {
         "tags": [
@@ -2673,20 +2604,6 @@
             "nullable": true
           },
           "messageId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateMessageTypeRequest": {
-        "type": "object",
-        "properties": {
-          "messageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "roomId": {
             "type": "string",
             "nullable": true
           },

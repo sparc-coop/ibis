@@ -2,11 +2,10 @@
 @using Sparc.Blossom.Authentication;
 @using Sparc.Ibis;
 
-@*<RealtimeHub Url="@HubUrl">*@
-    <CascadingValue Value="User">
-        <div class="main-layout @(IsRoom ? "mini" : "" )">            
-            <header>
-                <h1>
+<CascadingValue Value="User">
+    <div class="main-layout @(IsRoom ? "mini" : "" )">
+        <header>
+            <h1>
                 <a href="/rooms">
                     <figure class="logo">
                         @if (IsRoom)
@@ -23,18 +22,12 @@
             </h1>
             @*<NavMenu />*@
         </header>
-          
+
         <main>
             @Body
         </main>
     </div>
-    @*
-    @if (ShowOnboarding)
-    {
-    <Ibis.Ink.Onboarding.Index OnDone="CloseOnboarding" />
-    }*@
 </CascadingValue>
-@*</RealtimeHub>*@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
@@ -42,7 +35,6 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    bool ShowOnboarding;
     string HubUrl => Config["ApiUrl"] + "/hub";
 
     protected override async Task OnParametersSetAsync()
@@ -59,14 +51,6 @@
 
     void OpenMenu() => ShowMenu = !ShowMenu;
 
-    void CloseOnboarding() => ShowOnboarding = false;
-
-    void EditAvatar()
-    {
-        ShowMenu = false;
-        ShowOnboarding = true;
-    }
-
     bool isUserBeingGot;
     async Task UpdateUser(Task<AuthenticationState> state)
     {
@@ -76,8 +60,6 @@
         {
             isUserBeingGot = true;
             User = await Api.GetUserAsync();
-            if (User != null && User.Voice == null)
-                ShowOnboarding = true;
             StateHasChanged();
             isUserBeingGot = false;
         }

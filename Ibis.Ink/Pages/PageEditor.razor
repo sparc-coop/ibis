@@ -1,8 +1,8 @@
 ﻿@page "/websites/{WebsiteId}/{PageId}"
 @layout DashboardLayout
-@using Ibis.Ink.Components;
 
-<Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@WebsiteTitle" PageTitle="@PageId" />
+<Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@Page.Name" PageTitle="@PageId" />
+
 <div class="page-editor">
     <div class="page-editor--container">
         <header>
@@ -10,7 +10,7 @@
             <input type="text" value="@PageId" />
         </header>
         <div class="page-content">
-            <MessageList Room=Room />
+            <ContentList Room=Page />
         </div>
     </div>
     <div class="page-editor--actions">
@@ -23,11 +23,14 @@
 </div>
 
 @code {
-    [Parameter] public GetRoomResponse? Room { get; set; }
-    [Parameter] public string? WebsiteId { get; set; }
-    [Parameter] public string? WebsiteTitle { get; set; }
-    [Parameter] public string? PageId { get; set; }
-    [Parameter] public string? PageTitle { get; set; }
+    public GetRoomResponse? Page { get; set; }
+    [Parameter] public string WebsiteId { get; set; } = null!;
+    [Parameter] public string PageId { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Page = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = WebsiteId }); 
+    }
 
     void GoBack()
     {

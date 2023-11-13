@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Messages;
 
-public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null);
+public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null, string? Type = null);
 public class TypeMessage : Feature<TypeMessageRequest, Message>
 {
     public TypeMessage(IRepository<Message> messages, IRepository<User> users)
@@ -27,28 +27,23 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
                 request.MessageId != null
                 ? Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Id == request.MessageId)
                 : Messages.Query.FirstOrDefault(x => x.RoomId == request.RoomId && x.Tag == request.Tag && x.User.Id == user.Id);
-            
+
             if (existingMessage != null)
             {
                 if (request.MessageId != null && existingMessage.User.Id != user.Id)
                     throw new NotAuthorizedException("You are not permitted to edit another user's message.");
 
                 existingMessage.SetText(request.Text);
+                if (request.Type != null)
+                    existingMessage.Type = request.Type;
+
                 await Messages.UpdateAsync(existingMessage);
                 return existingMessage;
             }
         }
 
-        try
-        {
-            var message = new Message(request.RoomId, user!, request.Text, request.Tag);
-            await Messages.AddAsync(message);
-            return message;
-        }
-        catch (Exception ex)
-        {
-            var e = ex;
-            return null;
-        }
+        var message = new Message(request.RoomId, user!, request.Text, request.Tag);
+        await Messages.AddAsync(message);
+        return message;
     }
 }

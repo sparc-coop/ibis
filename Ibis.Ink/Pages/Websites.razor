@@ -1,5 +1,4 @@
 ﻿@page "/dashboard"
-@using Ibis.Ink.Components
 @layout DashboardLayout
 @attribute [Authorize]
 
@@ -19,18 +18,22 @@
         </div>
     </header>
     <div class="websites-list">
-        <WebsiteCard Id="Sparc" Title="Sparc (sparc.coop)" NumContent="3" ImagePath="images/Sparc-image.png" DateModified="DateTime.Now" />
-        <WebsiteCard Id="Blossom" Title="Blossom" NumContent="2" ImagePath="images/Blossom-image.png" DateModified="DateTime.Now" />
+        @foreach (var site in Sites)
+        {
+            <WebsiteCard Site="site" />
+        }
     </div>
 </div>
 
 @inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
+    List<GetRoomResponse> Sites = new();
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var ticks = await Api.GetUserBalanceAsync();
+            Sites = (await Api.GetRoomsAsync("ink")).HostedRooms.ToList();
         }
         catch (ApiException ex) when (ex.StatusCode == 401)
         {

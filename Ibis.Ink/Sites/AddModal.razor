@@ -8,7 +8,7 @@
 
     <div class="website-name-wrapper">
         <p class="medium">Site Name</p>
-        <input type="text" class="website-name" placeholder="Site Name" />
+        <input type="text" class="website-name" placeholder="Site Name" @bind=Site.RoomName />
     </div>
 
     <div class="website-link-wrapper">
@@ -16,18 +16,19 @@
         <input type="text" class="website-link" placeholder="Site Link" />
     </div>
 
-    <div class="manual-input-wrapper">
-        <input type="checkbox" class="manual-input" />
-        <label>Manual Input</label>
-    </div>
-
     <div class="close-add-btns">
         <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">Close</button>
-        <button class="add-button">Add</button>
+        <button class="add-button" @onclick=Save>Add</button>
     </div>
 </div>
 
 
 @code {
+    NewRoomRequest Site = new() { RoomType = "ink" };
 
+    async Task Save()
+    {
+        var newSite = await Api.CreateRoomAsync(Site);
+        Nav.NavigateTo($"/websites/{newSite.RoomId}");
+    }
 }

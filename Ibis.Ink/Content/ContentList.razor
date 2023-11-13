@@ -1,0 +1,46 @@
+﻿<div class="message-grid">
+    <div class="message-list ibis-ignore" id="room-@Page.RoomId">
+        @if (Content.Any())
+        {
+            @foreach (var item in Content)
+            {
+                <article @onclick="@(() => Edit(item))">
+                    <IbisContent Message="item" />
+                </article>
+            }
+        }
+        else
+        {
+            <div>
+                <p>Get started with some new content.</p>
+                <button @onclick="Add">Add new content</button>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public GetRoomResponse Page { get; set; } = null!;
+    List<Message> Content = new();
+    string? Language;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Api.GetAllContentAsync(new GetAllContentRequest { RoomSlug = Page.RoomId });
+        Content = response.Content.ToList();
+        if (Language != response.Language)
+        {
+            Language = response.Language;
+        }
+    }
+
+    void Add()
+    {
+        Nav.NavigateTo($"/content/{Page.RoomId}/new");
+    }
+
+    void Edit(Message message)
+    {
+        Nav.NavigateTo($"/content/{Page.RoomId}/{message.Id}");
+    }
+}
