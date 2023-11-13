@@ -6,6 +6,7 @@
 <div class="pages">
     <header class="page--header">
         <h2>Website Title</h2>
+        <button class="add-url" @onclick="() => AddUrl(WebsiteId)" tabindex="8"><AddIcon /><span>Add URL</span></button>
         <div class="search--container">
             <div class="searchbar">
                 <SearchIcon />
@@ -35,8 +36,10 @@
     </div>
 </div>
 
+@inject IModalService Modal
+
 @code {
-    [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? WebsiteId { get; set; }    
 
     ICollection<GetRoomResponse>? Rooms;
     string? HostUserId = "3d8ead49-e805-4b3d-811c-f6659c493fbb"; //Christine
@@ -45,7 +48,22 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("WebsiteId: ", WebsiteId);
         var rooms = await Api.GetRoomsAsync("Content");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
+        Console.WriteLine("WebsiteId: ", WebsiteId);
+    }
+
+    void AddUrl(string roomId)
+    {
+        var options = new ModalOptions()
+            {
+                HideHeader = true
+            };
+
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(AddUrlModal.WebsiteId), roomId);
+
+        Modal.Show<AddUrlModal>("Add URL", parameters, options);        
     }
 }

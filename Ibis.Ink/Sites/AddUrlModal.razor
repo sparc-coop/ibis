@@ -1,0 +1,62 @@
+﻿@inherits SparcModal
+
+<div class="add-url-modal">
+    <header>
+        <h6>Add URL</h6>
+        <p class="medium">Add an URL to {WebsiteId}</p>
+    </header>
+
+    <div class="website-link-wrapper">
+        <p class="medium">Add URL:</p>
+        <input type="text" class="website-link" placeholder="URL" @bind="newUrl" />
+    </div>
+
+    <div>
+        @if (room.Urls != null)
+        {
+            <p>URLs already added to this website:</p>
+            <ul>
+                @foreach (var url in room.Urls)
+                {
+                    <li>@url</li>
+                }
+            </ul>
+        }
+    </div>
+
+    <div class="close-add-btns">
+        <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">Close</button>
+        <button class="add-button" @onclick=AddUrl>Add</button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] 
+    public string WebsiteId { get; set; }
+
+    NewRoomRequest Urls = new();
+
+   /*  private Room room;  */ 
+    private string newUrl = "";
+
+    [Parameter]
+    public string RoomId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Load room based on RoomId (?)
+        // room = ...;
+    }
+
+    async Task AddUrl()
+    {
+        if (room != null && !string.IsNullOrWhiteSpace(newUrl))
+        {           
+            await room.AddUrl(newUrl);
+            newUrl = "";  
+            // Nav.NavigateTo($"/websites/{RoomId}");
+            StateHasChanged();
+        }
+    }
+}

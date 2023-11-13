@@ -1,0 +1,134 @@
+﻿@import "../_variables";
+
+.add-url-modal {
+    position: relative;
+    padding: 1rem;
+
+    header {
+        h6 {
+            margin-bottom: 8px;
+            font-weight: 500;
+            line-height: 120%;
+            color: #050506;
+        }
+
+        p {
+            color: #A7A7A7;
+            margin-bottom: 32px;
+        }
+    }
+
+    .website-name-wrapper {
+        margin-bottom: 16px;
+    }
+
+    .website-link-wrapper {
+        margin-bottom: 6px;
+    }
+
+    .website-name-wrapper, .website-link-wrapper {
+
+        p.medium {
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        label {
+            margin-bottom: 6px;
+            color: #28303B;
+        }
+
+        input {
+            border: 1px solid #C7C9D1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            line-height: 120%;
+            width: 100%;
+        }
+
+        ::placeholder {
+            color: #858C96;
+        }
+    }
+
+    input[type="checkbox"] {
+        height: 16px;
+        width: 16px;
+        margin-right: 10px;
+        border: 1px solid #858C96;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .manual-input-wrapper {
+        display: flex;
+        margin-bottom: 32px;
+
+        label {
+            font-size: 13px;
+            font-weight: 400;
+            color: #858C96;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 3px;
+        }
+    }
+
+    .close-add-btns {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+
+        .close-button {
+            background: transparent;
+            color: #28303B;
+            padding: 10px 14px;
+            border-radius: 8px;
+            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 120%;
+            width: 107px;
+            text-align: center;
+
+            &:hover {
+                border: 1px solid #FFAFA3;
+                background: #FFAFA3;
+                color: white;
+            }
+        }
+
+        .add-button {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #5B9DFF;
+            background: #5B7FFF;
+            width: 107px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 120%;
+
+            &:hover {
+                border: 1px solid $secondary-900;
+                background: $white;
+                color: $secondary-900;
+
+                svg path {
+                    fill: $secondary-900;
+                }
+            }
+
+            &:active {
+                background: $secondary-200;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none
+            }
+        }
+    }
+}
