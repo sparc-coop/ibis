@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
 
 namespace Ibis.Rooms;
 
@@ -13,6 +14,7 @@ public record GetRoomResponse
     public string Name { get; private set; }
     public List<UserAvatar>? Users { get; set; }
     public string HostUserId { get; set; }
+    public string Url { get; set; }
 
     public GetRoomResponse(Room room, List<UserAvatar>? users = null)
     {
@@ -23,6 +25,7 @@ public record GetRoomResponse
         Name = room.Name;
         Slug = room.Slug;
         Users = room.Users;
+        Url = room.Url;
 
         ReplaceUsersWithCurrent(users);
 

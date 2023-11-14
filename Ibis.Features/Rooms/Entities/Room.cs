@@ -21,7 +21,9 @@ public class Room : Root<string>
     public DateTime? LastActiveDate { get; private set; }
     public DateTime? EndDate { get; private set; }
     public AudioMessage? Audio { get; private set; }
-    public List<string> Urls { get; private set; }
+    public string Url { get; private set; }
+
+    //public List<string> Urls { get; private set; }
 
 
     private Room() 
@@ -37,7 +39,7 @@ public class Room : Root<string>
         StartDate = DateTime.UtcNow;
         LastActiveDate = DateTime.UtcNow;
         Users = new();
-        Urls = new();
+        Url = "";
     }
 
     public Room(string name, string type, User hostUser) : this()
@@ -268,8 +270,8 @@ public class Room : Root<string>
         }
     }
 
-    public void AddUrl(string url)
+    internal void SetUrl(string url)
     {
-        Urls.Add(url);
+        Url = url;
     }
 }

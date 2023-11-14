@@ -52,16 +52,16 @@
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
     }
 
-    void AddUrl(string roomId)
+    void AddUrl(string WebsiteId)
     {
         var options = new ModalOptions()
             {
                 HideHeader = true
-            };
+            };    
 
         var parameters = new ModalParameters();
-        parameters.Add(nameof(AddUrlModal.WebsiteId), roomId);
+        parameters.Add("WebsiteId", WebsiteId);
 
-        Modal.Show<AddUrlModal>("Add URL", parameters, options);        
+        Modal.Show<AddUrlModal>("Add URL", parameters, options);
     }
 }

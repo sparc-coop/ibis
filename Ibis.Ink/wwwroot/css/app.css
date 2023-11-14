@@ -1703,6 +1703,10 @@ body .dashboard-layout main {
   color: #A7A7A7;
   margin-bottom: 32px;
 }
+.add-url-modal .success {
+  color: green;
+  /*margin-bottom: 10px;*/
+}
 .add-url-modal .website-name-wrapper {
   margin-bottom: 16px;
 }

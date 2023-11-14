@@ -5,6 +5,75 @@
     "version": "v1"
   },
   "paths": {
+    "/api/AddUrlToRoom": {
+      "post": {
+        "tags": [
+          "AddUrlToRoom"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddUrlToRoomRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddUrlToRoomRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddUrlToRoomRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [
+              "Policy:",
+              "Roles:",
+              "AuthenticationSchemes:"
+            ]
+          }
+        ]
+      }
+    },
     "/api/ChangeVoice": {
       "post": {
         "tags": [
@@ -1677,6 +1746,20 @@
   },
   "components": {
     "schemas": {
+      "AddUrlToRoomRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AudioMessage": {
         "type": "object",
         "properties": {
@@ -2038,6 +2121,10 @@
             "nullable": true
           },
           "hostUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
             "type": "string",
             "nullable": true
           }
