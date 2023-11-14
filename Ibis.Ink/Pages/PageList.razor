@@ -48,10 +48,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("WebsiteId: ", WebsiteId);
         var rooms = await Api.GetRoomsAsync("Content");
         Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
-        Console.WriteLine("WebsiteId: ", WebsiteId);
     }
 
     void AddUrl(string roomId)
