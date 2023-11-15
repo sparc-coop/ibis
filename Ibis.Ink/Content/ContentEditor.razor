@@ -11,10 +11,12 @@
     </div>
 
     <form class="new-message editing" @onsubmit=Save>
-        <div class="MarkdownEditorComponent" aria-label="Message">
-            <MarkdownEditor @bind-Value="@Content.Text" ValueHTMLChanged="UpdateContent" />
-        </div>
-
+        @if (Content.Text != null)
+        {
+            <div class="MarkdownEditorComponent" aria-label="Message">
+                <MarkdownEditor @bind-Value="@Content.Text" ValueHTMLChanged="UpdateContent" />
+            </div>
+        }
         <div class="markdown-preview">
             <header>
                 <h2>Content Preview:</h2>
