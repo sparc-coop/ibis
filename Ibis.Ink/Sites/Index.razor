@@ -17,23 +17,36 @@
             </div>
         </div>
     </header>
-    <div class="websites-list">
+    @* <div class="websites-list">
         @foreach (var site in Sites)
         {
             <WebsiteCard Site="site" />
+        }
+    </div> *@
+    <div class="pages-list">
+        @if (Rooms != null)
+        {
+            foreach (var room in Rooms)
+            {
+                string? endpoint = "/" + room.RoomId;
+                <PageCard RoomId="@room.RoomId" Type="Page" Title="@room.Name" Endpoint="@endpoint" DateModified="@room.LastActiveDate" />
+            }
         }
     </div>
 </div>
 
 @inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
 @code {
-    List<GetRoomResponse> Sites = new();
+    // List<GetRoomResponse> Sites = new();
+    ICollection<GetRoomResponse>? Rooms;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            Sites = (await Api.GetRoomsAsync("ink")).HostedRooms.ToList();
+            // Sites = (await Api.GetRoomsAsync("ink")).HostedRooms.ToList();
+            var rooms = await Api.GetRoomsAsync("Content");
+            Rooms = rooms.HostedRooms.Union(rooms.InvitedRooms).ToList();
         }
         catch (ApiException ex) when (ex.StatusCode == 401)
         {

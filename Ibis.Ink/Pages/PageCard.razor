@@ -3,13 +3,13 @@
         <div class="page-type page-type--@Type">@Type</div>
         @if (Endpoint != null)
         {
-            string link = "/websites/" + WebsiteId + Endpoint;
+            string link = "/content/" + RoomId;
             <a href="@link">
-                <h3>@Title (@Endpoint)</h3>
+                <h3>@Title @* (@Endpoint) *@</h3>
             </a>
         } else
         {
-            <h3>@Title (@Endpoint)</h3>
+            <h3>@Title @* (@Endpoint) *@</h3>
         }
         <p class="date">Last edited: @DateModified</p>
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 @code {
-    [Parameter] public string? WebsiteId { get; set; }
+    [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? Type { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Endpoint { get; set; }

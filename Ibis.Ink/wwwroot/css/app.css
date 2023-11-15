@@ -1,4 +1,5 @@
-﻿.main-layout {
+﻿@charset "UTF-8";
+.main-layout {
   height: 100vh;
   display: grid;
   height: 100vh;
@@ -2679,6 +2680,331 @@ body .dashboard-layout main {
   border-radius: 8px;
   font-size: 16px;
   line-height: 125%;
+}
+
+.message-page {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+.message-page .blog-check {
+  padding-top: 20px;
+  display: flex;
+}
+
+.MarkdownEditorComponent {
+  padding-bottom: 40px;
+  color: #0A111D;
+  font-family: "CircularStd";
+}
+.MarkdownEditorComponent .EasyMDEContainer {
+  margin: 0;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-preview {
+  border: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar {
+  width: 100%;
+  height: 38px;
+  margin: 0;
+  padding: 6px 15px;
+  background: #EEF4FA;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i {
+  color: #1D2937;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator:nth-of-type(4) {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button.guide {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-statusbar {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button {
+  background: #EEF4FA !important;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button i {
+  color: #364150;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button.preview {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator:nth-child(13) {
+  display: none;
+}
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror {
+  font-size: 16px;
+  font-weight: normal;
+}
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-header {
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: normal;
+}
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror p, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-strong, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-em, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-quote, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-image, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-url, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-link, .MarkdownEditorComponent .EasyMDEContainer .CodeMirror .cm-tag {
+  color: #0A111D;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+.MarkdownEditorComponent .markdown-result {
+  margin-top: 20px;
+  line-height: 150%;
+}
+.MarkdownEditorComponent .markdown-result h1, .MarkdownEditorComponent .markdown-result h2, .MarkdownEditorComponent .markdown-result h3, .MarkdownEditorComponent .markdown-result h4, .MarkdownEditorComponent .markdown-result h5, .MarkdownEditorComponent .markdown-result h6 {
+  padding-bottom: 8px;
+  color: #0A111D;
+}
+.MarkdownEditorComponent .markdown-result h4 {
+  font-size: 30px;
+}
+.MarkdownEditorComponent .markdown-result p {
+  padding-bottom: 16px;
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result a {
+  color: #2E7BA5;
+}
+.MarkdownEditorComponent .markdown-result a:hover {
+  color: #00608B;
+  text-decoration: underline;
+}
+.MarkdownEditorComponent .markdown-result li {
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result li p:only-of-type {
+  margin: 0;
+  padding: 0;
+}
+.MarkdownEditorComponent .markdown-result li blockquote p:first-of-type {
+  padding-bottom: 16px;
+}
+.MarkdownEditorComponent .markdown-result li ul {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result li ol {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result blockquote {
+  display: block;
+  background: #F3F5F6;
+  border-left: 10px solid #D1D4DC;
+  margin: 24px 10px;
+  padding: 16px 10px;
+  padding-bottom: 0;
+  quotes: "“" "”" "‘" "’";
+}
+.MarkdownEditorComponent .markdown-result ul {
+  list-style: disc;
+  padding-left: 40px;
+  margin-bottom: 16px;
+}
+.MarkdownEditorComponent .markdown-result ul ul {
+  list-style: circle;
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result ul ul ul {
+  list-style: square;
+}
+.MarkdownEditorComponent .markdown-result ul ul ul ul {
+  list-style: circle;
+}
+.MarkdownEditorComponent .markdown-result ol {
+  padding-left: 40px;
+  margin-bottom: 16px;
+  /*ol {
+      list-style: upper-alpha;
+
+      ol {
+          list-style: upper-roman;
+
+          ol {
+              list-style: lower-alpha;
+
+              ol {
+                  list-style: lower-roman;
+
+                  ol {
+                      list-style: disc;
+                  }
+              }
+          }
+      }
+  }*/
+}
+.MarkdownEditorComponent .markdown-result ol ol {
+  margin-bottom: 0;
+}
+.MarkdownEditorComponent .markdown-result pre {
+  background: #F3F5F6;
+  margin: 20px 0;
+  padding: 20px;
+}
+.MarkdownEditorComponent .markdown-result pre code {
+  font-size: 14px;
+  color: #364150;
+}
+.MarkdownEditorComponent .markdown-result img {
+  width: 100%;
+}
+
+.message-grid {
+  padding: 16px;
+  width: 100%;
+  max-width: 940px;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+.message-grid .message-list {
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.message-grid .message-list .content-item {
+  height: fit-content;
+  margin-bottom: 10px;
+}
+.message-grid .message-list .content-item .ibis-content {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+.message-grid .message-list .content-item .ibis-content .message-text {
+  width: 100%;
+  height: 100%;
+  margin: auto 0;
+}
+.message-grid .message-list .content-item .ibis-content .ibis-widget {
+  position: relative;
+  height: 100%;
+}
+.message-grid .message-list .content-item .ibis-content:hover {
+  cursor: pointer;
+}
+.message-grid .message-list::-webkit-scrollbar {
+  width: 7px;
+  border-radius: 6px;
+}
+.message-grid .message-list::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+.message-grid .message-list::-webkit-scrollbar-thumb {
+  background: #D1D4DC;
+}
+.message-grid .message-list::-webkit-scrollbar-thumb:hover {
+  background: #9BA3AF;
+}
+
+.message-tags p {
+  margin-bottom: 16px;
+}
+.message-tags dl {
+  margin: 20px 0 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.message-tags dd {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+}
+.message-tags dt.translating {
+  font-style: italic;
+}
+.message-tags input {
+  border: 1px solid #D1D4DC;
+  padding: 6px;
+}
+.message-tags button.delete {
+  background: none;
+  color: #FF3520;
+  padding: 0;
+}
+.message-tags .add-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.message-tags .add-tag button {
+  align-self: flex-end;
+}
+.message-tags label {
+  display: flex;
+  gap: 8px;
+}
+
+.upload {
+  position: relative;
+}
+.upload button.primary {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+}
+.upload .photo-upload {
+  position: relative;
+  border: 1px dashed #E5E7EA;
+  border-radius: 8px;
+  margin-bottom: 70px;
+}
+.upload .photo-upload img {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+.upload .photo-upload input {
+  width: 100%;
+  max-width: 602px;
+  height: 120px;
+  position: relative;
+  z-index: 10;
+  background: transparent;
+  padding: 20px;
+  cursor: pointer;
+}
+.upload .photo-upload input::file-selector-button {
+  display: none;
+}
+.upload .photo-upload .upload-icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 10%;
+  width: 40px;
+  height: 40px;
+}
+.upload .photo-upload p {
+  position: absolute;
+  left: 32%;
+  bottom: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.upload .photo-upload p span {
+  color: #FF3520;
+}
+.upload .loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 17px;
+  margin: auto;
+  border: 9px solid #E5E7EA;
+  width: 60px;
+  height: 60px;
+  border-top: 9px solid #013b60;
+  border-radius: 50%;
+  animation: spin 3s linear infinite;
 }
 
 @font-face {

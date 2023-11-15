@@ -1,7 +1,7 @@
 ﻿@page "/websites/{WebsiteId}"
 @layout DashboardLayout
 
-<Breadcrumbs WebsiteId="@WebsiteId"/>
+<Breadcrumbs WebsiteId="Test Website"/>
 
 <div class="pages">
     <header class="page--header">
@@ -24,22 +24,23 @@
             foreach (var room in Rooms)
             {
                 string? endpoint = "/" + @room.Name;
-                <PageCard WebsiteId="@room.RoomId" Type="Page" Title="@room.Name" Endpoint="@endpoint" DateModified="@room.LastActiveDate"/>
+                <PageCard RoomId="@room.RoomId" Type="Page" Title="@room.Name" Endpoint="@endpoint" DateModified="@room.LastActiveDate"/>
             }
         }
-        <PageCard WebsiteId=@WebsiteId Type="Page" Title="Home" Endpoint="/Home" DateModified="@DateTime.Now" />
-        <PageCard WebsiteId=@WebsiteId Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
-        <PageCard WebsiteId=@WebsiteId Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
-        <PageCard WebsiteId=@WebsiteId Type="Blog" Title="Welcome to Blossom" Endpoint="/21days/Welcome" DateModified="@DateTime.Now" />
-        <PageCard WebsiteId=@WebsiteId Type="Other" Title="Sparc Entities" Endpoint="/21days/SparcEntities" DateModified="@DateTime.Now" />
+        <PageCard RoomId=@RoomId Type="Page" Title="Home" Endpoint="/Home" DateModified="@DateTime.Now" />
+        <PageCard RoomId=@RoomId Type="Page" Title="About" Endpoint="/About" DateModified="@DateTime.Now" />
+        <PageCard RoomId=@RoomId Type="Page" Title="21 Days of Blossom" Endpoint="/21days" DateModified="@DateTime.Now" />
+        <PageCard RoomId=@RoomId Type="Blog" Title="Welcome to Blossom" Endpoint="/21days/Welcome" DateModified="@DateTime.Now" />
+        <PageCard RoomId=@RoomId Type="Other" Title="Sparc Entities" Endpoint="/21days/SparcEntities" DateModified="@DateTime.Now" />
     </div>
 </div>
 
 @code {
+    [Parameter] public string? RoomId { get; set; }
     [Parameter] public string? WebsiteId { get; set; }
 
     ICollection<GetRoomResponse>? Rooms;
-    string? HostUserId = "3d8ead49-e805-4b3d-811c-f6659c493fbb"; //Christine
+    //string? HostUserId = "3d8ead49-e805-4b3d-811c-f6659c493fbb"; //Christine
 
     //[Parameter] public string? Title { get; set; }
 

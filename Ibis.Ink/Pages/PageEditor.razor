@@ -1,16 +1,17 @@
-﻿@page "/websites/{WebsiteId}/{PageId}"
+﻿@* @page "/websites/{WebsiteId}/{PageId}" *@
+@page "/content/{RoomId}"
 @layout DashboardLayout
 
-<Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@Page.Name" PageTitle="@PageId" />
+<Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" />
 
 <div class="page-editor">
     <div class="page-editor--container">
         <header>
             <label>Page Title</label>
-            <input type="text" value="@PageId" />
+            <input type="text" value="@RoomId" />
         </header>
         <div class="page-content">
-            <ContentList Room=Page />
+            <ContentList Page=Page />
         </div>
     </div>
     <div class="page-editor--actions">
@@ -24,17 +25,17 @@
 
 @code {
     public GetRoomResponse? Page { get; set; }
-    [Parameter] public string WebsiteId { get; set; } = null!;
-    [Parameter] public string PageId { get; set; } = null!;
+    // [Parameter] public string WebsiteId { get; set; } = null!;
+    [Parameter] public string RoomId { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        Page = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = WebsiteId }); 
+        Page = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = RoomId }); 
     }
 
     void GoBack()
     {
-        Nav.NavigateTo($"/websites/{WebsiteId}");
+        Nav.NavigateTo($"/dashboard");
     }
 
     void OpenPageSettings()
