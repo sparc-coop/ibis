@@ -1,9 +1,8 @@
 ﻿@page "/test/static"
 @layout EmptyLayout
 
-<IbisContent CurrentUrl="@CurrentUrl">
-    <h3>CurrentUrl: @CurrentUrl</h3>
-    @* <div class="test-content">
+<IbisContent>
+    <div class="test-content">
         <div class="page-hero">
             <header class="page-header">
                 <h1>Page Header</h1>
@@ -28,12 +27,5 @@
                 <p>Section 2 Paragraph</p>
             </div>
         </section>
-    </div> *@
+    </div>
 </IbisContent>
-
-
-@code {
-    [Parameter] public string? CurrentUrl { get; set; }
-
-}
-
