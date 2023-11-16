@@ -2,7 +2,7 @@
 @using Microsoft.JSInterop;
 @implements IDisposable
 
-<article lang="@_selectedLanguage" class="ibis-content @ChannelId">
+<article lang="@_selectedLanguage" class="ibis-content @CurrentUrl">
     <aside class="ibis-widget">
         @if (LocalMessage.User != null && Me?.Id == LocalMessage.User.Id)
         {
@@ -48,6 +48,7 @@
     [Parameter] public Message? Message { get; set; }
     [Parameter] public string? ChannelId { get; set; }
     [Parameter] public string? Tag { get; set; }
+    [Parameter] public string? CurrentUrl { get; set; }
     [Parameter] public EventCallback<Message> OnEdit { get; set; }
     [Parameter] public EventCallback<Message> OnDelete { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -64,11 +65,24 @@
 
     PersistingComponentStateSubscription PersistedStateSubscription;
 
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     if (ChannelId != null && Tag != null)
+    //     {
+    //         LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+    //     }
+    //     else if (Message != null)
+    //     {
+    //         LocalMessage = Message;
+    //     }
+    // }
+
     protected override async Task OnInitializedAsync()
     {
-        if (ChannelId != null && Tag != null)
+        Console.WriteLine("CurrentUrl -> ", CurrentUrl);
+        if (CurrentUrl != null && Tag != null)
         {
-            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = ChannelId, Tag = Tag });
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = CurrentUrl, Tag = Tag });
         }
         else if (Message != null)
         {

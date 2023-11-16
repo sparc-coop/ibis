@@ -1,20 +1,18 @@
 @inject NavigationManager Navigation
 
-<h3>Current URL: @currentUrl</h3>
-
 @code {
-    private string currentUrl;
+    public string CurrentUrl;
 
     protected override void OnInitialized()
     {
-        currentUrl = Navigation.Uri;
+        CurrentUrl = Navigation.Uri;
 
         Navigation.LocationChanged += HandleLocationChanged;
     }
 
     private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
     {
-        currentUrl = e.Location;
+        CurrentUrl = e.Location;        
     }
 
     public void Dispose()
