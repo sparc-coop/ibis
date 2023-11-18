@@ -46,4 +46,13 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
         await Messages.AddAsync(message);
         return message;
     }
+
+    internal async Task<Message> CreateMessageAsync(TypeMessageRequest request, User user)
+    {
+        var newMessage = new Message(request.RoomId, user!, request.Text, request.Tag);       
+
+        await Messages.AddAsync(newMessage);
+
+        return newMessage;
+    }
 }

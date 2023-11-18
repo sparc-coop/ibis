@@ -1,11 +1,12 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Globalization;
 
 namespace Ibis.Users;
 
 public class UserAvatar
 {
-    public string Id { get; set; }
+    [Key] public string Id { get; set; }
     public string Name { get; set; }
     public string Initials => string.IsNullOrWhiteSpace(Name) ? "" : string.Join(string.Empty, Name.Split(' ').Select(x => x[0]));
     public bool IsOnline { get; set; }

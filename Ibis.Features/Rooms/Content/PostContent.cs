@@ -36,10 +36,18 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         return new(room.Name, room.Slug, request.Language, result);
     }
 
+    //private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)
+    //{
+    //    foreach (var message in additionalMessages)
+    //        await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
+    //}
+
     private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
+        {
+            await TypeMessage.CreateMessageAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
+        }
     }
 
     private async Task<List<string>> GetUntranslatedMessagesAsync(PostContentRequest request, Room room)
