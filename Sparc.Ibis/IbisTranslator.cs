@@ -68,18 +68,17 @@ public class IbisTranslator : IAsyncDisposable
         return response;
     }
 
-    public async Task<List<Message>> PostAsync(string channelId, List<string> messages, bool asHtml = false)
+    public async Task<List<Message>> PostAsync(string channelId, List<string> messages)
     {
         var untranslatedMessages = messages.Where(x => Get(x) == null).ToList();
-        var request = new PostContentRequest
+        var request = new GetAllContentRequest
         {
             RoomSlug = channelId,
             Language = Language,
-            Messages = untranslatedMessages,
-            AsHtml = asHtml
+            Messages = untranslatedMessages
         };
 
-        var response = await IbisClient.PostContentAsync(request);
+        var response = await IbisClient.GetAllContentAsync(request);
 
         if (response != null)
         {

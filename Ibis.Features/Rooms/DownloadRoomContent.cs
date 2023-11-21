@@ -1,5 +1,4 @@
-﻿using Ibis._Plugins;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sparc.Ibis;
 using System.Text;
 

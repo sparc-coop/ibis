@@ -36,13 +36,13 @@ public class Message : Root<string>
         Tags = new();
     }
 
-    public Message(string roomId, User user, string text, string? tag = null) : this()
+    public Message(string roomId, UserAvatar userAvatar, string text, string? tag = null) : this()
     {
         RoomId = roomId;
-        User = user.Avatar;
-        Language = user.Avatar.Language ?? "";
-        LanguageIsRTL = user.Avatar.LanguageIsRTL;
-        Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
+        User = userAvatar;
+        Language = userAvatar.Language ?? "";
+        LanguageIsRTL = userAvatar.LanguageIsRTL;
+        Audio = userAvatar.Voice == null ? null : new(null, 0, userAvatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
         SetText(text);

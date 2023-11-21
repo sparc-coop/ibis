@@ -49,7 +49,7 @@ public class AzureSpeaker : ISpeaker
 
         var cost = message.Text!.Length / 1_000_000M * 16.00M; // $16 per 1M characters
         var ticks = result.AudioDuration.Ticks;
-        message.AddCharge(ticks, cost, $"Speak message from {message.User.Name} in voice {message.Audio?.Voice}");
+        message.AddCharge(ticks, cost, $"Speak message from {message.User?.Name} in voice {message.Audio?.Voice}");
         
         return new(file.Url!, (long)result.AudioDuration.TotalMilliseconds, message.Audio?.Voice, words);
     }

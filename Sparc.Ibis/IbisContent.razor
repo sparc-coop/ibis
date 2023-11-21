@@ -109,6 +109,9 @@
         if (ChildContent == null)
             return;
 
+        if (PersistedState.TryTakeFromJson("id", out string? id))
+            _id = id!;
+
         if (!forceLoad && PersistedState.TryTakeFromJson<List<Message>>(Nav.Uri, out var restoredIbisContent))
         {
             _selectedLanguage = await Ibis.InitAsync(Nav.Uri, language, restoredIbisContent);
@@ -149,6 +152,7 @@
     Task PersistData()
     {
         PersistedState.PersistAsJson(Nav.Uri, Ibis.Content);
+        PersistedState.PersistAsJson("id", _id);
 
         return Task.CompletedTask;
     }

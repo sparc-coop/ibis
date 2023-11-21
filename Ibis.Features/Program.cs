@@ -22,9 +22,7 @@ builder.Services
 
 builder.Services.AddBlazoredModal();
 
-var auth = builder.Services.AddAzureADB2CAuthentication<User>(builder.Configuration);
-auth.AddCookie();
-builder.AddPasswordlessAuthentication<User>(auth);
+builder.AddBlossomAuthentication<User>();
 
 builder.Services.AddIbis(builder.Configuration["IbisApi"]!);
 builder.Services.AddServerSideBlazor();
@@ -47,7 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapHub<IbisHub>("/hub");
-app.UsePasswordlessAuthentication<User>();
+app.UseBlossomAuthentication<User>();
 app.UseAllCultures();
 
 // Warm up the entity framework model

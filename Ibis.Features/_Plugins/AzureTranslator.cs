@@ -16,7 +16,7 @@ public class AzureTranslator : ITranslator
         Client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Region", "southcentralus");
     }
 
-    public async Task<List<Message>> TranslateAsync(Message message, string fromLanguageId, List<Language> toLanguages)
+    public async Task<List<Message>> TranslateAsync(Message sourceMessage, string fromLanguageId, List<Language> toLanguages)
     {
         var translatedMessages = new List<Message>();
 
@@ -24,9 +24,9 @@ public class AzureTranslator : ITranslator
         var batches = Batch(toLanguages, 10);
         foreach (var batch in batches)
         {
-            object[] body = new object[] { new { message.Text } };
+            object[] body = new object[] { new { sourceMessage.Text } };
             List<string> translatedTagKeys = new();
-            foreach (var tag in message.Tags.Where(x => x.Translate))
+            foreach (var tag in sourceMessage.Tags.Where(x => x.Translate))
             {
                 translatedTagKeys.Add(tag.Key);
                 body = body.Append(new { Text = tag.Value }).ToArray();
@@ -52,12 +52,12 @@ public class AzureTranslator : ITranslator
                         .Select(key => new MessageTag(key, translatedTags[translatedTagKeys.IndexOf(key)].Translations.First(x => x.To == t.To).Text, false))
                         .ToList();
 
-                    var translatedMessage = new Message(message, languageDictionary[t.To], t.Text, translatedMessageTags);
+                    var translatedMessage = new Message(sourceMessage, languageDictionary[t.To], t.Text, translatedMessageTags);
                     
                     translatedMessages.Add(translatedMessage);
 
-                    var cost = message.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
-                    message.AddCharge(0, cost, $"Translate message from {message.User.Name} from {message.Language} to {t.To}");
+                    var cost = sourceMessage.Text!.Length / 1_000_000M * -10.00M; // $10 per 1M characters
+                    sourceMessage.AddCharge(0, cost, $"Translate message from {sourceMessage.User.Name} from {sourceMessage.Language} to {t.To}");
                 }
             }
         }
@@ -75,7 +75,8 @@ public class AzureTranslator : ITranslator
         var language = await GetLanguageAsync(toLanguage);
         if (language == null)
             throw new ArgumentException($"Language {toLanguage} not found");
-        var message = new Message("", User.System, text);
+        
+        var message = new Message("", User.System.Avatar, text);
         var result = await TranslateAsync(message, fromLanguage, new() { language });
         return result?.FirstOrDefault()?.Text;
     }

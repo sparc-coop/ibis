@@ -48,10 +48,10 @@ public class ChangeVoice : Feature<ChangeVoiceRequest, ChangeVoiceResponse>
     {
         var testMessages = new List<Message>
         {
-            new Message("", user, $"Hi, nice to meet you!"),
-            new Message("", user, $"Hey, how are things going today?"),
-            new Message("", user, $"What time do you want to meet?"),
-            new Message("", user, $"Thanks, talk to you later!")
+            new Message("", user.Avatar, $"Hi, nice to meet you!"),
+            new Message("", user.Avatar, $"Hey, how are things going today?"),
+            new Message("", user.Avatar, $"What time do you want to meet?"),
+            new Message("", user.Avatar, $"Thanks, talk to you later!")
         };
 
         int index = new Random().Next(testMessages.Count);

@@ -62,16 +62,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/ChangeVoice": {
@@ -131,16 +122,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreatePaymentIntent": {
@@ -200,16 +182,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/CreateRoom": {
@@ -269,16 +242,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/DeleteMessage": {
@@ -338,16 +302,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/DeleteRoom": {
@@ -395,16 +350,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/DownloadRoomContent": {
@@ -467,16 +413,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/EditMessageTags": {
@@ -545,16 +482,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/publicapi/GetAllContent": {
@@ -643,16 +571,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/publicapi/GetLanguages": {
@@ -810,16 +729,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetRoomAudio": {
@@ -879,16 +789,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetRooms": {
@@ -936,19 +837,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/api/GetUser": {
+    "/publicapi/GetUser": {
       "post": {
         "tags": [
           "GetUser"
@@ -974,16 +866,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/GetUserBalance": {
@@ -1015,16 +898,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/InviteUser": {
@@ -1084,16 +958,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/JoinRoom": {
@@ -1153,16 +1018,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/LeaveRoom": {
@@ -1218,75 +1074,6 @@
               "text/json": {
                 "schema": {
                   "type": "boolean"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
-      }
-    },
-    "/publicapi/PostContent": {
-      "post": {
-        "tags": [
-          "PostContent"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/PostContentRequest"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/PostContentRequest"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/PostContentRequest"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllContentResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllContentResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllContentResponse"
                 }
               }
             }
@@ -1446,16 +1233,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UpdateRoomOptions": {
@@ -1515,16 +1293,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UpdateUser": {
@@ -1584,16 +1353,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UploadFile": {
@@ -1662,16 +1422,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/UserPhotoUpload": {
@@ -1731,16 +1482,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": [
-              "Policy:",
-              "Roles:",
-              "AuthenticationSchemes:"
-            ]
-          }
-        ]
+        }
       }
     }
   },
@@ -1965,6 +1707,13 @@
           },
           "language": {
             "type": "string",
+            "nullable": true
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
           "tags": {
@@ -2286,7 +2035,8 @@
                 "$ref": "#/components/schemas/UserAvatar"
               }
             ],
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "audio": {
             "allOf": [
@@ -2537,30 +2287,6 @@
               "$ref": "#/components/schemas/TicksPackage"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PostContentRequest": {
-        "type": "object",
-        "properties": {
-          "roomSlug": {
-            "type": "string",
-            "nullable": true
-          },
-          "language": {
-            "type": "string",
-            "nullable": true
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "asHtml": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -3015,14 +2741,6 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis._Plugins.WordSpoken, Ibis"
-      }
-    },
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "description": "Enter JWT Bearer token **_only_**",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
