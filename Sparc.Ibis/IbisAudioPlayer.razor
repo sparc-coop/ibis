@@ -2,7 +2,7 @@
 
 @if (Message != null)
 {
-    <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play">
+    <div class="ibis-audio  @(AudioOffset != null ? "playing" : "")" @onclick="Play" @onclick:stopPropagation="true">
         <PlayIcon />
 
         @if (MessagePlaying != null)

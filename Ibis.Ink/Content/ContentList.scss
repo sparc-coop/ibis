@@ -1,14 +1,40 @@
 ﻿@import "../_variables.scss";
 
 .message-grid {
-    padding:0 16px 216px 16px;
+    padding: 16px;
     width: 100%;
     max-width: 940px;
     height: 100%;
     position: relative;
     margin: 0 auto;
-   
+
     .message-list {
+
+        .content-item {
+            height: fit-content;
+            margin-bottom: 10px;
+
+            .ibis-content {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: space-between;
+
+                .message-text {
+                    width: 100%;
+                    height: 100%;
+                    margin: auto 0;
+                }
+
+                .ibis-widget {
+                    position: relative;
+                    height: 100%;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
 
         &::-webkit-scrollbar {
             width: 7px;

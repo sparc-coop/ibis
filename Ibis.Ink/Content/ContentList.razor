@@ -4,7 +4,7 @@
         {
             @foreach (var item in Content)
             {
-                <article @onclick="@(() => Edit(item))">
+                <article class="content-item" @onclick="@(() => Edit(item))">
                     <IbisContent Message="item" />
                 </article>
             }

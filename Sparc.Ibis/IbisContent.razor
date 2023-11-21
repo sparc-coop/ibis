@@ -8,12 +8,12 @@
         {
             <ul class="actions">
                 <li>
-                    <button tabindex="0" @onclick=Edit @onkeydown="EditAction">
+                    <button tabindex="0" @onclick=Edit @onkeydown="EditAction" @onclick:stopPropagation="true">
                         <i class="material-icons">edit</i>
                     </button>
                 </li>
                 <li>
-                    <button tabindex="0" @onclick=Delete @onkeydown="DeleteAction">
+                    <button tabindex="0" @onclick=Delete @onkeydown="DeleteAction" @onclick:stopPropagation="true">
                         <i class="material-icons">delete</i>
                     </button>
                 </li>
