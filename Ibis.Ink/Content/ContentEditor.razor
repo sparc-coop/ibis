@@ -11,8 +11,22 @@
     </div>
 
     <form class="new-message editing" @onsubmit=Save>
-        <div class="MarkdownEditorComponent ibis-ignore" aria-label="Message">
-            <MarkdownEditor @bind-Value="@Content.Text" ValueHTMLChanged="UpdateContent" />
+        @if (Content.Text != null)
+        {
+            <div class="MarkdownEditorComponent" aria-label="Message">
+                <MarkdownEditor @bind-Value="@Content.Text" ValueHTMLChanged="UpdateContent" />
+            </div>
+        }
+        <div class="markdown-preview">
+            <header>
+                <h2>Content Preview:</h2>
+            </header>
+            <div class="markdown-result">
+                @if (Content.Html != null)
+                {
+                    @((MarkupString)Content.Html)
+                }
+            </div>
         </div>
 
         <div class="send">
@@ -31,7 +45,7 @@
     </form>
 
     <article tabindex="0" class="message-card ibis-ignore">
-        <Avatar User="Content.User" />
+        @* <Avatar User="Content.User" /> *@
         <Sparc.Ibis.IbisContent Message="Content" />
     </article>
 </div>
@@ -48,6 +62,8 @@
         ? await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = RoomId, Tag = Id })
         : new Message { RoomId = RoomId };
         IsBlog = Content.Type == "blog";
+        Content.Html = Markdig.Markdown.ToHtml(Content.Text ?? string.Empty);
+        Console.WriteLine(Content.Text);
     }
 
     void GoBack()

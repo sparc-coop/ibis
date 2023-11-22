@@ -1,5 +1,5 @@
 <div class="ibis-language-selector" @ref="langSelection">
-    <button @onclick="GetLanguages">
+    <button @onclick="GetLanguages" @onclick:stopPropagation="true">
         @if (ChildContent != null)
         {
             @ChildContent
@@ -11,11 +11,11 @@
     </button>
     @if (IsSelecting)
     {
-        <div class="overlay" @onclick="CloseFromOverlay"></div>
+        <div class="overlay" @onclick="CloseFromOverlay" @onclick:stopPropagation="true"></div>
         <ul class="ibis-ignore" @onkeydown="Close" style="left: @(X)px; top: @(Y)px">
             @foreach (var language in Languages!)
             {
-                <li tabindex="0" @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")" @onkeydown="@((e) => KeyboardSelection(e, language))">
+                <li tabindex="0" @onclick="@(() => SetLanguage(language))" class="@(SelectedLanguage == language.Id ? "selected" : "")" @onkeydown="@((e) => KeyboardSelection(e, language))" @onclick:stopPropagation="true">
                     @language.NativeName
                     <aside>@language.DisplayName</aside>
 
