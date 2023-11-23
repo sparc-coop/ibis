@@ -77,6 +77,15 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine($"CurrentUrl -> {Nav.Uri}");
+
+        if (Message.RoomId != null && Message.Id != null)
+        {
+            LocalMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = Message.RoomId, Tag = Message.Id });
+        }
+        else if (Message != null)
+        {
+            LocalMessage = Message;
+        }        
     }
 
     protected override async Task OnParametersSetAsync()

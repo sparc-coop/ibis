@@ -10,6 +10,11 @@
         padding-top: 20px;
         display: flex;
     }
+
+    .confirmation-message p {
+        color: green;
+        font-size: 20px;
+    }
 }
 
 .MarkdownEditorComponent {

@@ -38,6 +38,9 @@
                 <span>Save</span>
                 <aside>[Enter]</aside>
             </button>
+            <div class="confirmation-message" style="display: @(ShowConfirmation ? "inline-block" : "none")">
+                <p>Successfully saved!</p>
+            </div>
         </div>
 
         <footer>
@@ -55,6 +58,7 @@
     [Parameter] public string RoomId { get; set; } = null!;
     Message Content = new();
     bool IsBlog;
+    bool ShowConfirmation = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,6 +98,11 @@
                 Type = Content.Type,
                 Text = Content.Text
             });
-    }
 
+        ShowConfirmation = true;
+        StateHasChanged();
+        await Task.Delay(3000);
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
 }
