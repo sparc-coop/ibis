@@ -2,18 +2,23 @@
 
 <div class="add-site-modal">
     <header>
-        <h6>Add New Site to Ibis</h6>
+        <h6>Add New Page to Ibis</h6>
         <p class="medium">Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
     </header>
 
     <div class="website-name-wrapper">
-        <p class="medium">Site Name</p>
-        <input type="text" class="website-name" placeholder="Site Name" @bind=Site.RoomName />
+        <p class="medium">Page Name</p>
+        <input type="text" class="website-name" placeholder="Page Name" @bind=Site.RoomName />
     </div>
 
     <div class="website-link-wrapper">
-        <p class="medium">Site Link</p>
-        <input type="text" class="website-link" placeholder="Site Link" />
+        <p class="medium">Page Link</p>
+        <input type="text" class="website-link" placeholder="Page Link" />
+    </div>
+
+    <div class="manual-input-wrapper">
+        <input type="checkbox" class="manual-input" />
+        <label>Pull other pages</label>
     </div>
 
     <div class="close-add-btns">

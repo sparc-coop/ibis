@@ -1,23 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="dashboard-layout @NavSize">
+@* <div class="dashboard-layout @NavSize">
     <NavMenu OnCollapseNav="ToggleNav" />
+    <NavBar />
+    <main>
+        @Body
+    </main>
+</div> *@
+
+<div class="dashboard-layout">
+    <NavMenu />
+    <NavBar />
     <main>
         @Body
     </main>
 </div>
 
 @code {
-    protected string NavSize { get; set; } = "nav-expanded";
+    // protected string NavSize { get; set; } = "nav-expanded";
 
-    protected void ToggleNav(bool collapse)
-    {
-        if (collapse)
-        {
-            NavSize = "nav-collapsed";
-        } else
-        {
-            NavSize = "nav-expanded";
-        }
-    }
+    // protected void ToggleNav(bool collapse)
+    // {
+    //     if (collapse)
+    //     {
+    //         NavSize = "nav-collapsed";
+    //     } else
+    //     {
+    //         NavSize = "nav-expanded";
+    //     }
+    // }
 }
