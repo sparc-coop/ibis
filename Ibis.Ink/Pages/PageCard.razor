@@ -1,21 +1,24 @@
 ﻿<div class="page-card">
-    <div class="card-content">
-        <div class="page-type page-type--@Type">@Type</div>
-        @if (Endpoint != null)
-        {
-            string link = "/content/" + RoomId;
-            <a href="@link">
-                <h3>@Title (@Endpoint)</h3>
-            </a>
-        } else
-        {
-            <h3>@Title @* (@Endpoint) *@</h3>
-        }
-        <p class="date">Last edited: @DateModified</p>
-    </div>
-    <div class="actions">
-        <button class="link"><LinkIcon /></button>
-        <button class="more"><MoreIcon /></button>
+    <img src="/images/Rectangle 592.png" />
+    <div class="page-card-bottom">
+        <div class="page-info">
+            @if (Endpoint != null)
+            {
+                string link = "/content/" + RoomId;
+                <a href="@link">
+                    <h3>@Title (@Endpoint)</h3>
+                </a>
+            }
+            else
+            {
+                <h3>@Title @* (@Endpoint) *@</h3>
+            }
+            <p class="date">Last edited: @DateModified.Value.ToString("dd MMMM, yyyy")</p>
+        </div>
+        <div class="actions">
+            <button class="link"><StarIcon /></button>
+            <button class="more"><MoreIcon /></button>
+        </div>
     </div>
 </div>
 

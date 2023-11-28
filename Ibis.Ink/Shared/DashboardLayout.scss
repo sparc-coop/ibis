@@ -11,14 +11,6 @@ body {
         display: grid;
         grid-template-columns: 80px auto;
 
-        /*&.nav-expanded {
-            grid-template-columns: 363px auto;
-        }
-
-        &.nav-collapsed {
-            grid-template-columns: 121px auto;
-        }*/
-
         main {
             grid-column-start: 2;
             padding: 98px 32px 32px 32px;

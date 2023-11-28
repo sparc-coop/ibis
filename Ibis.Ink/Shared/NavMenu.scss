@@ -6,21 +6,24 @@
     padding: 16px;
     position: fixed;
     background: $white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
     z-index: 10;
     overflow: hidden;
     top: 80px;
+    border-right: 1px solid #F3F5F6;
 
     .navmenu {
         display: flex;
         flex-direction: column;
         /*max-width: 80px;*/
+        justify-content: flex-start;
+        height: 100%;
 
         &--home {
             aspect-ratio: 1 / 1;
             width: 100%;
             height: auto;
             text-align: center;
+            margin-bottom: 10px;
 
             a {
                 display: inline-block;
@@ -42,7 +45,7 @@
             }
         }
 
-        &--websites {
+        &--websites, &--pages {
             font-family: 'CircularStd';
             font-weight: 500;
             font-size: 12px;
@@ -54,23 +57,18 @@
 
 
             li {
-                padding: 20px 0 0 0;
+                padding: 10px 0 10px 0;
                 margin: 0 -32px;
                 transition: 250ms ease-in-out;
 
 
-
-                img {
+                svg {
                     display: block;
                     width: 28px;
                     height: 28px;
                     margin: 0 auto;
                     border-radius: 8px;
                     transition: 250ms ease-in-out;
-                }
-
-                &:last-of-type {
-                    margin-bottom: 0;
                 }
 
                 &:hover {
@@ -97,46 +95,17 @@
         }
     }
 
-    button {
-        display: block;
-        border: 1px solid transparent;
-        transition: 250ms ease-in-out;
+    .navmenu--pages {
+        margin-top: auto;
+        margin-left: -32px;
+        margin-right: -32px;
 
-        &.toggle-menu {
-            background: none;
-            transform: rotate(90deg);
-
-            &:hover {
-                background: none;
-            }
+        &:hover {
+            transform: scale(108%);
         }
 
-        &.add-website {      
-            border-radius: 8px;
-            text-align: center;
-            position: absolute;
-            bottom: 32px;
-            background: $secondary-900;
-            text-align: center;
-            transition: 250ms ease-in-out;
-
-            svg {
-                margin-right: 0;
-            }
-
-            &:hover {
-                border: 1px solid $secondary-900;
-                background: $white;
-                color: $secondary-900;
-
-                svg path {
-                    fill: $secondary-900;
-                }
-            }
-
-            &:active {
-                background: $secondary-200;
-            }
+        &:active {
+            transform: scale(100%);
         }
     }
 }

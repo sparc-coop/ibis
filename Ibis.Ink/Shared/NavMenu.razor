@@ -9,22 +9,25 @@
                 {
                     <div class="navmenu">
                         <div class="navmenu--home" tabindex="4">
-                            <a href="/dashboard"><img src="images/home-02.svg" /></a>
+                            <a href="/dashboard"><Home02Icon /></a>
                             <p class="title">My Ink</p>
                         </div>
                         <div class="navmenu--websites">
                             <ul>
-                                <li @onclick=@(e =>SelectWebsite("/websites/Sparc")) tabindex="6">
-                                    <img src="images/users-profiles-02.svg" />
+                                <li tabindex="6">
+                                    <TeamIcon />
                                     <p class="title">Team</p>
                                 </li>
-                                <li @onclick=@(e =>SelectWebsite("/websites/Blossom")) tabindex="7">
-                                    <img src="images/settings.svg" />
+                                <li tabindex="7">
+                                    <SettingsIcon />
                                     <p class="title">Settings</p>
-                                </li>
+                                </li>                                
                             </ul>
                         </div>
-                        <button class="add-website" @onclick=AddWebsite tabindex="8"><AddIcon /></button>
+                        <div class="navmenu--pages">
+                            <a href="/dashboard"><PagesIcon /></a>
+                            <p class="title">Pages</p>
+                        </div>
                     </div>
                 }
             </Authorized>
@@ -36,7 +39,6 @@
 </CascadingValue>
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject IModalService Modal
 
 @code {
     UserAvatar? User;
@@ -97,15 +99,5 @@
     void SelectWebsite(string endpoint)
     {
         Nav.NavigateTo(endpoint);
-    }
-
-    void AddWebsite()
-    {
-        var options = new ModalOptions()
-            {
-                HideHeader = true,
-                Position = ModalPosition.Middle
-            };
-        Modal.Show<AddModal>("Add New Site to Ibis", options);
-    }
+    }   
 }

@@ -9,7 +9,7 @@
     top: 0;
     background: #FFFFFF;
     z-index: 500;
-    border-bottom: 1px solid var(--grey-100);
+    /*border-bottom: 1px solid #F3F5F6;*/
 
     .nav--container {
         padding: 0px 44px 0px 25px;
@@ -188,4 +188,15 @@
             }
         }
     }
+}
+
+
+.nav-ibis-ink::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 80px;
+    right: 0;
+    height: 1px;
+    background-color: #F3F5F6;
 }
