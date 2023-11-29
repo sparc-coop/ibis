@@ -1,26 +1,33 @@
-﻿@* @page "/websites/{WebsiteId}/{PageId}" *@
-@page "/content/{RoomId}"
+﻿@page "/content/{RoomId}"
 @layout DashboardLayout
 
-@* <Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@Page.Name" PageTitle="@PageId" /> *@
-
-<Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" />
-
 <div class="page-editor">
-    <div class="page-editor--container">
-        <header>
-            <label>Page Title</label>
-            <input type="text" value="@RoomId" />
-        </header>
-        <div class="page-content">
-            <ContentList Page=Page />
+    <header>
+        <div class="header-left">
+            <div class="back-btn">
+                <button @onclick="GoBack" class="back">
+                    <ArrowCurveLeftIcon />
+                    Back to @Page.Name
+                </button>
+            </div>
+            <div class="header-info">
+                <img src="/images/Rectangle 592.png" />
+                <h2>@Page.Name/@RoomId</h2>
+                @* <Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" /> *@
+                <button class="more"><MoreIcon /></button>
+            </div>
         </div>
-    </div>
-    <div class="page-editor--actions">
-        <button class="back" @onclick="GoBack">Back</button>
-        <div class="actions">
-            <button class="page-settings" @onclick="OpenPageSettings">Settings</button>            
+        <div class="header-right">
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggle" />
+                <span class="slider"></span>
+            </label>
+            <button class="preview-btn">Preview</button>
+            <button class="publish-btn">Publish</button>
         </div>
+    </header>
+    <div class="page-content">
+        <ContentList Page=Page />
     </div>
 </div>
 
@@ -39,8 +46,8 @@
         Nav.NavigateTo("/dashboard");
     }
 
-    void OpenPageSettings()
-    {
-        Modal.Show<PageSettingsModal>("Settings");
-    }
+    // void OpenPageSettings()
+    // {
+    //     Modal.Show<PageSettingsModal>("Settings");
+    // }
 }
