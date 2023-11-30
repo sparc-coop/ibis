@@ -26,8 +26,13 @@
             <button class="publish-btn">Publish</button>
         </div>
     </header>
-    <div class="page-content">
-        <ContentList Page=Page />
+    <div class="main-page-editor-content">
+        <div class="page-content">
+            <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
+        </div>
+        <div class="message-editor">
+            <ContentEditor RoomId=RoomId Id=SelectedMessage.Id SelectedMessage=SelectedMessage />
+        </div>
     </div>
 </div>
 
@@ -35,6 +40,7 @@
     public GetRoomResponse? Page { get; set; }
     // [Parameter] public string WebsiteId { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
+    public Message SelectedMessage { get; set; } = new Message();
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,10 +50,11 @@
     void GoBack()
     {
         Nav.NavigateTo("/dashboard");
-    }
+    }   
 
-    // void OpenPageSettings()
-    // {
-    //     Modal.Show<PageSettingsModal>("Settings");
-    // }
+    void HandleMessageClicked(Message message)
+    {        
+        SelectedMessage = message;
+        StateHasChanged();
+    }
 }

@@ -21,6 +21,7 @@
 
 @code {
     [Parameter] public GetRoomResponse Page { get; set; } = null!;
+    [Parameter] public EventCallback<Message> OnMessageClicked { get; set; }
     List<Message> Content = new();
     string? Language;
 
@@ -37,10 +38,15 @@
     void Add()
     {
         Nav.NavigateTo($"/content/{Page.RoomId}/new");
-    }
+    }    
 
     void Edit(Message message)
     {
-        Nav.NavigateTo($"/content/{Page.RoomId}/{message.Id}");
+        OnMessageClicked.InvokeAsync(message);
     }
+
+    // void Edit(Message message)
+    // {
+    //     Nav.NavigateTo($"/content/{Page.RoomId}/{message.Id}");
+    // }
 }

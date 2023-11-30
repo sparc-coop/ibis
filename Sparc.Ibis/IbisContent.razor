@@ -3,7 +3,7 @@
 @implements IDisposable
 
 <article lang="@_selectedLanguage" class="ibis-content">
-    <aside class="ibis-widget">
+    @* <aside class="ibis-widget">
         @if (LocalMessage.User != null && Me?.Id == LocalMessage.User.Id)
         {
             <ul class="actions">
@@ -25,7 +25,7 @@
             <img src="https://ibis.chat/images/logo_icon.png" alt="Ibis logo" />
             <figcaption>Ibis</figcaption>
         </figure>
-    </aside>
+    </aside> *@
 
     @if (ChildContent == null)
     {

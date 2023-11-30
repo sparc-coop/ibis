@@ -1,5 +1,9 @@
 ﻿@import "../_variables";
 
+body {
+    background: #FFFFFF;
+}
+
 .page-editor {
     header {
         display: flex;
@@ -142,31 +146,42 @@
         }
     }
 
-    .page-content {
-        /*max-height: 789px;*/
-        overflow-x: hidden;
-        /*overflow-y: auto !important;*/
-        margin-top: 20px;
-        /*padding: 20px;*/
-        /*border-right: 1px solid #F3F5F6;*/
-        gap: 8px;
+    .main-page-editor-content {
         display: flex;
+        gap: 20px;
 
-        &::-webkit-scrollbar {
-            width: 3px;
+        .page-content {
+            /*max-height: 789px;*/
+            overflow-x: hidden;
+            /*overflow-y: auto !important;*/
+            margin-top: 20px;
+            /*padding: 20px;*/
+            /*border-right: 1px solid #F3F5F6;*/
+            gap: 8px;
+            display: flex;
+            width: 75%;
 
-            &-track {
-                margin: 12px 0;
-                background-color: transparent;
-            }
+            &::-webkit-scrollbar {
+                width: 3px;
 
-            &-thumb {
-                background: $primary-500;
-                border: none;
-                border-radius: 3px;
+                &-track {
+                    margin: 12px 0;
+                    background-color: transparent;
+                }
+
+                &-thumb {
+                    background: $primary-500;
+                    border: none;
+                    border-radius: 3px;
+                }
             }
         }
     }
+
+    .message-editor {
+        width: 25%;
+        border-left: 1px solid #E5E7EA;
+        padding: 20px;
+        height: 100%;
+    }
 }
-
-

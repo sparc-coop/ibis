@@ -1872,6 +1872,10 @@ body .dashboard-layout main {
   margin-bottom: 0;
 }
 
+body {
+  background: #FFFFFF;
+}
+
 .page-editor header {
   display: flex;
   align-items: center;
@@ -1992,7 +1996,11 @@ body .dashboard-layout main {
   background: #E4CCFF;
   color: #525963;
 }
-.page-editor .page-content {
+.page-editor .main-page-editor-content {
+  display: flex;
+  gap: 20px;
+}
+.page-editor .main-page-editor-content .page-content {
   /*max-height: 789px;*/
   overflow-x: hidden;
   /*overflow-y: auto !important;*/
@@ -2001,18 +2009,25 @@ body .dashboard-layout main {
   /*border-right: 1px solid #F3F5F6;*/
   gap: 8px;
   display: flex;
+  width: 75%;
 }
-.page-editor .page-content::-webkit-scrollbar {
+.page-editor .main-page-editor-content .page-content::-webkit-scrollbar {
   width: 3px;
 }
-.page-editor .page-content::-webkit-scrollbar-track {
+.page-editor .main-page-editor-content .page-content::-webkit-scrollbar-track {
   margin: 12px 0;
   background-color: transparent;
 }
-.page-editor .page-content::-webkit-scrollbar-thumb {
+.page-editor .main-page-editor-content .page-content::-webkit-scrollbar-thumb {
   background: #FF3520;
   border: none;
   border-radius: 3px;
+}
+.page-editor .message-editor {
+  width: 25%;
+  border-left: 1px solid #E5E7EA;
+  padding: 20px;
+  height: 100%;
 }
 
 .page-card {
@@ -2828,38 +2843,118 @@ body .dashboard-layout main {
   width: 100%;
   margin: 0 auto;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.message-page .expand-toolbox-btn-icon {
+  background: none;
+  margin-bottom: 16px;
+  padding: 0;
+}
+.message-page h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #161E29;
+  margin-bottom: 16px;
 }
 .message-page .blog-check {
   padding-top: 20px;
   display: flex;
 }
-.message-page .confirmation-message p {
-  color: green;
-  font-size: 20px;
+.message-page .new-message {
+  height: 100%;
+}
+.message-page .new-message .translation-toolbox {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.message-page .new-message .translation-toolbox .translation-selects {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.message-page .new-message .translation-toolbox .translation-selects button {
+  background: none;
+  border-radius: 8px;
+  border: 1px solid #D4D4D4;
+  color: #161E29;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 6px 19px;
+  height: 39px;
+}
+.message-page .new-message .translation-toolbox aside {
+  color: #858C96;
+  font-size: 14px;
+  font-weight: 400;
+}
+.message-page .send {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.message-page .send .cancel {
+  padding: 10px 14px;
+  color: #525963;
+  font-size: 16px;
+  font-weight: 500;
+  background: none;
+}
+.message-page .send .btn-and-msg {
+  display: flex;
+  gap: 8px;
+}
+.message-page .send .btn-and-msg .confirmation-message {
+  padding: 10px 0 10px 14px;
+}
+.message-page .send .btn-and-msg .confirmation-message p {
+  color: #5B7FFF;
+  font-size: 16px;
+  font-weight: 400;
+}
+.message-page .send .btn-and-msg .save-update-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B7FFF;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .MarkdownEditorComponent {
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   color: #0A111D;
   font-family: "CircularStd";
+  height: 100%;
 }
 .MarkdownEditorComponent .EasyMDEContainer {
   margin: 0;
+  height: 100%;
 }
 .MarkdownEditorComponent .EasyMDEContainer .editor-preview {
   border: none;
 }
+.MarkdownEditorComponent .EasyMDEContainer .CodeMirror {
+  padding: 16px;
+}
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar {
   width: 100%;
-  height: 38px;
   margin: 0;
-  padding: 6px 15px;
-  background: #EEF4FA;
+  /*padding: 6px 15px 20px 15px;*/
+  padding: 0 0 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  border: none;
 }
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i {
-  color: #1D2937;
+  color: #858C96 !important;
 }
-.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator:nth-of-type(4) {
+.MarkdownEditorComponent .EasyMDEContainer .editor-toolbar i.separator {
   display: none;
 }
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button.guide {
@@ -2869,7 +2964,9 @@ body .dashboard-layout main {
   display: none;
 }
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button {
-  background: #EEF4FA !important;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--grey-200, #E5E7EA);
 }
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar button i {
   color: #364150;
