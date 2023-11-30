@@ -35,17 +35,12 @@
         <footer>
         </footer>
     </form>
-
-    <article tabindex="0" class="message-card ibis-ignore">
-        @* <Avatar User="Content.User" /> *@
-        <Sparc.Ibis.IbisContent Message="SelectedMessage" />
-    </article>
 </div>
 
 @code {
     [Parameter] public string Id { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
-    [Parameter] public Message SelectedMessage { get; set; } = new Message();
+    [Parameter] public Message SelectedMessage { get; set; } = new Message() { Text = string.Empty };
     [Parameter] public EventCallback<bool> OnExpandClicked { get; set; }
     // Message Content = new() { Text = string.Empty };
     bool IsBlog;
@@ -64,12 +59,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        SelectedMessage = Id != null
-        ? SelectedMessage
-        : new Message { RoomId = RoomId };
+        if (Id != null)
+        {
+            SelectedMessage = await Api.GetMessageAsync(new GetMessageRequest { RoomSlug = RoomId, Tag = Id });
+        }
+        else
+        {
+            SelectedMessage = new Message { RoomId = RoomId };
+        }
+
         IsBlog = SelectedMessage.Type == "blog";
         SelectedMessage.Html = Markdig.Markdown.ToHtml(SelectedMessage.Text ?? string.Empty);
-        Console.WriteLine(SelectedMessage.Text);
     }
 
     void GoBack()

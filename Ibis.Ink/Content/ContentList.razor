@@ -11,9 +11,12 @@
         }
         else
         {
-            <div>
+            @* <div>
                 <p>Get started with some new content.</p>
                 <button @onclick="Add">Add new content</button>
+            </div> *@
+            <div>
+                <p>Use the editor on the right side to add new content</p>
             </div>
         }
     </div>
@@ -35,10 +38,10 @@
         }
     }
 
-    void Add()
-    {
-        Nav.NavigateTo($"/content/{Page.RoomId}/new");
-    }    
+    // void Add()
+    // {
+    //     Nav.NavigateTo($"/content/{Page.RoomId}/new");
+    // }    
 
     void Edit(Message message)
     {
