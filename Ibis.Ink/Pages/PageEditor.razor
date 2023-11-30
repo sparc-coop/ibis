@@ -27,11 +27,11 @@
         </div>
     </header>
     <div class="main-page-editor-content">
-        <div class="page-content">
+        <div class="page-content @(IsExpanded ? "expanded" : "")">
             <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
         </div>
-        <div class="message-editor">
-            <ContentEditor RoomId=RoomId Id=SelectedMessage.Id SelectedMessage=SelectedMessage />
+        <div class="message-editor @(IsExpanded ? "expanded" : "")">
+            <ContentEditor RoomId=RoomId Id=SelectedMessage.Id SelectedMessage=SelectedMessage OnExpandClicked="HandleExpandClicked" />
         </div>
     </div>
 </div>
@@ -41,6 +41,7 @@
     // [Parameter] public string WebsiteId { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
     public Message SelectedMessage { get; set; } = new Message();
+    private bool IsExpanded = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,5 +57,10 @@
     {        
         SelectedMessage = message;
         StateHasChanged();
+    }   
+
+    private void HandleExpandClicked(bool expanded)
+    {
+        IsExpanded = expanded;
     }
 }

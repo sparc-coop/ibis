@@ -1,25 +1,31 @@
 ﻿<div class="page-card">
-    <img src="/images/Rectangle 592.png" />
-    <div class="page-card-bottom">
-        <div class="page-info">
-            @if (Endpoint != null)
-            {
-                string link = "/content/" + RoomId;
-                <a href="@link">
+    @{
+        string link = string.Empty;
+        if (Endpoint != null)
+        {
+            link = "/content/" + RoomId;
+        }
+    }
+    <a href="@link">
+        <img src="/images/Rectangle 592.png" />
+        <div class="page-card-bottom">
+            <div class="page-info">
+                @if (Endpoint != null)
+                {
                     <h3>@Title (@Endpoint)</h3>
-                </a>
-            }
-            else
-            {
-                <h3>@Title @* (@Endpoint) *@</h3>
-            }
-            <p class="date">Last edited: @DateModified.Value.ToString("dd MMMM, yyyy")</p>
+                }
+                else
+                {
+                    <h3>@Title @* (@Endpoint) *@</h3>
+                }
+                <p class="date">Last edited: @DateModified.Value.ToString("dd MMMM, yyyy")</p>
+            </div>
+            <div class="actions">
+                <button class="link"><StarIcon /></button>
+                <button class="more"><MoreIcon /></button>
+            </div>
         </div>
-        <div class="actions">
-            <button class="link"><StarIcon /></button>
-            <button class="more"><MoreIcon /></button>
-        </div>
-    </div>
+    </a>
 </div>
 
 @code {

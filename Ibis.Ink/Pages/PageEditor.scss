@@ -98,10 +98,11 @@ body {
                 }
 
                 input:checked + .slider {
-                    background: #E5E7EA;
+                    background: #C9D5FF;
                 }
 
                 input:checked + .slider:before {
+                    background: #5B7FFF;
                     transform: translateX(33px);
                 }
             }
@@ -149,17 +150,26 @@ body {
     .main-page-editor-content {
         display: flex;
         gap: 20px;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 78%;
+            width: 1px;
+            background-color: #E5E7EA;
+            content: "";
+            height: 100%;
+        }
 
         .page-content {
-            /*max-height: 789px;*/
             overflow-x: hidden;
-            /*overflow-y: auto !important;*/
             margin-top: 20px;
-            /*padding: 20px;*/
-            /*border-right: 1px solid #F3F5F6;*/
             gap: 8px;
             display: flex;
-            width: 75%;
+            width: 78%;
 
             &::-webkit-scrollbar {
                 width: 3px;
@@ -175,13 +185,20 @@ body {
                     border-radius: 3px;
                 }
             }
+
+            &.expanded {
+                width: 65%;
+            }
         }
     }
 
     .message-editor {
-        width: 25%;
-        border-left: 1px solid #E5E7EA;
+        width: 22%;
         padding: 20px;
         height: 100%;
+
+        &.expanded {
+            width: 35%;
+        }
     }
 }

@@ -3,28 +3,17 @@
 @using PSC.Blazor.Components.MarkdownEditor;
 
 <div class="message-page">
-    <button class="expand-toolbox-btn-icon"><DoubleExpandIcon /></button>
-    <h3>Toolbox</h3>
+    <button class="expand-toolbox-btn-icon @(IsExpanded ? "expanded" : "")" @onclick="ExpandClicked"><DoubleExpandIcon /></button>
     <form class="new-message editing" @onsubmit=Save>
-        <div class="translation-toolbox">
-            <h3>Translation</h3>
-            <div class="translation-selects">    @* these buttons should be a reference to the language selector *@ 
-                <button>
-                    English
-                </button>
-                <ArrowSwapIcon />
-                <button>
-                    Select
-                </button>
-                <PlayCircleIcon />
-            </div>
-            <aside>Detected language*</aside>
+        <div class="tag-content-container">
+            <h3>Textfield</h3>
+            <textarea class="tag-textarea" @bind="@SelectedMessage.Tag"></textarea>
         </div>
 
         @if (SelectedMessage.Text != null)
         {
             <div class="MarkdownEditorComponent" aria-label="Message">
-                <h3>Text</h3>
+                <h3>Content</h3>
                 <MarkdownEditor @bind-Value="@SelectedMessage.Text" ValueHTMLChanged="UpdateContent" />
             </div>
         }
@@ -57,9 +46,11 @@
     [Parameter] public string Id { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
     [Parameter] public Message SelectedMessage { get; set; } = new Message();
+    [Parameter] public EventCallback<bool> OnExpandClicked { get; set; }
     // Message Content = new() { Text = string.Empty };
     bool IsBlog;
     bool ShowConfirmation = false;
+    private bool IsExpanded = false;
 
     // protected override async Task OnInitializedAsync()
     // {
@@ -115,5 +106,11 @@
         await Task.Delay(3000);
         ShowConfirmation = false;
         StateHasChanged();
+    }
+
+    private async Task ExpandClicked()
+    {
+        IsExpanded = !IsExpanded;
+        await OnExpandClicked.InvokeAsync(IsExpanded);
     }
 }

@@ -17,6 +17,16 @@
         margin-bottom: 0;
     }
 
+
+    a {
+        display: flex;
+        flex-direction: column;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
     .page-card-bottom {
         display: flex;
         align-items: flex-start;
@@ -47,12 +57,9 @@
             max-width: 281px;
         }
 
-
         .actions {
             position: absolute;
-            /*top: 50%;*/
             right: 24px;
-            /*transform: translate(0, -50%);*/
             display: flex;
             font-size: 13px;
             line-height: 120%;

@@ -1959,9 +1959,10 @@ body {
   border-radius: 24px;
 }
 .page-editor header .header-right .toggle-switch input:checked + .slider {
-  background: #E5E7EA;
+  background: #C9D5FF;
 }
 .page-editor header .header-right .toggle-switch input:checked + .slider:before {
+  background: #5B7FFF;
   transform: translateX(33px);
 }
 .page-editor header .header-right .preview-btn {
@@ -1999,17 +2000,25 @@ body {
 .page-editor .main-page-editor-content {
   display: flex;
   gap: 20px;
+  position: relative;
+}
+.page-editor .main-page-editor-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 78%;
+  width: 1px;
+  background-color: #E5E7EA;
+  content: "";
+  height: 100%;
 }
 .page-editor .main-page-editor-content .page-content {
-  /*max-height: 789px;*/
   overflow-x: hidden;
-  /*overflow-y: auto !important;*/
   margin-top: 20px;
-  /*padding: 20px;*/
-  /*border-right: 1px solid #F3F5F6;*/
   gap: 8px;
   display: flex;
-  width: 75%;
+  width: 78%;
 }
 .page-editor .main-page-editor-content .page-content::-webkit-scrollbar {
   width: 3px;
@@ -2023,11 +2032,16 @@ body {
   border: none;
   border-radius: 3px;
 }
+.page-editor .main-page-editor-content .page-content.expanded {
+  width: 65%;
+}
 .page-editor .message-editor {
-  width: 25%;
-  border-left: 1px solid #E5E7EA;
+  width: 22%;
   padding: 20px;
   height: 100%;
+}
+.page-editor .message-editor.expanded {
+  width: 35%;
 }
 
 .page-card {
@@ -2045,6 +2059,13 @@ body {
 }
 .page-card:last-of-type {
   margin-bottom: 0;
+}
+.page-card a {
+  display: flex;
+  flex-direction: column;
+}
+.page-card a:focus {
+  outline: none;
 }
 .page-card .page-card-bottom {
   display: flex;
@@ -2073,9 +2094,7 @@ body {
 }
 .page-card .page-card-bottom .actions {
   position: absolute;
-  /*top: 50%;*/
   right: 24px;
-  /*transform: translate(0, -50%);*/
   display: flex;
   font-size: 13px;
   line-height: 120%;
@@ -2846,16 +2865,31 @@ body {
   display: flex;
   flex-direction: column;
 }
+.message-page button:focus {
+  outline: none;
+}
 .message-page .expand-toolbox-btn-icon {
   background: none;
   margin-bottom: 16px;
   padding: 0;
 }
+.message-page .expand-toolbox-btn-icon.expanded > svg {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+.message-page .expand-toolbox-btn-icon svg:hover {
+  background: #E5E7EA;
+  border-radius: 4px;
+}
+.message-page .expand-toolbox-btn-icon svg:active {
+  background: #F2F4F7;
+  border-radius: 4px;
+}
 .message-page h3 {
   font-size: 16px;
   font-weight: 500;
   color: #161E29;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .message-page .blog-check {
   padding-top: 20px;
@@ -2864,31 +2898,18 @@ body {
 .message-page .new-message {
   height: 100%;
 }
-.message-page .new-message .translation-toolbox {
-  margin-bottom: 20px;
-  width: 100%;
-}
-.message-page .new-message .translation-toolbox .translation-selects {
+.message-page .new-message .tag-textarea {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 8px;
+  box-sizing: border-box;
+  height: 56px;
+  border: 1px solid #ddd;
+  border-radius: 0px 4px;
+  padding: 16px;
+  word-wrap: break-word;
+  margin-bottom: 17px;
   width: 100%;
-}
-.message-page .new-message .translation-toolbox .translation-selects button {
-  background: none;
-  border-radius: 8px;
-  border: 1px solid #D4D4D4;
-  color: #161E29;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 6px 19px;
-  height: 39px;
-}
-.message-page .new-message .translation-toolbox aside {
-  color: #858C96;
-  font-size: 14px;
-  font-weight: 400;
+  resize: none;
+  outline: none;
 }
 .message-page .send {
   display: flex;
@@ -2901,6 +2922,14 @@ body {
   font-size: 16px;
   font-weight: 500;
   background: none;
+}
+.message-page .send .cancel:hover {
+  background: #FFEEEE;
+  color: #FF4444;
+}
+.message-page .send .cancel:active {
+  background: #FFAFA3;
+  color: white;
 }
 .message-page .send .btn-and-msg {
   display: flex;
@@ -2924,6 +2953,14 @@ body {
   font-size: 16px;
   font-weight: 400;
 }
+.message-page .send .btn-and-msg .save-update-btn:hover {
+  background: #C9D5FF;
+  color: white;
+}
+.message-page .send .btn-and-msg .save-update-btn:active {
+  background: #5B7FFF;
+  color: #FFEEEE;
+}
 
 .MarkdownEditorComponent {
   padding-bottom: 20px;
@@ -2944,7 +2981,6 @@ body {
 .MarkdownEditorComponent .EasyMDEContainer .editor-toolbar {
   width: 100%;
   margin: 0;
-  /*padding: 6px 15px 20px 15px;*/
   padding: 0 0 20px 0;
   display: flex;
   gap: 10px;
@@ -3090,9 +3126,7 @@ body {
 }
 
 .message-grid {
-  /*padding: 20px;*/
   width: 100%;
-  /*max-width: 940px;*/
   height: 100%;
   position: relative;
   margin: 0 auto;
