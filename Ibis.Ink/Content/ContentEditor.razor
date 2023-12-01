@@ -17,6 +17,13 @@
                 <MarkdownEditor @bind-Value="@SelectedMessage.Text" ValueHTMLChanged="UpdateContent" />
             </div>
         }
+        else
+        {
+            <div class="MarkdownEditorComponent" aria-label="Message">
+                <h3>Content</h3>
+                <MarkdownEditor @bind-Value="@NewMessage.Text" ValueHTMLChanged="UpdateContent" />
+            </div>
+        }        
 
         <div class="send">
             <button type="button" class="cancel" @onclick=GoBack>
@@ -40,8 +47,9 @@
 @code {
     [Parameter] public string Id { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
-    [Parameter] public Message SelectedMessage { get; set; } = new Message() { Text = string.Empty };
+    [Parameter] public Message SelectedMessage { get; set; } 
     [Parameter] public EventCallback<bool> OnExpandClicked { get; set; }
+    [Parameter] public Message NewMessage { get; set; } = new Message();
     // Message Content = new() { Text = string.Empty };
     bool IsBlog;
     bool ShowConfirmation = false;
@@ -56,7 +64,7 @@
     //     Content.Html = Markdig.Markdown.ToHtml(Content.Text ?? string.Empty);
     //     Console.WriteLine(Content.Text);
     // }
-
+    
     protected override async Task OnInitializedAsync()
     {
         if (Id != null)
@@ -65,11 +73,12 @@
         }
         else
         {
-            SelectedMessage = new Message { RoomId = RoomId };
+            NewMessage = new Message { RoomId = RoomId };
+            SelectedMessage = NewMessage;
         }
 
         IsBlog = SelectedMessage.Type == "blog";
-        SelectedMessage.Html = Markdig.Markdown.ToHtml(SelectedMessage.Text ?? string.Empty);
+        SelectedMessage.Html = Markdig.Markdown.ToHtml(SelectedMessage.Text ?? string.Empty);        
     }
 
     void GoBack()
