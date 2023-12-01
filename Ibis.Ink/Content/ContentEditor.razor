@@ -26,7 +26,7 @@
         }        
 
         <div class="send">
-            <button type="button" class="cancel" @onclick=GoBack>
+            <button type="button" class="cancel" @onclick=Cancel>
                 Cancel
             </button>
             <div class="btn-and-msg">
@@ -47,9 +47,10 @@
 @code {
     [Parameter] public string Id { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
-    [Parameter] public Message SelectedMessage { get; set; } 
+    [Parameter] public Message SelectedMessage { get; set; } = new Message() { Text = string.Empty };
     [Parameter] public EventCallback<bool> OnExpandClicked { get; set; }
-    [Parameter] public Message NewMessage { get; set; } = new Message();
+    [Parameter] public Message NewMessage { get; set; } = new Message() { Text = string.Empty };
+    [Parameter] public EventCallback OnContentUpdated { get; set; }
     // Message Content = new() { Text = string.Empty };
     bool IsBlog;
     bool ShowConfirmation = false;
@@ -78,12 +79,18 @@
         }
 
         IsBlog = SelectedMessage.Type == "blog";
-        SelectedMessage.Html = Markdig.Markdown.ToHtml(SelectedMessage.Text ?? string.Empty);        
+        SelectedMessage.Html = Markdig.Markdown.ToHtml(SelectedMessage.Text ?? string.Empty);
+        StateHasChanged();
     }
 
     void GoBack()
     {
         Nav.NavigateTo($"/rooms/{RoomId}");
+    }
+
+    void Cancel()
+    {
+        ClearEditor();
     }
 
     async Task Delete()
@@ -107,7 +114,8 @@
                 RoomId = RoomId,
                 MessageId = SelectedMessage!.Id,
                 Type = SelectedMessage.Type,
-                Text = SelectedMessage.Text
+                Text = SelectedMessage.Text,
+                Tag = SelectedMessage.Tag
             });
 
         ShowConfirmation = true;
@@ -115,11 +123,24 @@
         await Task.Delay(3000);
         ShowConfirmation = false;
         StateHasChanged();
+
+        ClearEditor();
+        StateHasChanged();
+
+        await OnContentUpdated.InvokeAsync();
+        StateHasChanged();
     }
 
     private async Task ExpandClicked()
     {
         IsExpanded = !IsExpanded;
         await OnExpandClicked.InvokeAsync(IsExpanded);
+    }
+
+    void ClearEditor()
+    {
+        SelectedMessage.Text = string.Empty; 
+        NewMessage.Text = string.Empty;
+        StateHasChanged();
     }
 }

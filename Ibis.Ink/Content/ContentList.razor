@@ -25,6 +25,8 @@
 @code {
     [Parameter] public GetRoomResponse Page { get; set; } = null!;
     [Parameter] public EventCallback<Message> OnMessageClicked { get; set; }
+    // [Parameter] public EventCallback OnMessageSaved { get; set; }
+    [Parameter] public bool IsMessageUpdated { get; set; }
     List<Message> Content = new();
     string? Language;
 
@@ -36,20 +38,19 @@
         {
             Language = response.Language;
         }
-    }
-
-    // void Add()
-    // {
-    //     Nav.NavigateTo($"/content/{Page.RoomId}/new");
-    // }    
+    }   
 
     void Edit(Message message)
     {
         OnMessageClicked.InvokeAsync(message);
     }
 
-    // void Edit(Message message)
-    // {
-    //     Nav.NavigateTo($"/content/{Page.RoomId}/{message.Id}");
-    // }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (IsMessageUpdated)
+        {
+            await OnInitializedAsync();
+            IsMessageUpdated = false;
+        }
+    }
 }

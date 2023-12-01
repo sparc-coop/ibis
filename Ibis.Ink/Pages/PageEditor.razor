@@ -31,7 +31,7 @@
             <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
         </div>
         <div class="message-editor @(IsExpanded ? "expanded" : "")">
-            <ContentEditor RoomId="@RoomId" SelectedMessage="@SelectedMessage" OnExpandClicked="HandleExpandClicked" />
+            <ContentEditor RoomId="@RoomId" SelectedMessage="@SelectedMessage" OnExpandClicked="HandleExpandClicked" OnContentUpdated="OnContentUpdated" />
         </div>
     </div>
 </div>
@@ -62,5 +62,10 @@
     private void HandleExpandClicked(bool expanded)
     {
         IsExpanded = expanded;
+    }
+
+    private async Task OnContentUpdated()
+    {
+        StateHasChanged(); 
     }
 }
