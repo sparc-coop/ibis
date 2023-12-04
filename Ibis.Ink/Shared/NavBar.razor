@@ -6,7 +6,7 @@
         <div class="nav--container">
             <div class="nav--container-left">
                 <h1>
-                    <a href="/" @onclick=NavLogoClick><img class="logo" src="images/IbisInk_logo-full.png" /></a>
+                    <a href="/dashboard"><img class="logo" src="images/IbisInk_logo-full.png" /></a>
                 </h1>
             </div>
             <div class="nav--container-right">
@@ -74,11 +74,6 @@
             StateHasChanged();
             isUserBeingGot = false;
         }
-    }
-
-    private void NavLogoClick()
-    {
-        Nav.NavigateTo("/dashboard", true);
     }
 
     private async Task Logout()
