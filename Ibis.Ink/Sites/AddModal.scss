@@ -1,20 +1,78 @@
 ﻿@import "../_variables";
 
+.custom-modal {
+    max-width: 625px;
+}
+
 .add-site-modal {
     position: relative;
-    padding: 1rem;
+    /*padding: 1rem;*/
 
     header {
-        h6 {
+        h5 {
+            font-size: 25px;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 400;
             line-height: 120%;
-            color: #050506;
+            color: #161E29;
+        }
+
+        h6 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #161E29;
         }
 
         p {
-            color: #A7A7A7;
-            margin-bottom: 32px;
+            color: #525963;
+            font-size: 16px;
+            font-weight: 400;
+            /*margin-bottom: 30px;*/
+        }
+    }
+
+    .modal-header {
+        padding: 16px 16px 32px 16px;
+        border-bottom: 1px solid #F3F5F6;
+    }
+
+    .open-document, .add-new-page, .link-with-url {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .expand-div {
+            padding: 0 16px 0 40px;
+            cursor: pointer;
+            /*height: 100%;
+            width: 100%;*/
+        }
+    }
+
+    .open-document, .add-new-page {
+        header {
+            width: 85%;
+            padding: 28px 16px;
+            border-bottom: 1px solid #F3F5F6;
+        }
+    }
+
+    .link-with-url {
+        border-bottom: 1px solid #F3F5F6;
+
+        .link-content-div {
+            display: flex;
+            flex-direction: column;
+            /*padding-bottom: 32px;*/
+            width: 85%;
+
+            header {
+                padding: 28px 16px 20px 16px;
+            }
+
+            .website-name-wrapper, .website-link-wrapper, .manual-input-wrapper {
+                padding: 0 16px 0 16px;
+            }
         }
     }
 
@@ -80,6 +138,7 @@
         display: flex;
         gap: 8px;
         justify-content: flex-end;
+        padding-top: 30px;
 
         .close-button {
             background: transparent;

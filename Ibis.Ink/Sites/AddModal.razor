@@ -1,29 +1,62 @@
 ﻿@inherits SparcModal
 
-<div class="add-site-modal">
-    <header>
-        <h6>Add New Page to Ibis</h6>
+<div class="add-site-modal custom-modal">
+    <header class="modal-header">
+        <h5>Add New Page to Ibis</h5>
         <p class="medium">Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
     </header>
 
-    <div class="website-name-wrapper">
-        <p class="medium">Page Name</p>
-        <input type="text" class="website-name" placeholder="Page Name" @bind=Site.RoomName />
+    <div class="open-document">
+        <header>
+            <h6>Open document for IDE</h6>
+            <p class="medium">Torem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
+        </header>
+        <div class="expand-div">
+            <RightArrowExpandIcon />
+        </div>
     </div>
 
-    <div class="website-link-wrapper">
-        <p class="medium">Page Link</p>
-        <input type="text" class="website-link" placeholder="Page Link" />
+    <div class="add-new-page">
+        <header>
+            <h6>Add new page</h6>
+            <p class="medium">Torem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
+        </header>
+        <div class="expand-div">
+            <RightArrowExpandIcon />
+        </div>
     </div>
 
-    <div class="manual-input-wrapper">
-        <input type="checkbox" class="manual-input" />
-        <label>Pull other pages</label>
+    <div class="link-with-url">
+        <div class="link-content-div">
+            <header>
+                <h6>Link with URL</h6>
+                <p class="medium">Torem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
+            </header>
+
+            <div class="website-name-wrapper">
+                <p class="medium">Page Name</p>
+                <input type="text" class="website-name" placeholder="Page Name" @bind=Site.RoomName />
+            </div>
+
+            <div class="website-link-wrapper">
+                <p class="medium">Page Link</p>
+                <input type="text" class="website-link" placeholder="Page Link" />
+            </div>
+
+            <div class="manual-input-wrapper">
+                <input type="checkbox" class="manual-input" />
+                <label>Pull other pages</label>
+            </div>
+        </div>
+        <div class="expand-div">
+            <RightArrowExpandIcon />
+        </div>
     </div>
+
 
     <div class="close-add-btns">
         <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">Close</button>
-        <button class="add-button" @onclick=Save>Add</button>
+        @* <button class="add-button" @onclick=Save>Add</button> *@
     </div>
 </div>
 

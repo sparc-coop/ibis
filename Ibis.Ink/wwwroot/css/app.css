@@ -1466,19 +1466,66 @@ body .dashboard-layout main {
   gap: 20px;
 }
 
+.custom-modal {
+  max-width: 625px;
+}
+
 .add-site-modal {
   position: relative;
-  padding: 1rem;
+  /*padding: 1rem;*/
+}
+.add-site-modal header h5 {
+  font-size: 25px;
+  margin-bottom: 8px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #161E29;
 }
 .add-site-modal header h6 {
-  margin-bottom: 8px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 120%;
-  color: #050506;
+  color: #161E29;
 }
 .add-site-modal header p {
-  color: #A7A7A7;
-  margin-bottom: 32px;
+  color: #525963;
+  font-size: 16px;
+  font-weight: 400;
+  /*margin-bottom: 30px;*/
+}
+.add-site-modal .modal-header {
+  padding: 16px 16px 32px 16px;
+  border-bottom: 1px solid #F3F5F6;
+}
+.add-site-modal .open-document, .add-site-modal .add-new-page, .add-site-modal .link-with-url {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.add-site-modal .open-document .expand-div, .add-site-modal .add-new-page .expand-div, .add-site-modal .link-with-url .expand-div {
+  padding: 0 16px 0 40px;
+  cursor: pointer;
+  /*height: 100%;
+  width: 100%;*/
+}
+.add-site-modal .open-document header, .add-site-modal .add-new-page header {
+  width: 85%;
+  padding: 28px 16px;
+  border-bottom: 1px solid #F3F5F6;
+}
+.add-site-modal .link-with-url {
+  border-bottom: 1px solid #F3F5F6;
+}
+.add-site-modal .link-with-url .link-content-div {
+  display: flex;
+  flex-direction: column;
+  /*padding-bottom: 32px;*/
+  width: 85%;
+}
+.add-site-modal .link-with-url .link-content-div header {
+  padding: 28px 16px 20px 16px;
+}
+.add-site-modal .link-with-url .link-content-div .website-name-wrapper, .add-site-modal .link-with-url .link-content-div .website-link-wrapper, .add-site-modal .link-with-url .link-content-div .manual-input-wrapper {
+  padding: 0 16px 0 16px;
 }
 .add-site-modal .website-name-wrapper {
   margin-bottom: 16px;
@@ -1529,6 +1576,7 @@ body .dashboard-layout main {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
+  padding-top: 30px;
 }
 .add-site-modal .close-add-btns .close-button {
   background: transparent;
