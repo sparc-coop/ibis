@@ -1,40 +1,43 @@
 ﻿@page "/content/{RoomId}"
 @layout DashboardLayout
 
-<div class="page-editor">
-    <header>
-        <div class="header-left">
-            <div class="back-btn">
-                <button @onclick="GoBack" class="back">
-                    <ArrowCurveLeftIcon />
-                    Back to @Page.Name
-                </button>
+@if (Page != null)
+{
+    <div class="page-editor">
+        <header>
+            <div class="header-left">
+                <div class="back-btn">
+                    <button @onclick="GoBack" class="back">
+                        <ArrowCurveLeftIcon />
+                        Back to @Page.Name
+                    </button>
+                </div>
+                <div class="header-info">
+                    <img src="/images/Rectangle 592.png" />
+                    <h2>@Page.Name/@RoomId</h2>
+                    @* <Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" /> *@
+                    <button class="more"><MoreIcon /></button>
+                </div>
             </div>
-            <div class="header-info">
-                <img src="/images/Rectangle 592.png" />
-                <h2>@Page.Name/@RoomId</h2>
-                @* <Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" /> *@
-                <button class="more"><MoreIcon /></button>
+            <div class="header-right">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle" />
+                    <span class="slider"></span>
+                </label>
+                <button class="preview-btn">Preview</button>
+                <button class="publish-btn">Publish</button>
             </div>
-        </div>
-        <div class="header-right">
-            <label class="toggle-switch">
-                <input type="checkbox" id="toggle" />
-                <span class="slider"></span>
-            </label>
-            <button class="preview-btn">Preview</button>
-            <button class="publish-btn">Publish</button>
-        </div>
-    </header>
-    <div class="main-page-editor-content">
-        <div class="page-content @(IsExpanded ? "expanded" : "")">
-            <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
-        </div>
-        <div class="message-editor @(IsExpanded ? "expanded" : "")">
-            <ContentEditor RoomId="@RoomId" SelectedMessage="@SelectedMessage" OnExpandClicked="HandleExpandClicked" OnContentUpdated="OnContentUpdated" />
+        </header>
+        <div class="main-page-editor-content">
+            <div class="page-content @(IsExpanded ? "expanded" : "")">
+                <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
+            </div>
+            <div class="message-editor @(IsExpanded ? "expanded" : "")">
+                <ContentEditor RoomId="@RoomId" SelectedMessage="@SelectedMessage" OnExpandClicked="HandleExpandClicked" OnContentUpdated="OnContentUpdated" />
+            </div>
         </div>
     </div>
-</div>
+}
 
 @code {
     public GetRoomResponse? Page { get; set; }
@@ -66,6 +69,6 @@
 
     private async Task OnContentUpdated()
     {
-        StateHasChanged(); 
+        StateHasChanged();
     }
 }
