@@ -1466,13 +1466,8 @@ body .dashboard-layout main {
   gap: 20px;
 }
 
-.custom-modal {
-  max-width: 625px;
-}
-
 .add-site-modal {
   position: relative;
-  /*padding: 1rem;*/
 }
 .add-site-modal header h5 {
   font-size: 25px;
@@ -1490,7 +1485,6 @@ body .dashboard-layout main {
   color: #525963;
   font-size: 16px;
   font-weight: 400;
-  /*margin-bottom: 30px;*/
 }
 .add-site-modal .modal-header {
   padding: 16px 16px 32px 16px;
@@ -1498,27 +1492,36 @@ body .dashboard-layout main {
 }
 .add-site-modal .open-document, .add-site-modal .add-new-page, .add-site-modal .link-with-url {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 10px;
 }
 .add-site-modal .open-document .expand-div, .add-site-modal .add-new-page .expand-div, .add-site-modal .link-with-url .expand-div {
-  padding: 0 16px 0 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
   cursor: pointer;
-  /*height: 100%;
-  width: 100%;*/
+  width: 15%;
 }
-.add-site-modal .open-document header, .add-site-modal .add-new-page header {
+.add-site-modal .open-document .expand-div:hover, .add-site-modal .add-new-page .expand-div:hover, .add-site-modal .link-with-url .expand-div:hover {
+  background: #ECF0FF;
+}
+.add-site-modal .open-document .expand-div:hover > svg path, .add-site-modal .add-new-page .expand-div:hover > svg path, .add-site-modal .link-with-url .expand-div:hover > svg path {
+  stroke: #5B7FFF;
+  stroke-width: 2.4px;
+}
+.add-site-modal .open-document .header-title-with-icon, .add-site-modal .add-new-page .header-title-with-icon, .add-site-modal .link-with-url .header-title-with-icon {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.add-site-modal .open-document header, .add-site-modal .add-new-page header, .add-site-modal .link-with-url header {
   width: 85%;
   padding: 28px 16px;
-  border-bottom: 1px solid #F3F5F6;
-}
-.add-site-modal .link-with-url {
   border-bottom: 1px solid #F3F5F6;
 }
 .add-site-modal .link-with-url .link-content-div {
   display: flex;
   flex-direction: column;
-  /*padding-bottom: 32px;*/
   width: 85%;
 }
 .add-site-modal .link-with-url .link-content-div header {

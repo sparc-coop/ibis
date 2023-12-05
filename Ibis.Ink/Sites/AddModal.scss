@@ -1,12 +1,7 @@
 ﻿@import "../_variables";
 
-.custom-modal {
-    max-width: 625px;
-}
-
 .add-site-modal {
     position: relative;
-    /*padding: 1rem;*/
 
     header {
         h5 {
@@ -27,7 +22,6 @@
             color: #525963;
             font-size: 16px;
             font-weight: 400;
-            /*margin-bottom: 30px;*/
         }
     }
 
@@ -38,18 +32,34 @@
 
     .open-document, .add-new-page, .link-with-url {
         display: flex;
-        align-items: center;
+        align-items: stretch;
         gap: 10px;
 
         .expand-div {
-            padding: 0 16px 0 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 28px;
             cursor: pointer;
-            /*height: 100%;
-            width: 100%;*/
+            width: 15%;
+
+            &:hover {
+                background: #ECF0FF;
+
+                > svg path {
+                    stroke: #5B7FFF;
+                    stroke-width: 2.4px;
+                }
+            }
+        }
+
+        .header-title-with-icon {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
         }
     }
 
-    .open-document, .add-new-page {
+    .open-document, .add-new-page, .link-with-url {
         header {
             width: 85%;
             padding: 28px 16px;
@@ -58,12 +68,9 @@
     }
 
     .link-with-url {
-        border-bottom: 1px solid #F3F5F6;
-
         .link-content-div {
             display: flex;
             flex-direction: column;
-            /*padding-bottom: 32px;*/
             width: 85%;
 
             header {
