@@ -48,12 +48,13 @@
                 }
 
                 &:hover {
-                    background: #80CAFF;
+                    background: #5B9DFF;
                 }
 
                 &:active {
-                    background: #BDE3FF;
-                    color: #525963;
+                    background: #3D65F2;
+                    border: 1px solid #3D65F2;
+                    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04) inset;
                 }
             }
         }

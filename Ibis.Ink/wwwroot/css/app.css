@@ -1379,11 +1379,12 @@ body .dashboard-layout main {
   height: 10px;
 }
 .websites .page--header .header-title button:hover {
-  background: #80CAFF;
+  background: #5B9DFF;
 }
 .websites .page--header .header-title button:active {
-  background: #BDE3FF;
-  color: #525963;
+  background: #3D65F2;
+  border: 1px solid #3D65F2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04) inset;
 }
 .websites .page--header .search--container {
   display: flex;
@@ -1468,161 +1469,82 @@ body .dashboard-layout main {
 
 .add-site-modal {
   position: relative;
+  padding: 8px;
 }
-.add-site-modal header h5 {
-  font-size: 25px;
+.add-site-modal header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.add-site-modal header .header-title-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 8px;
-  font-weight: 400;
-  line-height: 120%;
-  color: #161E29;
 }
-.add-site-modal header h6 {
+.add-site-modal header .header-title-and-button h5 {
   font-size: 20px;
   font-weight: 500;
-  color: #161E29;
+  line-height: 120%;
+  color: #28303B;
+}
+.add-site-modal header .header-title-and-button button {
+  background: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.add-site-modal header .header-title-and-button button > svg {
+  width: 10px;
+  height: 10px;
+}
+.add-site-modal header .header-title-and-button button:hover {
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal header .header-title-and-button button:active {
+  border-radius: 8px;
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
 }
 .add-site-modal header p {
   color: #525963;
   font-size: 16px;
   font-weight: 400;
 }
-.add-site-modal .modal-header {
-  padding: 16px 16px 32px 16px;
-  border-bottom: 1px solid #F3F5F6;
-}
-.add-site-modal .open-document, .add-site-modal .add-new-page, .add-site-modal .link-with-url {
-  display: flex;
-  align-items: stretch;
-  gap: 10px;
-}
-.add-site-modal .open-document .expand-div, .add-site-modal .add-new-page .expand-div, .add-site-modal .link-with-url .expand-div {
-  display: flex;
-  align-items: center;
-  padding: 0 28px;
-  cursor: pointer;
-  width: 15%;
-}
-.add-site-modal .open-document .expand-div:hover, .add-site-modal .add-new-page .expand-div:hover, .add-site-modal .link-with-url .expand-div:hover {
-  background: #ECF0FF;
-}
-.add-site-modal .open-document .expand-div:hover > svg path, .add-site-modal .add-new-page .expand-div:hover > svg path, .add-site-modal .link-with-url .expand-div:hover > svg path {
-  stroke: #5B7FFF;
-  stroke-width: 2.4px;
-}
-.add-site-modal .open-document .header-title-with-icon, .add-site-modal .add-new-page .header-title-with-icon, .add-site-modal .link-with-url .header-title-with-icon {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.add-site-modal .open-document header, .add-site-modal .add-new-page header, .add-site-modal .link-with-url header {
-  width: 85%;
-  padding: 28px 16px;
-  border-bottom: 1px solid #F3F5F6;
-}
-.add-site-modal .link-with-url .link-content-div {
+.add-site-modal .modal-content {
   display: flex;
   flex-direction: column;
-  width: 85%;
-}
-.add-site-modal .link-with-url .link-content-div header {
-  padding: 28px 16px 20px 16px;
-}
-.add-site-modal .link-with-url .link-content-div .website-name-wrapper, .add-site-modal .link-with-url .link-content-div .website-link-wrapper, .add-site-modal .link-with-url .link-content-div .manual-input-wrapper {
-  padding: 0 16px 0 16px;
-}
-.add-site-modal .website-name-wrapper {
-  margin-bottom: 16px;
-}
-.add-site-modal .website-link-wrapper {
-  margin-bottom: 6px;
-}
-.add-site-modal .website-name-wrapper p.medium, .add-site-modal .website-link-wrapper p.medium {
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-.add-site-modal .website-name-wrapper label, .add-site-modal .website-link-wrapper label {
-  margin-bottom: 6px;
-  color: #28303B;
-}
-.add-site-modal .website-name-wrapper input, .add-site-modal .website-link-wrapper input {
-  border: 1px solid #C7C9D1;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 16px;
-  line-height: 120%;
-  width: 100%;
-}
-.add-site-modal .website-name-wrapper ::placeholder, .add-site-modal .website-link-wrapper ::placeholder {
-  color: #858C96;
-}
-.add-site-modal input[type=checkbox] {
-  height: 16px;
-  width: 16px;
-  margin-right: 10px;
-  border: 1px solid #858C96;
-  border-radius: 4px;
-  position: relative;
-}
-.add-site-modal .manual-input-wrapper {
-  display: flex;
-  margin-bottom: 32px;
-}
-.add-site-modal .manual-input-wrapper label {
-  font-size: 13px;
-  font-weight: 400;
-  color: #858C96;
-}
-.add-site-modal .manual-input-wrapper input[type=checkbox] {
-  margin-top: 3px;
-}
-.add-site-modal .close-add-btns {
-  display: flex;
   gap: 8px;
-  justify-content: flex-end;
-  padding-top: 30px;
 }
-.add-site-modal .close-add-btns .close-button {
-  background: transparent;
+.add-site-modal .modal-content .open-document, .add-site-modal .modal-content .add-new-page, .add-site-modal .modal-content .link-with-url {
+  display: flex;
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+  padding: 12px 24px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.add-site-modal .modal-content .open-document .header-title-with-icon, .add-site-modal .modal-content .add-new-page .header-title-with-icon, .add-site-modal .modal-content .link-with-url .header-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.add-site-modal .modal-content .open-document .header-title-with-icon h6, .add-site-modal .modal-content .add-new-page .header-title-with-icon h6, .add-site-modal .modal-content .link-with-url .header-title-with-icon h6 {
+  font-size: 16px;
+  font-weight: 500;
   color: #28303B;
-  padding: 10px 14px;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 120%;
-  width: 107px;
-  text-align: center;
 }
-.add-site-modal .close-add-btns .close-button:hover {
-  border: 1px solid #FFAFA3;
-  background: #FFAFA3;
-  color: white;
+.add-site-modal .modal-content .open-document:hover, .add-site-modal .modal-content .add-new-page:hover, .add-site-modal .modal-content .link-with-url:hover {
+  background: #ECF0FF;
+  border: 1px solid #9B74FF;
 }
-.add-site-modal .close-add-btns .add-button {
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #5B9DFF;
-  background: #5B7FFF;
-  width: 107px;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 120%;
-}
-.add-site-modal .close-add-btns .add-button:hover {
-  border: 1px solid #003B5F;
-  background: #FFFFFF;
-  color: #003B5F;
-}
-.add-site-modal .close-add-btns .add-button:hover svg path {
-  fill: #003B5F;
-}
-.add-site-modal .close-add-btns .add-button:active {
-  background: #EEF4FA;
-}
-.add-site-modal .close-add-btns .add-button:focus {
-  outline: none;
-  box-shadow: none;
+.add-site-modal .modal-content .open-document:hover .expand-div > svg path, .add-site-modal .modal-content .add-new-page:hover .expand-div > svg path, .add-site-modal .modal-content .link-with-url:hover .expand-div > svg path {
+  stroke: #9B74FF;
 }
 
 .delete-modal {
@@ -1866,6 +1788,154 @@ body .dashboard-layout main {
   background: #EEF4FA;
 }
 .add-url-modal .close-add-btns .add-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.add-site-modal {
+  position: relative;
+  padding: 8px;
+}
+.add-site-modal header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.add-site-modal header .header-title-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.add-site-modal header .header-title-and-button h5 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #28303B;
+}
+.add-site-modal header .header-title-and-button button {
+  background: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.add-site-modal header .header-title-and-button button > svg {
+  width: 10px;
+  height: 10px;
+}
+.add-site-modal header .header-title-and-button button:hover {
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal header .header-title-and-button button:active {
+  border-radius: 8px;
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.add-site-modal header .header-title-and-button .header-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.add-site-modal header p {
+  color: #525963;
+  font-size: 16px;
+  font-weight: 400;
+}
+.add-site-modal .website-name-wrapper {
+  margin-bottom: 8px;
+}
+.add-site-modal .website-link-wrapper {
+  margin-bottom: 6px;
+}
+.add-site-modal .website-name-wrapper p.medium, .add-site-modal .website-link-wrapper p.medium {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.add-site-modal .website-name-wrapper label, .add-site-modal .website-link-wrapper label {
+  margin-bottom: 6px;
+  color: #28303B;
+}
+.add-site-modal .website-name-wrapper input, .add-site-modal .website-link-wrapper input {
+  border: 1px solid #C7C9D1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  line-height: 120%;
+  width: 100%;
+}
+.add-site-modal .website-name-wrapper ::placeholder, .add-site-modal .website-link-wrapper ::placeholder {
+  color: #858C96;
+}
+.add-site-modal input[type=checkbox] {
+  height: 16px;
+  width: 16px;
+  margin-right: 10px;
+  border: 1px solid #858C96;
+  border-radius: 4px;
+  position: relative;
+}
+.add-site-modal .manual-input-wrapper {
+  display: flex;
+  margin-bottom: 24px;
+}
+.add-site-modal .manual-input-wrapper label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #858C96;
+}
+.add-site-modal .manual-input-wrapper input[type=checkbox] {
+  margin-top: 3px;
+}
+.add-site-modal .close-add-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+.add-site-modal .close-add-btns .close-button {
+  background: transparent;
+  color: #525963;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+  width: 80px;
+  text-align: center;
+}
+.add-site-modal .close-add-btns .close-button:hover {
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal .close-add-btns .close-button:active {
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.add-site-modal .close-add-btns .add-button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B7FFF;
+  width: 107px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+}
+.add-site-modal .close-add-btns .add-button:hover {
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B9DFF;
+}
+.add-site-modal .close-add-btns .add-button:active {
+  border-radius: 8px;
+  border: 1px solid #3D65F2;
+  background: #3D65F2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04) inset;
+}
+.add-site-modal .close-add-btns .add-button:focus {
   outline: none;
   box-shadow: none;
 }
