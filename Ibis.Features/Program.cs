@@ -18,7 +18,9 @@ builder.Services
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>();
+        .AddScoped<GetAllContent>()
+        .AddScoped<AzureLanguageDetector>();
+
 
 builder.Services.AddBlazoredModal();
 
