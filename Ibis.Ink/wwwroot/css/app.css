@@ -1997,6 +1997,75 @@ body {
   background: #FFFFFF;
 }
 
+.page-editor .notification-bar {
+  display: flex;
+  width: calc(100% - 80px);
+  padding: 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0px 0px 16px 16px;
+  background: #C3D1FF;
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  height: 40px;
+}
+.page-editor .notification-bar .notification-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.page-editor .notification-bar .notification-bar-left p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #0C274B;
+}
+.page-editor .notification-bar .notification-bar-left p a {
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #0C274B;
+}
+.page-editor .notification-bar .notification-bar-left p a:hover {
+  color: #0F4894;
+}
+.page-editor .notification-bar .notification-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.page-editor .notification-bar .notification-bar-right p.medium {
+  text-decoration: underline;
+  color: #0C274B;
+  cursor: pointer;
+}
+.page-editor .notification-bar .notification-bar-right p.medium a {
+  font-weight: 500;
+}
+.page-editor .notification-bar .notification-bar-right p.medium a:hover {
+  color: #0F4894;
+}
+.page-editor .notification-bar .notification-bar-right .close-button-icon {
+  background: none;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+}
+.page-editor .notification-bar .notification-bar-right .close-button-icon svg {
+  width: 14px;
+  height: 14px;
+}
+.page-editor .notification-bar .notification-bar-right .close-button-icon svg path {
+  stroke: #0C274B;
+}
+.page-editor .notification-bar .notification-bar-right .close-button-icon svg:hover path {
+  stroke: #0F4894;
+}
+.page-editor .notification-bar .notification-bar-right .close-button-icon:focus {
+  outline: none;
+}
 .page-editor header {
   display: flex;
   align-items: center;
@@ -2032,8 +2101,7 @@ body {
   border-radius: 8px;
 }
 .page-editor header .header-left .header-info h2 {
-  /*font-size: 20px;*/
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 400;
   color: #050506;
 }
