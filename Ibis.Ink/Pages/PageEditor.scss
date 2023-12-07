@@ -6,89 +6,10 @@ body {
 
 .page-editor {
     .notification-bar {
-        display: flex;
         width: calc(100% - 80px);
-        padding: 8px 16px;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-        border-radius: 0px 0px 16px 16px;
-        background: #C3D1FF;
-        position: absolute;
         top: 80px;
         left: 80px;
-        height: 40px;
-
-        .notification-bar-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            p {
-                font-size: 16px;
-                font-weight: 400;
-                color: #0C274B;
-
-                a {
-                    font-size: 16px;
-                    font-weight: 500;
-                    text-decoration: underline;
-                    cursor: pointer;
-                    color: #0C274B;
-
-                    &:hover {
-                        color: #0F4894;
-                    }
-                }
-            }
-        }
-
-        .notification-bar-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            p.medium {
-                text-decoration: underline;
-                color: #0C274B;
-                cursor: pointer;
-
-                a {
-                    font-weight: 500;
-
-                    &:hover {
-                        color: #0F4894;
-                    }
-                }
-            }
-
-            .close-button-icon {
-                background: none;
-                padding: 0;
-                width: 24px;
-                height: 24px;
-
-                svg {
-                    width: 14px;
-                    height: 14px;
-
-                    path {
-                        stroke: #0C274B;
-                    }
-
-                    &:hover {
-                        path {
-                            stroke: #0F4894;
-                        }
-                    }
-                }
-
-                &:focus {
-                    outline: none;
-                }
-            }
-        }
-    }
+    }    
 
     header {
         display: flex;

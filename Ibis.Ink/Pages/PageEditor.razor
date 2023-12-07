@@ -6,18 +6,7 @@
     <div class="page-editor">
         @if (showNotification)
         {
-            <div class="notification-bar">
-                <div class="notification-bar-left">
-                    <AlertCirecleIcon />
-                    <p>It seems the text is in a different language. Would you like to enable <a @* @onclick="HandleLanguageDetection" *@>language auto-detection</a>?</p>
-                </div>
-                <div class="notification-bar-right">
-                    <p class="medium"><a @* @onclick="StopAsking" *@>Don’t ask again</a></p>
-                    <button class="close-button-icon" @onclick="HandleCloseButtonClick">
-                        <CloseIcon />
-                    </button>
-                </div>
-            </div>
+            <NotificationBar OnCloseButtonClick="HandleCloseButtonClick" />
         }
         <header>
             <div class="header-left">
@@ -91,5 +80,6 @@
     private void HandleCloseButtonClick()
     {
         showNotification = false;
+        StateHasChanged();
     }
 }

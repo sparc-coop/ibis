@@ -1,0 +1,21 @@
+﻿<div class="notification-bar">
+    <div class="notification-bar-left">
+        <AlertCirecleIcon />
+        <p>It seems the text is in a different language. Would you like to enable <a @* @onclick="HandleLanguageDetection" *@>language auto-detection</a>?</p>
+    </div>
+    <div class="notification-bar-right">
+        <p class="medium"><a @* @onclick="StopAsking" *@>Don’t ask again</a></p>
+        <button class="close-button-icon" @onclick="HandleCloseButtonClick">
+            <CloseIcon />
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnCloseButtonClick { get; set; }
+
+    private async Task HandleCloseButtonClick()
+    {
+        await OnCloseButtonClick.InvokeAsync(null);
+    }
+}
