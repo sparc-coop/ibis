@@ -7,7 +7,16 @@
         }
     }
     <a href="@link">
-        <img src="/images/Rectangle 592.png" />
+
+        @if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            <img src="@ImageUrl" />
+        }
+        else
+        {
+            <img src="/images/Rectangle 592.png" />
+        }
+
         <div class="page-card-bottom">
             <div class="page-info">
                 @if (Endpoint != null)
@@ -34,4 +43,16 @@
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Endpoint { get; set; }
     [Parameter] public DateTimeOffset? DateModified { get; set; }
+
+    private string ImageUrl { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(async () => await LoadImageUrl());
+    }
+
+    async Task LoadImageUrl()
+    {   
+        ImageUrl = await Api.GetFileFromStorageAsync(new GetFileFromStorageRequest { RoomId = RoomId });
+    }
 }
