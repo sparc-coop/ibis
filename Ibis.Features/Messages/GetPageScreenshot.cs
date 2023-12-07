@@ -5,16 +5,14 @@ namespace Ibis.Messages;
 
 public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
 {
-    public GetPageScreenshot(IRepository<Room> rooms, IFileRepository<File> files, ISharedService sharedService)
+    public GetPageScreenshot(IRepository<Room> rooms, IFileRepository<File> files)
     {
         Rooms = rooms;
         Files = files;
-        _sharedService = sharedService;
     }
 
     public IRepository<Room> Rooms { get; }
     public IFileRepository<File> Files { get; }
-    private readonly ISharedService _sharedService;
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
@@ -22,7 +20,6 @@ public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
 
         var fileUrl = await GetScreenshotAsync(notification);
 
-        _sharedService.FileUrl = fileUrl;
 
         return;
     }
