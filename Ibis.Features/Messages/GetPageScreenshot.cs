@@ -5,20 +5,24 @@ namespace Ibis.Messages;
 
 public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
 {
-    public GetPageScreenshot(IRepository<Room> rooms, IFileRepository<File> files)
+    public GetPageScreenshot(IRepository<Room> rooms, IFileRepository<File> files, AzureOCR azureOCR)
     {
         Rooms = rooms;
         Files = files;
+        AzureOCR = azureOCR;
     }
 
     public IRepository<Room> Rooms { get; }
     public IFileRepository<File> Files { get; }
+    public AzureOCR AzureOCR { get; }
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
         //var room = await Rooms.FindAsync(notification.Message.RoomId);
 
         var fileUrl = await GetScreenshotAsync(notification);
+
+        //await AzureOCR.MakeRequest();
 
         return;
     }

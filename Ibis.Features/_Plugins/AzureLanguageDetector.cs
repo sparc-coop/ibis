@@ -5,9 +5,13 @@ namespace Ibis._Plugins
 {
     public class AzureLanguageDetector
     {
-        private static readonly AzureKeyCredential credentials = new AzureKeyCredential("68fa2318639d48d7bf7333dd22939ce6");
-        private static readonly Uri endpoint = new Uri("https://ibis-cognitive.cognitiveservices.azure.com/");
+        readonly Uri endpoint = new Uri("https://ibis-cognitive.cognitiveservices.azure.com/");
+        readonly string SubscriptionKey;
 
+        public AzureLanguageDetector(IConfiguration configuration)
+        {
+            SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
+        }
         public string LanguageDetectionExample(TextAnalyticsClient client, string text)
         {
             Azure.AI.TextAnalytics.DetectedLanguage detectedLanguage = client.DetectLanguage(text);
@@ -18,7 +22,7 @@ namespace Ibis._Plugins
 
         public string CallAzureLanguageDetector(string text)
         {
-            var client = new TextAnalyticsClient(endpoint, credentials);
+            var client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(SubscriptionKey));
             var result = LanguageDetectionExample(client, text);
 
             return result;
