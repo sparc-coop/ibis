@@ -1,0 +1,38 @@
+﻿.lang-select-toolbox {
+    display: flex;
+    max-width: 650px;
+    align-items: center;
+    gap: 4px;
+}
+
+.no-arrow-select,
+.with-arrow-select {
+    display: flex;
+    height: 44px;
+    padding: 6px 19px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid #D4D4D4;
+    width: 291px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.no-arrow-select:focus, .with-arrow-select:focus {
+    outline: none;
+}
+
+.no-arrow-select {
+    background-image: none;
+}
+
+.with-arrow-select {
+    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"%3E%3Cpath d="M3 6L8.00081 10.58L13 6" stroke="%230A090B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 19px) center;
+}
+
