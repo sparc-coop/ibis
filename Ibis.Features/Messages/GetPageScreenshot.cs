@@ -46,7 +46,8 @@ public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
             await page.GoToAsync(url);
             var fileData = await page.ScreenshotDataAsync();
 
-            var fileUrl = await UploadScreenshotToStorage(notification.Message.RoomId, "screenshot", fileData);
+            var fileName = "screenshot.png";
+            var fileUrl = await UploadScreenshotToStorage(notification.Message.RoomId, fileName, fileData);
 
             return fileUrl;
         }
@@ -54,8 +55,11 @@ public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
 
     internal async Task<string> UploadScreenshotToStorage(string roomId, string fileName, byte[] bytes)
     {
-        File file = new("screenshots", $"{roomId}/{fileName}.png", AccessTypes.Public, new MemoryStream(bytes));
+        var previousFile = new File("screenshots", $"{roomId}/screenshot.png");
+        await Files.DeleteAsync(previousFile);
+
+        File file = new("screenshots", $"{roomId}/{fileName}", AccessTypes.Public, new MemoryStream(bytes));
         await Files.AddAsync(file);
         return file.Url!;
-    }
+    }    
 }
