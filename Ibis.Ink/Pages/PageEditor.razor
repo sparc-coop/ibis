@@ -19,6 +19,7 @@
     <div class="page-editor--actions">
         <button class="back" @onclick="GoBack">Back</button>
         <div class="actions">
+            <button @onclick="ShowUploadModal">Add Image (temp)</button>
             <button class="page-settings" @onclick="OpenPageSettings">Settings</button>            
         </div>
     </div>
@@ -42,5 +43,12 @@
     void OpenPageSettings()
     {
         Modal.Show<PageSettingsModal>("Settings");
+    }
+
+    void ShowUploadModal()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Upload.RoomId), RoomId);
+        Modal.Show<Upload>("Upload", parameters);
     }
 }

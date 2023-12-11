@@ -55,7 +55,7 @@
         {
             FileInputEmptyOnSubmit = false;
             var bytes = ms.ToArray();
-            var messages = await Api.UploadFileAsync(new UploadFileRequest { RoomId = RoomId, Language = Language, Bytes = bytes, FileName = fileName });
+            var messages = await Api.UploadImageAsync(new UploadImageRequest { RoomId = RoomId, Language = "en", Bytes = bytes, FileName = fileName });
 
             await Ok(messages);
         } else

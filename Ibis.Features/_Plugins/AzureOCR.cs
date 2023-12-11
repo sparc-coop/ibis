@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web;
 using static System.Net.WebRequestMethods;
 using Azure;
+using Newtonsoft.Json.Linq;
 
 namespace Ibis._Plugins
 {
@@ -18,7 +19,7 @@ namespace Ibis._Plugins
             SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
         }
         // Updated to be an async method returning Task<string>
-        public async Task<string> MakeRequest()
+        public async Task<string> MakeRequest(string imgUrl)
         {
             var client = new HttpClient();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -35,7 +36,7 @@ namespace Ibis._Plugins
             var uri = $"{Endpoint}computervision/imageanalysis:analyze?api-version=2023-04-01-preview&" + queryString;
 
             // Request body
-            byte[] byteData = await GetImageBytes("https://imgv3.fotor.com/images/blog-cover-image/How-to-Make-Text-Stand-Out-And-More-Readable.jpg");
+            byte[] byteData = await GetImageBytes(imgUrl);
 
             using (var content = new ByteArrayContent(byteData))
             {
@@ -54,7 +55,8 @@ namespace Ibis._Plugins
 
                 // TODO: Add your processing logic here
 
-                return responseContent; // or return a processed result
+                string firstContent = GetFirstContent(responseContent);
+                return firstContent;
             }
 
             // This should be replaced with actual processing of the response
@@ -68,6 +70,25 @@ namespace Ibis._Plugins
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsByteArrayAsync();
             }
+        }
+
+        public string GetFirstContent(string jsonResponse)
+        {
+            var jsonObject = JObject.Parse(jsonResponse);
+
+            // Navigate through the JSON structure
+            var pages = jsonObject["readResult"]["pages"] as JArray;
+            if (pages != null && pages.Count > 0)
+            {
+                var words = pages[0]["words"] as JArray;
+                if (words != null && words.Count > 0)
+                {
+                    var firstContent = words[0]["content"].ToString();
+                    return firstContent;
+                }
+            }
+
+            return "No content found";
         }
     }
 }
