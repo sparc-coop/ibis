@@ -1,0 +1,56 @@
+﻿@page "/add-documentation"
+@layout EmptyLayout
+
+<div class="add-site-documentation">
+    <NavBar />
+
+    <div class="doc-page-container">
+        <header>
+            <h2>Add a website</h2>
+            <p>Add a website into Ibis Ink is extremely easy to set up.</p>
+        </header>
+        <div class="doc-content">
+            <div>
+                <ol>
+
+                    <li>
+                        <h3> Step One: Install Sparc.Ibis plugin</h3>
+                        <p>
+                            Inside your platform project install the `Sparc.Ibis` Nuget package <a href="https://www.nuget.org/packages/Sparc.Ibis/" target="_blank">https://www.nuget.org/packages/Sparc.Ibis/</a>
+                        </p>
+                    </li>
+
+                    <li>
+                        <h3> Step Two: Add this line to your platform `wwwroot/appsettings.json`:</h3>
+                        <p>
+                            I'm not sure if this step is really necessary
+                        </p>
+                    </li>
+
+                    <li>
+                        <h3> Step Three: Add the following to your `Program.cs`:</h3>
+                        <pre><code class="language-csharp">
+                            using Sparc.Ibis;
+
+                            builder.Services.AddIbis();
+                        </code></pre>
+                    </li>
+
+                    <li>
+                        <h3> Step Four: Wrap HTML inside IbisContent tag</h3>
+                        <pre><code>
+                                     &lt;IbisContent&gt;&lt;/IbisContent&gt; 
+                        </code></pre>
+                    </li>
+
+                </ol>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+}

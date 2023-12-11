@@ -1,9 +1,17 @@
 ﻿@inherits SparcModal
 
 <div class="add-site-modal">
-    @if (AddLink == true)
+    @if (AddLink)
     {
         <AddLinkWithURL OnBack="HandleBack" />
+    }
+    else if (OpenDocument)
+    {
+        <OpenDocumentForIDE OnBack="HandleBack" />
+    }
+    else if (AddNewPage)
+    {
+        @* <AddNewPageModalOption OnBack="HandleBack" /> *@
     }
     else
     {
@@ -18,7 +26,7 @@
         </header>
 
         <div class="modal-content">
-            <div class="open-document">
+            <div class="open-document" @onclick=ShowOpenDocumentContent>
                 <div class="header-title-with-icon">
                     <FileSettingIcon />
                     <h6>Open document for IDE</h6>
@@ -55,10 +63,28 @@
 
 @code {
     private bool AddLink = false;
+    private bool OpenDocument = false;
+    private bool AddNewPage = false;
 
     private void ShowAddLinkContent()
     {
         AddLink = true;
+        OpenDocument = false;
+        AddNewPage = false;
+    }
+
+    private void ShowOpenDocumentContent()
+    {
+        AddLink = false;
+        OpenDocument = true;
+        AddNewPage = false;
+    }
+
+    private void ShowAddNewPageContent()
+    {
+        AddLink = false;
+        OpenDocument = false;
+        AddNewPage = true;
     }
 
     private void HandleBack(bool isBack)
@@ -66,6 +92,8 @@
         if (isBack)
         {
             AddLink = false;
+            OpenDocument = false;
+            AddNewPage = false;
         }
     }
 }

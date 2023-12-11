@@ -1,0 +1,66 @@
+﻿@import "../_variables";
+
+.add-site-documentation {
+
+    .doc-page-container {
+        padding: 98px 32px 32px 32px;
+        height: 100vh;
+
+        header {
+            margin-bottom: 40px;
+
+            h2 {
+                font-size: 39px;
+                line-height: 120%;
+                color: #003B5F;
+            }
+
+            p {
+                margin-top: 28px;
+                font-size: 20px;
+                line-height: 150%;
+                color: #003B5F;
+            }
+        }
+
+        .doc-content {
+            ol {
+                overflow: hidden;
+                list-style: decimal;
+                padding-left: 28px;
+
+                li {
+                    margin-bottom: 40px;
+
+                    h3 {
+                        font-size: 24px;
+                        height: 26px;
+                        margin-bottom: 10px;
+                        font-weight: 500;
+                        line-height: 160%;
+                    }
+
+                    p {
+                        a {
+                            text-decoration: underline;
+                            color: #0C274B;
+                            font-weight: 500;
+
+                            &:hover {
+                                color: #0F4894;
+                            }
+
+                            &:focus {
+                                outline: none;
+                            }
+                        }
+                    }
+
+                    code {
+                        white-space: pre-line;
+                    }
+                }
+            }
+        }
+    }
+}

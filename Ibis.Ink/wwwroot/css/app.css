@@ -1971,6 +1971,7 @@ body .dashboard-layout main {
   color: #525963;
   padding: 10px 14px;
   border-radius: 8px;
+  border: 1px solid transparent;
   font-size: 15px;
   font-weight: 500;
   line-height: 120%;
@@ -2009,6 +2010,156 @@ body .dashboard-layout main {
 .add-site-modal .close-add-btns .add-button:focus {
   outline: none;
   box-shadow: none;
+}
+
+.add-site-modal {
+  position: relative;
+  padding: 8px;
+}
+.add-site-modal header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.add-site-modal header .header-title-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.add-site-modal header .header-title-and-button h5 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #28303B;
+}
+.add-site-modal header .header-title-and-button button {
+  background: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.add-site-modal header .header-title-and-button button > svg {
+  width: 10px;
+  height: 10px;
+}
+.add-site-modal header .header-title-and-button button:hover {
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal header .header-title-and-button button:active {
+  border-radius: 8px;
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.add-site-modal header .header-title-and-button .header-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.add-site-modal header p {
+  color: #525963;
+  font-size: 16px;
+  font-weight: 400;
+}
+.add-site-modal .open-document-container {
+  min-height: 275px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.add-site-modal .open-document-container .open-document-content {
+  margin-bottom: 24px;
+}
+.add-site-modal .open-document-container .open-document-content p {
+  font-size: 16px;
+  color: #28303B;
+}
+.add-site-modal .open-document-container .open-document-content p a {
+  text-decoration: underline;
+  color: #0C274B;
+  font-weight: 500;
+}
+.add-site-modal .open-document-container .open-document-content p a:hover {
+  color: #0F4894;
+}
+.add-site-modal .open-document-container .open-document-content p a:focus {
+  outline: none;
+}
+.add-site-modal .open-document-container .close-add-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+.add-site-modal .open-document-container .close-add-btns .close-button {
+  background: transparent;
+  color: #525963;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+  width: 80px;
+  text-align: center;
+}
+.add-site-modal .open-document-container .close-add-btns .close-button:hover {
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal .open-document-container .close-add-btns .close-button:active {
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+
+.add-site-documentation .doc-page-container {
+  padding: 98px 32px 32px 32px;
+  height: 100vh;
+}
+.add-site-documentation .doc-page-container header {
+  margin-bottom: 40px;
+}
+.add-site-documentation .doc-page-container header h2 {
+  font-size: 39px;
+  line-height: 120%;
+  color: #003B5F;
+}
+.add-site-documentation .doc-page-container header p {
+  margin-top: 28px;
+  font-size: 20px;
+  line-height: 150%;
+  color: #003B5F;
+}
+.add-site-documentation .doc-page-container .doc-content ol {
+  overflow: hidden;
+  list-style: decimal;
+  padding-left: 28px;
+}
+.add-site-documentation .doc-page-container .doc-content ol li {
+  margin-bottom: 40px;
+}
+.add-site-documentation .doc-page-container .doc-content ol li h3 {
+  font-size: 24px;
+  height: 26px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 160%;
+}
+.add-site-documentation .doc-page-container .doc-content ol li p a {
+  text-decoration: underline;
+  color: #0C274B;
+  font-weight: 500;
+}
+.add-site-documentation .doc-page-container .doc-content ol li p a:hover {
+  color: #0F4894;
+}
+.add-site-documentation .doc-page-container .doc-content ol li p a:focus {
+  outline: none;
+}
+.add-site-documentation .doc-page-container .doc-content ol li code {
+  white-space: pre-line;
 }
 
 .pages .page--header {

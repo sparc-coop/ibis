@@ -129,7 +129,8 @@
             background: transparent;
             color: #525963;
             padding: 10px 14px;
-            border-radius: 8px;            
+            border-radius: 8px;
+            border: 1px solid transparent;
             font-size: 15px;
             font-weight: 500;
             line-height: 120%;
@@ -137,10 +138,10 @@
             text-align: center;
 
             &:hover {
-                border: 1px solid #E5E7EA;               
+                border: 1px solid #E5E7EA;
             }
 
-            &:active {                
+            &:active {
                 border: 1px solid #C7C9D1;
                 background: #E5E7EA;
             }
