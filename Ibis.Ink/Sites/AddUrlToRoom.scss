@@ -94,6 +94,10 @@
                 outline: none;
                 box-shadow: none
             }
+
+            &:invalid {
+                color: #858C96;
+            }
         }
 
         ::placeholder {

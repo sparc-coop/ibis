@@ -2241,6 +2241,9 @@ body .dashboard-layout main {
   outline: none;
   box-shadow: none;
 }
+.add-site-modal .website-name-wrapper input:invalid, .add-site-modal .website-name-wrapper select:invalid, .add-site-modal .website-link-wrapper input:invalid, .add-site-modal .website-link-wrapper select:invalid {
+  color: #858C96;
+}
 .add-site-modal .website-name-wrapper ::placeholder, .add-site-modal .website-link-wrapper ::placeholder {
   color: #858C96;
 }

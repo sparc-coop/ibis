@@ -17,7 +17,7 @@
     <div class="website-name-wrapper">
         <p class="medium">Page Name</p>        
         <select id="room" @bind="selectedRoomId">
-            <option value="hide">Page Name</option>
+            <option value="" disabled selected hidden>Select a Page</option>
             @if (Rooms != null)
             {
                 foreach (var room in Rooms)
