@@ -2162,6 +2162,151 @@ body .dashboard-layout main {
   white-space: pre-line;
 }
 
+.add-site-modal {
+  position: relative;
+  padding: 8px;
+}
+.add-site-modal header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.add-site-modal header .header-title-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.add-site-modal header .header-title-and-button h5 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #28303B;
+}
+.add-site-modal header .header-title-and-button button {
+  background: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.add-site-modal header .header-title-and-button button > svg {
+  width: 10px;
+  height: 10px;
+}
+.add-site-modal header .header-title-and-button button:hover {
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal header .header-title-and-button button:active {
+  border-radius: 8px;
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.add-site-modal header .header-title-and-button .header-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.add-site-modal header p {
+  color: #525963;
+  font-size: 16px;
+  font-weight: 400;
+}
+.add-site-modal .website-name-wrapper {
+  margin-bottom: 8px;
+}
+.add-site-modal .website-link-wrapper {
+  margin-bottom: 24px;
+}
+.add-site-modal .website-name-wrapper p.medium, .add-site-modal .website-link-wrapper p.medium {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.add-site-modal .website-name-wrapper label, .add-site-modal .website-link-wrapper label {
+  margin-bottom: 6px;
+  color: #28303B;
+}
+.add-site-modal .website-name-wrapper input, .add-site-modal .website-name-wrapper select, .add-site-modal .website-link-wrapper input, .add-site-modal .website-link-wrapper select {
+  border: 1px solid #C7C9D1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  line-height: 120%;
+  width: 100%;
+}
+.add-site-modal .website-name-wrapper input:focus, .add-site-modal .website-name-wrapper select:focus, .add-site-modal .website-link-wrapper input:focus, .add-site-modal .website-link-wrapper select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.add-site-modal .website-name-wrapper ::placeholder, .add-site-modal .website-link-wrapper ::placeholder {
+  color: #858C96;
+}
+.add-site-modal .manual-input-wrapper {
+  display: flex;
+  margin-bottom: 24px;
+}
+.add-site-modal .manual-input-wrapper label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #858C96;
+}
+.add-site-modal .manual-input-wrapper input[type=checkbox] {
+  margin-top: 3px;
+}
+.add-site-modal .close-add-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+.add-site-modal .close-add-btns .close-button {
+  background: transparent;
+  color: #525963;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+  width: 80px;
+  text-align: center;
+}
+.add-site-modal .close-add-btns .close-button:hover {
+  border: 1px solid #E5E7EA;
+}
+.add-site-modal .close-add-btns .close-button:active {
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.add-site-modal .close-add-btns .add-button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B7FFF;
+  width: 107px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 120%;
+}
+.add-site-modal .close-add-btns .add-button:hover {
+  border-radius: 8px;
+  border: 1px solid #5B9DFF;
+  background: #5B9DFF;
+}
+.add-site-modal .close-add-btns .add-button:active {
+  border-radius: 8px;
+  border: 1px solid #3D65F2;
+  background: #3D65F2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04) inset;
+}
+.add-site-modal .close-add-btns .add-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .pages .page--header {
   width: 100%;
   margin-bottom: 16px;
@@ -2357,7 +2502,6 @@ body {
   left: 78%;
   width: 1px;
   background-color: #E5E7EA;
-  content: "";
   height: 100%;
 }
 .page-editor .main-page-editor-content .page-content {

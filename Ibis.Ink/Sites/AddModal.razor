@@ -11,7 +11,7 @@
     }
     else if (AddNewPage)
     {
-        @* <AddNewPageModalOption OnBack="HandleBack" /> *@
+        <AddUrlToRoom OnBack="HandleBack" />
     }
     else
     {
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="add-new-page">
+            <div class="add-new-page" @onclick=ShowAddNewPageContent>
                 <div class="header-title-with-icon">
                     <FilePlusIcon />
                     <h6>Add new page</h6>
