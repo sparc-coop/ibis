@@ -2445,7 +2445,11 @@ body {
   left: 78%;
   width: 1px;
   background-color: #E5E7EA;
-  height: 100%;
+  height: 100vh;
+  transition: left 0.2s ease;
+}
+.page-editor .main-page-editor-content.expanded::before {
+  left: 65%;
 }
 .page-editor .main-page-editor-content .page-content {
   overflow-x: hidden;
@@ -2469,12 +2473,12 @@ body {
 .page-editor .main-page-editor-content .page-content.expanded {
   width: 65%;
 }
-.page-editor .message-editor {
+.page-editor .main-page-editor-content .message-editor {
   width: 22%;
   padding: 20px;
   height: 100%;
 }
-.page-editor .message-editor.expanded {
+.page-editor .main-page-editor-content .message-editor.expanded {
   width: 35%;
 }
 

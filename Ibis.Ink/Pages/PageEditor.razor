@@ -31,7 +31,7 @@
                 <button class="publish-btn">Publish</button>
             </div>
         </header>
-        <div class="main-page-editor-content">
+        <div class="main-page-editor-content @(IsExpanded ? "expanded" : "")">
             <div class="page-content @(IsExpanded ? "expanded" : "")">
                 <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
             </div>

@@ -89,7 +89,7 @@ body {
                 }
 
                 &:active {
-                    background: #C7C9D1;                    
+                    background: #C7C9D1;
                 }
             }
 
@@ -127,7 +127,14 @@ body {
             left: 78%;
             width: 1px;
             background-color: #E5E7EA;
-            height: 100%;
+            height: 100vh;
+            transition: left 0.2s ease;
+        }
+
+        &.expanded {
+            &::before {
+                left: 65%;
+            }
         }
 
         .page-content {
@@ -156,15 +163,15 @@ body {
                 width: 65%;
             }
         }
-    }
 
-    .message-editor {
-        width: 22%;
-        padding: 20px;
-        height: 100%;
+        .message-editor {
+            width: 22%;
+            padding: 20px;
+            height: 100%;
 
-        &.expanded {
-            width: 35%;
+            &.expanded {
+                width: 35%;
+            }
         }
     }
 }
