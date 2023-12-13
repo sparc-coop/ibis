@@ -13,8 +13,8 @@
         justify-content: space-between;
 
         .content-item {
-            height: fit-content;                 
-            padding: 16px;           
+            height: fit-content;
+            padding: 16px;
             border-radius: 4px;
             border: 1px solid #E5E7EA;
 
@@ -38,6 +38,11 @@
                     cursor: pointer;
                 }
             }
+        }
+
+        .selected {
+            border: 2px solid #905BFF;
+            box-shadow: 0px 0px 8px 0px rgba(144, 91, 255, 0.50), 0px 0px 2px 0px rgba(154, 106, 255, 0.80);
         }
 
         &::-webkit-scrollbar {

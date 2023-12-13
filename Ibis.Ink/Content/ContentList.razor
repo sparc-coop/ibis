@@ -4,7 +4,7 @@
         {
             @foreach (var item in Content)
             {
-                <article class="content-item" @onclick="@(() => Edit(item))">
+                <article class="content-item @(IsMessageSelected(item) ? "selected" : "")" @onclick="@(() => Edit(item))">
                     <IbisContent Message="item" />
                 </article>
             }
@@ -29,6 +29,7 @@
     [Parameter] public bool IsMessageUpdated { get; set; }
     List<Message> Content = new();
     string? Language;
+    Message SelectedMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,6 +43,7 @@
 
     void Edit(Message message)
     {
+        SelectedMessage = message;
         OnMessageClicked.InvokeAsync(message);
     }
 
@@ -52,5 +54,10 @@
             await OnInitializedAsync();
             IsMessageUpdated = false;
         }
+    }
+
+    bool IsMessageSelected(Message message)
+    {
+        return SelectedMessage != null && SelectedMessage.Id == message.Id;
     }
 }

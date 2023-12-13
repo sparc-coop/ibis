@@ -3601,6 +3601,10 @@ body {
 .message-grid .message-list .content-item .ibis-content:hover {
   cursor: pointer;
 }
+.message-grid .message-list .selected {
+  border: 2px solid #905BFF;
+  box-shadow: 0px 0px 8px 0px rgba(144, 91, 255, 0.5), 0px 0px 2px 0px rgba(154, 106, 255, 0.8);
+}
 .message-grid .message-list::-webkit-scrollbar {
   width: 7px;
   border-radius: 6px;
