@@ -2218,14 +2218,18 @@
             "nullable": true,
             "readOnly": true
           },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "html": {
             "type": "string",
             "nullable": true,
             "readOnly": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

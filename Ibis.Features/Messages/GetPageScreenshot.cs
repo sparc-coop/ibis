@@ -18,12 +18,8 @@ public class GetPageScreenshot : RealtimeFeature<MessageTextChanged>
 
     public override async Task ExecuteAsync(MessageTextChanged notification)
     {
-        //var room = await Rooms.FindAsync(notification.Message.RoomId);
-
         var fileUrl = await GetScreenshotAsync(notification);
-
-        //await AzureOCR.MakeRequest();
-
+        
         return;
     }
 

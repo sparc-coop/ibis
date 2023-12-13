@@ -18,7 +18,6 @@ namespace Ibis._Plugins
         {
             SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
         }
-        // Updated to be an async method returning Task<string>
         public async Task<string> MakeRequest(string imgUrl)
         {
             var client = new HttpClient();
@@ -43,23 +42,13 @@ namespace Ibis._Plugins
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 var response = await client.PostAsync(uri, content);
 
-                // Ensure the request was successful
                 response.EnsureSuccessStatusCode();
 
-                // Read the string content of the response
                 string responseContent = await response.Content.ReadAsStringAsync();
 
-                // You can now process the response content as needed, for example:
-                // If the response is JSON, you might parse it with a JSON library like Newtonsoft.Json
-                // var jsonResponse = JObject.Parse(responseContent);
-
-                // TODO: Add your processing logic here
-
-                string firstContent = GetFirstContent(responseContent);
-                return firstContent;
+                string allContent = GetAllContentsConcatenated(responseContent);
+                return allContent;
             }
-
-            // This should be replaced with actual processing of the response
         }
 
         public async Task<byte[]> GetImageBytes(string imageUrl)
@@ -72,23 +61,32 @@ namespace Ibis._Plugins
             }
         }
 
-        public string GetFirstContent(string jsonResponse)
+        public string GetAllContentsConcatenated(string jsonResponse)
         {
             var jsonObject = JObject.Parse(jsonResponse);
 
-            // Navigate through the JSON structure
+            StringBuilder allContents = new StringBuilder();
+
+            // Iterate through each page
             var pages = jsonObject["readResult"]["pages"] as JArray;
-            if (pages != null && pages.Count > 0)
+            if (pages != null)
             {
-                var words = pages[0]["words"] as JArray;
-                if (words != null && words.Count > 0)
+                foreach (var page in pages)
                 {
-                    var firstContent = words[0]["content"].ToString();
-                    return firstContent;
+                    var words = page["words"] as JArray;
+                    if (words != null)
+                    {
+                        // Concatenate each word's content
+                        foreach (var word in words)
+                        {
+                            allContents.Append(word["content"].ToString());
+                            allContents.Append(" "); // Adding space for readability
+                        }
+                    }
                 }
             }
 
-            return "No content found";
+            return allContents.ToString().Trim(); // Trim to remove any extra space at the end
         }
     }
 }
