@@ -9,24 +9,32 @@
                 {
                     <div class="navmenu">
                         <div class="navmenu--home" tabindex="4">
-                            <a href="/dashboard"><Home02Icon /></a>
-                            <p class="title">My Ink</p>
+                            <a href="/dashboard">
+                                <Home02Icon />
+                                <p class="title">My Ink</p>
+                            </a>
                         </div>
                         <div class="navmenu--websites">
                             <ul>
                                 <li tabindex="6">
-                                    <TeamIcon />
-                                    <p class="title">Team</p>
+                                    <a href="/dashboard">
+                                        <TeamIcon />
+                                        <p class="title">Team</p>
+                                    </a>
                                 </li>
                                 <li tabindex="7">
-                                    <SettingsIcon />
-                                    <p class="title">Settings</p>
-                                </li>                                
+                                    <a href="/dashboard">
+                                        <SettingsIcon />
+                                        <p class="title">Settings</p>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div class="navmenu--pages">
-                            <a href="/dashboard"><PagesIcon /></a>
-                            <p class="title">Pages</p>
+                            <a href="/dashboard">
+                                <PagesIcon />
+                                <p class="title">Pages</p>
+                            </a>
                         </div>
                     </div>
                 }
@@ -99,5 +107,5 @@
     void SelectWebsite(string endpoint)
     {
         Nav.NavigateTo(endpoint);
-    }   
+    }
 }
