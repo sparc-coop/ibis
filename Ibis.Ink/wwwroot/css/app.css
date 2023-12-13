@@ -2394,20 +2394,27 @@ body {
   gap: 10px;
 }
 .page-editor header .header-right .preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #5B9DFF;
-  background: #5B7FFF;
+  border: 1px solid #E5E7EA;
+  background: #FFF;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
+  color: #161E29;
+}
+.page-editor header .header-right .preview-btn img {
+  margin-top: 0;
 }
 .page-editor header .header-right .preview-btn:hover {
-  background: #80CAFF;
+  background: #E5E7EA;
+  border: 1px solid #C7C9D1;
 }
 .page-editor header .header-right .preview-btn:active {
-  background: #BDE3FF;
-  color: #525963;
+  background: #C7C9D1;
 }
 .page-editor header .header-right .publish-btn {
   padding: 10px 14px;
