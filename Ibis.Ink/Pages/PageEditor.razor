@@ -23,8 +23,16 @@
                     <button class="more"><MoreIcon /></button>
                 </div>
             </div>
-            <div class="header-right">                
-                <button class="preview-btn">Preview</button>
+            <div class="header-right">
+                <button @onclick=OpenPageMetadataModal>
+                    <img src="icons/metadata-icon.svg" /> Metadata
+                </button>
+                <button>
+                    <img src="icons/addcontent-icon.svg" /> Add Content
+                </button> 
+                <button>
+                    <img src="icons/previewcontent-icon.svg" /> Preview
+                </button>
                 <button class="publish-btn">Publish</button>
             </div>
         </header>
@@ -77,5 +85,15 @@
     {
         showNotification = false;
         StateHasChanged();
+    }
+
+    void OpenPageMetadataModal()
+    {
+        var options = new ModalOptions()
+            {
+                HideHeader = true,
+                Position = ModalPosition.Middle
+            };
+        Modal.Show<PageMetadataModal>("Manage Metadata", options);
     }
 }

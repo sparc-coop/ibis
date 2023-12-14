@@ -66,36 +66,38 @@ body {
             align-items: center;
             gap: 10px;
 
-            .preview-btn {
+            button {
                 padding: 10px 14px;
                 border-radius: 8px;
-                border: 1px solid #5B9DFF;
-                background: #5B7FFF;
+                border: 1px solid $grey-200;
+                background: $white;
                 box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                color: $grey-800;
                 font-size: 15px;
                 font-weight: 400;
+                transition: 0.2s ease-in-out;
 
                 &:hover {
-                    background: #80CAFF;
+                    background: $grey-200;
                 }
 
                 &:active {
-                    background: #BDE3FF;
-                    color: #525963;
+                    background: #E4CCFF;
                 }
             }
 
             .publish-btn {
                 padding: 10px 14px;
                 border-radius: 8px;
-                border: 1px solid #A378FF;
-                background: #905BFF;
+                border: 1px solid $purple-300;
+                background: $purple-400;
                 box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                color: $white;
                 font-size: 15px;
                 font-weight: 400;
 
                 &:hover {
-                    background: #D1B0F7;
+                    background: $purple-100;
                 }
 
                 &:active {

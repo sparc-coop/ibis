@@ -1,0 +1,99 @@
+﻿@import "../_variables";
+
+.page-metadata-settings--modal {
+    position: relative;
+    padding: 8px;
+
+    header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 24px;
+
+        .header-title-and-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+
+            h5 {
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 120%;
+                color: #28303B;
+            }
+
+            button {
+                background: none;
+                width: 24px;
+                height: 24px;
+                padding: 0;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+
+                > svg {
+                    width: 10px;
+                    height: 10px;
+                }
+
+                &:hover {
+                    border-radius: 8px;
+                    border: 1px solid #E5E7EA;
+                }
+
+                &:active {
+                    border-radius: 8px;
+                    border: 1px solid #C7C9D1;
+                    background: #E5E7EA;
+                }
+            }
+        }
+
+        p {
+            color: #525963;
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .page-metadata-buttons--wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 60px;
+
+        button {
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%;
+            transition: .2s ease-in-out;
+
+            &.back-btn {
+                background: $white;
+                border: 1px solid $white;
+                color: $grey-500;
+
+                &:hover {
+                    border: 1px solid $grey-500;
+                }
+            }
+
+            &.link-btn {
+                background: #3D67FF;
+                border: 1px solid #5B9DFF;
+
+                &:hover {
+                    background: $secondary-200;
+                }
+            }
+        }
+    }
+}

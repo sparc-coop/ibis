@@ -1,0 +1,33 @@
+﻿@inherits SparcModal
+
+<div class="page-metadata-settings--modal">
+    
+    <header>
+        <div class="header-title-and-button">
+            <h5>Manage Metadata</h5>
+            <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">
+                <CloseIcon />
+            </button>
+        </div>
+        <p class="subheader">Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.</p>
+    </header>
+
+    <div class="metadata-search--wrapper">
+        <input type="search" placeholder="Search" />
+        <button>Add</button>
+    </div>
+
+    <div class="modal-content page-metadata-list--wrapper">
+
+    </div>
+
+    <div class="page-metadata-buttons--wrapper">
+        <button class="back-btn">Back</button>
+        <button class="link-btn">Link</button>
+    </div>
+
+</div>
+
+@code {
+
+}

@@ -2420,21 +2420,22 @@ body {
   align-items: center;
   gap: 10px;
 }
-.page-editor header .header-right .preview-btn {
+.page-editor header .header-right button {
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #5B9DFF;
-  background: #5B7FFF;
+  border: 1px solid #E5E7EA;
+  background: #FFFFFF;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  color: #1D2937;
   font-size: 15px;
   font-weight: 400;
+  transition: 0.2s ease-in-out;
 }
-.page-editor header .header-right .preview-btn:hover {
-  background: #80CAFF;
+.page-editor header .header-right button:hover {
+  background: #E5E7EA;
 }
-.page-editor header .header-right .preview-btn:active {
-  background: #BDE3FF;
-  color: #525963;
+.page-editor header .header-right button:active {
+  background: #E4CCFF;
 }
 .page-editor header .header-right .publish-btn {
   padding: 10px 14px;
@@ -2442,6 +2443,7 @@ body {
   border: 1px solid #A378FF;
   background: #905BFF;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  color: #FFFFFF;
   font-size: 15px;
   font-weight: 400;
 }
@@ -2695,6 +2697,89 @@ body {
 .page-settings-modal .save-button:focus {
   outline: none;
   box-shadow: none;
+}
+
+.page-metadata-settings--modal {
+  position: relative;
+  padding: 8px;
+}
+.page-metadata-settings--modal header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.page-metadata-settings--modal header .header-title-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.page-metadata-settings--modal header .header-title-and-button h5 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #28303B;
+}
+.page-metadata-settings--modal header .header-title-and-button button {
+  background: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.page-metadata-settings--modal header .header-title-and-button button > svg {
+  width: 10px;
+  height: 10px;
+}
+.page-metadata-settings--modal header .header-title-and-button button:hover {
+  border-radius: 8px;
+  border: 1px solid #E5E7EA;
+}
+.page-metadata-settings--modal header .header-title-and-button button:active {
+  border-radius: 8px;
+  border: 1px solid #C7C9D1;
+  background: #E5E7EA;
+}
+.page-metadata-settings--modal header p {
+  color: #525963;
+  font-size: 16px;
+  font-weight: 400;
+}
+.page-metadata-settings--modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  transition: 0.2s ease-in-out;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.back-btn {
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  color: #6A7280;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.back-btn:hover {
+  border: 1px solid #6A7280;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.link-btn {
+  background: #3D67FF;
+  border: 1px solid #5B9DFF;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.link-btn:hover {
+  background: #EEF4FA;
 }
 
 .account {
