@@ -1,0 +1,103 @@
+﻿@page "/pages/{RoomId}"
+@layout DashboardLayout
+
+@if (Page != null)
+{
+    <div class="room-pages-list">
+        <header>
+            <div class="header-info-container">
+                <div class="header-left">
+                    <div class="back-btn">
+                        <button @onclick="GoBack" class="back">
+                            <ArrowCurveLeftIcon />
+                            Back to My Ink
+                        </button>
+                    </div>
+                    <div class="header-info">
+                        <img src="/images/Rectangle 592.png" />
+                        <h2>@Page.Name/@RoomId</h2>
+                        @* <Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" /> *@
+                        <button class="more"><MoreIcon /></button>
+                    </div>
+                    <p>View all pages associated with the site.</p>
+                </div>
+                <div class="header-right">
+                    <button class="add-website" @onclick=AddWebsite tabindex="8"><PlusIcon /> Link Page</button>
+                </div>
+            </div>
+            <div class="search--container">
+                <div class="searchbar">
+                    <input type="text" placeholder="Search Site or Page" />
+                    <SearchIcon />
+                </div>
+                <div class="search--container-right">
+                    <div class="favorite">
+                        <label for="favorite-toggle" class="custom-checkbox">
+                            <input type="checkbox" id="favorite-toggle" />
+                            <StarIcon />
+                            Favorite
+                        </label>
+                    </div>
+                    <div class="sort">
+                        <label for="sort-toggle">
+                            <input type="checkbox" id="sort-toggle" />
+                            <SortIcon />
+                            Sort
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="pages-list">
+            <div class="page-container">
+                <div class="page-container-left">
+                    <h3>Home (/)</h3>
+                </div>
+                <div class="page-container-right">
+                    <p class="date">Last edited: 26th April, 2022 </p>
+                    <button class="link"><StarIcon /></button>
+                    <button class="more"><MoreIcon /></button>
+                </div>
+            </div>
+
+            <div class="page-container">
+                <div class="page-container-left">
+                    <h3>21 days of blossom (/blog/21days)</h3>
+                </div>
+                <div class="page-container-right">
+                    <p class="date">Last edited: 26th April, 2022 </p>
+                    <button class="link"><StarIcon /></button>
+                    <button class="more"><MoreIcon /></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@inject IModalService Modal
+
+@code {
+    public GetRoomResponse? Page { get; set; }
+    [Parameter] public string RoomId { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Page = await Api.JoinRoomAsync(new JoinRoomRequest { RoomId = RoomId });
+    }
+
+    void AddWebsite()
+    {
+        var options = new ModalOptions()
+            {
+                HideHeader = true,
+                Position = ModalPosition.Middle
+            };
+        Modal.Show<AddModal>("Add New Site to Ibis", options);
+    }
+
+    void GoBack()
+    {
+        Nav.NavigateTo("/dashboard");
+    }
+}
