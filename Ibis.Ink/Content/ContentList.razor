@@ -11,9 +11,12 @@
         }
         else
         {
-            <div>
+            @* <div>
                 <p>Get started with some new content.</p>
                 <button @onclick="Add">Add new content</button>
+            </div> *@
+            <div>
+                <p>Use the editor on the right side to add new content</p>
             </div>
         }
     </div>
@@ -21,6 +24,9 @@
 
 @code {
     [Parameter] public GetRoomResponse Page { get; set; } = null!;
+    [Parameter] public EventCallback<Message> OnMessageClicked { get; set; }
+    // [Parameter] public EventCallback OnMessageSaved { get; set; }
+    [Parameter] public bool IsMessageUpdated { get; set; }
     List<Message> Content = new();
     string? Language;
 
@@ -32,15 +38,19 @@
         {
             Language = response.Language;
         }
-    }
-
-    void Add()
-    {
-        Nav.NavigateTo($"/content/{Page.RoomId}/new");
-    }
+    }   
 
     void Edit(Message message)
     {
-        Nav.NavigateTo($"/content/{Page.RoomId}/{message.Id}");
+        OnMessageClicked.InvokeAsync(message);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (IsMessageUpdated)
+        {
+            await OnInitializedAsync();
+            IsMessageUpdated = false;
+        }
     }
 }

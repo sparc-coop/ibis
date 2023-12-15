@@ -1,18 +1,22 @@
 ﻿@import "../_variables.scss";
 
 .message-grid {
-    padding: 16px;
     width: 100%;
-    max-width: 940px;
     height: 100%;
     position: relative;
     margin: 0 auto;
 
     .message-list {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         .content-item {
-            height: fit-content;
-            margin-bottom: 10px;
+            height: fit-content;                 
+            padding: 16px;           
+            border-radius: 4px;
+            border: 1px solid #E5E7EA;
 
             .ibis-content {
                 display: flex;

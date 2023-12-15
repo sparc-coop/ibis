@@ -1,34 +1,71 @@
 ﻿@inherits SparcModal
 
 <div class="add-site-modal">
-    <header>
-        <h6>Add New Site to Ibis</h6>
-        <p class="medium">Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
-    </header>
+    @if (AddLink == true)
+    {
+        <AddLinkWithURL OnBack="HandleBack" />
+    }
+    else
+    {
+        <header>
+            <div class="header-title-and-button">
+                <h5>Add New Page to Ibis</h5>
+                <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">
+                    <CloseIcon />
+                </button>
+            </div>
+            <p class="medium">Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio.</p>
+        </header>
 
-    <div class="website-name-wrapper">
-        <p class="medium">Site Name</p>
-        <input type="text" class="website-name" placeholder="Site Name" @bind=Site.RoomName />
-    </div>
+        <div class="modal-content">
+            <div class="open-document">
+                <div class="header-title-with-icon">
+                    <FileSettingIcon />
+                    <h6>Open document for IDE</h6>
+                </div>
+                <div class="expand-div">
+                    <RightArrowExpandIcon />
+                </div>
+            </div>
 
-    <div class="website-link-wrapper">
-        <p class="medium">Site Link</p>
-        <input type="text" class="website-link" placeholder="Site Link" />
-    </div>
+            <div class="add-new-page">
+                <div class="header-title-with-icon">
+                    <FilePlusIcon />
+                    <h6>Add new page</h6>
+                </div>
+                <div class="expand-div">
+                    <RightArrowExpandIcon />
+                </div>
+            </div>
 
-    <div class="close-add-btns">
-        <button class="close-button" type="button" aria-label="Close" @onclick="Cancel">Close</button>
-        <button class="add-button" @onclick=Save>Add</button>
-    </div>
+            <div class="link-with-url" @onclick=ShowAddLinkContent>
+                <div class="header-title-with-icon">
+                    <LinkAngledIcon />
+                    <h6>Link with URL</h6>
+                </div>
+                <div class="expand-div">
+                    <RightArrowExpandIcon />
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 
-@code {
-    NewRoomRequest Site = new() { RoomType = "ink" };
 
-    async Task Save()
+@code {
+    private bool AddLink = false;
+
+    private void ShowAddLinkContent()
     {
-        var newSite = await Api.CreateRoomAsync(Site);
-        Nav.NavigateTo($"/websites/{newSite.RoomId}");
+        AddLink = true;
+    }
+
+    private void HandleBack(bool isBack)
+    {
+        if (isBack)
+        {
+            AddLink = false;
+        }
     }
 }

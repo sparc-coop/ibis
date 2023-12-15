@@ -9,15 +9,7 @@ body {
 
     .dashboard-layout {
         display: grid;
-        grid-template-columns: 0 auto;
-
-        &.nav-expanded {
-            grid-template-columns: 363px auto;
-        }
-
-        &.nav-collapsed {
-            grid-template-columns: 121px auto;
-        }
+        grid-template-columns: 80px auto;
 
         main {
             grid-column-start: 2;

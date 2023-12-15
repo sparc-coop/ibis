@@ -1,34 +1,50 @@
-﻿@* @page "/websites/{WebsiteId}/{PageId}" *@
-@page "/content/{RoomId}"
+﻿@page "/content/{RoomId}"
 @layout DashboardLayout
 
-@* <Breadcrumbs WebsiteId="@WebsiteId" WebsiteTitle="@Page.Name" PageTitle="@PageId" /> *@
-
-<Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" />
-
-<div class="page-editor">
-    <div class="page-editor--container">
+@if (Page != null)
+{
+    <div class="page-editor">
         <header>
-            <label>Page Title</label>
-            <input type="text" value="@RoomId" />
+            <div class="header-left">
+                <div class="back-btn">
+                    <button @onclick="GoBack" class="back">
+                        <ArrowCurveLeftIcon />
+                        Back to @Page.Name
+                    </button>
+                </div>
+                <div class="header-info">
+                    <img src="/images/Rectangle 592.png" />
+                    <h2>@Page.Name/@RoomId</h2>
+                    @* <Breadcrumbs WebsiteId="Test Website" WebsiteTitle="@Page.Name" PageTitle="@RoomId" /> *@
+                    <button class="more"><MoreIcon /></button>
+                </div>
+            </div>
+            <div class="header-right">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle" />
+                    <span class="slider"></span>
+                </label>
+                <button class="preview-btn">Preview</button>
+                <button class="publish-btn">Publish</button>
+            </div>
         </header>
-        <div class="page-content">
-            <ContentList Page=Page />
+        <div class="main-page-editor-content">
+            <div class="page-content @(IsExpanded ? "expanded" : "")">
+                <ContentList Page=Page OnMessageClicked="HandleMessageClicked" />
+            </div>
+            <div class="message-editor @(IsExpanded ? "expanded" : "")">
+                <ContentEditor RoomId="@RoomId" SelectedMessage="@SelectedMessage" OnExpandClicked="HandleExpandClicked" OnContentUpdated="OnContentUpdated" />
+            </div>
         </div>
     </div>
-    <div class="page-editor--actions">
-        <button class="back" @onclick="GoBack">Back</button>
-        <div class="actions">
-            <button @onclick="ShowUploadModal">Add Image (temp)</button>
-            <button class="page-settings" @onclick="OpenPageSettings">Settings</button>            
-        </div>
-    </div>
-</div>
+}
 
 @code {
     public GetRoomResponse? Page { get; set; }
     // [Parameter] public string WebsiteId { get; set; } = null!;
     [Parameter] public string RoomId { get; set; } = null!;
+    public Message? SelectedMessage { get; set; }
+    private bool IsExpanded = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,9 +56,20 @@
         Nav.NavigateTo("/dashboard");
     }
 
-    void OpenPageSettings()
+    void HandleMessageClicked(Message message)
     {
-        Modal.Show<PageSettingsModal>("Settings");
+        SelectedMessage = message;
+        StateHasChanged();
+    }
+
+    private void HandleExpandClicked(bool expanded)
+    {
+        IsExpanded = expanded;
+    }
+
+    private async Task OnContentUpdated()
+    {
+        StateHasChanged();
     }
 
     void ShowUploadModal()

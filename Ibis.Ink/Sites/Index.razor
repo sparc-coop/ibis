@@ -4,24 +4,47 @@
 
 <div class="websites">
     <header class="page--header">
-        <h2>Your Websites</h2>
+        <div class="header-title">
+            <div class="header-text">
+                <div class="title-img">
+                    <img src="/images/home-02-fst.svg" />
+                    <h2>My Ink</h2>
+                </div>
+                <p>View all sites for your projects or add new sites.</p>
+            </div>
+            <button class="add-website" @onclick=AddWebsite tabindex="8"><PlusIcon /> Link Page</button>
+        </div>
         <div class="search--container">
             <div class="searchbar">
+                <input type="text" placeholder="Search Site or Page" />
                 <SearchIcon />
-                <input type="text" placeholder="Search..." />
             </div>
-            <div class="sort">
-                <select>
-                    <option>Sort</option>
-                </select>
+            <div class="search--container-right">
+                <div class="favorite">
+                    <label for="favorite-toggle" class="custom-checkbox">                        
+                        <input type="checkbox" id="favorite-toggle" />
+                        <StarIcon />
+                        Favorite
+                    </label>
+                </div>
+                <div class="sort">
+                   @*  <select>
+                        <option>Sort</option>
+                    </select> *@
+                    <label for="sort-toggle">
+                        <input type="checkbox" id="sort-toggle" />
+                        <SortIcon />
+                        Sort
+                    </label>
+                </div>
             </div>
         </div>
     </header>
     @* <div class="websites-list">
-        @foreach (var site in Sites)
-        {
-            <WebsiteCard Site="site" />
-        }
+    @foreach (var site in Sites)
+    {
+    <WebsiteCard Site="site" />
+    }
     </div> *@
     <div class="pages-list">
         @if (Rooms != null)
@@ -36,6 +59,7 @@
 </div>
 
 @inject Sparc.Blossom.Authentication.BlossomAuthenticationStateProvider Auth
+@inject IModalService Modal
 @code {
     // List<GetRoomResponse> Sites = new();
     ICollection<GetRoomResponse>? Rooms;
@@ -53,5 +77,15 @@
             await Auth.LogoutAsync();
             Nav.NavigateTo("/dashboard", true);
         }
+    }
+
+    void AddWebsite()
+    {
+        var options = new ModalOptions()
+            {
+                HideHeader = true,                
+                Position = ModalPosition.Middle
+            };
+        Modal.Show<AddModal>("Add New Site to Ibis", options);
     }
 }
