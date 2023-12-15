@@ -24,7 +24,7 @@ public class Message : Root<string>
     public List<EditHistory> EditHistory { get; private set; }
     public string Type { get; set; }
     public string ImageUrl { get; set; }
-
+    public bool? IsDeprecated { get; set; }
     public string Html
     {
         get

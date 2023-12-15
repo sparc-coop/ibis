@@ -29,7 +29,7 @@
 
     @if (ChildContent == null)
     {
-        <div class="message-text" dir="@_languageDirection">
+        <div class="message-text @(LocalMessage.IsDeprecated.Value ? "deprecatedcontent" : "")" dir="@_languageDirection">
             @((MarkupString)LocalMessage.Html)
         </div>
     }

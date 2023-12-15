@@ -29,6 +29,9 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         // Change the publish strategy so this call doesn't return until EVERYTHING is done
         ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
 
+        var roomMessages = await Messages.Query.Where(x => x.RoomId == room.RoomId).ToListAsync();
+        await UpdateMessageDeprecationStatus(roomMessages, request.Messages);
+
         if (request.Messages?.Any() == true)
             await PostNewContentAsync(room.RoomId, request.Messages ?? new(), user);
         
@@ -126,5 +129,14 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         }
 
         return room;
+    }
+    private async Task UpdateMessageDeprecationStatus(List<Message> roomMessages, List<string> currentHtmlContent)
+    {
+        foreach (var message in roomMessages)
+        {
+            message.IsDeprecated = currentHtmlContent == null || !currentHtmlContent.Contains(message.Text);
+        }
+
+        await Messages.UpdateAsync(roomMessages);
     }
 }
