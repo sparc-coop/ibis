@@ -89,11 +89,18 @@
 
     void OpenPageMetadataModal()
     {
+        var parameters = new ModalParameters();
+        if (Page != null)
+        {
+            parameters.Add(nameof(PageMetadataModal.RoomInfo), Page);
+        }
+
         var options = new ModalOptions()
-            {
-                HideHeader = true,
-                Position = ModalPosition.Middle
-            };
-        Modal.Show<PageMetadataModal>("Manage Metadata", options);
+        {
+            HideHeader = true,
+            Position = ModalPosition.Middle
+        };
+
+        Modal.Show<PageMetadataModal>("Manage Metadata", parameters, options);
     }
 }

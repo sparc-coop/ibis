@@ -14,6 +14,7 @@ public record GetRoomResponse
     public List<UserAvatar>? Users { get; set; }
     public string HostUserId { get; set; }
     public string Url { get; set; }
+    public Dictionary<string, string> Metadata { get; set; }
 
     public GetRoomResponse(Room room, List<UserAvatar>? users = null)
     {
@@ -25,6 +26,7 @@ public record GetRoomResponse
         Slug = room.Slug;
         Users = room.Users;
         Url = room.Url;
+        Metadata = room.Metadata;
 
         ReplaceUsersWithCurrent(users);
 

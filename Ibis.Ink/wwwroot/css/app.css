@@ -2747,15 +2747,97 @@ body {
   font-size: 16px;
   font-weight: 400;
 }
+.page-metadata-settings--modal .metadata-search--wrapper {
+  display: flex;
+  margin-bottom: 24px;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .metadata-search {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #D1D4DC;
+  border-radius: 4px 0px 0px 4px;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .metadata-search img {
+  margin-right: 8px;
+  width: 16px;
+  height: auto;
+  vertical-align: middle;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .metadata-search input {
+  width: 90%;
+  border: none;
+  background: #FFFFFF;
+  color: #6A7280;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .add-metadata-btn {
+  border: 1px solid #D1D4DC;
+  border-radius: 0px 4px 4px 0px;
+  border-left: none;
+  background: #FFFFFF;
+  color: #6A7280;
+  font-weight: normal;
+  transition: 0.2s ease-in-out;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .add-metadata-btn:hover {
+  background: #EEF4FA;
+}
+.page-metadata-settings--modal .metadata-search--wrapper .add-metadata-btn:active {
+  background: #FFFFFF;
+}
 .page-metadata-settings--modal .modal-content {
+  position: relative;
+  height: 240px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+.page-metadata-settings--modal .modal-content .empty-metadata {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #6A7280;
+  font-size: 15px;
+  line-height: 120%;
+}
+.page-metadata-settings--modal .modal-content .metadata-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.page-metadata-settings--modal .modal-content .metadata-card h6 {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #D1D4DC;
+  border-radius: 4px;
+  color: #6A7280;
+  font-size: 16px;
+  font-weight: normal;
+}
+.page-metadata-settings--modal .modal-content .metadata-card .delete-data-btn {
+  width: 56px;
+  border: 1px solid #D1D4DC;
+  border-radius: 4px;
+  background: #FFFFFF;
+  transition: 0.2s ease-in-out;
+}
+.page-metadata-settings--modal .modal-content .metadata-card .delete-data-btn img {
+  width: 16px;
+  height: auto;
+}
+.page-metadata-settings--modal .modal-content .metadata-card .delete-data-btn img path {
+  fill: #D1D4DC;
+}
+.page-metadata-settings--modal .modal-content .metadata-card .delete-data-btn:hover {
+  background: #EEF4FA;
+}
+.page-metadata-settings--modal .modal-content .metadata-card .delete-data-btn:active {
+  background: #FFFFFF;
+}
 .page-metadata-settings--modal .page-metadata-buttons--wrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 60px;
+  margin-top: 24px;
 }
 .page-metadata-settings--modal .page-metadata-buttons--wrapper button {
   border-radius: 8px;
@@ -2774,12 +2856,20 @@ body {
 .page-metadata-settings--modal .page-metadata-buttons--wrapper button.back-btn:hover {
   border: 1px solid #6A7280;
 }
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.back-btn:active {
+  background: #E5E7EA;
+}
 .page-metadata-settings--modal .page-metadata-buttons--wrapper button.link-btn {
   background: #3D67FF;
   border: 1px solid #5B9DFF;
 }
 .page-metadata-settings--modal .page-metadata-buttons--wrapper button.link-btn:hover {
-  background: #EEF4FA;
+  background: #D3E4F1;
+  color: #6A7280;
+}
+.page-metadata-settings--modal .page-metadata-buttons--wrapper button.link-btn:active {
+  background: #3D67FF;
+  color: #FFFFFF;
 }
 
 .account {

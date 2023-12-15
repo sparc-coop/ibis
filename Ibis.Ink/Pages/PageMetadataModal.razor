@@ -13,12 +13,28 @@
     </header>
 
     <div class="metadata-search--wrapper">
-        <input type="search" placeholder="Search" />
-        <button>Add</button>
+        <div class="metadata-search">
+            <img src="icons/search-icon.svg" />
+            <input type="search" placeholder="Search" />
+        </div>
+        <button class="add-metadata-btn">Add</button>
     </div>
 
     <div class="modal-content page-metadata-list--wrapper">
-
+        @if (Metadata == null)
+        {
+            <div class="empty-metadata">No Metadata</div>
+        }
+        else
+        {
+            @foreach (var data in Metadata)
+            {
+                <article class="metadata-card">
+                    <h6 class="data-name">@data.Key</h6>
+                    <button class="delete-data-btn"><img src="icons/trash.svg" /></button>
+                </article>
+            }
+        }
     </div>
 
     <div class="page-metadata-buttons--wrapper">
@@ -29,5 +45,14 @@
 </div>
 
 @code {
+    [Parameter] public GetRoomResponse? RoomInfo { get; set; }
+    IDictionary<string, string>? Metadata;
 
+    protected override async Task OnInitializedAsync()
+    {
+        @if (RoomInfo != null)
+        {
+            Metadata = RoomInfo.Metadata;
+        }
+    }
 }

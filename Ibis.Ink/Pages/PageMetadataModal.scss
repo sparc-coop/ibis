@@ -56,16 +56,113 @@
         }
     }
 
+    .metadata-search--wrapper {
+        display: flex;
+        margin-bottom: 24px;
+
+        .metadata-search {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid $grey-300;
+            border-radius: 4px 0px 0px 4px;
+
+            img {
+                margin-right: 8px;
+                width: 16px;
+                height: auto;
+                vertical-align: middle;
+            }
+
+            input {
+                width: 90%;
+                border: none;
+                background: $white;
+                color: $grey-500;
+            }
+        }
+
+        .add-metadata-btn {
+            border: 1px solid $grey-300;
+            border-radius: 0px 4px 4px 0px;
+            border-left: none;
+            background: $white;
+            color: $grey-500;
+            font-weight: normal;
+            transition: .2s ease-in-out;
+
+            &:hover {
+                background: $secondary-200;
+            }
+
+            &:active {
+                background: $white;
+            }
+        }
+    }
+
     .modal-content {
+        position: relative;
+        height: 240px;
         display: flex;
         flex-direction: column;
         gap: 8px;
+
+        .empty-metadata {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $grey-500;
+            font-size: 15px;
+            line-height: 120%;
+        }
+
+        .metadata-card {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+
+            h6 {
+                width: 100%;
+                padding: 16px;
+                border: 1px solid $grey-300;
+                border-radius: 4px;
+                color: $grey-500;
+                font-size: 16px;
+                font-weight: normal;
+            }
+
+            .delete-data-btn {
+                width: 56px;
+                border: 1px solid $grey-300;
+                border-radius: 4px;
+                background: $white;
+                transition: .2s ease-in-out;
+
+                img {
+                    width: 16px;
+                    height: auto;
+
+                    path {
+                        fill: $grey-300;
+                    }
+                }
+
+                &:hover {
+                    background: $secondary-200;
+                }
+
+                &:active {
+                    background: $white;
+                }
+            }
+        }
     }
 
     .page-metadata-buttons--wrapper {
         display: flex;
         justify-content: space-between;
-        margin-top: 60px;
+        margin-top: 24px;
 
         button {
             border-radius: 8px;
@@ -84,6 +181,10 @@
                 &:hover {
                     border: 1px solid $grey-500;
                 }
+
+                &:active {
+                    background: $grey-200;
+                }
             }
 
             &.link-btn {
@@ -91,7 +192,13 @@
                 border: 1px solid #5B9DFF;
 
                 &:hover {
-                    background: $secondary-200;
+                    background: $secondary-300;
+                    color: $grey-500;
+                }
+
+                &:active {
+                    background: #3D67FF;
+                    color: $white;
                 }
             }
         }

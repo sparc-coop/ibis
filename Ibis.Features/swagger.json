@@ -1876,6 +1876,13 @@
           "url": {
             "type": "string",
             "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

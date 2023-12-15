@@ -25,6 +25,7 @@ public class Room : Root<string>
 
     //public List<string> Urls { get; private set; }
 
+    public Dictionary<string, string> Metadata { get; set; }
 
     private Room() 
     { 
