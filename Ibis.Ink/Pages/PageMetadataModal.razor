@@ -15,7 +15,7 @@
     <div class="metadata-search--wrapper">
         <div class="metadata-search">
             <img src="icons/search-icon.svg" />
-            <input type="search" placeholder="Search" />
+            <input type="search" placeholder="Search" @bind=SearchTerm @bind:after="Search" @bind:event="oninput"/>
         </div>
         <button class="add-metadata-btn">Add</button>
     </div>
@@ -24,10 +24,17 @@
         @if (Metadata == null)
         {
             <div class="empty-metadata">No Metadata</div>
-        }
-        else
+        } else if (FilteredMetadata == null)
         {
             @foreach (var data in Metadata)
+            {
+                <article class="metadata-card">
+                    <h6 class="data-name">@data.Key</h6>
+                    <button class="delete-data-btn"><img src="icons/trash.svg" /></button>
+                </article>
+            }
+        } else if (FilteredMetadata != null) {
+            @foreach (var data in FilteredMetadata)
             {
                 <article class="metadata-card">
                     <h6 class="data-name">@data.Key</h6>
@@ -38,7 +45,7 @@
     </div>
 
     <div class="page-metadata-buttons--wrapper">
-        <button class="back-btn">Back</button>
+        <button class="back-btn" @onclick=Cancel>Back</button>
         <button class="link-btn">Link</button>
     </div>
 
@@ -47,12 +54,22 @@
 @code {
     [Parameter] public GetRoomResponse? RoomInfo { get; set; }
     IDictionary<string, string>? Metadata;
+    IDictionary<string, string>? FilteredMetadata;
+    string? SearchTerm;
 
     protected override async Task OnInitializedAsync()
     {
         @if (RoomInfo != null)
         {
             Metadata = RoomInfo.Metadata;
+        }
+    }
+
+    private void Search()
+    {
+        if (Metadata != null && SearchTerm != null)
+        {
+            FilteredMetadata = Metadata.Where(x => x.Key.ToLower().Contains(SearchTerm.ToLower())).ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }
