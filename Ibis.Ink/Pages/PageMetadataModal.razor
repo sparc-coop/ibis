@@ -15,26 +15,47 @@
     <div class="metadata-search--wrapper">
         <div class="metadata-search">
             <img src="icons/search-icon.svg" />
-            <input type="search" placeholder="Search" @bind=SearchTerm @bind:after="Search" @bind:event="oninput"/>
+            <input type="search" placeholder="Search" @bind=SearchTerm @bind:after="Search" @bind:event="oninput" @onclick=ToggleDropdown/>
+            <div class="metadata-search-dropdown @(ShowDropdown ? "show" : "")" @onfocusout=ToggleDropdown>
+                @if (SearchTerm == null)
+                {
+                    @* <div class="metadata-search-dropdown-overlay" @onclick="ToggleDropdown" @onclick:stopPropagation="true"></div>*@
+                    <div>
+                        @foreach (var data in MetadataTypes)
+                        {
+                            <div class="metadata-option" @onclick=@(e => SelectMetadataOption(data.Key.ToString()))>
+                                <p class="data-name">@data.Key</p>
+                            </div>
+                        }
+                    </div>
+                } else 
+                {
+                    @* <div class="metadata-search-dropdown-overlay" @onclick="ToggleDropdown" @onclick:stopPropagation="true"></div>*@
+                    if (FilteredMetadataTypes != null)
+                    {
+                        <div>
+                            @foreach (var data in FilteredMetadataTypes)
+                            {
+                                <div class="metadata-option" @onclick=@(e => SelectMetadataOption(data.Key.ToString()))>
+                                    <p class="data-name">@data.Key</p>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                }
+            </div>
         </div>
         <button class="add-metadata-btn">Add</button>
     </div>
 
     <div class="modal-content page-metadata-list--wrapper">
-        @if (Metadata == null)
+        @if (PageMetadata == null)
         {
             <div class="empty-metadata">No Metadata</div>
-        } else if (FilteredMetadata == null)
+        } else 
         {
-            @foreach (var data in Metadata)
-            {
-                <article class="metadata-card">
-                    <h6 class="data-name">@data.Key</h6>
-                    <button class="delete-data-btn"><img src="icons/trash.svg" /></button>
-                </article>
-            }
-        } else if (FilteredMetadata != null) {
-            @foreach (var data in FilteredMetadata)
+            @foreach (var data in PageMetadata)
             {
                 <article class="metadata-card">
                     <h6 class="data-name">@data.Key</h6>
@@ -53,23 +74,53 @@
 
 @code {
     [Parameter] public GetRoomResponse? RoomInfo { get; set; }
-    IDictionary<string, string>? Metadata;
-    IDictionary<string, string>? FilteredMetadata;
+    IDictionary<string, string>? PageMetadata;
+    IDictionary<string, string> MetadataTypes = new Dictionary<string, string>()
+    {
+        {"Author", "string"},
+        {"Name", "string"},
+        {"Last Modified", "timestamp"},
+        {"Date Published", "timestamp" }
+    };
+    IDictionary<string, string>? FilteredMetadataTypes;
     string? SearchTerm;
+    bool ShowDropdown;
 
     protected override async Task OnInitializedAsync()
     {
         @if (RoomInfo != null)
         {
-            Metadata = RoomInfo.Metadata;
+            PageMetadata = RoomInfo.Metadata;
         }
     }
 
     private void Search()
     {
-        if (Metadata != null && SearchTerm != null)
+        if (MetadataTypes != null && SearchTerm != null)
         {
-            FilteredMetadata = Metadata.Where(x => x.Key.ToLower().Contains(SearchTerm.ToLower())).ToDictionary(x => x.Key, x => x.Value);
+            FilteredMetadataTypes = MetadataTypes.Where(x => x.Key.ToLower().Contains(SearchTerm.ToLower())).ToDictionary(x => x.Key, x => x.Value);
         }
+    }
+
+    private void ToggleDropdown()
+    {
+        ShowDropdown = !ShowDropdown;
+        Console.WriteLine("toggle dropdown");
+    }
+
+    private void SelectMetadataOption(string key)
+    {
+        SearchTerm = key;
+        ToggleDropdown();
+    }
+
+    private async void AddMetadata(string key, string value)
+    {
+        if (RoomInfo != null)
+        {
+            // await Api.UpdateRoomOptionsAsync(new RoomOptionsRequest { RoomId = RoomInfo.RoomId, Title = RoomInfo.Name, Metadata = { key, value } });
+        }
+
+        ToggleDropdown();
     }
 }

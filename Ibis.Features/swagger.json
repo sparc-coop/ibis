@@ -2103,6 +2103,13 @@
           "type": {
             "type": "string",
             "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2308,6 +2315,13 @@
           "title": {
             "type": "string",
             "nullable": true
+          },
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StringStringKeyValuePair"
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -2393,6 +2407,20 @@
           "propertyName": "$type"
         },
         "x-ms-discriminator-value": "Ibis._Plugins.SpeechSessionStarted, Ibis"
+      },
+      "StringStringKeyValuePair": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "TicksPackage": {
         "type": "object",

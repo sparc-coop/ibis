@@ -1,6 +1,6 @@
 ﻿namespace Ibis;
 
-public record RoomOptionsRequest(string roomId, string Title);
+public record RoomOptionsRequest(string roomId, string Title, KeyValuePair<string, string> Metadata);
 public class UpdateRoomOptions : Feature<RoomOptionsRequest, bool>
 { 
     public UpdateRoomOptions(IRepository<Room> rooms)
@@ -17,6 +17,10 @@ public class UpdateRoomOptions : Feature<RoomOptionsRequest, bool>
             return false;
 
         room.SetName(request.Title);
+        if (request.Metadata.Key != null && request.Metadata.Value != null)
+        {
+            room.AddMetadata(request.Metadata.Key, request.Metadata.Value);
+        }
         await Rooms.UpdateAsync(room);
         return true;
     }

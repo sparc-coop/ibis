@@ -24,6 +24,7 @@ public class Message : Root<string>
     public List<EditHistory> EditHistory { get; private set; }
     public string Html => Markdown.ToHtml(Text ?? string.Empty);
     public string Type { get; set; }
+    public Dictionary<string, string> Metadata { get; set; }
 
     protected Message()
     {

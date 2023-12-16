@@ -59,6 +59,7 @@
     .metadata-search--wrapper {
         display: flex;
         margin-bottom: 24px;
+        position: relative;
 
         .metadata-search {
             width: 100%;
@@ -78,6 +79,49 @@
                 border: none;
                 background: $white;
                 color: $grey-500;
+            }
+
+            &-dropdown {
+                display: none;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 372.5px;
+                background: $white;
+                border: 1px solid $grey-300;
+                border-top: none;
+                border-radius: 0px 0px 4px 4px;
+                z-index: 500;
+
+                &-overlay {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    z-index: 10;
+                    background: rgba(0, 0, 0, 0.5);
+                }
+
+                &.show {
+                    display: block;
+
+                    .metadata-search-dropdown-overlay {
+                        display: block;
+                    }
+                }
+
+                .metadata-option {
+                    padding: 4px 16px 4px 48px;
+                    background: $white;
+                    transition: .4s ease-in-out;
+
+                    &:hover {
+                        cursor: pointer;
+                        background: $secondary-200;
+                    }
+                }
             }
         }
 

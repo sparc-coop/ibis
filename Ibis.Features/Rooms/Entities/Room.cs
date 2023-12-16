@@ -275,4 +275,9 @@ public class Room : Root<string>
     {
         Url = url;
     }
+
+    public void AddMetadata(string key, string value)
+    {
+        Metadata.Add(key, value);
+    }
 }
