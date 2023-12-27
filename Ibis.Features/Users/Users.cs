@@ -2,12 +2,12 @@
 
 namespace Ibis.Users;
 
-public class Users : BlossomAggregate<User>
+public class Users : BlossomRoot<User>
 {
-    public Users()
+    public Users(IRepository<User> users) : base(users)
     {
-        GetAsync = (User user) => user.Avatar;
-        UpdateAsync = (User user, UserAvatar avatar) => user.UpdateAvatar(avatar);
+        Api.GetAsync = (User user) => user.Avatar;
+        Api.UpdateAsync = (User user, UserAvatar avatar) => user.UpdateAvatar(avatar);
     }
     
     public record GetEmojisResponse(List<string> Skintones, List<string> Emojis, List<string> Colors);

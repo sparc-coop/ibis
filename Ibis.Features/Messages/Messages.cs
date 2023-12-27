@@ -3,13 +3,13 @@ using System.Text;
 
 namespace Ibis.Messages;
 
-public class Messages : BlossomAggregate<Message>
+public class Messages : BlossomRoot<Message>
 {
-    public Messages()
+    public Messages(IRepository<Message> messages) : base(messages)
     {
-        DeleteAsync = (Message m, User user) => m.Delete(user);
-        UpdateAsync = (Message m, string text) => m.SetText(text);
-        GetAllAsync = GetAll;
+        Api.DeleteAsync = (Message m, User user) => m.Delete(user);
+        Api.UpdateAsync = (Message m, string text) => m.SetText(text);
+        Api.GetAllAsync = GetAll;
     }
 
     public async Task<IResult> GetAll(IRepository<Message> messages, IRepository<Room> rooms, IRepository<Language> languages, User? user, string id, HttpRequest request, int? take = null)

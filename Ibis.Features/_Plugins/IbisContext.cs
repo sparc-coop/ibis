@@ -2,15 +2,12 @@
 
 namespace Ibis._Plugins;
 
-public class IbisContext : BlossomContext
+public class IbisContext(DbContextOptions options, BlossomNotifier notifier, IHttpContextAccessor http) 
+    : BlossomContext(options, notifier, http)
 {
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<User> Users => Set<User>();
-
-    public IbisContext(DbContextOptions options, Publisher publisher, IHttpContextAccessor http) : base(options, publisher, http)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
