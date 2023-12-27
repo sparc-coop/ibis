@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/yst6dvs.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://kodekit-api.azurewebsites.net/definitized-pseudocommissure.css">
+    <link rel="stylesheet" href="Ibis.Chat.styles.css">
+    <link rel="stylesheet" href="Ibis.Ink.styles.css">
+    <link rel="stylesheet" href="css/app.css">
+    <HeadOutlet />
+</head>
+
+<body style="background: #fafbfc">
+    <Sparc.Blossom.BlossomApp />
+
+    <script src="_framework/blazor.web.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
+    <script>
+        function MorphBlobs() {
+            const morph1 = KUTE.fromTo('#blob1',
+                { path: '#blob1' },
+                { path: '#blob2' },
+                { repeat: 100, duration: 3000, yoyo: true });
+            const morph2 = KUTE.fromTo('#blob1',
+                { path: '#blob1' },
+                { path: '#blob3' },
+                { repeat: 100, duration: 3000, yoyo: true });
+            morph1.start();
+            morph2.start();
+        }
+    </script>
+</body>
+</html>

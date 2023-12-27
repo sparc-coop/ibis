@@ -35,7 +35,7 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    string HubUrl => Config["ApiUrl"] + "/hub";
+    string HubUrl => Config["ApiUrl"] + "/_realtime";
 
     protected override async Task OnParametersSetAsync()
     {

@@ -55,7 +55,7 @@
     UserAvatar? User;
     bool ShowMenu;
     bool IsRoom;
-    string HubUrl => Config["Blossom:Authority"] + "/hub";
+    string HubUrl => Config["Blossom:Authority"] + "/_realtime";
     UserBalance BalanceComponent;
 
     protected override async Task OnParametersSetAsync()

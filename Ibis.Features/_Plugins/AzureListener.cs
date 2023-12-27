@@ -13,12 +13,12 @@ public class AzureListener : IListener
     readonly string SubscriptionKey;
     static readonly List<AudioConnection> _audioConnections = new();
 
-    public Publisher Publisher { get; }
+    public BlossomNotifier Notifier { get; }
 
-    public AzureListener(IConfiguration configuration, Publisher publisher)
+    public AzureListener(IConfiguration configuration, BlossomNotifier notifier)
     {
         SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
-        Publisher = publisher;
+        Notifier = notifier;
     }
 
     public async Task<string> BeginListeningAsync(Dialect? dialect)
@@ -69,17 +69,17 @@ public class AzureListener : IListener
 
     public void SpeechClient_SessionStarted(object? sender, SessionEventArgs e)
     {
-        Publisher.Publish(new SpeechSessionStarted(e.SessionId));
+        Notifier.Publish(new SpeechSessionStarted(e.SessionId));
     }
 
     public void SpeechClient_Recognizing(object? sender, SpeechRecognitionEventArgs e)
     {
-        Publisher.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+        Notifier.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 
     public void SpeechClient_Recognized(object? sender, SpeechRecognitionEventArgs e)
     {
-        Publisher.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+        Notifier.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
     }
 }
 

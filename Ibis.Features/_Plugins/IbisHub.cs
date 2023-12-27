@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace Ibis._Plugins;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class IbisHub : BlossomHub
+[Authorize]
+public class IbisHub(IRepository<User> users, IRepository<Room> rooms, IListener listener) : BlossomHub()
 {
-    public IRepository<User> Users { get; }
-    public IRepository<Room> Rooms { get; }
-    public IListener Listener { get; }
-
-    public IbisHub(IRepository<User> users, IRepository<Room> rooms, IListener listener) : base()
-    {
-        Users = users;
-        Rooms = rooms;
-        Listener = listener;
-    }
+    public IRepository<User> Users { get; } = users;
+    public IRepository<Room> Rooms { get; } = rooms;
+    public IListener Listener { get; } = listener;
 
     public override async Task OnConnectedAsync()
     {
