@@ -14,7 +14,7 @@ public class Language
         DisplayName = displayName;
         NativeName = nativeName;
         IsRightToLeft = isRightToLeft;
-        Dialects = new();
+        Dialects = [];
 
         if (id.Contains('-'))
         {

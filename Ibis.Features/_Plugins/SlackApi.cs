@@ -60,7 +60,7 @@ public class SlackApi : ControllerBase
         CheckLoggedIn(parameters);
 
         var roomName = parameters.Slug + (string.IsNullOrWhiteSpace(parameters.Text) ? "" : $" {parameters.Text}");
-        var room = await CreateRoom.ExecuteAsUserAsync(new(roomName, "Content", new()), parameters.User!);
+        var room = await CreateRoom.ExecuteAsUserAsync(new(roomName, "Content", []), parameters.User!);
         return $"Room created! Use '/ibis post {room.Slug} [text]' to post to this room.";
     }
 

@@ -40,7 +40,7 @@ public class CreatePaymentIntent : Feature<PaymentIntentRequest, PaymentIntentRe
         var amounts = await ExchangeRates.ConvertToNiceAmountsAsync(request.Currency, 1, 5, 10, 20);
         var pricePerMinute = 0.05M;
         
-        List<TicksPackage> packages = new();
+        List<TicksPackage> packages = [];
         var bonus = 1M;
         foreach (var amt in amounts)
         {

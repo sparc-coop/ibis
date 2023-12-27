@@ -5,7 +5,7 @@ namespace Ibis.Users;
 public class ExchangeRates
 {
     readonly string ApiKey;
-    static Dictionary<string, decimal> Rates = new();
+    static Dictionary<string, decimal> Rates = [];
     public DateTime? LastUpdated { get; private set; }
     public DateTime? AsOfDate { get; private set; }
     public IFileRepository<Sparc.Blossom.Data.File> Files { get; }

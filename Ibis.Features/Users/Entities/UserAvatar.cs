@@ -113,10 +113,10 @@ public class UserAvatar
     {
         // derived from https://blog.mzikmund.com/2017/01/working-with-emoji-skin-tones-in-apps/
 
-        List<string> tones = new()
-        {
+        List<string> tones =
+        [
             "1F3FB", "1F3FC", "1F3FD", "1F3FE", "1F3FF"
-        };
+        ];
         return tones
             .Select(x => char.ConvertFromUtf32(int.Parse(x, NumberStyles.HexNumber)))
             .ToList();

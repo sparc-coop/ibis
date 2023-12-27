@@ -1,15 +1,16 @@
 ﻿using Markdig;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
-public class Message : Root<string>
+public class Message : Entity<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
-    public string Language { get; protected set; }
-    public bool? LanguageIsRTL { get; protected set; }  
+    public string Language { get; private set; }
+    public bool? LanguageIsRTL { get; private set; }
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
     public DateTime? DeletedDate { get; private set; }
@@ -23,7 +24,8 @@ public class Message : Root<string>
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
     public string Html => Markdown.ToHtml(Text ?? string.Empty);
-    public string Type { get; set; }
+    internal virtual Room Room { get; private set; } = null!;
+    internal virtual Message? SourceMessage { get; private set; }
 
     protected Message()
     {
@@ -36,13 +38,13 @@ public class Message : Root<string>
         Tags = new();
     }
 
-    public Message(string roomId, UserAvatar userAvatar, string text, string? tag = null) : this()
+    public Message(string roomId, User user, string text, string? tag = null) : this()
     {
         RoomId = roomId;
-        User = userAvatar;
-        Language = userAvatar.Language ?? "";
-        LanguageIsRTL = userAvatar.LanguageIsRTL;
-        Audio = userAvatar.Voice == null ? null : new(null, 0, userAvatar.Voice);
+        User = user.Avatar;
+        Language = user.Avatar.Language ?? "";
+        LanguageIsRTL = user.Avatar.LanguageIsRTL;
+        Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
         SetText(text);
@@ -63,8 +65,11 @@ public class Message : Root<string>
         SetTags(translatedTags, false);
     }
 
-    public void SetText(string text)
+    public void SetText(string text, User? user = null)
     {
+        if (user != null && user.Id != User.Id)
+            throw new InvalidOperationException("You are not permitted to edit another user's message.");
+
         if (Text == text)
             return;
 
@@ -73,8 +78,27 @@ public class Message : Root<string>
 
         Text = text;
         LastModified = DateTime.UtcNow;
-        
+
         Broadcast(new MessageTextChanged(this));
+    }
+
+    public void SetTags(List<MessageTag> tags, bool fullReplace = true)
+    {
+        var keys = tags.Select(x => x.Key).ToList();
+        if (fullReplace)
+            Tags.RemoveAll(x => !keys.Contains(x.Key));
+
+        foreach (var tag in tags)
+        {
+            var existing = Tags.FirstOrDefault(x => x.Key == tag.Key);
+            if (existing != null)
+                existing.Value = tag.Value;
+            else
+                Tags.Add(new(tag.Key, tag.Value, SourceMessageId == null && tag.Translate));
+        }
+
+        if (tags.Any(x => x.Translate))
+            Broadcast(new MessageTextChanged(this));
     }
 
     internal async Task<(string?, Message?)> TranslateAsync(ITranslator translator, string languageId)
@@ -89,6 +113,25 @@ public class Message : Root<string>
             AddTranslation(translatedMessage);
 
         return (translatedMessage?.Id, translatedMessage);
+    }
+
+    internal async Task<List<Message>> TranslateAsync(ITranslator translator, bool forceRetranslation = false)
+    {
+        var languagesToTranslate = forceRetranslation
+            ? Room.Languages.Where(x => x.Id != Language).ToList()
+            : Room.Languages.Where(x => !HasTranslation(x.Id)).ToList();
+
+        if (!languagesToTranslate.Any())
+            return new();
+
+        var translatedMessages = await translator.TranslateAsync(this, languagesToTranslate);
+
+
+        // Add reference to all the new translated messages
+        foreach (var translatedMessage in translatedMessages)
+            AddTranslation(translatedMessage);
+
+        return translatedMessages;
     }
 
     internal async Task<AudioMessage?> SpeakAsync(ISpeaker engine, string? voiceId = null)
@@ -114,7 +157,7 @@ public class Message : Root<string>
         return Language == languageId
             || (Translations != null && Translations.Any(x => x.LanguageId == languageId));
     }
-    
+
     internal void AddTranslation(Message translatedMessage)
     {
         if (HasTranslation(translatedMessage.Language))
@@ -130,25 +173,6 @@ public class Message : Root<string>
         }
     }
 
-    internal void SetTags(List<MessageTag> tags, bool fullReplace = true)
-    {
-        var keys = tags.Select(x => x.Key).ToList();
-        if (fullReplace)
-            Tags.RemoveAll(x => !keys.Contains(x.Key));
-        
-        foreach (var tag in tags)
-        {
-            var existing = Tags.FirstOrDefault(x => x.Key == tag.Key);
-            if (existing != null)
-                existing.Value = tag.Value;
-            else
-                Tags.Add(new(tag.Key, tag.Value, SourceMessageId == null && tag.Translate));
-        }
-
-        if (tags.Any(x => x.Translate))
-            Broadcast(new MessageTextChanged(this));
-    }
-
     internal void AddCharge(long ticks, decimal cost, string description)
     {
         Charge += ticks;
@@ -157,9 +181,33 @@ public class Message : Root<string>
             Broadcast(new CostIncurred(this, description, ticks));
     }
 
-    internal void Delete()
+    internal void Delete(User user)
     {
+        if (User.Id != user.Id)
+            throw new InvalidOperationException("Only the message author can delete a message.");
+
+        foreach (var translation in Translations.Select(x => x.SourceMessage))
+            translation?.Delete(user);
+
         DeletedDate = DateTime.UtcNow;
         Broadcast(new MessageDeleted(this));
+    }
+
+    public void ToText() => Text = $"{User?.Name} {Timestamp:MM/dd/yyyy hh:mm tt}: {Text}";
+    
+    internal void ToSubtitles(DateTime firstMessageTimestamp)
+    {
+        if (Audio == null)
+            Text = string.Empty;
+
+        var start = Timestamp - firstMessageTimestamp;
+        var end = Timestamp.Add(new(Audio!.Duration)) - firstMessageTimestamp;
+
+        Text = $"{start:hh\\:mm\\:ss\\,fff} --> {end:hh\\:mm\\:ss\\,fff}{Environment.NewLine}{Text}{Environment.NewLine}";
+    }
+
+    internal void ToBrailleAscii()
+    {
+        Text = BrailleConverter.Convert(Text);
     }
 }

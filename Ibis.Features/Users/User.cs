@@ -72,8 +72,11 @@ public class User : BlossomUser
         return roomId;
     }
 
-    internal void ChangeVoice(Language language, Voice? voice = null)
+    public async Task<string?> ChangeVoiceAsync(string languageId, ITranslator translator, string? voiceName = null, ISpeaker? speaker = null)
     {
+        var language = await translator.GetLanguageAsync(languageId)
+            ?? throw new Exception("Language not found!");
+
         var hasLanguageChanged = Avatar.Language != language.Id;
         
         if (!LanguagesSpoken.Any(x => x.Id == language.Id))
@@ -81,14 +84,27 @@ public class User : BlossomUser
 
         Avatar.Language = language.Id;
         Avatar.LanguageIsRTL = language.IsRightToLeft;
-        Avatar.Voice = voice?.ShortName;
-        Avatar.Dialect = voice?.Locale;
-        Avatar.Gender = voice?.Gender;
+
+        if (voiceName != null)
+        {
+            var voices = await speaker!.GetVoicesAsync(languageId);
+            var voice = voices.FirstOrDefault(x => x.ShortName == voiceName)
+                ?? throw new Exception("Voice doesn't match language!");
+
+            Avatar.Voice = voice?.ShortName;
+            Avatar.Dialect = voice?.Locale;
+            Avatar.Gender = voice?.Gender;
+
+            var speech = await GenerateVoiceSampleAsync(translator, speaker);
+            return new(speech?.Url);
+        }
 
         Broadcast(new UserAvatarUpdated(Avatar));
 
         if (hasLanguageChanged)
             Broadcast(new UserLanguageChanged(Id, Avatar.Language));
+
+        return null;
     }
 
     internal Language? PrimaryLanguage => LanguagesSpoken.FirstOrDefault(x => x.Id == Avatar.Language);
@@ -107,7 +123,7 @@ public class User : BlossomUser
         Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
     }
 
-    internal void UpdateAvatar(UserAvatar avatar)
+    internal UserAvatar UpdateAvatar(UserAvatar avatar)
     {
         Avatar.Id = Id;
         Avatar.Voice = avatar.Voice;
@@ -123,6 +139,7 @@ public class User : BlossomUser
         Avatar.MuteMe = avatar.MuteMe;
 
         Broadcast(new UserAvatarUpdated(Avatar));
+        return avatar;
     }
 
     internal void SetUpBilling(string customerId, string currency)
@@ -156,6 +173,24 @@ public class User : BlossomUser
         AddClaim(ClaimTypes.GivenName, Avatar.Name);
         AddClaim("sub", AzureB2CId);
         AddClaim("Language", Avatar.Language);
+    }
+
+    private async Task<AudioMessage?> GenerateVoiceSampleAsync(ITranslator translator, ISpeaker speaker)
+    {
+        var testMessages = new List<string>
+        {
+            "Hi, nice to meet you!",
+            "Hey, how are things going today?",
+            "What time do you want to meet?",
+            "Thanks, talk to you later!"
+        };
+
+        int index = new Random().Next(testMessages.Count);
+        var testMessage = testMessages[index];
+
+        var translation = await translator.TranslateAsync(testMessage, "en", PrimaryLanguage!.Id);
+        var speech = await speaker.SpeakAsync(new Message("", this, translation!));
+        return speech;
     }
 }
 

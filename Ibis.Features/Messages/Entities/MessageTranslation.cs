@@ -1,15 +1,10 @@
 ﻿namespace Ibis.Messages;
 
-public class MessageTranslation
+public class MessageTranslation(string languageId, string messageId)
 {
-    public MessageTranslation(string languageId, string messageId)
-    {
-        Id = Guid.NewGuid().ToString();
-        LanguageId = languageId;
-        SourceMessageId = messageId;
-    }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string LanguageId { get; set; } = languageId;
+    public string SourceMessageId { get; set; } = messageId;
 
-    public string Id { get; set; }
-    public string LanguageId { get; set; }
-    public string SourceMessageId { get; set; }
+    internal virtual Message? SourceMessage { get; set; }
 }

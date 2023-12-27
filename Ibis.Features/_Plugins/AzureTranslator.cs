@@ -25,7 +25,7 @@ public class AzureTranslator : ITranslator
         foreach (var batch in batches)
         {
             object[] body = new object[] { new { sourceMessage.Text } };
-            List<string> translatedTagKeys = new();
+            List<string> translatedTagKeys = [];
             foreach (var tag in sourceMessage.Tags.Where(x => x.Translate))
             {
                 translatedTagKeys.Add(tag.Key);
@@ -77,7 +77,7 @@ public class AzureTranslator : ITranslator
             throw new ArgumentException($"Language {toLanguage} not found");
         
         var message = new Message("", User.System.Avatar, text);
-        var result = await TranslateAsync(message, fromLanguage, new() { language });
+        var result = await TranslateAsync(message, fromLanguage, [language]);
         return result?.FirstOrDefault()?.Text;
     }
 

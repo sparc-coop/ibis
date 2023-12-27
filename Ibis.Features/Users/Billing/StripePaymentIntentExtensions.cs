@@ -22,7 +22,7 @@ public static class StripePaymentIntentExtensions
         return $"{symbol ?? paymentIntent.Currency.ToUpper()}{paymentIntent.Amount / StripeCurrencyMultiplier(paymentIntent.Currency):0.##}";
     }
 
-    public static List<string> ZeroDecimalCurrencies = new() { "bif", "clp", "djf", "gnf", "jpy", "kmf", "krw", "mga", "pyg", "rwf", "ugx", "vnd", "vuv", "xaf", "xof", "xpf" };
+    public static List<string> ZeroDecimalCurrencies = ["bif", "clp", "djf", "gnf", "jpy", "kmf", "krw", "mga", "pyg", "rwf", "ugx", "vnd", "vuv", "xaf", "xof", "xpf"];
 
     static decimal StripeCurrencyMultiplier(string currency) => ZeroDecimalCurrencies.Contains(currency.ToLower()) ? 1 : 100;
 

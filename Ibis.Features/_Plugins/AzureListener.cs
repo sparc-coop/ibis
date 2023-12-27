@@ -11,7 +11,7 @@ public record SpeechRecognized(string SessionId, string Text, long Duration) : N
 public class AzureListener : IListener
 {
     readonly string SubscriptionKey;
-    static readonly List<AudioConnection> _audioConnections = new();
+    static readonly List<AudioConnection> _audioConnections = [];
 
     public BlossomNotifier Notifier { get; }
 
