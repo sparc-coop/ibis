@@ -2,12 +2,12 @@
 
 namespace Ibis.Rooms;
 
-public class Rooms : BlossomRepository<Room>
+public class Rooms : BlossomRoot<Room>
 {
-    public Rooms() : base()
+    public Rooms(IRepository<Room> rooms) : base(rooms)
     {
-        GetAllAsync = (User user, IRepository<Room> rooms) => MyRooms(rooms, user, "Chat");
-        DeleteAsync = (Room r) => r.Close();
+        Api.GetAllAsync = (User user) => MyRooms(rooms, user, "Chat");
+        Api.DeleteAsync = (Room r) => r.Close();
     }
 
     public IQueryable<Room> MyRooms(IRepository<Room> rooms, User user, string roomType) =>
