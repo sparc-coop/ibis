@@ -32,9 +32,9 @@ public class Message : Entity<string>
         RoomId = "";
         User = new User().Avatar;
         Language = "";
-        Translations = new();
-        EditHistory = new();
-        Tags = new();
+        Translations = [];
+        EditHistory = [];
+        Tags = [];
     }
 
     public Message(string roomId, User user, string text, string? tag = null) : this()
@@ -106,7 +106,7 @@ public class Message : Entity<string>
             return (Translations.First(x => x.LanguageId == languageId).SourceMessageId, null);
 
         var language = await translator.GetLanguageAsync(languageId);
-        var translatedMessage = (await translator.TranslateAsync(this, new List<Language> { language! })).FirstOrDefault();
+        var translatedMessage = (await translator.TranslateAsync(this, [language!])).FirstOrDefault();
 
         if (translatedMessage != null)
             AddTranslation(translatedMessage);
@@ -121,7 +121,7 @@ public class Message : Entity<string>
             : Room.Languages.Where(x => !HasTranslation(x.Id)).ToList();
 
         if (!languagesToTranslate.Any())
-            return new();
+            return [];
 
         var translatedMessages = await translator.TranslateAsync(this, languagesToTranslate);
 

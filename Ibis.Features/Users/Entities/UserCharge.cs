@@ -2,7 +2,7 @@
 
 namespace Ibis.Users;
 
-public class UserCharge : Root<string>
+public class UserCharge : Entity<string>
 {
     public string UserId { get; set; }
     public string? RoomId { get; set; }
@@ -47,5 +47,26 @@ public class UserCharge : Root<string>
         Ticks = cost.Ticks;
         Timestamp = DateTime.UtcNow;
         Currency = "Ticks";
+    }
+
+    internal static UserCharge Fail(Event stripeEvent)
+    {
+        var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+        var customer = new CustomerService().Get(paymentIntent!.CustomerId);
+        var userId = customer.Metadata["IbisUserId"];
+        return new(userId, paymentIntent!);
+    }
+
+    internal static UserCharge Process(Event stripeEvent, User user)
+    {
+        var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+        _ = new CustomerService().Get(paymentIntent!.CustomerId);
+        var userId = paymentIntent.Metadata["IbisUserId"];
+        if (userId != user.Id)
+            throw new Exception("Billing issue: User IDs did not match");
+
+        UserCharge userCharge = new(user.Id, paymentIntent!);
+        user.Refill(userCharge.Ticks);
+        return userCharge;
     }
 }

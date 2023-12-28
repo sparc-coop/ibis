@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Stripe;
+using System.Security.Claims;
 
 namespace Ibis.Users;
 
@@ -13,8 +14,8 @@ public class User : BlossomUser
         UserId = Id;
         DateCreated = DateTime.UtcNow;
         DateModified = DateTime.UtcNow;
-        LanguagesSpoken = new();
-        ActiveRooms = new();
+        LanguagesSpoken = [];
+        ActiveRooms = [];
         Avatar = new(Id, "");
         BillingInfo = new();
     }
@@ -22,7 +23,7 @@ public class User : BlossomUser
     public User(string email) : this()
     {
         Email = email;
-        UserName = email.ToUpper();
+        Identity.UserName = email.ToUpper();
         Avatar = new(Id, email);
     }
 
