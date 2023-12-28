@@ -1,28 +1,27 @@
 ﻿using System.Collections.Concurrent;
+using System.Security.Claims;
 
 namespace Ibis.Messages;
 public record GetAllContentRequest(string RoomSlug, string? Language = null, List<string>? Messages = null, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
-public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
+public class GetAllContent
 {
-    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator, TypeMessage typeMessage)
+    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, ITranslator translator)
     {
         Messages = messages;
         Rooms = rooms;
         Users = users;
         Translator = translator;
-        TypeMessage = typeMessage;
     }
 
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
     public IRepository<User> Users { get; }
     public ITranslator Translator { get; }
-    public TypeMessage TypeMessage { get; }
 
-    public override async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)
+    public async Task<GetAllContentResponse> ExecuteAsync(ClaimsPrincipal principal, GetAllContentRequest request)
     {
-        var user = await Users.GetAsync(User);
+        var user = await Users.GetAsync(principal);
         var room = await GetRoomAsync(request.RoomSlug, user);
         var language = request.Language ?? user?.Avatar.Language ?? room.Languages.First().Id;
         
@@ -81,7 +80,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
             var translatedMessages = new ConcurrentBag<Message>();
             await Parallel.ForEachAsync(messages, async (message, token) =>
             {
-                var result = await room.TranslateAsync(message, Translator);
+                var result = await message.TranslateAsync(Translator);
                 result.ForEach(x => translatedMessages.Add(x));
             });
 
@@ -103,14 +102,15 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
         var messages = await Messages.Query
                     .Where(x => x.RoomId == roomId && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
+                    .Select(x => x.Tag)
                     .ToListAsync();
 
-        var newContent = incomingMessages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
+        var newContent = incomingMessages.Where(x => !messages.Any(y => y == x)).ToList();
 
         foreach (var message in newContent)
         {
-            var request = new TypeMessageRequest(roomId, message, message);
-            await TypeMessage.ExecuteAsUserAsync(request, user ?? Ibis.Users.User.System);
+            // var request = new TypeMessageRequest(roomId, message, message);
+            // await TypeMessage.ExecuteAsUserAsync(request, user ?? User.System);
         }
     }
 
@@ -121,7 +121,7 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
             : Rooms.Query.FirstOrDefault(x => x.Id == slug || x.Slug == slug);
         if (room == null)
         {
-            room = new Room(slug, "Content", user ?? Ibis.Users.User.System);
+            room = new Room(slug, "Content", user ?? User.System);
             await Rooms.AddAsync(room);
         }
 

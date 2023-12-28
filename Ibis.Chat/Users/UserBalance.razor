@@ -15,6 +15,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // refactor into userinfo
         var ticks = await Api.GetUserBalanceAsync();
         Balance = TimeSpan.FromTicks(ticks);
         

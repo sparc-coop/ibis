@@ -28,7 +28,7 @@ public class UserCharge : Entity<string>
         Description = "Funds Added";
         Timestamp = DateTime.UtcNow;
         Currency = paymentIntent.Currency.ToUpper();
-        Amount = paymentIntent.LocalAmount();
+        Amount = StripeBilling.LocalAmount(paymentIntent);
         PaymentIntent = paymentIntent.ToJson();
 
         Ticks = paymentIntent.Metadata.TryGetValue("Ticks", out var ticksStr) && long.TryParse(ticksStr, out var ticksVal)

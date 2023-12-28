@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Messages;
 
 public record GetMessageAudioRequest(string MessageId, string? VoiceId);
-public class GetMessageAudio : Feature<GetMessageAudioRequest, AudioMessage?>
+public class GetMessageAudio
 {
     public GetMessageAudio(ISpeaker synthesizer, IRepository<Message> messages)
     {
@@ -12,10 +12,10 @@ public class GetMessageAudio : Feature<GetMessageAudioRequest, AudioMessage?>
     public ISpeaker Synthesizer { get; }
     public IRepository<Message> Messages { get; }
 
-    public override async Task<AudioMessage?> ExecuteAsync(GetMessageAudioRequest request)
+    public async Task<AudioMessage?> ExecuteAsync(GetMessageAudioRequest request)
     {
         var message = await Messages.FindAsync(request.MessageId) 
-            ?? throw new NotFoundException($"Message {request.MessageId} not found");
+            ?? throw new Exception($"Message {request.MessageId} not found");
         
         if (message.Audio?.Url == null || (request.VoiceId != null && message.Audio.Voice != request.VoiceId))
         {

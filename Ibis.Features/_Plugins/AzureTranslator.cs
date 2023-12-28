@@ -76,7 +76,7 @@ public class AzureTranslator : ITranslator
         if (language == null)
             throw new ArgumentException($"Language {toLanguage} not found");
         
-        var message = new Message("", User.System.Avatar, text);
+        var message = new Message("", User.System, text);
         var result = await TranslateAsync(message, fromLanguage, [language]);
         return result?.FirstOrDefault()?.Text;
     }

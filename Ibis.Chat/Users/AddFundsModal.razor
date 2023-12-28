@@ -72,7 +72,8 @@
     {
         var ri = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
         PaymentIntent = await Api.CreatePaymentIntentAsync(new PaymentIntentRequest { Amount = 0, Currency = ri.ISOCurrencySymbol });
-        var ticks = await Api.GetUserBalanceAsync();
+        // refactor into userinfo
+        // var ticks = await Api.GetUserBalanceAsync();
         Balance = TimeSpan.FromTicks(ticks);
     }
 

@@ -1,7 +1,7 @@
 ﻿namespace Ibis.Messages;
 
 public record GetMessageRequest(string RoomSlug, string Tag, string? Language = null, bool AsHtml = false);
-public class GetMessage : PublicFeature<GetMessageRequest, Message>
+public class GetMessage
 {
     public GetMessage(IRepository<Message> messages, IRepository<Room> rooms, ITranslator translator)
     {
@@ -13,21 +13,21 @@ public class GetMessage : PublicFeature<GetMessageRequest, Message>
     public IRepository<Room> Rooms { get; }
     public ITranslator Translator { get; }
 
-    public override async Task<Message> ExecuteAsync(GetMessageRequest request)
+    public async Task<Message> ExecuteAsync(GetMessageRequest request)
     {
         var room = Guid.TryParse(request.RoomSlug, out Guid roomId)
             ? Rooms.Query.FirstOrDefault(x => x.Id == request.RoomSlug)
             : Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug);
 
         if (room == null)
-            throw new NotFoundException($"Room {request.RoomSlug} not found");
+            throw new Exception($"Room {request.RoomSlug} not found");
 
         var originalMessage = Guid.TryParse(request.Tag, out Guid tagId)
             ? Messages.Query.FirstOrDefault(x => x.RoomId == room.Id && x.Id == request.Tag && x.SourceMessageId == null)
             : Messages.Query.FirstOrDefault(x => x.RoomId == room.Id && x.Tag == request.Tag && x.SourceMessageId == null);
 
         if (originalMessage == null)
-            throw new NotFoundException($"Message {request.Tag} not found!");
+            throw new Exception($"Message {request.Tag} not found!");
 
         if (request.Language == null || originalMessage.Language == request.Language)
             return originalMessage;

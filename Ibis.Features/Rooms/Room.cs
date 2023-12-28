@@ -177,7 +177,7 @@ public class Room : Entity<string>
         return user.Avatar;
     }
 
-    void AddLanguage(Language language)
+    internal void AddLanguage(Language language)
     {
         if (Languages.Any(x => x.Id == language.Id))
             return;
