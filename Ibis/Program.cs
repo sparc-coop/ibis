@@ -10,7 +10,7 @@ var app = BlossomApplication.Run<App, User, IbisHub>(args,
                 .AddAzureStorage(configuration)
                 .AddTwilio(configuration)
                 .AddIbis(configuration)
-                .AddSingleton<ExchangeRates>()
+                .AddScoped<ExchangeRates>()
                 .AddScoped<ITranslator, AzureTranslator>()
                 .AddScoped<ISpeaker, AzureSpeaker>()
                 .AddScoped<IListener, AzureListener>()

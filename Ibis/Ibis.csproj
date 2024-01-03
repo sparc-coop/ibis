@@ -1,34 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>72466df3-8539-4465-944e-75e5fb26c8f7</UserSecretsId>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Content Include="..\..\..\..\..\.nuget\packages\psc.blazor.components.markdowneditor\2.0.10\contentFiles\any\net6.0\wwwroot\css\easymde.min.css" Link="wwwroot\css\easymde.min.css">
-	    <Private>False</Private>
-	    <NuGetPackageVersion>2.0.10</NuGetPackageVersion>
-	    <NuGetItemType>Content</NuGetItemType>
-	    <NuGetPackageId>PSC.Blazor.Components.MarkdownEditor</NuGetPackageId>
-	    <Pack>false</Pack>
-	  </Content>
-	  <Content Include="..\..\..\..\..\.nuget\packages\psc.blazor.components.markdowneditor\2.0.10\contentFiles\any\net6.0\wwwroot\js\easymde.min.js" Link="wwwroot\js\easymde.min.js">
-	    <Private>False</Private>
-	    <NuGetPackageVersion>2.0.10</NuGetPackageVersion>
-	    <NuGetItemType>Content</NuGetItemType>
-	    <NuGetPackageId>PSC.Blazor.Components.MarkdownEditor</NuGetPackageId>
-	    <Pack>false</Pack>
-	  </Content>
-	  <Content Include="..\..\..\..\..\.nuget\packages\psc.blazor.components.markdowneditor\2.0.10\contentFiles\any\net6.0\wwwroot\js\markdownEditor.js" Link="wwwroot\js\markdownEditor.js">
-	    <Private>False</Private>
-	    <NuGetPackageVersion>2.0.10</NuGetPackageVersion>
-	    <NuGetItemType>Content</NuGetItemType>
-	    <NuGetPackageId>PSC.Blazor.Components.MarkdownEditor</NuGetPackageId>
-	    <Pack>false</Pack>
-	  </Content>
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.34.0" />

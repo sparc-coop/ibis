@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
-@using Sparc.Blossom.Authentication;
 
 <PageTitle>Ibis Ink</PageTitle>
+
 <nav class="nav--landing">
     <div class="nav--container">
         <div class="nav--container-left">
@@ -40,7 +40,7 @@
 
     private void SignIn()
     {
-        Nav.NavigateTo("/dashboard", true);
+        Navigation.NavigateTo("/dashboard", true);
     }
 
     void OpenMobileMenu()
