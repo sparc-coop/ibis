@@ -1,0 +1,62 @@
+﻿@using Ibis.Users
+@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Sparc.Blossom.Authentication;
+@using System.Security.Claims
+
+<nav class="nav-ibis-ink">
+    <div class="nav--container">
+        <div class="nav--container-left">
+            <h1>
+                <a href="/dashboard"><img class="logo" src="images/IbisInk_logo-full.png" /></a>
+            </h1>
+        </div>
+        <div class="nav--container-right">
+            <div class="user-menu">
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="user-info-container">
+                            <img src="/images/1.png" />
+                            <div class="user-data">
+                                <h3>@context.User.Identity?.Name</h3>
+                                <p>@context.User.FindFirstValue(ClaimTypes.Email)</p>
+                            </div>
+                            <button class="toggle-usermenu" @onclick="ToggleUserMenu" tabindex="1">
+                                <ExpandIcon />
+                            </button>
+                        </div>
+                        @if (ShowUserMenu == true)
+                        {
+                            <div class="user-menu--dropdown">
+                                <form action="_auth/logout" method="post">
+                                    <AntiforgeryToken />
+                                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                                    <button type="submit" class="nav-link">
+                                        <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+                        <a class="login" href="_auth/login" tabindex="1">Login</a>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@inject BlossomAuthenticationStateProvider Auth
+
+@code {
+    bool ShowUserMenu = false;
+
+    void ToggleUserMenu()
+    {
+        Console.WriteLine("toggle user menu");
+        ShowUserMenu = !ShowUserMenu;
+    }
+
+    void OpenMenu() => ShowUserMenu = !ShowUserMenu;
+}

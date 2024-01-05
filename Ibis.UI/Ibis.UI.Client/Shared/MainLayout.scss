@@ -1,0 +1,19 @@
+﻿@import "../_variables";
+
+body {
+    background: $background;
+    /*#app {
+        display: grid;
+        grid-template-columns: 0 auto;
+    }*/
+
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 80px auto;
+
+        main {
+            grid-column-start: 2;
+            padding: 98px 32px 32px 32px;
+        }
+    }
+}

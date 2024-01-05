@@ -11,7 +11,7 @@
         </div>
         <div class="nav--container-right">
             @*<a href="/pricing">Pricing</a>*@
-            <button @onclick="SignIn" class="get-started">Get Started</button>
+            <a href="/dashboard" class="get-started">Get Started</a>
             <button class="mobile-menu--btn @ShowMobileMenu" @onclick=OpenMobileMenu><img src="icons/menu-secondary.png" /></button>
             <button class="mobile-menu--close @ShowMobileMenu" @onclick=CloseMobileMenu><img src="icons/close-icon.svg" /></button>
         </div>
@@ -19,7 +19,7 @@
     <div class="mobile-menu--overlay @ShowMobileMenu" @onclick=CloseMobileMenu></div>
     <div class="mobile-menu @ShowMobileMenu">
         <div class="mobile-menu--links">
-            <button class="get-started">Get Started</button>
+            <a href="/dashboard" class="get-started">Get Started</a>
         </div>
     </div>
 </nav>

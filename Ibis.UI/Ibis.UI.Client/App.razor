@@ -18,23 +18,9 @@
 </head>
 
 <body style="background: #fafbfc">
-    <BlossomApp />
+    <Sparc.Blossom.BlossomApp TApp="Program" />
 
     <script src="_framework/blazor.web.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
-    <script>
-        function MorphBlobs() {
-            const morph1 = KUTE.fromTo('#blob1',
-                { path: '#blob1' },
-                { path: '#blob2' },
-                { repeat: 100, duration: 3000, yoyo: true });
-            const morph2 = KUTE.fromTo('#blob1',
-                { path: '#blob1' },
-                { path: '#blob3' },
-                { repeat: 100, duration: 3000, yoyo: true });
-            morph1.start();
-            morph2.start();
-        }
-    </script>
 </body>
 </html>
