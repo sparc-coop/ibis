@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\..\Sparc.Kernel\Sparc.Blossom.Client\Sparc.Blossom.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sites\" />
+  </ItemGroup>
+
 </Project>

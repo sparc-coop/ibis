@@ -1,91 +1,58 @@
-﻿@using Sparc.Blossom.Authentication;
-@using Sparc.Ibis;
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Sparc.Blossom.Authentication;
 
-<CascadingValue Value="User">
-    <nav class="nav--dashboard">
-        <AuthorizeView>
-            <Authorized>
-                @if (User != null)
-                {
-                    <div class="navmenu">
-                        <div class="navmenu--home" tabindex="4">
+<nav class="nav--dashboard">
+    <AuthorizeView>
+        <Authorized>
+            <div class="navmenu">
+                <div class="navmenu--home" tabindex="4">
+                    <a href="/dashboard">
+                        <Home02Icon />
+                        <p class="title">My Ink</p>
+                    </a>
+                </div>
+                <div class="navmenu--websites">
+                    <ul>
+                        <li tabindex="6">
                             <a href="/dashboard">
-                                <Home02Icon />
-                                <p class="title">My Ink</p>
+                                <TeamIcon />
+                                <p class="title">Team</p>
                             </a>
-                        </div>
-                        <div class="navmenu--websites">
-                            <ul>
-                                <li tabindex="6">
-                                    <a href="/dashboard">
-                                        <TeamIcon />
-                                        <p class="title">Team</p>
-                                    </a>
-                                </li>
-                                <li tabindex="7">
-                                    <a href="/dashboard">
-                                        <SettingsIcon />
-                                        <p class="title">Settings</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="navmenu--pages">
+                        </li>
+                        <li tabindex="7">
                             <a href="/dashboard">
-                                <PagesIcon />
-                                <p class="title">Pages</p>
+                                <SettingsIcon />
+                                <p class="title">Settings</p>
                             </a>
-                        </div>
-                    </div>
-                }
-            </Authorized>
-            <NotAuthorized>
-                <div class="navmenu"></div>
-            </NotAuthorized>
-        </AuthorizeView>
-    </nav>
-</CascadingValue>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navmenu--pages">
+                    <a href="/dashboard">
+                        <PagesIcon />
+                        <p class="title">Pages</p>
+                    </a>
+                </div>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="navmenu"></div>
+        </NotAuthorized>
+    </AuthorizeView>
+</nav>
 
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject BlossomAuthenticationStateProvider Auth
 
 @code {
-    UserAvatar? User;
-    bool isUserBeingGot;
     bool ShowUserMenu = false;
-    public string LoginLink = "https://localhost:7117/_login?returnUrl=https%3A%2F%2Flocalhost%3A7083";
 
     void Login()
     {
-        Nav.NavigateTo(LoginLink);
+        Auth.Login();
     }
 
     private async Task Logout()
     {
-        await (AuthenticationStateProvider as BlossomAuthenticationStateProvider)!.LogoutAsync();
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (User != null)
-            return;
-
-        await UpdateUser(AuthenticationStateProvider.GetAuthenticationStateAsync());
-
-        AuthenticationStateProvider.AuthenticationStateChanged += async (state) => await UpdateUser(state);
-    }
-
-    async Task UpdateUser(Task<AuthenticationState> state)
-    {
-        var user = (await state).User;
-
-        if (User == null && !isUserBeingGot && user.Identity?.IsAuthenticated == true)
-        {
-            isUserBeingGot = true;
-            User = await Api.GetUserAsync();
-
-            StateHasChanged();
-            isUserBeingGot = false;
-        }
     }
 
     void ToggleUserMenu()

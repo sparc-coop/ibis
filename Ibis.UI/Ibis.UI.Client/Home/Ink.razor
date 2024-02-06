@@ -3,7 +3,7 @@
 @layout MarketingLayout
 
 <div class="landing">
-    <header class="landing--header @ShowHero">
+    <header class="landing--header">
         <div class="header--container">
             <h2>Share Your Ideas With The World As You Are.</h2>
             <p class="subheader">
@@ -15,18 +15,18 @@
             <div class="background-image" style="@ShowHeroBackground"></div>
         </div>
         <div class="slide--container">
-            <div class="slide-down" @onclick=slideDown>
+            <div class="slide-down" _="on click add .hide to .landing--header then add .show to .landing--content">
                 <p>Learn more about ibis</p>
                 <img src="icons/arrow-down-icon.svg" />
             </div>
         </div>
     </header>
-    <div class="landing--content @ShowContent">
+    <div class="landing--content">
         <div class="section--container">
-            <section class="slide-1"style="display: @DisplaySlide1">
+            <section class="slide-1">
                 <div class="arrows--container">
-                    <img @onclick=@(e => @changeSlide(1, 3)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                    <img @onclick=@(e => @changeSlide(1, 2)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                    <img _="on click hide .slide-1 then show .slide-3" class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img _="on click hide .slide-1 then show .slide-2" class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
                 </div>
                 <div class="content">
                     <header>
@@ -40,10 +40,10 @@
                     </p>
                 </div>
             </section>
-            <section class="slide-2" style="display: @DisplaySlide2">
+            <section class="slide-2">
                 <div class="arrows--container">
-                    <img @onclick=@(e => @changeSlide(2, 1)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                    <img @onclick=@(e => @changeSlide(2, 3)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                    <img _="on click hide .slide-2 then show .slide-1" class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img _="on click hide .slide-2 then show .slide-3" class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
                 </div>
                 <div class="content">
                     <header>
@@ -57,10 +57,10 @@
                     </p>
                 </div>
             </section>
-            <section class="slide-3" style="display: @DisplaySlide3">
+            <section class="slide-3">
                 <div class="arrows--container">
-                    <img @onclick=@(e => @changeSlide(3, 2)) class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
-                    <img @onclick=@(e => @changeSlide(3, 1)) class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
+                    <img _="on click hide .slide-3 then show .slide-2" class="arrow-left" src="icons/arrow-down-icon.svg" style="transform: rotate(90deg);" />
+                    <img _="on click hide .slide-3 then show .slide-1" class="arrow-right" src="icons/arrow-down-icon.svg" style="transform: rotate(270deg);" />
                 </div>
                 <div class="content">
                     <header>
@@ -115,8 +115,6 @@
 
     void slideDown()
     {
-        ShowHero = "hide";
-        ShowContent = "show";
         ShowHeroBackground = "display: none;";
     }
 

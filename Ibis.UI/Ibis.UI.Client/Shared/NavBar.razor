@@ -27,13 +27,7 @@
                         @if (ShowUserMenu == true)
                         {
                             <div class="user-menu--dropdown">
-                                <form action="_auth/logout" method="post">
-                                    <AntiforgeryToken />
-                                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                                    <button type="submit" class="nav-link">
-                                        <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                                    </button>
-                                </form>
+                                <Sparc.Blossom.Client.Platforms.Web.Authentication.Logout />
                             </div>
                             <div class="user-menu--overlay" @onclick="ToggleUserMenu"></div>
                         }
