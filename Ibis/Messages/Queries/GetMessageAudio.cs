@@ -1,16 +1,10 @@
 ﻿namespace Ibis.Messages;
 
 public record GetMessageAudioRequest(string MessageId, string? VoiceId);
-public class GetMessageAudio
+public class GetMessageAudio(ISpeaker synthesizer, IRepository<Message> messages)
 {
-    public GetMessageAudio(ISpeaker synthesizer, IRepository<Message> messages)
-    {
-        Synthesizer = synthesizer;
-        Messages = messages;
-    }
-
-    public ISpeaker Synthesizer { get; }
-    public IRepository<Message> Messages { get; }
+    public ISpeaker Synthesizer { get; } = synthesizer;
+    public IRepository<Message> Messages { get; } = messages;
 
     public async Task<AudioMessage?> ExecuteAsync(GetMessageAudioRequest request)
     {

@@ -25,9 +25,7 @@ public class TranslateMessage : RealtimeFeature<MessageTextChanged>
 
         var translatedMessages = await notification.Message.TranslateAsync(Translator, true);
 
-        foreach (var translatedMessage in translatedMessages)
-            await Messages.UpdateAsync(translatedMessage);
-        
+        await Messages.UpdateAsync(translatedMessages);
         await Messages.UpdateAsync(notification.Message);
     }
 }
