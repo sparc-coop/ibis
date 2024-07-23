@@ -1,22 +1,9 @@
 ﻿namespace Ibis.Messages;
 
 public record TypeMessageRequest(string RoomId, string Text, string? Tag = null, string? MessageId = null);
-public class TypeMessage : Feature<TypeMessageRequest, Message>
+public class TypeMessage(IRepository<Message> messages)
 {
-    public TypeMessage(IRepository<Message> messages, IRepository<User> users)
-    {
-        Messages = messages;
-        Users = users;
-    }
-
-    public IRepository<Message> Messages { get; }
-    public IRepository<User> Users { get; }
-
-    public override async Task<Message> ExecuteAsync(TypeMessageRequest request)
-    {
-        var user = await Users.GetAsync(User);
-        return await ExecuteAsUserAsync(request, user!);
-    }
+    public IRepository<Message> Messages { get; } = messages;
 
     internal async Task<Message> ExecuteAsUserAsync(TypeMessageRequest request, User user)
     {
@@ -31,7 +18,7 @@ public class TypeMessage : Feature<TypeMessageRequest, Message>
             if (existingMessage != null)
             {
                 if (request.MessageId != null && existingMessage.User.Id != user.Id)
-                    throw new NotAuthorizedException("You are not permitted to edit another user's message.");
+                    throw new Exception("You are not permitted to edit another user's message.");
 
                 existingMessage.SetText(request.Text);
                 await Messages.UpdateAsync(existingMessage);

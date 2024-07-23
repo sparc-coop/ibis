@@ -7,7 +7,7 @@ public record SourceMessage(string RoomId, string MessageId);
 public record UserJoined(string RoomId, UserAvatar User) : Notification(RoomId);
 public record UserLeft(string RoomId, UserAvatar User) : Notification(RoomId);
 
-public class Room : Root<string>
+public class Room : BlossomEntity<string>
 {
     public string RoomId { get; private set; }
     public string RoomType { get; private set; }

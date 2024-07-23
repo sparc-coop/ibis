@@ -1,35 +1,29 @@
-﻿using System.Collections.Concurrent;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 
 namespace Ibis.Rooms;
 public record GetAllContentRequest(string RoomSlug, string? Language = null, Dictionary<string, string>? Tags = null, int? Take = null);
 public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
-public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentResponse>
+public class GetAllContent
 {
-    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, Translator translator, TypeMessage typeMessage)
+    public GetAllContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
     {
         Messages = messages;
         Rooms = rooms;
-        Users = users;
         Translator = translator;
         TypeMessage = typeMessage;
     }
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
-    public IRepository<User> Users { get; }
     public Translator Translator { get; }
     public TypeMessage TypeMessage { get; }
 
-    public override async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)
+    public async Task<GetAllContentResponse> ExecuteAsync(GetAllContentRequest request)
     {
-        var user = await Users.GetAsync(User);
-        var room = await GetRoomAsync(request.RoomSlug, user);
-        var language = request.Language ?? user?.Avatar.Language ?? room.Languages.First().Id;
+        var room = await GetRoomAsync(request.RoomSlug, null);
+        var language = request.Language ?? room.Languages.First().Id;
         
-        // Change the publish strategy so this call doesn't return until EVERYTHING is done
-        ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
-
         await AddLanguageIfNeeded(room, language);
-
         var result = await GetAllMessagesInUserLanguageAsync(request, room, language);
 
         return new(room.Name, room.Slug, language, result);
@@ -37,9 +31,9 @@ public class GetAllContent : PublicFeature<GetAllContentRequest, GetAllContentRe
 
     private async Task<List<Message>> GetAllMessagesInUserLanguageAsync(GetAllContentRequest request, Room room, string language)
     {
-        IQueryable<Message> query = Messages.Query(room.Id)
-                    .Where(x => x.Language == language && x.Text != null)
-                    .OrderBy(y => y.Timestamp);
+        IQueryable<Message> query = Messages.Query(room.RoomId)
+                .Where(x => x.Language == language && x.Text != null)
+                .OrderBy(y => y.Timestamp);
 
         if (request.Take != null)
             query = query.Take(request.Take.Value);

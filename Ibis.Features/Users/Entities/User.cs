@@ -22,7 +22,7 @@ public class User : BlossomUser
     public User(string email) : this()
     {
         Email = email;
-        UserName = email.ToUpper();
+        Username = email.ToUpper();
         Avatar = new(Id, email);
     }
 
@@ -101,11 +101,11 @@ public class User : BlossomUser
         Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
     }
 
-    internal void AddCharge(CostIncurred costIncurred)
-    {
-        BillingInfo.TicksBalance -= costIncurred.Ticks;
-        Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
-    }
+    //internal void AddCharge(CostIncurred costIncurred)
+    //{
+    //    BillingInfo.TicksBalance -= costIncurred.Ticks;
+    //    Broadcast(new BalanceChanged(Id, BillingInfo.TicksBalance));
+    //}
 
     internal void UpdateAvatar(UserAvatar avatar)
     {

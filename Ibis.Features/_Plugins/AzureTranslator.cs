@@ -37,7 +37,7 @@ public class AzureTranslator : ITranslator
             var from = $"&from={message.Language.Split('-').First()}";
             var to = "&to=" + string.Join("&to=", languageDictionary.Keys);
 
-            var result = await Client.PostAsJsonAsync<object[], TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
+            var result = await Client.PostAsJsonAsync<TranslationResult[]>($"/translate?api-version=3.0{from}{to}", body);
 
             if (result != null && result.Length > 0)
             {

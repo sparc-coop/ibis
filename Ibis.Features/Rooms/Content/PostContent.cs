@@ -1,34 +1,32 @@
-﻿namespace Ibis.Rooms;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Ibis.Rooms;
 
 public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
-public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
+public class PostContent
 {
-    public PostContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, Translator translator, TypeMessage typeMessage)
+    public PostContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
     {
         Messages = messages;
         Rooms = rooms;
-        Users = users;
         Translator = translator;
         TypeMessage = typeMessage;
     }
     public IRepository<Message> Messages { get; }
     public IRepository<Room> Rooms { get; }
-    public IRepository<User> Users { get; }
     public Translator Translator { get; }
     public TypeMessage TypeMessage { get; }
 
-    public override async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
+    public async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
     {
-        var user = await Users.FindAsync(User.Id());
-        var room = await GetRoomAsync(request.RoomSlug, user);
+        var room = await GetRoomAsync(request.RoomSlug, null);
 
-        ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
         await AddLanguageIfNeeded(room, request.Language);
 
         var untranslatedMessages = await GetUntranslatedMessagesAsync(request, room);
-        if (untranslatedMessages.Any())
+        if (untranslatedMessages.Count != 0)
         {
-            await AddAdditionalMessages(room.Id, untranslatedMessages, user);
+            await AddAdditionalMessages(room.Id, untranslatedMessages);
         }
 
         var result = await GetAllMessagesAsync(request, room);
@@ -36,10 +34,10 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         return new(room.Name, room.Slug, request.Language, result);
     }
 
-    private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)
+    private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), Users.User.System);
     }
 
     private async Task<List<string>> GetUntranslatedMessagesAsync(PostContentRequest request, Room room)
@@ -47,7 +45,7 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
         var messages = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
-        .ToListAsync();
+                    .ToListAsync();
 
         var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
         return untranslatedMessages;

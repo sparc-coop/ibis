@@ -4,7 +4,7 @@ namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
-public class Message : Root<string>
+public class Message : BlossomEntity<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
@@ -152,8 +152,8 @@ public class Message : Root<string>
     {
         Charge += ticks;
         Cost -= cost;
-        if (ticks > 0)
-            Broadcast(new CostIncurred(this, description, ticks));
+        //if (ticks > 0)
+            //Broadcast(new CostIncurred(this, description, ticks));
     }
 
     internal void Delete()

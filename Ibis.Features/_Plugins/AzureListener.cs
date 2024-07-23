@@ -13,12 +13,12 @@ public class AzureListener : IListener
     readonly string SubscriptionKey;
     static readonly List<AudioConnection> _audioConnections = new();
 
-    public Publisher Publisher { get; }
+    //public Publisher Publisher { get; }
 
-    public AzureListener(IConfiguration configuration, Publisher publisher)
+    public AzureListener(IConfiguration configuration)
     {
         SubscriptionKey = configuration.GetConnectionString("Cognitive")!;
-        Publisher = publisher;
+        //Publisher = publisher;
     }
 
     public async Task<string> BeginListeningAsync(Dialect? dialect)
@@ -33,9 +33,9 @@ public class AzureListener : IListener
         //speechConfig.SetProperty(PropertyId.Speech_LogFilename, "speechlog.txt");
         var speechClient = new SpeechRecognizer(speechConfig, audioConfig);
 
-        speechClient.SessionStarted += SpeechClient_SessionStarted;
-        speechClient.Recognized += SpeechClient_Recognized;
-        speechClient.Recognizing += SpeechClient_Recognizing;
+        //speechClient.SessionStarted += SpeechClient_SessionStarted;
+        //speechClient.Recognized += SpeechClient_Recognized;
+        //speechClient.Recognizing += SpeechClient_Recognizing;
         speechClient.Canceled += SpeechClient_Canceled;
 
         string sessionId = speechClient.Properties.GetProperty(PropertyId.Speech_SessionId);
@@ -67,20 +67,20 @@ public class AzureListener : IListener
         _audioConnections.Remove(audioConnection);
     }
 
-    public void SpeechClient_SessionStarted(object? sender, SessionEventArgs e)
-    {
-        Publisher.Publish(new SpeechSessionStarted(e.SessionId));
-    }
+    //public void SpeechClient_SessionStarted(object? sender, SessionEventArgs e)
+    //{
+    //    Publisher.Publish(new SpeechSessionStarted(e.SessionId));
+    //}
 
-    public void SpeechClient_Recognizing(object? sender, SpeechRecognitionEventArgs e)
-    {
-        Publisher.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
-    }
+    //public void SpeechClient_Recognizing(object? sender, SpeechRecognitionEventArgs e)
+    //{
+    //    Publisher.Publish(new SpeechRecognizing(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+    //}
 
-    public void SpeechClient_Recognized(object? sender, SpeechRecognitionEventArgs e)
-    {
-        Publisher.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
-    }
+    //public void SpeechClient_Recognized(object? sender, SpeechRecognitionEventArgs e)
+    //{
+    //    Publisher.Publish(new SpeechRecognized(e.SessionId, e.Result.Text, e.Result.Duration.Ticks));
+    //}
 }
 
 public class VoiceAudioStream : PullAudioInputStreamCallback
