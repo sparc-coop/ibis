@@ -82,9 +82,9 @@ public class GetAllContent
 
     private async Task<Room> GetRoomAsync(string slug, User? user)
     {
-        var room = Rooms.Query.FirstOrDefault(x => x.Id == slug) 
+        var room = Rooms.Query.FirstOrDefault(x => x.Name == slug)
                     ?? Rooms.Query.FirstOrDefault(x => x.Slug == slug);
-        
+
         if (room == null)
         {
             room = new Room(slug, "Content", user ?? Ibis.Users.User.System);
@@ -93,4 +93,6 @@ public class GetAllContent
 
         return room;
     }
+
+    
 }

@@ -29,11 +29,6 @@ if (builder.Environment.IsDevelopment())
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-app.MapPost("/publicapi/GetAllContent", async (GetAllContentRequest request, GetAllContent getAllContent) =>
-{
-    return await getAllContent.ExecuteAsync(request);
-});
-
 app.MapPost("/publicapi/PostContent", async (PostContentRequest request, PostContent postContent) =>
 {
     return await postContent.ExecuteAsync(request);
