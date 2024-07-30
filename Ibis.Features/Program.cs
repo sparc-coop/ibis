@@ -15,8 +15,8 @@ builder.Services
         .AddScoped<ISpeaker, AzureSpeaker>()
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
-        .AddScoped<GetAllContent>()
-        .AddScoped<PostContent>();
+        .AddScoped<PostContent>()
+        .AddScoped<TypeMessage>();
 
 builder.Services.AddOutputCache();
 
@@ -32,6 +32,11 @@ StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 app.MapPost("/publicapi/PostContent", async (PostContentRequest request, PostContent postContent) =>
 {
     return await postContent.ExecuteAsync(request);
+});
+
+app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMessage typeMessage) =>
+{
+    return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
 await app.RunAsync();

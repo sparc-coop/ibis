@@ -3,6 +3,8 @@
 namespace Ibis.Rooms;
 
 public record PostContentRequest(string RoomSlug, string Language, List<string>? Messages = null, bool AsHtml = false);
+public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
+
 public class PostContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
 {
     public IRepository<Message> Messages { get; } = messages;
