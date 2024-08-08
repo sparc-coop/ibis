@@ -1,6 +1,7 @@
 using Ibis;
 using Lamar.Microsoft.DependencyInjection;
 using Stripe;
+using System.IO;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,13 @@ app.MapPost("/publicapi/PostContent", async (PostContentRequest request, PostCon
 app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMessage typeMessage) =>
 {
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
+});
+
+app.MapPost("/publicapi/UploadImage", async (UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
+{
+    using MemoryStream stream = new();
+    await file.CopyToAsync(stream);
+    return await uploadFile.ExecuteAsync(request, stream);
 });
 
 await app.RunAsync();
