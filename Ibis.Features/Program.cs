@@ -1,5 +1,6 @@
 using Ibis;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System.IO;
 
@@ -41,9 +42,14 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
-app.MapPost("/publicapi/UploadImage", async (UploadFileRequest request, UploadFile uploadFile) =>
+app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
 {
     return await uploadFile.ExecuteAsync(request);
+});
+
+app.MapGet("/publicapi/Languages", async (Translator translator) =>
+{
+    return await translator.GetLanguagesAsync();
 });
 
 await app.RunAsync();
