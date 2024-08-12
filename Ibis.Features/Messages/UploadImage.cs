@@ -2,7 +2,7 @@
 
 namespace Ibis.Messages;
 
-public record UploadFileRequest(string RoomSlug, string Language, string Tag);
+public record UploadFileRequest(string RoomSlug, string Language, string Tag, IFormFile File);
 
 public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, TypeMessage typeMessage)
 {
@@ -10,15 +10,18 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
     public IFileRepository<File> Files { get; } = files;
     public TypeMessage TypeMessage { get; } = typeMessage;
 
-    public async Task<Message> ExecuteAsync(UploadFileRequest request, MemoryStream stream)
+    public async Task<Message> ExecuteAsync(UploadFileRequest request)
     {
-        var room = Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug) 
+        var room = Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug)
             ?? throw new Exception("Room not found.");
-        
+
+        using var stream = new MemoryStream();
+        await request.File.CopyToAsync(stream);   
+
         var url = await UploadImageToStorage(room.RoomId, stream);
         var newMessage = new TypeMessageRequest(request.RoomSlug, request.Language, url, request.Tag);
-        return await TypeMessage.ExecuteAsUserAsync(newMessage, User.System);
 
+        return await TypeMessage.ExecuteAsUserAsync(newMessage, User.System);
     }
 
     internal async Task<string> UploadImageToStorage(string roomId, MemoryStream stream)

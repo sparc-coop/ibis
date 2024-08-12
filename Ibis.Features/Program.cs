@@ -17,7 +17,8 @@ builder.Services
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
         .AddScoped<PostContent>()
-        .AddScoped<TypeMessage>();
+        .AddScoped<TypeMessage>()
+        .AddScoped<UploadFile>();
 
 builder.Services.AddOutputCache();
 
@@ -40,11 +41,9 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
-app.MapPost("/publicapi/UploadImage", async (UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
+app.MapPost("/publicapi/UploadImage", async (UploadFileRequest request, UploadFile uploadFile) =>
 {
-    using MemoryStream stream = new();
-    await file.CopyToAsync(stream);
-    return await uploadFile.ExecuteAsync(request, stream);
+    return await uploadFile.ExecuteAsync(request);
 });
 
 await app.RunAsync();
