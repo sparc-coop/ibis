@@ -1,5 +1,6 @@
 using Ibis;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System.IO;
 
@@ -17,7 +18,8 @@ builder.Services
         .AddScoped<IListener, AzureListener>()
         .AddSingleton<ExchangeRates>()
         .AddScoped<PostContent>()
-        .AddScoped<TypeMessage>();
+        .AddScoped<TypeMessage>()
+        .AddScoped<UploadFile>();
 
 builder.Services.AddOutputCache();
 
@@ -40,11 +42,16 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
-app.MapPost("/publicapi/UploadImage", async (UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
+app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
 {
     using MemoryStream stream = new();
     await file.CopyToAsync(stream);
     return await uploadFile.ExecuteAsync(request, stream);
+});
+
+app.MapGet("/publicapi/Languages", async (Translator translator) =>
+{
+    return await translator.GetLanguagesAsync();
 });
 
 await app.RunAsync();
