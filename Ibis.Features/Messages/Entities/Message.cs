@@ -22,7 +22,7 @@ public class Message : BlossomEntity<string>
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
-    public string Html => Markdown.ToHtml(Text ?? string.Empty);
+    public string Html => Markdown.ToHtml(Text ?? string.Empty, new MarkdownPipelineBuilder().UseEmphasisExtras().Build());
 
     protected Message()
     {
