@@ -42,7 +42,7 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
-app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile, IFormFile file) =>
+app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile) =>
 {
     return await uploadFile.ExecuteAsync(request);
 });

@@ -45,5 +45,4 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
         await Files.AddAsync(file);
         return file.Url!;
     }
-
 }
