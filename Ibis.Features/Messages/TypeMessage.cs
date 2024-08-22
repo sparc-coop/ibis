@@ -9,7 +9,7 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
     internal async Task<Message> ExecuteAsUserAsync(TypeMessageRequest request, User user)
     {
         var room = (Rooms.Query.FirstOrDefault(x => x.Name == request.RoomSlug)
-                    ?? Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug)) 
+                    ?? Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug))
                     ?? throw new Exception("Room not found.");
         
         if (request.Tag != null || request.MessageId != null)
@@ -31,7 +31,7 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
             }
         }
 
-        var message = new Message(room.RoomId, user!, request.Text, request.Tag);
+        var message = new Message(room.RoomId, user!, request.Text, request.Tag ?? request.Text);
         await Messages.AddAsync(message);
         return message;
     }

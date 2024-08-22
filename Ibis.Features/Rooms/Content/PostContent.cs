@@ -23,10 +23,10 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
         return new(room.Name, room.Slug, request.Language, content);
     }
 
-    private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages)
+    private async Task AddAdditionalMessages(string roomSlug, List<string> additionalMessages)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), Users.User.System);
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomSlug, message, message), Users.User.System);
     }
 
     private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
@@ -41,7 +41,7 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
 
         var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
         if (untranslatedMessages.Count != 0)
-            await AddAdditionalMessages(room.Id, untranslatedMessages);
+            await AddAdditionalMessages(room.Slug, untranslatedMessages);
     }
 
     private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
