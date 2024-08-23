@@ -1,5 +1,6 @@
 using Ibis;
 using Lamar.Microsoft.DependencyInjection;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System.IO;
@@ -22,6 +23,7 @@ builder.Services
         .AddScoped<UploadFile>();
 
 builder.Services.AddOutputCache();
+//builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 
@@ -29,8 +31,17 @@ if (builder.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
 //app.UseAllCultures();
+//app.UseAntiforgery();
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+// If wanting to use the anti-forgery token
+//app.MapGet("/antiforgery/token", (HttpContext httpContext, IAntiforgery antiforgery) =>
+//{
+//    var tokens = antiforgery.GetAndStoreTokens(httpContext);
+//    httpContext.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
+//    return Results.Ok(new { token = tokens.RequestToken });
+//});
 
 app.MapPost("/publicapi/PostContent", async (PostContentRequest request, PostContent postContent) =>
 {
@@ -45,7 +56,7 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
 app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile) =>
 {
     return await uploadFile.ExecuteAsync(request);
-});
+}).DisableAntiforgery(); 
 
 app.MapGet("/publicapi/Languages", async (Translator translator) =>
 {

@@ -12,11 +12,15 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
 
     public async Task<Message> ExecuteAsync(UploadFileRequest request)
     {
-        var room = Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug)
-            ?? throw new Exception("Room not found.");
+        var room = (Rooms.Query.FirstOrDefault(x => x.Name == request.RoomSlug)
+                    ?? Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug))
+                    ?? throw new Exception("Room not found.");
 
         using var stream = new MemoryStream();
-        await request.File.CopyToAsync(stream);   
+        await request.File.CopyToAsync(stream);
+
+        // Adjust stream position to start
+        stream.Position = 0;
 
         var url = await UploadImageToStorage(room.RoomId, stream);
         var newMessage = new TypeMessageRequest(request.RoomSlug, request.Language, url, request.Tag);
@@ -28,6 +32,10 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
     {
         var randomFileName = Guid.NewGuid().ToString();
         File file = new("images", $"{roomId}/upload/{randomFileName}.png", AccessTypes.Public, stream);
+
+        // Adjust stream position to start before upload
+        stream.Position = 0;
+
         await Files.AddAsync(file);
         return file.Url!;
     }
