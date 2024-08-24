@@ -9,6 +9,7 @@ public class Message : BlossomEntity<string>
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
     public string Language { get; protected set; }
+    public string ContentType { get; private set; }
     public bool? LanguageIsRTL { get; protected set; }  
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
@@ -33,9 +34,10 @@ public class Message : BlossomEntity<string>
         Translations = new();
         EditHistory = new();
         Tags = new();
+        ContentType = "Text";
     }
 
-    public Message(string roomId, User user, string text, string? tag = null, string? language = null) : this()
+    public Message(string roomId, User user, string text, string? tag = null, string? language = null, string contentType = "Text") : this()
     {
         RoomId = roomId;
         User = user.Avatar;
@@ -44,6 +46,7 @@ public class Message : BlossomEntity<string>
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
+        ContentType = contentType;
         SetText(text);
     }
 

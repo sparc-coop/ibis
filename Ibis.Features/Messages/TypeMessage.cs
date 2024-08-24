@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Messages;
 
-public record TypeMessageRequest(string RoomSlug, string Language, string Text, string? Tag = null, string? MessageId = null);
+public record TypeMessageRequest(string RoomSlug, string Language, string Text, string? Tag = null, string? MessageId = null, string ContentType = "Text");
 public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
 {
     public IRepository<Message> Messages { get; } = messages;
@@ -31,7 +31,7 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
             }
         }
 
-        var message = new Message(room.RoomId, user!, request.Text, request.Tag ?? request.Text);
+        var message = new Message(room.RoomId, user!, request.Text, request.Tag ?? request.Text, contentType: request.ContentType);
         await Messages.AddAsync(message);
         return message;
     }

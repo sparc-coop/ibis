@@ -23,7 +23,7 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
         stream.Position = 0;
 
         var url = await UploadImageToStorage(room.RoomId, stream);
-        var newMessage = new TypeMessageRequest(request.RoomSlug, request.Language, url, request.Tag);
+        var newMessage = new TypeMessageRequest(request.RoomSlug, request.Language, url, request.Tag, ContentType: "Image");
 
         return await TypeMessage.ExecuteAsUserAsync(newMessage, User.System);
     }
