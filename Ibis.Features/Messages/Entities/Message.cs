@@ -1,6 +1,4 @@
-﻿using Markdig;
-
-namespace Ibis.Messages;
+﻿namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
@@ -23,7 +21,7 @@ public class Message : BlossomEntity<string>
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
-    public string Html => Markdown.ToHtml(Text ?? string.Empty, new MarkdownPipelineBuilder().UseEmphasisExtras().Build());
+    public string Html { get; set; }
 
     protected Message()
     {
@@ -48,6 +46,7 @@ public class Message : BlossomEntity<string>
         Tag = tag;
         ContentType = contentType;
         SetText(text);
+        SetHtmlFromMarkdown();
     }
 
     public Message(Message sourceMessage, Language toLanguage, string text, List<MessageTag> translatedTags) : this()
@@ -63,6 +62,7 @@ public class Message : BlossomEntity<string>
         SetText(text);
         SetTags(sourceMessage.Tags);
         SetTags(translatedTags, false);
+        SetHtmlFromMarkdown();
     }
 
     public void SetText(string text)
@@ -163,5 +163,10 @@ public class Message : BlossomEntity<string>
     {
         DeletedDate = DateTime.UtcNow;
         Broadcast(new MessageDeleted(this));
+    }
+
+    public void SetHtmlFromMarkdown()
+    {
+        Html = MarkdownExtensions.ToHtml(Text ?? string.Empty);
     }
 }

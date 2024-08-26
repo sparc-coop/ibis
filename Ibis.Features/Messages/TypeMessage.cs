@@ -26,6 +26,7 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
                 //    throw new Exception("You are not permitted to edit another user's message.");
 
                 existingMessage.SetText(request.Text);
+                existingMessage.SetHtmlFromMarkdown();
                 await Messages.UpdateAsync(existingMessage);
                 return existingMessage;
             }

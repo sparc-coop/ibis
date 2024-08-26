@@ -37,6 +37,7 @@ public class UploadFile(IRepository<Room> rooms, IFileRepository<File> files, Ty
         stream.Position = 0;
 
         await Files.AddAsync(file);
+
         return file.Url!;
     }
 

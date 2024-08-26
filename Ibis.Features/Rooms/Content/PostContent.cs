@@ -26,7 +26,27 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
     private async Task AddAdditionalMessages(string roomSlug, List<string> additionalMessages)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomSlug, message, message), Users.User.System);
+        {
+            string contentType = GetContentTypeFromUrl(message);
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomSlug, message, message, ContentType: contentType), Users.User.System);
+        }
+    }
+
+    private static string GetContentTypeFromUrl(string message)
+    {
+        var contentType = "Text";
+
+        if (Uri.TryCreate(message, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            var fileExtension = Path.GetExtension(uri.AbsolutePath);
+
+            if (fileExtension.Equals(".png", StringComparison.OrdinalIgnoreCase) || fileExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                contentType = "Image";
+            }
+        }
+
+        return contentType;
     }
 
     private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
