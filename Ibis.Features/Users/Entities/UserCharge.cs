@@ -2,7 +2,7 @@
 
 namespace Ibis.Users;
 
-public class UserCharge : Root<string>
+public class UserCharge : BlossomEntity<string>
 {
     public string UserId { get; set; }
     public string? RoomId { get; set; }
@@ -28,7 +28,7 @@ public class UserCharge : Root<string>
         Description = "Funds Added";
         Timestamp = DateTime.UtcNow;
         Currency = paymentIntent.Currency.ToUpper();
-        Amount = paymentIntent.LocalAmount();
+        //Amount = paymentIntent.LocalAmount();
         PaymentIntent = paymentIntent.ToJson();
 
         Ticks = paymentIntent.Metadata.TryGetValue("Ticks", out var ticksStr) && long.TryParse(ticksStr, out var ticksVal)
@@ -36,16 +36,16 @@ public class UserCharge : Root<string>
             : 0;
     }
 
-    public UserCharge(Room room, CostIncurred cost, User user)
-    {
-        Id = Guid.NewGuid().ToString();
-        UserId = user.Id;
-        RoomId = room.Id;
-        MessageId = cost.Message?.Id;
-        Description = cost.Description;
-        Amount = 0;
-        Ticks = cost.Ticks;
-        Timestamp = DateTime.UtcNow;
-        Currency = "Ticks";
-    }
+    //public UserCharge(Room room, CostIncurred cost, User user)
+    //{
+    //    Id = Guid.NewGuid().ToString();
+    //    UserId = user.Id;
+    //    RoomId = room.Id;
+    //    MessageId = cost.Message?.Id;
+    //    Description = cost.Description;
+    //    Amount = 0;
+    //    Ticks = cost.Ticks;
+    //    Timestamp = DateTime.UtcNow;
+    //    Currency = "Ticks";
+    //}
 }

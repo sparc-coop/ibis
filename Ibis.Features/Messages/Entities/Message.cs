@@ -1,14 +1,13 @@
-﻿using Markdig;
-
-namespace Ibis.Messages;
+﻿namespace Ibis.Messages;
 
 public record Word(long Offset, long Duration, string Text);
 public record EditHistory(DateTime Timestamp, string Text);
-public class Message : Root<string>
+public class Message : BlossomEntity<string>
 {
     public string RoomId { get; private set; }
     public string? SourceMessageId { get; private set; }
     public string Language { get; protected set; }
+    public string ContentType { get; private set; }
     public bool? LanguageIsRTL { get; protected set; }  
     public DateTime Timestamp { get; private set; }
     public DateTime? LastModified { get; private set; }
@@ -22,7 +21,7 @@ public class Message : Root<string>
     public string? Tag { get; set; }
     public List<MessageTag> Tags { get; set; }
     public List<EditHistory> EditHistory { get; private set; }
-    public string Html => Markdown.ToHtml(Text ?? string.Empty);
+    public string Html { get; set; }
 
     protected Message()
     {
@@ -33,9 +32,10 @@ public class Message : Root<string>
         Translations = new();
         EditHistory = new();
         Tags = new();
+        ContentType = "Text";
     }
 
-    public Message(string roomId, User user, string text, string? tag = null, string? language = null) : this()
+    public Message(string roomId, User user, string text, string? tag = null, string? language = null, string contentType = "Text") : this()
     {
         RoomId = roomId;
         User = user.Avatar;
@@ -44,7 +44,9 @@ public class Message : Root<string>
         Audio = user.Avatar.Voice == null ? null : new(null, 0, user.Avatar.Voice);
         Timestamp = DateTime.UtcNow;
         Tag = tag;
+        ContentType = contentType;
         SetText(text);
+        SetHtmlFromMarkdown();
     }
 
     public Message(Message sourceMessage, Language toLanguage, string text, List<MessageTag> translatedTags) : this()
@@ -60,6 +62,7 @@ public class Message : Root<string>
         SetText(text);
         SetTags(sourceMessage.Tags);
         SetTags(translatedTags, false);
+        SetHtmlFromMarkdown();
     }
 
     public void SetText(string text)
@@ -152,13 +155,18 @@ public class Message : Root<string>
     {
         Charge += ticks;
         Cost -= cost;
-        if (ticks > 0)
-            Broadcast(new CostIncurred(this, description, ticks));
+        //if (ticks > 0)
+            //Broadcast(new CostIncurred(this, description, ticks));
     }
 
     internal void Delete()
     {
         DeletedDate = DateTime.UtcNow;
         Broadcast(new MessageDeleted(this));
+    }
+
+    public void SetHtmlFromMarkdown()
+    {
+        Html = MarkdownExtensions.ToHtml(Text ?? string.Empty);
     }
 }

@@ -1,68 +1,82 @@
-﻿namespace Ibis.Rooms;
+﻿using Microsoft.EntityFrameworkCore;
 
-public record PostContentRequest(string RoomSlug, string Language, List<string> Messages, bool AsHtml = false);
-public class PostContent : PublicFeature<PostContentRequest, GetAllContentResponse>
+namespace Ibis.Rooms;
+
+public record PostContentRequest(string RoomSlug, string Language, List<string>? Messages = null, bool AsHtml = false);
+public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
+
+public class PostContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
 {
-    public PostContent(IRepository<Message> messages, IRepository<Room> rooms, IRepository<User> users, Translator translator, TypeMessage typeMessage)
-    {
-        Messages = messages;
-        Rooms = rooms;
-        Users = users;
-        Translator = translator;
-        TypeMessage = typeMessage;
-    }
-    public IRepository<Message> Messages { get; }
-    public IRepository<Room> Rooms { get; }
-    public IRepository<User> Users { get; }
-    public Translator Translator { get; }
-    public TypeMessage TypeMessage { get; }
+    public IRepository<Message> Messages { get; } = messages;
+    public IRepository<Room> Rooms { get; } = rooms;
+    public Translator Translator { get; } = translator;
+    public TypeMessage TypeMessage { get; } = typeMessage;
 
-    public override async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
+    public async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
     {
-        var user = await Users.FindAsync(User.Id());
-        var room = await GetRoomAsync(request.RoomSlug, user);
-
-        ((Rooms as CosmosDbRepository<Room>)?.Context as BlossomContext)?.SetPublishStrategy(PublishStrategy.ParallelWhenAll);
+        var room = await GetRoomAsync(request.RoomSlug, null);
         await AddLanguageIfNeeded(room, request.Language);
+        await TranslateMessagesAsync(request, room);
 
-        var untranslatedMessages = await GetUntranslatedMessagesAsync(request, room);
-        if (untranslatedMessages.Any())
-        {
-            await AddAdditionalMessages(room.Id, untranslatedMessages, user);
-        }
+        var content = await GetAllMessagesAsync(request, room);
 
-        var result = await GetAllMessagesAsync(request, room);
-
-        return new(room.Name, room.Slug, request.Language, result);
+        return new(room.Name, room.Slug, request.Language, content);
     }
 
-    private async Task AddAdditionalMessages(string roomId, List<string> additionalMessages, User? user)
+    private async Task AddAdditionalMessages(string roomSlug, List<string> additionalMessages)
     {
         foreach (var message in additionalMessages)
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomId, message, message), user ?? Ibis.Users.User.System);
+        {
+            string contentType = GetContentTypeFromUrl(message);
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(roomSlug, message, message, ContentType: contentType), Users.User.System);
+        }
     }
 
-    private async Task<List<string>> GetUntranslatedMessagesAsync(PostContentRequest request, Room room)
+    private static string GetContentTypeFromUrl(string message)
     {
+        var contentType = "Text";
+
+        if (Uri.TryCreate(message, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            var fileExtension = Path.GetExtension(uri.AbsolutePath);
+
+            if (fileExtension.Equals(".png", StringComparison.OrdinalIgnoreCase) || fileExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+            {
+                contentType = "Image";
+            }
+        }
+
+        return contentType;
+    }
+
+    private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
+    {
+        if (request.Messages == null || request.Messages.Count == 0)
+            return;
+        
         var messages = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
-        .ToListAsync();
+                    .ToListAsync();
 
         var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
-        return untranslatedMessages;
+        if (untranslatedMessages.Count != 0)
+            await AddAdditionalMessages(room.Slug, untranslatedMessages);
     }
 
     private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
     {
-        List<Message> postList = await Messages.Query
-                    .Where(x => x.RoomId == room.Id && x.Language == request.Language && x.Text != null)
-                    .OrderByDescending(y => y.Timestamp)
+        var language = request.Language ?? room.Languages.First().Id;
+        
+        var content = await Messages.Query(room.RoomId)
+                    .Where(x => x.Language == language && x.Text != null)
+                    .OrderBy(y => y.Timestamp)
                     .ToListAsync();
 
-        postList = postList.Where(x => request.Messages.Contains(x.Tag!)).ToList();
+        if (request.Messages != null && request.Messages.Count != 0)
+            content = content.Where(x => request.Messages.Contains(x.Tag!)).ToList();
 
-        return postList;
+        return content;
     }
 
     private async Task AddLanguageIfNeeded(Room room, string languageId)
@@ -80,13 +94,32 @@ public class PostContent : PublicFeature<PostContentRequest, GetAllContentRespon
 
     private async Task<Room> GetRoomAsync(string slug, User? user)
     {
-        var room = Rooms.Query.FirstOrDefault(x => x.Slug == slug);
+        //await DeleteBadRoomsAsync(slug);
+        
+        var room = Rooms.Query.FirstOrDefault(x => x.Name == slug)
+                    ?? Rooms.Query.FirstOrDefault(x => x.Slug == slug);
+
         if (room == null)
         {
             room = new Room(slug, "Content", user ?? Ibis.Users.User.System);
             await Rooms.AddAsync(room);
         }
-        
+
         return room;
+    }
+
+    private async Task DeleteBadRoomsAsync(string slug)
+    {
+        var rooms = Rooms.Query.Where(x => x.Name == slug || x.Slug == slug).ToList();
+        var ids = rooms.Select(x => x.RoomId).ToList();
+        foreach (var badRoom in rooms)
+        {
+            var messages = Messages.Query
+                .Where(x => x.RoomId == badRoom.Id)
+                .ToList();
+            await Messages.DeleteAsync(messages);
+            Console.WriteLine($"Deleted {messages.Count} messages from room {badRoom.Name}.");
+            await Rooms.DeleteAsync(badRoom);
+        }
     }
 }
