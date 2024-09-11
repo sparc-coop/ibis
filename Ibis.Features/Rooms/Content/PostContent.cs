@@ -2,7 +2,9 @@
 
 namespace Ibis.Rooms;
 
-public record PostContentRequest(string RoomSlug, string Language, List<string>? Messages = null, bool AsHtml = false);
+//public record PostContentRequest(string RoomSlug, string Language, List<string>? Messages = null, bool AsHtml = false);
+
+public record PostContentRequest(string RoomSlug, string Language, Dictionary<string, string>? Messages = null, bool AsHtml = false);
 public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
 
 public class PostContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
@@ -49,32 +51,64 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
         return contentType;
     }
 
+    //private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
+    //{
+    //    if (request.Messages == null || request.Messages.Count == 0)
+    //        return;
+
+    //    var messages = await Messages.Query
+    //                .Where(x => x.RoomId == room.Id && x.Text != null)
+    //                .OrderByDescending(y => y.Timestamp)
+    //                .ToListAsync();
+
+    //    var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
+    //    if (untranslatedMessages.Count != 0)
+    //        await AddAdditionalMessages(room.Slug, untranslatedMessages);
+    //}
+
     private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
     {
         if (request.Messages == null || request.Messages.Count == 0)
             return;
-        
+
         var messages = await Messages.Query
                     .Where(x => x.RoomId == room.Id && x.Text != null)
                     .OrderByDescending(y => y.Timestamp)
                     .ToListAsync();
 
-        var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
-        if (untranslatedMessages.Count != 0)
-            await AddAdditionalMessages(room.Slug, untranslatedMessages);
+        foreach (var message in request.Messages)
+        {
+            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(room.Slug, message.Key, message.Value, ContentType: "Text"), Users.User.System);
+
+        }
     }
+
+    //private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
+    //{
+    //    var language = request.Language ?? room.Languages.First().Id;
+
+    //    var content = await Messages.Query(room.RoomId)
+    //                .Where(x => x.Language == language && x.Text != null)
+    //                .OrderBy(y => y.Timestamp)
+    //                .ToListAsync();
+
+    //    if (request.Messages != null && request.Messages.Count != 0)
+    //        content = content.Where(x => request.Messages.Contains(x.Tag!)).ToList();
+
+    //    return content;
+    //}
 
     private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
     {
         var language = request.Language ?? room.Languages.First().Id;
-        
+
         var content = await Messages.Query(room.RoomId)
                     .Where(x => x.Language == language && x.Text != null)
                     .OrderBy(y => y.Timestamp)
                     .ToListAsync();
 
         if (request.Messages != null && request.Messages.Count != 0)
-            content = content.Where(x => request.Messages.Contains(x.Tag!)).ToList();
+            content = content.Where(x => request.Messages.ContainsKey(x.Tag!)).ToList();
 
         return content;
     }
@@ -95,7 +129,7 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
     private async Task<Room> GetRoomAsync(string slug, User? user)
     {
         //await DeleteBadRoomsAsync(slug);
-        
+
         var room = Rooms.Query.FirstOrDefault(x => x.Name == slug)
                     ?? Rooms.Query.FirstOrDefault(x => x.Slug == slug);
 
