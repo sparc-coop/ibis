@@ -53,11 +53,6 @@ app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMes
     return await typeMessage.ExecuteAsUserAsync(request, User.System);
 });
 
-app.MapPost("/publicapi/TypeMessageWithTags", async (TypeMessageWithTagsRequest request, TypeMessageWithTags typeMessageWithTags) =>
-{
-    return await typeMessageWithTags.ExecuteAsUserAsync(request, User.System);
-});
-
 app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request, UploadFile uploadFile) =>
 {
     return await uploadFile.ExecuteAsync(request);
