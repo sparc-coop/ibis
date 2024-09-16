@@ -2,27 +2,28 @@
 
 namespace Ibis.Rooms;
 
-//public record PostContentRequest(string RoomSlug, string Language, List<string>? Messages = null, bool AsHtml = false);
 
 public record PostContentRequest(string RoomSlug, string Language, Dictionary<string, string>? Messages = null, bool AsHtml = false);
-public record GetAllContentResponse(string Name, string Slug, string Language, List<Message> Content);
+public record GetAllContentResponse(string Name, string Slug, string Language, Dictionary<string, Message> Content);
 
 public class PostContent(IRepository<Message> messages, IRepository<Room> rooms, Translator translator, TypeMessage typeMessage)
 {
     public IRepository<Message> Messages { get; } = messages;
     public IRepository<Room> Rooms { get; } = rooms;
     public Translator Translator { get; } = translator;
-    public TypeMessage TypeMessage { get; } = typeMessage;
+    public TypeMessage TypeMessage { get; } = typeMessage;  
 
     public async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
-    {
-        var room = await GetRoomAsync(request.RoomSlug, null);
-        await AddLanguageIfNeeded(room, request.Language);
+    {   
+        var room = await GetRoomAsync(request.RoomSlug, null);        
+        await AddLanguageIfNeeded(room, request.Language);       
         await TranslateMessagesAsync(request, room);
 
-        var content = await GetAllMessagesAsync(request, room);
+        var content = await GetAllMessagesAsDictionaryAsync(request, room);        
 
-        return new(room.Name, room.Slug, request.Language, content);
+        var response = new GetAllContentResponse(room.Name, room.Slug, request.Language, content);        
+
+        return response;
     }
 
     private async Task AddAdditionalMessages(string roomSlug, List<string> additionalMessages)
@@ -49,70 +50,62 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
         }
 
         return contentType;
-    }
-
-    //private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
-    //{
-    //    if (request.Messages == null || request.Messages.Count == 0)
-    //        return;
-
-    //    var messages = await Messages.Query
-    //                .Where(x => x.RoomId == room.Id && x.Text != null)
-    //                .OrderByDescending(y => y.Timestamp)
-    //                .ToListAsync();
-
-    //    var untranslatedMessages = request.Messages.Where(x => !messages.Any(y => y.Tag == x)).ToList();
-    //    if (untranslatedMessages.Count != 0)
-    //        await AddAdditionalMessages(room.Slug, untranslatedMessages);
-    //}
-
+    }    
+    
     private async Task TranslateMessagesAsync(PostContentRequest request, Room room)
-    {
+    {       
+
         if (request.Messages == null || request.Messages.Count == 0)
+        {            
             return;
-
-        var messages = await Messages.Query
-                    .Where(x => x.RoomId == room.Id && x.Text != null)
-                    .OrderByDescending(y => y.Timestamp)
-                    .ToListAsync();
-
-        foreach (var message in request.Messages)
-        {
-            await TypeMessage.ExecuteAsUserAsync(new TypeMessageRequest(room.Slug, message.Key, message.Value, ContentType: "Text"), Users.User.System);
-
         }
+
+        foreach (var kvp in request.Messages)
+        {
+            var tag = kvp.Key?.Trim(); 
+            var text = kvp.Value?.Trim();             
+
+            if (!string.IsNullOrEmpty(tag) || !string.IsNullOrEmpty(text))
+            {                
+                var messageRequest = new TypeMessageRequest(
+                    room.Slug,
+                    request.Language,
+                    text,
+                    tag
+                );
+
+                var createdMessage = await TypeMessage.ExecuteAsUserAsync(messageRequest, Users.User.System);                
+            }
+            else
+            {
+                Console.WriteLine($"Ignoring message with empty Tag or Text. Tag = '{tag}', Text = '{text}'");
+            }
+        }        
     }
+    
+    private async Task<Dictionary<string, Message>> GetAllMessagesAsDictionaryAsync(PostContentRequest request, Room room)
+    {       
 
-    //private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
-    //{
-    //    var language = request.Language ?? room.Languages.First().Id;
-
-    //    var content = await Messages.Query(room.RoomId)
-    //                .Where(x => x.Language == language && x.Text != null)
-    //                .OrderBy(y => y.Timestamp)
-    //                .ToListAsync();
-
-    //    if (request.Messages != null && request.Messages.Count != 0)
-    //        content = content.Where(x => request.Messages.Contains(x.Tag!)).ToList();
-
-    //    return content;
-    //}
-
-    private async Task<List<Message>> GetAllMessagesAsync(PostContentRequest request, Room room)
-    {
         var language = request.Language ?? room.Languages.First().Id;
 
         var content = await Messages.Query(room.RoomId)
                     .Where(x => x.Language == language && x.Text != null)
                     .OrderBy(y => y.Timestamp)
-                    .ToListAsync();
+                    .ToListAsync();                
 
         if (request.Messages != null && request.Messages.Count != 0)
-            content = content.Where(x => request.Messages.ContainsKey(x.Tag!)).ToList();
+        {
+            content = content.Where(x => request.Messages.ContainsKey(x.Tag!)).ToList();            
+        }
 
-        return content;
+        var contentDictionary = content.ToDictionary(
+            message => message.Tag!,
+            message => message
+        );
+        
+        return contentDictionary;
     }
-
+    
     private async Task AddLanguageIfNeeded(Room room, string languageId)
     {
         if (!room.Languages.Any(x => x.Id == languageId))
