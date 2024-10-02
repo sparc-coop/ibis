@@ -2,8 +2,8 @@
 
 namespace Ibis.Rooms;
 
-public record SearchContentRequest(string RoomSlug, string? Tag = null);
-public record SearchContentResponse(string Name, string RoomSlug, Dictionary<string, Message> Content);
+public record SearchContentRequest(string SearchTerm);
+public record SearchContentResponse(List<Room> Rooms, List<Message> Messages);
 
 public class SearchContent
 {
@@ -18,34 +18,28 @@ public class SearchContent
 
     public async Task<SearchContentResponse> ExecuteAsync(SearchContentRequest request)
     {
-        var room = await GetRoomAsync(request.RoomSlug);
+        var searchTerm = request.SearchTerm;
 
-        var content = await GetMessagesAsync(request, room);
+        var matchingRooms = await GetRoomBySlugAsync(searchTerm);
 
-        var response = new SearchContentResponse(room.Name, room.Slug, content);
+        var matchingMessages = await GetMessagesInAllRoomsAsync(searchTerm);
 
-        return response;
+        return new SearchContentResponse(matchingRooms, matchingMessages);
     }
 
-    private async Task<Room> GetRoomAsync(string slug)
+    private async Task<List<Room>> GetRoomBySlugAsync(string searchTerm)
     {
-        var room =  Rooms.Query.FirstOrDefault(x => x.Name == slug)
-                    ?? Rooms.Query.FirstOrDefault(x => x.Slug == slug)
-                    ?? throw new Exception("Room not found.");
-
-        return room;
+        return await Rooms.Query
+            .Where(x => x.Slug.Contains(searchTerm))
+            .ToListAsync();
     }
 
-    private async Task<Dictionary<string, Message>> GetMessagesAsync(SearchContentRequest request, Room room)
+    private async Task<List<Message>> GetMessagesInAllRoomsAsync(string searchTerm)
     {
-        var content = await Messages.Query(room.RoomId)
-            .Where(x => x.Text != null)  
-            .OrderBy(y => y.Timestamp)   
-            .ToDictionaryAsync(          
-                message => message.Tag!,  
-                message => message        
-            );
-
-        return content;
+        return await Messages.Query
+            .Where(x => (x.Text != null && x.Text.Contains(searchTerm)) ||
+                        (x.Tag != null && x.Tag.Contains(searchTerm)))
+            .OrderBy(y => y.Timestamp)
+            .ToListAsync();
     }
 }

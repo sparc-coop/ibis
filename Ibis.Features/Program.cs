@@ -64,7 +64,7 @@ app.MapGet("/publicapi/Languages", async (Translator translator) =>
     return await translator.GetLanguagesAsync();
 });
 
-app.MapPost("/publicapi/SearchContent", async ([FromBody] SearchContentRequest request, SearchContent searchContent) =>
+app.MapPost("/publicapi/SearchContent", async (SearchContentRequest request, SearchContent searchContent) =>
 {
     return await searchContent.ExecuteAsync(request);
 });
