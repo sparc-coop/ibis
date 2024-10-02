@@ -20,7 +20,8 @@ builder.Services
         .AddSingleton<ExchangeRates>()
         .AddScoped<PostContent>()
         .AddScoped<TypeMessage>()
-        .AddScoped<UploadFile>();
+        .AddScoped<UploadFile>()
+        .AddScoped<SearchContent>();
 
 builder.Services.AddOutputCache();
 //builder.Services.AddAntiforgery();
@@ -61,6 +62,11 @@ app.MapPost("/publicapi/UploadImage", async ([FromForm]UploadFileRequest request
 app.MapGet("/publicapi/Languages", async (Translator translator) =>
 {
     return await translator.GetLanguagesAsync();
+});
+
+app.MapPost("/publicapi/SearchContent", async ([FromBody] SearchContentRequest request, SearchContent searchContent) =>
+{
+    return await searchContent.ExecuteAsync(request);
 });
 
 await app.RunAsync();
