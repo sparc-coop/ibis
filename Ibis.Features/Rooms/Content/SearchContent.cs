@@ -21,7 +21,7 @@ public class SearchContent
 
     public async Task<SearchContentResponse> ExecuteAsync(SearchContentRequest request)
     {
-        var searchTerm = request.SearchTerm;
+        var searchTerm = request.SearchTerm.ToLower();
 
         var matchingRooms = await GetRoomSummariesBySlugAsync(searchTerm);
 
@@ -33,18 +33,19 @@ public class SearchContent
     private async Task<List<RoomSummary>> GetRoomSummariesBySlugAsync(string searchTerm)
     {
         return await Rooms.Query
-            .Where(x => x.Slug.Contains(searchTerm))
-            .Select(x => new RoomSummary(x.Id, x.Name, x.Slug)) 
+            .Where(x => (x.Slug.ToLower().Contains(searchTerm)) ||
+                        (x.Name.ToLower().Contains(searchTerm)))
+            .Select(x => new RoomSummary(x.Id, x.Name, x.Slug))
             .ToListAsync();
     }
 
     private async Task<List<MessageSummary>> GetMessageSummariesInAllRoomsAsync(string searchTerm)
     {
         return await Messages.Query
-            .Where(x => (x.Text != null && x.Text.Contains(searchTerm)) ||
-                        (x.Tag != null && x.Tag.Contains(searchTerm)))
+            .Where(x => (x.Text != null && x.Text.ToLower().Contains(searchTerm)) ||
+                        (x.Tag != null && x.Tag.ToLower().Contains(searchTerm)))
             .OrderBy(y => y.Timestamp)
-            .Select(x => new MessageSummary(x.Id, x.RoomId, x.Text, x.Tag)) 
+            .Select(x => new MessageSummary(x.Id, x.RoomId, x.Text, x.Tag))
             .ToListAsync();
     }
 }
