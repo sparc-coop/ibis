@@ -6,7 +6,7 @@ namespace Ibis.Rooms;
 public record SearchContentRequest(string SearchTerm);
 public record SearchContentResponse(List<RoomSummary> Rooms, List<MessageSummary> Message);
 public record RoomSummary(string Id, string Name, string Slug);
-public record MessageSummary(string Id, string RoomId, string Text, string Tag);
+public record MessageSummary(string Id, string RoomId, string Text, string Tag, string RoomName);
 
 public class SearchContent
 {
@@ -37,15 +37,25 @@ public class SearchContent
                         (x.Name.ToLower().Contains(searchTerm)))
             .Select(x => new RoomSummary(x.Id, x.Name, x.Slug))
             .ToListAsync();
-    }
+    }    
 
     private async Task<List<MessageSummary>> GetMessageSummariesInAllRoomsAsync(string searchTerm)
-    {
-        return await Messages.Query
+    {        
+        var messages = await Messages.Query
             .Where(x => (x.Text != null && x.Text.ToLower().Contains(searchTerm)) ||
                         (x.Tag != null && x.Tag.ToLower().Contains(searchTerm)))
-            .OrderBy(y => y.Timestamp)
-            .Select(x => new MessageSummary(x.Id, x.RoomId, x.Text, x.Tag))
             .ToListAsync();
+        
+        var roomIds = messages.Select(m => m.RoomId).Distinct().ToList();
+        
+        var rooms = await Rooms.Query
+            .Where(r => roomIds.Contains(r.Id))
+            .ToListAsync();
+        
+        return messages.Select(message =>
+        {
+            var room = rooms.FirstOrDefault(r => r.Id == message.RoomId);
+            return new MessageSummary(message.Id, message.RoomId, message.Text, message.Tag, room?.Name);
+        }).ToList();
     }
 }
