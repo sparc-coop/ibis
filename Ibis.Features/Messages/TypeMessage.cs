@@ -1,6 +1,6 @@
 ﻿namespace Ibis.Messages;
 
-public record TypeMessageRequest(string RoomSlug, string Language, string Text, string? Tag = null, string? MessageId = null, string ContentType = "Text");
+public record TypeMessageRequest(string RoomSlug, string Language, string Text, string? Tag = null, string? MessageId = null, string ContentType = "Text", bool CreateNew = false);
 public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
 {
     public IRepository<Message> Messages { get; } = messages;
@@ -8,14 +8,21 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
 
     internal async Task<Message> ExecuteAsUserAsync(TypeMessageRequest request, User user)
     {
+        if (user.ABMode)
+        {
+            request = request with { CreateNew = true }; 
+        }
+
         var room = (Rooms.Query.FirstOrDefault(x => x.Name == request.RoomSlug)
                     ?? Rooms.Query.FirstOrDefault(x => x.Slug == request.RoomSlug))
                     ?? throw new Exception("Room not found.");
+
+        Message? existingMessage = null;
         
-        if (request.Tag != null || request.MessageId != null)
+        if (!request.CreateNew && (request.Tag != null || request.MessageId != null))
         {
             // If a tag is passed in, edit the message if it exists
-            var existingMessage =
+            existingMessage =
                 request.MessageId != null
                 ? Messages.Query.FirstOrDefault(x => x.RoomId == room.RoomId && x.Id == request.MessageId)
                 : Messages.Query.FirstOrDefault(x => x.RoomId == room.RoomId && x.Language == request.Language && x.Tag == request.Tag);
@@ -32,7 +39,9 @@ public class TypeMessage(IRepository<Message> messages, IRepository<Room> rooms)
             }
         }
 
-        var message = new Message(room.RoomId, user!, request.Text, request.Tag ?? request.Text, contentType: request.ContentType);
+        var existingTag = request.Tag ?? existingMessage?.Tag;
+
+        var message = new Message(room.RoomId, user!, request.Text, existingTag ?? request.Text, contentType: request.ContentType);
         await Messages.AddAsync(message);
         return message;
     }

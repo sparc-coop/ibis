@@ -46,7 +46,7 @@ StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 app.MapPost("/publicapi/PostContent", async (PostContentRequest request, PostContent postContent) =>
 {
-    return await postContent.ExecuteAsync(request);
+    return await postContent.ExecuteAsync(request, User.System);
 });
 
 app.MapPost("/publicapi/TypeMessage", async (TypeMessageRequest request, TypeMessage typeMessage) =>

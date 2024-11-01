@@ -13,13 +13,13 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
     public Translator Translator { get; } = translator;
     public TypeMessage TypeMessage { get; } = typeMessage;  
 
-    public async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request)
+    public async Task<GetAllContentResponse> ExecuteAsync(PostContentRequest request, User user)
     {   
         var room = await GetRoomAsync(request.RoomSlug, null);        
         await AddLanguageIfNeeded(room, request.Language);       
         await TranslateMessagesAsync(request, room);
 
-        var content = await GetAllMessagesAsDictionaryAsync(request, room);        
+        var content = await GetAllMessagesAsDictionaryAsync(request, room, user);        
 
         var response = new GetAllContentResponse(room.Name, room.Slug, request.Language, content);        
 
@@ -83,7 +83,7 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
         }        
     }
     
-    private async Task<Dictionary<string, Message>> GetAllMessagesAsDictionaryAsync(PostContentRequest request, Room room)
+    private async Task<Dictionary<string, Message>> GetAllMessagesAsDictionaryAsync(PostContentRequest request, Room room, User? user)
     {       
 
         var language = request.Language ?? room.Languages.First().Id;
@@ -98,12 +98,26 @@ public class PostContent(IRepository<Message> messages, IRepository<Room> rooms,
             content = content.Where(x => request.Messages.ContainsKey(x.Tag!)).ToList();            
         }
 
-        var contentDictionary = content.ToDictionary(
+        if (user != null && user.ABMode)
+        {
+            var contentDictionary = content.GroupBy(message => message.Tag)
+                                .ToDictionary(
+                                    group => group.Key!,
+                                    group =>
+                                    {                                        
+                                        var random = new Random();
+                                        return group.ElementAt(random.Next(group.Count()));
+                                    });
+
+            return contentDictionary;
+        }
+
+        var defaultContentDictionary = content.ToDictionary(
             message => message.Tag!,
             message => message
         );
         
-        return contentDictionary;
+        return defaultContentDictionary;
     }
     
     private async Task AddLanguageIfNeeded(Room room, string languageId)

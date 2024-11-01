@@ -17,6 +17,7 @@ public class User : BlossomUser
         ActiveRooms = new();
         Avatar = new(Id, "");
         BillingInfo = new();
+        ABMode = false;
     }
 
     public User(string email) : this()
@@ -58,6 +59,7 @@ public class User : BlossomUser
     public List<Language> LanguagesSpoken { get; private set; }
     public List<ActiveRoom> ActiveRooms { get; private set; }
     public string? PhoneNumber { get; private set; }
+    public bool ABMode { get; set; }
 
     internal void JoinRoom(string roomId)
     {
@@ -156,6 +158,11 @@ public class User : BlossomUser
         AddClaim(ClaimTypes.GivenName, Avatar.Name);
         AddClaim("sub", AzureB2CId);
         AddClaim("Language", Avatar.Language);
+    }
+
+    public void ToggleABMode()
+    {
+        ABMode = !ABMode; 
     }
 }
 
